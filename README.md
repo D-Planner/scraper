@@ -1,4 +1,34 @@
-# dplanner
+# DPlanner
+
+TODO: short project description, some sample screenshots or mockups
+
+## Architecture
+
+TODO:  descriptions of code organization and tools and libraries used
+
+## Setup
+
+TODO: how to get the project dev environment up and running, npm install etc
+
+## Deployment
+
+TODO: how to deploy the project
+
+## Authors
+
+Christina Bae (Designer)
+Zirui Hao (Partner, Project Manager)
+Adam McQuilkin (Partner, Project Manager)
+Adam Rinehouse (Developer)
+Raul Rodriguez (Developer)
+Regina Yan (Designer)
+Gillian Yue (Partner, Developer)
+
+## Acknowledgments
+
+
+## Misc.
+TODO: delete this section
 
 ### Code Experiment 0 (Adam R.)
 
