@@ -24,9 +24,6 @@ return User.findOne({ _email: email }).then( () => {
 // Save the new User object
 // this is similar to how you created a Post
 // and then return a token same as you did in in signin
-
-
-
 }
 
 
