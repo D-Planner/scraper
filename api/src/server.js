@@ -3,10 +3,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import path from 'path';
 import morgan from 'morgan';
-import * as Polls from './controllers/poll_controller';
+import * as Users from './controllers/user_controller';
 
-import dotenv from 'dotenv';
-dotenv.config({ silent: true });
+require('dotenv').config()
 
 import apiRouter from './router';
 
@@ -35,46 +34,6 @@ app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
 
-// // default index route
-// app.get('/', (req, res) => {
-//   // we will later be able to get the polls by calling a function, but let's pass in no polls for now
-//
-//   Polls.getPolls().then((polls) => {
-//   res.render('index', { polls });
-// }).catch((error) => {
-//   res.send(`error: ${error}`);
-// });
-//
-// });
-//
-// app.get('/new', (req, res) => {
-//   res.render('new');
-// });
-//
-// app.post('/new', (req, res) =>{
-//   const newpoll = {
-//     text: req.body.text,
-//     imageURL: req.body.imageURL,
-//   };
-//   Polls.createPoll(newpoll).then((poll) => {
-//     res.redirect('/');
-//   });
-// });
-//
-// app.post('/vote/:id', (req, res) =>{
-//   const vote = (req.body.vote === 'up');// convert to bool
-//   console.log(`voting: ${vote}`);
-//   Polls.vote(req.params.id, vote).then((result) => {
-//     res.send(result);
-//   });
-// });
-//
-// app.post('/login',
-//   passport.authenticate('local', { successRedirect: '/',
-//                                    failureRedirect: '/login',
-//                                    failureFlash: true })
-// );
-
 // START THE SERVER
 // =============================================================================
 const port = process.env.PORT || 9090;
@@ -86,7 +45,7 @@ console.log(`listening on: ${port}`);
 import mongoose from 'mongoose';
 
 // DB Setup
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/cs52poll';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
 mongoose.connect(mongoURI);
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
