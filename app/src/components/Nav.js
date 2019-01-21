@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { signoutUser } from '../actions/index';
+import { signoutUser, fetchCourses } from '../actions/index';
 
 class Nav extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class Nav extends Component {
             <div>
               <li><NavLink to="/" exact>Home</NavLink></li>
               <li onClick={() => this.props.signoutUser(this.props.history)}><NavLink to="/" exact>Sign out</NavLink></li>
+              <li><NavLink to="/courses" exact>Courses</NavLink></li>
             </div>
             )
           }
@@ -36,4 +37,4 @@ class Nav extends Component {
   }
 }
 
-export default withRouter(connect(null, { signoutUser })(Nav));
+export default withRouter(connect(null, { signoutUser, fetchCourses })(Nav));
