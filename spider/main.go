@@ -32,13 +32,7 @@ func getMainEngine() *gin.Engine {
 		c.JSON(200, strconv.Itoa(id))
 	})
 	r.GET("/courses", func(c *gin.Context) {
-		courses, err := registrar.Fetch("https://oracle-www.dartmouth.edu/dart/groucho/timetable.display_courses?distribradio=alldistribs&depts=no_value&periods=no_value&distribs=no_value&distribs_i=no_value&distribs_wc=no_value&pmode=public&term=&levl=&fys=n&wrt=n&pe=n&review=n&crnl=no_value&classyear=2008&searchtype=Subject+Area%28s%29&termradio=selectterms&terms=no_value&terms=201901&subjectradio=selectsubjects&hoursradio=allhours&sortorder=dept")
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		courses = append(courses[:0], courses[0+1:]...)
-		c.JSON(200, courses)
+		c.File("./assets/courses.json")
 	})
 	r.POST("/course/layup/id", func(c *gin.Context) {
 		subj := c.PostForm("subj")
