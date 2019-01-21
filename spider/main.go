@@ -14,6 +14,7 @@ import (
 func getMainEngine() *gin.Engine {
 	r := gin.Default()
 	r.Use(gin.Logger())
+	r.Use(preflight())
 
 	r.GET("/", func(c *gin.Context) {
 		c.String(200, "🏠")
@@ -81,4 +82,11 @@ func main() {
 		log.Fatal("$PORT must be set")
 	}
 	getMainEngine().Run(":" + port)
+}
+
+func preflight() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
+	}
 }
