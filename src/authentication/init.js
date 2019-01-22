@@ -18,11 +18,14 @@ const jwtOptions = {
 
 // username + password authentication strategy
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
+    if (!email || !password) {
+        return done(new Error('You must provide an email and password'));
+    }
     // should find user by email and check password
     // Verify this email and password, call done with the user
     // if it is the correct email and password
     // otherwise, call done with false
-    User.findOne({ email }, (err, user) => {
+    return User.findOne({ email }, (err, user) => {
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
 

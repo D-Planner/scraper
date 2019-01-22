@@ -35,11 +35,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-    res.send('Hello world!');
+    res.send({ message: 'Hello world!' });
 });
 
 // default index route
 app.use('/api', apiRouter);
+
+// custom middleware for 404 errors
+app.use((req, res, next) => {
+    res.status(404).send('The route you\'ve requested does not exist');
+});
 
 // START THE SERVER
 // =============================================================================
@@ -53,8 +58,11 @@ const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
 const mongooseOptions = {
     useNewUrlParser: true,
     useCreateIndex: true,
+    loggerLevel: 'error',
 };
 mongoose.connect(mongoURI, mongooseOptions);
 
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
+
+export default app;

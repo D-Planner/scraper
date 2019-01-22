@@ -10,12 +10,12 @@ export const signup = (req, res, next) => {
     const password = req.body.password;
 
     if (!email || !password) {
-        return res.status(422).send('You must provide both an email and a password');
+        return res.status(400).send('You must provide both an email and a password');
     }
 
-    return User.findOne({ _email: email }).then((user) => {
+    return User.findOne({ email }).then((user) => {
         if (user) {
-            return res.status(422).send('User with this email already exists');
+            return res.status(409).send('User with this email already exists');
         }
 
         const newUser = new User({
