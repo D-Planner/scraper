@@ -50,6 +50,10 @@ console.log(`listening on: ${port}`);
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
-mongoose.connect(mongoURI);
+const mongooseOptions = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+};
+mongoose.connect(mongoURI, mongooseOptions);
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
