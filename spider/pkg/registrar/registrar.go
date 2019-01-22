@@ -1,7 +1,10 @@
 package registrar
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
@@ -83,6 +86,18 @@ func Fetch(url string) ([]Course, error) {
 			LrnObj:     strings.TrimSpace(strings.Trim(lrnobj, `javascript:reqmat_window('')`)),
 		})
 	})
+
+	c = append(c[:0], c[0+1:]...)
+
+	file, err := os.Create("./assets/courses.json")
+	if err != nil {
+		return nil, err
+	}
+	json, err := json.MarshalIndent(c, "", "\t")
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	file.Write(json)
 
 	return c, nil
 }

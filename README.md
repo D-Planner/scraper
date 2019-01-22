@@ -1,49 +1,150 @@
-# DPlanner
-
-TODO: short project description, some sample screenshots or mockups
+# D-Planner
+D-Planner is a web app for course-planning at Dartmouth College. It aims to help students make course decisions based on data gathered from various systems—including Layup List and the ORC.
 
 ## Architecture
-
-TODO:  descriptions of code organization and tools and libraries used
+The project is built on top of [Node.js](https://nodejs.org/en/), [Express](http://expressjs.com/), [React](https://reactjs.org/), and [Go](https://golang.org/). It also contains modern web development tools such as [Webpack](http://webpack.github.io/), [Babel](https://babeljs.io/), and [ESLint](https://eslint.org/).
+The directory structure is used to achieve a separation of concerns between these projects:
+```
+.
+├──api/                         # Express server
+├──app/                         # React app
+└──spider/                      # Web scraper
+```
 
 ## Setup
+Before you begin, you'll need to have the following installed:
+1. [Node](https://nodejs.org/en/)
+2. [npm](https://www.npmjs.com/get-npm) or [Yarn](https://yarnpkg.com/lang/en/docs/install/#mac-stable)
+3. [MongoDB](https://docs.mongodb.com/manual/installation/#mongodb-community-edition)
 
-TODO: how to get the project dev environment up and running, npm install etc
+> If you want to build the app (without running a development server), go to `app/` and run: `yarn build`
+
+#### 1. Get the latest version
+Start by cloning D-Planner:
+```
+git clone git@github.com:dali-lab/dplanner.git
+cd dplanner
+```
+
+#### 2. Start the server
+Next, install run-time dependencies and developer tools:
+
+```
+cd api
+yarn
+```
+
+...then start the server
+
+```
+yarn start
+```
+
+Your output should resemble the following:
+
+```
+yarn run v1.6.0
+$ babel-node src/server.js
+listening on: 9090
+```
+
+_NOTE: Yarn is optional but highly recommended over npm_
+
+#### 3. Configure the app
+Open a new tab in your terminal and navigate to the app directory:
+
+```
+cd app
+```
+
+...then repeat step 2 from above:
+
+```
+yarn && yarn start
+```
+
+The last command will output:
+
+```
+yarn run v1.6.0
+$ NODE_ENV=development webpack-serve ./webpack.config.js
+ℹ ｢hot｣: WebSocket Server Listening on localhost:59739
+ℹ ｢hot｣: Applying DefinePlugin:__hotClientOptions__
+ℹ ｢hot｣: webpack: Compiling...
+ℹ ｢serve｣: Serving Static Content from: /
+ℹ ｢serve｣: Project is running at http://localhost:8080
+ℹ ｢serve｣: Server URI copied to clipboard
+ℹ ｢hot｣: webpack: Compiling Done
+ℹ ｢wdm｣: Hash: 34bc1a543a74d58fa5ae
+Version: webpack 4.28.4
+Time: 3594ms
+Built at: 01/20/2019 11:59:59 AM
+       Asset       Size  Chunks             Chunk Names
+  ./200.html  449 bytes          [emitted]
+./index.html  449 bytes          [emitted]
+     main.js   2.24 MiB    main  [emitted]  main
+ main.js.map   2.13 MiB    main  [emitted]  main
+Entrypoint main = main.js main.js.map
+[...]
+ℹ ｢wdm｣: Compiled successfully.
+```
+
+> For instructions on how to run the spider locally, see the [README.md](https://github.com/dali-lab/dplanner/blob/master/spider/README.md) in `/spider`
 
 ## Deployment
+Each sub-directory contains a [Procfile](https://devcenter.heroku.com/articles/procfile) that's used to deploy its respective app to Heroku. As such, the following steps could be used to deploy any of the projects contained in this repository; otherwise, additional steps can be located in the README.md of the project's sub-directory.
 
-TODO: how to deploy the project
+To begin, check that you've installed the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli):
+
+```
+heroku
+```
+...then login and create a new project:
+
+```
+heroku login
+```
+
+This should prompt you to login:
+
+```
+heroku: Press any key to open up the browser to login or q to exit:
+Logging in... done
+Logged in as raul.f.rodriguez.19@dartmouth.edu
+```
+
+Next, create a new project:
+
+```
+heroku create
+```
+
+If all goes well, you should see something similar to:
+
+```
+Creating app... done, ⬢ shielded-shelf-80656
+https://shielded-shelf-80656.herokuapp.com/ | https://git.heroku.com/shielded-shelf-80656.git
+```
+
+Finally add, commit, and push your changes to Heroku. Note that the `git push` command deploys via [git-subtree](https://github.com/apenwarr/git-subtree/blob/master/git-subtree.txt) to push the folder `/api` as the root to Heroku, thereby ignoring the other top-level directories:
+
+```
+git add .
+git commit -m "all the code"
+git subtree push --prefix api heroku master
+```
 
 ## Authors
+* Christina Bae (Designer)
+* Zirui Hao (Partner, Project Manager)
+* Adam McQuilkin (Partner, Project Manager)
+* Adam Rinehouse (Developer)
+* Raul Rodriguez (Developer)
+* Regina Yan (Designer)
+* Gillian Yue (Partner, Developer)
 
-Christina Bae (Designer)
-Zirui Hao (Partner, Project Manager)
-Adam McQuilkin (Partner, Project Manager)
-Adam Rinehouse (Developer)
-Raul Rodriguez (Developer)
-Regina Yan (Designer)
-Gillian Yue (Partner, Developer)
+### Acknowledgments
+[Tim](https://github.com/timofei7) for the most useful [site](http://cs52.me/) on architecting web applications
 
-## Acknowledgments
-
-
-## Misc.
-TODO: delete this section
-
-### Code Experiment 0 (Adam R.)
-
-#### What I Built
-I decided to play around with getting a directed graph to render in a react component (which will be used to display course maps). It's tricky because a lot of good graphing frameworks, like [d3](https://d3js.org/), need to control the DOM, and React doesn't like to give DOM control to anyone else. I found a pretty nice library for making directed graphs in react, though, called [react-force-graph](https://github.com/vasturiano/react-force-graph), and I used that with some fake data to create a component.
-
-It's super simple but pretty effective and fairly extensible. It's also pretty well-maintained by the author. All good things 😁
-
-#### Who Did What
-We split up the code experiments, so I took this one myself.
-
-#### What I Learned
-D3 is hard to use with React! There are a few workarounds. The best one I found (that isn't this pre-made component) is to do all the d3 stuff with a fake DOM using [react-faux-dom](https://github.com/Olical/react-faux-dom) and then render it to a react component after the fact. It can work but it's a little messy to work with. If we need to do extensions beyond what this premade component can do then I would recommend that.
-
-The other option is to only use d3's functions for data processing, which don't interface with the DOM at all, and then render the graph with a separate graphics library like [Konva](https://github.com/konvajs/react-konva). This is also workable, but it seems annoying to use two different things for the same process, and also difficult to relate the d3-processed data to something intelligible by Konva, or more accurately, intelligible to the Konva developer.
-
-#### What Didn't Work
-I thought about using both the implementations I mentioned above, and began looking at Konva and realized it might be more trouble than it was worth to learn both d3 and konva, since they both have pretty serious learning curves. I actually rendered something successfully using the d3 and react-faux-dom approach, but it was just a standard "Hello, world" (still cool that you can use `node.html` to set html in the d3-bound faux-dom even inside React). I was also wary of investing a bunch of time in learning d3 if it wasn't necessary, so I went back to the drawing board and found this nice component. Worst case we can always go back and learn d3 later, but this library seems good enough for now.
+---
+Designed and developed by [@DALI Lab](https://github.com/dali-lab)
