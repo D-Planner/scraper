@@ -5,7 +5,7 @@ import { requireSignin } from './authentication/init';
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.json({ message: 'welcome to dPlanner!' });
+    res.json({ message: 'Welcome to the DPlanner API!' });
 });
 
 router.post('/signin', requireSignin, UserController.signin);

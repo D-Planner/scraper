@@ -18,10 +18,11 @@ const UserSchema = new Schema({
 
 const saltRounds = 10;
 
-UserSchema.pre('save', (next) => {
+// TODO: See if this is writeable as arrow function
+UserSchema.pre('save', function (next) {
     // Check if document is new or a new password has been set
     if (this.isNew || this.isModified('password')) {
-    // Saving reference to this because of changing scopes
+        // Saving reference to this because of changing scopes
         const document = this;
         bcrypt.hash(
             document.password, saltRounds,
@@ -39,7 +40,8 @@ UserSchema.pre('save', (next) => {
     }
 });
 
-UserSchema.methods.isCorrectPassword = (password, callback) => {
+// TODO: See if this is writeable as arrow function
+UserSchema.methods.comparePassword = function (password, callback) {
     bcrypt.compare(password, this.password, (err, same) => {
         if (err) {
             callback(err);

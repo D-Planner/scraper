@@ -1,5 +1,5 @@
 import jwt from 'jwt-simple';
-import User from '../models/user_model';
+import User from '../models/user';
 
 export const signin = (req, res, next) => {
     res.send({ token: tokenForUser(req.user) });
@@ -18,7 +18,7 @@ export const signup = (req, res, next) => {
             return res.status(422).send('User with this email already exists');
         }
 
-        const newUser = User.create({
+        const newUser = new User({
             email,
             password,
         });
@@ -26,10 +26,10 @@ export const signup = (req, res, next) => {
         return newUser.save().then((savedUser) => {
             res.send({ token: tokenForUser(savedUser) });
         }).catch((err) => {
-            res.err(err);
+            next(err);
         });
     }).catch((err) => {
-        res.err(err);
+        next(err);
     });
 
 // 🚀 TODO:
