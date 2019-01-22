@@ -12,6 +12,4 @@ router.post('/signin', requireSignin, UserController.signin);
 
 router.post('/signup', UserController.signup);
 
-// your routes will go here
-
 export default router;
