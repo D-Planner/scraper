@@ -3,7 +3,7 @@ import LocalStrategy from 'passport-local';
 import dotenv from 'dotenv';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 
-import User from '../models/user_model';
+import User from '../models/user';
 
 // options for local strategy, we'll use email AS the username
 // not have separate ones

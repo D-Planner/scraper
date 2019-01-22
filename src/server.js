@@ -55,5 +55,6 @@ const mongooseOptions = {
     useCreateIndex: true,
 };
 mongoose.connect(mongoURI, mongooseOptions);
+
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
