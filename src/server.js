@@ -1,12 +1,16 @@
 import express from 'express';
+import session from 'express-session';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import path from 'path';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
+import apiRouter from './router';
+
+require('dotenv').config();
 
 // initialize
 const app = express();
+const passport = require('passport');
 
 // enable/disable cross origin resource sharing if necessary
 app.use(cors());
@@ -17,18 +21,25 @@ app.use(morgan('dev'));
 // enable only if you want static assets from folder static
 app.use(express.static('static'));
 
-// this just allows us to render ejs from the ../app/views directory
-app.set('views', path.join(__dirname, '../src/views'));
-
 // enable json message body for posting data to API
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// configure passport with express-sessions
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// default index route
 app.get('/', (req, res) => {
     res.send('Hello world!');
 });
+
+// default index route
+app.use('/api', apiRouter);
 
 // START THE SERVER
 // =============================================================================

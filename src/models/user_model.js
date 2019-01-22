@@ -1,19 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    username: { type: String, unique: true },
-    first_name: String,
-    last_name: String,
-    favorite_courses: { type: [Schema.Types.ObjectID], ref: 'Course' },
-    completed_courses: { type: [Schema.Types.ObjectID], ref: 'Course' },
-    settings: {},
-}, {
-    toJSON: {
-        virtuals: true,
-    },
 });
 
 const saltRounds = 10;

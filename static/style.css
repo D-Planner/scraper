@@ -1,6 +1,6 @@
 # can serve static files from this folder
 nav {
-  background-image: url(img/dartmouth_background.png);
+  background-image: url('img/dartmouth_background.png');
   background-size: cover;
   background-repeat: no-repeat;
   padding-left: 20px;
