@@ -1,13 +1,12 @@
 import express from 'express';
+import session from 'express-session';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import path from 'path';
 import morgan from 'morgan';
-import * as Users from './controllers/user_controller';
-
-require('dotenv').config()
-
+import mongoose from 'mongoose';
 import apiRouter from './router';
+
+require('dotenv').config();
 
 // initialize
 const app = express();
@@ -19,20 +18,33 @@ app.use(cors());
 // enable/disable http request logging
 app.use(morgan('dev'));
 
-// enable only if you want templating
-app.set('view engine', 'ejs');
-
 // enable only if you want static assets from folder static
 app.use(express.static('static'));
-
-// this just allows us to render ejs from the ../app/views directory
-app.set('views', path.join(__dirname, '../src/views'));
 
 // enable json message body for posting data to API
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// configure passport with express-sessions
+app.use(session({
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true,
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/', (req, res) => {
+    res.send({ message: 'Hello world!' });
+});
+
+// default index route
 app.use('/api', apiRouter);
+
+// custom middleware for 404 errors
+app.use((req, res, next) => {
+    res.status(404).send('The route you\'ve requested does not exist');
+});
 
 // START THE SERVER
 // =============================================================================
@@ -41,11 +53,16 @@ app.listen(port);
 
 console.log(`listening on: ${port}`);
 
-
-import mongoose from 'mongoose';
-
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
-mongoose.connect(mongoURI);
+const mongooseOptions = {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    loggerLevel: 'error',
+};
+mongoose.connect(mongoURI, mongooseOptions);
+
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
+
+export default app;
