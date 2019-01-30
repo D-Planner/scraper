@@ -9,20 +9,46 @@ export const ActionTypes = {
   FETCH_COURSES: 'FETCH_COURSES',
 };
 
-export function signinUser({ email, password }, history) {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.AUTH_USER });
-    localStorage.setItem('token', 'JWT');
-    history.push('/');
+export function authError(error) {
+  return {
+    type: ActionTypes.AUTH_ERROR,
+    message: error,
   };
 }
 
+const ROOT_URL = 'http://localhost:9090/api';
+
+export function signinUser({ email, password }, history) {
+  const fields = { email, password };
+
+  axios.post(`${ROOT_URL}/signin`, fields).then((response) => {
+    // do something with response.data  (some json)
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      localStorage.setItem('token', response.data.token);
+      history.push('/');
+    };
+  }).catch((error) => {
+    return (dispatch) => {
+      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+    };
+  });
+}
+
 export function signupUser({ email, password, username }, history) {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.AUTH_USER });
-    localStorage.setItem('token', 'JWT');
-    history.push('/');
-  };
+  const fields = { email, password, username };
+
+  axios.post(`${ROOT_URL}/signup`, fields).then((response) => {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      localStorage.setItem('token', response.data.token);
+      history.push('/');
+    };
+  }).catch((error) => {
+    return (dispatch) => {
+      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+    };
+  });
 }
 
 export function signoutUser(history) {
@@ -33,10 +59,13 @@ export function signoutUser(history) {
   };
 }
 
-export function authError(error) {
-  return {
-    type: ActionTypes.AUTH_ERROR,
-    message: error,
+export function fetchCourses() {
+  return (dispatch) => {
+    axios.get(`${COURSES_URL}/courses`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 }
 
