@@ -6,6 +6,7 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEATH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  FETCH_PLANS: 'FETCH_PLANS',
   FETCH_COURSES: 'FETCH_COURSES',
 };
 
@@ -16,12 +17,12 @@ export function authError(error) {
   };
 }
 
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'http://localhost:9090';
 
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
 
-  axios.post(`${ROOT_URL}/signin`, fields).then((response) => {
+  axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
     // do something with response.data  (some json)
     return (dispatch) => {
       dispatch({ type: ActionTypes.AUTH_USER });
@@ -38,7 +39,7 @@ export function signinUser({ email, password }, history) {
 export function signupUser({ email, password, username }, history) {
   const fields = { email, password, username };
 
-  axios.post(`${ROOT_URL}/signup`, fields).then((response) => {
+  axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
     return (dispatch) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
@@ -56,6 +57,14 @@ export function signoutUser(history) {
     localStorage.removeItem('token');
     dispatch({ type: ActionTypes.DEAUTH_USER });
     history.push('/');
+  };
+}
+
+export function fetchPlans() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/plans`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
+    });
   };
 }
 

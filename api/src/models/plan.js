@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const PlanSchema = new Schema({
-    user: { type: Schema.Types.ObjectID, ref: 'User' },
+    user_id: { type: Schema.Types.ObjectId, ref: 'User' },
     major1: String,
     major2: String,
     minor1: String,
