@@ -7,8 +7,8 @@ const UserSchema = new Schema({
     username: { type: String },
     first_name: String,
     last_name: String,
-    favorite_courses: { type: [Schema.Types.ObjectID], ref: 'Course' },
-    completed_courses: { type: [Schema.Types.ObjectID], ref: 'Course' },
+    favorite_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
+    completed_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     settings: {},
 }, {
     toJSON: {
