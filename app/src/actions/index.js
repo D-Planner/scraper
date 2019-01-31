@@ -68,13 +68,3 @@ export function fetchCourses() {
     });
   };
 }
-
-export function fetchCourses() {
-  return (dispatch) => {
-    axios.get(`${COURSES_URL}/courses`).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
-    }).catch((error) => {
-      console.log(error);
-    });
-  };
-}
