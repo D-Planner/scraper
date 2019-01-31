@@ -21,35 +21,30 @@ const ROOT_URL = 'http://localhost:9090';
 
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
-
-  axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
     // do something with response.data  (some json)
-    return (dispatch) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       history.push('/');
-    };
-  }).catch((error) => {
-    return (dispatch) => {
+    }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-    };
-  });
+    });
+  };
 }
 
 export function signupUser({ email, password, username }, history) {
   const fields = { email, password, username };
 
-  axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-    return (dispatch) => {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       history.push('/');
-    };
-  }).catch((error) => {
-    return (dispatch) => {
+    }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-    };
-  });
+    });
+  };
 }
 
 export function signoutUser(history) {
@@ -61,8 +56,11 @@ export function signoutUser(history) {
 }
 
 export function fetchPlans() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/plans`).then((response) => {
+    axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
     });
   };
