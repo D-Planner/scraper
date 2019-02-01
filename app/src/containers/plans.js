@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
 
-import { fetchPlans } from '../actions';
+import { emptyPlan } from '../services/empty_plan';
+import { fetchPlans, createPlan } from '../actions';
 
 class Plans extends Component {
   constructor(props) {
     super(props);
 
     this.state = {};
+
+    this.createNewPlan = this.createNewPlan.bind(this);
   }
 
   componentDidMount() {
@@ -15,10 +20,21 @@ class Plans extends Component {
     this.props.fetchPlans();
   }
 
+  createNewPlan() {
+    this.props.createPlan(emptyPlan, this.props.history);
+  }
+
   render() {
     if (this.props.plans.length === 0) {
       return (
-        <div>{'You don\'t have any plans yet :('}</div>
+        <div>
+          <div>
+            {'You don\'t have any plans yet :('}
+          </div>
+          <div>
+            <Button color="primary" onClick={this.createNewPlan}>New Plan</Button>
+          </div>
+        </div>
       );
     }
 
@@ -27,10 +43,13 @@ class Plans extends Component {
         {this.props.plans.map((plan) => {
           return (
             <div>
-              plan.name
+              {plan.name}
             </div>
           );
         })}
+        <div>
+          <Button color="primary" onClick={this.createNewPlan}>New Plan</Button>
+        </div>
       </div>
     );
   }
@@ -40,4 +59,4 @@ const mapStateToProps = (state) => {
   return { plans: state.plans.all };
 };
 
-export default connect(mapStateToProps, { fetchPlans })(Plans);
+export default withRouter(connect(mapStateToProps, { fetchPlans, createPlan })(Plans));

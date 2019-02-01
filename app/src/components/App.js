@@ -27,7 +27,7 @@ const App = (props) => {
           <Route path="/signup" component={signUp} />
           <Route path="/signin" component={signIn} />
           <Route exact path="/plans" component={Plans} />
-          <Route path="/plan" component={DPlan} />
+          <Route path="/plan/:id" component={DPlan} />
           <Route component={FallBack} />
         </Switch>
       </div>

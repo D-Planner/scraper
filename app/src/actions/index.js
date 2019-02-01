@@ -55,6 +55,17 @@ export function signoutUser(history) {
   };
 }
 
+export function createPlan(plan, history) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
+      history.push(`/plan/${plan.name.toLowerCase().replace(' ', '-')}`);
+    });
+  };
+}
+
 export function fetchPlans() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,

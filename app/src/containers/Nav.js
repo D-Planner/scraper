@@ -20,7 +20,6 @@ class Nav extends Component {
               <li><NavLink to="/" exact>Home</NavLink></li>
               <li onClick={() => this.props.signoutUser(this.props.history)}><NavLink to="/" exact>Sign out</NavLink></li>
               <li><NavLink to="/courses" exact>Courses</NavLink></li>
-              <li><NavLink to="/plan" exact>Plan</NavLink></li>
               <li><NavLink to="/plans" exact>Plans</NavLink></li>
             </div>
             )
