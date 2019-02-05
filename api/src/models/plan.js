@@ -10,12 +10,14 @@ const PlanSchema = new Schema({
     modified_main: String,
     modified_sub: String,
     specialization: String,
-    terms: { type: Map, of: [{ type: Schema.Types.ObjectId, ref: 'Term' }] },
+    terms: [{ type: Schema.Types.ObjectId, ref: 'Term' }],
 }, {
     toJSON: {
         virtuals: true,
     },
 });
+
+PlanSchema.index({ user_id: 1, name: -1 }, { unique: true });
 
 // create model class
 const PlanModel = mongoose.model('Plan', PlanSchema);

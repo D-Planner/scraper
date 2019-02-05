@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import PlanController from '../controllers/plan_controller';
-import Term from '../models/term';
 
 const plansRouter = Router();
 
@@ -13,15 +12,15 @@ plansRouter.get('/', (req, res) => {
 });
 
 // POST /plans
-plansRouter.post('/', (req, res) => {
+plansRouter.post('/', (req, res, next) => {
     PlanController.createPlanForUser(req.body.plan, req.user.id).then((newPlan) => {
-        newPlan.terms.forEach((val, key, map) => {
-            // TODO Populate plan
-            console.log('YEET:', val);
-        });
+        res.send(PlanController.sortPlan(newPlan));
     }).catch((err) => {
-        console.log(err);
-        res.sendStatus(500);
+        if (err.name === 'MongoError' && err.code === 11000) {
+            res.status(409).send({ err, message: 'You have already created a plan with this name' });
+        } else {
+            next(err);
+        }
     });
 });
 

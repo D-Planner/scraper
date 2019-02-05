@@ -1,5 +1,5 @@
 import Plan from '../models/plan';
-import TermController from './term_controller';
+import Term from '../models/term';
 
 const getPlansByUserId = (id) => {
     return Plan.find({ user_id: id });
@@ -14,36 +14,64 @@ const createPlanForUser = async (plan, userId) => {
 
         const { planId } = await newPlan.save();
 
-        // iterate through each year in the terms dictionary
-        // and create terms for each element in the arrays therein
-        const storedTerms = {};
-        const yearPromises = Object.keys(plan.terms).map((year) => {
-            const termPromises = plan.terms[year].map((term) => {
-                return TermController.createTerm(term, planId);
-            });
-            return Promise.all(termPromises).then((result) => {
-                // store the resulting ids in the corresponding year
-                storedTerms[year] = result.map((x) => { return x.id; });
-            }).catch((err) => {
-                console.log(err);
+        // iterate through each term and create a term in the database for each one
+        const promises = plan.terms.map((term) => {
+            return Term.create({
+                plan_id: planId,
+                year: term.year,
+                quarter: term.quarter,
+                off_term: term.off_term,
+                courses: term.courses,
             });
         });
 
-        // resolve that massive promise
-        await Promise.all(yearPromises);
+        // resolve that big promise array to get a terms array with ids that reference the Terms model
+        const dbTerms = await Promise.all(promises);
 
-        // we now have a terms array that references each term's id in mongodb
         // save this to the newPlan object
-        newPlan.terms = storedTerms;
+        newPlan.terms = dbTerms;
         return newPlan.save();
     } catch (e) {
         throw e;
     }
 };
 
+const sortPlan = (plan) => {
+    const dict = {};
+    plan.terms.forEach((term) => {
+        if (dict[term.year]) {
+            dict[term.year].push(term);
+        } else {
+            dict[term.year] = [term];
+        }
+    });
+
+    // map the dictionary object to a 2D array of terms, in the right order
+    return Object.keys(dict).map((year) => {
+        const terms = dict[year];
+        return terms.sort((a, b) => {
+            const aTerm = a.term;
+            const bTerm = b.term;
+            switch (aTerm) {
+            case 'F':
+                return 1;
+            case 'W':
+                return bTerm === 'F' ? -1 : 1;
+            case 'S':
+                return bTerm === 'X' ? 1 : -1;
+            case 'X':
+                return -1;
+            default:
+                return 0;
+            }
+        });
+    });
+};
+
 const PlanController = {
     getPlansByUserId,
     createPlanForUser,
+    sortPlan,
 };
 
 export default PlanController;
