@@ -4,10 +4,22 @@ import PlanController from '../controllers/plan_controller';
 const plansRouter = Router();
 
 // GET /plans
-plansRouter.get('/', (req, res) => {
+plansRouter.get('/', (req, res, next) => {
     const userID = req.user.id;
     return PlanController.getPlansByUserId(userID).then((plans) => {
         res.json(plans);
+    }).catch((err) => {
+        next(err);
+    });
+});
+
+plansRouter.get('/:name', (req, res, next) => {
+    const userID = req.user.id;
+    const planName = req.params.name;
+    return PlanController.getPlanByUserAndPlanName(userID, planName).then((plan) => {
+        res.json(plan);
+    }).catch((err) => {
+        next(err);
     });
 });
 
