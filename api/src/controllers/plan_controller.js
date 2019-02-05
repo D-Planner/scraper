@@ -1,5 +1,5 @@
 import Plan from '../models/plan';
-import Term from '../models/term';
+import TermController from '../controllers/term_controller';
 
 const getPlansByUserId = (id) => {
     return Plan.find({ user_id: id });
@@ -16,13 +16,7 @@ const createPlanForUser = async (plan, userId) => {
 
         // iterate through each term and create a term in the database for each one
         const promises = plan.terms.map((term) => {
-            return Term.create({
-                plan_id: planId,
-                year: term.year,
-                quarter: term.quarter,
-                off_term: term.off_term,
-                courses: term.courses,
-            });
+            return TermController.createTerm(term, planId);
         });
 
         // resolve that big promise array to get a terms array with ids that reference the Terms model
@@ -47,7 +41,7 @@ const sortPlan = (plan) => {
     });
 
     // map the dictionary object to a 2D array of terms, in the right order
-    return Object.keys(dict).map((year) => {
+    const sortedTerms = Object.keys(dict).map((year) => {
         const terms = dict[year];
         return terms.sort((a, b) => {
             const aTerm = a.term;
@@ -66,12 +60,36 @@ const sortPlan = (plan) => {
             }
         });
     });
+
+    plan.terms = sortedTerms;
+
+    return plan;
+};
+
+const getPlanByUserAndPlanName = async (userId, planName) => {
+    try {
+        const plan = await Plan.findOne({
+            name: planName,
+            user_id: userId,
+        });
+
+        if (!plan) {
+            throw new Error({ status: 400, message: 'This plan does not exist for this user' });
+        }
+
+        await plan.populate('terms').execPopulate();
+
+        return sortPlan(plan.toJSON());
+    } catch (e) {
+        throw e;
+    }
 };
 
 const PlanController = {
     getPlansByUserId,
     createPlanForUser,
     sortPlan,
+    getPlanByUserAndPlanName,
 };
 
 export default PlanController;

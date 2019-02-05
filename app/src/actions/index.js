@@ -7,6 +7,7 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEATH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
   FETCH_PLANS: 'FETCH_PLANS',
+  FETCH_PLAN: 'FETCH_PLAN',
   FETCH_COURSES: 'FETCH_COURSES',
 };
 
@@ -18,6 +19,10 @@ export function authError(error) {
 }
 
 const ROOT_URL = 'http://localhost:9090';
+
+function normalizePlanName(planName) {
+  return planName.toLowerCase().replace(/ /g, '-');
+}
 
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
@@ -59,9 +64,14 @@ export function createPlan(plan, history) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
+  const normalizedName = normalizePlanName(plan.name);
+  const toSend = {
+    name: normalizedName,
+    terms: plan.terms,
+  };
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
-      history.push(`/plan/${plan.name.toLowerCase().replace(' ', '-')}`);
+    axios.post(`${ROOT_URL}/plans`, { plan: toSend }, { headers }).then((response) => {
+      history.push(`/plan/${normalizedName}`);
     });
   };
 }
@@ -73,6 +83,18 @@ export function fetchPlans() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
+    });
+  };
+}
+
+export function fetchPlan(planName) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  const toSend = normalizePlanName(planName);
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/plans/${toSend}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
     });
   };
 }

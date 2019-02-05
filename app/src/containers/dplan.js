@@ -1,30 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import { fetchPlan } from '../actions';
 
 import Term from '../components/term';
 
 import './dplan.scss';
 
 class DPlan extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      plan: null,
-    };
-  }
-
   componentDidMount() {
-    if (this.props.location.state.empty) {
-      this.setState((state, props) => ({ plan: props.location.state.empty }));
-    }
+    this.props.fetchPlan(this.props.match.params.id);
   }
 
   render() {
-    console.log(this.state.plan);
-    if (!this.state.plan) {
+    if (!this.props.plan) {
       return (<div />);
     }
 
@@ -34,8 +25,7 @@ class DPlan extends Component {
     return (
       <div className={containerClass}>
         <Container>
-          {this.state.plan.plan.map((year) => {
-            console.log(year);
+          {this.props.plan.terms.map((year) => {
             return (
               <Row>
                 {year.map((term) => {
@@ -54,4 +44,8 @@ class DPlan extends Component {
   }
 }
 
-export default withRouter(DPlan);
+const mapStateToProps = state => ({
+  plan: state.plans.current,
+});
+
+export default withRouter(connect(mapStateToProps, { fetchPlan })(DPlan));
