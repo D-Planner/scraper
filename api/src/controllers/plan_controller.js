@@ -74,7 +74,7 @@ const getPlanByUserAndPlanName = async (userId, planName) => {
         });
 
         if (!plan) {
-            throw new Error({ status: 400, message: 'This plan does not exist for this user' });
+            throw new Error('This plan does not exist for this user');
         }
 
         await plan.populate('terms').execPopulate();
