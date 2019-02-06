@@ -2,6 +2,7 @@ import React from 'react';
 import {
   Button,
 } from 'reactstrap';
+import { Icon } from 'evergreen-ui';
 // import DragSource from './dragNdrop';
 
 export default class BucketCourse extends React.Component {
@@ -41,9 +42,7 @@ export default class BucketCourse extends React.Component {
         active={!this.state.dragging}
       >
         {this.state.displayText}
-        <Button close aria-label="Cancel">
-          <span aria-hidden>&ndash;</span>
-        </Button>
+        <Icon close icon="small-minus" />
       </Button>
     );
   }
