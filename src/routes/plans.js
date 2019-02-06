@@ -7,7 +7,7 @@ const plansRouter = Router();
 plansRouter.get('/', (req, res, next) => {
     const userID = req.user.id;
     return PlanController.getPlansByUserId(userID).then((plans) => {
-        res.json(plans);
+        res.json({ plans });
     }).catch((err) => {
         next(err);
     });
