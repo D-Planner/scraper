@@ -3,6 +3,7 @@ import {
   Button,
 } from 'reactstrap';
 import { Icon } from 'evergreen-ui';
+import '../bucket.css';
 // import DragSource from './dragNdrop';
 
 export default class BucketCourse extends React.Component {
@@ -12,7 +13,7 @@ export default class BucketCourse extends React.Component {
     this.state = {
       index: this.props.index[0],
       dragging: this.props.dragging,
-      displayText: `course ${this.props.index[0]}`,
+      displayText: this.props.displayText,
     };
 
     this.startDrag = this.startDrag.bind(this);
@@ -38,11 +39,16 @@ export default class BucketCourse extends React.Component {
 
   render() {
     return (
-      <Button onClick={() => this.props.onChange(this.state.index)}
+      <Button className="bucketCourse"
+        onClick={() => this.props.onChange(this.state.index)}
         active={!this.state.dragging}
       >
-        {this.state.displayText}
-        <Icon close icon="small-minus" />
+        <div className="bcText">
+          {' '}
+          {this.state.displayText}
+          {' '}
+        </div>
+        <Icon className="minus_icon" icon="small-minus" />
       </Button>
     );
   }
