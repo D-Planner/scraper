@@ -132,6 +132,7 @@ class Bucket extends React.Component {
             dragging={(this.state.cSelected.indexOf(index) !== -1).toString()}
           // ref={this.bcRef}
             displayText={`${course.subject}${course.number}`}
+            course={course}
           />
         );
       })
