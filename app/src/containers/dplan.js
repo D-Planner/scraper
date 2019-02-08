@@ -6,8 +6,6 @@ import { fetchPlan } from '../actions';
 
 import Term from '../components/term';
 
-import './dplan.scss';
-
 class DPlan extends Component {
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
