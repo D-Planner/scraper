@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
-import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { fetchPlan } from '../actions';
 
@@ -19,11 +18,12 @@ class DPlan extends Component {
       return (<div />);
     }
 
-    const containerClass = classNames({
-      ctnr: true,
-    });
+    const ctnrStyle = {
+      padding: '16px',
+      backgroundColor: '#DD5555',
+    };
     return (
-      <div className={containerClass}>
+      <div style={ctnrStyle}>
         <Container>
           {this.props.plan.terms.map((year) => {
             return (

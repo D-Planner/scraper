@@ -5,7 +5,7 @@ const initialState = {
   current: null,
 };
 
-const coursesReducer = (state = initialState, action) => {
+const plansReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_PLANS:
       return Object.assign({}, state, { all: action.payload });
@@ -16,4 +16,4 @@ const coursesReducer = (state = initialState, action) => {
   }
 };
 
-export default coursesReducer;
+export default plansReducer;

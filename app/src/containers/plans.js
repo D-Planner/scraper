@@ -54,54 +54,45 @@ class Plans extends Component {
     });
   }
 
-  render() {
-    let plans = <div />;
-    if (this.props.plans.length === 0) {
-      plans = <div>{'You don\'t have any plans yet :('}</div>;
-    } else {
-      plans = (
-        <div>
-          {this.props.plans.map((plan) => {
-            return (
-              <div>
-                {plan.name}
-              </div>
-            );
-          })}
-        </div>
-      );
-    }
+  renderPlans() {
+    return (
+      this.props.plans.map((plan) => {
+        return (
+          <div key={plan.id}>{plan.name}</div>
+        );
+      })
+    );
+  }
 
+  render() {
     return (
       <div>
-        <div>
-          {plans}
-        </div>
-        <div>
-          <Pane>
-            <Dialog
-              isShown={this.state.showDialog}
-              title="Create New Plan"
-              onConfirm={this.onDialogSubmit}
-              onCancel={this.hideDialog}
-              confirmLabel="Create"
-            >
-              <input
-                type="text"
-                placeholder="Name Your Plan"
-                onChange={this.onInputChange}
-              />
-            </Dialog>
-            <Button color="primary" onClick={this.showDialog}>New Plan</Button>
-          </Pane>
-        </div>
+        {this.props.plans.length === 0
+          ? <div>{'You don\'t have any plans yet :('}</div>
+          : <div>{this.renderPlans()}</div>}
+        <Pane>
+          <Dialog
+            isShown={this.state.showDialog}
+            title="Create New Plan"
+            onConfirm={this.onDialogSubmit}
+            onCancel={this.hideDialog}
+            confirmLabel="Create"
+          >
+            <input
+              type="text"
+              placeholder="Name Your Plan"
+              onChange={this.onInputChange}
+            />
+          </Dialog>
+          <Button color="primary" onClick={this.showDialog}>New Plan</Button>
+        </Pane>
       </div>
+
+
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return { plans: state.plans.all };
-};
+const mapStateToProps = state => ({ plans: state.plans.all });
 
 export default withRouter(connect(mapStateToProps, { fetchPlans, createPlan })(Plans));

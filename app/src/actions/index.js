@@ -72,6 +72,8 @@ export function createPlan(plan, history) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/plans`, { plan: toSend }, { headers }).then((response) => {
       history.push(`/plan/${normalizedName}`);
+    }).catch((err) => {
+      console.log(err);
     });
   };
 }
@@ -83,6 +85,8 @@ export function fetchPlans() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
+    }).catch((err) => {
+      console.log(err);
     });
   };
 }
@@ -95,6 +99,8 @@ export function fetchPlan(planName) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/plans/${toSend}`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
+    }).catch((err) => {
+      console.log(err);
     });
   };
 }
