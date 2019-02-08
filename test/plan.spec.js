@@ -11,7 +11,7 @@ let userID = '';
 let planID = '';
 const planName = 'new-plan';
 
-describe.only('Plans', () => {
+describe('Plans', () => {
     before((done) => {
         // create a new user
         request(app)
@@ -72,9 +72,9 @@ describe.only('Plans', () => {
                 .get('/plans')
                 .set({ Authorization: `Bearer ${token}` })
                 .end((err, res) => {
-                    expect(res.body.plans).to.exist.and.be.an('array');
+                    expect(res.body).to.be.an('array');
 
-                    const firstPlan = res.body.plans[0];
+                    const firstPlan = res.body[0];
                     expect(firstPlan.name).to.equal(planName);
                     expect(firstPlan.terms).to.exist.and.be.an('array');
 
