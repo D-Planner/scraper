@@ -19,6 +19,11 @@ const PlanSchema = new Schema({
 
 PlanSchema.index({ user_id: 1, name: -1 }, { unique: true });
 
+PlanSchema.virtual('normalizedName')
+    .get(function () { // eslint-disable-line prefer-arrow-callback
+        return this.name.toLowerCase().replace(/ /g, '-');
+    });
+
 // create model class
 const PlanModel = mongoose.model('Plan', PlanSchema);
 
