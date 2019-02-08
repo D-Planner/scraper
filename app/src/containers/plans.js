@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Button, Dialog, Pane } from 'evergreen-ui';
 
 import { emptyPlan } from '../services/empty_plan';
@@ -58,7 +58,9 @@ class Plans extends Component {
     return (
       this.props.plans.map((plan) => {
         return (
-          <div key={plan.id}>{plan.name}</div>
+          <div>
+            <Link to={`/plan/${plan.normalizedName}`} key={plan.id}>{plan.name}</Link>
+          </div>
         );
       })
     );

@@ -20,10 +20,6 @@ export function authError(error) {
 
 const ROOT_URL = 'http://localhost:9090';
 
-function normalizePlanName(planName) {
-  return planName.toLowerCase().replace(/ /g, '-');
-}
-
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
   return (dispatch) => {
@@ -64,14 +60,10 @@ export function createPlan(plan, history) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  const normalizedName = normalizePlanName(plan.name);
-  const toSend = {
-    name: normalizedName,
-    terms: plan.terms,
-  };
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/plans`, { plan: toSend }, { headers }).then((response) => {
-      history.push(`/plan/${normalizedName}`);
+    axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
+      console.log(response);
+      history.push(`/plan/${response.data.normalizedName}`);
     }).catch((err) => {
       console.log(err);
     });
@@ -95,9 +87,8 @@ export function fetchPlan(planName) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  const toSend = normalizePlanName(planName);
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/plans/${toSend}`, { headers }).then((response) => {
+    axios.get(`${ROOT_URL}/plans/${planName}`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
     }).catch((err) => {
       console.log(err);
