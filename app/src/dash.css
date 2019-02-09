@@ -1,0 +1,10 @@
+.plan {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.plan:hover {
+  cursor: pointer;
+  filter: brightness(70%);
+}
