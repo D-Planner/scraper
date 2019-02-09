@@ -14,6 +14,7 @@ import {
 } from 'reactstrap';
 import { Icon, Pane } from 'evergreen-ui';
 import '../dash.css';
+import { withRouter } from 'react-router-dom';
 
 const test = [{
   title: 'ENGS mod SART draft',
@@ -23,36 +24,37 @@ const test = [{
   title: 'ECON with GOV minor',
 }];
 
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false,
-      active: 'plan',
+      isOpen: true,
       plans: test,
+      discover: 'discover content',
     };
-  }
-
-  toggle() {
-    this.setState((prevState) => {
-      return { isOpen: !prevState.isOpen };
-    });
   }
 
   navbar() {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarToggler onClick={this.toggle} />
+          <NavbarToggler />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/dash" active={this.state.active === 'plan'}>Plan</NavLink>
+                <NavLink href="/dash/plan/"
+                  active={this.props.location.pathname.includes('plan')}
+                >
+Plan
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/discover/" active={this.state.active === 'discover'}>Discover</NavLink>
+                <NavLink href="/dash/discover/"
+                  active={this.props.location.pathname.includes('discover')}
+                >
+Discover
+                </NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
@@ -80,10 +82,7 @@ export default class Dashboard extends React.Component {
 
   plans() {
     return (
-      <div style={{
-        marginTop: '100px',
-      }}
-      >
+      <div>
         {this.state.plans.map((plan) => {
           return (
             <Pane className="plan"
@@ -101,11 +100,19 @@ export default class Dashboard extends React.Component {
     );
   }
 
-  render() {
+  discover() {
     return (
       <div>
-        {this.navbar()}
-        <Pane>
+        {this.state.discover}
+      </div>
+    );
+  }
+
+  render() {
+    let content;
+    if (this.props.location.pathname.includes('plan')) {
+      content = (
+        <div>
           <h4 style={{ float: 'left', margin: '30px' }}>MY PLANS</h4>
           <Button margin-right={12}
             height={32}
@@ -116,9 +123,24 @@ export default class Dashboard extends React.Component {
           >
         New Plan
           </Button>
-        </Pane>
-        {this.plans()}
+          {this.plans()}
+        </div>
+      );
+    } else if (this.props.location.pathname.includes('discover')) {
+      content = (
+        <div>
+          {this.discover()}
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        {this.navbar()}
+        {content}
       </div>
     );
   }
 }
+
+export default withRouter(Dashboard);
