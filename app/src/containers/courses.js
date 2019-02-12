@@ -8,7 +8,7 @@ import {
   ListGroupItemText,
   Badge,
 } from 'reactstrap';
-import { fetchCourses } from '../actions/index';
+import { fetchCourses } from '../actions';
 
 class Courses extends Component {
   constructor(props) {

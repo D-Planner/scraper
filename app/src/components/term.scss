@@ -1,0 +1,34 @@
+.term {
+  background-color: #DDDDDD;
+  height: 200px;
+  margin: 16px;
+
+  &.offterm {
+    background-color: #444444;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+  }
+
+  .offterm-toggle {
+    > .toggle-button {
+      margin: 0 3px;
+      color: #AAAAAA;
+    }
+
+    .active {
+      color: #FFFFFF;
+    }
+  }
+
+  .course {
+    display: flex;
+    justify-content: space-between;
+    background-color: #C4C4C4;
+    padding: 2px 5px;
+    margin: 5px;
+  }
+}

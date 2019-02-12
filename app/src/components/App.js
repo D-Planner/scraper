@@ -3,13 +3,14 @@ import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
 import Flowchart from './flowchart';
-import Nav from './Nav';
-import bucket from '../containers/bucket';
+import Nav from '../containers/Nav';
 import signUp from '../containers/signUp';
 import signIn from '../containers/signIn';
 import Courses from '../containers/courses';
 import Dashboard from '../containers/Dashboard';
 import requireAuth from '../containers/requireAuth';
+import DPlan from '../containers/dplan';
+import Plans from '../containers/plans';
 
 const FallBack = (props) => {
   return <div> URL Not Found </div>;
@@ -28,6 +29,8 @@ const App = (props) => {
           <Route path="/signin" component={signIn} />
           <Route path="/bucket" component={bucket} />
           <Route path="/dash" component={Dashboard} />
+          <Route exact path="/plans" component={Plans} />
+          <Route path="/plan/:id" component={DPlan} />
           <Route component={FallBack} />
         </Switch>
       </div>
