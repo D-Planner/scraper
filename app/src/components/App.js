@@ -11,6 +11,7 @@ import Dashboard from '../containers/Dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
 import Plans from '../containers/plans';
+import bucket from '../containers/bucket';
 
 const FallBack = (props) => {
   return <div> URL Not Found </div>;
