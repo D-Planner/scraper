@@ -26,14 +26,9 @@ export const signup = (req, res, next) => {
         });
 
         return newUser.save().then((savedUser) => {
-<<<<<<< HEAD
-            res.send({ token: tokenForUser(savedUser) });
-            console.log(tokenForUser(savedUser));
-=======
             const json = savedUser.toJSON();
             delete json.password;
             res.send({ token: tokenForUser(savedUser), user: json });
->>>>>>> master
         }).catch((err) => {
             next(err);
         });
