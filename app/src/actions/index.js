@@ -6,6 +6,8 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEATH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  FETCH_PLANS: 'FETCH_PLANS',
+  FETCH_PLAN: 'FETCH_PLAN',
   FETCH_COURSES: 'FETCH_COURSES',
 };
 
@@ -16,39 +18,34 @@ export function authError(error) {
   };
 }
 
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'http://localhost:9090';
 
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
-
-  axios.post(`${ROOT_URL}/signin`, fields).then((response) => {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
     // do something with response.data  (some json)
-    return (dispatch) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       history.push('/');
-    };
-  }).catch((error) => {
-    return (dispatch) => {
+    }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-    };
-  });
+    });
+  };
 }
 
 export function signupUser({ email, password, username }, history) {
   const fields = { email, password, username };
 
-  axios.post(`${ROOT_URL}/signup`, fields).then((response) => {
-    return (dispatch) => {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       history.push('/');
-    };
-  }).catch((error) => {
-    return (dispatch) => {
+    }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-    };
-  });
+    });
+  };
 }
 
 export function signoutUser(history) {
@@ -56,6 +53,46 @@ export function signoutUser(history) {
     localStorage.removeItem('token');
     dispatch({ type: ActionTypes.DEAUTH_USER });
     history.push('/');
+  };
+}
+
+export function createPlan(plan, history) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
+      console.log(response);
+      history.push(`/plan/${response.data.normalizedName}`);
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+}
+
+export function fetchPlans() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+}
+
+export function fetchPlan(planName) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/plans/${planName}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 }
 

@@ -8,9 +8,9 @@ import App from './components/App';
 import { ActionTypes } from './actions';
 import reducers from './reducers';
 
-const store = createStore(reducers, {}, compose(
+export const store = createStore(reducers, {}, compose(
   applyMiddleware(thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f,
+  window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
 ));
 
 const token = localStorage.getItem('token');
