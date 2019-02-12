@@ -15,6 +15,7 @@ import {
 import { Icon, Pane, SearchInput } from 'evergreen-ui';
 import '../dash.css';
 import { withRouter } from 'react-router-dom';
+import Department from './Department';
 
 const test = [{
   title: 'ENGS mod SART draft',
@@ -169,6 +170,7 @@ Advanced Search
       content = (
         <div>
           {this.discover()}
+          <Department />
         </div>
       );
     }

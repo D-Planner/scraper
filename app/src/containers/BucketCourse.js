@@ -150,15 +150,3 @@ export default class BucketCourse extends React.Component {
     );
   }
 }
-
-
-// function renderCourseButton(x, y, [knightX, knightY]) {
-//   const black = (x + y) % 2 === 1;
-//   const isKnightHere = knightX === x && knightY === y
-//   const piece = isKnightHere ? <Knight /> : null;
-//
-//   return (
-//     <Square black={black}>
-//       {piece}
-//     </Square>
-//   );
