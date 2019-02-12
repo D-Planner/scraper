@@ -7,7 +7,7 @@ describe('Authentication', () => {
     describe('#signup', () => {
         it('should return a token for a new user given a new email and password', (done) => {
             request(app)
-                .post('/api/signup')
+                .post('/auth/signup')
                 .send({
                     email: 'buster@dplanner.com',
                     password: 'password',
@@ -27,7 +27,7 @@ describe('Authentication', () => {
         // Run it again and it will pass
         it('should not create a new user if the email already exists', (done) => {
             request(app)
-                .post('/api/signup')
+                .post('/auth/signup')
                 .send({
                     email: 'buster@dplanner.com',
                     password: 'password',
@@ -43,7 +43,7 @@ describe('Authentication', () => {
 
         it('should not create a new user if no email is provided', (done) => {
             request(app)
-                .post('/api/signup')
+                .post('/auth/signup')
                 .send({
                     password: 'password',
                 })
@@ -58,7 +58,7 @@ describe('Authentication', () => {
 
         it('should not create a new user if no password is provided', (done) => {
             request(app)
-                .post('/api/signup')
+                .post('/auth/signup')
                 .send({
                     email: 'buster@dplanner.com',
                 })
@@ -75,7 +75,7 @@ describe('Authentication', () => {
     describe('#signin', () => {
         it('should return a token for an existing user given its username and password', (done) => {
             request(app)
-                .post('/api/signin')
+                .post('/auth/signin')
                 .send({
                     email: 'buster@dplanner.com',
                     password: 'password',
@@ -90,7 +90,7 @@ describe('Authentication', () => {
 
         it('should not sign in if the user doesn\'t exist', (done) => {
             request(app)
-                .post('/api/signin')
+                .post('/auth/signin')
                 .send({
                     email: 'hackerman@kremlin.ru',
                     password: 'dasvidaniya',
@@ -106,7 +106,7 @@ describe('Authentication', () => {
 
         it('should not sign in if no email is provided', (done) => {
             request(app)
-                .post('/api/signin')
+                .post('/auth/signin')
                 .send({
                     password: 'password',
                 })
@@ -121,7 +121,7 @@ describe('Authentication', () => {
 
         it('should not sign in if no password is provided', (done) => {
             request(app)
-                .post('/api/signin')
+                .post('/auth/signin')
                 .send({
                     email: 'buster@dplanner.com',
                 })
