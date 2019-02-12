@@ -7,14 +7,6 @@
   margin-top: 5px;
 }
 
-.bcText{
-  float: left;
-}
-
-.minus_icon{
-  float: right;
-}
-
 .minus_icon:hover{
   color: black;
 }

@@ -3,7 +3,6 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  Button,
   Nav,
   NavItem,
   NavLink,
@@ -12,7 +11,9 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { Icon, Pane, SearchInput } from 'evergreen-ui';
+import {
+  Icon, Pane, SearchInput, Heading, Button,
+} from 'evergreen-ui';
 import '../dash.css';
 import { withRouter } from 'react-router-dom';
 import Department from './Department';
@@ -33,6 +34,7 @@ class Dashboard extends React.Component {
       isOpen: true,
       plans: test,
       discover: '',
+      searchDirect: true,
     };
   }
 
@@ -81,41 +83,105 @@ Discover
     );
   }
 
-  discoverNav() {
+  discoverButtons() {
+    // let buttons;
+    // if (this.state.searchDirect) {
+    //   buttons = (
+    //     <div>
+    //       <Button marginRight={16}
+    //         appearance="minimal"
+    //         intent="none"
+    //         height={40}
+    //         isActive="true"
+    //       >
+    //         <Strong>
+    //               Direct Search
+    //         </Strong>
+    //       </Button>
+    //       <Button marginRight={16}
+    //         appearance="minimal"
+    //         intent="none"
+    //         height={40}
+    //         isActive="false"
+    //       >
+    //         <p>Advanced Search</p>
+    //       </Button>
+    //     </div>
+    //   );
+    // } else {
+    //   buttons = (
+    //     <div>
+    //       <Button
+    //         color="secondary"
+    //         height={32}
+    //       >
+    //         <p>
+    //               Direct Search
+    //         </p>
+    //       </Button>
+    //       <Button color="secondary"
+    //         outline
+    //         height={32}
+    //       >
+    //         <Strong>Advanced Search</Strong>
+    //       </Button>
+    //     </div>
+    //   );
+    // }
     return (
       <div>
-        <Navbar color="faded" light expand="md">
-          <NavbarToggler />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav style={{
-              margin: 'auto',
-            }}
-              navbar
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          marginTop: '20px',
+        }}
+        >
+          <Button marginRight={16}
+            appearance="minimal"
+            intent="none"
+            height={48}
+            onClick={() => this.setState({ searchDirect: true })}
+          >
+            <Heading size={500}
+              style={this.state.searchDirect ? {
+                textDecoration: 'underline',
+                fontWeight: 'bold',
+              } : {}}
             >
-              <NavItem>
-                <NavLink href="/dash/discover/direct"
-                  active={this.props.location.pathname.includes('direct')}
-                >
-Direct Search
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/dash/discover/advanced"
-                  active={this.props.location.pathname.includes('advanced')}
-                >
-Advanced Search
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
+              {this.state.searchDirect}
+                  Direct Search
+            </Heading>
+          </Button>
+          <Button marginRight={16}
+            appearance="minimal"
+            intent="none"
+            height={48}
+            onClick={() => this.setState({ searchDirect: false })}
+          >
+            <Heading size={500}
+              style={!this.state.searchDirect ? {
+                textDecoration: 'underline',
+                fontWeight: 'bold',
+              } : {}}
+            >
+            Advanced Search
+            </Heading>
+          </Button>
+        </div>
       </div>
     );
   }
 
   plans() {
     return (
-      <Pane className="planPane">
+      <Pane className="planPane"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
         {this.state.plans.map((plan) => {
           return (
             <Pane className="plan"
@@ -136,7 +202,7 @@ Advanced Search
   discover() {
     return (
       <div>
-        {this.discoverNav()}
+        {this.discoverButtons()}
         {this.state.discover}
         <div className="box">
           <SearchInput placeholder="Filter traits..."
@@ -153,16 +219,22 @@ Advanced Search
     if (this.props.location.pathname.includes('plan')) {
       content = (
         <div>
-          <h4 style={{ float: 'left', margin: '30px' }}>MY PLANS</h4>
-          <Button
-            height={32}
-            style={{
-              float: 'right',
-              margin: '30px',
-            }}
+          <Pane style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
           >
+            <h4 style={{ margin: '30px' }}>MY PLANS</h4>
+            <Button
+              height={32}
+              style={{
+                margin: '30px',
+              }}
+            >
         New Plan
-          </Button>
+            </Button>
+          </Pane>
           {this.plans()}
         </div>
       );
@@ -183,5 +255,6 @@ Advanced Search
     );
   }
 }
+
 
 export default withRouter(Dashboard);
