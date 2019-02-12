@@ -2,7 +2,9 @@ import jwt from 'jwt-simple';
 import User from '../models/user';
 
 export const signin = (req, res, next) => {
-    res.send({ token: tokenForUser(req.user) });
+    const json = req.user.toJSON();
+    delete json.password;
+    res.send({ token: tokenForUser(req.user), user: json });
 };
 
 export const signup = (req, res, next) => {
@@ -24,8 +26,14 @@ export const signup = (req, res, next) => {
         });
 
         return newUser.save().then((savedUser) => {
+<<<<<<< HEAD
             res.send({ token: tokenForUser(savedUser) });
             console.log(tokenForUser(savedUser));
+=======
+            const json = savedUser.toJSON();
+            delete json.password;
+            res.send({ token: tokenForUser(savedUser), user: json });
+>>>>>>> master
         }).catch((err) => {
             next(err);
         });

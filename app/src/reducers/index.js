@@ -1,18 +1,13 @@
 import { combineReducers } from 'redux';
-import store from '../index';
-import ActionTypes from '../actions/index';
 
 import authReducer from './auth-reducer';
 import coursesReducer from './courses-reducer';
+import plansReducer from './plans-reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   courses: coursesReducer,
+  plans: plansReducer,
 });
-
-const token = localStorage.getItem('token');
-if (token) {
-  store.dispatch({ type: ActionTypes.AUTH_USER });
-}
 
 export default rootReducer;

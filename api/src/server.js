@@ -4,7 +4,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
-import apiRouter from './router';
+import { requireAuth } from './authentication/init';
+import { authRouter, plansRouter } from './routes';
 
 require('dotenv').config();
 
@@ -34,12 +35,14 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// default index route
 app.get('/', (req, res) => {
-    res.send({ message: 'Hello world!' });
+    res.json({ message: 'Welcome to the DPlanner API!' });
 });
 
-// default index route
-app.use('/api', apiRouter);
+// configure all our sub-routers
+app.use('/auth', authRouter);
+app.use('/plans', requireAuth, plansRouter);
 
 // custom middleware for 404 errors
 app.use((req, res, next) => {
