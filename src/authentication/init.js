@@ -12,7 +12,7 @@ const localOptions = { usernameField: 'email' };
 dotenv.config({ silent: true });
 
 const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.AUTH_SECRET,
 };
 
