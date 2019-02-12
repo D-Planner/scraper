@@ -12,7 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { Icon, Pane } from 'evergreen-ui';
+import { Icon, Pane, SearchInput } from 'evergreen-ui';
 import '../dash.css';
 import { withRouter } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ class Dashboard extends React.Component {
     this.state = {
       isOpen: true,
       plans: test,
-      discover: 'discover content',
+      discover: '',
     };
   }
 
@@ -80,9 +80,41 @@ Discover
     );
   }
 
-  plans() {
+  discoverNav() {
     return (
       <div>
+        <Navbar color="faded" light expand="md">
+          <NavbarToggler />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav style={{
+              margin: 'auto',
+            }}
+              navbar
+            >
+              <NavItem>
+                <NavLink href="/dash/discover/direct"
+                  active={this.props.location.pathname.includes('direct')}
+                >
+Direct Search
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/dash/discover/advanced"
+                  active={this.props.location.pathname.includes('advanced')}
+                >
+Advanced Search
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
+  }
+
+  plans() {
+    return (
+      <Pane className="planPane">
         {this.state.plans.map((plan) => {
           return (
             <Pane className="plan"
@@ -96,14 +128,21 @@ Discover
             </Pane>
           );
         })}
-      </div>
+      </Pane>
     );
   }
 
   discover() {
     return (
       <div>
+        {this.discoverNav()}
         {this.state.discover}
+        <div className="box">
+          <SearchInput placeholder="Filter traits..."
+            height={40}
+            width={600}
+          />
+        </div>
       </div>
     );
   }
@@ -114,7 +153,7 @@ Discover
       content = (
         <div>
           <h4 style={{ float: 'left', margin: '30px' }}>MY PLANS</h4>
-          <Button margin-right={12}
+          <Button
             height={32}
             style={{
               float: 'right',
