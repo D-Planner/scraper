@@ -36,4 +36,17 @@ plansRouter.post('/', (req, res, next) => {
     });
 });
 
+// DELETE /plans/:id
+plansRouter.delete('/:id', (req, res, next) => {
+    PlanController.deletePlanById(req.params.id).then((result) => {
+        res.sendStatus(200);
+    }).catch((err) => {
+        if (err.name === 'CastError') {
+            res.status(400).send({ message: 'The requested id was not valid ' });
+        } else {
+            next(err);
+        }
+    });
+});
+
 export default plansRouter;
