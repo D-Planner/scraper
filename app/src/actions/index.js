@@ -8,6 +8,7 @@ export const ActionTypes = {
   AUTH_ERROR: 'AUTH_ERROR',
   FETCH_PLANS: 'FETCH_PLANS',
   FETCH_PLAN: 'FETCH_PLAN',
+  DELETE_PLAN: 'DELETE_PLAN',
   FETCH_COURSES: 'FETCH_COURSES',
 };
 
@@ -92,6 +93,20 @@ export function fetchPlan(planName) {
       dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
     }).catch((err) => {
       console.log(err);
+    });
+  };
+}
+
+export function deletePlan(id, history) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.delete(`${ROOT_URL}/plans/${id}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.DELETE_PLAN });
+      history.push('/plans');
+    }).catch((error) => {
+      console.log(error);
     });
   };
 }
