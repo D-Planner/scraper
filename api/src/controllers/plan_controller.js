@@ -85,11 +85,21 @@ const getPlanByUserAndPlanName = async (userId, planName) => {
     }
 };
 
+// delete a plan by id
+const deletePlanById = async (planId) => {
+    try {
+        return await Plan.findByIdAndDelete(planId);
+    } catch (e) {
+        throw e;
+    }
+};
+
 const PlanController = {
     getPlansByUserId,
     createPlanForUser,
     sortPlan,
     getPlanByUserAndPlanName,
+    deletePlanById,
 };
 
 export default PlanController;
