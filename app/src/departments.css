@@ -19,10 +19,14 @@ hr {
   margin-left: var(--indent);
 }
 
-#dpt {
-  font-weight: lighter;
-  font-size: 0.8em;
+#dpt{
+  margin-top: 10px;
   margin-left: 30px;
+}
+
+#dptText{
+  font-weight: lighter;
+  font-size: 0.9em;
 }
 
 #dptTitle {

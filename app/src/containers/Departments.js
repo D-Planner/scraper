@@ -37,19 +37,21 @@ export default class Departments extends React.Component {
           return (
             <Pane id="dptGroup">
               <Text id="dptTitle">{group.category}</Text>
-              {group.departments.map((dpt) => {
-                return (
-                  <Text id="dpt"
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    {dpt}
-                  </Text>
-                );
-              })}
+              <Pane id="dpt">
+                {group.departments.map((dpt) => {
+                  return (
+                    <Text id="dptText"
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      {dpt}
+                    </Text>
+                  );
+                })}
+              </Pane>
             </Pane>
           );
         })}
