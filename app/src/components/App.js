@@ -10,6 +10,7 @@ import Courses from '../containers/courses';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
 import Plans from '../containers/plans';
+import bucket from '../containers/bucket';
 
 const FallBack = (props) => {
   return <div> URL Not Found </div>;
@@ -26,6 +27,7 @@ const App = (props) => {
           <Route exact path="/courses" component={requireAuth(Courses)} />
           <Route path="/signup" component={signUp} />
           <Route path="/signin" component={signIn} />
+          <Route path="/bucket" component={bucket} />
           <Route exact path="/plans" component={Plans} />
           <Route path="/plan/:id" component={DPlan} />
           <Route component={FallBack} />

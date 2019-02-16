@@ -9,6 +9,7 @@ export const ActionTypes = {
   FETCH_PLANS: 'FETCH_PLANS',
   FETCH_PLAN: 'FETCH_PLAN',
   FETCH_COURSES: 'FETCH_COURSES',
+  FETCH_BUCKET: 'FETCH_BUCKET',
 };
 
 export function authError(error) {
@@ -100,6 +101,16 @@ export function fetchCourses() {
   return (dispatch) => {
     axios.get(`${COURSES_URL}/courses`).then((response) => {
       dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+export function fetchBucket() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/bucket`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });

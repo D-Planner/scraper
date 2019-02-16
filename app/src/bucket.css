@@ -1,0 +1,24 @@
+.bucket {
+  transition: width 100ms ease-in-out;
+}
+
+.bucketCourse{
+  width: 200px;
+  margin-top: 5px;
+}
+
+.bcText{
+  float: left;
+}
+
+.minus_icon{
+  float: right;
+}
+
+.minus_icon:hover{
+  color: black;
+}
+
+#chevron:hover{
+  color: white;
+}
