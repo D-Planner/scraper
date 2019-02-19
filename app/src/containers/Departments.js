@@ -32,12 +32,16 @@ export default class Departments extends React.Component {
 
   department() {
     return (
-      <Pane>
+      <Pane className="row" style={{ width: '1200px' }}>
         {this.state.dptGroups.map((group) => {
           return (
-            <Pane id="dptGroup">
-              <Text id="dptTitle">{group.category}</Text>
+            <Pane
+              id="dptGroup"
+            >
               <Pane id="dpt">
+                <Text className="row" id="dptTitle">
+                  {group.category}
+                </Text>
                 {group.departments.map((dpt) => {
                   return (
                     <Text id="dptText"

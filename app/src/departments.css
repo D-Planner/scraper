@@ -33,9 +33,13 @@ hr {
   font-style: italic;
   font-weight: lighter;
   font-size: 1.2em;
+  margin-bottom: 10px;
 }
 
 #dptGroup {
   margin-top: 30px;
   margin-left: var(--indent);
+  display: 'flex';
+  flex-wrap: 'wrap';
+  width: 400px;
 }
