@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heading, Text, Pane } from 'evergreen-ui';
 import {} from 'reactstrap';
-import '../departments.css';
+import '../style/departments.css';
 
 const test = [{
   category: 'Arts & Humanities',
@@ -16,6 +16,48 @@ const test = [{
   category: 'Sciences',
   departments: ['Biological Sciences', 'Chemistry', 'Computer Science',
     'Earth Sciences'],
+}, {
+  category: 'Social Sciences',
+  departments: ['Anthropology', 'Economics', 'Education',
+    'Geography'],
+}, {
+  category: 'Social Sciences',
+  departments: ['Anthropology', 'Economics', 'Education',
+    'Geography'],
+}, {
+  category: 'Social Sciences',
+  departments: ['Anthropology', 'Economics', 'Education',
+    'Geography'],
+}, {
+  category: 'Interdisciplinary Programs',
+  departments: ['African and African American Studies', 'Asian Societies, Cultures and Languages',
+    'Cognitive Science',
+    'Environmental Studies'],
+}, {
+  category: 'Sciences',
+  departments: ['Biological Sciences', 'Chemistry', 'Computer Science',
+    'Earth Sciences'],
+}, {
+  category: 'Social Sciences',
+  departments: ['Anthropology', 'Economics', 'Education',
+    'Geography'],
+}, {
+  category: 'Social Sciences',
+  departments: ['Anthropology', 'Economics', 'Education',
+    'Geography'],
+}, {
+  category: 'Interdisciplinary Programs',
+  departments: ['African and African American Studies', 'Asian Societies, Cultures and Languages',
+    'Cognitive Science',
+    'Environmental Studies'],
+}, {
+  category: 'Sciences',
+  departments: ['Biological Sciences', 'Chemistry', 'Computer Science',
+    'Earth Sciences'],
+}, {
+  category: 'Social Sciences',
+  departments: ['Anthropology', 'Economics', 'Education',
+    'Geography'],
 }, {
   category: 'Social Sciences',
   departments: ['Anthropology', 'Economics', 'Education',
@@ -65,7 +107,11 @@ export default class Departments extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{
+        marginTop: '20vh',
+        marginBottom: '20vh',
+      }}
+      >
         <Heading id="title" size={800} marginTop="default">
       DEPARTMENTS
         </Heading>

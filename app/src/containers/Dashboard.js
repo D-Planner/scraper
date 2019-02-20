@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Pane, Button,
 } from 'evergreen-ui';
-import '../dash.css';
+import '../style/dash.css';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signoutUser, fetchCourses } from '../actions/index';
@@ -37,8 +37,6 @@ class Dashboard extends React.Component {
           return (
             <Pane className="plan"
               display="flex"
-              padding={20}
-              width={1200}
               background="tint2"
               borderRadius={3}
             >
@@ -60,14 +58,16 @@ class Dashboard extends React.Component {
           justifyContent: 'space-between',
         }}
         >
-          <h4 style={{ margin: '30px' }}>MY PLANS</h4>
-          <Button
+          <h4 id="myPlans">MY PLANS</h4>
+          <Button id="newPlanButton"
             height={32}
             style={{
               margin: '30px',
             }}
           >
+            <p>
         New Plan
+            </p>
           </Button>
         </Pane>
         {this.plans()}

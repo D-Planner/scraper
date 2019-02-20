@@ -17,6 +17,11 @@ import {
 } from 'evergreen-ui';
 import { withRouter } from 'react-router-dom';
 import { signoutUser, fetchCourses } from '../actions/index';
+import discDisb from '../style/discover_disb.png';
+import disc from '../style/discover.png';
+import planDisb from '../style/plan_disb.png';
+import plan from '../style/plan.png';
+import '../style/nav.css';
 
 class DNav extends Component {
   constructor(props) {
@@ -69,17 +74,41 @@ Sign out
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/dash/"
-                  active={this.props.location.pathname.includes('dash')}
-                >
-Plan
+                <NavLink href="/dash/">
+                  <img id={this.props.location.pathname.includes('dash')
+                    ? '' : 'navItem'}
+                    src={this.props.location.pathname.includes('dash')
+                      ? plan : planDisb}
+                    alt=""
+                    onClick={() => {
+                    //  search
+                    }}
+                    style={{
+                      width: '61px',
+                      height: '17px',
+                      marginLeft: '5px',
+                      marginRight: '5px',
+                    }}
+                  />
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/discover/"
-                  active={this.props.location.pathname.includes('discover')}
-                >
-Discover
+                <NavLink href="/discover/">
+                  <img id={this.props.location.pathname.includes('discover')
+                    ? '' : 'navItem'}
+                    src={this.props.location.pathname.includes('discover')
+                      ? disc : discDisb}
+                    alt=""
+                    onClick={() => {
+                      //  search
+                    }}
+                    style={{
+                      width: '121px',
+                      height: '19px',
+                      marginLeft: '5px',
+                      marginRight: '5px',
+                    }}
+                  />
                 </NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>

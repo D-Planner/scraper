@@ -9,7 +9,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
 import BucketCourse from '../components/BucketCourse';
 import { fetchBucket } from '../actions/index';
-import '../bucket.css';
+import '../style/bucket.css';
 
 let anim = false;
 const test = [{
@@ -76,7 +76,6 @@ const test = [{
 class Bucket extends React.Component {
   constructor(props) {
     super(props);
-    this.bcRef = React.createRef();
     this.state = {
       cSelected: [],
       activeTab: '1',

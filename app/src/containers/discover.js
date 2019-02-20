@@ -1,24 +1,24 @@
 import React from 'react';
 import {
-  SearchInput, Heading, Button,
+  SearchInput, Heading, Button, Text,
 } from 'evergreen-ui';
-import '../dash.css';
+import '../style/dash.css';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 import Departments from './Departments';
 import { signoutUser, fetchCourses } from '../actions/index';
-
+import scrollButton from '../style/scrollButton.png';
+import searchIcon from '../style/searchIcon.png';
 
 class Discover extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       discover: '',
       searchDirect: true,
     };
   }
-
 
   discoverButtons() {
     return (
@@ -76,6 +76,17 @@ class Discover extends React.Component {
             height={40}
             width={600}
           />
+          <img src={searchIcon}
+            alt=""
+            onClick={() => {
+              //  search
+            }}
+            style={{
+              width: '57px',
+              height: '57px',
+              marginLeft: '10px',
+            }}
+          />
         </div>
       </div>
     );
@@ -86,7 +97,34 @@ class Discover extends React.Component {
     content = (
       <div>
         {this.discover()}
-        <Departments />
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '40vh',
+        }}
+        >
+          <Text id="t1">
+Scroll to Browse Department
+          </Text>
+          <img src={scrollButton}
+            alt=""
+            onClick={() => {
+              $('html, body').animate({
+                scrollTop: $('#dptRef').offset().top,
+              }, 500);
+            }}
+            style={{
+              width: '42px',
+              height: '42px',
+              marginTop: '10px',
+            }}
+          />
+        </div>
+        <div id="dptRef">
+          <Departments id="DPT" />
+        </div>
       </div>
     );
 
