@@ -141,10 +141,10 @@ class Bucket extends React.Component {
     if (this.state.collapse) {
       content.push(<legend>Bucket</legend>);
       content.push(this.fillContent());
-      chevronID = 'chevron-right';
+      chevronID = 'chevron-left';
     } else {
       content = <div />;
-      chevronID = 'chevron-left';
+      chevronID = 'chevron-right';
     }
 
     return (
@@ -152,8 +152,7 @@ class Bucket extends React.Component {
         <TabContent activeTab={this.state.activeTab}>
           <DragDropContextProvider backend={HTML5Backend}>
             <TabPane tabId="1"
-              className="float-right"
-              style={{ paddingRight: '100px' }}
+              className="float-left"
             >
               <Card className="bucket"
                 body
