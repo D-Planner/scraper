@@ -7,9 +7,9 @@ import {
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
-import BucketCourse from './BucketCourse';
+import BucketCourse from '../components/BucketCourse';
 import { fetchBucket } from '../actions/index';
-import '../bucket.css';
+import '../style/bucket.css';
 
 let anim = false;
 const test = [{
@@ -76,7 +76,6 @@ const test = [{
 class Bucket extends React.Component {
   constructor(props) {
     super(props);
-    this.bcRef = React.createRef();
     this.state = {
       cSelected: [],
       activeTab: '1',
@@ -119,7 +118,6 @@ class Bucket extends React.Component {
 
   courseSelect(selected) {
     this.setState({ cSelected: selected });
-    // this.bcRef.current.startDrag();
   }
 
   fillContent() {
@@ -128,9 +126,7 @@ class Bucket extends React.Component {
         return (
           <BucketCourse key={course.crn}
             index={index}
-          // onChange={this.courseSelect(index)}
             dragging={(this.state.cSelected.indexOf(index) !== -1).toString()}
-          // ref={this.bcRef}
             displayText={`${course.subject}${course.number}`}
             course={course}
           />

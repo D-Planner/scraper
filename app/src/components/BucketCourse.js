@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Icon, Popover, Pane } from 'evergreen-ui';
-import '../bucket.css';
+import '../style/bucket.css';
 import {
   Button,
   ListGroupItem,
@@ -10,15 +10,12 @@ import {
 } from 'reactstrap';
 // import DragSource from './dragNdrop';
 
-export default class BucketCourse extends React.Component {
-  // eslint-disable-next-line
+export default class BucketCourse extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: this.props.index[0],
       dragging: this.props.dragging,
       displayText: this.props.displayText,
-      course: this.props.course,
     };
 
     this.startDrag = this.startDrag.bind(this);
@@ -46,74 +43,74 @@ export default class BucketCourse extends React.Component {
     return (
       <ListGroupItem>
         <ListGroupItemHeading>
-          {this.state.course.title}
+          {this.props.course.title}
           {' '}
           <Badge color="secondary">
-            {this.state.course.subject}
-            {this.state.course.number}
+            {this.props.course.subject}
+            {this.props.course.number}
           </Badge>
         </ListGroupItemHeading>
         <ListGroupItemText>
           <ul>
             <li>
               <small>Term code: </small>
-              <small>{this.state.course.term}</small>
+              <small>{this.props.course.term}</small>
             </li>
             <li>
               <small>CRN: </small>
-              <small>{this.state.course.crn}</small>
+              <small>{this.props.course.crn}</small>
             </li>
             <li>
               <small>Section: </small>
-              <small>{this.state.course.section}</small>
+              <small>{this.props.course.section}</small>
             </li>
             <li>
               <small>Xlist: </small>
-              {this.state.course.xlist.length > 0 ? <small>{this.state.course.xlist}</small> : <small>N/A</small>}
+              {this.props.course.xlist.length > 0 ? <small>{this.props.course.xlist}</small> : <small>N/A</small>}
             </li>
             <li>
               <small>WC: </small>
-              <small>{this.state.course.wc}</small>
+              <small>{this.props.course.wc}</small>
             </li>
             <li>
               <small>Distrib: </small>
-              <small>{this.state.course.distrib}</small>
+              <small>{this.props.course.distrib}</small>
             </li>
             <li>
               <small>Building: </small>
-              <small>{this.state.course.building}</small>
+              <small>{this.props.course.building}</small>
             </li>
             <li>
               <small>Room: </small>
-              <small>{this.state.course.room}</small>
+              <small>{this.props.course.room}</small>
             </li>
             <li>
               <small>Period: </small>
-              <small>{this.state.course.period}</small>
+              <small>{this.props.course.period}</small>
             </li>
             <li>
               <small>Instructor: </small>
-              <small>{this.state.course.instructor}</small>
+              <small>{this.props.course.instructor}</small>
             </li>
             <li>
               <small>Enrollment limit: </small>
-              <small>{this.state.course.enrollment_limit}</small>
+              <small>{this.props.course.enrollment_limit}</small>
             </li>
             <li>
               <small>Current enrollment: </small>
-              <small>{this.state.course.current_enrollment}</small>
+              <small>{this.props.course.current_enrollment}</small>
             </li>
             <li>
               <small>Status: </small>
-              <small>{this.state.course.status}</small>
+              <small>{this.props.course.status}</small>
             </li>
             <li>
               <small>Links: </small>
-              <Badge color="primary" href={this.state.course.description}>Description</Badge>
+              <Badge color="primary" href={this.props.course.description}>Description</Badge>
               {' '}
-              <Badge color="primary" href={this.state.course.text}>Textbook information</Badge>
+              <Badge color="primary" href={this.props.course.text}>Textbook information</Badge>
               {' '}
-              {this.state.course.learning_objective.length > 0 && <Badge color="primary" href={this.state.course.learning_objective}>Learning objective</Badge>}
+              {this.props.course.learning_objective.length > 0 && <Badge color="primary" href={this.props.course.learning_objective}>Learning objective</Badge>}
             </li>
           </ul>
         </ListGroupItemText>
@@ -136,29 +133,21 @@ export default class BucketCourse extends React.Component {
         )}
       >
         <Button className="bucketCourse"
-          onClick={() => this.props.onChange(this.state.index)}
+//          onClick={() => this.props.onChange(this.state.index[0])}
           active={!this.state.dragging}
         >
-          <div className="bcText">
-            {' '}
+          <Pane style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+          >
             {this.state.displayText}
-            {' '}
-          </div>
-          <Icon className="minus_icon" icon="small-minus" />
+            <Icon className="minus_icon" icon="small-minus" />
+          </Pane>
         </Button>
       </Popover>
     );
   }
 }
-
-
-// function renderCourseButton(x, y, [knightX, knightY]) {
-//   const black = (x + y) % 2 === 1;
-//   const isKnightHere = knightX === x && knightY === y
-//   const piece = isKnightHere ? <Knight /> : null;
-//
-//   return (
-//     <Square black={black}>
-//       {piece}
-//     </Square>
-//   );
