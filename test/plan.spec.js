@@ -13,46 +13,49 @@ const planName = 'new-plan';
 
 describe('Plans', () => {
     before((done) => {
-        // create a new user
-        request(app)
-            .post('/auth/signup')
-            .send({
-                email: 'test@example.com',
-                password: 'password',
-                username: 'test',
-            })
-            .end((err, res) => {
-                expect(res.body.token, 'Token should exist').to.exist;
-                expect(res.body.user, 'User object should exist').to.exist;
-                token = res.body.token;
-                userID = res.body.user.id;
+        // delete if this user already exists
+        User.findOneAndDelete({ email: 'test@example.com' }).then(() => {
+            // create a new user
+            request(app)
+                .post('/auth/signup')
+                .send({
+                    email: 'test@example.com',
+                    password: 'password',
+                    username: 'test',
+                })
+                .end((err, res) => {
+                    expect(res.body.token, 'Token should exist').to.exist;
+                    expect(res.body.user, 'User object should exist').to.exist;
+                    token = res.body.token;
+                    userID = res.body.user.id;
 
-                // create a plan for this user
-                const plan = {
-                    name: planName,
-                    user_id: userID,
-                    terms: [
-                        {
-                            year: 2018,
-                            quarter: 'F',
-                            off_term: false,
-                            courses: [],
-                        },
-                        {
-                            year: 2019,
-                            quarter: 'W',
-                            off_term: false,
-                            courses: [],
-                        },
-                    ],
-                };
-                PlanController.createPlanForUser(plan, userID).then((newPlan) => {
-                    planID = newPlan.id;
-                    done();
-                }).catch((err) => {
-                    expect.fail(err);
+                    // create a plan for this user
+                    const plan = {
+                        name: planName,
+                        user_id: userID,
+                        terms: [
+                            {
+                                year: 2018,
+                                quarter: 'F',
+                                off_term: false,
+                                courses: [],
+                            },
+                            {
+                                year: 2019,
+                                quarter: 'W',
+                                off_term: false,
+                                courses: [],
+                            },
+                        ],
+                    };
+                    PlanController.createPlanForUser(plan, userID).then((newPlan) => {
+                        planID = newPlan.id;
+                        done();
+                    }).catch((err) => {
+                        expect.fail(err);
+                    });
                 });
-            });
+        });
     });
 
     // delete the plan and the user
@@ -63,6 +66,7 @@ describe('Plans', () => {
             done();
         }).catch((err) => {
             expect.fail(err);
+            done();
         });
     });
 
@@ -180,6 +184,73 @@ describe('Plans', () => {
                     expect(res.status).to.equal(409);
 
                     done();
+                });
+        });
+    });
+
+    describe('#deletePlanById', () => {
+        const newPlanName = 'Newer Plan';
+        let newPlanID = '';
+
+        before((done) => {
+            const plan = {
+                name: newPlanName,
+                user_id: userID,
+                terms: [
+                    {
+                        year: 2018,
+                        quarter: 'F',
+                        off_term: false,
+                        courses: [],
+                    },
+                    {
+                        year: 2019,
+                        quarter: 'W',
+                        off_term: false,
+                        courses: [],
+                    },
+                ],
+            };
+            PlanController.createPlanForUser(plan, userID).then((newPlan) => {
+                newPlanID = newPlan.id;
+                done();
+            }).catch((err) => {
+                expect.fail(err);
+            });
+        });
+
+        it('should delete a plan that exists', (done) => {
+            request(app)
+                .delete(`/plans/${newPlanID}`)
+                .set({ Authorization: `Bearer ${token}` })
+                .end((err, res) => {
+                    expect(res.status).to.equal(200);
+
+                    Plan.findById(newPlanID).then((plan) => {
+                        console.log(plan);
+                        expect(plan).to.equal(null);
+                        done();
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                });
+        });
+
+        it('should not fail if deleting a plan whose id cannot be found', () => {
+            request(app)
+                .delete(`/plans/${newPlanID}`)
+                .set({ Authorization: `Bearer ${token}` })
+                .end((err, res) => {
+                    expect(res.status).to.equal(200);
+                });
+        });
+
+        it('should fail to delete a plan given a bad id', () => {
+            request(app)
+                .delete('/plans/somefakeid')
+                .set({ Authorization: `Bearer ${token}` })
+                .end((err, res) => {
+                    expect(res.status).to.equal(400);
                 });
         });
     });
