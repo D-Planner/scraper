@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
-import { Button, Pane, Dialog } from 'evergreen-ui';
+import {
+  Button, Pane, Dialog, Text,
+} from 'evergreen-ui';
 import { withRouter } from 'react-router-dom';
-import { Button, Pane, Text } from 'evergreen-ui';
 import { deletePlan, fetchPlan } from '../actions';
 import '../style/dplan.css';
 import Bucket from './bucket';
@@ -48,6 +49,8 @@ class DPlan extends Component {
       return (<div />);
     }
 
+    const paneHeight = '500px';
+
     return (
       <div>
         <Pane>
@@ -70,15 +73,11 @@ class DPlan extends Component {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
             marginBottom: '0px',
-            marginLeft: '30px',
-            marginRight: '30px',
             marginTop: '20px',
             height: '20px',
           }}
           >
-            <p>
-Assigned Concentrations:
-            </p>
+
             <p>
 On-Terms:
             </p>
@@ -88,71 +87,50 @@ Courses:
             <p>
 Distributive Requirements:
             </p>
-            <p>
-PE credits:
-            </p>
-            <p>
-Language Requirement:
-            </p>
           </Pane>
-          <hr />
+          <hr style={{ width: '90%' }} />
           <Pane style={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
-            marginLeft: '90px',
-            marginRight: '100px',
+            marginLeft: '50px',
+            marginRight: '50px',
+            height: { paneHeight },
           }}
           >
-            <Bucket />
-            <div style={{ width: '100%' }}>
-              <Container>
-                {this.props.plan.terms.map((year) => {
-                  return (
-                    <Row>
-                      {year.map((term) => {
-                        return (
-                          <Col xs="12" md="3" className="px-0" key={term.id}>
+            <Bucket height={paneHeight} />
+            <Container style={{
+              width: '100%',
+              height: { paneHeight },
+            }}
+            >
+              {this.props.plan.terms.map((year) => {
+                return (
+                  <Row>
+                    {year.map((term) => {
+                      return (
+                        <Col xs="12" md="3" className="px-0" key={term.id}>
                           <Term name={term.name} offTerm={term.off_term} courses={term.courses} />
                         </Col>
-                        );
-                      })}
-                    </Row>
-                  );
-                })}
-              </Container>
-            </div>
+                      );
+                    })}
+                  </Row>
+                );
+              })}
+            </Container>
           </Pane>
         </Pane>
-
-        <div style={ctnrStyle}>
-          <Pane>
-            <Dialog
-              isShown={this.state.showDialog}
-              title="Delete Plan?"
-              onConfirm={this.onDialogSubmit}
-              onCancel={this.hideDialog}
-              confirmLabel="Delete"
-              intent="danger"
-            />
-            <Button intent="danger" onClick={this.showDialog}>Delete Plan</Button>
-          </Pane>
-          <Container>
-            {this.props.plan.terms.map((year) => {
-              return (
-                <Row>
-                  {year.map((term) => {
-                    return (
-                      <Col xs="12" md="3" className="px-0" key={term.id}>
-                        <Term name={term.name} offTerm={term.off_term} courses={term.courses} />
-                      </Col>
-                    );
-                  })}
-                </Row>
-              );
-            })}
-          </Container>
-        </div>
+        <Pane>
+          <Dialog
+            isShown={this.state.showDialog}
+            title="Delete Plan?"
+            onConfirm={this.onDialogSubmit}
+            onCancel={this.hideDialog}
+            confirmLabel="Delete"
+            intent="danger"
+          />
+          <Button intent="danger" onClick={this.showDialog}>Delete Plan</Button>
+        </Pane>
       </div>
     );
   }

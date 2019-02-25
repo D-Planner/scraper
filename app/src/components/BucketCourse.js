@@ -42,13 +42,20 @@ export default class BucketCourse extends Component {
   courseInfo() {
     return (
       <ListGroupItem>
-        <ListGroupItemHeading>
+        <ListGroupItemHeading
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
           {this.props.course.title}
           {' '}
           <Badge color="secondary">
             {this.props.course.subject}
             {this.props.course.number}
           </Badge>
+          <Icon id="minus_icon" icon="small-minus" />
         </ListGroupItemHeading>
         <ListGroupItemText>
           <ul>
@@ -136,15 +143,16 @@ export default class BucketCourse extends Component {
 //          onClick={() => this.props.onChange(this.state.index[0])}
           active={!this.state.dragging}
         >
-          <Pane style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
+          <Pane id="bucketCourseTitle"
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
           >
             {this.state.displayText}
-            <Icon className="minus_icon" icon="small-minus" />
+
           </Pane>
         </Button>
       </Popover>

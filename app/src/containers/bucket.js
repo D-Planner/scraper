@@ -81,6 +81,7 @@ class Bucket extends React.Component {
       activeTab: '1',
       collapse: false,
       width: '30px',
+      height: this.props.height,
     };
     this.courseSelect = this.courseSelect.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -93,8 +94,8 @@ class Bucket extends React.Component {
   bucketAnimation() {
     if (anim) {
       if ((this.state.collapse === true)
-        && (parseInt(this.state.width, 10) < 250)) {
-        this.setState({ width: '250px' });
+        && (parseInt(this.state.width, 10) < 240)) {
+        this.setState({ width: '240px' });
       } else if ((this.state.collapse !== true)
     && (parseInt(this.state.width, 10) > 30)) {
         this.setState({ width: '30px' });
@@ -157,10 +158,9 @@ class Bucket extends React.Component {
               <Card className="bucket"
                 body
                 style={{
-                  backgroundColor: '#c0c3c6',
-                  borderColor: '#c0c3c6',
                   width: this.state.width,
-                  height: '500px',
+                  height: this.state.height,
+                  borderColor: '#ECF3FF',
                 }}
               >
                 <Icon id="chevron"

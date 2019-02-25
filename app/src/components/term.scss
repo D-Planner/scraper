@@ -1,10 +1,12 @@
 .term {
-  background-color: #DDDDDD;
+  background: #518FF5;
+  border-radius: 2px;
   height: 200px;
   margin: 16px;
 
   &.offterm {
-    background-color: #444444;
+    background: #ECF3FF;
+    border-radius: 2px;
   }
 
   .header {
