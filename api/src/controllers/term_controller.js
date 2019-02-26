@@ -13,8 +13,25 @@ const createTerm = async (term, planID) => {
     return newTerm.save();
 };
 
+const updateTerm = (req, res) => {
+    Term.findByIdAndUpdate(req.params.id, {
+        plan_id: req.body.plan_id,
+        year: req.body.year,
+        quarter: req.body.quarter,
+        off_term: req.body.off_term,
+        courses: req.body.courses,
+    }, { new: true })
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
 const TermController = {
     createTerm,
+    updateTerm,
 };
 
 export default TermController;
