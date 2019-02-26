@@ -12,10 +12,7 @@ const TermSchema = new Schema({
         enum: ['F', 'W', 'S', 'X'],
     },
     off_term: Boolean,
-    courses: [String],
-    // courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
-    // N.B. implement above once courses are stored in the db
-    // for now the ids are just arbitrary strings
+    courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
 }, {
     toJSON: {
         virtuals: true,
