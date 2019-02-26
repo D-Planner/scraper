@@ -7,7 +7,7 @@ import {
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
-import BucketCourse from '../components/BucketCourse';
+import BucketCourse from '../components/CourseElement';
 import { fetchBucket } from '../actions/index';
 import '../style/bucket.css';
 
@@ -123,16 +123,19 @@ class Bucket extends React.Component {
 
   fillContent() {
     return (
-      test.map((course, index) => {
-        return (
-          <BucketCourse key={course.crn}
-            index={index}
-            dragging={(this.state.cSelected.indexOf(index) !== -1).toString()}
-            displayText={`${course.subject}${course.number}`}
-            course={course}
-          />
-        );
-      })
+      <div style={{ width: '240px' }}>
+        {test.map((course, index) => {
+          return (
+            <BucketCourse key={course.crn}
+              index={index}
+              dragging={(this.state.cSelected.indexOf(index) !== -1).toString()}
+              displayText={`${course.subject}${course.number}`}
+              course={course}
+              offTerm
+            />
+          );
+        })}
+      </div>
     );
   }
 

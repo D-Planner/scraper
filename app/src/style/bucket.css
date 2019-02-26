@@ -3,12 +3,8 @@
   background: #ECF3FF;
 }
 
-.bucketCourse{
-  width: 200px;
-  margin-top: 5px;
-  background: #FFFFFF;
-  border-color: #FFFFFF;
-box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
+.bucketCourse:hover{
+  filter: brightness(90%);
 }
 
 #minus_icon:hover{

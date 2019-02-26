@@ -10,23 +10,15 @@ import {
 } from 'reactstrap';
 // import DragSource from './dragNdrop';
 
-export default class BucketCourse extends Component {
+export default class CourseElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dragging: this.props.dragging,
-      displayText: this.props.displayText,
+      offTerm: this.props.offTerm,
     };
 
     this.startDrag = this.startDrag.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const differentTitle = this.props.displayText
-        !== nextProps.displayText;
-    const differentDone = this.props.dragging
-        !== nextProps.dragging;
-    return differentTitle || differentDone;
   }
 
   startDrag() {
@@ -140,8 +132,21 @@ export default class BucketCourse extends Component {
         )}
       >
         <Button className="bucketCourse"
-//          onClick={() => this.props.onChange(this.state.index[0])}
           active={!this.state.dragging}
+          style={this.state.offTerm ? {
+            background: '#FFFFFF',
+            width: '80%',
+            marginTop: '5px',
+            borderColor: '#FFFFFF',
+            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.08)',
+          } : {
+            background: '#FFFFFF',
+            width: '80%',
+            marginTop: '5px',
+            borderColor: '#FFFFFF',
+            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.25)',
+          }
+          }
         >
           <Pane id="bucketCourseTitle"
             style={{
@@ -151,8 +156,13 @@ export default class BucketCourse extends Component {
               justifyContent: 'space-between',
             }}
           >
-            {this.state.displayText}
-
+            <div>
+              {this.props.course.subject}
+              {this.props.course.number}
+            </div>
+            <div>
+              {this.props.course.period}
+            </div>
           </Pane>
         </Button>
       </Popover>
