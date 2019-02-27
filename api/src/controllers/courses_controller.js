@@ -1,7 +1,7 @@
 import Course from '../models/course';
 import courses from '../services/courses.json';
 
-export const get = (req, res) => {
+const getCourses = (req, res) => {
     Course.find({})
         .then((result) => {
             res.json(result);
@@ -10,7 +10,34 @@ export const get = (req, res) => {
         });
 };
 
-export const seed = (req, res) => {
+const getCoursesByDepartment = (req, res) => {
+    Course.find({ department: req.params.department })
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
+const getCoursesByDistrib = (req, res) => {
+    Course.find({ distrib: req.params.distrib })
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
+const getCoursesByWC = (req, res) => {
+    Course.find({ wc: req.params.wc })
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
+const createCourse = (req, res) => {
     Promise.resolve(courses.map((course) => {
         return Course.create({
             name: course.title,
@@ -41,3 +68,13 @@ export const seed = (req, res) => {
         res.status(500).json({ error });
     });
 };
+
+const CoursesController = {
+    getCourses,
+    getCoursesByDepartment,
+    getCoursesByDistrib,
+    getCoursesByWC,
+    createCourse,
+};
+
+export default CoursesController;
