@@ -6,7 +6,6 @@ import {
   NavbarToggler,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -15,13 +14,9 @@ import {
 import {
   Icon,
 } from 'evergreen-ui';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { signoutUser, fetchCourses } from '../actions/index';
-import discDisb from '../style/discover_disb.png';
-import disc from '../style/discover.png';
-import planDisb from '../style/plan_disb.png';
-import plan from '../style/plan.png';
-import '../style/nav.css';
+import '../style/nav.scss';
 
 class DNav extends Component {
   constructor(props) {
@@ -38,14 +33,14 @@ class DNav extends Component {
       dropdown = (
         <div>
           <DropdownItem>
-            <NavLink href="/courses" exact>Courses</NavLink>
+            <NavLink to="/courses" exact>Courses</NavLink>
           </DropdownItem>
           <DropdownItem>
-            <NavLink href="/plans" exact>Plans</NavLink>
+            <NavLink to="/plans" exact>Plans</NavLink>
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem>
-            <NavLink href="/"
+            <NavLink to="/"
               onClick={() => this.props.signoutUser(this.props.history)}
               exact
             >
@@ -74,41 +69,13 @@ Sign out
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/dash/">
-                  <img id={this.props.location.pathname.includes('dash')
-                    ? '' : 'navItem'}
-                    src={this.props.location.pathname.includes('dash')
-                      ? plan : planDisb}
-                    alt=""
-                    onClick={() => {
-                    //  search
-                    }}
-                    style={{
-                      width: '61px',
-                      height: '17px',
-                      marginLeft: '5px',
-                      marginRight: '5px',
-                    }}
-                  />
+                <NavLink to="/" exact className="nav-link">
+                  <p>HOME</p>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/discover/">
-                  <img id={this.props.location.pathname.includes('discover')
-                    ? '' : 'navItem'}
-                    src={this.props.location.pathname.includes('discover')
-                      ? disc : discDisb}
-                    alt=""
-                    onClick={() => {
-                      //  search
-                    }}
-                    style={{
-                      width: '121px',
-                      height: '19px',
-                      marginLeft: '5px',
-                      marginRight: '5px',
-                    }}
-                  />
+                <NavLink to="/discover" className="nav-link">
+                  <p>DISCOVER</p>
                 </NavLink>
               </NavItem>
               <UncontrolledDropdown nav inNavbar>
