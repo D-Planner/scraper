@@ -9,7 +9,6 @@ const createTerm = async (term, planID) => {
         courses: term.courses.map((course) => { return course.id; }),
     });
 
-
     return newTerm.save();
 };
 
