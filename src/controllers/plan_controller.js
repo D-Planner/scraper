@@ -66,12 +66,9 @@ const sortPlan = (plan) => {
     return plan;
 };
 
-const getPlanByUserAndPlanName = async (userId, planName) => {
+const getPlanByID = async (planID) => {
     try {
-        const plan = await Plan.findOne({
-            name: planName,
-            user_id: userId,
-        });
+        const plan = await Plan.findById(planID);
 
         if (!plan) {
             throw new Error('This plan does not exist for this user');
@@ -98,7 +95,7 @@ const PlanController = {
     getPlansByUserId,
     createPlanForUser,
     sortPlan,
-    getPlanByUserAndPlanName,
+    getPlanByID,
     deletePlanById,
 };
 
