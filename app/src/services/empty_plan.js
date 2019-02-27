@@ -9,27 +9,6 @@ export const emptyPlan = {
       quarter: 'F',
       off_term: false,
       courses: [
-        {
-          id: 'randomstring1',
-          subject: 'COSC',
-          number: '1',
-          title: 'Intro Programming Computatn',
-          timeslot: '2',
-        },
-        {
-          id: 'randomstring2',
-          subject: 'MUS',
-          number: '20',
-          title: 'Intro to Music Theory',
-          timeslot: '10',
-        },
-        {
-          id: 'randomstring3',
-          subject: 'JAPN',
-          number: '1',
-          title: 'First Yr Course in Japanese',
-          timeslot: '9S',
-        },
       ],
     },
     {
