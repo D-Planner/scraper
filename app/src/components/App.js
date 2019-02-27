@@ -9,7 +9,6 @@ import Courses from '../containers/courses';
 import Dashboard from '../containers/Dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
-import Plans from '../containers/plans';
 import bucket from '../containers/bucket';
 import Discover from '../containers/discover';
 
@@ -30,7 +29,6 @@ const App = (props) => {
           <Route path="/signin" component={signIn} />
           <Route path="/bucket" component={bucket} />
           <Route path="/discover" component={Discover} />
-          <Route exact path="/plans" component={Plans} />
           <Route path="/plan/:id" component={DPlan} />
           <Route component={FallBack} />
         </Switch>

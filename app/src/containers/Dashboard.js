@@ -2,11 +2,12 @@ import React from 'react';
 import {
   Pane, Button, Dialog,
 } from 'evergreen-ui';
-import '../style/dash.css';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchPlans, createPlan } from '../actions/index';
 import { emptyPlan } from '../services/empty_plan';
+import '../style/dash.css';
+import noPlansImg from '../style/no-plans.png';
 
 
 class Dashboard extends React.Component {
@@ -58,9 +59,6 @@ class Dashboard extends React.Component {
   }
 
   renderPlans() {
-    if (this.props.plans.length <= 0) {
-      return <div />;
-    }
     return (
       <Pane className="planPane"
         style={{
@@ -69,19 +67,42 @@ class Dashboard extends React.Component {
           justifyContent: 'space-between',
         }}
       >
-        {this.props.plans.map((plan) => {
-          return (
-            <Link to={`/plan/${plan.id}`} key={plan.id}>
-              <Pane className="plan"
-                display="flex"
-                background="tint2"
-                borderRadius={3}
+        {this.props.plans.length > 0
+          ? this.props.plans.map((plan) => {
+            return (
+              <Link to={`/plan/${plan.id}`} key={plan.id}>
+                <Pane className="plan"
+                  display="flex"
+                  background="tint2"
+                  borderRadius={3}
+                >
+                  {plan.name}
+                </Pane>
+              </Link>
+            );
+          })
+          : (
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            >
+              <img src={noPlansImg} alt="No Plans" style={{ padding: '25px' }} />
+              <p style={{
+                width: '740px',
+                height: '98px',
+                fontFamily: 'Roboto',
+                fontSize: '24px',
+                textAlign: 'center',
+              }}
               >
-                {plan.name}
-              </Pane>
-            </Link>
-          );
-        })}
+                {'Oh No! Looks like you don\'t have any plans yet. Click the "New Plan" button to get started with your first plan.'}
+              </p>
+            </div>
+          )
+        }
       </Pane>
     );
   }
