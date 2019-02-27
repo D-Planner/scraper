@@ -1,30 +1,66 @@
 import React from 'react';
 import {
-  Pane, Button,
+  Pane, Button, Dialog,
 } from 'evergreen-ui';
 import '../style/dash.css';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signoutUser, fetchCourses } from '../actions/index';
+import { fetchPlans } from '../actions/index';
+import { emptyPlan } from '../services/empty_plan';
 
-const test = [{
-  title: 'ENGS mod SART draft',
-}, {
-  title: 'ENGS mod ECON?',
-}, {
-  title: 'ECON with GOV minor',
-}];
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      plans: test,
+      showDialog: false,
+      newPlanName: '',
     };
+
+    this.createNewPlan = this.createNewPlan.bind(this);
+    this.onDialogSubmit = this.onDialogSubmit.bind(this);
+    this.showDialog = this.showDialog.bind(this);
+    this.hideDialog = this.hideDialog.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
-  plans() {
+  componentWillMount() {
+    this.props.fetchPlans();
+  }
+
+  onInputChange(event) {
+    this.setState({
+      newPlanName: event.target.value,
+    });
+  }
+
+  onDialogSubmit() {
+    this.hideDialog();
+    this.createNewPlan();
+  }
+
+  createNewPlan() {
+    emptyPlan.name = this.state.newPlanName;
+    this.props.createPlan(emptyPlan, this.props.history);
+  }
+
+  showDialog() {
+    this.setState({
+      showDialog: true,
+    });
+  }
+
+  hideDialog() {
+    this.setState({
+      showDialog: false,
+    });
+  }
+
+  renderPlans() {
+    if (this.props.plans.length <= 0) {
+      return <div />;
+    }
     return (
       <Pane className="planPane"
         style={{
@@ -33,15 +69,17 @@ class Dashboard extends React.Component {
           justifyContent: 'space-between',
         }}
       >
-        {this.state.plans.map((plan) => {
+        {this.props.plans.map((plan) => {
           return (
-            <Pane className="plan"
-              display="flex"
-              background="tint2"
-              borderRadius={3}
-            >
-              {plan.title}
-            </Pane>
+            <Link to={`/plan/${plan.normalizedName}`} key={plan.id}>
+              <Pane className="plan"
+                display="flex"
+                background="tint2"
+                borderRadius={3}
+              >
+                {plan.name}
+              </Pane>
+            </Link>
           );
         })}
       </Pane>
@@ -58,6 +96,19 @@ class Dashboard extends React.Component {
           justifyContent: 'space-between',
         }}
         >
+          <Dialog
+            isShown={this.state.showDialog}
+            title="Create New Plan"
+            onConfirm={this.onDialogSubmit}
+            onCancel={this.hideDialog}
+            confirmLabel="Create"
+          >
+            <input
+              type="text"
+              placeholder="Name Your Plan"
+              onChange={this.onInputChange}
+            />
+          </Dialog>
           <h4 id="myPlans">MY PLANS</h4>
           <Button id="newPlanButton"
             height={32}
@@ -65,12 +116,10 @@ class Dashboard extends React.Component {
               margin: '30px',
             }}
           >
-            <p>
-        New Plan
-            </p>
+            New Plan
           </Button>
         </Pane>
-        {this.plans()}
+        {this.renderPlans()}
       </div>
     );
 
@@ -82,4 +131,6 @@ class Dashboard extends React.Component {
   }
 }
 
-export default withRouter(connect(null, { signoutUser, fetchCourses })(Dashboard));
+const mapStateToProps = state => ({ plans: state.plans.all });
+
+export default withRouter(connect(mapStateToProps, { fetchPlans })(Dashboard));

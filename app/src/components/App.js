@@ -2,7 +2,6 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
-import Flowchart from './flowchart';
 import Nav from '../containers/Nav';
 import signUp from '../containers/signUp';
 import signIn from '../containers/signIn';
@@ -25,12 +24,11 @@ const App = (props) => {
       <div>
         <Nav />
         <Switch>
-          <Route exact path="/" component={requireAuth(Flowchart)} />
+          <Route exact path="/" component={requireAuth(Dashboard)} />
           <Route exact path="/courses" component={requireAuth(Courses)} />
           <Route path="/signup" component={signUp} />
           <Route path="/signin" component={signIn} />
           <Route path="/bucket" component={bucket} />
-          <Route path="/dash" component={Dashboard} />
           <Route path="/discover" component={Discover} />
           <Route exact path="/plans" component={Plans} />
           <Route path="/plan/:id" component={DPlan} />
