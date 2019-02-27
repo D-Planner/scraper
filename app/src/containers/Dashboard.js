@@ -5,7 +5,7 @@ import {
 import '../style/dash.css';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPlans } from '../actions/index';
+import { fetchPlans, createPlan } from '../actions/index';
 import { emptyPlan } from '../services/empty_plan';
 
 
@@ -71,7 +71,7 @@ class Dashboard extends React.Component {
       >
         {this.props.plans.map((plan) => {
           return (
-            <Link to={`/plan/${plan.normalizedName}`} key={plan.id}>
+            <Link to={`/plan/${plan.id}`} key={plan.id}>
               <Pane className="plan"
                 display="flex"
                 background="tint2"
@@ -115,8 +115,9 @@ class Dashboard extends React.Component {
             style={{
               margin: '30px',
             }}
+            onClick={this.showDialog}
           >
-            New Plan
+            <p>New Plan</p>
           </Button>
         </Pane>
         {this.renderPlans()}
@@ -133,4 +134,4 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({ plans: state.plans.all });
 
-export default withRouter(connect(mapStateToProps, { fetchPlans })(Dashboard));
+export default withRouter(connect(mapStateToProps, { fetchPlans, createPlan })(Dashboard));

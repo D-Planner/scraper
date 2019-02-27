@@ -65,7 +65,7 @@ export function createPlan(plan, history) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
       console.log(response);
-      history.push(`/plan/${response.data.normalizedName}`);
+      history.push(`/plan/${response.data.id}`);
     }).catch((err) => {
       console.log(err);
     });
@@ -85,12 +85,12 @@ export function fetchPlans() {
   };
 }
 
-export function fetchPlan(planName) {
+export function fetchPlan(planId) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/plans/${planName}`, { headers }).then((response) => {
+    axios.get(`${ROOT_URL}/plans/${planId}`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
     }).catch((err) => {
       console.log(err);
@@ -105,7 +105,7 @@ export function deletePlan(id, history) {
   return (dispatch) => {
     axios.delete(`${ROOT_URL}/plans/${id}`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.DELETE_PLAN });
-      history.push('/plans');
+      history.push('/');
     }).catch((error) => {
       console.log(error);
     });

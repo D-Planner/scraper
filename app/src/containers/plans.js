@@ -59,7 +59,7 @@ class Plans extends Component {
       this.props.plans.map((plan) => {
         return (
           <div>
-            <Link to={`/plan/${plan.normalizedName}`} key={plan.id}>{plan.name}</Link>
+            <Link to={`/plan/${plan.id}`} key={plan.id}>{plan.name}</Link>
           </div>
         );
       })

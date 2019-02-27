@@ -13,10 +13,9 @@ plansRouter.get('/', (req, res, next) => {
     });
 });
 
-plansRouter.get('/:name', (req, res, next) => {
-    const userID = req.user.id;
-    const planName = req.params.name;
-    return PlanController.getPlanByUserAndPlanName(userID, planName).then((plan) => {
+plansRouter.get('/:id', (req, res, next) => {
+    const planID = req.params.id;
+    return PlanController.getPlanByID(planID).then((plan) => {
         res.json(plan);
     }).catch((err) => {
         next(err);
