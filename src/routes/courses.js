@@ -7,6 +7,8 @@ coursesRouter.get('/', CoursesController.getCourses);
 
 coursesRouter.post('/create', CoursesController.createCourse);
 
+coursesRouter.post('/favorite/:id', CoursesController.addFavorite);
+
 coursesRouter.get('/departments/:department', CoursesController.getCoursesByDepartment);
 
 coursesRouter.get('/distribs/:distrib', CoursesController.getCoursesByDistrib);

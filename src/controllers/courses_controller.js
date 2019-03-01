@@ -1,4 +1,5 @@
 import Course from '../models/course';
+import User from '../models/user';
 import courses from '../services/courses.json';
 
 const getCourses = (req, res) => {
@@ -69,12 +70,23 @@ const createCourse = (req, res) => {
     });
 };
 
+const addFavorite = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $push: { favorite_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
 const CoursesController = {
     getCourses,
     getCoursesByDepartment,
     getCoursesByDistrib,
     getCoursesByWC,
     createCourse,
+    addFavorite,
 };
 
 export default CoursesController;
