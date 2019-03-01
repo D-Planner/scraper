@@ -11,6 +11,15 @@ const getCourses = (req, res) => {
         });
 };
 
+const getCourse = (req, res) => {
+    Course.find({ _id: req.params.id })
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
 const getCoursesByDepartment = (req, res) => {
     Course.find({ department: req.params.department })
         .then((result) => {
@@ -31,6 +40,18 @@ const getCoursesByDistrib = (req, res) => {
 
 const getCoursesByWC = (req, res) => {
     Course.find({ wc: req.params.wc })
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
+const getCourseByName = (req, res) => {
+    Course.find(
+        { $text: { $search: req.body.query } },
+        { score: { $meta: 'textScore' } },
+    ).sort({ score: { $meta: 'textScore' } })
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -80,13 +101,27 @@ const addFavorite = (req, res) => {
     });
 };
 
+const removeFavorite = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $pull: { favorite_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
+
 const CoursesController = {
     getCourses,
+    getCourse,
     getCoursesByDepartment,
     getCoursesByDistrib,
     getCoursesByWC,
+    getCourseByName,
     createCourse,
     addFavorite,
+    removeFavorite,
 };
 
 export default CoursesController;
