@@ -36,7 +36,7 @@ class DNav extends Component {
             <NavLink to="/courses" exact>Courses</NavLink>
           </DropdownItem>
           <DropdownItem>
-            <NavLink to="/plans" exact>Plans</NavLink>
+            <NavLink to="/" exact>Plans</NavLink>
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem>
