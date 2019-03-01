@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 // configure all our sub-routers
 app.use('/auth', authRouter);
 app.use('/plans', requireAuth, plansRouter);
-app.use('/courses', coursesRouter);
+app.use('/courses', requireAuth, coursesRouter);
 
 // custom middleware for 404 errors
 app.use((req, res, next) => {
