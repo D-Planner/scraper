@@ -122,6 +122,16 @@ export function fetchCourses() {
   };
 }
 
+export function fetchBucket(userID) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/${userID}`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
 export function addToBucket(courseID) {
   return (dispatch) => {
     if (localStorage.getItem('bucket') === null) {
