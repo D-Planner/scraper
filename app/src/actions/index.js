@@ -122,12 +122,34 @@ export function fetchCourses() {
   };
 }
 
-export function fetchBucket() {
+export function fetchBucket(userID) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/bucket`).then((response) => {
+    axios.get(`${ROOT_URL}/${userID}`).then((response) => {
       dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });
+  };
+}
+
+export function addToBucket(courseID) {
+  return (dispatch) => {
+    if (localStorage.getItem('bucket') === null) {
+      const bucket = [];
+
+      localStorage.setItem('bucket', JSON.stringify(bucket));
+    }
+
+    const stored = JSON.parse(localStorage.getItem('bucket'));
+
+    const course = { id: courseID };
+
+    stored.push(course);
+
+    localStorage.setItem('bucket', JSON.stringify(stored));
+
+    const result = JSON.parse(localStorage.getItem('students'));
+
+    console.log(result);
   };
 }

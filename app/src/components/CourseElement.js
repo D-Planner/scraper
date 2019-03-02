@@ -10,23 +10,15 @@ import {
 } from 'reactstrap';
 // import DragSource from './dragNdrop';
 
-export default class BucketCourse extends Component {
+export default class CourseElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dragging: this.props.dragging,
-      displayText: this.props.displayText,
+      offTerm: this.props.offTerm,
     };
 
     this.startDrag = this.startDrag.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const differentTitle = this.props.displayText
-        !== nextProps.displayText;
-    const differentDone = this.props.dragging
-        !== nextProps.dragging;
-    return differentTitle || differentDone;
   }
 
   startDrag() {
@@ -42,13 +34,20 @@ export default class BucketCourse extends Component {
   courseInfo() {
     return (
       <ListGroupItem>
-        <ListGroupItemHeading>
+        <ListGroupItemHeading
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
           {this.props.course.title}
           {' '}
           <Badge color="secondary">
             {this.props.course.subject}
             {this.props.course.number}
           </Badge>
+          <Icon id="minus_icon" icon="small-minus" />
         </ListGroupItemHeading>
         <ListGroupItemText>
           <ul>
@@ -133,18 +132,37 @@ export default class BucketCourse extends Component {
         )}
       >
         <Button className="bucketCourse"
-//          onClick={() => this.props.onChange(this.state.index[0])}
           active={!this.state.dragging}
+          style={this.state.offTerm ? {
+            background: '#FFFFFF',
+            width: '80%',
+            marginTop: '5px',
+            borderColor: '#FFFFFF',
+            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.08)',
+          } : {
+            background: '#FFFFFF',
+            width: '80%',
+            marginTop: '5px',
+            borderColor: '#FFFFFF',
+            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.25)',
+          }
+          }
         >
-          <Pane style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
+          <Pane id="bucketCourseTitle"
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
           >
-            {this.state.displayText}
-            <Icon className="minus_icon" icon="small-minus" />
+            <div>
+              {this.props.course.subject}
+              {this.props.course.number}
+            </div>
+            <div>
+              {this.props.course.period}
+            </div>
           </Pane>
         </Button>
       </Popover>

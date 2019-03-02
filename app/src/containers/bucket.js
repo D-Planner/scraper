@@ -7,9 +7,9 @@ import {
 import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
-import BucketCourse from '../components/BucketCourse';
-import { fetchBucket } from '../actions/index';
+import BucketCourse from '../components/CourseElement';
 import '../style/bucket.css';
+import { addToBucket, fetchBucket } from '../actions/index';
 
 let anim = false;
 const test = [{
@@ -81,20 +81,20 @@ class Bucket extends React.Component {
       activeTab: '1',
       collapse: false,
       width: '30px',
+      height: this.props.height,
     };
     this.courseSelect = this.courseSelect.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
   componentWillMount() {
-    this.props.fetchBucket();
   }
 
   bucketAnimation() {
     if (anim) {
       if ((this.state.collapse === true)
-        && (parseInt(this.state.width, 10) < 250)) {
-        this.setState({ width: '250px' });
+        && (parseInt(this.state.width, 10) < 240)) {
+        this.setState({ width: '240px' });
       } else if ((this.state.collapse !== true)
     && (parseInt(this.state.width, 10) > 30)) {
         this.setState({ width: '30px' });
@@ -122,16 +122,19 @@ class Bucket extends React.Component {
 
   fillContent() {
     return (
-      test.map((course, index) => {
-        return (
-          <BucketCourse key={course.crn}
-            index={index}
-            dragging={(this.state.cSelected.indexOf(index) !== -1).toString()}
-            displayText={`${course.subject}${course.number}`}
-            course={course}
-          />
-        );
-      })
+      <div style={{ width: '240px' }}>
+        {test.map((course, index) => {
+          return (
+            <BucketCourse key={course.crn}
+              index={index}
+              dragging={(this.state.cSelected.indexOf(index) !== -1).toString()}
+              displayText={`${course.subject}${course.number}`}
+              course={course}
+              offTerm
+            />
+          );
+        })}
+      </div>
     );
   }
 
@@ -141,10 +144,10 @@ class Bucket extends React.Component {
     if (this.state.collapse) {
       content.push(<legend>Bucket</legend>);
       content.push(this.fillContent());
-      chevronID = 'chevron-right';
+      chevronID = 'chevron-left';
     } else {
       content = <div />;
-      chevronID = 'chevron-left';
+      chevronID = 'chevron-right';
     }
 
     return (
@@ -152,16 +155,14 @@ class Bucket extends React.Component {
         <TabContent activeTab={this.state.activeTab}>
           <DragDropContextProvider backend={HTML5Backend}>
             <TabPane tabId="1"
-              className="float-right"
-              style={{ paddingRight: '100px' }}
+              className="float-left"
             >
               <Card className="bucket"
                 body
                 style={{
-                  backgroundColor: '#c0c3c6',
-                  borderColor: '#c0c3c6',
                   width: this.state.width,
-                  height: '500px',
+                  height: this.state.height,
+                  borderColor: '#ECF3FF',
                 }}
               >
                 <Icon id="chevron"
@@ -185,4 +186,4 @@ const mapStateToProps = state => ({
   allCourses: state.courses.bucket,
 });
 
-export default withRouter(connect(mapStateToProps, { fetchBucket })(Bucket));
+export default withRouter(connect(mapStateToProps, { addToBucket, fetchBucket })(Bucket));
