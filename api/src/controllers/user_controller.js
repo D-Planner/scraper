@@ -44,6 +44,15 @@ export const signup = (req, res, next) => {
 // and then return a token same as you did in in signin
 };
 
+export const getUser = (req, res) => {
+    User.findOne({ _id: req.params.id })
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
 
 // encodes a new token for a user object
 function tokenForUser(user) {
