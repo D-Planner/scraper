@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const CourseSchema = new Schema({
-    name: String,
+    name: { type: String, text: true },
     department: String,
     number: Number,
     section: Number,

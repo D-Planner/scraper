@@ -5,9 +5,15 @@ const coursesRouter = Router();
 
 coursesRouter.get('/', CoursesController.getCourses);
 
+coursesRouter.get('/:id', CoursesController.getCourse);
+
+coursesRouter.post('/search', CoursesController.getCourseByName);
+
 coursesRouter.post('/create', CoursesController.createCourse);
 
-coursesRouter.post('/favorite/:id', CoursesController.addFavorite);
+coursesRouter.route('/favorites/:id')
+    .post(CoursesController.addFavorite)
+    .delete(CoursesController.removeFavorite);
 
 coursesRouter.get('/departments/:department', CoursesController.getCoursesByDepartment);
 
