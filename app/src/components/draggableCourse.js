@@ -29,26 +29,19 @@ const Course = (props) => {
     <div>
       <Popover
         content={({ close }) => (
-          <Pane
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
-          >
-            {courseInfo(props.course)}
-          </Pane>
+          courseInfo(props.course)
         )}
       >
         <Button className="bucketCourse"
           style={props.offTerm ? {
             background: '#FFFFFF',
-            width: '80%',
+            width: '100%',
             marginTop: '5px',
             borderColor: '#FFFFFF',
             boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.08)',
           } : {
             background: '#FFFFFF',
-            width: '80%',
+            width: '100%',
             marginTop: '5px',
             borderColor: '#FFFFFF',
             boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.25)',

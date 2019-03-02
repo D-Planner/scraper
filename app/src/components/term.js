@@ -26,16 +26,17 @@ const Term = (props) => {
           <span className={offButtonClass}>off</span>
         </div>
       </div>
-      <div className="content">
+      <div className="content"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+          justifyContent: 'center',
+        }}
+      >
         {props.courses.map((course) => {
           return (
-            <div className="course"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
+            <div className="course" style={{ margin: '5px' }}>
               <DraggableCourse key={course.id}
                 course={course}
                 offTerm={props.offTerm}

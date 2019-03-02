@@ -109,7 +109,7 @@ export default class Bucket extends React.Component {
 
   fillContent() {
     return (
-      <div style={{ width: '240px' }}>
+      <div style={{ width: '100%' }}>
         {this.state.test.map((course, index) => {
           return (
             <DraggableCourse key={course.crn}
