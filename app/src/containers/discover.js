@@ -94,7 +94,7 @@ class Discover extends React.Component {
 
   render() {
     let content = [];
-    content = (
+    content = this.state.searchDirect ? (
       <div>
         {this.discover()}
         <div style={{
@@ -126,7 +126,7 @@ Scroll to Browse Department
           <Departments id="DPT" />
         </div>
       </div>
-    );
+    ) : (<div />);
 
     return (
       <div>

@@ -5,6 +5,8 @@ import { Button, Dialog, Pane } from 'evergreen-ui';
 
 import { emptyPlan } from '../services/empty_plan';
 import { fetchPlans, createPlan } from '../actions';
+import noPlan from '../style/no-plan.png';
+import '../style/planPage.css';
 
 class Plans extends Component {
   constructor(props) {
@@ -70,9 +72,50 @@ class Plans extends Component {
     return (
       <div>
         {this.props.plans.length === 0
-          ? <div>{'You don\'t have any plans yet :('}</div>
+          ? (
+            <div>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+              }}
+              >
+                <img src={noPlan}
+                  alt=""
+                  style={{
+                    width: '200px',
+                    height: '200px',
+                    marginTop: '100px',
+                  }}
+                />
+                <p style={{
+                  fontFamily: 'Roboto',
+                  fontStyle: 'normal',
+                  fontWeight: 'normal',
+                  lineHeight: 'normal',
+                  fontSize: '18px',
+                  textAlign: 'center',
+                  color: '#000000',
+                  width: '350px',
+                  marginTop: '20px',
+                }}
+                >
+          Oh no! Looks like you don’t have any plans yet.
+          Click below to get started with your first plan.
+                </p>
+              </div>
+            </div>
+          )
           : <div>{this.renderPlans()}</div>}
-        <Pane>
+        <Pane style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'column',
+          marginTop: '20px',
+        }}
+        >
           <Dialog
             isShown={this.state.showDialog}
             title="Create New Plan"
@@ -86,7 +129,10 @@ class Plans extends Component {
               onChange={this.onInputChange}
             />
           </Dialog>
-          <Button color="primary" onClick={this.showDialog}>New Plan</Button>
+          <Button id="planButton" onClick={this.showDialog}>
+            {this.props.plans.length === 0
+              ? 'Start Now!' : 'New Plan' }
+          </Button>
         </Pane>
       </div>
 
