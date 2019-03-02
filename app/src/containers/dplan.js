@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Pane, Dialog } from 'evergreen-ui';
 import { withRouter } from 'react-router-dom';
-import { deletePlan, fetchPlan } from '../actions';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { deletePlan, fetchPlan, fetchBucket } from '../actions';
+import Bucket from '../components/bucket';
 
 import Term from '../components/term';
 
@@ -48,9 +51,10 @@ class DPlan extends Component {
     const ctnrStyle = {
       padding: '16px',
       backgroundColor: '#DD5555',
+      display: 'flex',
     };
     return (
-      <div style={ctnrStyle}>
+      <div className="ctx">
         <Pane>
           <Dialog
             isShown={this.state.showDialog}
@@ -62,21 +66,26 @@ class DPlan extends Component {
           />
           <Button intent="danger" onClick={this.showDialog}>Delete Plan</Button>
         </Pane>
-        <Container>
-          {this.props.plan.terms.map((year) => {
-            return (
-              <Row>
-                {year.map((term) => {
-                  return (
-                    <Col xs="12" md="3" className="px-0" key={term.id}>
-                      <Term name={term.name} offTerm={term.off_term} courses={term.courses} />
-                    </Col>
-                  );
-                })}
-              </Row>
-            );
-          })}
-        </Container>
+        <DragDropContextProvider backend={HTML5Backend}>
+          <div style={ctnrStyle}>
+            <Container>
+              {this.props.plan.terms.map((year) => {
+                return (
+                  <Row>
+                    {year.map((term) => {
+                      return (
+                        <Col xs="12" md="3" className="px-0" key={term.id}>
+                          <Term name={term.name} offTerm={term.off_term} courses={term.courses} />
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                );
+              })}
+            </Container>
+            <Bucket />
+          </div>
+        </DragDropContextProvider>
       </div>
     );
   }
@@ -84,6 +93,7 @@ class DPlan extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
+  allCourses: state.courses.bucket,
 });
 
-export default withRouter(connect(mapStateToProps, { fetchPlan, deletePlan })(DPlan));
+export default withRouter(connect(mapStateToProps, { fetchPlan, deletePlan, fetchBucket })(DPlan));

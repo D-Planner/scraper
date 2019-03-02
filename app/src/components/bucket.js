@@ -1,15 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import {
-  TabContent, TabPane, Card, Fade,
+  Card, Fade,
 } from 'reactstrap';
-import { DragDropContextProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
-import BucketCourse from '../components/BucketCourse';
-import { fetchBucket } from '../actions/index';
 import '../style/bucket.css';
+import DraggableCourse from './draggableCourse';
 
 let anim = false;
 const test = [{
@@ -73,21 +68,19 @@ const test = [{
   learning_objective: '',
 }];
 
-class Bucket extends React.Component {
+export default class Bucket extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cSelected: [],
-      activeTab: '1',
       collapse: false,
       width: '30px',
+      test,
     };
-    this.courseSelect = this.courseSelect.bind(this);
     this.toggle = this.toggle.bind(this);
   }
 
   componentWillMount() {
-    this.props.fetchBucket();
+    // this.props.fetchBucket();
   }
 
   bucketAnimation() {
@@ -116,17 +109,12 @@ class Bucket extends React.Component {
     });
   }
 
-  courseSelect(selected) {
-    this.setState({ cSelected: selected });
-  }
-
   fillContent() {
     return (
-      test.map((course, index) => {
+      this.state.test.map((course, index) => {
         return (
-          <BucketCourse key={course.crn}
+          <DraggableCourse key={course.crn}
             index={index}
-            dragging={(this.state.cSelected.indexOf(index) !== -1).toString()}
             displayText={`${course.subject}${course.number}`}
             course={course}
           />
@@ -149,40 +137,25 @@ class Bucket extends React.Component {
 
     return (
       <div>
-        <TabContent activeTab={this.state.activeTab}>
-          <DragDropContextProvider backend={HTML5Backend}>
-            <TabPane tabId="1"
-              className="float-right"
-              style={{ paddingRight: '100px' }}
-            >
-              <Card className="bucket"
-                body
-                style={{
-                  backgroundColor: '#c0c3c6',
-                  borderColor: '#c0c3c6',
-                  width: this.state.width,
-                  height: '500px',
-                }}
-              >
-                <Icon id="chevron"
-                  icon={chevronID}
-                  onClick={this.toggle}
-                  size={20}
-                />
-                <Fade in={this.state.collapse}>
-                  {content}
-                </Fade>
-              </Card>
-            </TabPane>
-          </DragDropContextProvider>
-        </TabContent>
+        <Card className="bucket"
+          body
+          style={{
+            backgroundColor: '#c0c3c6',
+            borderColor: '#c0c3c6',
+            width: this.state.width,
+            height: '500px',
+          }}
+        >
+          <Icon id="chevron"
+            icon={chevronID}
+            onClick={this.toggle}
+            size={20}
+          />
+          <Fade in={this.state.collapse}>
+            {content}
+          </Fade>
+        </Card>
       </div>
     );
   }
 }
-
-const mapStateToProps = state => ({
-  allCourses: state.courses.bucket,
-});
-
-export default withRouter(connect(mapStateToProps, { fetchBucket })(Bucket));

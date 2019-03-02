@@ -9,7 +9,7 @@ import Courses from '../containers/courses';
 import Dashboard from '../containers/Dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
-import bucket from '../containers/bucket';
+import bucket from './bucket';
 import Discover from '../containers/discover';
 
 const FallBack = (props) => {
