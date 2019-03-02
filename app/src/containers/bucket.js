@@ -8,7 +8,6 @@ import { DragDropContextProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
 import BucketCourse from '../components/CourseElement';
-import { fetchBucket } from '../actions/index';
 import '../style/bucket.css';
 
 let anim = false;
