@@ -1,11 +1,14 @@
 .term {
-  background-color: #DDDDDD;
-  height: 200px;
-  margin: 16px;
+  background: #518FF5;
+  border-radius: 2px;
+  height: 160px;
+  margin: 10px;
 
   &.offterm {
-    background-color: #444444;
+    background: #ECF3FF;
+    border-radius: 2px;
   }
+}
 
   .header {
     display: flex;
@@ -24,11 +27,6 @@
     }
   }
 
-  .course {
-    display: flex;
-    justify-content: space-between;
-    background-color: #C4C4C4;
-    padding: 2px 5px;
-    margin: 5px;
+  .offterm-toggle:hover {
+    cursor: pointer;
   }
-}

@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
+import DraggableCourse from './draggableCourse';
 
-import './term.scss';
+import '../style/term.scss';
 
 const Term = (props) => {
   const termClass = classNames({
@@ -27,15 +28,18 @@ const Term = (props) => {
       </div>
       <div className="content">
         {props.courses.map((course) => {
-          const { subject, number, timeslot } = course;
           return (
-            <div className="course" key={course.id}>
-              <div className="course-number">
-                {`${subject}${number}`}
-              </div>
-              <div className="course-timeslot">
-                {timeslot}
-              </div>
+            <div className="course"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <DraggableCourse key={course.id}
+                course={course}
+                offTerm={props.offTerm}
+              />
             </div>
           );
         })}

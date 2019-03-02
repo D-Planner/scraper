@@ -35,20 +35,41 @@ const Course = (props) => {
             justifyContent="center"
             flexDirection="column"
           >
-            {courseInfo(props.course)}
+            {courseInfo()}
           </Pane>
         )}
       >
-        <Button className="bucketCourse">
-          <Pane style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
+        <Button className="bucketCourse"
+          style={props.offTerm ? {
+            background: '#FFFFFF',
+            width: '80%',
+            marginTop: '5px',
+            borderColor: '#FFFFFF',
+            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.08)',
+          } : {
+            background: '#FFFFFF',
+            width: '80%',
+            marginTop: '5px',
+            borderColor: '#FFFFFF',
+            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.25)',
+          }
+          }
+        >
+          <Pane id="bucketCourseTitle"
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
           >
-            {props.displayText}
-            <Icon className="minus_icon" icon="small-minus" />
+            <div>
+              {props.course.subject}
+              {props.course.number}
+            </div>
+            <div>
+              {props.course.period}
+            </div>
           </Pane>
         </Button>
       </Popover>
@@ -59,13 +80,20 @@ const Course = (props) => {
 const courseInfo = (course) => {
   return (
     <ListGroupItem>
-      <ListGroupItemHeading>
+      <ListGroupItemHeading
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
         {course.title}
         {' '}
         <Badge color="secondary">
           {course.subject}
           {course.number}
         </Badge>
+        <Icon id="minus_icon" icon="small-minus" />
       </ListGroupItemHeading>
       <ListGroupItemText>
         <ul>

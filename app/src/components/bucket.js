@@ -3,8 +3,8 @@ import {
   Card, Fade,
 } from 'reactstrap';
 import { Icon } from 'evergreen-ui';
-import '../style/bucket.css';
 import DraggableCourse from './draggableCourse';
+import '../style/bucket.css';
 
 let anim = false;
 const test = [{
@@ -74,20 +74,17 @@ export default class Bucket extends React.Component {
     this.state = {
       collapse: false,
       width: '30px',
+      height: props.height,
       test,
     };
     this.toggle = this.toggle.bind(this);
   }
 
-  componentWillMount() {
-    // this.props.fetchBucket();
-  }
-
   bucketAnimation() {
     if (anim) {
       if ((this.state.collapse === true)
-        && (parseInt(this.state.width, 10) < 250)) {
-        this.setState({ width: '250px' });
+        && (parseInt(this.state.width, 10) < 240)) {
+        this.setState({ width: '240px' });
       } else if ((this.state.collapse !== true)
     && (parseInt(this.state.width, 10) > 30)) {
         this.setState({ width: '30px' });
@@ -110,16 +107,21 @@ export default class Bucket extends React.Component {
   }
 
   fillContent() {
+    console.log(this.state.test);
     return (
-      this.state.test.map((course, index) => {
-        return (
-          <DraggableCourse key={course.crn}
-            index={index}
-            displayText={`${course.subject}${course.number}`}
-            course={course}
-          />
-        );
-      })
+      <div style={{ width: '240px' }}>
+        {this.state.test.map((course, index) => {
+          console.log(course);
+          return (
+            <DraggableCourse key={course.crn}
+              index={index}
+              displayText={`${course.subject}${course.number}`}
+              course={course}
+              offTerm
+            />
+          );
+        })}
+      </div>
     );
   }
 
@@ -129,10 +131,10 @@ export default class Bucket extends React.Component {
     if (this.state.collapse) {
       content.push(<legend>Bucket</legend>);
       content.push(this.fillContent());
-      chevronID = 'chevron-right';
+      chevronID = 'chevron-left';
     } else {
       content = <div />;
-      chevronID = 'chevron-left';
+      chevronID = 'chevron-right';
     }
 
     return (
@@ -140,10 +142,9 @@ export default class Bucket extends React.Component {
         <Card className="bucket"
           body
           style={{
-            backgroundColor: '#c0c3c6',
-            borderColor: '#c0c3c6',
+            borderColor: '#ECF3FF',
             width: this.state.width,
-            height: '500px',
+            height: this.state.height,
           }}
         >
           <Icon id="chevron"
