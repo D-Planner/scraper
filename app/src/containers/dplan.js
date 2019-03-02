@@ -5,8 +5,8 @@ import {
   Button, Pane, Dialog, Text,
 } from 'evergreen-ui';
 import { withRouter } from 'react-router-dom';
-// import { DragDropContextProvider } from 'react-dnd';
-// import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContextProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { deletePlan, fetchPlan, fetchBucket } from '../actions';
 import Bucket from '../components/bucket';
 import Term from '../components/term';
@@ -166,37 +166,39 @@ Distributive Requirements:
             </p>
           </Pane>
           <hr style={{ width: '90%' }} />
-          <Pane style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginLeft: '50px',
-            marginRight: '50px',
-          }}
-            height={paneHeight}
-          >
-            <Bucket height={paneHeight} />
-            <Pane id="planPane"
+          <DragDropContextProvider backend={HTML5Backend}>
+            <Pane style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginLeft: '50px',
+              marginRight: '50px',
+            }}
               height={paneHeight}
-              style={{
-                width: '100%',
-              }}
             >
-              {this.props.plan.terms.map((year) => {
-                return (
-                  <Row>
-                    {year.map((term) => {
-                      return (
-                        <Col className="px-0" key={term.id}>
-                          <Term name={term.name} offTerm={term.off_term} courses={test} />
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                );
-              })}
+              <Bucket height={paneHeight} />
+              <Pane id="planPane"
+                height={paneHeight}
+                style={{
+                  width: '100%',
+                }}
+              >
+                {this.props.plan.terms.map((year) => {
+                  return (
+                    <Row>
+                      {year.map((term) => {
+                        return (
+                          <Col className="px-0" key={term.id}>
+                            <Term name={term.name} offTerm={term.off_term} courses={test} />
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                  );
+                })}
+              </Pane>
             </Pane>
-          </Pane>
+          </DragDropContextProvider>
         </Pane>
       </div>
     );

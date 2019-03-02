@@ -3,8 +3,9 @@ import {
   Card, Fade,
 } from 'reactstrap';
 import { Icon } from 'evergreen-ui';
-import DraggableCourse from './draggableCourse';
+// import DraggableCourse from './draggableCourse';
 import '../style/bucket.css';
+import DraggableCourse from './draggableCourse';
 
 let anim = false;
 const test = [{
@@ -107,11 +108,9 @@ export default class Bucket extends React.Component {
   }
 
   fillContent() {
-    console.log(this.state.test);
     return (
       <div style={{ width: '240px' }}>
         {this.state.test.map((course, index) => {
-          console.log(course);
           return (
             <DraggableCourse key={course.crn}
               index={index}

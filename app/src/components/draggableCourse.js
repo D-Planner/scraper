@@ -35,7 +35,7 @@ const Course = (props) => {
             justifyContent="center"
             flexDirection="column"
           >
-            {courseInfo()}
+            {courseInfo(props.course)}
           </Pane>
         )}
       >
