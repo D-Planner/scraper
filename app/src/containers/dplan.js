@@ -12,67 +12,6 @@ import Bucket from '../components/bucket';
 import Term from '../components/term';
 import '../style/dplan.css';
 
-const test = [{
-  term: 201901,
-  crn: 10452,
-  subject: 'AAAS',
-  number: 10,
-  section: 1,
-  cross_list: 'Intro African Amer Studies',
-  'text:': 'https://oracle-www.dartmouth.edu/dart/groucho/course_desc.display_non_fys_req_mat?p_term=201901\u0026p_crn=10452',
-  xlist: '',
-  period: '2A',
-  room: '107',
-  building: 'Dartmouth Hall',
-  instructor: 'Shalene Moodie',
-  wc: 'CI',
-  distirb: 'SOC',
-  enrollment_limit: 25,
-  current_enrollment: 5,
-  status: 'IP',
-  learning_objective: '',
-},
-{
-  term: 201901,
-  crn: 10199,
-  subject: 'AAAS',
-  number: 13,
-  section: 1,
-  cross_list: 'Black Amer Since Civil War',
-  'text:': 'https://oracle-www.dartmouth.edu/dart/groucho/course_desc.display_non_fys_req_mat?p_term=201901\u0026p_crn=10199',
-  xlist: 'HIST 017 01',
-  period: '2A',
-  room: 'First',
-  building: 'Cutter/Shabazz',
-  instructor: 'Derrick White',
-  wc: 'W',
-  distirb: 'SOC',
-  enrollment_limit: 36,
-  current_enrollment: 6,
-  status: 'IP',
-  learning_objective: '',
-},
-{
-  term: 201901,
-  crn: 11679,
-  subject: 'AAAS',
-  number: 14,
-  section: 1,
-  cross_list: 'PreColonial African History',
-  'text:': 'https://oracle-www.dartmouth.edu/dart/groucho/course_desc.display_non_fys_req_mat?p_term=201901\u0026p_crn=11679',
-  xlist: 'HIST 05.01 01',
-  period: '12',
-  room: 'C214',
-  building: 'Carson',
-  instructor: 'Jeremy Dell',
-  wc: 'NW',
-  distirb: 'SOC',
-  enrollment_limit: 35,
-  current_enrollment: 17,
-  status: 'IP',
-  learning_objective: '',
-}];
-
 class DPlan extends Component {
   constructor(props) {
     super(props);
@@ -111,7 +50,6 @@ class DPlan extends Component {
       return (<div />);
     }
 
-    const paneHeight = '500px';
     return (
       <div className="ctx">
         <Pane>
@@ -129,9 +67,12 @@ class DPlan extends Component {
             }}
             >
               <Text id="title">{this.props.plan.name}</Text>
-              <Button id="saveButton">
+              <Button
+                id="saveButton"
+                onClick={this.savePlan}
+              >
                 <p>
-      Save
+                  Save
                 </p>
               </Button>
             </Pane>
@@ -167,37 +108,35 @@ Distributive Requirements:
           </Pane>
           <hr style={{ width: '90%' }} />
           <DragDropContextProvider backend={HTML5Backend}>
-            <Pane style={{
+            <div style={{
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
               marginLeft: '50px',
               marginRight: '50px',
             }}
-              height={paneHeight}
             >
-              <Bucket height={paneHeight} />
-              <Pane id="planPane"
-                height={paneHeight}
+              <Bucket height="100%" />
+              <div id="plan"
                 style={{
-                  width: '100%',
+                  flexGrow: 1,
                 }}
               >
                 {this.props.plan.terms.map((year) => {
                   return (
-                    <Row>
+                    <Row style={{ minHeight: '15vh' }}>
                       {year.map((term) => {
                         return (
                           <Col className="px-0" key={term.id}>
-                            <Term name={term.name} offTerm={term.off_term} courses={test} />
+                            <Term id={term.id} name={term.name} offTerm={term.off_term} courses={[]} />
                           </Col>
                         );
                       })}
                     </Row>
                   );
                 })}
-              </Pane>
-            </Pane>
+              </div>
+            </div>
           </DragDropContextProvider>
         </Pane>
       </div>

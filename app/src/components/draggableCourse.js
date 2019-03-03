@@ -13,7 +13,8 @@ import { ItemTypes } from '../constants';
 
 const source = {
   beginDrag(props) {
-    return {};
+    console.log('Dragging... ');
+    return props.course;
   },
 };
 
