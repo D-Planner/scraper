@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import Departments from './Departments';
-import { signoutUser, fetchCourses } from '../actions/index';
+import { signoutUser, fetchCourses, courseSearch } from '../actions/index';
 import scrollButton from '../style/scrollButton.png';
 import searchIcon from '../style/searchIcon.png';
 
@@ -16,8 +16,20 @@ class Discover extends React.Component {
     super(props);
     this.state = {
       discover: '',
+      query: '',
       searchDirect: true,
     };
+
+    this.onInputChange = this.onInputChange.bind(this);
+    this.searchByName = this.searchByName.bind(this);
+  }
+
+  onInputChange(event) {
+    this.setState({ query: event.target.value });
+  }
+
+  searchByName(event) {
+    this.props.courseSearch({ query: this.state.query });
   }
 
   discoverButtons() {
@@ -72,15 +84,16 @@ class Discover extends React.Component {
         {this.discoverButtons()}
         {this.state.discover}
         <div className="box">
-          <SearchInput placeholder="Filter traits..."
+          <SearchInput
+            value={this.state.query}
+            onChange={this.onInputChange}
+            placeholder="Filter traits..."
             height={40}
             width={600}
           />
           <img src={searchIcon}
             alt=""
-            onClick={() => {
-              //  search
-            }}
+            onClick={this.searchByName}
             style={{
               width: '57px',
               height: '57px',
@@ -88,8 +101,15 @@ class Discover extends React.Component {
             }}
           />
         </div>
+        <div>
+          {this.renderSearchResults()}
+        </div>
       </div>
     );
+  }
+
+  renderSearchResults() {
+    console.log(this.props.searchResults);
   }
 
   render() {
@@ -136,4 +156,8 @@ Scroll to Browse Department
   }
 }
 
-export default withRouter(connect(null, { signoutUser, fetchCourses })(Discover));
+const mapStateToProps = state => (
+  { searchResults: state.courses.results }
+);
+
+export default withRouter(connect(mapStateToProps, { signoutUser, fetchCourses, courseSearch })(Discover));
