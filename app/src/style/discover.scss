@@ -1,0 +1,33 @@
+.search-types {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+
+    .search-type-button {
+        height: 48px;
+        margin-right: 16px;
+        font-size: 18px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .searchLink {
+        color: #000000;
+
+        &.active {
+            font-weight: bold;
+            border-bottom: 3px solid #000000;
+        }
+    }
+}
+
+.results {
+    width: 80%;
+    line-height: 40px;
+
+    .result-headers {
+        width: 100%;
+        border-bottom: 1px dashed #000000;
+        line-height: 40px;
+    }
+}

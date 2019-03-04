@@ -1,21 +1,27 @@
 import React from 'react';
 import {
-  SearchInput, Heading, Button, Text,
+  SearchInput, Button, Text,
 } from 'evergreen-ui';
+import {
+  Container, Row, Col,
+} from 'reactstrap';
 import '../style/dash.css';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import $ from 'jquery';
+import classNames from 'classnames';
 import Departments from './Departments';
 import { signoutUser, fetchCourses, courseSearch } from '../actions/index';
 import scrollButton from '../style/scrollButton.png';
-import searchIcon from '../style/searchIcon.png';
+import searchIcon from '../style/search.svg';
+import SearchResultRow from '../components/searchResultRow';
+
+import '../style/discover.scss';
 
 class Discover extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      discover: '',
       query: '',
       searchDirect: true,
     };
@@ -33,47 +39,36 @@ class Discover extends React.Component {
   }
 
   discoverButtons() {
+    const directSearch = classNames({
+      active: this.state.searchDirect,
+      searchLink: true,
+    });
+    const advancedSearch = classNames({
+      active: !this.state.searchDirect,
+      searchLink: true,
+    });
     return (
-      <div>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          marginTop: '20px',
-        }}
+      <div className="search-types">
+        <Button
+          className="search-type-button"
+          appearance="minimal"
+          intent="none"
+          onClick={() => this.setState({ searchDirect: true })}
         >
-          <Button marginRight={16}
-            appearance="minimal"
-            intent="none"
-            height={48}
-            onClick={() => this.setState({ searchDirect: true })}
-          >
-            <Heading size={500}
-              style={this.state.searchDirect ? {
-                textDecoration: 'underline',
-                fontWeight: 'bold',
-              } : {}}
-            >
-              {this.state.searchDirect}
-                  Direct Search
-            </Heading>
-          </Button>
-          <Button marginRight={16}
-            appearance="minimal"
-            intent="none"
-            height={48}
-            onClick={() => this.setState({ searchDirect: false })}
-          >
-            <Heading size={500}
-              style={!this.state.searchDirect ? {
-                textDecoration: 'underline',
-                fontWeight: 'bold',
-              } : {}}
-            >
+          <div className={directSearch}>
+            Direct Search
+          </div>
+        </Button>
+        <Button
+          className="search-type-button"
+          appearance="minimal"
+          intent="none"
+          onClick={() => this.setState({ searchDirect: false })}
+        >
+          <div className={advancedSearch}>
             Advanced Search
-            </Heading>
-          </Button>
-        </div>
+          </div>
+        </Button>
       </div>
     );
   }
@@ -82,12 +77,11 @@ class Discover extends React.Component {
     return (
       <div>
         {this.discoverButtons()}
-        {this.state.discover}
         <div className="box">
           <SearchInput
             value={this.state.query}
             onChange={this.onInputChange}
-            placeholder="Filter traits..."
+            placeholder="Search courses..."
             height={40}
             width={600}
           />
@@ -110,12 +104,28 @@ class Discover extends React.Component {
 
   renderSearchResults() {
     console.log(this.props.searchResults);
+    return (
+      <Container fluid className="results">
+        <Row className="result-headers">
+          <Col xs="2">Name</Col>
+          <Col xs="6">Description</Col>
+          <Col xs="1">Period</Col>
+          <Col xs="1">Median</Col>
+          <Col xs="2">Distributives</Col>
+        </Row>
+        {this.props.searchResults.map((course) => {
+          return (
+            <SearchResultRow course={course} key={course.id} />
+          );
+        })}
+      </Container>
+    );
   }
 
   render() {
     let content = [];
     content = this.state.searchDirect ? (
-      <div>
+      <div id="yeet">
         {this.discover()}
         <div style={{
           display: 'flex',
