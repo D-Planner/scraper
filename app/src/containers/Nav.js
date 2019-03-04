@@ -53,10 +53,10 @@ Sign out
       dropdown = (
         <div>
           <DropdownItem>
-            <NavLink href="/signin" exact>signin</NavLink>
+            <NavLink to="/signin" exact>signin</NavLink>
           </DropdownItem>
           <DropdownItem>
-            <NavLink href="/signup" exact>signup</NavLink>
+            <NavLink to="/signup" exact>signup</NavLink>
           </DropdownItem>
         </div>
       );

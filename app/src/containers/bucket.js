@@ -9,7 +9,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
 import BucketCourse from '../components/CourseElement';
 import '../style/bucket.css';
-import { addToBucket, fetchBucket } from '../actions/index';
+import { addToBucket, fetchUser } from '../actions/index';
 
 let anim = false;
 const test = [{
@@ -88,6 +88,7 @@ class Bucket extends React.Component {
   }
 
   componentWillMount() {
+    this.props.fetchUser();
   }
 
   bucketAnimation() {
@@ -123,7 +124,7 @@ class Bucket extends React.Component {
   fillContent() {
     return (
       <div style={{ width: '240px' }}>
-        {test.map((course, index) => {
+        {this.props.user.map((course, index) => {
           return (
             <BucketCourse key={course.crn}
               index={index}
@@ -183,7 +184,7 @@ class Bucket extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  allCourses: state.courses.bucket,
+  user: state.courses.user,
 });
 
-export default withRouter(connect(mapStateToProps, { addToBucket, fetchBucket })(Bucket));
+export default withRouter(connect(mapStateToProps, { addToBucket, fetchUser })(Bucket));

@@ -10,7 +10,7 @@ export const ActionTypes = {
   FETCH_PLAN: 'FETCH_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_COURSES: 'FETCH_COURSES',
-  FETCH_BUCKET: 'FETCH_BUCKET',
+  FETCH_USER: 'FETCH_USER',
 };
 
 export function authError(error) {
@@ -122,10 +122,10 @@ export function fetchCourses() {
   };
 }
 
-export function fetchBucket(userID) {
+export function fetchUser(userID) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/${userID}`).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });
