@@ -90,9 +90,15 @@ class Discover extends React.Component {
             className="search-icon"
           />
         </div>
-        <div className="results">
-          {this.renderSearchResults()}
-        </div>
+        {this.state.searchDirect
+          ? this.renderSearchResults()
+          : (
+            <div className="results-with-filters">
+              {this.renderSearchResults()}
+              {this.renderFilters()}
+            </div>
+          )
+        }
       </div>
     );
   }
@@ -100,50 +106,61 @@ class Discover extends React.Component {
   renderSearchResults() {
     console.log(this.props.searchResults);
     return (
-      <Container fluid className="results-container">
-        <div className="headers-row">
-          <Row>
-            <Col xs="2">
-              <div className="name">
-              Name
-              </div>
-            </Col>
-            <Col xs="6">
-              <div className="description">
-              Description
-              </div>
-            </Col>
-            <Col xs="1">
-              <div className="period centered">
-              Period
-              </div>
-            </Col>
-            <Col xs="1">
-              <div className="median centered">
-              Median
-              </div>
-            </Col>
-            <Col xs="2">
-              <div className="distribs centered">
-              Distributives
-              </div>
-            </Col>
-          </Row>
-        </div>
-        <div className="results-display-container">
-          {this.props.searchResults.map((course) => {
-            return (
-              <SearchResultRow course={course} key={course.id} />
-            );
-          })}
-        </div>
-      </Container>
+      <div className="results">
+        <Container fluid className="results-container">
+          <div className="headers-row">
+            <Row>
+              <Col xs="2">
+                <div className="name">
+                Name
+                </div>
+              </Col>
+              <Col xs="6">
+                <div className="description">
+                Description
+                </div>
+              </Col>
+              <Col xs="1">
+                <div className="period centered">
+                Period
+                </div>
+              </Col>
+              <Col xs="1">
+                <div className="median centered">
+                Median
+                </div>
+              </Col>
+              <Col xs="2">
+                <div className="distribs centered">
+                Distributives
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <div className="results-display-container">
+            {this.props.searchResults.map((course) => {
+              return (
+                <SearchResultRow course={course} key={course.id} />
+              );
+            })}
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
+  renderFilters() {
+    console.log(this.state);
+    return (
+      <div className="filters">
+        <p className="filters-header">Filters</p>
+        <p>To be implemented later...</p>
+      </div>
     );
   }
 
   render() {
-    let content = [];
-    content = this.state.searchDirect ? (
+    return (
       <div>
         {this.discover()}
         <div className="scroll-prompt-container">
@@ -167,12 +184,6 @@ class Discover extends React.Component {
         <div id="dptRef">
           <Departments id="DPT" />
         </div>
-      </div>
-    ) : (<div />);
-
-    return (
-      <div>
-        {content}
       </div>
     );
   }

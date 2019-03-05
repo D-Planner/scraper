@@ -58,6 +58,7 @@ $scroll-container-height: 180px;
     justify-content: center;
     line-height: $line-height;
 
+
     .results-container {
         width: 80%;
 
@@ -87,6 +88,37 @@ $scroll-container-height: 180px;
 
             overflow-y: auto;
             overflow-x: hidden;
+        }
+    }
+}
+
+.results-with-filters {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+    .results {
+        width: 90%;
+
+        .results-container {
+            width: 100%;
+            margin-left: 5%;
+        }
+    }
+
+    .filters {
+        width: 15%;
+        background-color: #F6F6F6;
+        padding: 32px;
+        margin-right: 20px;
+        font-weight: 300;
+
+        p {
+            font-size: 13px;
+
+            &.filters-header {
+                font-size: 24px;
+            }
         }
     }
 }
