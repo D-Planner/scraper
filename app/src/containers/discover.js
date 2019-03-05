@@ -128,7 +128,7 @@ class Discover extends React.Component {
               Median
               </div>
             </Col>
-            <Col xs={{ size: 1, offset: 1 }}>
+            <Col xs="2">
               <div className="distribs centered">
               Distributives
               </div>

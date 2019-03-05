@@ -161,7 +161,8 @@ export function courseSearch(query) {
     axios.post(`${ROOT_URL}/courses/search`, query, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+      // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
     }).catch((error) => {
       console.log(error);
     });

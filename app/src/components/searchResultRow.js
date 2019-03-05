@@ -45,11 +45,13 @@ const SearchResultRow = (props) => {
             {props.course.medians.length ? getMedians(props.course.medians) : 'N/A'}
           </div>
         </Col>
-        <Col xs={{ size: 1, offset: 1 }}>
+        <Col xs="1">
           <div className="distribs result-col">
             {getDistribIcon(props.course.distrib)}
-            {getWCIcon(props.course.wc)}
           </div>
+        </Col>
+        <Col xs="1" className="distribs result-col">
+          {getWCIcon(props.course.wc)}
         </Col>
       </Row>
     </div>
@@ -65,7 +67,10 @@ const getDistribIcon = (distribName) => {
   if (!distribName) {
     return (<div className="icon" />);
   }
-  return (<img src={icons[distribName.toLowerCase()]} alt={distribName} className="icon" />);
+  const distribs = distribName.split(' or ');
+  return distribs.map((distrib) => {
+    return (<img src={icons[distrib.toLowerCase()]} alt={distrib} className="icon" />);
+  });
 };
 
 const getWCIcon = (wcName) => {
