@@ -105,13 +105,35 @@ class Discover extends React.Component {
   renderSearchResults() {
     return (
       <Container fluid className="results">
-        <Row className="result-headers">
-          <Col xs="2">Name</Col>
-          <Col xs="6">Description</Col>
-          <Col xs="1">Period</Col>
-          <Col xs="1">Median</Col>
-          <Col xs={{ size: 1, offset: 1 }}>Distributives</Col>
-        </Row>
+        <div className="headers-row">
+          <Row>
+            <Col xs="2">
+              <div className="name">
+              Name
+              </div>
+            </Col>
+            <Col xs="6">
+              <div className="description">
+              Description
+              </div>
+            </Col>
+            <Col xs="1">
+              <div className="period centered">
+              Period
+              </div>
+            </Col>
+            <Col xs="1">
+              <div className="median centered">
+              Median
+              </div>
+            </Col>
+            <Col xs={{ size: 1, offset: 1 }}>
+              <div className="distribs centered">
+              Distributives
+              </div>
+            </Col>
+          </Row>
+        </div>
         {this.props.searchResults.map((course) => {
           return (
             <SearchResultRow course={course} key={course.id} />

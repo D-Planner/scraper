@@ -27,8 +27,21 @@ $line-height: 40px;
     width: 80%;
     line-height: $line-height;
 
-    .result-headers {
+    .headers-row {
         border-bottom: 1px dashed #000000;
         line-height: 40px;
+
+        .name {
+            padding-left: 8px;
+        }
+
+        .description {
+            padding-left: 8px;
+        }
+
+        .centered {
+            display: flex;
+            justify-content: center;
+        }
     }
 }
