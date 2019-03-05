@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  SearchInput, Button, Text,
+  Button, Text,
 } from 'evergreen-ui';
 import {
   Container, Row, Col,
@@ -77,22 +77,17 @@ class Discover extends React.Component {
     return (
       <div>
         {this.discoverButtons()}
-        <div className="box">
-          <SearchInput
+        <div className="search-box-container">
+          <input
             value={this.state.query}
             onChange={this.onInputChange}
             placeholder="Search courses..."
-            height={40}
-            width={600}
+            className="search-input"
           />
           <img src={searchIcon}
             alt=""
             onClick={this.searchByName}
-            style={{
-              width: '57px',
-              height: '57px',
-              marginLeft: '10px',
-            }}
+            className="search-icon"
           />
         </div>
         <div>
