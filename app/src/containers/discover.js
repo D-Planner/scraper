@@ -103,7 +103,6 @@ class Discover extends React.Component {
   }
 
   renderSearchResults() {
-    console.log(this.props.searchResults);
     return (
       <Container fluid className="results">
         <Row className="result-headers">
@@ -111,7 +110,7 @@ class Discover extends React.Component {
           <Col xs="6">Description</Col>
           <Col xs="1">Period</Col>
           <Col xs="1">Median</Col>
-          <Col xs="2">Distributives</Col>
+          <Col xs={{ size: 1, offset: 1 }}>Distributives</Col>
         </Row>
         {this.props.searchResults.map((course) => {
           return (

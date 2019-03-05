@@ -5,18 +5,38 @@ import '../style/searchResultRow.scss';
 
 const SearchResultRow = (props) => {
   return (
-    <Row>
-      <Col xs="2">{`${props.course.department} ${props.course.number}`}</Col>
-      <Col xs="6">{props.course.description}</Col>
-      <Col xs="1">{props.course.timeslot}</Col>
-      <Col xs="1">{props.course.medians.length ? calcMedian(props.course.medians) : 'N/A'}</Col>
-      <Col xs="2">
-        <div className="distribs">
-          <div>{props.course.distrib}</div>
-          <div>{props.course.wc}</div>
-        </div>
-      </Col>
-    </Row>
+    <div className="result-row">
+      <Row>
+        <Col xs="2">
+          <div className="name result-col">
+            {`${props.course.department} ${props.course.number}`}
+          </div>
+        </Col>
+        <Col xs="6">
+          <div className="description result-col">
+            <div className="description-text">
+              {props.course.description}
+            </div>
+          </div>
+        </Col>
+        <Col xs="1">
+          <div className="period result-col">
+            {props.course.timeslot}
+          </div>
+        </Col>
+        <Col xs="1">
+          <div className="median result-col">
+            {props.course.medians.length ? calcMedian(props.course.medians) : 'N/A'}
+          </div>
+        </Col>
+        <Col xs={{ size: 1, offset: 1 }}>
+          <div className="distribs result-col">
+            <div>{props.course.distrib}</div>
+            <div>{props.course.wc}</div>
+          </div>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

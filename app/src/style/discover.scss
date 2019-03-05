@@ -1,3 +1,5 @@
+$line-height: 40px;
+
 .search-types {
     display: flex;
     flex-direction: row;
@@ -23,10 +25,9 @@
 
 .results {
     width: 80%;
-    line-height: 40px;
+    line-height: $line-height;
 
     .result-headers {
-        width: 100%;
         border-bottom: 1px dashed #000000;
         line-height: 40px;
     }
