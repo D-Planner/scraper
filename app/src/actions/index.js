@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const COURSES_URL = 'https://limitless-forest-87283.herokuapp.com';
-
 export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEATH_USER',
@@ -113,8 +111,11 @@ export function deletePlan(id, history) {
 }
 
 export function fetchCourses() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
   return (dispatch) => {
-    axios.get(`${COURSES_URL}/courses`).then((response) => {
+    axios.get(`${ROOT_URL}/courses`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -122,9 +123,12 @@ export function fetchCourses() {
   };
 }
 
-export function fetchUser(userID) {
+export function fetchUser() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/${userID}`).then((response) => {
+    axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
     }).catch((error) => {
       console.log(error);
