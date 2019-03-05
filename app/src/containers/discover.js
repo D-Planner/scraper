@@ -103,6 +103,7 @@ class Discover extends React.Component {
   }
 
   renderSearchResults() {
+    console.log(this.props.searchResults);
     return (
       <Container fluid className="results">
         <div className="headers-row">
@@ -146,7 +147,7 @@ class Discover extends React.Component {
   render() {
     let content = [];
     content = this.state.searchDirect ? (
-      <div id="yeet">
+      <div>
         {this.discover()}
         <div style={{
           display: 'flex',
