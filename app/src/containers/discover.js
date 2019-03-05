@@ -90,7 +90,7 @@ class Discover extends React.Component {
             className="search-icon"
           />
         </div>
-        <div>
+        <div className="results">
           {this.renderSearchResults()}
         </div>
       </div>
@@ -100,7 +100,7 @@ class Discover extends React.Component {
   renderSearchResults() {
     console.log(this.props.searchResults);
     return (
-      <Container fluid className="results">
+      <Container fluid className="results-container">
         <div className="headers-row">
           <Row>
             <Col xs="2">
@@ -130,11 +130,13 @@ class Discover extends React.Component {
             </Col>
           </Row>
         </div>
-        {this.props.searchResults.map((course) => {
-          return (
-            <SearchResultRow course={course} key={course.id} />
-          );
-        })}
+        <div className="results-display-container">
+          {this.props.searchResults.map((course) => {
+            return (
+              <SearchResultRow course={course} key={course.id} />
+            );
+          })}
+        </div>
       </Container>
     );
   }
@@ -144,16 +146,9 @@ class Discover extends React.Component {
     content = this.state.searchDirect ? (
       <div>
         {this.discover()}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: '40vh',
-        }}
-        >
+        <div className="scroll-prompt-container">
           <Text id="t1">
-Scroll to Browse Department
+            Scroll to Browse Department
           </Text>
           <img src={scrollButton}
             alt=""

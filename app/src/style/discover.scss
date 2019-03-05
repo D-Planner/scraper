@@ -1,11 +1,19 @@
+@import './variables.scss';
+
 $line-height: 40px;
+$search-types-height: 100px;
+$search-box-container-height: 120px;
+$search-box-container-bottom-margin: 40px;
 $search-height: 50px;
+$results-header-height: 40px;
+$scroll-container-height: 180px;
 
 .search-types {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 20px;
+    align-items: center;
+    height: $search-types-height;
 
     .search-type-button {
         height: 48px;
@@ -28,7 +36,8 @@ $search-height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 40px 0 80px;
+    height: $search-box-container-height;
+    margin-bottom: $search-box-container-bottom-margin;
 
     .search-input {
         height: $search-height;
@@ -45,24 +54,47 @@ $search-height: 50px;
 }
 
 .results {
-    width: 80%;
+    display: flex;
+    justify-content: center;
     line-height: $line-height;
 
-    .headers-row {
-        border-bottom: 1px dashed #000000;
-        line-height: 40px;
+    .results-container {
+        width: 80%;
 
-        .name {
-            padding-left: 8px;
+        .headers-row {
+            border-bottom: 1px dashed #000000;
+            line-height: $results-header-height;
+            height: $results-header-height;
+    
+            .name {
+                padding-left: 8px;
+            }
+    
+            .description {
+                padding-left: 8px;
+            }
+    
+            .centered {
+                display: flex;
+                justify-content: center;
+            }
         }
 
-        .description {
-            padding-left: 8px;
-        }
+        .results-display-container {
+            height: calc(100vh 
+            - (#{$nav-height} + #{$search-types-height} + #{$search-box-container-height} + #{$search-box-container-bottom-margin} + #{$results-header-height}) 
+            - #{$scroll-container-height});
 
-        .centered {
-            display: flex;
-            justify-content: center;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
     }
+}
+
+.scroll-prompt-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: $scroll-container-height;
 }
