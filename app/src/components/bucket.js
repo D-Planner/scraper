@@ -19,10 +19,6 @@ export default class Bucket extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  componentWillMount() {
-    this.props.fetchBucket();
-  }
-
   bucketAnimation() {
     if (anim) {
       if ((this.state.collapse === true)
@@ -50,16 +46,13 @@ export default class Bucket extends React.Component {
   }
 
   fillContent() {
-    console.log(this.props.bucket);
     return (
       <div style={{ width: '100%' }}>
         {this.props.bucket.map((course, index) => {
           return (
             <DraggableCourse key={course.crn}
               index={index}
-              displayText={`${course.subject}${course.number}`}
               course={course}
-              offTerm
             />
           );
         })}

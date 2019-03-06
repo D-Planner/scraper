@@ -5,9 +5,9 @@ import {
   Button, Pane, Dialog, Text,
 } from 'evergreen-ui';
 import { withRouter } from 'react-router-dom';
-import { DragDropContextProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { deletePlan, fetchPlan, fetchBucket } from '../actions';
+import {
+  deletePlan, fetchPlan, fetchBucket, updateTerm,
+} from '../actions';
 import Bucket from '../components/bucket';
 import Term from '../components/term';
 import '../style/dplan.css';
@@ -23,14 +23,26 @@ class DPlan extends Component {
     this.onDialogSubmit = this.onDialogSubmit.bind(this);
     this.hideDialog = this.hideDialog.bind(this);
     this.showDialog = this.showDialog.bind(this);
+    this.addCourseToTerm = this.addCourseToTerm.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
+    this.props.fetchBucket();
   }
 
   onDialogSubmit() {
     this.props.deletePlan(this.props.plan.id, this.props.history);
+  }
+
+  addCourseToTerm(course, term) {
+    term.courses = term.courses.filter(c => c.id !== course.id);
+    term.courses.push(course);
+    this.props.updateTerm(term).then(() => {
+      this.props.fetchPlan(this.props.plan.id);
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   showDialog() {
@@ -95,49 +107,46 @@ class DPlan extends Component {
             height: '20px',
           }}
           >
-
             <p>
-On-Terms:
+              On-Terms:
             </p>
             <p>
-Courses:
+              Courses:
             </p>
             <p>
-Distributive Requirements:
+              Distributive Requirements:
             </p>
           </Pane>
           <hr style={{ width: '90%' }} />
-          <DragDropContextProvider backend={HTML5Backend}>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginLeft: '50px',
-              marginRight: '50px',
-            }}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: '50px',
+            marginRight: '50px',
+          }}
+          >
+            <Bucket height="100%" bucket={this.props.bucket} />
+            <div id="plan"
+              style={{
+                flexGrow: 1,
+              }}
             >
-              <Bucket height="100%" bucket={this.props.bucket} />
-              <div id="plan"
-                style={{
-                  flexGrow: 1,
-                }}
-              >
-                {this.props.plan.terms.map((year) => {
-                  return (
-                    <Row style={{ minHeight: '15vh' }}>
-                      {year.map((term) => {
-                        return (
-                          <Col className="px-0" key={term.id}>
-                            <Term id={term.id} name={term.name} offTerm={term.off_term} courses={[]} />
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  );
-                })}
-              </div>
+              {this.props.plan.terms.map((year) => {
+                return (
+                  <Row style={{ minHeight: '15vh' }} key={year[0].id}>
+                    {year.map((term) => {
+                      return (
+                        <Col xs="3" className="px-0" key={term.id}>
+                          <Term term={term} addCourseToTerm={this.addCourseToTerm} />
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                );
+              })}
             </div>
-          </DragDropContextProvider>
+          </div>
         </Pane>
       </div>
     );
@@ -149,4 +158,6 @@ const mapStateToProps = state => ({
   bucket: state.courses.bucket,
 });
 
-export default withRouter(connect(mapStateToProps, { fetchPlan, deletePlan, fetchBucket })(DPlan));
+export default withRouter(connect(mapStateToProps, {
+  fetchPlan, deletePlan, fetchBucket, updateTerm,
+})(DPlan));

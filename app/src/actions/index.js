@@ -158,7 +158,6 @@ export function fetchBucket() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/courses/favorite`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
-      console.log(response.data);
     }).catch((error) => {
       console.log(error);
     });
@@ -185,6 +184,16 @@ export function courseSearch(query) {
       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
     }).catch((error) => {
       console.log(error);
+    });
+  };
+}
+
+export function updateTerm(term) {
+  return (dispatch) => {
+    return axios.put(`${ROOT_URL}/terms/${term.id}`, term, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).catch((err) => {
+      console.log(err);
     });
   };
 }

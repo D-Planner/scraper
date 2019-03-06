@@ -7,12 +7,14 @@ import '../style/term.scss';
 import { ItemTypes } from '../constants';
 
 const termTarget = {
-  drop: (targetProps, monitor) => {
-    console.log(monitor.getItem());
-    return {};
-  },
-  hover: (targetProps, monitor) => {
-    return {};
+  drop: (props, monitor) => {
+    if (props.term.off_term) {
+      return;
+    }
+
+    console.log('wtf');
+    const draggedCourse = monitor.getItem();
+    props.addCourseToTerm(draggedCourse, props.term);
   },
 };
 
@@ -25,22 +27,22 @@ const collect = (connect, monitor) => {
 const Term = (props) => {
   const termClass = classNames({
     term: true,
-    offterm: props.offTerm,
+    offterm: props.term.off_term,
     width: '100%',
     height: '100%',
   });
   const onButtonClass = classNames({
     'toggle-button': true,
-    active: !props.offTerm,
+    active: !props.term.off_term,
   });
   const offButtonClass = classNames({
     'toggle-button': true,
-    active: props.offTerm,
+    active: props.term.off_term,
   });
   return props.connectDropTarget(
     <div className={termClass}>
       <div className="header">
-        <div>{props.name}</div>
+        <div>{props.term.name}</div>
         <div className="offterm-toggle">
           <span className={onButtonClass}>on</span>
           <span className={offButtonClass}>off</span>
@@ -54,12 +56,13 @@ const Term = (props) => {
           justifyContent: 'center',
         }}
       >
-        {props.courses.map((course) => {
+        {props.term.courses.map((course) => {
+          console.log(course);
           return (
             <div className="course" style={{ margin: '5px' }} key={course.id}>
               <DraggableCourse
                 course={course}
-                offTerm={props.offTerm}
+                offTerm={props.term.off_term}
               />
             </div>
           );

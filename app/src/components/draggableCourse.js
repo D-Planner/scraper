@@ -58,11 +58,11 @@ const Course = (props) => {
             }}
           >
             <div>
-              {props.course.subject}
+              {props.course.department}
               {props.course.number}
             </div>
             <div>
-              {props.course.period}
+              {props.course.timeslot}
             </div>
           </Pane>
         </Button>
@@ -159,11 +159,3 @@ const courseInfo = (course) => {
 
 // eslint-disable-next-line new-cap
 export default DraggableCourse(ItemTypes.COURSE, source, collect)(Course);
-
-//   shouldComponentUpdate(nextProps) {
-//     const differentTitle = this.props.displayText
-//         !== nextProps.displayText;
-//     const differentDone = this.props.dragging
-//         !== nextProps.dragging;
-//     return differentTitle || differentDone;
-//   }

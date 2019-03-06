@@ -2,6 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import Nav from '../containers/Nav';
 import signUp from '../containers/signUp';
 import signIn from '../containers/signIn';
@@ -37,4 +39,5 @@ const App = (props) => {
   );
 };
 
-export default App;
+// eslint-disable-next-line new-cap
+export default DragDropContext(HTML5Backend)(App);
