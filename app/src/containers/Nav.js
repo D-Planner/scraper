@@ -64,7 +64,7 @@ Sign out
 
     return (
       <div>
-        <Navbar color="light" light expand="md">
+        <Navbar color="light" light expand="md" className="nav">
           <NavbarToggler />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

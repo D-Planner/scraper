@@ -1,30 +1,36 @@
-img {
-  image-rendering: -moz-crisp-edges;
-   image-rendering: -webkit-crisp-edges;
-   image-rendering: pixelated;
-   image-rendering: crisp-edges;
-}
+@import './variables.scss';
 
-#navItem:hover {
-  cursor: pointer;
-  filter: brightness(150%);
-}
+.nav {
+    height: $nav-height;
 
-.active > p {
-    background-image: linear-gradient(to right, #FFFFFF, #8901FB);
-    color: rgba(58, 132, 255, 0.5);
-    background-clip: text;
-}
+    img {
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-crisp-edges;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+    }
 
-.nav-link {
-    color: #574966;
-    line-height: inherit;
-    font-size: 16pt;
-    font-weight: bold;
-    margin-left: 5px;
-    margin-right: 5px;
+    #navItem:hover {
+        cursor: pointer;
+        filter: brightness(150%);
+    }
 
-    p {
-        margin: 0;
+    .active > p {
+        background-image: linear-gradient(to right, #FFFFFF, #8901FB);
+        color: rgba(58, 132, 255, 0.4);
+        background-clip: text;
+    }
+
+    .nav-link {
+        color: #574966;
+        line-height: inherit;
+        font-size: 16pt;
+        font-weight: bold;
+        margin-left: 5px;
+        margin-right: 5px;
+
+        p {
+            margin: 0;
+        }
     }
 }
