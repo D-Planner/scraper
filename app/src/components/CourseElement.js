@@ -8,7 +8,6 @@ import {
   ListGroupItemText,
   Badge,
 } from 'reactstrap';
-// import DragSource from './dragNdrop';
 
 export default class CourseElement extends Component {
   constructor(props) {

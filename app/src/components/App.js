@@ -2,6 +2,8 @@ import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import Nav from '../containers/Nav';
 import signUp from '../containers/signUp';
 import signIn from '../containers/signIn';
@@ -9,7 +11,7 @@ import Courses from '../containers/courses';
 import Dashboard from '../containers/Dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
-import bucket from '../containers/bucket';
+import bucket from './bucket';
 import Discover from '../containers/discover';
 
 const FallBack = (props) => {
@@ -37,4 +39,5 @@ const App = (props) => {
   );
 };
 
-export default App;
+// eslint-disable-next-line new-cap
+export default DragDropContext(HTML5Backend)(App);
