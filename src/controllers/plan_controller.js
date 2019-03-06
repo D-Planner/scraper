@@ -74,9 +74,14 @@ const getPlanByID = async (planID) => {
             throw new Error('This plan does not exist for this user');
         }
 
-        await plan.populate('terms').execPopulate();
+        const populated = await plan.populate({
+            path: 'terms',
+            populate: {
+                path: 'courses',
+            },
+        }).execPopulate();
 
-        return sortPlan(plan.toJSON());
+        return sortPlan(populated.toJSON());
     } catch (e) {
         throw e;
     }
