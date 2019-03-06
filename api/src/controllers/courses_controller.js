@@ -93,7 +93,7 @@ const createCourse = (req, res) => {
 
 const addFavorite = (req, res) => {
     User.findByIdAndUpdate(req.user.id, {
-        $push: { favorite_courses: req.params.id },
+        $addToSet: { favorite_courses: req.params.id },
     }, { new: true }).then((result) => {
         res.json(result);
     }).catch((error) => {
@@ -111,6 +111,49 @@ const removeFavorite = (req, res) => {
     });
 };
 
+const getFavorite = (req, res) => {
+    User.findOne({ _id: req.user.id })
+        .populate({ path: 'favorite_courses', model: 'Course' })
+        .exec()
+        .then((result) => {
+            res.json(result.favorite_courses);
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
+const addCompleted = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $push: { completed_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
+const removeCompleted = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $pull: { completed_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
+const getCompleted = (req, res) => {
+    User.findOne({ _id: req.params.id })
+        .populate({ path: 'completed_courses', model: 'Course' })
+        .exec()
+        .then((result) => {
+            res.json(result.completed_courses);
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+};
 
 const CoursesController = {
     getCourses,
@@ -120,8 +163,12 @@ const CoursesController = {
     getCoursesByWC,
     getCourseByName,
     createCourse,
+    getFavorite,
     addFavorite,
     removeFavorite,
+    addCompleted,
+    removeCompleted,
+    getCompleted,
 };
 
 export default CoursesController;

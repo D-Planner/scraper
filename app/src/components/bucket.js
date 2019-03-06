@@ -3,71 +3,10 @@ import {
   Card, Fade,
 } from 'reactstrap';
 import { Icon } from 'evergreen-ui';
-// import DraggableCourse from './draggableCourse';
-import '../style/bucket.css';
 import DraggableCourse from './draggableCourse';
+import '../style/bucket.css';
 
 let anim = false;
-const test = [{
-  term: 201901,
-  crn: 10452,
-  subject: 'AAAS',
-  number: 10,
-  section: 1,
-  cross_list: 'Intro African Amer Studies',
-  'text:': 'https://oracle-www.dartmouth.edu/dart/groucho/course_desc.display_non_fys_req_mat?p_term=201901\u0026p_crn=10452',
-  xlist: '',
-  period: '2A',
-  room: '107',
-  building: 'Dartmouth Hall',
-  instructor: 'Shalene Moodie',
-  wc: 'CI',
-  distirb: 'SOC',
-  enrollment_limit: 25,
-  current_enrollment: 5,
-  status: 'IP',
-  learning_objective: '',
-},
-{
-  term: 201901,
-  crn: 10199,
-  subject: 'AAAS',
-  number: 13,
-  section: 1,
-  cross_list: 'Black Amer Since Civil War',
-  'text:': 'https://oracle-www.dartmouth.edu/dart/groucho/course_desc.display_non_fys_req_mat?p_term=201901\u0026p_crn=10199',
-  xlist: 'HIST 017 01',
-  period: '2A',
-  room: 'First',
-  building: 'Cutter/Shabazz',
-  instructor: 'Derrick White',
-  wc: 'W',
-  distirb: 'SOC',
-  enrollment_limit: 36,
-  current_enrollment: 6,
-  status: 'IP',
-  learning_objective: '',
-},
-{
-  term: 201901,
-  crn: 11679,
-  subject: 'AAAS',
-  number: 14,
-  section: 1,
-  cross_list: 'PreColonial African History',
-  'text:': 'https://oracle-www.dartmouth.edu/dart/groucho/course_desc.display_non_fys_req_mat?p_term=201901\u0026p_crn=11679',
-  xlist: 'HIST 05.01 01',
-  period: '12',
-  room: 'C214',
-  building: 'Carson',
-  instructor: 'Jeremy Dell',
-  wc: 'NW',
-  distirb: 'SOC',
-  enrollment_limit: 35,
-  current_enrollment: 17,
-  status: 'IP',
-  learning_objective: '',
-}];
 
 export default class Bucket extends React.Component {
   constructor(props) {
@@ -76,9 +15,12 @@ export default class Bucket extends React.Component {
       collapse: false,
       width: '30px',
       height: props.height,
-      test,
     };
     this.toggle = this.toggle.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchBucket();
   }
 
   bucketAnimation() {
@@ -108,9 +50,10 @@ export default class Bucket extends React.Component {
   }
 
   fillContent() {
+    console.log(this.props.bucket);
     return (
       <div style={{ width: '100%' }}>
-        {this.state.test.map((course, index) => {
+        {this.props.bucket.map((course, index) => {
           return (
             <DraggableCourse key={course.crn}
               index={index}

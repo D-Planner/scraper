@@ -116,7 +116,7 @@ Distributive Requirements:
               marginRight: '50px',
             }}
             >
-              <Bucket height="100%" />
+              <Bucket height="100%" bucket={this.props.bucket} />
               <div id="plan"
                 style={{
                   flexGrow: 1,
@@ -146,7 +146,7 @@ Distributive Requirements:
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
-  allCourses: state.courses.bucket,
+  bucket: state.courses.bucket,
 });
 
 export default withRouter(connect(mapStateToProps, { fetchPlan, deletePlan, fetchBucket })(DPlan));

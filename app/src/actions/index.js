@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const COURSES_URL = 'https://limitless-forest-87283.herokuapp.com';
-
 export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEATH_USER',
@@ -9,8 +7,10 @@ export const ActionTypes = {
   FETCH_PLANS: 'FETCH_PLANS',
   FETCH_PLAN: 'FETCH_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
+  FETCH_USER: 'FETCH_USER',
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BUCKET: 'FETCH_BUCKET',
+  COURSE_SEARCH: 'COURSE_SEARCH',
 };
 
 export function authError(error) {
@@ -113,8 +113,11 @@ export function deletePlan(id, history) {
 }
 
 export function fetchCourses() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
   return (dispatch) => {
-    axios.get(`${COURSES_URL}/courses`).then((response) => {
+    axios.get(`${ROOT_URL}/courses`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -122,34 +125,66 @@ export function fetchCourses() {
   };
 }
 
-export function fetchBucket(userID) {
+export function fetchCourse(id) { // NOTE: not set up in reducer yet because it's not used
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/${userID}`).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
+    axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });
   };
 }
 
-export function addToBucket(courseID) {
+export function fetchUser() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
   return (dispatch) => {
-    if (localStorage.getItem('bucket') === null) {
-      const bucket = [];
+    axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
 
-      localStorage.setItem('bucket', JSON.stringify(bucket));
-    }
+export function fetchBucket() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/courses/favorite`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
+      console.log(response.data);
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
 
-    const stored = JSON.parse(localStorage.getItem('bucket'));
+export function addCourseToFavorites(courseID) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/courses/favorite/${courseID}`, {}, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
 
-    const course = { id: courseID };
 
-    stored.push(course);
-
-    localStorage.setItem('bucket', JSON.stringify(stored));
-
-    const result = JSON.parse(localStorage.getItem('students'));
-
-    console.log(result);
+export function courseSearch(query) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/courses/search`, query, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 }

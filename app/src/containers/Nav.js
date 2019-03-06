@@ -53,10 +53,10 @@ Sign out
       dropdown = (
         <div>
           <DropdownItem>
-            <NavLink href="/signin" exact>signin</NavLink>
+            <NavLink to="/signin" exact>signin</NavLink>
           </DropdownItem>
           <DropdownItem>
-            <NavLink href="/signup" exact>signup</NavLink>
+            <NavLink to="/signup" exact>signup</NavLink>
           </DropdownItem>
         </div>
       );
@@ -64,7 +64,7 @@ Sign out
 
     return (
       <div>
-        <Navbar color="light" light expand="md">
+        <Navbar color="light" light expand="md" className="nav">
           <NavbarToggler />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
