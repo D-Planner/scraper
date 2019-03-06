@@ -7,13 +7,10 @@ export const ActionTypes = {
   FETCH_PLANS: 'FETCH_PLANS',
   FETCH_PLAN: 'FETCH_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
-  FETCH_COURSES: 'FETCH_COURSES',
-<<<<<<< HEAD
   FETCH_USER: 'FETCH_USER',
-=======
+  FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BUCKET: 'FETCH_BUCKET',
   COURSE_SEARCH: 'COURSE_SEARCH',
->>>>>>> master
 };
 
 export function authError(error) {
