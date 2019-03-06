@@ -14,7 +14,7 @@ import Term from '../components/term';
 const test = [{
   term: 201901,
   crn: 10452,
-  subject: 'AAAS',
+  department: 'AAAS',
   number: 10,
   section: 1,
   cross_list: 'Intro African Amer Studies',
@@ -34,7 +34,7 @@ const test = [{
 {
   term: 201901,
   crn: 10199,
-  subject: 'AAAS',
+  department: 'AAAS',
   number: 13,
   section: 1,
   cross_list: 'Black Amer Since Civil War',
@@ -54,7 +54,7 @@ const test = [{
 {
   term: 201901,
   crn: 11679,
-  subject: 'AAAS',
+  department: 'AAAS',
   number: 14,
   section: 1,
   cross_list: 'PreColonial African History',
