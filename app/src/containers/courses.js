@@ -24,7 +24,6 @@ class Courses extends Component {
   }
 
   renderCourses() {
-    console.log(this.props.allCourses);
     return (
       this.props.allCourses.map((course) => {
         return (
