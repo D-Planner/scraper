@@ -11,6 +11,7 @@ export const ActionTypes = {
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BUCKET: 'FETCH_BUCKET',
+  COURSE_SEARCH: 'COURSE_SEARCH',
 };
 
 export function authError(error) {
@@ -151,5 +152,19 @@ export function addToBucket(courseID) {
     const result = JSON.parse(localStorage.getItem('students'));
 
     console.log(result);
+  };
+}
+
+
+export function courseSearch(query) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/courses/search`, query, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 }
