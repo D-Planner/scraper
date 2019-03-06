@@ -112,7 +112,7 @@ const removeFavorite = (req, res) => {
 };
 
 const getFavorite = (req, res) => {
-    User.findOne({ _id: req.params.id })
+    User.findOne({ _id: req.user.id })
         .populate({ path: 'favorite_courses', model: 'Course' })
         .exec()
         .then((result) => {

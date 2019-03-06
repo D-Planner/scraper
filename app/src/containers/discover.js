@@ -12,7 +12,7 @@ import $ from 'jquery';
 import classNames from 'classnames';
 import Departments from './Departments';
 import {
-  signoutUser, fetchCourses, courseSearch, addCourseToFavorites,
+  courseSearch, addCourseToFavorites,
 } from '../actions/index';
 import scrollButton from '../style/scrollButton.png';
 import searchIcon from '../style/search.svg';
@@ -26,6 +26,7 @@ class Discover extends React.Component {
     this.state = {
       query: '',
       searchDirect: true,
+      displayingResults: false,
     };
 
     this.onInputChange = this.onInputChange.bind(this);
@@ -39,6 +40,9 @@ class Discover extends React.Component {
 
   searchByName(event) {
     this.props.courseSearch({ query: this.state.query });
+    this.setState({
+      displayingResults: true,
+    });
   }
 
   addCourseToFavorites(courseID) {
@@ -111,49 +115,54 @@ class Discover extends React.Component {
   }
 
   renderSearchResults() {
-    console.log(this.props.searchResults);
-    return (
-      <div className="results">
-        <Container fluid className="results-container">
-          <div className="headers-row">
-            <Row>
-              <Col xs="2">
-                <div className="name">
-                Name
-                </div>
-              </Col>
-              <Col xs="6">
-                <div className="description">
-                Description
-                </div>
-              </Col>
-              <Col xs="1">
-                <div className="period centered">
-                Period
-                </div>
-              </Col>
-              <Col xs="1">
-                <div className="median centered">
-                Median
-                </div>
-              </Col>
-              <Col xs="2">
-                <div className="distribs centered">
-                Distributives
-                </div>
-              </Col>
-            </Row>
-          </div>
-          <div className="results-display-container">
-            {this.props.searchResults.map((course) => {
-              return (
-                <SearchResultRow course={course} key={course.id} id={course.id} addCourseToFavorites={this.addCourseToFavorites} />
-              );
-            })}
-          </div>
-        </Container>
-      </div>
-    );
+    if (this.state.displayingResults && this.props.searchResults.length) {
+      return (
+        <div className="results">
+          <Container fluid className="results-container">
+            <div className="headers-row">
+              <Row>
+                <Col xs="2">
+                  <div className="name">
+                      Name
+                  </div>
+                </Col>
+                <Col xs="6">
+                  <div className="description">
+                      Description
+                  </div>
+                </Col>
+                <Col xs="1">
+                  <div className="period centered">
+                      Period
+                  </div>
+                </Col>
+                <Col xs="1">
+                  <div className="median centered">
+                      Median
+                  </div>
+                </Col>
+                <Col xs="2">
+                  <div className="distribs centered">
+                      Distributives
+                  </div>
+                </Col>
+              </Row>
+            </div>
+            <div className="results-display-container">
+              {this.props.searchResults.map((course) => {
+                return (
+                  <SearchResultRow course={course} key={course.id} id={course.id} addCourseToFavorites={this.addCourseToFavorites} />
+                );
+              })}
+            </div>
+          </Container>
+        </div>
+      );
+    } else if (this.state.displayingResults) {
+      return <div className="no-results">No results :(</div>;
+    } else {
+      return <div />;
+    }
   }
 
   renderFilters() {
@@ -170,27 +179,34 @@ class Discover extends React.Component {
     return (
       <div>
         {this.discover()}
-        <div className="scroll-prompt-container">
-          <Text id="t1">
-            Scroll to Browse Department
-          </Text>
-          <img src={scrollButton}
-            alt=""
-            onClick={() => {
-              $('html, body').animate({
-                scrollTop: $('#dptRef').offset().top,
-              }, 500);
-            }}
-            style={{
-              width: '42px',
-              height: '42px',
-              marginTop: '10px',
-            }}
-          />
-        </div>
-        <div id="dptRef">
-          <Departments id="DPT" />
-        </div>
+        {this.state.displayingResults
+          ? <div /> // don't show the scroll arrow if displaying results
+          : (
+            <div>
+              <div className="scroll-prompt-container">
+                <Text id="t1">
+                  Scroll to Browse Department
+                </Text>
+                <img src={scrollButton}
+                  alt=""
+                  onClick={() => {
+                    $('html, body').animate({
+                      scrollTop: $('#dptRef').offset().top,
+                    }, 500);
+                  }}
+                  style={{
+                    width: '42px',
+                    height: '42px',
+                    marginTop: '10px',
+                  }}
+                />
+              </div>
+              <div id="dptRef">
+                <Departments id="DPT" />
+              </div>
+            </div>
+          )
+        }
       </div>
     );
   }
@@ -201,5 +217,5 @@ const mapStateToProps = state => (
 );
 
 export default withRouter(connect(mapStateToProps, {
-  signoutUser, fetchCourses, courseSearch, addCourseToFavorites,
+  courseSearch, addCourseToFavorites,
 })(Discover));
