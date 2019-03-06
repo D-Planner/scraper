@@ -14,7 +14,7 @@ import { ItemTypes } from '../constants';
 const source = {
   beginDrag(props) {
     console.log('Dragging... ');
-    return props.course;
+    return { course: props.course, fromBucket: props.inBucket };
   },
 };
 

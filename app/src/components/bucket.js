@@ -53,6 +53,7 @@ export default class Bucket extends React.Component {
             <DraggableCourse key={course.crn}
               index={index}
               course={course}
+              inBucket
             />
           );
         })}

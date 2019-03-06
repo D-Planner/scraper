@@ -8,13 +8,12 @@ import { ItemTypes } from '../constants';
 
 const termTarget = {
   drop: (props, monitor) => {
-    if (props.term.off_term) {
+    const item = monitor.getItem();
+    if (props.term.off_term || !item.fromBucket) {
       return;
     }
 
-    console.log('wtf');
-    const draggedCourse = monitor.getItem();
-    props.addCourseToTerm(draggedCourse, props.term);
+    props.addCourseToTerm(item.course, props.term);
   },
 };
 
@@ -63,6 +62,7 @@ const Term = (props) => {
               <DraggableCourse
                 course={course}
                 offTerm={props.term.off_term}
+                inBucket={false}
               />
             </div>
           );
