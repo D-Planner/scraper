@@ -45,9 +45,18 @@ export const signup = (req, res, next) => {
 };
 
 export const getUser = (req, res) => {
-    User.findOne({ _id: req.params.id })
+    let userID;
+    if (req.params.id) {
+        userID = req.params.id;
+    } else {
+        userID = req.user.id;
+    }
+
+    User.findById(userID)
         .then((result) => {
-            res.json(result);
+            const json = result.toJSON();
+            delete json.password;
+            res.json(json);
         }).catch((error) => {
             res.status(500).json({ error });
         });
