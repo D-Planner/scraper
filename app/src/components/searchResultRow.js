@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
+import plusIcon from '../style/plus.svg';
 
 import '../style/searchResultRow.scss';
 
@@ -25,7 +26,16 @@ const SearchResultRow = (props) => {
       <Row>
         <Col xs="2">
           <div className="name result-col">
-            {`${props.course.department} ${props.course.number}`}
+            <div className="name-text">
+              {`${props.course.department} ${props.course.number}`}
+            </div>
+            <button
+              type="button"
+              onClick={() => props.addCourseToFavorites(props.id)}
+              className="add-course-button"
+            >
+              <img src={plusIcon} alt="add" />
+            </button>
           </div>
         </Col>
         <Col xs="6">
@@ -69,7 +79,7 @@ const getDistribIcon = (distribName) => {
   }
   const distribs = distribName.split(' or ');
   return distribs.map((distrib) => {
-    return (<img src={icons[distrib.toLowerCase()]} alt={distrib} className="icon" />);
+    return (<img key={distrib} src={icons[distrib.toLowerCase()]} alt={distrib} className="icon" />);
   });
 };
 

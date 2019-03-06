@@ -93,7 +93,7 @@ const createCourse = (req, res) => {
 
 const addFavorite = (req, res) => {
     User.findByIdAndUpdate(req.user.id, {
-        $push: { favorite_courses: req.params.id },
+        $addToSet: { favorite_courses: req.params.id },
     }, { new: true }).then((result) => {
         res.json(result);
     }).catch((error) => {

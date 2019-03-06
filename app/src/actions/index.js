@@ -133,25 +133,13 @@ export function fetchBucket(userID) {
   };
 }
 
-export function addToBucket(courseID) {
+export function addCourseToFavorites(courseID) {
   return (dispatch) => {
-    if (localStorage.getItem('bucket') === null) {
-      const bucket = [];
-
-      localStorage.setItem('bucket', JSON.stringify(bucket));
-    }
-
-    const stored = JSON.parse(localStorage.getItem('bucket'));
-
-    const course = { id: courseID };
-
-    stored.push(course);
-
-    localStorage.setItem('bucket', JSON.stringify(stored));
-
-    const result = JSON.parse(localStorage.getItem('students'));
-
-    console.log(result);
+    axios.post(`${ROOT_URL}/courses/favorite/${courseID}`, {}, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 }
 
