@@ -24,20 +24,25 @@ class Courses extends Component {
   }
 
   renderCourses() {
+    console.log(this.props.allCourses);
     return (
       this.props.allCourses.map((course) => {
         return (
           <ListGroupItem>
             <ListGroupItemHeading>
-              {course.title}
+              {course.name}
               {' '}
               <Badge color="secondary">
-                {course.subject}
+                {course.department}
                 {course.number}
               </Badge>
             </ListGroupItemHeading>
             <ListGroupItemText>
               <ul>
+                <li>
+                  <small>Description: </small>
+                  <small>{course.description}</small>
+                </li>
                 <li>
                   <small>Term code: </small>
                   <small>{course.term}</small>
@@ -72,11 +77,11 @@ class Courses extends Component {
                 </li>
                 <li>
                   <small>Period: </small>
-                  <small>{course.period}</small>
+                  <small>{course.terms_offered ? course.terms_offered.join(', ') : 'Unknown'}</small>
                 </li>
                 <li>
                   <small>Instructor: </small>
-                  <small>{course.instructor}</small>
+                  <small>{course.professors ? course.professors.join(', ') : 'Unknown'}</small>
                 </li>
                 <li>
                   <small>Enrollment limit: </small>
@@ -89,14 +94,6 @@ class Courses extends Component {
                 <li>
                   <small>Status: </small>
                   <small>{course.status}</small>
-                </li>
-                <li>
-                  <small>Links: </small>
-                  <Badge color="primary" href={course.description}>Description</Badge>
-                  {' '}
-                  <Badge color="primary" href={course.text}>Textbook information</Badge>
-                  {' '}
-                  {course.learning_objective.length > 0 && <Badge color="primary" href={course.learning_objective}>Learning objective</Badge>}
                 </li>
               </ul>
             </ListGroupItemText>
