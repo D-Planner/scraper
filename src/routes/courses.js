@@ -3,16 +3,13 @@ import CoursesController from '../controllers/courses_controller';
 
 const coursesRouter = Router();
 
-coursesRouter.get('/', CoursesController.getCourses);
-
-coursesRouter.get('/:id', CoursesController.getCourse);
-
 coursesRouter.post('/search', CoursesController.getCourseByName);
 
 coursesRouter.post('/create', CoursesController.createCourse);
 
+coursesRouter.get('/favorite', CoursesController.getFavorite);
+
 coursesRouter.route('/favorite/:id')
-    .get(CoursesController.getFavorite)
     .post(CoursesController.addFavorite)
     .delete(CoursesController.removeFavorite);
 
@@ -26,5 +23,10 @@ coursesRouter.get('/departments/:department', CoursesController.getCoursesByDepa
 coursesRouter.get('/distribs/:distrib', CoursesController.getCoursesByDistrib);
 
 coursesRouter.get('/wcs/:wc', CoursesController.getCoursesByWC);
+
+coursesRouter.get('/:id', CoursesController.getCourse);
+
+coursesRouter.get('/', CoursesController.getCourses);
+
 
 export default coursesRouter;
