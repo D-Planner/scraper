@@ -11,7 +11,9 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import classNames from 'classnames';
 import Departments from './Departments';
-import { signoutUser, fetchCourses, courseSearch } from '../actions/index';
+import {
+  signoutUser, fetchCourses, courseSearch, addCourseToFavorites,
+} from '../actions/index';
 import scrollButton from '../style/scrollButton.png';
 import searchIcon from '../style/search.svg';
 import SearchResultRow from '../components/searchResultRow';
@@ -28,6 +30,7 @@ class Discover extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.searchByName = this.searchByName.bind(this);
+    this.addCourseToFavorites = this.addCourseToFavorites.bind(this);
   }
 
   onInputChange(event) {
@@ -36,6 +39,10 @@ class Discover extends React.Component {
 
   searchByName(event) {
     this.props.courseSearch({ query: this.state.query });
+  }
+
+  addCourseToFavorites(courseID) {
+    this.props.addCourseToFavorites(courseID);
   }
 
   discoverButtons() {
@@ -140,7 +147,7 @@ class Discover extends React.Component {
           <div className="results-display-container">
             {this.props.searchResults.map((course) => {
               return (
-                <SearchResultRow course={course} key={course.id} />
+                <SearchResultRow course={course} key={course.id} id={course.id} addCourseToFavorites={this.addCourseToFavorites} />
               );
             })}
           </div>
@@ -193,4 +200,6 @@ const mapStateToProps = state => (
   { searchResults: state.courses.results }
 );
 
-export default withRouter(connect(mapStateToProps, { signoutUser, fetchCourses, courseSearch })(Discover));
+export default withRouter(connect(mapStateToProps, {
+  signoutUser, fetchCourses, courseSearch, addCourseToFavorites,
+})(Discover));

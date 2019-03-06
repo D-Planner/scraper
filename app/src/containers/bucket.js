@@ -9,7 +9,11 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { Icon } from 'evergreen-ui';
 import BucketCourse from '../components/CourseElement';
 import '../style/bucket.css';
+<<<<<<< HEAD
 import { addToBucket, fetchUser } from '../actions/index';
+=======
+import { fetchBucket } from '../actions/index';
+>>>>>>> master
 
 let anim = false;
 
@@ -127,4 +131,8 @@ const mapStateToProps = state => ({
   user: state.user.all,
 });
 
+<<<<<<< HEAD
 export default withRouter(connect(mapStateToProps, { addToBucket, fetchUser })(Bucket));
+=======
+export default withRouter(connect(mapStateToProps, { fetchBucket })(Bucket));
+>>>>>>> master
