@@ -125,6 +125,19 @@ export function fetchCourses() {
   };
 }
 
+export function fetchCourse(id) { // NOTE: not set up in reducer yet because it's not used
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
 export function fetchUser() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -132,6 +145,20 @@ export function fetchUser() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
+export function fetchBucket() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/courses/favorite`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
+      console.log(response.data);
     }).catch((error) => {
       console.log(error);
     });

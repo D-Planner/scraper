@@ -44,7 +44,7 @@ export default class CourseElement extends Component {
           {this.props.course.title}
           {' '}
           <Badge color="secondary">
-            {this.props.course.subject}
+            {this.props.course.department}
             {this.props.course.number}
           </Badge>
           <Icon id="minus_icon" icon="small-minus" />
@@ -85,15 +85,15 @@ export default class CourseElement extends Component {
             </li>
             <li>
               <small>Period: </small>
-              <small>{this.props.course.period}</small>
+              <small>{this.props.course.timeslot}</small>
             </li>
             <li>
               <small>Instructor: </small>
-              <small>{this.props.course.instructor}</small>
+              <small>{this.props.course.professors}</small>
             </li>
             <li>
               <small>Enrollment limit: </small>
-              <small>{this.props.course.enrollment_limit}</small>
+              <small>{this.props.course.enroll_limit}</small>
             </li>
             <li>
               <small>Current enrollment: </small>
@@ -109,7 +109,6 @@ export default class CourseElement extends Component {
               {' '}
               <Badge color="primary" href={this.props.course.text}>Textbook information</Badge>
               {' '}
-              {this.props.course.learning_objective.length > 0 && <Badge color="primary" href={this.props.course.learning_objective}>Learning objective</Badge>}
             </li>
           </ul>
         </ListGroupItemText>
@@ -157,11 +156,11 @@ export default class CourseElement extends Component {
             }}
           >
             <div>
-              {this.props.course.subject}
+              {this.props.course.department}
               {this.props.course.number}
             </div>
             <div>
-              {this.props.course.period}
+              {this.props.course.timeslot}
             </div>
           </Pane>
         </Button>
