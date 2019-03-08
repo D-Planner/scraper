@@ -1,6 +1,6 @@
 import Course from '../models/course';
 import User from '../models/user';
-import courses from '../services/courses.json';
+import courses from '../../static/data/courses.json';
 
 const getCourses = (req, res) => {
     Course.find({})
