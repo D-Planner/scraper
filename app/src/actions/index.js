@@ -20,7 +20,7 @@ export function authError(error) {
   };
 }
 
-const ROOT_URL = 'http://localhost:9090';
+const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
 
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
