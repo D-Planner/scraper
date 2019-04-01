@@ -4,7 +4,7 @@ import {
 } from 'reactstrap';
 import { Icon } from 'evergreen-ui';
 import DraggableCourse from '../draggableCourse/draggableCourse';
-import './bucket.css';
+import './bucket.scss';
 
 let anim = false;
 

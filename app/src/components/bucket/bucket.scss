@@ -1,0 +1,31 @@
+.bucket {
+  transition: width 100ms ease-in-out;
+  background: #ECF3FF;
+}
+
+.bucketCourse {
+    &:hover{
+        filter: brightness(90%);
+    }
+}
+
+#minus_icon {
+    &:hover{
+        color: gray;
+    }
+}
+
+#chevron{
+    &:hover{
+        color: white;
+    }
+}
+
+#bucketCourseTitle {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 14px;
+    color: #000000;
+}
