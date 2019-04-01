@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Popover, Pane } from 'evergreen-ui';
-import '../../style/bucket.css';
+import '../bucket/bucket.css';
 import {
   Button,
   ListGroupItem,
