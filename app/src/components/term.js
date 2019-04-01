@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
-import DraggableCourse from './draggableCourse';
+import DraggableCourse from './draggableCourse/draggableCourse';
 
 import '../style/term.scss';
 import { ItemTypes } from '../constants';

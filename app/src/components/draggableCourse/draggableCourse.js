@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Popover, Pane } from 'evergreen-ui';
-import '../style/bucket.css';
+import '../../style/bucket.css';
 import {
   Button,
   ListGroupItem,
@@ -9,7 +9,7 @@ import {
   Badge,
 } from 'reactstrap';
 import { DragSource as DraggableCourse } from 'react-dnd';
-import { ItemTypes } from '../constants';
+import { ItemTypes } from '../../constants';
 
 const source = {
   beginDrag(props) {

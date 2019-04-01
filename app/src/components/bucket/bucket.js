@@ -3,7 +3,7 @@ import {
   Card, Fade,
 } from 'reactstrap';
 import { Icon } from 'evergreen-ui';
-import DraggableCourse from '../draggableCourse';
+import DraggableCourse from '../draggableCourse/draggableCourse';
 import '../../style/bucket.css';
 
 let anim = false;
