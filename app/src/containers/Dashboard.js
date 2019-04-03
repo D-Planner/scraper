@@ -60,24 +60,12 @@ class Dashboard extends React.Component {
 
   renderPlans() {
     return (
-      <Pane className="planPane"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
+      <div>
         {this.props.plans.length > 0
           ? this.props.plans.map((plan) => {
             return (
               <Link to={`/plan/${plan.id}`} key={plan.id}>
-                <Pane className="plan"
-                  display="flex"
-                  background="tint2"
-                  borderRadius={3}
-                >
-                  {plan.name}
-                </Pane>
+                <div>{plan.name}</div>
               </Link>
             );
           })
@@ -103,7 +91,7 @@ class Dashboard extends React.Component {
             </div>
           )
         }
-      </Pane>
+      </div>
     );
   }
 
@@ -153,6 +141,8 @@ class Dashboard extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ plans: state.plans.all });
+const mapStateToProps = state => ({
+  plans: state.plans.all,
+});
 
 export default withRouter(connect(mapStateToProps, { fetchPlans, createPlan })(Dashboard));
