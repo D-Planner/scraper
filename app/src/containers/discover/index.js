@@ -3,22 +3,22 @@ import {
   Button, Text,
 } from 'evergreen-ui';
 import {
-  Container, Row, Col,
+  Container,
 } from 'reactstrap';
-import './dashboard/dashboard.scss';
+import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import classNames from 'classnames';
-import Departments from './departments/departments';
+import Departments from '../departments/departments';
 import {
   courseSearch, addCourseToFavorites,
-} from '../actions/index';
-import scrollButton from '../style/scrollButton.png';
-import searchIcon from '../style/search.svg';
-import SearchResultRow from '../components/searchResultRow';
+} from '../../actions/index';
+import scrollButton from '../../style/scrollButton.png';
+import searchIcon from '../../style/search.svg';
+import SearchResultRow from '../../components/searchResultRow';
 
-import '../style/discover.scss';
+import './discover.scss';
 
 class Discover extends React.Component {
   constructor(props) {
@@ -120,33 +120,21 @@ class Discover extends React.Component {
         <div className="results">
           <Container fluid className="results-container">
             <div className="headers-row">
-              <Row>
-                <Col xs="2">
-                  <div className="name">
-                      Name
-                  </div>
-                </Col>
-                <Col xs="6">
-                  <div className="description">
-                      Description
-                  </div>
-                </Col>
-                <Col xs="1">
-                  <div className="period centered">
-                      Period
-                  </div>
-                </Col>
-                <Col xs="1">
-                  <div className="median centered">
-                      Median
-                  </div>
-                </Col>
-                <Col xs="2">
-                  <div className="distribs centered">
-                      Distributives
-                  </div>
-                </Col>
-              </Row>
+              <div className="name headers-col">
+                  Name
+              </div>
+              <div className="description headers-col">
+                  Description
+              </div>
+              <div className="period headers-col centered">
+                  Period
+              </div>
+              <div className="median headers-col centered">
+                  Median
+              </div>
+              <div className="distribs headers-col centered">
+                  Distributives
+              </div>
             </div>
             <div className="results-display-container">
               {this.props.searchResults.map((course) => {
