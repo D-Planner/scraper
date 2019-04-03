@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchPlans, createPlan } from '../../actions/index';
 import { emptyPlan } from '../../services/empty_plan';
+import Modal from '../../components/modal/modal';
 import './dashboard.scss';
 import noPlansImg from '../../style/no-plans.png';
 
@@ -11,14 +12,14 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      showDialog: false,
+      show: false,
       newPlanName: '',
     };
 
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
-    this.onDialogSubmit = this.onDialogSubmit.bind(this);
-    this.showDialog = this.showDialog.bind(this);
-    this.hideDialog = this.hideDialog.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
   }
 
@@ -32,82 +33,64 @@ class Dashboard extends React.Component {
     });
   }
 
-  onDialogSubmit() {
-    this.hideDialog();
-    this.createNewPlan();
+  handleSubmit(event) {
+    this.hideModal(event);
+    this.createNewPlan(event);
   }
 
-  createNewPlan() {
+  createNewPlan(event) {
     emptyPlan.name = this.state.newPlanName;
     this.props.createPlan(emptyPlan, this.props.history);
   }
 
-  showDialog() {
+  showModal(event) {
     this.setState({
-      showDialog: true,
+      show: true,
     });
   }
 
-  hideDialog() {
+  hideModal(event) {
     this.setState({
-      showDialog: false,
+      show: false,
     });
-  }
-
-  renderPlans() {
-    return (
-      <div>
-        {this.props.plans.length > 0
-          ? this.props.plans.map((plan) => {
-            return (
-              <Link to={`/plan/${plan.id}`} key={plan.id}>
-                <div>{plan.name}</div>
-              </Link>
-            );
-          })
-          : (
-            <div>
-              <img src={noPlansImg} alt="No Plans" />
-              <p>
-                {'Oh No! Looks like you don\'t have any plans yet. Click the "New Plan" button to get started with your first plan.'}
-              </p>
-            </div>
-          )
-        }
-      </div>
-    );
   }
 
   render() {
-    let content = [];
-    content = (
-      <div>
-        <div>
-          <div
-            isShown={this.state.showDialog}
-            title="Create New Plan"
-            onConfirm={this.onDialogSubmit}
-            onCancel={this.hideDialog}
-            confirmLabel="Create"
-          >
-            <input
-              type="text"
-              placeholder="Name Your Plan"
-              onChange={this.onInputChange}
-            />
-          </div>
-          <h4 id="myPlans">MY PLANS</h4>
-          <button type="button" id="newPlanButton" onClick={this.showDialog}>
-            <p>New Plan</p>
-          </button>
-        </div>
-        {this.renderPlans()}
-      </div>
-    );
-
     return (
       <div>
-        {content}
+        {this.props.plans.length > 0 ? this.props.plans.map((plan) => {
+          return (
+            <div>
+              <Modal show={this.state.show} handleClose={this.handleSubmit} text="Create">
+                <p>Name your new plan</p>
+                <input type="text" onChange={this.onInputChange} />
+              </Modal>
+              <button type="button" onClick={this.showModal}>
+                <p>New Plan</p>
+              </button>
+              <Link to={`/plan/${plan.id}`} key={plan.id}>
+                <div>{plan.name}</div>
+              </Link>
+            </div>
+          );
+        }) : (
+          <div>
+            <h1>My Plans</h1>
+            <Modal show={this.state.show} handleClose={this.handleSubmit} text="Create">
+              <p>Name your new plan</p>
+              <input type="text" onChange={this.onInputChange} />
+            </Modal>
+            <div className="image-container"><img src={noPlansImg} alt="No Plans" /></div>
+            <div className="text-container">
+              <p>Oh No! Looks like you don&#39;t have any plans yet. Click the below to get started with your first plan.</p>
+            </div>
+            <div className="button-container">
+              <button type="button" onClick={this.showModal}>
+                <p>Let&#39;s do it!</p>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
