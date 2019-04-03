@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import '../../style/variables.scss';
 
 $line-height: 40px;
 $search-types-height: 100px;
@@ -72,18 +72,37 @@ $scroll-container-height: 180px;
             border-bottom: 1px dashed #000000;
             line-height: $results-header-height;
             height: $results-header-height;
+            display: flex;
+            flex-direction: row;
+
+            .headers-col {
+                margin: 0 1%;
+
+                &.name {
+                    width: 10%;
+                }
+        
+                &.description {
+                    width: 50%;
+                }
     
-            .name {
-                padding-left: 8px;
-            }
+                &.period {
+                    width: 5%;
+                }
     
-            .description {
-                padding-left: 8px;
-            }
+                &.median {
+                    width: 5%;
+                }
     
-            .centered {
-                display: flex;
-                justify-content: center;
+                &.distribs {
+                    width: 10%;
+                    margin-left: 10%;
+                }
+        
+                &.centered {
+                    display: flex;
+                    justify-content: center;
+                }
             }
         }
 
