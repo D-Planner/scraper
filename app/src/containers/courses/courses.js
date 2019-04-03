@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchCourses } from '../actions';
+import { fetchCourses } from '../../actions';
 
 class Courses extends Component {
   constructor(props) {

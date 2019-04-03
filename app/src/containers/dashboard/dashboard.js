@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  Pane, Button, Dialog,
-} from 'evergreen-ui';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPlans, createPlan } from '../actions/index';
-import { emptyPlan } from '../services/empty_plan';
-import '../style/dash.css';
-import noPlansImg from '../style/no-plans.png';
-
+import { fetchPlans, createPlan } from '../../actions/index';
+import { emptyPlan } from '../../services/empty_plan';
+import './dashboard.scss';
+import noPlansImg from '../../style/no-plans.png';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -70,22 +66,9 @@ class Dashboard extends React.Component {
             );
           })
           : (
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            >
-              <img src={noPlansImg} alt="No Plans" style={{ padding: '25px' }} />
-              <p style={{
-                width: '740px',
-                height: '98px',
-                fontFamily: 'Roboto',
-                fontSize: '24px',
-                textAlign: 'center',
-              }}
-              >
+            <div>
+              <img src={noPlansImg} alt="No Plans" />
+              <p>
                 {'Oh No! Looks like you don\'t have any plans yet. Click the "New Plan" button to get started with your first plan.'}
               </p>
             </div>
@@ -99,13 +82,8 @@ class Dashboard extends React.Component {
     let content = [];
     content = (
       <div>
-        <Pane style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-        >
-          <Dialog
+        <div>
+          <div
             isShown={this.state.showDialog}
             title="Create New Plan"
             onConfirm={this.onDialogSubmit}
@@ -117,18 +95,12 @@ class Dashboard extends React.Component {
               placeholder="Name Your Plan"
               onChange={this.onInputChange}
             />
-          </Dialog>
+          </div>
           <h4 id="myPlans">MY PLANS</h4>
-          <Button id="newPlanButton"
-            height={32}
-            style={{
-              margin: '30px',
-            }}
-            onClick={this.showDialog}
-          >
+          <button type="button" id="newPlanButton" onClick={this.showDialog}>
             <p>New Plan</p>
-          </Button>
-        </Pane>
+          </button>
+        </div>
         {this.renderPlans()}
       </div>
     );
