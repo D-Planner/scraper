@@ -5,12 +5,12 @@ import {
 import {
   Container,
 } from 'reactstrap';
-import '../../style/dash.css';
+import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import classNames from 'classnames';
-import Departments from '../Departments';
+import Departments from '../departments/departments';
 import {
   courseSearch, addCourseToFavorites,
 } from '../../actions/index';

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, Dialog, Pane } from 'evergreen-ui';
-
-import { emptyPlan } from '../services/empty_plan';
-import { fetchPlans, createPlan } from '../actions';
-import noPlan from '../style/no-plan.png';
-import '../style/planPage.css';
+import { emptyPlan } from '../../services/empty_plan';
+import { fetchPlans, createPlan } from '../../actions';
+import noPlan from '../../style/no-plan.png';
+import './plans.scss';
 
 class Plans extends Component {
   constructor(props) {
@@ -74,49 +72,15 @@ class Plans extends Component {
         {this.props.plans.length === 0
           ? (
             <div>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-              }}
-              >
-                <img src={noPlan}
-                  alt=""
-                  style={{
-                    width: '200px',
-                    height: '200px',
-                    marginTop: '100px',
-                  }}
-                />
-                <p style={{
-                  fontFamily: 'Roboto',
-                  fontStyle: 'normal',
-                  fontWeight: 'normal',
-                  lineHeight: 'normal',
-                  fontSize: '18px',
-                  textAlign: 'center',
-                  color: '#000000',
-                  width: '350px',
-                  marginTop: '20px',
-                }}
-                >
-          Oh no! Looks like you don’t have any plans yet.
-          Click below to get started with your first plan.
-                </p>
+              <div className="container">
+                <img src={noPlan} alt="" />
+                <p>Oh no! Looks like you don’t have any plans yet. Click below to get started with your first plan.</p>
               </div>
             </div>
           )
           : <div>{this.renderPlans()}</div>}
-        <Pane style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          marginTop: '20px',
-        }}
-        >
-          <Dialog
+        <div className="pane">
+          <div
             isShown={this.state.showDialog}
             title="Create New Plan"
             onConfirm={this.onDialogSubmit}
@@ -128,19 +92,19 @@ class Plans extends Component {
               placeholder="Name Your Plan"
               onChange={this.onInputChange}
             />
-          </Dialog>
-          <Button id="planButton" onClick={this.showDialog}>
+          </div>
+          <button type="button" id="planButton" onClick={this.showDialog}>
             {this.props.plans.length === 0
               ? 'Start Now!' : 'New Plan' }
-          </Button>
-        </Pane>
+          </button>
+        </div>
       </div>
-
-
     );
   }
 }
 
-const mapStateToProps = state => ({ plans: state.plans.all });
+const mapStateToProps = state => ({
+  plans: state.plans.all,
+});
 
 export default withRouter(connect(mapStateToProps, { fetchPlans, createPlan })(Plans));

@@ -5,10 +5,10 @@ import {
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Nav from '../containers/Nav';
-import signUp from '../containers/signUp';
-import signIn from '../containers/signIn';
-import Courses from '../containers/courses';
-import Dashboard from '../containers/Dashboard';
+import signUp from '../containers/signUp/signUp';
+import signIn from '../containers/signIn/signIn';
+import Courses from '../containers/courses/courses';
+import Dashboard from '../containers/dashboard/dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
 import bucket from './bucket/bucket';

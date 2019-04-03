@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { signinUser } from '../actions';
+import { signinUser } from '../../actions';
+import './signIn.scss';
 
 class signIn extends Component {
   constructor(props) {

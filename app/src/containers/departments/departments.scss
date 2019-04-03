@@ -27,6 +27,9 @@ hr {
 #dptText{
   font-weight: lighter;
   font-size: 0.9em;
+  display: 'flex';
+  flex-direction: 'column';
+  justify-content: 'space-between';
 }
 
 #dptTitle {
@@ -42,4 +45,13 @@ hr {
   display: 'flex';
   flex-wrap: 'wrap';
   width: 400px;
+}
+
+.row {
+  width: '1200px'
+}
+
+.container {
+  margin-top: '20vh';
+  margin-bottom: '20vh';
 }
