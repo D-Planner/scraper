@@ -1,8 +1,7 @@
 import React from 'react';
-import { Heading, Text, Pane } from 'evergreen-ui';
-import {} from 'reactstrap';
-import '../style/departments.css';
+import './departments.scss';
 
+// We should move this to our API
 const test = [{
   category: 'Arts & Humanities',
   departments: ['Art History', 'Classics', 'English and Creative Writing',
@@ -74,49 +73,35 @@ export default class Departments extends React.Component {
 
   department() {
     return (
-      <Pane className="row" style={{ width: '1200px' }}>
+      <div className="row">
         {this.state.dptGroups.map((group) => {
           return (
-            <Pane
-              id="dptGroup"
-            >
-              <Pane id="dpt">
-                <Text className="row" id="dptTitle">
+            <div id="dptGroup">
+              <div id="dpt">
+                <p className="row" id="dptTitle">
                   {group.category}
-                </Text>
+                </p>
                 {group.departments.map((dpt) => {
                   return (
-                    <Text id="dptText"
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      {dpt}
-                    </Text>
+                    <p id="dptText">{dpt}</p>
                   );
                 })}
-              </Pane>
-            </Pane>
+              </div>
+            </div>
           );
         })}
-      </Pane>
+      </div>
     );
   }
 
   render() {
     return (
-      <div style={{
-        marginTop: '20vh',
-        marginBottom: '20vh',
-      }}
-      >
-        <Heading id="title" size={800} marginTop="default">
+      <div className="container">
+        <h1 id="title">
       DEPARTMENTS
-        </Heading>
+        </h1>
         <hr />
-        <Text id="sub">Pinned</Text>
+        <p id="sub">Pinned</p>
         {this.department()}
       </div>
     );
