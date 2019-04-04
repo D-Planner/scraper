@@ -27,8 +27,6 @@ const Term = (props) => {
   const termClass = classNames({
     term: true,
     offterm: props.term.off_term,
-    width: '100%',
-    height: '100%',
   });
   const onButtonClass = classNames({
     'toggle-button': true,
@@ -47,18 +45,11 @@ const Term = (props) => {
           <span className={offButtonClass}>off</span>
         </div>
       </div>
-      <div className="content"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'stretch',
-          justifyContent: 'center',
-        }}
-      >
+      <div className="term-content">
         {props.term.courses.map((course) => {
           console.log(course);
           return (
-            <div className="course" style={{ margin: '5px' }} key={course.id}>
+            <div className="course" key={course.id}>
               <DraggableCourse
                 course={course}
                 offTerm={props.term.off_term}
