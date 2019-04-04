@@ -6,24 +6,35 @@ $blue-primary: #518FF5;
 $blue-secondary: #ECF3FF;
 $white: #FFFFFF;
 
+
 h1 {
   font-family: $font-secondary;
   color: $purple;
   font-weight: bold;
-  font-size: 36px;
   text-transform: uppercase;
+  margin: 2.5%;
 }
 
 .image-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 2.5%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  margin-bottom: 5%;
+
+  img {
+    width: 25%;
+    height: auto;
+  }
 }
 
 .text-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 2.5%;
 
   p {
     width: 50%;

@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import Nav from '../containers/Nav';
+import Nav from '../containers/nav/nav';
 import signUp from '../containers/signUp/signUp';
 import signIn from '../containers/signIn/signIn';
 import Courses from '../containers/courses/courses';
@@ -22,7 +22,7 @@ const FallBack = (props) => {
 const App = (props) => {
   return (
     <Router>
-      <div>
+      <div className="app-container">
         <Nav />
         <Switch>
           <Route exact path="/" component={requireAuth(Dashboard)} />

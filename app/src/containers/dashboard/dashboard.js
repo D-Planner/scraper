@@ -57,17 +57,20 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="dashboard-container">
         {this.props.plans.length > 0 ? this.props.plans.map((plan) => {
           return (
             <div>
+              <h1>My Plans</h1>
               <Modal show={this.state.show} handleClose={this.handleSubmit} text="Create">
                 <p>Name your new plan</p>
                 <input type="text" onChange={this.onInputChange} />
               </Modal>
-              <button type="button" onClick={this.showModal}>
-                <p>New Plan</p>
-              </button>
+              <div className="button-container">
+                <button type="button" onClick={this.showModal}>
+                  <p>New Plan</p>
+                </button>
+              </div>
               <Link to={`/plan/${plan.id}`} key={plan.id}>
                 <div>{plan.name}</div>
               </Link>
