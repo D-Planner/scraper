@@ -1,18 +1,62 @@
 $blue: #518FF5;
+$white: #FFFFFF;
+$font-primary: 'Roboto';
+$font-secondary: 'Poppins';
 
 .modal {
   position: fixed;
   top: 0;
   left: 0;
-  width:100%;
+  width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-main {
+  padding: 2.5%;
+  display: flex;
+  flex-flow: column;
+
+  button {
+    font-family: $font-secondary;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: normal;
+    text-align: center;
+    text-transform: uppercase;
+    background: linear-gradient(#5797FD, #8901FB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-radius: 32px;
+    width: 125px;
+    height: 40px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  input {
+    height: 55px;
+    width: auto;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 10%;
+  }
+  p {
+    color: $white;
+    font-family: $font-primary;
+    margin: 7.5%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: normal;
+    text-align: center;
+  }
   position:fixed;
   background: $blue;
-  width: 50%;
+  width: 25%;
+  border-radius: 2px;
   height: auto;
   top:50%;
   left:50%;
