@@ -32,10 +32,16 @@ class Nav extends Component {
           </ul>
         ) : (
           <ul>
-            <li>
-              <NavLink to="/signin">Log in</NavLink>
-              <NavLink to="/signup">Sign up</NavLink>
-            </li>
+            <div className="list-container">
+              <li>
+                <NavLink className="log-in" to="/signin">Log in</NavLink>
+              </li>
+              <div className="sign-up-container">
+                <li>
+                  <NavLink className="sign-up" to="/signup">Sign up</NavLink>
+                </li>
+              </div>
+            </div>
           </ul>
         )}
       </nav>

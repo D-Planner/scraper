@@ -1,6 +1,7 @@
 $off-white: #F9F9F9;
 $blue: #3A84FF;
 $purple: #574966;
+$white: #FFFFFF;
 
 $font-secondary: 'Poppins';
 
@@ -32,7 +33,7 @@ li {
   -webkit-text-fill-color: transparent;
 }
 
-.discover {
+.discover, .log-in {
   color: $purple;
   font-family: $font-secondary;
   font-style: normal;
@@ -41,6 +42,25 @@ li {
   line-height: normal;
   text-align: center;
   text-transform: uppercase;
+}
+
+.sign-up {
+  color: $white;
+  font-family: $font-secondary;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.sign-up-container {
+  background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
+  box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
+  width: 125px;
+  display: flex;
+  height: 50px;
+  border-radius: 100px;
 }
 
 .avatar {
