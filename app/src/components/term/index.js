@@ -36,30 +36,44 @@ const Term = (props) => {
     'toggle-button': true,
     active: props.term.off_term,
   });
+
   return props.connectDropTarget(
     <div className={termClass}>
       <div className="header">
-        <div>{props.term.name}</div>
+        <div className="term-name">{props.term.name}</div>
         <div className="offterm-toggle">
           <span className={onButtonClass}>on</span>
           <span className={offButtonClass}>off</span>
         </div>
       </div>
-      <div className="term-content">
-        {props.term.courses.map((course) => {
-          console.log(course);
-          return (
-            <div className="course" key={course.id}>
-              <DraggableCourse
-                course={course}
-                offTerm={props.term.off_term}
-                inBucket={false}
-              />
-            </div>
-          );
-        })}
-      </div>
+      {renderContent(props)}
     </div>,
+  );
+};
+
+const renderContent = (props) => {
+  if (props.term.courses.length === 0 && !props.term.off_term) {
+    return (
+      <div className="term-content no-content">
+        <p>Drag-n-drop your courses here!</p>
+      </div>
+    );
+  }
+  return (
+    <div className="term-content">
+      {props.term.courses.map((course) => {
+        console.log(course);
+        return (
+          <div className="course" key={course.id}>
+            <DraggableCourse
+              course={course}
+              offTerm={props.term.off_term}
+              inBucket={false}
+            />
+          </div>
+        );
+      })}
+    </div>
   );
 };
 

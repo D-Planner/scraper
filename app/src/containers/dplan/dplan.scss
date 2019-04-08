@@ -25,7 +25,7 @@ $bottom-margin: 20px;
             margin-left: 50px;
     
             .plan-name {
-                font-family: Poppins;
+                font-family: $poppins;
                 font-style: normal;
                 font-weight: bold;
                 line-height: normal;
@@ -34,12 +34,13 @@ $bottom-margin: 20px;
             }
         
             .save-button {
-                background: linear-gradient(108.51deg, #5797FD -4.85%, rgba(255, 255, 255, 0) 112.35%), #8A33F8;
-                box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
+                background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
+                /* blue-drop-shadow */
+                box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
                 border-radius: 32px;
                 width: 100px;
                 height: 40px;
-                margin-left: 20px;
+                margin-left: 40px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -51,7 +52,7 @@ $bottom-margin: 20px;
                 }
         
                 p {
-                    font-family: $roboto;
+                    font-family: $poppins;
                     font-style: normal;
                     font-weight: bold;
                     font-size: 18px;
@@ -61,16 +62,20 @@ $bottom-margin: 20px;
         }
     
         .delete-button {
-            background: white;
-            border-color: red;
-            border-radius: 32px;
-            width: 100px;
-            height: 40px;
-            margin-right: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            font-weight: 200;
+            font-size: 12pt;
+            color: red;
+            background: white;
+            border: 0.25px solid #D7D6D6;
+            border-radius: 32px;
+            box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+            width: 120px;
+            height: 40px;
+            margin-right: 50px;
     
             &:hover {
                 filter: brightness(90%);

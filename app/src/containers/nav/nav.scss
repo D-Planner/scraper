@@ -32,6 +32,7 @@ li {
   text-align: center;
   text-transform: uppercase;
   background: -webkit-linear-gradient(#5797FD, #8901FB);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -78,7 +79,4 @@ li {
   display: flex;
   align-items:center;
   justify-content: flex-end;
-}
-
-.avatar-container {
 }
