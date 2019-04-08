@@ -3,6 +3,7 @@
 $plan-header-height: 100px;
 $plan-data-height: 40px;
 $plan-data-margin: 20px;
+$bottom-margin: 20px;
 
 .dplan-page {
     display: flex;
@@ -13,12 +14,15 @@ $plan-data-margin: 20px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
         height: $plan-header-height;
     
         .header-left {
             display: flex;
             flex-direction: row;
+            align-items: center;
+            margin-left: 50px;
     
             .plan-name {
                 font-family: Poppins;
@@ -35,7 +39,6 @@ $plan-data-margin: 20px;
                 border-radius: 32px;
                 width: 100px;
                 height: 40px;
-                margin-top: 10px;
                 margin-left: 20px;
                 display: flex;
                 align-items: center;
@@ -48,13 +51,10 @@ $plan-data-margin: 20px;
                 }
         
                 p {
-                    font-family: Roboto;
+                    font-family: $roboto;
                     font-style: normal;
                     font-weight: bold;
-                    line-height: normal;
                     font-size: 18px;
-                    text-align: center;
-                    margin-top: 12px;
                     color: #FFFFFF;
                 }
             }
@@ -66,8 +66,7 @@ $plan-data-margin: 20px;
             border-radius: 32px;
             width: 100px;
             height: 40px;
-            margin-top: 20px;
-            margin-right: 80px;
+            margin-right: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -94,8 +93,8 @@ $plan-data-margin: 20px;
         flex-direction: row;
         justify-content: space-between;
         margin: 0 50px;
-        width: 95%;
-        height: calc(95vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (3 * #{$plan-data-margin})));
+        width: calc(100% - 40px);
+        height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
 
         .bucket {
             flex-basis: 10%;
@@ -106,12 +105,11 @@ $plan-data-margin: 20px;
             flex-basis: 90%;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            overflow: scroll;
 
             .plan-row {
                 display: flex;
                 flex-direction: row;
-                height: 25%;
             }
         }
     }

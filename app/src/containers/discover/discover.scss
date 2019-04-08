@@ -19,7 +19,7 @@ $scroll-container-height: 180px;
         height: 48px;
         margin-right: 16px;
         font-size: 18px;
-        font-family: 'Roboto', sans-serif;
+        font-family: $roboto;
     }
 
     .searchLink {
@@ -56,7 +56,7 @@ $scroll-container-height: 180px;
 .no-results {
     display: flex;
     justify-content: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: $roboto;
 }
 
 .results {

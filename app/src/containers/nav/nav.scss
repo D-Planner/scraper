@@ -1,3 +1,5 @@
+@import "../../style/variables.scss";
+
 $off-white: #F9F9F9;
 $blue: #3A84FF;
 $purple: #574966;
@@ -8,6 +10,7 @@ $font-secondary: 'Poppins';
 nav {
   box-shadow: 0px 6px 25px rgba(153, 153, 153, 0.25);
   background: $off-white;
+  height: $nav-height;
 }
 
 ul {
