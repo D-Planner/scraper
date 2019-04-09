@@ -2,9 +2,6 @@ import React from 'react';
 import {
   Button, Text,
 } from 'evergreen-ui';
-import {
-  Container,
-} from 'reactstrap';
 import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -118,7 +115,7 @@ class Discover extends React.Component {
     if (this.state.displayingResults && this.props.searchResults.length) {
       return (
         <div className="results">
-          <Container fluid className="results-container">
+          <div className="results-container">
             <div className="headers-row">
               <div className="name headers-col">
                   Name
@@ -143,7 +140,7 @@ class Discover extends React.Component {
                 );
               })}
             </div>
-          </Container>
+          </div>
         </div>
       );
     } else if (this.state.displayingResults) {

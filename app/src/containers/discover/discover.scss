@@ -1,6 +1,6 @@
 @import '../../style/variables.scss';
 
-$line-height: 40px;
+$line-height: 35px;
 $search-types-height: 100px;
 $search-box-container-height: 120px;
 $search-box-container-bottom-margin: 40px;
@@ -41,6 +41,8 @@ $scroll-container-height: 180px;
 
     .search-input {
         height: $search-height;
+        font-family: $roboto;
+        font-size: 20px;
         flex-basis: 40%;
         margin-right: 20px;
         padding-left: 25px;
@@ -63,7 +65,7 @@ $scroll-container-height: 180px;
     display: flex;
     justify-content: center;
     line-height: $line-height;
-
+    font-family: $roboto;
 
     .results-container {
         width: 80%;
@@ -126,7 +128,6 @@ $scroll-container-height: 180px;
         width: 90%;
 
         .results-container {
-            width: 100%;
             margin-left: 5%;
         }
     }
