@@ -5,13 +5,12 @@ import {
 import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import classNames from 'classnames';
 import Departments from '../departments/departments';
 import {
   courseSearch, addCourseToFavorites,
 } from '../../actions/index';
-import scrollButton from '../../style/scrollButton.png';
+import scrollButton from '../../style/scrollButton.svg';
 import searchIcon from '../../style/search.svg';
 import SearchResultRow from '../../components/searchResultRow';
 
@@ -26,9 +25,12 @@ class Discover extends React.Component {
       displayingResults: false,
     };
 
+    this.dptRef = React.createRef();
+
     this.onInputChange = this.onInputChange.bind(this);
     this.searchByName = this.searchByName.bind(this);
     this.addCourseToFavorites = this.addCourseToFavorites.bind(this);
+    this.scrollToDepartments = this.scrollToDepartments.bind(this);
   }
 
   onInputChange(event) {
@@ -44,6 +46,15 @@ class Discover extends React.Component {
 
   addCourseToFavorites(courseID) {
     this.props.addCourseToFavorites(courseID);
+  }
+
+  scrollToDepartments() {
+    console.log(this.dptRef);
+    window.scrollTo({
+      top: this.dptRef.current.offsetTop,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 
   discoverButtons() {
@@ -174,11 +185,7 @@ class Discover extends React.Component {
                 </Text>
                 <img src={scrollButton}
                   alt=""
-                  onClick={() => {
-                    $('html, body').animate({
-                      scrollTop: $('#dptRef').offset().top,
-                    }, 500);
-                  }}
+                  onClick={this.scrollToDepartments}
                   style={{
                     width: '42px',
                     height: '42px',
@@ -186,8 +193,8 @@ class Discover extends React.Component {
                   }}
                 />
               </div>
-              <div id="dptRef">
-                <Departments id="DPT" />
+              <div ref={this.dptRef}>
+                <Departments />
               </div>
             </div>
           )
