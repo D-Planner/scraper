@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Popover, Pane } from 'evergreen-ui';
-import '../bucket/bucket.scss';
+// import '../bucket/bucket.scss';
+import './draggableCourse.scss';
 import {
   Button,
   ListGroupItem,
@@ -26,6 +27,8 @@ const collect = (connect, monitor) => {
 };
 
 const Course = (props) => {
+  const onOffTermClassName = props.offTerm ? 'button on-term' : 'button off-term';
+
   return props.connectDragSource(
     <div>
       <Popover
@@ -33,22 +36,7 @@ const Course = (props) => {
           courseInfo(props.course)
         )}
       >
-        <Button className="bucketCourse"
-          style={props.offTerm ? {
-            background: '#FFFFFF',
-            width: '100%',
-            marginTop: '5px',
-            borderColor: '#FFFFFF',
-            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.08)',
-          } : {
-            background: '#FFFFFF',
-            width: '100%',
-            marginTop: '5px',
-            borderColor: '#FFFFFF',
-            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.25)',
-          }
-          }
-        >
+        <Button className={onOffTermClassName}>
           <Pane id="bucketCourseTitle"
             style={{
               flex: 1,

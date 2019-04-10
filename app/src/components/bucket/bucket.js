@@ -1,49 +1,50 @@
 import React from 'react';
-import {
-  Card, Fade,
-} from 'reactstrap';
-import { Icon } from 'evergreen-ui';
+// import {
+//   Card, Fade,
+// } from 'reactstrap';
+// import { Fade } from 'reactstrap';
+// import { Icon } from 'evergreen-ui';
 import DraggableCourse from '../draggableCourse/draggableCourse';
 import './bucket.scss';
 
-let anim = false;
+// let anim = false;
 
 export default class Bucket extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapse: false,
-      width: '30px',
-      height: props.height,
+      // collapse: false,
+      // width: '30px',
+      // height: props.height,
     };
-    this.toggle = this.toggle.bind(this);
+    // this.toggle = this.toggle.bind(this);
   }
 
-  bucketAnimation() {
-    if (anim) {
-      if ((this.state.collapse === true)
-        && (parseInt(this.state.width, 10) < 240)) {
-        this.setState({ width: '240px' });
-      } else if ((this.state.collapse !== true)
-    && (parseInt(this.state.width, 10) > 30)) {
-        this.setState({ width: '30px' });
-      } else {
-        anim = false;
-      }
-    }
-  }
+  // bucketAnimation() {
+  //   if (anim) {
+  //     if ((this.state.collapse === true)
+  //       && (parseInt(this.state.width, 10) < 240)) {
+  //       this.setState({ width: '240px' });
+  //     } else if ((this.state.collapse !== true)
+  //   && (parseInt(this.state.width, 10) > 30)) {
+  //       this.setState({ width: '30px' });
+  //     } else {
+  //       anim = false;
+  //     }
+  //   }
+  // }
 
-  toggle() {
-    this.setState((prevState) => {
-      anim = true;
-      return {
-        collapse:
-        prevState.collapse !== true,
-      };
-    }, () => {
-      this.bucketAnimation();
-    });
-  }
+  // toggle() {
+  //   this.setState((prevState) => {
+  //     anim = true;
+  //     return {
+  //       collapse:
+  //       prevState.collapse !== true,
+  //     };
+  //   }, () => {
+  //     this.bucketAnimation();
+  //   });
+  // }
 
   fillContent() {
     return (
@@ -63,35 +64,30 @@ export default class Bucket extends React.Component {
 
 
   render() {
-    let content = []; let chevronID = '';
-    if (this.state.collapse) {
-      content.push(<legend>Bucket</legend>);
-      content.push(this.fillContent());
-      chevronID = 'chevron-left';
-    } else {
-      content = <div />;
-      chevronID = 'chevron-right';
-    }
+    // let content = []; let chevronID = '';
+    // if (this.state.collapse) {
+    //   content.push(<legend>Bucket</legend>);
+    //   content.push(this.fillContent());
+    //   chevronID = 'chevron-left';
+    // } else {
+    //   content = <div />;
+    //   chevronID = 'chevron-right';
+    // }
 
     return (
       <div>
-        <Card className="bucket"
+        <div className="bucket"
           body
           style={{
-            borderColor: '#ECF3FF',
-            width: this.state.width,
-            height: this.state.height,
+            // borderColor: '#ECF3FF',
+            width: '240px',
           }}
         >
-          <Icon id="chevron"
-            icon={chevronID}
-            onClick={this.toggle}
-            size={20}
-          />
-          <Fade in={this.state.collapse}>
-            {content}
-          </Fade>
-        </Card>
+          <legend>Bucket</legend>
+          <div className="fade">
+            <div className="content" />
+          </div>
+        </div>
       </div>
     );
   }
