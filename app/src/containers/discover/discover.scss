@@ -20,6 +20,8 @@ $scroll-container-height: 180px;
         margin-right: 16px;
         font-size: 18px;
         font-family: $roboto;
+        background: none;
+        border: none;
     }
 
     .searchLink {
@@ -158,4 +160,15 @@ $scroll-container-height: 180px;
     margin-top: calc(100vh 
             - (#{$nav-height} + #{$search-types-height} + #{$search-box-container-height} + #{$search-box-container-bottom-margin})
             - #{$scroll-container-height});
+    
+    .scroll-prompt-text {
+        font-size: 18px;
+        font-weight: 200;
+    }
+
+    .scroll-prompt-button {
+        width: 42px;
+        height: 42px;
+        margin-top: 10px;
+    }
 }

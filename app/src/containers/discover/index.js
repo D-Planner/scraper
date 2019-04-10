@@ -1,7 +1,4 @@
 import React from 'react';
-import {
-  Button, Text,
-} from 'evergreen-ui';
 import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -68,26 +65,24 @@ class Discover extends React.Component {
     });
     return (
       <div className="search-types">
-        <Button
+        <button
           className="search-type-button"
-          appearance="minimal"
-          intent="none"
+          type="button"
           onClick={() => this.setState({ searchDirect: true })}
         >
           <div className={directSearch}>
             Direct Search
           </div>
-        </Button>
-        <Button
+        </button>
+        <button
           className="search-type-button"
-          appearance="minimal"
-          intent="none"
+          type="button"
           onClick={() => this.setState({ searchDirect: false })}
         >
           <div className={advancedSearch}>
             Advanced Search
           </div>
-        </Button>
+        </button>
       </div>
     );
   }
@@ -180,17 +175,11 @@ class Discover extends React.Component {
           : (
             <div>
               <div className="scroll-prompt-container">
-                <Text id="t1">
-                  Scroll to Browse Department
-                </Text>
+                <p className="scroll-prompt-text">Scroll to Browse Department</p>
                 <img src={scrollButton}
                   alt=""
                   onClick={this.scrollToDepartments}
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    marginTop: '10px',
-                  }}
+                  className="scroll-prompt-button"
                 />
               </div>
               <div ref={this.dptRef}>
