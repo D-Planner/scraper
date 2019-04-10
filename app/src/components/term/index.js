@@ -9,8 +9,13 @@ import { ItemTypes } from '../../constants';
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
-    if (props.term.off_term || !item.fromBucket) {
+
+    if (props.term.off_term) {
       return;
+    }
+
+    if (item.sourceTerm) {
+      props.removeCourseFromTerm(item.course, item.sourceTerm);
     }
 
     props.addCourseToTerm(item.course, props.term);
@@ -62,13 +67,11 @@ const renderContent = (props) => {
   return (
     <div className="term-content">
       {props.term.courses.map((course) => {
-        console.log(course);
         return (
           <div className="course" key={course.id}>
             <DraggableCourse
               course={course}
-              offTerm={props.term.off_term}
-              inBucket={false}
+              sourceTerm={props.term}
             />
           </div>
         );

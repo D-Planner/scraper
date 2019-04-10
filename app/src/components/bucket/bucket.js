@@ -50,10 +50,10 @@ export default class Bucket extends React.Component {
       <div style={{ width: '100%' }}>
         {this.props.bucket.map((course, index) => {
           return (
-            <DraggableCourse key={course.crn}
+            <DraggableCourse
+              key={course.crn}
               index={index}
               course={course}
-              inBucket
             />
           );
         })}
