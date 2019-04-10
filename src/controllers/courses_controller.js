@@ -61,31 +61,38 @@ const getCourseByName = (req, res) => {
 
 const createCourse = (req, res) => {
     Promise.resolve(courses.map((course) => {
-        return Course.create({
-            name: course.title,
-            department: course.subject,
-            number: course.number,
-            section: course.section,
-            crn: course.crn,
-            professors: course.professors,
-            enroll_limit: course.enrollment_limit,
-            current_enrollment: course.current_enrollment,
-            timeslot: course.period,
-            room: course.room,
-            building: course.building,
-            description: course.description,
-            term: course.term,
-            wc: course.wc,
-            distrib: course.distrib,
-            links: course.links,
-            related_courses: course.related_courses,
-            terms_offered: course.terms_offered,
-            layuplist_score: course.layuplist_score,
-            layuplist_id: course.layuplist_id,
-            medians: course.medians,
+        return Course.update(
+            { $or: [{ name: course.title }, { crn: course.crn }] },
+            {
+                name: course.title,
+                department: course.subject,
+                number: course.number,
+                section: course.section,
+                crn: course.crn,
+                professors: course.professors,
+                enroll_limit: course.enrollment_limit,
+                current_enrollment: course.current_enrollment,
+                timeslot: course.period,
+                room: course.room,
+                building: course.building,
+                description: course.description,
+                term: course.term,
+                wc: course.wc,
+                distrib: course.distrib,
+                links: course.links,
+                related_courses: course.related_courses,
+                terms_offered: course.terms_offered,
+                layuplist_score: course.layuplist_score,
+                layuplist_id: course.layuplist_id,
+                medians: course.medians,
+            }, { upsert: true },
+        ).then((result) => {
+            return result;
+        }).catch((error) => {
+            return error;
         });
     })).then(() => {
-        res.json('Courses successfully added to db 🚀');
+        res.status(200).json({ message: 'Courses successfully added to db 🚀' });
     }).catch((error) => {
         res.status(500).json({ error });
     });
