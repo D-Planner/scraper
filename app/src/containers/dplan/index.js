@@ -47,7 +47,6 @@ class DPlan extends Component {
 
   removeCourseFromTerm(course, term) {
     term.courses = term.courses.filter(c => c.id !== course.id);
-    console.log(term.courses);
     this.props.updateTerm(term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {

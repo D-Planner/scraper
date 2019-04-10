@@ -10,15 +10,20 @@ const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
 
-    if (props.term.off_term) {
-      return;
+    // if a course was dragged from another source term,
+    // then delete it from that term and add it to this one
+    if (!props.term.off_term) {
+      if (item.sourceTerm) {
+        props.removeCourseFromTerm(item.course, item.sourceTerm);
+      }
+
+      props.addCourseToTerm(item.course, props.term);
+
+      // return an object containing the current term
+      return { destinationTerm: props.term };
     }
 
-    if (item.sourceTerm) {
-      props.removeCourseFromTerm(item.course, item.sourceTerm);
-    }
-
-    props.addCourseToTerm(item.course, props.term);
+    return null;
   },
 };
 
@@ -72,6 +77,9 @@ const renderContent = (props) => {
             <DraggableCourse
               course={course}
               sourceTerm={props.term}
+              removeCourseFromTerm={() => {
+                props.removeCourseFromTerm(course, props.term);
+              }}
             />
           </div>
         );
