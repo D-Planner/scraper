@@ -59,6 +59,17 @@ const getCourseByName = (req, res) => {
         });
 };
 
+const getCourseByTitle = (req, res) => {
+    Course.find({
+        $and: [{ department: req.params.department },
+            { number: req.params.number }],
+    }).then((response) => {
+        res.json(response);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
 const createCourse = (req, res) => {
     Promise.resolve(courses.map((course) => {
         return Course.update(
@@ -169,6 +180,7 @@ const CoursesController = {
     getCoursesByDistrib,
     getCoursesByWC,
     getCourseByName,
+    getCourseByTitle,
     createCourse,
     getFavorite,
     addFavorite,
