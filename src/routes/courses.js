@@ -18,6 +18,8 @@ coursesRouter.route('/completed/:id')
     .post(CoursesController.addCompleted)
     .delete(CoursesController.removeCompleted);
 
+coursesRouter.get('/:department&:number', CoursesController.getCourseByTitle);
+
 coursesRouter.get('/departments/:department', CoursesController.getCoursesByDepartment);
 
 coursesRouter.get('/distribs/:distrib', CoursesController.getCoursesByDistrib);
