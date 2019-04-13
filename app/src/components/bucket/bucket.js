@@ -1,9 +1,4 @@
 import React from 'react';
-// import {
-//   Card, Fade,
-// } from 'reactstrap';
-// import { Fade } from 'reactstrap';
-// import { Icon } from 'evergreen-ui';
 import DraggableCourse from '../draggableCourse/draggableCourse';
 import './bucket.scss';
 
@@ -79,7 +74,6 @@ export default class Bucket extends React.Component {
         <div className="bucket"
           body
           style={{
-            // borderColor: '#ECF3FF',
             width: '240px',
           }}
         >

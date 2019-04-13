@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Popover, Pane } from 'evergreen-ui';
-import '../bucket/bucket.scss';
-import {
-  Button,
-  ListGroupItem,
-  ListGroupItemHeading,
-  ListGroupItemText,
-  Badge,
-} from 'reactstrap';
+import './CourseElement.scss';
 
 export default class CourseElement extends Component {
   constructor(props) {
@@ -32,23 +24,20 @@ export default class CourseElement extends Component {
 
   courseInfo() {
     return (
-      <ListGroupItem>
-        <ListGroupItemHeading
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
+      <div className="list-group-item">
+        <div className="list-group-item-heading">
           {this.props.course.title}
           {' '}
-          <Badge color="secondary">
+          <div className="badge" color="secondary">
             {this.props.course.department}
             {this.props.course.number}
-          </Badge>
-          <Icon id="minus_icon" icon="small-minus" />
-        </ListGroupItemHeading>
-        <ListGroupItemText>
+          </div>
+          <img id="minus_icon"
+            alt="icon"
+            src="../../../assets/miscellaneous/test.png"
+          />
+        </div>
+        <div className="list-group-item-text">
           <ul>
             <li>
               <small>Term code: </small>
@@ -104,66 +93,46 @@ export default class CourseElement extends Component {
             </li>
             <li>
               <small>Links: </small>
-              <Badge color="primary" href={this.props.course.description}>Description</Badge>
+              <div className="badge" color="primary" href={this.props.course.description}>Description</div>
               {' '}
-              <Badge color="primary" href={this.props.course.text}>Textbook information</Badge>
+              <div className="badge" color="primary" href={this.props.course.text}>Textbook information</div>
               {' '}
             </li>
           </ul>
-        </ListGroupItemText>
-      </ListGroupItem>
+        </div>
+      </div>
     );
   }
 
   render() {
+    const offTermClassName = this.state.offTerm ? 'off-term-true' : 'off-term-false';
+
     return (
-      <Popover
+      <div className="popover"
         content={({ close }) => (
-          <Pane
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
-          >
+          <div className="pane">
             {this.courseInfo()}
-          </Pane>
+          </div>
         )}
       >
-        <Button className="bucketCourse"
-          active={!this.state.dragging}
-          style={this.state.offTerm ? {
-            background: '#FFFFFF',
-            width: '80%',
-            marginTop: '5px',
-            borderColor: '#FFFFFF',
-            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.08)',
-          } : {
-            background: '#FFFFFF',
-            width: '80%',
-            marginTop: '5px',
-            borderColor: '#FFFFFF',
-            boxShadow: '0px 2px 15px rgba(0, 0, 0, 0.25)',
-          }
-          }
-        >
-          <Pane id="bucketCourseTitle"
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
+        <div className={offTermClassName}>
+          <div className="bucketCourse button"
+            active={!this.state.dragging}
           >
-            <div>
-              {this.props.course.department}
-              {this.props.course.number}
+            <div id="bucketCourseTitle"
+              className="pane"
+            >
+              <div>
+                {this.props.course.department}
+                {this.props.course.number}
+              </div>
+              <div>
+                {this.props.course.timeslot}
+              </div>
             </div>
-            <div>
-              {this.props.course.timeslot}
-            </div>
-          </Pane>
-        </Button>
-      </Popover>
+          </div>
+        </div>
+      </div>
     );
   }
 }
