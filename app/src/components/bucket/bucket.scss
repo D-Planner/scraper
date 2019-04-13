@@ -1,3 +1,5 @@
+@import '../../style/variables.scss';
+
 .bucket {
   transition: width 100ms ease-in-out;
   background: #ECF3FF;
@@ -30,7 +32,7 @@
 }
 
 #bucketCourseTitle {
-    font-family: Roboto;
+    font-family: $roboto;
     font-style: normal;
     font-weight: normal;
     line-height: normal;

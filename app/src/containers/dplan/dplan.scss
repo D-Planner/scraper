@@ -3,6 +3,7 @@
 $plan-header-height: 100px;
 $plan-data-height: 40px;
 $plan-data-margin: 20px;
+$bottom-margin: 20px;
 
 .dplan-page {
     display: flex;
@@ -13,15 +14,18 @@ $plan-data-margin: 20px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
         height: $plan-header-height;
     
         .header-left {
             display: flex;
             flex-direction: row;
+            align-items: center;
+            margin-left: 50px;
     
             .plan-name {
-                font-family: Poppins;
+                font-family: $poppins;
                 font-style: normal;
                 font-weight: bold;
                 line-height: normal;
@@ -30,13 +34,13 @@ $plan-data-margin: 20px;
             }
         
             .save-button {
-                background: linear-gradient(108.51deg, #5797FD -4.85%, rgba(255, 255, 255, 0) 112.35%), #8A33F8;
-                box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
+                background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
+                /* blue-drop-shadow */
+                box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
                 border-radius: 32px;
                 width: 100px;
                 height: 40px;
-                margin-top: 10px;
-                margin-left: 20px;
+                margin-left: 40px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -48,30 +52,30 @@ $plan-data-margin: 20px;
                 }
         
                 p {
-                    font-family: Roboto;
+                    font-family: $poppins;
                     font-style: normal;
                     font-weight: bold;
-                    line-height: normal;
                     font-size: 18px;
-                    text-align: center;
-                    margin-top: 12px;
                     color: #FFFFFF;
                 }
             }
         }
     
         .delete-button {
-            background: white;
-            border-color: red;
-            border-radius: 32px;
-            width: 100px;
-            height: 40px;
-            margin-top: 20px;
-            margin-right: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            font-weight: 200;
+            font-size: 12pt;
+            color: red;
+            background: white;
+            border: 0.25px solid #D7D6D6;
+            border-radius: 32px;
+            box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+            width: 120px;
+            height: 40px;
+            margin-right: 50px;
     
             &:hover {
                 filter: brightness(90%);
@@ -94,8 +98,8 @@ $plan-data-margin: 20px;
         flex-direction: row;
         justify-content: space-between;
         margin: 0 50px;
-        width: 95%;
-        height: calc(95vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (3 * #{$plan-data-margin})));
+        width: calc(100% - 40px);
+        height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
 
         .bucket {
             flex-basis: 10%;
@@ -106,12 +110,11 @@ $plan-data-margin: 20px;
             flex-basis: 90%;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            overflow: scroll;
 
             .plan-row {
                 display: flex;
                 flex-direction: row;
-                height: 25%;
             }
         }
     }

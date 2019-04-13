@@ -1,4 +1,5 @@
 @import '../../containers/discover/discover.scss';
+@import '../../style/variables.scss';
 
 $box-padding: 10px;
 $desc-line-height: $line-height / 2;
@@ -13,7 +14,6 @@ $box-height: $line-height + (2 * $box-padding);
         background-color: #ECF3FF;
         padding: $box-padding;
         margin: 0 1%;
-        font-family: 'Roboto', sans-serif;
 
         &.name {
             display: flex;
@@ -25,12 +25,19 @@ $box-height: $line-height + (2 * $box-padding);
             .add-course-button {
                 border: none;
                 background: none;
+
+                img {
+                    height: 16px;
+                    width: 16px;
+                }
             }
         }
 
         &.description {
             max-height: $line-height + (2 * $box-height);
             width: 50%;
+            display: flex;
+            align-items: center;
 
             .description-text {
                 height: $line-height;

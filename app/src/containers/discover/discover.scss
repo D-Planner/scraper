@@ -1,6 +1,6 @@
 @import '../../style/variables.scss';
 
-$line-height: 40px;
+$line-height: 35px;
 $search-types-height: 100px;
 $search-box-container-height: 120px;
 $search-box-container-bottom-margin: 40px;
@@ -19,7 +19,9 @@ $scroll-container-height: 180px;
         height: 48px;
         margin-right: 16px;
         font-size: 18px;
-        font-family: 'Roboto', sans-serif;
+        font-family: $roboto;
+        background: none;
+        border: none;
     }
 
     .searchLink {
@@ -41,6 +43,8 @@ $scroll-container-height: 180px;
 
     .search-input {
         height: $search-height;
+        font-family: $roboto;
+        font-size: 20px;
         flex-basis: 40%;
         margin-right: 20px;
         padding-left: 25px;
@@ -56,14 +60,14 @@ $scroll-container-height: 180px;
 .no-results {
     display: flex;
     justify-content: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: $roboto;
 }
 
 .results {
     display: flex;
     justify-content: center;
     line-height: $line-height;
-
+    font-family: $roboto;
 
     .results-container {
         width: 80%;
@@ -126,7 +130,6 @@ $scroll-container-height: 180px;
         width: 90%;
 
         .results-container {
-            width: 100%;
             margin-left: 5%;
         }
     }
@@ -157,4 +160,15 @@ $scroll-container-height: 180px;
     margin-top: calc(100vh 
             - (#{$nav-height} + #{$search-types-height} + #{$search-box-container-height} + #{$search-box-container-bottom-margin})
             - #{$scroll-container-height});
+    
+    .scroll-prompt-text {
+        font-size: 18px;
+        font-weight: 200;
+    }
+
+    .scroll-prompt-button {
+        width: 42px;
+        height: 42px;
+        margin-top: 10px;
+    }
 }

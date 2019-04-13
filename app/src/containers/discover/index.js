@@ -1,20 +1,13 @@
 import React from 'react';
-import {
-  Button, Text,
-} from 'evergreen-ui';
-import {
-  Container,
-} from 'reactstrap';
 import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 import classNames from 'classnames';
 import Departments from '../departments/departments';
 import {
   courseSearch, addCourseToFavorites,
 } from '../../actions/index';
-import scrollButton from '../../style/scrollButton.png';
+import scrollButton from '../../style/scrollButton.svg';
 import searchIcon from '../../style/search.svg';
 import SearchResultRow from '../../components/searchResultRow';
 
@@ -29,9 +22,12 @@ class Discover extends React.Component {
       displayingResults: false,
     };
 
+    this.dptRef = React.createRef();
+
     this.onInputChange = this.onInputChange.bind(this);
     this.searchByName = this.searchByName.bind(this);
     this.addCourseToFavorites = this.addCourseToFavorites.bind(this);
+    this.scrollToDepartments = this.scrollToDepartments.bind(this);
   }
 
   onInputChange(event) {
@@ -49,6 +45,15 @@ class Discover extends React.Component {
     this.props.addCourseToFavorites(courseID);
   }
 
+  scrollToDepartments() {
+    console.log(this.dptRef);
+    window.scrollTo({
+      top: this.dptRef.current.offsetTop,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
+
   discoverButtons() {
     const directSearch = classNames({
       active: this.state.searchDirect,
@@ -60,26 +65,24 @@ class Discover extends React.Component {
     });
     return (
       <div className="search-types">
-        <Button
+        <button
           className="search-type-button"
-          appearance="minimal"
-          intent="none"
+          type="button"
           onClick={() => this.setState({ searchDirect: true })}
         >
           <div className={directSearch}>
             Direct Search
           </div>
-        </Button>
-        <Button
+        </button>
+        <button
           className="search-type-button"
-          appearance="minimal"
-          intent="none"
+          type="button"
           onClick={() => this.setState({ searchDirect: false })}
         >
           <div className={advancedSearch}>
             Advanced Search
           </div>
-        </Button>
+        </button>
       </div>
     );
   }
@@ -118,7 +121,7 @@ class Discover extends React.Component {
     if (this.state.displayingResults && this.props.searchResults.length) {
       return (
         <div className="results">
-          <Container fluid className="results-container">
+          <div className="results-container">
             <div className="headers-row">
               <div className="name headers-col">
                   Name
@@ -143,7 +146,7 @@ class Discover extends React.Component {
                 );
               })}
             </div>
-          </Container>
+          </div>
         </div>
       );
     } else if (this.state.displayingResults) {
@@ -172,25 +175,15 @@ class Discover extends React.Component {
           : (
             <div>
               <div className="scroll-prompt-container">
-                <Text id="t1">
-                  Scroll to Browse Department
-                </Text>
+                <p className="scroll-prompt-text">Scroll to Browse Department</p>
                 <img src={scrollButton}
                   alt=""
-                  onClick={() => {
-                    $('html, body').animate({
-                      scrollTop: $('#dptRef').offset().top,
-                    }, 500);
-                  }}
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    marginTop: '10px',
-                  }}
+                  onClick={this.scrollToDepartments}
+                  className="scroll-prompt-button"
                 />
               </div>
-              <div id="dptRef">
-                <Departments id="DPT" />
+              <div ref={this.dptRef}>
+                <Departments />
               </div>
             </div>
           )

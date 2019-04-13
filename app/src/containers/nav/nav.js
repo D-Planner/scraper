@@ -20,7 +20,7 @@ class Nav extends Component {
           <ul>
             <div className="list-container">
               <li>
-                <NavLink className="plan" to="/discover">Plan</NavLink>
+                <NavLink className="plan" to="/">Plan</NavLink>
               </li>
               <li>
                 <NavLink className="discover" to="/discover">Discover</NavLink>
