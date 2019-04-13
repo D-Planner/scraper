@@ -1,14 +1,6 @@
 import React from 'react';
-import { Icon, Popover, Pane } from 'evergreen-ui';
-// import '../bucket/bucket.scss';
+import { Icon } from 'evergreen-ui';
 import './draggableCourse.scss';
-import {
-  Button,
-  ListGroupItem,
-  ListGroupItemHeading,
-  ListGroupItemText,
-  Badge,
-} from 'reactstrap';
 import { DragSource as DraggableCourse } from 'react-dnd';
 import { ItemTypes } from '../../constants';
 
@@ -31,38 +23,41 @@ const Course = (props) => {
 
   return props.connectDragSource(
     <div>
-      <Popover
+      <div className="popover"
         content={({ close }) => (
           courseInfo(props.course)
         )}
       >
-        <Button className={onOffTermClassName}>
-          <Pane id="bucketCourseTitle"
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
-            <div>
-              {props.course.department}
-              {props.course.number}
+        <div className={onOffTermClassName}>
+          <div className="button">
+            <div id="bucketCourseTitle"
+              className="pane"
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div>
+                {props.course.department}
+                {props.course.number}
+              </div>
+              <div>
+                {props.course.timeslot}
+              </div>
             </div>
-            <div>
-              {props.course.timeslot}
-            </div>
-          </Pane>
-        </Button>
-      </Popover>
+          </div>
+        </div>
+      </div>
     </div>,
   );
 };
 
 const courseInfo = (course) => {
   return (
-    <ListGroupItem>
-      <ListGroupItemHeading
+    <div className="list-group-item">
+      <div className="list-group-item-heading"
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -71,13 +66,15 @@ const courseInfo = (course) => {
       >
         {course.title}
         {' '}
-        <Badge color="secondary">
+        <div className="badge"
+          color="secondary"
+        >
           {course.subject}
           {course.number}
-        </Badge>
+        </div>
         <Icon id="minus_icon" icon="small-minus" />
-      </ListGroupItemHeading>
-      <ListGroupItemText>
+      </div>
+      <div className="list-group-item-text">
         <ul>
           <li>
             <small>Term code: </small>
@@ -133,15 +130,15 @@ const courseInfo = (course) => {
           </li>
           <li>
             <small>Links: </small>
-            <Badge color="primary" href={course.description}>Description</Badge>
+            <div className="badge" color="primary" href={course.description}>Description</div>
             {' '}
-            <Badge color="primary" href={course.text}>Textbook information</Badge>
+            <div className="badge" color="primary" href={course.text}>Textbook information</div>
             {' '}
-            {course.learning_objective.length > 0 && <Badge color="primary" href={course.learning_objective}>Learning objective</Badge>}
+            {course.learning_objective.length > 0 && <div className="badge" color="primary" href={course.learning_objective}>Learning objective</div>}
           </li>
         </ul>
-      </ListGroupItemText>
-    </ListGroupItem>
+      </div>
+    </div>
   );
 };
 
