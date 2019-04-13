@@ -32,12 +32,6 @@ const Course = (props) => {
           <div className="button">
             <div id="bucketCourseTitle"
               className="pane"
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
             >
               <div>
                 {props.course.department}
@@ -57,18 +51,10 @@ const Course = (props) => {
 const courseInfo = (course) => {
   return (
     <div className="list-group-item">
-      <div className="list-group-item-heading"
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
+      <div className="list-group-item-heading">
         {course.title}
         {' '}
-        <div className="badge"
-          color="secondary"
-        >
+        <div className="badge">
           {course.subject}
           {course.number}
         </div>
@@ -130,11 +116,11 @@ const courseInfo = (course) => {
           </li>
           <li>
             <small>Links: </small>
-            <div className="badge" color="primary" href={course.description}>Description</div>
+            <div className="badge" href={course.description}>Description</div>
             {' '}
-            <div className="badge" color="primary" href={course.text}>Textbook information</div>
+            <div className="badge" href={course.text}>Textbook information</div>
             {' '}
-            {course.learning_objective.length > 0 && <div className="badge" color="primary" href={course.learning_objective}>Learning objective</div>}
+            {course.learning_objective.length > 0 && <div className="badge" href={course.learning_objective}>Learning objective</div>}
           </li>
         </ul>
       </div>
