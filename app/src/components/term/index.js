@@ -9,11 +9,21 @@ import { ItemTypes } from '../../constants';
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
-    if (props.term.off_term || !item.fromBucket) {
-      return;
+
+    // if a course was dragged from another source term,
+    // then delete it from that term and add it to this one
+    if (!props.term.off_term) {
+      if (item.sourceTerm) {
+        props.removeCourseFromTerm(item.course, item.sourceTerm);
+      }
+
+      props.addCourseToTerm(item.course, props.term);
+
+      // return an object containing the current term
+      return { destinationTerm: props.term };
     }
 
-    props.addCourseToTerm(item.course, props.term);
+    return null;
   },
 };
 
@@ -62,13 +72,14 @@ const renderContent = (props) => {
   return (
     <div className="term-content">
       {props.term.courses.map((course) => {
-        console.log(course);
         return (
           <div className="course" key={course.id}>
             <DraggableCourse
               course={course}
-              offTerm={props.term.off_term}
-              inBucket={false}
+              sourceTerm={props.term}
+              removeCourseFromTerm={() => {
+                props.removeCourseFromTerm(course, props.term);
+              }}
             />
           </div>
         );

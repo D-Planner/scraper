@@ -23,6 +23,7 @@ class DPlan extends Component {
     this.hideDialog = this.hideDialog.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
+    this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +38,15 @@ class DPlan extends Component {
   addCourseToTerm(course, term) {
     term.courses = term.courses.filter(c => c.id !== course.id);
     term.courses.push(course);
+    this.props.updateTerm(term).then(() => {
+      this.props.fetchPlan(this.props.plan.id);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  removeCourseFromTerm(course, term) {
+    term.courses = term.courses.filter(c => c.id !== course.id);
     this.props.updateTerm(term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {
@@ -99,7 +109,12 @@ class DPlan extends Component {
                 <div className="plan-row" key={year[0].id}>
                   {year.map((term) => {
                     return (
-                      <Term term={term} key={term.id} addCourseToTerm={this.addCourseToTerm} />
+                      <Term
+                        term={term}
+                        key={term.id}
+                        addCourseToTerm={this.addCourseToTerm}
+                        removeCourseFromTerm={this.removeCourseFromTerm}
+                      />
                     );
                   })}
                 </div>

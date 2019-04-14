@@ -7,7 +7,18 @@ import { ItemTypes } from '../../constants';
 const source = {
   beginDrag(props) {
     console.log('Dragging... ');
-    return { course: props.course, fromBucket: props.inBucket };
+    return {
+      course: props.course,
+      sourceTerm: props.sourceTerm || null,
+    };
+  },
+  endDrag(props, monitor) {
+    console.log('Dropped!');
+
+    // if we did not detect a valid drop target, delete the course from the sourceTerm
+    if (!monitor.didDrop()) {
+      props.removeCourseFromTerm();
+    }
   },
 };
 
