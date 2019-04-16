@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchPlans, createPlan, deletePlan } from '../../actions/index';
 import { emptyPlan } from '../../services/empty_plan';
-import Modal from '../../components/modal/modal';
+import Modal from '../../components/modal';
 import './dashboard.scss';
 import noPlansImg from '../../style/no-plans.png';
 

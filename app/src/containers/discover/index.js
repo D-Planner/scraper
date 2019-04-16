@@ -3,7 +3,7 @@ import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import Departments from '../departments/departments';
+import Departments from '../departments';
 import {
   courseSearch, addCourseToFavorites,
 } from '../../actions/index';

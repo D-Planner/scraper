@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import {
   deletePlan, fetchPlan, fetchBucket, updateTerm,
 } from '../../actions';
-import Bucket from '../../components/bucket/bucket';
+import Bucket from '../../components/bucket';
 import Term from '../../components/term';
 import './dplan.scss';
 

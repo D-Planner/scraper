@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import robot from '../../../assets/avatars/robot.svg';
-import { signoutUser, fetchCourses } from '../../actions/index';
+import { signoutUser, fetchCourses } from '../../actions';
 import './nav.scss';
 
 class Nav extends Component {

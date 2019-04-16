@@ -1,5 +1,5 @@
 import React from 'react';
-import DraggableCourse from '../draggableCourse/draggableCourse';
+import DraggableCourse from '../draggableCourse';
 import './bucket.scss';
 
 // let anim = false;
