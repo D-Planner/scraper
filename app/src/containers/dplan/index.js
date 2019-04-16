@@ -95,7 +95,7 @@ class DPlan extends Component {
           </p>
         </div>
         <div className="plan-content">
-          <Bucket className="bucket" bucket={this.props.bucket} />
+          <Bucket className="bucket" bucket={this.props.bucket || []} />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (
