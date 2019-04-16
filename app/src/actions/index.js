@@ -104,7 +104,7 @@ export function deletePlan(id, history) {
   };
   return (dispatch) => {
     axios.delete(`${ROOT_URL}/plans/${id}`, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.DELETE_PLAN });
+      dispatch({ type: ActionTypes.DELETE_PLAN, payload: id });
       history.push('/');
     }).catch((error) => {
       console.log(error);

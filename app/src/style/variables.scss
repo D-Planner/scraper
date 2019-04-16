@@ -1,1 +1,14 @@
-$nav-height: 65px;
+@import url('https://fonts.googleapis.com/css?family=Poppins|Roboto');
+
+// global height specifications
+$nav-height: 84px;
+
+// fonts
+$roboto: 'Roboto', sans-serif;
+$poppins: 'Poppins', sans-serif;
+
+// colors:
+$purple: #574966;
+$blue-primary: #518FF5;
+$blue-secondary: #ECF3FF;
+$white: #FFFFFF;

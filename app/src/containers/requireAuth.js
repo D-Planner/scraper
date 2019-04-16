@@ -23,11 +23,9 @@ export default function (ComposedComponent) {
     }
   }
 
-  const mapStateToProps = state => (
-    {
-      authenticated: state.auth.authenticated,
-    }
-  );
+  const mapStateToProps = state => ({
+    authenticated: state.auth.authenticated,
+  });
 
   return withRouter(connect(mapStateToProps, null)(requireAuth));
 }

@@ -12,7 +12,7 @@ const plansReducer = (state = initialState, action) => {
     case ActionTypes.FETCH_PLAN:
       return Object.assign({}, state, { current: action.payload });
     case ActionTypes.DELETE_PLAN:
-      return Object.assign({}, state, { current: null });
+      return Object.assign({}, state, { current: null, all: state.all.filter(plan => plan.id !== action.payload) });
     default:
       return state;
   }
