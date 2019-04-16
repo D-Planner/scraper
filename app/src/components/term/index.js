@@ -73,15 +73,14 @@ const renderContent = (props) => {
     <div className="term-content">
       {props.term.courses.map((course) => {
         return (
-          <div className="course" key={course.id}>
-            <DraggableCourse
-              course={course}
-              sourceTerm={props.term}
-              removeCourseFromTerm={() => {
-                props.removeCourseFromTerm(course, props.term);
-              }}
-            />
-          </div>
+          <DraggableCourse
+            key={course.id}
+            course={course}
+            sourceTerm={props.term}
+            removeCourseFromTerm={() => {
+              props.removeCourseFromTerm(course, props.term);
+            }}
+          />
         );
       })}
     </div>

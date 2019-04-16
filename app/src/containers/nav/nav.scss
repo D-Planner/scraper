@@ -17,13 +17,14 @@ ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
 li {
     margin: 1%;
 }
 
-.plan {
+.nav-tab {
   font-family: $font-secondary;
   font-style: normal;
   font-weight: bold;
@@ -31,21 +32,15 @@ li {
   line-height: normal;
   text-align: center;
   text-transform: uppercase;
-  background: -webkit-linear-gradient(#5797FD, #8901FB);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  color: #574966;
 }
 
-.discover, .log-in {
-  color: $purple;
-  font-family: $font-secondary;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: normal;
-  text-align: center;
-  text-transform: uppercase;
+.nav-tab-active {
+    background: linear-gradient(#5797FD, #8901FB);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .sign-up {
@@ -79,4 +74,5 @@ li {
   display: flex;
   align-items:center;
   justify-content: flex-end;
+  height: 100%;
 }

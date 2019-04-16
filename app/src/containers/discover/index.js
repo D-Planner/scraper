@@ -56,11 +56,11 @@ class Discover extends React.Component {
 
   discoverButtons() {
     const directSearch = classNames({
-      active: this.state.searchDirect,
+      'search-tab-active': this.state.searchDirect,
       searchLink: true,
     });
     const advancedSearch = classNames({
-      active: !this.state.searchDirect,
+      'search-tab-active': !this.state.searchDirect,
       searchLink: true,
     });
     return (

@@ -29,28 +29,20 @@ const collect = (connect, monitor) => {
 };
 
 const Course = (props) => {
-  const onOffTermClassName = props.offTerm ? 'button on-term' : 'button off-term';
-
   return props.connectDragSource(
     <div>
       <div className="popover"
-        content={({ close }) => (
+        content={({ close }) => ( // TODO this doesn't do anything
           courseInfo(props.course)
         )}
       >
-        <div className={onOffTermClassName}>
-          <div className="button">
-            <div id="bucketCourseTitle"
-              className="pane"
-            >
-              <div>
-                {props.course.department}
-                {props.course.number}
-              </div>
-              <div>
-                {props.course.timeslot}
-              </div>
-            </div>
+        <div className="course">
+          <div>
+            {props.course.department}
+            {props.course.number}
+          </div>
+          <div>
+            {props.course.timeslot}
           </div>
         </div>
       </div>

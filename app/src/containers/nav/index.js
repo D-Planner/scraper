@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 import robot from '../../../assets/avatars/robot.svg';
 import { signoutUser, fetchCourses } from '../../actions';
 import './nav.scss';
@@ -14,16 +15,19 @@ class Nav extends Component {
   }
 
   render() {
+    const discoverActive = this.props.location.pathname.includes('discover');
+    const planClass = classNames({ 'nav-tab': true, 'nav-tab-active': !discoverActive });
+    const discoverClass = classNames({ 'nav-tab': true, 'nav-tab-active': discoverActive });
     return (
       <nav>
         {this.props.authenticated === true ? (
           <ul>
             <div className="list-container">
               <li>
-                <NavLink className="plan" to="/">Plan</NavLink>
+                <NavLink className={planClass} to="/">Plan</NavLink>
               </li>
               <li>
-                <NavLink className="discover" to="/discover">Discover</NavLink>
+                <NavLink className={discoverClass} to="/discover">Discover</NavLink>
               </li>
               <li className="avatar-container">
                 <img className="avatar" src={robot} alt="avatar" />
