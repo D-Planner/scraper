@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from 'evergreen-ui';
 import './draggableCourse.scss';
 import { DragSource as DraggableCourse } from 'react-dnd';
 import { ItemTypes } from '../../constants';
@@ -69,7 +68,6 @@ const courseInfo = (course) => {
           {course.subject}
           {course.number}
         </div>
-        <Icon id="minus_icon" icon="small-minus" />
       </div>
       <div className="list-group-item-text">
         <ul>

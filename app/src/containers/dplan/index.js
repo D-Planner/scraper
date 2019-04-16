@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  Dialog,
-} from 'evergreen-ui';
 import { withRouter } from 'react-router-dom';
 import {
   deletePlan, fetchPlan, fetchBucket, updateTerm,
 } from '../../actions';
 import Bucket from '../../components/bucket';
 import Term from '../../components/term';
+import Modal from '../../components/modal';
 import './dplan.scss';
 
 class DPlan extends Component {
@@ -16,12 +14,12 @@ class DPlan extends Component {
     super(props);
 
     this.state = {
-      showDialog: false,
+      showModal: false,
     };
 
-    this.onDialogSubmit = this.onDialogSubmit.bind(this);
-    this.hideDialog = this.hideDialog.bind(this);
-    this.showDialog = this.showDialog.bind(this);
+    this.onModalSubmit = this.onModalSubmit.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+    this.showModal = this.showModal.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
   }
@@ -31,7 +29,7 @@ class DPlan extends Component {
     this.props.fetchBucket();
   }
 
-  onDialogSubmit() {
+  onModalSubmit() {
     this.props.deletePlan(this.props.plan.id, this.props.history);
   }
 
@@ -54,15 +52,15 @@ class DPlan extends Component {
     });
   }
 
-  showDialog() {
+  showModal() {
     this.setState({
-      showDialog: true,
+      showModal: true,
     });
   }
 
-  hideDialog() {
+  hideModal() {
     this.setState({
-      showDialog: false,
+      showModal: false,
     });
   }
 
@@ -80,15 +78,10 @@ class DPlan extends Component {
               <p>Save</p>
             </button>
           </div>
-          <Dialog
-            isShown={this.state.showDialog}
-            title="Delete Plan?"
-            onConfirm={this.onDialogSubmit}
-            onCancel={this.hideDialog}
-            confirmLabel="Delete"
-            intent="danger"
-          />
-          <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
+          <Modal show={this.state.showModal} handleClose={this.onModalSubmit} text="Delete">
+            <p>Are you sure you want to delete this plan?</p>
+          </Modal>
+          <button type="button" className="delete-button" onClick={this.showModal}>Delete Plan</button>
         </div>
         <div className="plan-data">
           <p>
