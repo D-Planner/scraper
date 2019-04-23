@@ -1,5 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import closeButton from '../style/close.svg';
+
+import './dialogWrapper.scss';
 
 const DialogWrapper = (props) => {
   const handleBackgroundClick = (e) => {
@@ -20,19 +24,30 @@ const DialogWrapper = (props) => {
       </button>
     ) : null;
 
+  const size = classNames({
+    'sz-small': props.size === 'sm',
+    'sz-medium': props.size === 'md',
+    'sz-large': props.size === 'lg',
+    'dialog-container': true,
+  });
+
   return (
-    <div onClick={handleBackgroundClick} role="presentation">
-      <div className="dialog-header">
-        <h1>{props.title}</h1>
+    <div onClick={handleBackgroundClick} className="dialog-background" role="presentation">
+      <div className={size}>
+        <div className="dialog-header">
+          <div className="header-top-left" />
 
-        <button type="button" onClick={handleBackgroundClick}>
-          Close
-        </button>
+          <h1 className="dialog-title">{props.title}</h1>
+
+          <button type="button" onClick={handleBackgroundClick} className="close-button">
+            <img src={closeButton} alt="close" />
+          </button>
+        </div>
+
+        {props.children}
+
+        {okButton}
       </div>
-
-      {props.children}
-
-      {okButton}
     </div>
   );
 };
@@ -43,6 +58,7 @@ DialogWrapper.propTypes = {
   showOk: PropTypes.bool,
   okText: PropTypes.string,
   okDisabled: PropTypes.bool,
+  size: PropTypes.oneOf(['sm', 'md', 'lg']),
 
   // methods
   hideDialog: PropTypes.func.isRequired,
@@ -54,6 +70,7 @@ DialogWrapper.defaultProps = {
   showOk: true,
   okText: 'OK',
   okDisabled: false,
+  size: 'sm',
   onOk: () => {},
 };
 

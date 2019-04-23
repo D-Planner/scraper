@@ -1,10 +1,14 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchPlans, createPlan, deletePlan } from '../../actions';
+import {
+  fetchPlans, createPlan, deletePlan, showDialog,
+} from '../../actions';
 import { emptyPlan } from '../../services/empty_plan';
 import Modal from '../../components/modal';
 import Plans from '../../components/plans';
+import { DialogTypes } from '../../constants';
+
 import './dashboard.scss';
 
 class Dashboard extends React.Component {
@@ -20,7 +24,6 @@ class Dashboard extends React.Component {
     this.createNewPlan = this.createNewPlan.bind(this);
     this.removePlan = this.removePlan.bind(this);
     this.showModal = this.showModal.bind(this);
-    this.hideModal = this.hideModal.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
   }
 
@@ -35,7 +38,6 @@ class Dashboard extends React.Component {
   }
 
   handleSubmit(event) {
-    this.hideModal(event);
     this.createNewPlan(event);
   }
 
@@ -49,15 +51,7 @@ class Dashboard extends React.Component {
   }
 
   showModal(event) {
-    this.setState({
-      show: true,
-    });
-  }
-
-  hideModal(event) {
-    this.setState({
-      show: false,
-    });
+    this.props.showDialog(DialogTypes.NEW_PLAN);
   }
 
   renderPlans() {
@@ -94,4 +88,6 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
 });
 
-export default withRouter(connect(mapStateToProps, { fetchPlans, createPlan, deletePlan })(Dashboard));
+export default withRouter(connect(mapStateToProps, {
+  fetchPlans, createPlan, deletePlan, showDialog,
+})(Dashboard));
