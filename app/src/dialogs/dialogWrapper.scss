@@ -13,11 +13,14 @@
 
     .dialog-container {
         background: $background;
+        box-shadow: 0px 19px 38px rgba(0, 0, 0, 0.3), 0px 15px 12px rgba(0, 0, 0, 0.22);
+        border-radius: 2px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-
+        padding: 20px;
+        
         &.sz-small {
             width: 20%;
             height: 25%;
@@ -36,19 +39,41 @@
         .dialog-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             width: 100%;
 
-            .header-top-left {
-                width: 40px;
-                height: 40px;
+            .dialog-title {
+                font-family: $poppins;
+                font-size: 24px;
+                font-weight: normal;
+                margin: 0;
             }
 
             .close-button {
                 background: none;
                 border: none;
-                width: 40px;
-                height: 40px;
                 padding: 0;
+            }
+        }
+
+        .ok-button {
+            background: #FFFFFF;
+            box-shadow: 0px 3.028px 9.084px rgba(30, 67, 139, 0.4);
+            border-radius: 24.224px;
+            width: 20%;
+            padding: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .button-text {
+                font-family: $poppins;
+                font-weight: bold;
+                font-size: 14px;
+                color: rgba(0,0,0,0);
+                background: linear-gradient(to right, #5797FD, #8901FB);
+                background-clip: text;
+                text-transform: uppercase;
             }
         }
     }

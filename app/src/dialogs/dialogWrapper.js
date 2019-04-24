@@ -19,8 +19,8 @@ const DialogWrapper = (props) => {
 
   const okButton = props.showOk
     ? (
-      <button type="button" onClick={onOk} disabled={props.okDisabled}>
-        {props.okText}
+      <button type="button" className="ok-button" onClick={onOk} disabled={props.okDisabled}>
+        <div className="button-text">{props.okText}</div>
       </button>
     ) : null;
 
@@ -35,10 +35,7 @@ const DialogWrapper = (props) => {
     <div onClick={handleBackgroundClick} className="dialog-background" role="presentation">
       <div className={size}>
         <div className="dialog-header">
-          <div className="header-top-left" />
-
           <h1 className="dialog-title">{props.title}</h1>
-
           <button type="button" onClick={handleBackgroundClick} className="close-button">
             <img src={closeButton} alt="close" />
           </button>

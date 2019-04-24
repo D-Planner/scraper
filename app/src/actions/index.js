@@ -201,9 +201,9 @@ export function updateTerm(term) {
 }
 
 // dialog methods
-export function showDialog(dialogType) {
+export function showDialog(type, options) {
   return (dispatch) => {
-    dispatch({ type: ActionTypes.SHOW_DIALOG, payload: dialogType });
+    dispatch({ type: ActionTypes.SHOW_DIALOG, payload: { type, options } });
   };
 }
 

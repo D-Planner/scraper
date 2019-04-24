@@ -5,16 +5,17 @@ import { hideDialog } from '../actions';
 import NewPlanDialog from './newPlan';
 
 const DialogOrchestrator = (props) => {
-  switch (props.currentDialog) {
+  switch (props.type) {
     case 'NEW_PLAN':
-      return (<NewPlanDialog {...props} hideDialog={props.hideDialog} />);
+      return (<NewPlanDialog {...props.options} hideDialog={props.hideDialog} />);
     default:
       return null;
   }
 };
 
 const mapStateToProps = state => ({
-  currentDialog: state.dialog.current,
+  type: state.dialog.type,
+  options: state.dialog.options,
 });
 
 export default connect(mapStateToProps, { hideDialog })(DialogOrchestrator);

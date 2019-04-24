@@ -51,7 +51,14 @@ class Dashboard extends React.Component {
   }
 
   showModal(event) {
-    this.props.showDialog(DialogTypes.NEW_PLAN);
+    const dialogOptions = {
+      title: 'Name your plan',
+      okText: 'Create',
+      onOk: (name) => {
+        console.log(name);
+      },
+    };
+    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
   }
 
   renderPlans() {
