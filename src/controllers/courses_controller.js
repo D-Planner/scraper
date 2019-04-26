@@ -60,6 +60,8 @@ const getCourseByName = (req, res) => {
 };
 
 const getCourseByTitle = (req, res) => {
+    console.log(req.params.department);
+    console.log(req.params.number);
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
