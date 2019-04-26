@@ -188,6 +188,23 @@ export function courseSearch(query) {
   };
 }
 
+/**
+ * When the user just wants to search directly for a course like "COSC 10"
+ * @param {*} department
+ * @param {*} number
+ */
+export function directCourseSearch(department, number) {
+  return (dispath) => {
+    axios.get(`${ROOT_URL}/courses/${department}&${number}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispath({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
 export function updateTerm(term) {
   return (dispatch) => {
     return axios.put(`${ROOT_URL}/terms/${term.id}`, term, {
