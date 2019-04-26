@@ -36,14 +36,12 @@ class Discover extends React.Component {
   /**
    * Takes this.state.query and sends this into the dispath.
    * thoughts on stronger logic:
-   * user may type "COSC 10" or "COSC10" or follow some other unconventional way
+   * user may type "COSC 10" or "CS10" or follow some other unconventional way
    * what about pure department searches? "COSC"
-   * maybe just run both checks, and see which results make sense. if there are no results that come up from the normal search,
-   * but a singular result comes up from the direct search, then use the direct search.
    * @param {*} event
    */
   searchByName(event) {
-    if (/^[a-z]{4}( |)\d{1,3}$/i.test(this.state.query)) {
+    if (/^[a-z]{4}( |)\d{1,3}$/i.test(this.state.query)) { // using regex to see if the query is of the form "XXX ##"
       const department = this.state.query.match(/^[a-z]{4}/i)[0];
       const number = this.state.query.match(/\d+/)[0];
       this.props.courseSearch(this.state.query, department, number);

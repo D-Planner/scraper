@@ -174,7 +174,12 @@ export function addCourseToFavorites(courseID) {
   };
 }
 
-
+/**
+ * Sends two axios requests, direct and indirect search, and checks which response makes sense for the user, then dispatches that response.
+ * @param {*} query
+ * @param {*} department
+ * @param {*} number
+ */
 export function courseSearch(query, department, number) {
   return (dispatch) => {
     let indirectSearchResult,
@@ -184,23 +189,19 @@ export function courseSearch(query, department, number) {
     }).then((response) => {
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
       indirectSearchResult = response.data.filter(c => c.number > 0);
-      console.log(indirectSearchResult);
-    }).catch((error) => {
-      console.log(error);
-    });
-    axios.get(`${ROOT_URL}/courses/${department}&${number}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      return axios.get(`${ROOT_URL}/courses/${department}&${number}`, { // sends second axios request
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
     }).then((response) => {
       directSearchResult = response.data;
-      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: directSearchResult });
+      if (directSearchResult.length > 0) { // will dispatch only the response that is not empty
+        dispatch({ type: ActionTypes.COURSE_SEARCH, payload: directSearchResult });
+      } else {
+        dispatch({ type: ActionTypes.COURSE_SEARCH, payload: indirectSearchResult });
+      }
     }).catch((error) => {
       console.log(error);
     });
-    // if (directSearchResult.length > 0) {
-    //   dispatch({ type: ActionTypes.COURSE_SEARCH, payload: directSearchResult });
-    // } else {
-    //   dispatch({ type: ActionTypes.COURSE_SEARCH, payload: indirectSearchResult });
-    // }
   };
 }
 
