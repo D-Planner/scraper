@@ -3,9 +3,8 @@ import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import Departments from '../departments';
 import {
-  courseSearch, directCourseSearch, addCourseToFavorites,
+  courseSearch, addCourseToFavorites,
 } from '../../actions/index';
 import scrollButton from '../../style/scrollButton.svg';
 import searchIcon from '../../style/search.svg';
@@ -36,25 +35,24 @@ class Discover extends React.Component {
 
   /**
    * Takes this.state.query and sends this into the dispath.
-   * If it's a direct search, such as "COSC 10," then it will call directCourseSearch().
    * @param {*} event
    */
   searchByName(event) {
     const queries = this.state.query.split(' ');
-    if (queries.length === 2 && queries[0].length === 4) { // should build a stronger logic checker to see if the query is of the form "COSC 10"
+    if (queries.length === 2) { // should build a stronger logic checker to see if the query is of the form "COSC 10"
       /**
- * thoughts on stronger logic:
- * user may type "COSC 10" or "COSC10" or follow some other unconventional way
- * what about pure department searches? "COSC"
- * maybe just run both checks, and see which results make sense. if there are no results that come up from the normal search,
- * but a singular result comes up from the direct search, then use the direct search.
- */
-      this.props.directCourseSearch(queries[0], queries[1]);
+       * thoughts on stronger logic:
+       * user may type "COSC 10" or "COSC10" or follow some other unconventional way
+       * what about pure department searches? "COSC"
+       * maybe just run both checks, and see which results make sense. if there are no results that come up from the normal search,
+       * but a singular result comes up from the direct search, then use the direct search.
+       */
+      this.props.courseSearch(this.state.query, 'hello', '123');
       this.setState({
         displayingResults: true,
       });
     } else {
-      this.props.courseSearch({ query: this.state.query });
+      this.props.courseSearch(this.state.query, 'hello', '123');
       this.setState({
         displayingResults: true,
       });
@@ -202,9 +200,7 @@ class Discover extends React.Component {
                   className="scroll-prompt-button"
                 />
               </div>
-              <div ref={this.dptRef}>
-                <Departments />
-              </div>
+              <div ref={this.dptRef} />
             </div>
           )
         }
@@ -218,5 +214,5 @@ const mapStateToProps = state => (
 );
 
 export default withRouter(connect(mapStateToProps, {
-  courseSearch, directCourseSearch, addCourseToFavorites,
+  courseSearch, addCourseToFavorites,
 })(Discover));

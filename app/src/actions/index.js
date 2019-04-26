@@ -175,33 +175,34 @@ export function addCourseToFavorites(courseID) {
 }
 
 
-export function courseSearch(query) {
+export function courseSearch(query, department, number) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/courses/search`, query, {
+    let indirectSearchResult,
+      directSearchResult;
+    axios.post(`${ROOT_URL}/courses/search`, { query }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
+      console.log(response.data);
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
-      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+      indirectSearchResult = response.data.filter(c => c.number > 0);
     }).catch((error) => {
       console.log(error);
     });
-  };
-}
-
-/**
- * When the user just wants to search directly for a course like "COSC 10"
- * @param {*} department
- * @param {*} number
- */
-export function directCourseSearch(department, number) {
-  return (dispath) => {
     axios.get(`${ROOT_URL}/courses/${department}&${number}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      dispath({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+      console.log(response.data);
+      directSearchResult = response.data;
+      console.log(directSearchResult.length);
     }).catch((error) => {
       console.log(error);
     });
+    console.log('hi');
+    if (directSearchResult.length > 0) {
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: directSearchResult });
+    } else {
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: indirectSearchResult });
+    }
   };
 }
 
