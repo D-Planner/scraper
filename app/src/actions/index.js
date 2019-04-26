@@ -182,27 +182,25 @@ export function courseSearch(query, department, number) {
     axios.post(`${ROOT_URL}/courses/search`, { query }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(response.data);
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
       indirectSearchResult = response.data.filter(c => c.number > 0);
+      console.log(indirectSearchResult);
     }).catch((error) => {
       console.log(error);
     });
     axios.get(`${ROOT_URL}/courses/${department}&${number}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(response.data);
       directSearchResult = response.data;
-      console.log(directSearchResult.length);
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: directSearchResult });
     }).catch((error) => {
       console.log(error);
     });
-    console.log('hi');
-    if (directSearchResult.length > 0) {
-      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: directSearchResult });
-    } else {
-      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: indirectSearchResult });
-    }
+    // if (directSearchResult.length > 0) {
+    //   dispatch({ type: ActionTypes.COURSE_SEARCH, payload: directSearchResult });
+    // } else {
+    //   dispatch({ type: ActionTypes.COURSE_SEARCH, payload: indirectSearchResult });
+    // }
   };
 }
 
