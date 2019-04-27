@@ -7,6 +7,7 @@
   "scripts": {
     "test": "mocha --require @babel/register ./test --exit",
     "dev": "nodemon src/server.js --exec babel-node",
+    "dev:secret": "`echo 'AUTH_SECRET='6nyVvM5K@.ty$6%{'' > .env`",
     "start": "babel-node src/server.js",
     "build": "babel src -d dist",
     "prod": "yarn build; node dist/server.js"
