@@ -1,0 +1,28 @@
+@import '../../style/variables.scss';
+
+.new-plan-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-self: stretch;
+    flex-grow: 1;
+
+    .description {
+        font-size: 12px;
+    }
+
+    .new-plan-name {
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid $border;
+        transition: border 0.1s linear;
+        font-family: $roboto;
+        font-size: 12px;
+        line-height: 14px;
+        
+        &:focus {
+            border: 2px solid $blue-primary;
+            outline: none;
+        }
+    }
+}

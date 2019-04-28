@@ -1,4 +1,4 @@
-@import '../style/variables.scss';
+@import '../../style/variables.scss';
 
 .dialog-background {
     position: fixed;
@@ -22,18 +22,18 @@
         padding: 20px;
         
         &.sz-small {
-            width: 20%;
-            height: 25%;
+            min-width: 20%;
+            min-height: 25%;
         }
 
         &.sz-medium {
-            width: 30%;
-            height: 40%;
+            min-width: 30%;
+            min-height: 40%;
         }
 
         &.sz-large {
-            width: 50%;
-            height: 70%;
+            min-width: 50%;
+            min-height: 70%;
         }
 
         .dialog-header {
@@ -41,6 +41,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            margin-bottom: 10px;
 
             .dialog-title {
                 font-family: $poppins;
@@ -60,11 +61,11 @@
             background: #FFFFFF;
             box-shadow: 0px 3.028px 9.084px rgba(30, 67, 139, 0.4);
             border-radius: 24.224px;
-            width: 20%;
-            padding: 5px;
+            padding: 5px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-top: 10px;
 
             .button-text {
                 font-family: $poppins;
