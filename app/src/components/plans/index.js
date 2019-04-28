@@ -27,7 +27,7 @@ const Plans = ({
               <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan-container">
                 <p className="plan-name">{plan.name}</p>
                 <div className="delete-button-container">
-                  <button type="button" value={plan.id} onClick={deletePlan}>Delete Plan</button>
+                  <button type="button" value={plan.id} onClick={e => deletePlan(e, plan.id)}>Delete Plan</button>
                 </div>
               </div>
             );

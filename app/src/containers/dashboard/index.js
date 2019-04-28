@@ -29,9 +29,16 @@ class Dashboard extends React.Component {
     this.props.createPlan(emptyPlan, this.props.history);
   }
 
-  removePlan(event) {
+  removePlan(event, id) {
     event.stopPropagation();
-    this.props.deletePlan(event.target.value, this.props.history);
+    const opts = {
+      title: 'Delete Plan',
+      okText: 'Delete',
+      onOk: () => {
+        this.props.deletePlan(id, this.props.history);
+      },
+    };
+    this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
   }
 
   goToPlan(id) {
