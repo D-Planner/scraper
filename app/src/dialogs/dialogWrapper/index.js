@@ -36,7 +36,7 @@ const DialogWrapper = (props) => {
       <div className={size}>
         <div className="dialog-header">
           <h1 className="dialog-title">{props.title}</h1>
-          <button type="button" onClick={handleBackgroundClick} className="close-button">
+          <button type="button" onClick={props.hideDialog} className="close-button">
             <img src={closeButton} alt="close" />
           </button>
         </div>
