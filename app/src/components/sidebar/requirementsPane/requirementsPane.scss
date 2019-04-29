@@ -1,0 +1,47 @@
+@import '../../../style/variables.scss';
+
+.requirements {
+    .pane-header {
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        .pane-title {
+            align-self: flex-start;
+            font-size: 18px;
+        }
+
+        .toggle {
+            background: none;
+            border: none;
+            font-size: 12px;
+            padding: 0;
+            margin: 3px;
+            color: $med-grey;
+
+            &.active {
+                border-bottom: 1px solid $black;
+                color: $black;
+                outline: none;
+            }
+        }
+    }
+
+    .distribs-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .distrib-row {
+            display: flex;
+            align-items: center;
+            
+
+            .icon {
+                width: 40px;
+            }
+        }
+    }
+}

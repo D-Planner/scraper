@@ -5,7 +5,7 @@ import {
   deletePlan, fetchPlan, fetchBucket, updateTerm, showDialog,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
-import Bucket from '../../components/bucket';
+import Sidebar from '../../components/sidebar';
 import Term from '../../components/term';
 import './dplan.scss';
 
@@ -81,7 +81,7 @@ class DPlan extends Component {
           </p>
         </div>
         <div className="plan-content">
-          <Bucket className="bucket" bucket={this.props.bucket || []} />
+          <Sidebar className="sidebar" bucket={this.props.bucket || []} />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (

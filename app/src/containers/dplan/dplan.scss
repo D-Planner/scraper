@@ -101,7 +101,7 @@ $bottom-margin: 20px;
         width: calc(100% - 40px);
         height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
 
-        .bucket {
+        .sidebar {
             flex-basis: 10%;
             height: 100%;
         }
