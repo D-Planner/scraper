@@ -3,7 +3,7 @@ import { ActionTypes } from '../actions';
 const initialState = {
   all: [],
   results: [],
-  fetched_course: [],
+  fetched_course: null,
 };
 
 const coursesReducer = (state = initialState, action) => {
