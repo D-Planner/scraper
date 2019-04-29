@@ -3,7 +3,7 @@ import DialogWrapper from '../dialogWrapper';
 
 import './deletePlan.scss';
 
-const NewPlan = (props) => {
+const DeletePlan = (props) => {
   return (
     <DialogWrapper {...props}>
       <div className="new-plan-content">
@@ -14,4 +14,4 @@ const NewPlan = (props) => {
   );
 };
 
-export default NewPlan;
+export default DeletePlan;
