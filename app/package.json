@@ -6,7 +6,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
-    "react": "^16.7.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.0",
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
     "react-dom": "^16.7.0",

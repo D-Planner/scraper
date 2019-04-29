@@ -2,24 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, fetchBucket, updateTerm,
+  deletePlan, fetchPlan, fetchBucket, updateTerm, showDialog,
 } from '../../actions';
+import { DialogTypes } from '../../constants';
 import Bucket from '../../components/bucket';
 import Term from '../../components/term';
-import Modal from '../../components/modal';
 import './dplan.scss';
 
 class DPlan extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showModal: false,
-    };
-
-    this.onModalSubmit = this.onModalSubmit.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    this.showModal = this.showModal.bind(this);
+    this.showDialog = this.showDialog.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
   }
@@ -27,10 +21,6 @@ class DPlan extends Component {
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
     this.props.fetchBucket();
-  }
-
-  onModalSubmit() {
-    this.props.deletePlan(this.props.plan.id, this.props.history);
   }
 
   addCourseToTerm(course, term) {
@@ -52,16 +42,15 @@ class DPlan extends Component {
     });
   }
 
-  showModal() {
-    this.setState({
-      showModal: true,
-    });
-  }
-
-  hideModal() {
-    this.setState({
-      showModal: false,
-    });
+  showDialog() {
+    const opts = {
+      title: 'Delete Plan',
+      okText: 'Delete',
+      onOk: () => {
+        this.props.deletePlan(this.props.plan.id, this.props.history);
+      },
+    };
+    this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
   }
 
   render() {
@@ -78,10 +67,7 @@ class DPlan extends Component {
               <p>Save</p>
             </button>
           </div>
-          <Modal show={this.state.showModal} handleClose={this.onModalSubmit} text="Delete">
-            <p>Are you sure you want to delete this plan?</p>
-          </Modal>
-          <button type="button" className="delete-button" onClick={this.showModal}>Delete Plan</button>
+          <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
         </div>
         <div className="plan-data">
           <p>
@@ -126,5 +112,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, fetchBucket, updateTerm,
+  fetchPlan, deletePlan, fetchBucket, updateTerm, showDialog,
 })(DPlan));
