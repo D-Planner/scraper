@@ -4,6 +4,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import App from './components/App';
+import DialogOrchestrator from './dialogs/dialogOrchestrator';
 import { ActionTypes } from './actions';
 import reducers from './reducers';
 
@@ -23,6 +24,7 @@ if (token) {
 ReactDOM.render(
   <Provider store={store}>
     <App />
+    <DialogOrchestrator />
   </Provider>,
   document.getElementById('root'),
 );

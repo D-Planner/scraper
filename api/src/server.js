@@ -1,11 +1,12 @@
 import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import { requireAuth } from './authentication/init';
-import { authRouter, plansRouter, coursesRouter, termsRouter } from './routes';
+import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter } from './routes';
 
 require('dotenv').config();
 
@@ -35,6 +36,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// enable file uploads
+app.use(fileUpload());
+
 // default index route
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the DPlanner API!' });
@@ -45,6 +49,7 @@ app.use('/auth', authRouter);
 app.use('/plans', requireAuth, plansRouter);
 app.use('/courses', requireAuth, coursesRouter);
 app.use('/terms', requireAuth, termsRouter);
+app.use('/majors', requireAuth, majorsRouter);
 
 // custom middleware for 404 errors
 app.use((req, res, next) => {

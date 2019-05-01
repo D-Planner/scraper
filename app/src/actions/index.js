@@ -11,6 +11,8 @@ export const ActionTypes = {
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BUCKET: 'FETCH_BUCKET',
   COURSE_SEARCH: 'COURSE_SEARCH',
+  SHOW_DIALOG: 'SHOW_DIALOG',
+  HIDE_DIALOG: 'HIDE_DIALOG',
 };
 
 export function authError(error) {
@@ -212,5 +214,18 @@ export function updateTerm(term) {
     }).catch((err) => {
       console.log(err);
     });
+  };
+}
+
+// dialog methods
+export function showDialog(type, options) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SHOW_DIALOG, payload: { type, options } });
+  };
+}
+
+export function hideDialog() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.HIDE_DIALOG });
   };
 }
