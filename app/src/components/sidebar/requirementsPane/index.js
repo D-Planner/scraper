@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import checkedIcon from '../../../style/checkboxChecked.svg';
+import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
 
 import './requirementsPane.scss';
 
@@ -49,7 +51,7 @@ const RequirementsPane = (props) => {
       complete: false,
     },
     {
-      name: 'Systems and Traditions of Thought, Meaning, and Value',
+      name: 'Thought, Meaning, and Value',
       icon: icons.tmv,
       complete: false,
     },
@@ -95,6 +97,22 @@ const RequirementsPane = (props) => {
     },
   ];
 
+  const renderDistribs = () => {
+    return (
+      <div className="distribs-list">
+        {distribTypes.map((distrib) => {
+          return (
+            <div className="distrib-row">
+              <img className="checkbox" src={distrib.complete ? checkedIcon : uncheckedIcon} alt="checkbox" />
+              <img className="icon" src={distrib.icon} alt={`${distrib.name} icon`} />
+              <div className="distrib-name">{distrib.name}</div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   return (
     <div className="requirements pane active">
       <div className="pane-header">
@@ -104,16 +122,7 @@ const RequirementsPane = (props) => {
           <button type="button" className={degreeButtonClass} onClick={() => setDistribsTabActive(false)}>Degree</button>
         </div>
       </div>
-      <div className="distribs-list">
-        {distribTypes.map((distrib) => {
-          return (
-            <div className="distrib-row">
-              <img className="icon" src={distrib.icon} alt={`${distrib.name} icon`} />
-              <div className="distrib-name">{distrib.name}</div>
-            </div>
-          );
-        })}
-      </div>
+      {distribsActive ? renderDistribs() : <div />}
     </div>
   );
 };

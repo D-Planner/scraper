@@ -1,8 +1,10 @@
 @import '../../style/variables.scss';
+@import '../../containers/dplan/dplan.scss';
 
 .sidebar {
     display: flex;
     flex-direction: column;
+    height: $content-height;
 
     .pane {
         background: #ECF3FF;

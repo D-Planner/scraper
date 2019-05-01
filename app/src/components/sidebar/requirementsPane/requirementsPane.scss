@@ -33,14 +33,26 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        overflow: scroll;
 
         .distrib-row {
             display: flex;
+            justify-content: space-around;
             align-items: center;
-            
+            width: 100%;
+            line-height: 20px;
+            height: 60px;
 
+            .checkbox {
+                width: 20px;
+            }
+            
             .icon {
                 width: 40px;
+            }
+
+            .distrib-name {
+                flex-basis: 60%;
             }
         }
     }
