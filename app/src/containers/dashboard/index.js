@@ -19,6 +19,9 @@ class Dashboard extends React.Component {
     this.removePlan = this.removePlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.goToPlan = this.goToPlan.bind(this);
+
+    this.logError = this.logError.bind(this);
+    this.displayIfError = this.displayIfError.bind(this);
   }
 
   componentWillMount() {
@@ -26,11 +29,16 @@ class Dashboard extends React.Component {
   }
 
   displayIfError = () => {
-    if (this.state.errorMessage !== null) {
+    if (this.props.errorMessage !== null) {
       return <ErrorMessage />;
     } else {
       return null;
     }
+  }
+
+  logError() {
+    console.log('function call working?');
+    console.log(this.props.errorMessage);
   }
 
   createNewPlan(name) {
@@ -72,9 +80,9 @@ class Dashboard extends React.Component {
           <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
         </div>
         <div id="error-container">
-          <ErrorMessage />
           <p>test below</p>
-          {this.displayIfError}
+          {/* {this.logError()} */}
+          {this.displayIfError()}
         </div>
       </div>
     );
