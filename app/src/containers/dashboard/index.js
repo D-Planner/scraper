@@ -29,7 +29,7 @@ class Dashboard extends React.Component {
   }
 
   displayIfError = () => {
-    if (this.props.errorMessage !== null) {
+    if ((this.props.errorMessage !== null) && (this.props.errorMessage !== 'Unauthorized')) {
       return <ErrorMessage />;
     } else {
       return null;

@@ -3,6 +3,7 @@ import './errorMessage.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearError } from '../../actions';
+import GotIt from '../../../assets/buttons/got-it.png';
 
 class ErrorMessage extends React.Component {
   ifMessageNotNull = () => {
@@ -21,7 +22,10 @@ class ErrorMessage extends React.Component {
         <div id="error-box">
           <h1>Oh no!</h1>
           {this.ifMessageNotNull()}
-          <button type="button" onClick={this.props.clearError}>Got it!</button>
+          <div id="button-container">
+            <img src={GotIt} alt="Dismiss Error" onClick={this.props.clearError} />
+          </div>
+          {/* <button type="button" onClick={this.props.clearError}>Got it!</button> */}
         </div>
       </div>
     );
