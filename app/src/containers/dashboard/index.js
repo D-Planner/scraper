@@ -7,6 +7,7 @@ import {
 import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
+import ErrorMessage from '../ErrorMessage';
 
 import './dashboard.scss';
 
@@ -22,6 +23,14 @@ class Dashboard extends React.Component {
 
   componentWillMount() {
     this.props.fetchPlans();
+  }
+
+  displayIfError = () => {
+    if (this.state.errorMessage !== null) {
+      return <ErrorMessage />;
+    } else {
+      return null;
+    }
   }
 
   createNewPlan(name) {
@@ -59,7 +68,14 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className="dashboard-container">
-        <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
+        <div className="plans-container">
+          <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
+        </div>
+        <div id="error-container">
+          <ErrorMessage />
+          <p>test below</p>
+          {this.displayIfError}
+        </div>
       </div>
     );
   }
@@ -67,6 +83,7 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
   plans: state.plans.all,
+  errorMessage: state.plans.errorMessage,
 });
 
 export default withRouter(connect(mapStateToProps, {

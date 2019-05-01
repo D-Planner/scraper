@@ -3,7 +3,7 @@ import { ActionTypes } from '../actions';
 const initialState = {
   all: [],
   current: null,
-  errorMessage: '',
+  errorMessage: null, // ''?
 };
 
 const plansReducer = (state = initialState, action) => {

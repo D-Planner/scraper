@@ -17,6 +17,7 @@ export const ActionTypes = {
   ERROR_CLEAR: 'ERROR_CLEAR',
 };
 
+// ERROR HANDLINE
 export function authError(error) {
   return {
     type: ActionTypes.AUTH_ERROR,
@@ -24,6 +25,14 @@ export function authError(error) {
   };
 }
 
+export function clearError(error) {
+  return {
+    type: ActionTypes.ERROR_CLEAR,
+    payload: null,
+  };
+}
+
+// PLANS METHODS
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
 
 export function signinUser({ email, password }, history) {
