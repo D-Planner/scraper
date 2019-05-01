@@ -80,8 +80,6 @@ class Dashboard extends React.Component {
           <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
         </div>
         <div id="error-container">
-          <p>test below</p>
-          {/* {this.logError()} */}
           {this.displayIfError()}
         </div>
       </div>

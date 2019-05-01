@@ -20,7 +20,7 @@ class ErrorMessage extends React.Component {
       <div id="error-message">
         <div id="error-box">
           <h1>Oh no!</h1>
-          {this.ifMessageNotNull}
+          {this.ifMessageNotNull()}
           <button type="button" onClick={this.props.clearError}>Got it!</button>
         </div>
       </div>
