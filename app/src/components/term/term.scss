@@ -53,16 +53,10 @@
             align-items: center;
             color: #FFFFFF;
         }
-
-        .course {
-            margin: 5px;
-        }
     }
 
     &.offterm {
-        background: #ECF3FF;
-        border-radius: 2px;
-
+        background: $gray-1;
         .term-name {
             color: #818181;
         }
