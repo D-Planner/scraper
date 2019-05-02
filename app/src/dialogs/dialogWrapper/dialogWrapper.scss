@@ -32,8 +32,13 @@
         }
 
         &.sz-large {
-            min-width: 50%;
-            min-height: 70%;
+            width: 50%;
+            height: 70%;
+            .dialog-header {
+                .dialog-title {
+                    font-size: 32px;
+                }
+            }
         }
 
         .dialog-header {

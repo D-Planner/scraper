@@ -5,7 +5,7 @@ import './bucket.scss';
 const Bucket = ({ bucket }) => {
   return (
     <div className="bucket">
-      <h1 className="bucket-name">Bucket</h1>
+      <h1 className="bucket-name">Bookmarked Classes</h1>
       <div className="course-list">
         {bucket.map((course, index) => {
           return (

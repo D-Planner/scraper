@@ -5,6 +5,7 @@ import { DialogTypes } from '../constants';
 
 import NewPlanDialog from './newPlan';
 import DeletePlanDialog from './deletePlan';
+import CourseInfoDialog from './courseInfo';
 
 const DialogOrchestrator = (props) => {
   switch (props.type) {
@@ -12,6 +13,8 @@ const DialogOrchestrator = (props) => {
       return (<NewPlanDialog {...props.options} hideDialog={props.hideDialog} />);
     case DialogTypes.DELETE_PLAN:
       return (<DeletePlanDialog {...props.options} hideDialog={props.hideDialog} />);
+    case DialogTypes.COURSE_INFO:
+      return (<CourseInfoDialog {...props.options} hideDialog={props.hideDialog} />);
     default:
       return null;
   }
