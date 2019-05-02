@@ -9,7 +9,7 @@ export const ActionTypes = {
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_USER: 'FETCH_USER',
   FETCH_COURSES: 'FETCH_COURSES',
-  FETCH_BUCKET: 'FETCH_BUCKET',
+  FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   COURSE_SEARCH: 'COURSE_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
@@ -153,13 +153,13 @@ export function fetchUser() {
   };
 }
 
-export function fetchBucket() {
+export function fetchBookmarks() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
   return (dispatch) => {
     axios.get(`${ROOT_URL}/courses/favorite`, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
+      dispatch({ type: ActionTypes.FETCH_BOOKMARKS, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });

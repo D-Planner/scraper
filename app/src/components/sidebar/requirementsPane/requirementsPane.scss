@@ -1,6 +1,11 @@
 @import '../../../style/variables.scss';
+@import '../sidebar.scss';
 
 .requirements {
+    &.active .pane-header .pane-title {
+        font-weight: bold;
+    }
+
     .pane-header {
         margin: 0;
         display: flex;
@@ -10,7 +15,9 @@
 
         .pane-title {
             align-self: flex-start;
-            font-size: 18px;
+            font-size: $header-size;
+            margin: 0;
+            font-weight: normal;
         }
 
         .toggle {
@@ -32,16 +39,17 @@
     .distribs-list {
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
         overflow: scroll;
+        margin-top: 20px;
 
         .distrib-row {
             display: flex;
             justify-content: space-around;
             align-items: center;
             width: 100%;
-            line-height: 20px;
-            height: 60px;
+            height: 60px !important;
 
             .checkbox {
                 width: 20px;

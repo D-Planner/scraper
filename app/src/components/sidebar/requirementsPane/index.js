@@ -97,15 +97,16 @@ const RequirementsPane = (props) => {
     },
   ];
 
-  const renderDistribs = () => {
+  const renderDistribs = (active) => {
+    if (!active) { return null; }
     return (
       <div className="distribs-list">
         {distribTypes.map((distrib) => {
           return (
             <div className="distrib-row">
-              <img className="checkbox" src={distrib.complete ? checkedIcon : uncheckedIcon} alt="checkbox" />
               <img className="icon" src={distrib.icon} alt={`${distrib.name} icon`} />
               <div className="distrib-name">{distrib.name}</div>
+              <img className="checkbox" src={distrib.complete ? checkedIcon : uncheckedIcon} alt="checkbox" />
             </div>
           );
         })}
@@ -113,16 +114,26 @@ const RequirementsPane = (props) => {
     );
   };
 
+  const paneClass = classNames({
+    requirements: true,
+    pane: true,
+    active: props.active,
+  });
+
   return (
-    <div className="requirements pane active">
+    <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
         <h1 className="pane-title">Requirements</h1>
-        <div className="requirements-toggle">
-          <button type="button" className={distribsButtonClass} onClick={() => setDistribsTabActive(true)}>Distribs</button>
-          <button type="button" className={degreeButtonClass} onClick={() => setDistribsTabActive(false)}>Degree</button>
-        </div>
+        {props.active
+          ? (
+            <div className="requirements-toggle">
+              <button type="button" className={distribsButtonClass} onClick={() => setDistribsTabActive(true)}>Distribs</button>
+              <button type="button" className={degreeButtonClass} onClick={() => setDistribsTabActive(false)}>Degree</button>
+            </div>
+          )
+          : <div /> }
       </div>
-      {distribsActive ? renderDistribs() : <div />}
+      {props.active ? renderDistribs(distribsActive) : <div />}
     </div>
   );
 };

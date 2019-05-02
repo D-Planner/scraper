@@ -1,6 +1,10 @@
 @import '../../style/variables.scss';
 @import '../../containers/dplan/dplan.scss';
 
+$header-size: 18px;
+$active-height: calc(#{$content-height} * 0.8);
+$inactive-height: calc(#{$content-height} * 0.02);
+
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -17,26 +21,14 @@
         margin: 5px 0;
         background: $background;
         box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.24);
+        font-weight: normal;
+
+        height: $inactive-height;
+        overflow: hidden;
+        transition: all 500ms ease-in-out;
 
         &.active {
-            flex-grow: 1;
-        }
-
-        &.collapsed {
-            flex-grow: 0;
-        }
-
-        &.bookmarks {
-        
-            .bookmarks-header {
-                align-self: flex-start;
-                font-family: $poppins;
-                margin: 0 0 20px;
-            }
-        
-            .bookmarked-courses-list {
-                width: 100%;
-            }
+            height: $active-height;
         }
     }
 }

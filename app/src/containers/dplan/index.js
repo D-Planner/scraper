@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, fetchBucket, updateTerm, showDialog,
+  deletePlan, fetchPlan, fetchBookmarks, updateTerm, showDialog,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import Sidebar from '../../components/sidebar';
@@ -20,7 +20,7 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
-    this.props.fetchBucket();
+    this.props.fetchBookmarks();
   }
 
   addCourseToTerm(course, term) {
@@ -81,7 +81,7 @@ class DPlan extends Component {
           </p>
         </div>
         <div className="plan-content">
-          <Sidebar className="sidebar" bucket={this.props.bucket || []} />
+          <Sidebar className="sidebar" bookmarks={this.props.bookmarks || []} />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (
@@ -108,9 +108,9 @@ class DPlan extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
-  bucket: state.courses.bucket,
+  bookmarks: state.courses.bookmarks,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, fetchBucket, updateTerm, showDialog,
+  fetchPlan, deletePlan, fetchBookmarks, updateTerm, showDialog,
 })(DPlan));
