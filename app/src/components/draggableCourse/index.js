@@ -45,8 +45,7 @@ const Course = (props) => {
     <div onClick={() => showCourseInfoDialog(props, props.course)} role="button" tabIndex="0">
       <div className="course">
         <div>
-          {props.course.department}
-          {props.course.number}
+          {`${props.course.department} ${props.course.number}`}
         </div>
         <div>
           {props.course.timeslot}
