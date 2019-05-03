@@ -43,7 +43,6 @@ const Course = (props) => {
             {props.course.number}
           </div>
           <div>
-            {/* {props.course.timeslot} */}
             <HourSelector timeslots={props.course.timeslot} />
           </div>
         </div>
