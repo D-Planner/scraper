@@ -26,18 +26,19 @@ import './hourSelector.scss';
 
 const HourSelector = (props) => {
   return (
+  // <p>Hi!</p>
     <select name="cars">
       <option value={props.timeslots}>{props.timeslots}</option>
       <option value="jello">Jello!</option>
 
       {/*
         //Once timeslots is an array
-      {props.timeslots.map((hour) => {
-        return (
-          <option value="hour">{hour}</option>
-        );
-      })} */
-      }
+        {props.timeslots.map((hour) => {
+            return (
+            <option value="hour">{hour}</option>
+            );
+        })} */
+        }
     </select>
   );
 };

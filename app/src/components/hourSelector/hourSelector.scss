@@ -3,18 +3,16 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
 
-    width: 50px;
+    height: 30px;
+    width: 40px;
 
     background: rgba(0,0,0,0);
     border-style: none;
-    color: white;
-    font-size: 18px;
+    color: black;
+    font-size: 16px;
+    text-justify: center;
 }
 
 select:focus {
     outline: none;
-}
-
-select::-ms-expand {
-    display: none;
 }

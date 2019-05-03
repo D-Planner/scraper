@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
 import DraggableCourse from '../draggableCourse';
-import HourSelector from '../hourSelector';
+// import HourSelector from '../hourSelector';
 
 import './term.scss';
 import { ItemTypes } from '../../constants';
@@ -83,7 +83,6 @@ const renderContent = (props) => {
                 props.removeCourseFromTerm(course, props.term);
               }}
             />
-            <HourSelector timeslots={course.timeslot} />
           </div>
         );
       })}

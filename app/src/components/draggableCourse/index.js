@@ -2,6 +2,7 @@ import React from 'react';
 import './draggableCourse.scss';
 import { DragSource as DraggableCourse } from 'react-dnd';
 import { ItemTypes } from '../../constants';
+import HourSelector from '../hourSelector';
 
 const source = {
   beginDrag(props) {
@@ -42,7 +43,8 @@ const Course = (props) => {
             {props.course.number}
           </div>
           <div>
-            {props.course.timeslot}
+            {/* {props.course.timeslot} */}
+            <HourSelector timeslots={props.course.timeslot} />
           </div>
         </div>
       </div>
