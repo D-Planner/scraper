@@ -74,7 +74,7 @@ const renderContent = (props) => {
     <div className="term-content">
       {props.term.courses.map((course) => {
         return (
-          <div id="course-row">
+          <div className="course-row">
             <DraggableCourse
               key={course.id}
               course={course}
