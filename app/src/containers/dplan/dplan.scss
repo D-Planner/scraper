@@ -97,7 +97,7 @@ $bottom-margin: 20px;
         flex-direction: row;
         justify-content: space-between;
         width: 100%;
-        height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
+        // height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
 
         .bucket {
             flex-basis: 10%;
