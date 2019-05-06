@@ -109,7 +109,8 @@ $bottom-margin: 20px;
         .plan-grid {
             flex-basis: 90%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             overflow: scroll;
 
             .plan-row {

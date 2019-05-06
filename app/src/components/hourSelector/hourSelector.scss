@@ -10,9 +10,15 @@ select {
     border-style: none;
     color: black;
     font-size: 16px;
-    text-justify: center;
+    text-align-last: center;
+    transition: 0.3s;
 }
 
 select:focus {
     outline: none;
+}
+
+select:hover {
+    background: rgba(0,0,0,0.10);
+    transition: 0.3s;
 }
