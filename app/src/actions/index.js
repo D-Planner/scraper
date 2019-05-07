@@ -179,7 +179,7 @@ export function addCourseToFavorites(courseID) {
 
 export function courseSearch(query) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/courses/search`, query, {
+    axios.post(`${ROOT_URL}/courses/search`, { query }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam

@@ -13,7 +13,7 @@ const BookmarksPane = (props) => {
 
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
-      <h1 className="bookmarks-header">Bookmarked Classes</h1>
+      <h1 className="pane-header">Bookmarked Classes</h1>
       {props.active
         ? (
           <div className="bookmarked-courses-list">
