@@ -32,6 +32,10 @@
     }
 
     .pane-content {
+        display: none;
+    }
+    
+    &.active .pane-content {
         display: flex;
         flex-direction: column;
         align-items: stretch;
