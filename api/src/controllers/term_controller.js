@@ -37,12 +37,12 @@ const addCourseToTerm = async (req, res, next) => {
     const populated = await term.populate({
         path: 'courses',
         populate: {
-            path: 'course_id',
+            path: 'course',
         },
     }).execPopulate();
 
     // check if a course with this id already exists in the term
-    if (populated.courses.filter((course) => { return course.course_id.id === req.body.course.id; }).length === 0) {
+    if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
         term.courses.push(userCourse);
     } else {
         res.status(409).json({ message: 'This course already exists in this term' });

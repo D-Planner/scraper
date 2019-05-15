@@ -75,7 +75,7 @@ const renderContent = (props) => {
         return (
           <DraggableCourse
             key={course.id}
-            course={course}
+            course={course.course}
             sourceTerm={props.term}
             removeCourseFromTerm={() => {
               props.removeCourseFromTerm(course, props.term);
