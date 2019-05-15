@@ -7,6 +7,7 @@ import {
 import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
+import ErrorMessage from '../ErrorMessage';
 
 import './dashboard.scss';
 
@@ -18,10 +19,26 @@ class Dashboard extends React.Component {
     this.removePlan = this.removePlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.goToPlan = this.goToPlan.bind(this);
+
+    this.logError = this.logError.bind(this);
+    this.displayIfError = this.displayIfError.bind(this);
   }
 
   componentWillMount() {
     this.props.fetchPlans();
+  }
+
+  displayIfError = () => {
+    if ((this.props.errorMessage !== null) && (this.props.errorMessage !== 'Unauthorized')) {
+      return <ErrorMessage />;
+    } else {
+      return null;
+    }
+  }
+
+  logError() {
+    console.log('function call working?');
+    console.log(this.props.errorMessage);
   }
 
   createNewPlan(name) {
@@ -59,7 +76,12 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div className="dashboard-container">
-        <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
+        <div className="plans-container">
+          <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
+        </div>
+        <div id="error-container">
+          {this.displayIfError()}
+        </div>
       </div>
     );
   }
@@ -67,6 +89,7 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
   plans: state.plans.all,
+  errorMessage: state.plans.errorMessage,
 });
 
 export default withRouter(connect(mapStateToProps, {
