@@ -38,9 +38,13 @@ const Course = (props) => {
         )}
       >
         <div className="course">
-          <div>
+          <div className="title-box">
             {props.course.department}
             {props.course.number}
+            <div className="spacer">
+            |
+            </div>
+            {props.course.name}
           </div>
           <div>
             <HourSelector timeslots={props.course.timeslot} />
