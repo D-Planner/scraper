@@ -47,14 +47,18 @@ const Term = (props) => {
     'toggle-button': true,
     active: props.term.off_term,
   });
+  const onButtonClick = () => {
+    console.log('clicked!');
+    // console.log(props.term.offterm)
+  };
 
   return props.connectDropTarget(
     <div className={termClass}>
       <div className="header">
         <div className="term-name">{props.term.name}</div>
         <div className="offterm-toggle">
-          <span className={onButtonClass}>on</span>
-          <span className={offButtonClass}>off</span>
+          <span onClick={onButtonClick} role="button" className={onButtonClass}>on</span>
+          <span onClick={onButtonClick} role="button" className={offButtonClass}>off</span>
         </div>
       </div>
       {renderContent(props)}
