@@ -13,6 +13,7 @@ plansRouter.get('/', (req, res, next) => {
     });
 });
 
+// GET /plans/:id
 plansRouter.get('/:id', (req, res, next) => {
     const planID = req.params.id;
     return PlanController.getPlanByID(planID).then((plan) => {

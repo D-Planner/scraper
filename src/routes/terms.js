@@ -9,4 +9,8 @@ const termsRouter = Router();
 
 termsRouter.put('/:id', TermController.updateTerm);
 
+termsRouter.route('/:termID/course')
+    .post(TermController.addCourseToTerm)
+    .delete(TermController.removeCourseFromTerm);
+
 export default termsRouter;
