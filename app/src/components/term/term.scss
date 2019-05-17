@@ -1,27 +1,36 @@
 @import '../../style/variables.scss';
 
+$term-border-radius: 6px;
+$term-padding: 0 15px;
+$term-min-width-13: 238px;
+$term-min-height-13: 205px;
+$term-margin: 0 21px 12px 0;
+
 .term {
     box-sizing: border-box;
-    background: #518FF5;
-    border-radius: 6px;
-    margin: 0 21px 12px 0;
-    padding: 0 15px;
-    width: 238px;
-    height: 205px;
+    background: $blue-primary;
+    border-radius: $term-border-radius;
+    margin: $term-margin;
+    padding: $term-padding;
+    width: $term-min-width-13;
+    height: $term-min-height-13;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: start;
 
     .header {
+        $term-name-font-size: 24px;
+        $term-header-min-height-13: 52px;
+
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        min-height: 52px;
+        min-height: $term-header-min-height-13;
 
         .term-name {
             font-family: $roboto;
-            font-size: 24px;
+            font-size: $term-name-font-size;
             color: $white;
         }
         .turn-term-off-button {
@@ -35,9 +44,6 @@
             font-size: 12px;
             width: 30px;
             height: 22px;
-            // below arguments necessary because otherwise web browser will override with defaults
-            padding: 0;
-            border-style: none;
         }
         .turn-term-on-button {
             color: $gray-6;
@@ -50,9 +56,6 @@
             font-size: 12px;
             width: 30px;
             height: 22px;
-            // below arguments necessary because otherwise web browser will override with defaults
-            padding: 0;
-            border-style: none;
         }
         .offterm-toggle {
             > .toggle-button {
@@ -75,15 +78,12 @@
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
-        flex-basis: 90%; // what does this do?
 
         &.no-content {
             text-align: center;
             justify-content: flex-start;
             align-items: center;
-            // below arguments necessary because otherwise web browser will override with defaults
-            margin: 0;
-            padding: 0;
+
             div {
                 color: $white;
                 position: relative;
