@@ -21,10 +21,13 @@ $gray-1: #F8F8F8;
 $gray-6: #838484;
 
 // colors -old (we're not removing because of possible dependencies:
-$purple: #574966;
-$blue-secondary: #ECF3FF; // no longer using in designs
+
 $background: #F8F8F8;
 $border: #D8D5D5;
 $white: #FFFFFF;
-$warning: #FF0031;
+$med-grey: #848484;
 $black: #000000;
+
+// box shadows:
+$box-shadow-default: 0px 2px 15px rgba(0, 0, 0, 0.25);
+$box-shadow-button: 0px 6px 12px rgba(153, 153, 153, 0.25);
