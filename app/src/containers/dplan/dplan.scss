@@ -70,7 +70,7 @@ $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan
             flex-direction: column;
             font-weight: 200;
             font-size: 12pt;
-            color: $warning;
+            color: $error;
             background: white;
             border: 0.25px solid #D7D6D6;
             border-radius: 32px;
