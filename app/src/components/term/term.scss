@@ -74,3 +74,21 @@
     width: 208px;
     align-items: center;
 }
+
+#on-off-button {
+    height: 20px;
+    width: 30px;
+    background-color: white;
+    color: #518FF5;
+    border-radius: 5px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
