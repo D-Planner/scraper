@@ -3,13 +3,14 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
 
-    height: 30px;
+    height: 35px;
     width: 40px;
 
     background: rgba(0,0,0,0);
     border-style: none;
-    color: black;
-    font-size: 16px;
+    color: white;
+    font-size: 12px;
+    font-family: Poppins;
     text-align-last: center;
     transition: 0.3s;
 }

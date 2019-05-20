@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
 import DraggableCourse from '../draggableCourse';
-// import HourSelector from '../hourSelector';
+import HourSelector from '../hourSelector';
 
 import './term.scss';
 import { ItemTypes } from '../../constants';
@@ -57,8 +57,8 @@ const Term = (props) => {
       <div className="header">
         <div className="term-name">{props.term.name}</div>
         <div className="offterm-toggle">
-          <span onClick={onButtonClick} role="button" className={onButtonClass}>on</span>
-          <span onClick={onButtonClick} role="button" className={offButtonClass}>off</span>
+          <span onClick={onButtonClick} role="button" tabIndex={-1} className={onButtonClass}>on</span>
+          <span onClick={onButtonClick} role="button" tabIndex={-1} className={offButtonClass}>off</span>
         </div>
       </div>
       {renderContent(props)}
@@ -87,6 +87,9 @@ const renderContent = (props) => {
                 props.removeCourseFromTerm(course, props.term);
               }}
             />
+            <div>
+              <HourSelector timeslots={course.timeslot} />
+            </div>
           </div>
         );
       })}

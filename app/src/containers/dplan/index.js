@@ -71,7 +71,7 @@ class DPlan extends Component {
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (
-                // <div className="plan-row" key={year[0].id}>
+                <div className="plan-row" key={year[0].id}>
                   {year.map((term) => {
                     return (
                       <Term
@@ -82,7 +82,7 @@ class DPlan extends Component {
                       />
                     );
                   })}
-                {/* </div> */}
+                </div>
               );
             })}
           </div>

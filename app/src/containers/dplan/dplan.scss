@@ -114,6 +114,7 @@ $bottom-margin: 20px;
             .plan-row {
                 display: flex;
                 flex-direction: row;
+                flex: 1;
             }
         }
     }
