@@ -35,7 +35,7 @@ class Discover extends React.Component {
   }
 
   searchByName(event) {
-    this.props.courseSearch({ query: this.state.query });
+    this.props.courseSearch(this.state.query);
     this.setState({
       displayingResults: true,
     });

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, fetchBucket, updateTerm, showDialog,
+  deletePlan, fetchPlan, updateTerm, showDialog,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
-import Bucket from '../../components/bucket';
+import Sidebar from '../sidebar';
 import Term from '../../components/term';
 import './dplan.scss';
 
@@ -22,7 +22,6 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
-    this.props.fetchBucket();
   }
 
   addCourseToTerm(course, term) {
@@ -102,7 +101,7 @@ class DPlan extends Component {
           <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
         </div>
         <div className="plan-content">
-          <Bucket className="bucket" bucket={this.props.bucket || []} />
+          <Sidebar className="sidebar" />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (
@@ -131,9 +130,8 @@ class DPlan extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
-  bucket: state.courses.bucket,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, fetchBucket, updateTerm, showDialog,
+  fetchPlan, deletePlan, updateTerm, showDialog,
 })(DPlan));

@@ -28,7 +28,7 @@ const termTarget = {
       return { destinationTerm: props.term };
     }
 
-    return null;
+    return undefined;
   },
 };
 
