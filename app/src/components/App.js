@@ -11,7 +11,6 @@ import Courses from '../containers/courses';
 import Dashboard from '../containers/dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
-import bucket from './bucket';
 import Discover from '../containers/discover';
 
 const FallBack = (props) => {
@@ -30,7 +29,6 @@ const App = (props) => {
             <Route exact path="/courses" component={requireAuth(Courses)} />
             <Route path="/signup" component={signUp} />
             <Route path="/signin" component={signIn} />
-            <Route path="/bucket" component={bucket} />
             <Route path="/discover" component={Discover} />
             <Route path="/plan/:id" component={DPlan} />
             <Route component={FallBack} />
