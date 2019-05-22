@@ -6,4 +6,5 @@ export const DialogTypes = {
   NEW_PLAN: 'NEW_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
   COURSE_INFO: 'COURSE_INFO',
+  OFF_TERM: 'OFF_TERM',
 };

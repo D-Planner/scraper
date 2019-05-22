@@ -41,12 +41,13 @@ const showCourseInfoDialog = (props, course) => {
 
 const Course = (props) => {
   return props.connectDragSource(
-<<<<<<< HEAD
     <div onClick={() => showCourseInfoDialog(props, props.course)} role="button" tabIndex="0">
       <div>
         <div className="popover"
-          content={({ close }) => ( // TODO this doesn't do anything
-            courseInfo(props.course)
+          content={({ close }) => (
+            // TODO this doesn't do anything
+            console.log('temp filler')
+            // courseInfo(props.course)
           )}
         >
           <div className="course">
@@ -60,8 +61,7 @@ const Course = (props) => {
                 {props.course.name}
               </div>
             </div>
-=======
-    <div>
+            {/* <div>
       <div className="popover">
         <div className="course">
           <div>
@@ -69,8 +69,7 @@ const Course = (props) => {
             {props.course.number}
           </div>
           <div>
-            {props.course.timeslot}
->>>>>>> master
+            {props.course.timeslot} */}
           </div>
         </div>
       </div>

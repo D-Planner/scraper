@@ -2,27 +2,24 @@
 
 .course {
     background-color: #FFFFFF;
-<<<<<<< HEAD
     margin-top: 5px;
     padding: 0 6px 0 6px;
     border-color: #FFFFFF;
     color: #000000;
     border-radius: 3px;
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.25);
-=======
-    margin-top: 10px;
-    padding: 5px;
-    border-color: #FFFFFF;
-    color: #000000;
-    border-radius: 2px;
-    box-shadow: $box-shadow-default;
->>>>>>> master
+    //Master
+    // margin-top: 10px;
+    // padding: 5px;
+    // border-color: #FFFFFF;
+    // color: #000000;
+    // border-radius: 2px;
+    // box-shadow: $box-shadow-default;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-<<<<<<< HEAD
     overflow: hidden;
     width: 180px;
 }
@@ -34,12 +31,11 @@
     overflow: hidden;
     align-items: center;
     height: 30px;
-=======
 
-    &:hover {
-        filter: brightness(95%);
-    }
->>>>>>> master
+    //Master
+    // &:hover {
+    //     filter: brightness(95%);
+    // }
 }
 
 .list-group-item-heading {

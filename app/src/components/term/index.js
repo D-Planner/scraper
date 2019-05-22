@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
 import DraggableCourse from '../draggableCourse';
 import HourSelector from '../hourSelector';
-
+import { DialogTypes, ItemTypes } from '../../constants';
 import './term.scss';
-import { ItemTypes } from '../../constants';
+
+
+// this.turnOffTerm = this.turnOffTerm.bind(this);
+//     this.showOffTermDialog = this.showOffTermDialog.bind(this);
+//     turnOffTerm(term) {
+//       term.courses = [];
+//       this.props.updateTerm(term).then(() => {
+//         this.props.fetchPlan(this.props.plan.id);
+//       }).catch((err) => {
+//         console.log(err);
+//       });
+//     }
+//     showOffTermDialog(term) {
+//       const opts = {
+//         title: 'Turn Term Off',
+//         okText: 'Ok!',
+//         onOk: () => {
+//           this.turnOffTerm(term);
+//         },
+//       };
+//       this.props.showDialog(DialogTypes.OFF_TERM, opts);
+//     }
+
 
 const termTarget = {
   drop: (props, monitor) => {
@@ -34,37 +56,86 @@ const collect = (connect, monitor) => {
   };
 };
 
-const Term = (props) => {
-  const termClass = classNames({
-    term: true,
-    offterm: props.term.off_term,
-  });
-  const onButtonClass = classNames({
-    'toggle-button': true,
-    active: !props.term.off_term,
-  });
-  const offButtonClass = classNames({
-    'toggle-button': true,
-    active: props.term.off_term,
-  });
-  const onButtonClick = () => {
-    console.log('clicked!');
-    // console.log(props.term.offterm)
-  };
+class Term extends Component {
+  constructor(props) {
+    super(props);
 
-  return props.connectDropTarget(
-    <div className={termClass}>
-      <div className="header">
-        <div className="term-name">{props.term.name}</div>
-        <div className="offterm-toggle">
-          <span onClick={onButtonClick} role="button" tabIndex={-1} className={onButtonClass}>on</span>
-          <span onClick={onButtonClick} role="button" tabIndex={-1} className={offButtonClass}>off</span>
+    // Bindings
+    this.turnOffTerm = this.turnOffTerm.bind(this);
+    this.showOffTermDialog = this.showOffTermDialog.bind(this);
+    this.termClass = this.termClass.bind(this);
+    this.onButtonClass = this.onButtonClass.bind(this);
+    this.offButtonClass = this.offButtonClass.bind(this);
+    this.onButtonClick = this.onButtonClick.bind(this);
+  }
+
+
+  onButtonClick() {
+    console.log('clicked!');
+    console.log(this.props.term);
+    // console.log(props.term.offterm)
+  }
+
+  onButtonClass() {
+    classNames({
+      'toggle-button': true,
+      active: !this.props.term.off_term,
+    });
+  }
+
+  offButtonClass() {
+    classNames({
+      'toggle-button': true,
+      active: this.props.term.off_term,
+    });
+  }
+
+
+  termClass() {
+    classNames({
+      term: true,
+      offterm: this.props.term.off_term,
+    });
+  }
+
+  turnOffTerm(term) {
+    term.courses = [];
+    this.props.updateTerm(term).then(() => {
+      this.props.fetchPlan(this.props.plan.id);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  showOffTermDialog(term) {
+    const opts = {
+      title: 'Turn Term Off',
+      okText: 'Ok!',
+      onOk: () => {
+        this.turnOffTerm(term);
+      },
+    };
+    this.props.showDialog(DialogTypes.OFF_TERM, opts);
+  }
+
+  render() {
+    return this.props.connectDropTarget(
+      <div className="term">
+        <div className={this.termClass}>
+          <div className="header">
+            <div className="term-name">{this.props.term.name}</div>
+            <div className="offterm-buttons">
+              <span onClick={this.onButtonClick} role="button" tabIndex={-1} className={this.onButtonClass}>ON</span>
+              <span onClick={this.onButtonClick} role="button" tabIndex={-1} className={this.offButtonClass}>OFF</span>
+            </div>
+          </div>
+          {renderContent(this.props)}
         </div>
       </div>
-      {renderContent(props)}
-    </div>,
-  );
-};
+      ,
+    );
+  }
+}
 
 const renderContent = (props) => {
   if (props.term.courses.length === 0 && !props.term.off_term) {

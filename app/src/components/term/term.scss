@@ -17,7 +17,8 @@
     .header {
         display: flex;
         justify-content: space-between;
-        padding: 0px 5px 5px 5px;
+        min-width: 208px;
+        max-width: 209px;
 
         .term-name {
             font-family: $roboto;
@@ -25,14 +26,35 @@
             color: #FFFFFF;
         }
 
-        .offterm-toggle {
-            > .toggle-button {
-            margin: 0 3px;
-            color: #AAAAAA;
-            }
+        .offterm-buttons {
+            display: flex;
+            justify-content: flex-end;
+            // > .toggle-button {
+            // margin: 0 3px;
+            // color: #AAAAAA;
+            // }
         
-            .active {
-            color: #FFFFFF;
+            // .active {
+            // color: #FFFFFF;
+            // }
+
+            span {
+                display: flex;
+                justify-items: center;
+                align-items: center;
+                text-align: center;
+                background: #FFFFFF;
+                border-radius: 5px;
+                color: #518FF5;
+                min-width: 40px;
+                min-height: 32px;
+                width: 30px;
+                height: 22px;
+                font-weight: 900;
+                font-size: 12px;
+                line-height: 14px;
+                margin: 0px 5px 0px 0px;
+
             }
         }
         
