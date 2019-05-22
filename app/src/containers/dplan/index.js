@@ -7,6 +7,7 @@ import {
 import { DialogTypes } from '../../constants';
 import Bucket from '../../components/bucket';
 import Term from '../../components/term';
+import Majors from '../majors';
 import './dplan.scss';
 
 class DPlan extends Component {
@@ -81,7 +82,11 @@ class DPlan extends Component {
           </p>
         </div>
         <div className="plan-content">
-          <Bucket className="bucket" bucket={this.props.bucket || []} />
+          <div>
+            <Bucket className="bucket" bucket={this.props.bucket || []} />
+            <br />
+            <Majors />
+          </div>
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (

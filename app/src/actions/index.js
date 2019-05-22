@@ -15,6 +15,12 @@ export const ActionTypes = {
   HIDE_DIALOG: 'HIDE_DIALOG',
   ERROR_SET: 'ERROR_SET',
   ERROR_CLEAR: 'ERROR_CLEAR',
+  DECLARE_MAJOR: 'DECLARE_MAJOR',
+  FETCH_DECLARED: 'FETCH_DECLARED',
+  DROP_MAJOR: 'DROP_MAJOR',
+  FETCH_MAJOR: 'FETCH_MAJOR',
+  FETCH_MAJORS: 'FETCH_MAJORS',
+  FETCH_PROGRESS: 'FETCH_PROGRESS',
 };
 
 // ERROR HANDLINE
@@ -232,5 +238,77 @@ export function showDialog(type, options) {
 export function hideDialog() {
   return (dispatch) => {
     dispatch({ type: ActionTypes.HIDE_DIALOG });
+  };
+}
+
+export function declareMajor(id) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/majors/declared/${id}`, null, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch(fetchDeclared());
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function fetchDeclared() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/majors/declared`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_DECLARED, payload: response.data });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function dropMajor(id) {
+  return (dispatch) => {
+    axios.delete(`${ROOT_URL}/majors/declared/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.DROP_MAJOR, payload: id });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function fetchMajor(id) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/majors/declared/${id}`, null, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_MAJOR, payload: response.data });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function fetchMajors() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/majors`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_MAJORS, payload: response.data });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function fetchProgress(id) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/majors/progress/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_PROGRESS, payload: response.data });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   };
 }
