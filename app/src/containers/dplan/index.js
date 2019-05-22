@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, fetchBucket, addCourseToTerm, showDialog,
+  deletePlan, fetchPlan, fetchBucket, addCourseToTerm, removeCourseFromTerm, showDialog,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import Bucket from '../../components/bucket';
@@ -32,8 +32,7 @@ class DPlan extends Component {
   }
 
   removeCourseFromTerm(course, term) {
-    term.courses = term.courses.filter(c => c.id !== course.id);
-    this.props.updateTerm(term).then(() => {
+    this.props.removeCourseFromTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {
       console.log(err);
@@ -110,5 +109,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, fetchBucket, addCourseToTerm, showDialog,
+  fetchPlan, deletePlan, fetchBucket, addCourseToTerm, removeCourseFromTerm, showDialog,
 })(DPlan));

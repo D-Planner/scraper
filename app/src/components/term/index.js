@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
-import DraggableCourse from '../draggableCourse';
+import DraggableUserCourse from '../draggableUserCourse';
 
 import './term.scss';
 import { ItemTypes } from '../../constants';
@@ -13,17 +13,22 @@ const termTarget = {
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
-      if (item.sourceTerm) {
-        props.removeCourseFromTerm(item.course, item.sourceTerm);
+      if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
+        return undefined;
+      } else if (item.sourceTerm) {
+        // this is a UserCourse, so deal with it accordingly
+        props.removeCourseFromTerm(item.userCourse, item.sourceTerm);
+        props.addCourseToTerm(item.catalogCourse, props.term);
+      } else {
+        // this is a regular course, so deal with it accordingly
+        props.addCourseToTerm(item.course, props.term);
       }
-
-      props.addCourseToTerm(item.course, props.term);
 
       // return an object containing the current term
       return { destinationTerm: props.term };
     }
 
-    return null;
+    return undefined;
   },
 };
 
@@ -73,9 +78,10 @@ const renderContent = (props) => {
     <div className="term-content">
       {props.term.courses.map((course) => {
         return (
-          <DraggableCourse
+          <DraggableUserCourse
             key={course.id}
-            course={course.course}
+            catalogCourse={course.course}
+            course={course}
             sourceTerm={props.term}
             removeCourseFromTerm={() => {
               props.removeCourseFromTerm(course, props.term);

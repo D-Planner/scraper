@@ -1,13 +1,15 @@
 import React from 'react';
-import './draggableCourse.scss';
-import { DragSource as DraggableCourse } from 'react-dnd';
+import '../draggableCourse/draggableCourse.scss';
+import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { ItemTypes } from '../../constants';
 
 const source = {
   beginDrag(props) {
     console.log('Dragging... ');
     return {
-      course: props.course,
+      userCourse: props.course,
+      catalogCourse: props.catalogCourse,
+      sourceTerm: props.sourceTerm,
     };
   },
   endDrag(props, monitor) {
@@ -27,24 +29,23 @@ const collect = (connect, monitor) => {
   };
 };
 
-const Course = (props) => {
-  let course = {};
-  course = props.course.course || props.course;
+const UserCourse = (props) => {
+  const { catalogCourse } = props;
 
   return props.connectDragSource(
     <div>
       <div className="popover"
         content={({ close }) => ( // TODO this doesn't do anything
-          courseInfo(course)
+          courseInfo(catalogCourse)
         )}
       >
         <div className="course">
           <div>
-            {course.department}
-            {course.number}
+            {catalogCourse.department}
+            {catalogCourse.number}
           </div>
           <div>
-            {course.timeslot}
+            {catalogCourse.timeslot}
           </div>
         </div>
       </div>
@@ -132,4 +133,4 @@ const courseInfo = (course) => {
 };
 
 // eslint-disable-next-line new-cap
-export default DraggableCourse(ItemTypes.COURSE, source, collect)(Course);
+export default DraggableUserCourse(ItemTypes.COURSE, source, collect)(UserCourse);

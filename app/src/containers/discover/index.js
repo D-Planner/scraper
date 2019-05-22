@@ -46,7 +46,6 @@ class Discover extends React.Component {
   }
 
   scrollToDepartments() {
-    console.log(this.dptRef);
     window.scrollTo({
       top: this.dptRef.current.offsetTop,
       left: 0,
