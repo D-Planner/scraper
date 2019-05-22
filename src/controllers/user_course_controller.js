@@ -13,8 +13,13 @@ const createUserCourse = async (userID, courseID, termID) => {
     return newObj.save();
 };
 
-const deleteUserCourse = (req, res) => {
-
+const deleteUserCourse = async (userCourseID) => {
+    try {
+        await UserCourse.findByIdAndRemove(userCourseID);
+        return null;
+    } catch (e) {
+        return e;
+    }
 };
 
 const UserCourseController = {

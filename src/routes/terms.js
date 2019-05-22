@@ -7,9 +7,9 @@ const termsRouter = Router();
 // The createTerm functionality should really only be used by the plans controller
 // termsRouter.post('/', TermController.createTerm);
 
-termsRouter.route('/:termID/course')
-    .post(TermController.addCourseToTerm)
-    .delete(TermController.removeCourseFromTerm);
+termsRouter.post('/:termID/course', TermController.addCourseToTerm);
+
+termsRouter.delete('/:termID/course/:userCourseID', TermController.removeCourseFromTerm);
 
 termsRouter.put('/:id', TermController.updateTerm);
 
