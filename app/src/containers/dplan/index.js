@@ -16,8 +16,6 @@ class DPlan extends Component {
     this.showDialog = this.showDialog.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
-    this.turnOffTerm = this.turnOffTerm.bind(this);
-    this.turnOnTerm = this.turnOnTerm.bind(this);
   }
 
   componentDidMount() {
@@ -43,26 +41,6 @@ class DPlan extends Component {
     });
   }
 
-  turnOffTerm(course, term) {
-    term.courses = [];
-    term.off_term = true;
-    this.props.updateTerm(term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  turnOnTerm(course, term) {
-    term.courses = [];
-    term.off_term = false;
-    this.props.updateTerm(term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
   showDialog() {
     const opts = {
       title: 'Delete Plan',
@@ -73,19 +51,6 @@ class DPlan extends Component {
     };
     this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
   }
-
-  // showTermOffDialog() {
-  //   const opts = {
-  //     title: 'Make Off Term',
-  //     okText: 'Got it!',
-  //     onOk: () => {
-  //       // fix
-  //       this.turnOffTerm(this.props.plan.id, this.props.history);
-  //     },
-  //   };
-  //   this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
-  // }
-
 
   render() {
     if (!this.props.plan) {
@@ -113,8 +78,6 @@ class DPlan extends Component {
                         key={term.id}
                         addCourseToTerm={this.addCourseToTerm}
                         removeCourseFromTerm={this.removeCourseFromTerm}
-                        turnOffTerm={this.turnOffTerm}
-                        turnOnTerm={this.turnOnTerm}
                       />
                     );
                   })}

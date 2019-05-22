@@ -7,10 +7,6 @@ import HourSelector from '../hourSelector';
 import './term.scss';
 import { ItemTypes } from '../../constants';
 
-// turnOffTerm={this.turnOffTerm}
-// turnOnTerm={this.turnOnTerm}
-
-
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
@@ -61,8 +57,8 @@ const Term = (props) => {
       <div className="header">
         <div className="term-name">{props.term.name}</div>
         <div className="offterm-toggle">
-          <span onClick={onButtonClick} role="button" tabIndex={-1} id="on-off-button" className={onButtonClass}>ON</span>
-          <span onClick={onButtonClick} role="button" tabIndex={-1} id="on-off-button" className={offButtonClass}>OFF</span>
+          <span onClick={onButtonClick} role="button" tabIndex={-1} className={onButtonClass}>on</span>
+          <span onClick={onButtonClick} role="button" tabIndex={-1} className={offButtonClass}>off</span>
         </div>
       </div>
       {renderContent(props)}
