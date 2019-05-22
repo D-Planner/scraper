@@ -200,6 +200,16 @@ export function addCourseToTerm(course, term) {
   };
 }
 
+export function removeCourseFromTerm(course, term) {
+  return (dispatch) => {
+    return axios.delete(`${ROOT_URL}/terms/${term.id}/course`, { course }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+}
+
 // dialog methods
 export function showDialog(type, options) {
   return (dispatch) => {
