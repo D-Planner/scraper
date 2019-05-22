@@ -3,7 +3,7 @@ import { ActionTypes } from '../actions';
 const initialState = {
   all: [],
   results: [],
-  fetched_course: null,
+  bookmarks: [],
 };
 
 const coursesReducer = (state = initialState, action) => {
@@ -12,8 +12,8 @@ const coursesReducer = (state = initialState, action) => {
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.COURSE_SEARCH:
       return Object.assign({}, state, { results: action.payload });
-    case ActionTypes.FETCH_BUCKET:
-      return Object.assign({}, state, { bucket: action.payload });
+    case ActionTypes.FETCH_BOOKMARKS:
+      return Object.assign({}, state, { bookmarks: action.payload });
     default:
       return state;
   }

@@ -5,6 +5,8 @@ $plan-data-height: 40px;
 $plan-data-margin: 20px;
 $bottom-margin: 20px;
 
+$content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
+
 .dplan-page {
     display: flex;
     flex-direction: column;
@@ -99,11 +101,10 @@ $bottom-margin: 20px;
         justify-content: space-between;
         margin: 0 50px;
         width: calc(100% - 40px);
-        height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
+        height: $content-height;
 
-        .bucket {
+        .sidebar {
             flex-basis: 10%;
-            height: 100%;
         }
 
         .plan-grid {

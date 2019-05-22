@@ -1,5 +1,5 @@
 import React from 'react';
-import './errorMessage.scss';
+import '../errorMessage.scss';
 
 export default class Bucket extends React.Component {
   constructor(props) {

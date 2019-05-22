@@ -9,12 +9,15 @@ export const ActionTypes = {
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_USER: 'FETCH_USER',
   FETCH_COURSES: 'FETCH_COURSES',
-  FETCH_BUCKET: 'FETCH_BUCKET',
+  FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   COURSE_SEARCH: 'COURSE_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
+  ERROR_SET: 'ERROR_SET',
+  ERROR_CLEAR: 'ERROR_CLEAR',
 };
 
+// ERROR HANDLINE
 export function authError(error) {
   return {
     type: ActionTypes.AUTH_ERROR,
@@ -22,6 +25,14 @@ export function authError(error) {
   };
 }
 
+export function clearError(error) {
+  return {
+    type: ActionTypes.ERROR_CLEAR,
+    payload: null,
+  };
+}
+
+// PLANS METHODS
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
 
 export function signinUser({ email, password }, history) {
@@ -68,8 +79,9 @@ export function createPlan(plan, history) {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
       console.log(response);
       history.push(`/plan/${response.data.id}`);
-    }).catch((err) => {
-      console.log(err);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -81,8 +93,9 @@ export function fetchPlans() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
-    }).catch((err) => {
-      console.log(err);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -94,8 +107,9 @@ export function fetchPlan(planId) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/plans/${planId}`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
-    }).catch((err) => {
-      console.log(err);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -110,6 +124,7 @@ export function deletePlan(id, history) {
       history.push('/');
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -123,6 +138,7 @@ export function fetchCourses() {
       dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -136,6 +152,7 @@ export function fetchCourse(id) { // NOTE: not set up in reducer yet because it'
       dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -149,19 +166,21 @@ export function fetchUser() {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
 
-export function fetchBucket() {
+export function fetchBookmarks() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
   return (dispatch) => {
     axios.get(`${ROOT_URL}/courses/favorite`, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_BUCKET, payload: response.data });
+      dispatch({ type: ActionTypes.FETCH_BOOKMARKS, payload: response.data });
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -172,6 +191,7 @@ export function addCourseToFavorites(courseID) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -179,13 +199,14 @@ export function addCourseToFavorites(courseID) {
 
 export function courseSearch(query) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/courses/search`, query, {
+    axios.post(`${ROOT_URL}/courses/search`, { query }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
@@ -204,8 +225,9 @@ export function removeCourseFromTerm(course, term) {
   return (dispatch) => {
     return axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).catch((err) => {
-      console.log(err);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
 }
