@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, fetchBookmarks, updateTerm, showDialog,
+  deletePlan, fetchPlan, updateTerm, showDialog,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
-import Sidebar from '../../components/sidebar';
+import Sidebar from '../sidebar';
 import Term from '../../components/term';
 import './dplan.scss';
 
@@ -20,7 +20,6 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
-    this.props.fetchBookmarks();
   }
 
   addCourseToTerm(course, term) {
@@ -67,7 +66,7 @@ class DPlan extends Component {
           <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
         </div>
         <div className="plan-content">
-          <Sidebar className="sidebar" bookmarks={this.props.bookmarks || []} />
+          <Sidebar className="sidebar" />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (
@@ -94,9 +93,8 @@ class DPlan extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
-  bookmarks: state.courses.bookmarks,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, fetchBookmarks, updateTerm, showDialog,
+  fetchPlan, deletePlan, updateTerm, showDialog,
 })(DPlan));

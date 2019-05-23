@@ -1,14 +1,14 @@
 @import '../sidebar.scss';
 
 .search {
-    .search-header {
+    .pane-header {
         width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
         line-height: calc(#{header-size} + 10px);
 
-        .search-icon {
+        .dropdown-icon {
             height: calc(#{$header-size} + 5px);
         }
 
@@ -25,5 +25,18 @@
                 color: rgba(0, 0, 0, 0.24);
             }
         }
+
+        .search-icon {
+            height: calc(#{$header-size} + 2px);
+        }
+    }
+
+    .pane-content {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        overflow: scroll;
+        padding: 10px;
     }
 }
