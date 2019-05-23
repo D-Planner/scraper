@@ -20,7 +20,7 @@
     "no-else-return": 0,
     "new-cap": [
       "error",
-      { "capIsNewExceptions": [ "Router" ] }
+      { "capIsNewExceptions": [ "Router", "DraggableCourse" ] }
     ],
     "no-console": 0,
     "import/no-unresolved": [
