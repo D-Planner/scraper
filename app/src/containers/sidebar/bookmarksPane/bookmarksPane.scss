@@ -1,0 +1,19 @@
+@import '../sidebar.scss';
+
+.bookmarks {    
+    &.active .bookmarks-header {
+        font-weight: bold;
+    }
+
+    .pane-header {
+        margin: 0;
+        align-self: flex-start;
+        font-size: $header-size;
+        font-weight: normal;
+    }
+
+    .bookmarked-courses-list {
+        margin-top: 20px;
+        width: 100%;
+    } 
+}

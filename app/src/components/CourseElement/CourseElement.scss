@@ -6,23 +6,23 @@
 }
 
 .list-group-item-heading{
-    display: 'flex';
-    flex-direction: 'row';
-    justify-content: 'space-between';
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .off-term-true .bucketCourse .button {
-    background: '#FFFFFF';
-    width: '80%';
-    margin-top: '5px';
-    border-color: '#FFFFFF';
-    box-shadow: '0px 2px 15px rgba(0, 0, 0, 0.08)';
+    background: #FFFFFF;
+    width: 80%;
+    margin-top: 5px;
+    border-color: #FFFFFF;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.08);
 }
 
 .off-term-false .bucketCourse .button {
-    background: '#FFFFFF';
-    width: '80%';
-    margin-top: '5px';
-    border-color: '#FFFFFF';
-    box-shadow: '0px 2px 15px rgba(0, 0, 0, 0.25)';
+    background: #FFFFFF;
+    width: 80%;
+    margin-top: 5px;
+    border-color: #FFFFFF;
+    box-shadow: $box-shadow-default;
 }

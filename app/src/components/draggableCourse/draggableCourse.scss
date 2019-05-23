@@ -1,15 +1,21 @@
+@import '../../style/variables.scss';
+
 .course {
     background-color: #FFFFFF;
-    margin-top: 5px;
+    margin-top: 10px;
     padding: 5px;
     border-color: #FFFFFF;
     color: #000000;
     border-radius: 2px;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.25);
+    box-shadow: $box-shadow-default;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    &:hover {
+        filter: brightness(95%);
+    }
 }
 
 .list-group-item-heading {
