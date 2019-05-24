@@ -71,8 +71,18 @@ const RequirementsPane = (props) => {
       complete: false,
     },
     {
+      name: 'Natural and Physical Science (LAB)',
+      icon: icons.sla,
+      complete: false,
+    },
+    {
       name: 'Natural and Physical Science',
       icon: icons.sci,
+      complete: false,
+    },
+    {
+      name: 'Technology and Applied Science (LAB)',
+      icon: icons.tla,
       complete: false,
     },
     {
