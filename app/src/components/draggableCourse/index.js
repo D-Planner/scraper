@@ -33,7 +33,7 @@ const collect = (connectDrag, monitor) => {
 
 const showCourseInfoDialog = (props) => {
   const dialogOptions = {
-    title: `${props.course.name}`,
+    title: `${props.course.department} ${props.course.number}: ${props.course.name}`,
     size: 'lg',
     data: props.course,
   };
