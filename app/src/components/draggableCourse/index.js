@@ -28,8 +28,7 @@ const collect = (connect, monitor) => {
 };
 
 const Course = (props) => {
-  let course = {};
-  course = props.course.course || props.course;
+  const { course } = props;
 
   return props.connectDragSource(
     <div>
