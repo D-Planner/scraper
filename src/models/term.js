@@ -12,7 +12,7 @@ const TermSchema = new Schema({
         enum: ['F', 'W', 'S', 'X'],
     },
     off_term: Boolean,
-    courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
+    courses: [{ type: Schema.Types.ObjectId, ref: 'UserCourse' }],
 }, {
     toJSON: {
         virtuals: true,

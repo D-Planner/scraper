@@ -6,7 +6,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import { requireAuth } from './authentication/init';
-import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter } from './routes';
+import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, userCourseRouter } from './routes';
 
 require('dotenv').config();
 
@@ -50,6 +50,7 @@ app.use('/plans', requireAuth, plansRouter);
 app.use('/courses', requireAuth, coursesRouter);
 app.use('/terms', requireAuth, termsRouter);
 app.use('/majors', requireAuth, majorsRouter);
+app.use('/usercourses', requireAuth, userCourseRouter);
 
 // custom middleware for 404 errors
 app.use((req, res, next) => {
