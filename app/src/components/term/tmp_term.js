@@ -49,17 +49,13 @@ class Term extends Component {
     this.onButtonClass = this.onButtonClass.bind(this);
     this.offButtonClass = this.offButtonClass.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
-    this.turnOnTerm = this.turnOnTerm.bind(this);
   }
 
 
   onButtonClick() {
     console.log('clicked!');
     console.log(this.props.term);
-    this.turnOnTerm();
     // console.log(props.term.offterm)
-    console.log('result');
-    console.log(this.props.term);
   }
 
   onButtonClass() {
@@ -78,16 +74,10 @@ class Term extends Component {
 
 
   termClass() {
-    if (this.props.term.off_term) {
-      return 'offterm';
-    } else {
-      return 'onterm';
-    }
-
-    // classNames({
-    // term: true,
-    // offterm: this.props.term.off_term,
-    // });
+    classNames({
+      term: true,
+      offterm: this.props.term.off_term,
+    });
   }
 
   turnOffTerm(term) {
@@ -110,25 +100,17 @@ class Term extends Component {
   //   this.props.showDialog(DialogTypes.OFF_TERM, opts);
   // }
 
-  showDialog() {
+  showDialog(term) {
     const opts = {
       title: 'Turn Term Off',
       okText: 'Ok!',
       onOk: () => {
-        this.props.term.off_term = true;
-        this.props.term.courses = [];
-        this.props.updateTerm(this.props.term);
-        // this.props.deletePlan(this.props.plan.id, this.props.history);
+        term.off_term = true;
+        term.courses = [];
+        this.props.updateTerm(term);
       },
     };
-    this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
-    // this.props.showDialog(DialogTypes.OFF_TERM, opts);
-  }
-
-  turnOnTerm() {
-    this.props.term.off_term = false;
-    this.props.term.courses = [];
-    this.props.updateTerm(this.props.term);
+    this.props.showDialog(DialogTypes.OFF_TERM, opts);
   }
 
   render() {
