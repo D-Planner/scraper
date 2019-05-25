@@ -211,9 +211,19 @@ export function courseSearch(query) {
   };
 }
 
-export function updateTerm(term) {
+export function addCourseToTerm(course, term) {
   return (dispatch) => {
-    return axios.put(`${ROOT_URL}/terms/${term.id}`, term, {
+    return axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+}
+
+export function removeCourseFromTerm(course, term) {
+  return (dispatch) => {
+    return axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).catch((error) => {
       console.log(error);

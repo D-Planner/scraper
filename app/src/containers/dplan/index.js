@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, updateTerm, showDialog,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import Sidebar from '../sidebar';
@@ -23,9 +23,7 @@ class DPlan extends Component {
   }
 
   addCourseToTerm(course, term) {
-    term.courses = term.courses.filter(c => c.id !== course.id);
-    term.courses.push(course);
-    this.props.updateTerm(term).then(() => {
+    this.props.addCourseToTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {
       console.log(err);
@@ -33,8 +31,7 @@ class DPlan extends Component {
   }
 
   removeCourseFromTerm(course, term) {
-    term.courses = term.courses.filter(c => c.id !== course.id);
-    this.props.updateTerm(term).then(() => {
+    this.props.removeCourseFromTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {
       console.log(err);
@@ -110,5 +107,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, updateTerm, showDialog,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog,
 })(DPlan));
