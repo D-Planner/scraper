@@ -5,6 +5,7 @@ const createUserCourse = async (userID, courseID, termID) => {
         user: userID,
         course: courseID,
         term: termID,
+        major: null,
         distrib: null,
         wc: null,
         timeslot: null,
