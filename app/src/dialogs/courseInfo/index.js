@@ -132,7 +132,12 @@ const renderDistribs = (course) => {
     <div id="distribs">
       {distribs.map((distrib) => {
         return (
-          <img className="icon" src={distrib.icon} alt={distrib.name} />
+          <img key={distrib.name} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
+        );
+      })}
+      {wcs.map((wc) => {
+        return (
+          <img key={wc.name} className="wc-icon" src={wc.icon} alt={wc.name} />
         );
       })}
     </div>
@@ -140,6 +145,7 @@ const renderDistribs = (course) => {
 };
 
 const courseInfo = (course) => {
+  console.log(course);
   return (
     <div id="content">
       <div id="major">Engineering Department: Prerequisite</div>

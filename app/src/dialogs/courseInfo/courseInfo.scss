@@ -34,8 +34,11 @@
         justify-content: space-between;
         align-items: center;
         #distribs {
-            .icon {
+            .distrib-icon {
                 width: 40px;
+            }
+            .wc-icon {
+                width: 36px;
             }
         }
     }
