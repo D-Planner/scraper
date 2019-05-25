@@ -11,7 +11,6 @@ const source = {
     console.log('Dragging... ');
     return {
       course: props.course,
-      sourceTerm: props.sourceTerm || null,
     };
   },
   endDrag(props, monitor) {
@@ -42,14 +41,16 @@ const showCourseInfoDialog = (props) => {
 };
 
 const Course = (props) => {
+  const { course } = props;
+
   return props.connectDragSource(
-    <div onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
+    <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
       <div className="course">
         <div>
-          {`${props.course.department} ${props.course.number}`}
+          {`${course.department} ${course.number}`}
         </div>
         <div>
-          {props.course.timeslot}
+          {course.timeslot}
         </div>
       </div>
     </div>,

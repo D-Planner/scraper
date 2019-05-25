@@ -1,4 +1,5 @@
 import Term from '../models/term';
+import UserCourseController from '../controllers/user_course_controller';
 
 const createTerm = async (term, planID) => {
     const newTerm = await Term.create({
@@ -28,9 +29,53 @@ const updateTerm = (req, res) => {
         });
 };
 
+const addCourseToTerm = async (req, res, next) => {
+    const termID = req.params.termID;
+    const userCourse = await UserCourseController.createUserCourse(req.user.id, req.body.course.id, termID);
+
+    const term = await Term.findById(termID);
+    const populated = await term.populate({
+        path: 'courses',
+        populate: {
+            path: 'course',
+        },
+    }).execPopulate();
+
+    // check if a course with this id already exists in the term
+    if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
+        term.courses.push(userCourse);
+    } else {
+        res.status(409).json({ message: 'This course already exists in this term' });
+    }
+
+    await term.save();
+
+    res.send(term);
+};
+
+const removeCourseFromTerm = async (req, res, next) => {
+    const termID = req.params.termID;
+    const term = await Term.findById(termID);
+    const userCourseID = req.params.userCourseID;
+
+    // filter out the course we are removing and save the new object
+    term.courses = term.courses.filter((c) => { return c.toString() !== userCourseID; });
+    await term.save();
+
+    // delete the user course object
+    const err = await UserCourseController.deleteUserCourse(userCourseID);
+    if (err) {
+        next(err);
+    }
+
+    res.status(200).json(term);
+};
+
 const TermController = {
     createTerm,
     updateTerm,
+    addCourseToTerm,
+    removeCourseFromTerm,
 };
 
 export default TermController;
