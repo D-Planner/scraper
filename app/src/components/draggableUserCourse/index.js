@@ -5,10 +5,8 @@ import { connect } from 'react-redux';
 import { ItemTypes, DialogTypes } from '../../constants';
 import { showDialog } from '../../actions';
 
-s;
 const source = {
   beginDrag(props) {
-    console.log('Dragging... ');
     return {
       userCourse: props.course,
       catalogCourse: props.catalogCourse,
@@ -16,8 +14,6 @@ const source = {
     };
   },
   endDrag(props, monitor) {
-    console.log('Dropped!');
-
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
       props.removeCourseFromTerm();
@@ -39,9 +35,9 @@ const collect = (connectDrag, monitor) => {
  */
 const showCourseInfoDialog = (props) => {
   const dialogOptions = {
-    title: `${props.catalogcourse.department} ${props.catalogcourse.number}: ${props.catalogcourse.name}`,
+    title: `${props.catalogCourse.department} ${props.catalogCourse.number}: ${props.catalogCourse.name}`,
     size: 'lg',
-    data: props.catalogcourse,
+    data: props.catalogCourse,
     showOk: false,
   };
   props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);

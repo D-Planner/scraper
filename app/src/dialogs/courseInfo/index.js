@@ -233,7 +233,6 @@ const renderNextTerm = (course, nextTerm) => {
  * @param {String} nextTerm
  */
 const courseInfo = (course, nextTerm) => {
-  console.log(course);
   return (
     <div id="content">
       <div id="major">Engineering Department: Prerequisite</div>

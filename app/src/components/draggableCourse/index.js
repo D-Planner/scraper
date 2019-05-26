@@ -8,14 +8,11 @@ import { showDialog } from '../../actions';
 
 const source = {
   beginDrag(props) {
-    console.log('Dragging... ');
     return {
       course: props.course,
     };
   },
   endDrag(props, monitor) {
-    console.log('Dropped!');
-
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop() && props.removeCourseFromTerm) {
       props.removeCourseFromTerm();
