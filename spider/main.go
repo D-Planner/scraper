@@ -6,9 +6,9 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/dali-lab/dplanner/spider/pkg/e2e"
 	"github.com/dali-lab/dplanner/spider/pkg/layuplist"
 	"github.com/dali-lab/dplanner/spider/pkg/registrar"
+	"github.com/dali-lab/dplanner/spider/pkg/scrape"
 	"github.com/gin-gonic/gin"
 )
 
@@ -34,15 +34,13 @@ func getMainEngine() *gin.Engine {
 		c.JSON(200, strconv.Itoa(id))
 	})
 	r.GET("/courses/current", func(c *gin.Context) {
-		courses, err := e2e.Scrape()
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		c.JSON(200, courses)
+		scrape.Init()
+		c.JSON(200, gin.H{
+			"message": "scraping... check `/courses` in 10 minutes",
+		})
 	})
 	r.GET("/courses", func(c *gin.Context) {
-		c.File("./assets/courses.json")
+		c.File("./data/courses.json")
 	})
 	r.POST("/course/layup/id", func(c *gin.Context) {
 		subj := c.PostForm("subj")
