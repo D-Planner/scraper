@@ -5,7 +5,7 @@ import DialogWrapper from '../dialogWrapper';
 import './courseInfo.scss';
 
 const CourseInfoDialog = (props) => {
-  console.log(props);
+  // console.log(props);
   return (
     <DialogWrapper {...props}>
       {courseInfo(props.data, props.nextTerm)}
@@ -233,6 +233,7 @@ const renderNextTerm = (course, nextTerm) => {
  * @param {String} nextTerm
  */
 const courseInfo = (course, nextTerm) => {
+  console.log(course);
   return (
     <div id="content">
       <div id="major">Engineering Department: Prerequisite</div>
