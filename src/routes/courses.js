@@ -24,8 +24,6 @@ coursesRouter.get('/departments/:department', CoursesController.getCoursesByDepa
 
 coursesRouter.get('/distribs/:distrib', CoursesController.getCoursesByDistrib);
 
-coursesRouter.get('/wcs/:wc', CoursesController.getCoursesByWC);
-
 coursesRouter.get('/:id', CoursesController.getCourse);
 
 coursesRouter.get('/', CoursesController.getCourses);
