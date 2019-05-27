@@ -93,7 +93,7 @@ const distribTypes = [
   },
   {
     fullName: 'Western Cultures',
-    name: 'WC',
+    name: 'W',
     icon: icons.wc_w,
     fulfills: false,
   },
@@ -116,20 +116,15 @@ const distribTypes = [
  * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
  */
 const renderDistribs = (course) => {
-  const distribTypesNames = distribTypes.map(distrib => distrib.name);
+  // const distribTypesNames = distribTypes.map(distrib => distrib.name);
   const distribs = [];
   const wcs = [];
-  if (typeof course.distrib !== 'undefined') {
-    course.distrib.split(' ').forEach((distrib) => {
-      if (distribTypesNames.includes(distrib)) {
+  if (course.distribs !== null) {
+    course.distribs.forEach((distrib) => {
+      if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
+        wcs.push(distribTypes.find(ref => ref.name === distrib));
+      } else {
         distribs.push(distribTypes.find(ref => ref.name === distrib));
-      }
-    });
-  }
-  if (typeof course.wc !== 'undefined') {
-    course.wc.split(' ').forEach((wc) => {
-      if (distribTypesNames.includes(wc)) {
-        wcs.push(distribTypes.find(ref => ref.name === wc));
       }
     });
   }
@@ -159,12 +154,15 @@ const renderDistribs = (course) => {
  * @param {Array} medians
  */
 const renderMedians = (medians) => {
-  return (
-    <div id="medians">
-      <div className="section-header">Medians</div>
-      <div id="bubbles">
-        {
-          medians.slice(0, 5).map((median) => {
+  if (medians !== null) {
+    let cutOff = medians.length;
+    if (medians.length > 5) cutOff = 5;
+    return (
+      <div id="medians">
+        <div className="section-header">Medians</div>
+        <div id="bubbles">
+          {
+          medians.slice(0, cutOff).map((median) => {
             return (
               <div key={median.term} className="median-bubble">
                 <div className="median-bubble-grade">{median.courses[0].median}</div>
@@ -173,9 +171,19 @@ const renderMedians = (medians) => {
             );
           })
         }
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div id="medians">
+        <div className="section-header">Medians</div>
+        <div>
+        No medians available.
+        </div>
+      </div>
+    );
+  }
 };
 
 /**
@@ -187,7 +195,10 @@ const renderScores = (course) => {
     <div id="scores">
       <div className="section-header">Scores</div>
       <div>
-        Layup-list Score: {course.layuplist_score}
+        Layup-list Score: {course.layup_score}
+      </div>
+      <div>
+        Quality Score: {course.quality_score}
       </div>
     </div>
   );
