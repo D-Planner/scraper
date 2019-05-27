@@ -137,6 +137,7 @@ git subtree push --prefix api heroku master
 ## Authors
 * Christina Bae (Designer)
 * Zirui Hao (Partner, Project Manager)
+* Maddie Hess (Developer)
 * Adam McQuilkin (Partner, Project Manager)
 * Adam Rinehouse (Developer)
 * Raul Rodriguez (Developer)
