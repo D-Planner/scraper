@@ -14,4 +14,6 @@ majorsRouter.route('/declared/:id')
     .post(MajorController.declareMajor)
     .delete(MajorController.dropMajor);
 
+majorsRouter.get('/progress/:id', MajorController.getProgress);
+
 export default majorsRouter;
