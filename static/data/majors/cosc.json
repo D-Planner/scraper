@@ -5,7 +5,7 @@
     "requirements": [
         {
             "group": "prerequisites",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 2,
@@ -20,7 +20,7 @@
         },
         {
             "group": "prerequisites",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 11,
@@ -30,7 +30,7 @@
         },
         {
             "group": "prerequisites",
-            "courses": [
+            "ranges": [
                 {
                     "department": "MATH",
                     "less_than": 25,
@@ -50,7 +50,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 50,
@@ -60,7 +60,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 50,
@@ -70,7 +70,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 70,
@@ -80,7 +80,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 70,
@@ -90,7 +90,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 90,
@@ -100,7 +100,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 90,
@@ -110,7 +110,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 90,
@@ -120,7 +120,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 90,
@@ -130,7 +130,7 @@
         },
         {
             "group": "requirements",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 90,
@@ -140,7 +140,7 @@
         },
         {
             "group": "culminating_experiences",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 90,
@@ -155,7 +155,7 @@
         },
         {
             "group": "culminating_experiences",
-            "courses": [
+            "ranges": [
                 {
                     "department": "COSC",
                     "less_than": 90,
