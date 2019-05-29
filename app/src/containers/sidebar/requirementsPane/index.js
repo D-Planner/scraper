@@ -39,71 +39,79 @@ const RequirementsPane = (props) => {
     setDistribsActive(flag);
   };
 
+  const distribComplete = (name) => {
+    return props.distribs.includes(name);
+  };
+
+  const wcComplete = (name) => {
+    return props.distribs.includes(name);
+  };
+
   const distribTypes = [
     {
       name: 'Arts',
       icon: icons.art,
-      complete: false,
+      complete: distribComplete('ART'),
     },
     {
       name: 'Literature',
       icon: icons.lit,
-      complete: false,
+      complete: distribComplete('LIT'),
     },
     {
       name: 'Thought, Meaning, and Value',
       icon: icons.tmv,
-      complete: false,
+      complete: distribComplete('TMV'),
     },
     {
       name: 'International or Comparative Study',
       icon: icons.int,
-      complete: false,
+      complete: distribComplete('INT'),
     },
     {
       name: 'Social Analysis',
       icon: icons.soc,
-      complete: false,
+      complete: distribComplete('SOC'),
     },
     {
       name: 'Quantitative and Deductive Science',
       icon: icons.qds,
-      complete: false,
+      complete: distribComplete('QDS'),
     },
     {
       name: 'Natural and Physical Science (LAB)',
       icon: icons.sla,
-      complete: false,
+      complete: distribComplete('SLA'),
     },
     {
       name: 'Natural and Physical Science',
       icon: icons.sci,
-      complete: false,
+      complete: distribComplete('SCI'),
     },
     {
       name: 'Technology and Applied Science (LAB)',
       icon: icons.tla,
-      complete: false,
+      complete: distribComplete('TLA'),
     },
     {
       name: 'Technology and Applied Science',
       icon: icons.tas,
-      complete: false,
+      complete: distribComplete('TAS'),
     },
     {
       name: 'Western Cultures',
       icon: icons.wc_w,
-      complete: false,
+      complete: wcComplete('W'),
     },
     {
       name: 'Non-Western Cultures',
       icon: icons.wc_nw,
-      complete: false,
+      complete: wcComplete('NW'),
     },
     {
       name: 'Culture and Identity',
       icon: icons.wc_ci,
-      complete: false,
+      complete: wcComplete('CI'),
     },
   ];
 

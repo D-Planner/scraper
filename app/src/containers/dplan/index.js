@@ -22,6 +22,16 @@ class DPlan extends Component {
     this.props.fetchPlan(this.props.match.params.id);
   }
 
+  getFlattenedCourses() {
+    const courses = [];
+    this.props.plan.terms.forEach((year) => {
+      year.forEach((term) => {
+        courses.push(...term.courses);
+      });
+    });
+    return courses;
+  }
+
   addCourseToTerm(course, term) {
     this.props.addCourseToTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
@@ -63,7 +73,7 @@ class DPlan extends Component {
           <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
         </div>
         <div className="plan-content">
-          <Sidebar className="sidebar" />
+          <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (
