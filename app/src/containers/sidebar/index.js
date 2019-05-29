@@ -4,7 +4,9 @@ import SearchPane from './searchPane';
 import RequirementsPane from './requirementsPane';
 import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
-import { addCourseToFavorites, courseSearch, fetchBookmarks } from '../../actions';
+import {
+  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser,
+} from '../../actions';
 
 const paneTypes = {
   SEARCH: 'SEARCH',
@@ -15,7 +17,10 @@ const paneTypes = {
 const Sidebar = (props) => {
   const [activePane, setActivePane] = useState(paneTypes.REQUIREMENTS);
 
-  useEffect(() => { props.fetchBookmarks(); }, []);
+  useEffect(() => {
+    props.fetchBookmarks();
+    props.fetchUser();
+  }, []);
 
   const addToBookmarks = (courseId) => {
     props.addCourseToFavorites(courseId);
@@ -30,7 +35,11 @@ const Sidebar = (props) => {
         search={props.courseSearch}
         results={props.searchResults}
       />
-      <RequirementsPane active={activePane === paneTypes.REQUIREMENTS} activate={() => setActivePane(paneTypes.REQUIREMENTS)} />
+      <RequirementsPane
+        active={activePane === paneTypes.REQUIREMENTS}
+        activate={() => setActivePane(paneTypes.REQUIREMENTS)}
+        majors={props.user.majors}
+      />
       <BookmarksPane
         active={activePane === paneTypes.BOOKMARKS}
         activate={() => setActivePane(paneTypes.BOOKMARKS)}
@@ -45,6 +54,9 @@ const Sidebar = (props) => {
 const mapStateToProps = state => ({
   bookmarks: state.courses.bookmarks,
   searchResults: state.courses.results,
+  user: state.user.current,
 });
 
-export default connect(mapStateToProps, { addCourseToFavorites, courseSearch, fetchBookmarks })(Sidebar);
+export default connect(mapStateToProps, {
+  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser,
+})(Sidebar);

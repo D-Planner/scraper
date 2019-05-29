@@ -97,10 +97,9 @@ const RequirementsPane = (props) => {
     },
   ];
 
-  const renderDistribs = (active) => {
-    if (!active) { return null; }
+  const renderDistribs = () => {
     return (
-      <div className="distribs-list">
+      <div className="reqs-list">
         {distribTypes.map((distrib) => {
           return (
             <div className="distrib-row">
@@ -112,6 +111,31 @@ const RequirementsPane = (props) => {
         })}
       </div>
     );
+  };
+
+  const renderMajorReqs = () => {
+    if (props.majors.length > 0) {
+      return (
+        <div className="reqs-list">
+          {props.majors.map((req) => {
+            return (
+              <div className="distrib-row">
+                <div>yeet</div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <div className="no-major">
+          <p>You are not enrolled in a major.</p>
+          <button type="button" className="enroll-button" onClick={() => {}}>
+            <p>Choose A Major</p>
+          </button>
+        </div>
+      );
+    }
   };
 
   const paneClass = classNames({
@@ -133,7 +157,7 @@ const RequirementsPane = (props) => {
           )
           : <div /> }
       </div>
-      {props.active ? renderDistribs(distribsActive) : <div />}
+      {distribsActive ? renderDistribs() : renderMajorReqs()}
     </div>
   );
 };
