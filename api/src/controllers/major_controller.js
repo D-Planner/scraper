@@ -38,6 +38,7 @@ const getMajors = (req, res) => {
 };
 
 const declareMajor = (req, res) => {
+    console.log('yeet');
     User.findByIdAndUpdate(req.user.id, {
         $addToSet: { majors: req.params.id },
     }, { new: true }).then((result) => {

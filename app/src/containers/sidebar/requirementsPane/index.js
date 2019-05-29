@@ -29,8 +29,8 @@ const RequirementsPane = (props) => {
     toggle: true,
     active: distribsActive,
   });
-  const degreeButtonClass = classNames({
-    degree: true,
+  const majorButtonClass = classNames({
+    major: true,
     toggle: true,
     active: !distribsActive,
   });
@@ -107,10 +107,9 @@ const RequirementsPane = (props) => {
     },
   ];
 
-  const renderDistribs = (active) => {
-    if (!active) { return null; }
+  const renderDistribs = () => {
     return (
-      <div className="distribs-list">
+      <div className="reqs-list">
         {distribTypes.map((distrib) => {
           return (
             <div key={distrib.name} className="distrib-row">
@@ -122,6 +121,34 @@ const RequirementsPane = (props) => {
         })}
       </div>
     );
+  };
+
+  const renderMajorReqs = () => {
+    if (props.majors.length > 0) {
+      return (
+        <div className="reqs-list">
+          {props.majors.map((major) => {
+            console.log(major);
+            return (
+              <div className="major" id={major.id}>
+                <div className="major-header">
+                  {major.name}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <div className="no-major">
+          <p>You are not enrolled in a major.</p>
+          <button type="button" className="enroll-button" onClick={props.showDeclareDialog}>
+            <p>Choose A Major</p>
+          </button>
+        </div>
+      );
+    }
   };
 
   const paneClass = classNames({
@@ -138,12 +165,12 @@ const RequirementsPane = (props) => {
           ? (
             <div className="requirements-toggle">
               <button type="button" className={distribsButtonClass} onClick={() => setDistribsTabActive(true)}>Distribs</button>
-              <button type="button" className={degreeButtonClass} onClick={() => setDistribsTabActive(false)}>Degree</button>
+              <button type="button" className={majorButtonClass} onClick={() => setDistribsTabActive(false)}>Major</button>
             </div>
           )
           : <div /> }
       </div>
-      {props.active ? renderDistribs(distribsActive) : <div />}
+      {distribsActive ? renderDistribs() : renderMajorReqs()}
     </div>
   );
 };

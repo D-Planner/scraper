@@ -10,6 +10,7 @@ export const ActionTypes = {
   FETCH_USER: 'FETCH_USER',
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
+  FETCH_MAJORS: 'FETCH_MAJORS',
   COURSE_SEARCH: 'COURSE_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
@@ -254,6 +255,30 @@ export function addCourseToTerm(course, term) {
 export function removeCourseFromTerm(course, term) {
   return (dispatch) => {
     return axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function fetchMajors() {
+  return (dispatch) => {
+    return axios.get(`${ROOT_URL}/majors/`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_MAJORS, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function declareMajor(majorID) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/majors/declared/${majorID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).catch((error) => {
       console.log(error);

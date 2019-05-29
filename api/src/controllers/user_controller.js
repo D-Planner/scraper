@@ -53,11 +53,16 @@ export const getUser = (req, res) => {
     }
 
     User.findById(userID)
-        .then((result) => {
-            const json = result.toJSON();
+        .then((user) => {
+            return user.populate('majors').execPopulate();
+        })
+        .then((user) => {
+            const json = user.toJSON();
             delete json.password;
             res.json(json);
-        }).catch((error) => {
+        })
+        .catch((error) => {
+            console.log(error);
             res.status(500).json({ error });
         });
 };
