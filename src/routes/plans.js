@@ -41,7 +41,7 @@ plansRouter.delete('/:id', (req, res, next) => {
         res.sendStatus(200);
     }).catch((err) => {
         if (err.name === 'CastError') {
-            res.status(400).send({ message: 'The requested id was not valid ' });
+            res.status(400).send({ message: 'Sorry! We couldn\'t find that plan. Please try again later.' }); // The requested id was not valid.
         } else {
             next(err);
         }
