@@ -117,10 +117,13 @@ const RequirementsPane = (props) => {
     if (props.majors.length > 0) {
       return (
         <div className="reqs-list">
-          {props.majors.map((req) => {
+          {props.majors.map((major) => {
+            console.log(major);
             return (
-              <div className="distrib-row">
-                <div>yeet</div>
+              <div className="major" id={major.id}>
+                <div className="major-header">
+                  {major.name}
+                </div>
               </div>
             );
           })}
