@@ -29,17 +29,8 @@ const getCoursesByDepartment = (req, res) => {
         });
 };
 
-const getCoursesByDistrib = (req, res) => {
-    Course.find({ distrib: req.params.distrib })
-        .then((result) => {
-            res.json(result);
-        }).catch((error) => {
-            res.status(500).json({ error });
-        });
-};
-
-const getCoursesByWC = (req, res) => {
-    Course.find({ wc: req.params.wc })
+const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
+    Course.find({ distribs: req.params.distribs })
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -73,33 +64,34 @@ const getCourseByTitle = (req, res) => {
 const createCourse = (req, res) => {
     Promise.resolve(courses.map((course) => {
         return Course.update(
-            { $or: [{ name: course.title }, { crn: course.crn }] },
+            { $or: [{ title: course.title }, { name: course.name }] }, // there's no longer a crn
             {
-                name: course.title,
-                department: course.subject,
+                layup_url: course.layup_url,
+                layup_id: course.layup_id,
+                title: course.title,
+                department: course.department,
+                offered: course.offered,
+                distribs: course.distribs,
+                total_reviews: course.total_reviews,
+                quality_score: course.quality_score,
+                layup_score: course.layup_score,
+                xlist: course.xlist,
+                name: course.name,
                 number: course.number,
-                section: course.section,
-                crn: course.crn,
-                professors: course.professors,
-                enroll_limit: course.enrollment_limit,
-                current_enrollment: course.current_enrollment,
-                timeslot: course.period,
-                room: course.room,
-                building: course.building,
+                periods: course.periods,
                 description: course.description,
-                term: course.term,
-                wc: course.wc,
-                distrib: course.distrib,
-                links: course.links,
-                related_courses: course.related_courses,
-                terms_offered: course.terms_offered,
-                layuplist_score: course.layuplist_score,
-                layuplist_id: course.layuplist_id,
+                reviews: course.reviews,
+                similar_courses: course.similar_courses,
+                orc_url: course.orc_url,
                 medians: course.medians,
+                terms_offered: course.terms_offered,
+                professors: course.professors,
             }, { upsert: true },
         ).then((result) => {
+            console.log(result);
             return result;
         }).catch((error) => {
+            console.log(error);
             return error;
         });
     })).then(() => {
@@ -178,7 +170,6 @@ const CoursesController = {
     getCourse,
     getCoursesByDepartment,
     getCoursesByDistrib,
-    getCoursesByWC,
     getCourseByName,
     getCourseByTitle,
     createCourse,
