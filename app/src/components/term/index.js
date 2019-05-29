@@ -8,7 +8,7 @@ import DraggableCourse from '../draggableCourse';
 import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import './term.scss';
-import { updateTerm, showDialog } from '../../actions';
+import { updateTerm, showDialog, fetchPlan } from '../../actions';
 
 const termTarget = {
   drop: (props, monitor) => {
@@ -42,7 +42,7 @@ class Term extends Component {
     super(props);
 
     // Bindings
-    this.turnOffTerm = this.turnOffTerm.bind(this);
+    // this.turnOffTerm = this.turnOffTerm.bind(this);
     this.showDialog = this.showDialog.bind(this);
     // this.showOffTermDialog = this.showOffTermDialog.bind(this);
     this.termClass = this.termClass.bind(this);
@@ -90,14 +90,13 @@ class Term extends Component {
     // });
   }
 
-  turnOffTerm(term) {
-    term.courses = [];
-    this.props.updateTerm(term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
+  // turnOffTerm(term) {
+  //   this.props.updateTerm(term).then(() => {
+  //     this.props.fetchPlan(this.props.plan.id);
+  //   }).catch((err) => {
+  //     console.log(err);
+  //   });
+  // }
 
   // showOffTermDialog(term) {
   //   const opts = {
@@ -117,7 +116,10 @@ class Term extends Component {
       onOk: () => {
         this.props.term.off_term = true;
         this.props.term.courses = [];
-        this.props.updateTerm(this.props.term);
+        this.props.updateTerm(this.props.term)
+          .then(() => {
+            this.props.fetchPlan(this.props.plan.id);
+          });
         // this.props.deletePlan(this.props.plan.id, this.props.history);
       },
     };
@@ -128,7 +130,9 @@ class Term extends Component {
   turnOnTerm() {
     this.props.term.off_term = false;
     this.props.term.courses = [];
-    this.props.updateTerm(this.props.term);
+    this.props.updateTerm(this.props.term).then(() => {
+      this.props.fetchPlan(this.props.plan.id);
+    });
   }
 
   render() {
@@ -192,5 +196,5 @@ const mapStateToProps = state => ({
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTerm, showDialog,
+  updateTerm, showDialog, fetchPlan,
 })(Term)));
