@@ -6,6 +6,7 @@ import dialogReducer from './dialog-reducer';
 import plansReducer from './plans-reducer';
 import userReducer from './user-reducer';
 import majorReducer from './major-reducer';
+import timeReducer from './time-reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   majors: majorReducer,
   plans: plansReducer,
   user: userReducer,
+  time: timeReducer,
 });
 
 export default rootReducer;

@@ -197,18 +197,48 @@ export function addCourseToFavorites(courseID) {
   };
 }
 
-
-export function courseSearch(query) {
+/**
+ * Sends two axios requests, direct and indirect search, and checks which response makes sense for the user, then dispatches that response.
+ * @param {*} query
+ * @param {String} type
+ */
+export function courseSearch(query, type) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/courses/search`, { query }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
-      // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
-      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    });
+    console.log(type);
+    switch (type) {
+      case 'number':
+        axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }).then((response) => {
+          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+        });
+        break;
+      case 'department':
+        axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }).then((response) => {
+          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+        });
+        break;
+      default:
+        axios.post(`${ROOT_URL}/courses/search`, { query }, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }).then((response) => {
+          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+        });
+    }
   };
 }
 

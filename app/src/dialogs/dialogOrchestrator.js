@@ -6,6 +6,7 @@ import { DialogTypes } from '../constants';
 import NewPlanDialog from './newPlan';
 import DeletePlanDialog from './deletePlan';
 import DeclareMajorDialog from './declareMajor';
+import CourseInfoDialog from './courseInfo';
 
 const DialogOrchestrator = (props) => {
   useEffect(() => {
@@ -18,6 +19,8 @@ const DialogOrchestrator = (props) => {
       return (<DeletePlanDialog {...props.options} hideDialog={props.hideDialog} />);
     case DialogTypes.DECLARE_MAJOR:
       return (<DeclareMajorDialog {...props.options} hideDialog={props.hideDialog} majors={props.majors} />);
+    case DialogTypes.COURSE_INFO:
+      return (<CourseInfoDialog {...props.options} hideDialog={props.hideDialog} />);
     default:
       return null;
   }

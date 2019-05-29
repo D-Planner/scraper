@@ -59,22 +59,8 @@ class DPlan extends Component {
         <div className="plan-header">
           <div className="header-left">
             <h1 className="plan-name">{this.props.plan.name}</h1>
-            <button type="button" className="save-button" onClick={this.savePlan}>
-              <p>Save</p>
-            </button>
           </div>
           <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
-        </div>
-        <div className="plan-data">
-          <p>
-              On-Terms:
-          </p>
-          <p>
-              Courses:
-          </p>
-          <p>
-              Distributive Requirements:
-          </p>
         </div>
         <div className="plan-content">
           <Sidebar className="sidebar" />
