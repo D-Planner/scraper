@@ -29,8 +29,8 @@ const RequirementsPane = (props) => {
     toggle: true,
     active: distribsActive,
   });
-  const degreeButtonClass = classNames({
-    degree: true,
+  const majorButtonClass = classNames({
+    major: true,
     toggle: true,
     active: !distribsActive,
   });
@@ -130,7 +130,7 @@ const RequirementsPane = (props) => {
       return (
         <div className="no-major">
           <p>You are not enrolled in a major.</p>
-          <button type="button" className="enroll-button" onClick={() => {}}>
+          <button type="button" className="enroll-button" onClick={props.showDeclareDialog}>
             <p>Choose A Major</p>
           </button>
         </div>
@@ -152,7 +152,7 @@ const RequirementsPane = (props) => {
           ? (
             <div className="requirements-toggle">
               <button type="button" className={distribsButtonClass} onClick={() => setDistribsTabActive(true)}>Distribs</button>
-              <button type="button" className={degreeButtonClass} onClick={() => setDistribsTabActive(false)}>Degree</button>
+              <button type="button" className={majorButtonClass} onClick={() => setDistribsTabActive(false)}>Major</button>
             </div>
           )
           : <div /> }

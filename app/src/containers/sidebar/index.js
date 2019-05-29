@@ -4,8 +4,9 @@ import SearchPane from './searchPane';
 import RequirementsPane from './requirementsPane';
 import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
+import { DialogTypes } from '../../constants';
 import {
-  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser,
+  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
 } from '../../actions';
 
 const paneTypes = {
@@ -27,6 +28,18 @@ const Sidebar = (props) => {
     props.fetchBookmarks();
   };
 
+  const showDeclareDialog = () => {
+    const opts = {
+      title: 'Declare New Major',
+      okText: 'Enroll',
+      onOk: (majorID) => {
+        props.declareMajor(majorID);
+        setTimeout(() => props.fetchUser(), 100);
+      },
+    };
+    props.showDialog(DialogTypes.DECLARE_MAJOR, opts);
+  };
+
   return (
     <div className="sidebar">
       <SearchPane
@@ -39,6 +52,7 @@ const Sidebar = (props) => {
         active={activePane === paneTypes.REQUIREMENTS}
         activate={() => setActivePane(paneTypes.REQUIREMENTS)}
         majors={props.user.majors}
+        showDeclareDialog={showDeclareDialog}
       />
       <BookmarksPane
         active={activePane === paneTypes.BOOKMARKS}
@@ -58,5 +72,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser,
+  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
 })(Sidebar);
