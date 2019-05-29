@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import searchIcon from '../../../style/searchSimple.svg';
@@ -14,11 +15,27 @@ const SearchPane = (props) => {
   });
 
   const [searchText, setSearchText] = useState('');
+  const [searchMethod, setSearchMethod] = useState('number');
 
   // Allows a user to search by the query entered in the search input
   const search = (query) => {
     setSearchText(query);
-    props.search(query);
+    switch (searchMethod) {
+      case 'number':
+        const queryParsed = {
+          department: query.split(' ')[0].toUpperCase(),
+          number: query.split(' ')[1],
+        };
+        if (typeof queryParsed.number === 'undefined') { // if user just searched 'COSC'
+          props.search(queryParsed, 'department');
+          setSearchMethod('number');
+        } else {
+          props.search(queryParsed, searchMethod);
+        }
+        break;
+      default:
+        props.search(query, searchMethod);
+    }
   };
 
   // Clears the search input when the component updates to go inactive
@@ -38,7 +55,7 @@ const SearchPane = (props) => {
       <div className="pane-content">
         {props.results.length
           ? props.results.map((course) => {
-            return <DraggableCourse course={course} />;
+            return <DraggableCourse key={course.crn} course={course} />;
           })
           : (<div />)}
       </div>

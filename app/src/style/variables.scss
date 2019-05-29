@@ -7,14 +7,25 @@ $nav-height: 84px;
 $roboto: 'Roboto', sans-serif;
 $poppins: 'Poppins', sans-serif;
 
-// colors:
-$purple: #574966;
+// colors -new:
 $blue-primary: #518FF5;
-$blue-secondary: #ECF3FF;
-$background: #FAFAFA;
+$purple-primary: #8901FB;
+$purple-secondary: #733DF9;
+$text-accent: #574966;
+$orange: #FEAF01;
+$red: #FF5273;
+$yellow: #F1DD31;
+$error: #FF0031;
+$success: #18E020;
+$gray-1: #F8F8F8;
+$gray-5: #D8D5D5;
+$gray-6: #838484;
+
+// colors -old (we're not removing because of possible dependencies:
+
+$background: #F8F8F8;
 $border: #D8D5D5;
 $white: #FFFFFF;
-$warning: #FF3300;
 $med-grey: #848484;
 $black: #000000;
 

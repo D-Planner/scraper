@@ -71,8 +71,18 @@ const RequirementsPane = (props) => {
       complete: false,
     },
     {
+      name: 'Natural and Physical Science (LAB)',
+      icon: icons.sla,
+      complete: false,
+    },
+    {
       name: 'Natural and Physical Science',
       icon: icons.sci,
+      complete: false,
+    },
+    {
+      name: 'Technology and Applied Science (LAB)',
+      icon: icons.tla,
       complete: false,
     },
     {
@@ -103,7 +113,7 @@ const RequirementsPane = (props) => {
       <div className="distribs-list">
         {distribTypes.map((distrib) => {
           return (
-            <div className="distrib-row">
+            <div key={distrib.name} className="distrib-row">
               <img className="icon" src={distrib.icon} alt={`${distrib.name} icon`} />
               <div className="distrib-name">{distrib.name}</div>
               <img className="checkbox" src={distrib.complete ? checkedIcon : uncheckedIcon} alt="checkbox" />

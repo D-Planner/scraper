@@ -3,7 +3,6 @@ import '../dashboard/dashboard.scss';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import Departments from '../departments';
 import {
   courseSearch, addCourseToFavorites,
 } from '../../actions/index';
@@ -34,11 +33,25 @@ class Discover extends React.Component {
     this.setState({ query: event.target.value });
   }
 
+  /**
+   * Takes this.state.query and sends this into the dispath.
+   * thoughts on stronger logic:
+   * user may type "COSC 10" or "CS10" or follow some other unconventional way
+   * what about pure department searches? "COSC"
+   * @param {*} event
+   */
   searchByName(event) {
-    this.props.courseSearch(this.state.query);
-    this.setState({
-      displayingResults: true,
-    });
+    if (/^[a-z]{4}( |)\d{1,3}$/i.test(this.state.query)) { // using regex to see if the query is of the form "XXX ##"
+      const department = this.state.query.match(/^[a-z]{4}/i)[0];
+      const number = this.state.query.match(/\d+/)[0];
+      this.props.courseSearch(this.state.query, department, number);
+      this.setState({ displayingResults: true });
+    } else {
+      this.props.courseSearch(this.state.query, 'hello', '123');
+      this.setState({
+        displayingResults: true,
+      });
+    }
   }
 
   addCourseToFavorites(courseID) {
@@ -181,9 +194,7 @@ class Discover extends React.Component {
                   className="scroll-prompt-button"
                 />
               </div>
-              <div ref={this.dptRef}>
-                <Departments />
-              </div>
+              <div ref={this.dptRef} />
             </div>
           )
         }

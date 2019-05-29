@@ -1,0 +1,29 @@
+@import '../../style/variables.scss';
+
+.bucket {
+    background: $gray-1;
+    color:#574966;
+    border-color: green;
+    min-width: 303px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .bucket-name {
+        align-self: flex-start;
+        font-family: $poppins;
+        font-size: 18px;
+        margin: 0 0 20px;
+    }
+
+    .course-list {
+        width: 100%;
+    }
+}
+
+.bucketCourse {
+    &:hover{
+        filter: brightness(90%);
+    }
+}
