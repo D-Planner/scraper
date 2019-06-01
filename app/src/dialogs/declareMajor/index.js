@@ -3,6 +3,7 @@ import DialogWrapper from '../dialogWrapper';
 
 import './declareMajor.scss';
 
+/** allows a user to declare a new major */
 const DeclareMajor = (props) => {
   const [selectedMajor, setSelectedMajor] = useState(null);
   return (

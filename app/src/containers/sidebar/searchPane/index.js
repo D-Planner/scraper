@@ -7,6 +7,10 @@ import arrowDropDown from '../../../style/arrowDropDown.svg';
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
 
+/**
+ * @name SearchPane
+ * @description allows a user to search specific courses right in the sidebar
+ */
 const SearchPane = (props) => {
   const paneClass = classNames({
     search: true,

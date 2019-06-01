@@ -3,6 +3,7 @@ import DialogWrapper from '../dialogWrapper';
 
 import './newPlan.scss';
 
+/** allows a user to name and create a new plan */
 const NewPlan = (props) => {
   const [text, setText] = useState('');
 

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { ItemTypes, DialogTypes } from '../../constants';
 import { showDialog } from '../../actions';
 
-
 const source = {
   beginDrag(props) {
     return {
@@ -37,6 +36,7 @@ const showCourseInfoDialog = (props) => {
   props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
 };
 
+/** a drag-n-drop capable component containing information on a Course object */
 const Course = (props) => {
   const { course } = props;
 

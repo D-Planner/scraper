@@ -21,6 +21,10 @@ const importSVGs = (r) => {
 // import all svg files in the ../style/distrib_icons directory
 const icons = importSVGs(require.context('../../../style/distrib_icons', false, /\.svg$/));
 
+/**
+ * @name RequirementsPane
+ * @description displays information on a user's distributive and major reqirements for a plan to check progress
+ */
 const RequirementsPane = (props) => {
   const [distribsActive, setDistribsActive] = useState(true);
 

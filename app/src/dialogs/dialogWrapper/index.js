@@ -5,6 +5,9 @@ import closeButton from '../../style/close.svg';
 
 import './dialogWrapper.scss';
 
+// A wrapper for all dialogs in the application
+// Should be used by all other dialogs
+// Allowable/required prop types defined at the bottom of this file
 const DialogWrapper = (props) => {
   const handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
@@ -51,14 +54,21 @@ const DialogWrapper = (props) => {
 
 DialogWrapper.propTypes = {
   // props
+  /** the title of the dialog */
   title: PropTypes.string,
+  /** whether to display the ok button with the onOk action */
   showOk: PropTypes.bool,
+  /** text to render on the ok button */
   okText: PropTypes.string,
+  /** whether to disable the ok button if it is shown */
   okDisabled: PropTypes.bool,
+  /** the size of the dialog box, as one of sm, md, or lg */
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
 
   // methods
+  /** hides the dialog */
   hideDialog: PropTypes.func.isRequired,
+  /** callback to call when the ok button is pressed */
   onOk: PropTypes.func,
 };
 
