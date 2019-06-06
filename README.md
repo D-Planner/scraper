@@ -37,7 +37,7 @@ yarn
 ...then start the server
 
 ```
-yarn start
+yarn dev
 ```
 
 Your output should resemble the following:
