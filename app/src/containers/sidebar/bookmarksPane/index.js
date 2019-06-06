@@ -20,6 +20,10 @@ const collect = (connect, monitor) => {
   };
 };
 
+/**
+ * @name BookmarksPane
+ * @description contains a list of favorited or bookmarked courses for a specific user
+ */
 const component = (props) => {
   const paneClass = classNames({
     bookmarks: true,

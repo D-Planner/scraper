@@ -4,6 +4,7 @@ import DialogWrapper from '../dialogWrapper';
 
 import './courseInfo.scss';
 
+/** displays information on a course -- displayed when a draggable course is clicked without dragging */
 const CourseInfoDialog = (props) => {
   // console.log(props);
   return (

@@ -9,6 +9,7 @@ import Sidebar from '../sidebar';
 import Term from '../../components/term';
 import './dplan.scss';
 
+/** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
   constructor(props) {
     super(props);

@@ -38,6 +38,7 @@ const collect = (connect, monitor) => {
   };
 };
 
+/** A drag-n-drop capable term component to display term information and allow courses to be dropped and added */
 const Term = (props) => {
   const termClass = classNames({
     term: true,

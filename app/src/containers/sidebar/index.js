@@ -15,6 +15,10 @@ const paneTypes = {
   BOOKMARKS: 'BOOKMARKS',
 };
 
+/**
+ * @name Sidebar
+ * @description displays important information in panes on the side of the dplan component
+ */
 const Sidebar = (props) => {
   const [activePane, setActivePane] = useState(paneTypes.REQUIREMENTS);
 

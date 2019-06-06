@@ -43,6 +43,7 @@ const showCourseInfoDialog = (props) => {
   props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
 };
 
+/** a drag-n-drop capable component containing information on a UserCourse object */
 const UserCourse = (props) => {
   const { catalogCourse } = props;
 

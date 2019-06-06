@@ -3,6 +3,7 @@ import DialogWrapper from '../dialogWrapper';
 
 import './deletePlan.scss';
 
+/** ensures a user meant to delete a plan before deleting it */
 const DeletePlan = (props) => {
   return (
     <DialogWrapper {...props}>

@@ -30,6 +30,7 @@ const updateTerm = (req, res) => {
 };
 
 const addCourseToTerm = async (req, res, next) => {
+    console.log(req.body.course);
     const termID = req.params.termID;
     const userCourse = await UserCourseController.createUserCourse(req.user.id, req.body.course.id, termID);
 
