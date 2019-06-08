@@ -76,6 +76,7 @@ mongoose.connect(mongoURI, mongooseOptions).then(() => {
     console.log('Not Connected to Database ERROR! ', err);
 });
 
+
 // set mongoose promises to es6 default
 mongoose.Promise = global.Promise;
 

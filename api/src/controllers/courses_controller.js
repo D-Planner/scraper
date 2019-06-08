@@ -1,5 +1,6 @@
 import Course from '../models/course';
 import User from '../models/user';
+import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
 
 const getCourses = (req, res) => {
@@ -85,7 +86,9 @@ const createCourse = (req, res) => {
                 orc_url: course.orc_url,
                 medians: course.medians,
                 terms_offered: course.terms_offered,
-                professors: course.professors,
+                professors: (!course.professors) ? [] : course.professors.map((prof) => {
+                  return ({name : prof});
+                }),
             }, { upsert: true },
         ).then((result) => {
             console.log(result);
