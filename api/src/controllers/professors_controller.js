@@ -44,12 +44,22 @@ const addProfessors = async (professors) => {
   }
 }
 
+const getProfessorById = (req, res) => {
+  Professor.find({id: req.query.id}, 'name')
+    .then((r) => {
+      res.json(r);
+    }).catch((e) => {
+      res.status(500).json({e});
+    })
+}
+
 
 const ProfessorController = {
   getProfessors,
   addProfessors,
   getProfessorId,
   getProfessorListId,
+  getProfessorById,
 }
 
 export default ProfessorController;

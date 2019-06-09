@@ -4,17 +4,19 @@ import Professor from '../models/professor';
 import ProfessorController from '../controllers/professors_controller';
 import courses from '../../static/data/courses.json';
 
-const getCourses = (req, res) => {
-    Course.find({})
-        .then((result) => {
-            res.json(result);
-        }).catch((error) => {
-            res.status(500).json({ error });
-        });
+const getCourses = async (req, res) => {
+  Course.find({})
+      .populate('professors')
+      .then((result) => {
+          res.json(result);
+      }).catch((error) => {
+          res.status(500).json({ error });
+      });
 };
 
-const getCourse = (req, res) => {
+const getCourse = async (req, res) => {
     Course.find({ _id: req.params.id })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -22,8 +24,10 @@ const getCourse = (req, res) => {
         });
 };
 
-const getCoursesByDepartment = (req, res) => {
+const getCoursesByDepartment = async (req, res) => {
+
     Course.find({ department: req.params.department })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -33,6 +37,7 @@ const getCoursesByDepartment = (req, res) => {
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
     Course.find({ distribs: req.params.distribs })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -45,6 +50,7 @@ const getCourseByName = (req, res) => {
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -56,7 +62,8 @@ const getCourseByTitle = (req, res) => {
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
-    }).then((response) => {
+    }).populate('professors')
+      .then((response) => {
         res.json(response);
     }).catch((error) => {
         res.status(500).json({ error });
