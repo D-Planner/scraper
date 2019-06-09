@@ -244,17 +244,17 @@ const renderNextTerm = (course, nextTerm) => {
  *
  *
  */
-const renderProfessors = (professors) => {
-  return (
-    <div id="content">
-      {professors.map((p) => {
-        return (
-          <span>{p.name}</span>
-        );
-      })}
-    </div>
-  );
-};
+// const renderProfessors = (professors) => {
+//   return (
+//     <div id="content">
+//       {professors.map((p) => {
+//         return (
+//           <span>{p.name}</span>
+//         );
+//       })}
+//     </div>
+//   );
+// };
 
 
 /**
@@ -263,7 +263,7 @@ const renderProfessors = (professors) => {
  * @param {String} nextTerm
  */
 const courseInfo = (course, nextTerm) => {
-  // console.log(course);
+  console.log(course);
   return (
     <div id="content">
       <div id="major">Engineering Department: Prerequisite</div>
@@ -274,7 +274,6 @@ const courseInfo = (course, nextTerm) => {
         {renderDistribs(course)}
         {renderMedians(course.medians)}
         {renderScores(course)}
-        {renderProfessors(course)}
       </div>
       <hr className="horizontal-divider" />
     </div>

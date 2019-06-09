@@ -19,7 +19,7 @@ const SearchPane = (props) => {
   });
 
   const [searchText, setSearchText] = useState('');
-  const [searchMethod, setSearchMethod] = useState('distrib');
+  const [searchMethod, setSearchMethod] = useState('number');
 
   // Allows a user to search by the query entered in the search input
   const search = (query) => {
