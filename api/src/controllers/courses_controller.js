@@ -1,6 +1,7 @@
 import Course from '../models/course';
 import User from '../models/user';
 import Professor from '../models/professor';
+import ProfessorController from '../controllers/professors_controller';
 import courses from '../../static/data/courses.json';
 
 const getCourses = (req, res) => {
@@ -63,9 +64,10 @@ const getCourseByTitle = (req, res) => {
 };
 
 const createCourse = (req, res) => {
-    Promise.resolve(courses.map((course) => {
-        return Course.update(
-            { $or: [{ title: course.title }, { name: course.name }] }, // there's no longer a crn
+    Promise.resolve(courses.map( async (course) => {
+        await ProfessorController.addProfessors(course.professors);
+        const profs = await ProfessorController.getProfessorListId(course.professors);
+        return Course.create(
             {
                 layup_url: course.layup_url,
                 layup_id: course.layup_id,
@@ -86,15 +88,11 @@ const createCourse = (req, res) => {
                 orc_url: course.orc_url,
                 medians: course.medians,
                 terms_offered: course.terms_offered,
-                professors: (!course.professors) ? [] : course.professors.map((prof) => {
-                  return ({name : prof});
-                }),
-            }, { upsert: true },
+                professors: profs,
+            }
         ).then((result) => {
-            console.log(result);
             return result;
         }).catch((error) => {
-            console.log(error);
             return error;
         });
     })).then(() => {
