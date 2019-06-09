@@ -98,6 +98,7 @@ $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+
         margin: 0 50px;
         width: calc(100% - 40px);
         height: $content-height;
@@ -108,13 +109,15 @@ $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan
 
         .plan-grid {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
+            flex-wrap: wrap;
             overflow: scroll;
             padding-left: 36px;
 
             .plan-row {
                 display: flex;
                 flex-direction: row;
+                flex: 1;
             }
         }
     }
