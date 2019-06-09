@@ -50,8 +50,7 @@ const Course = (props) => {
       <div className="course">
         <div className="title-box">
           <div className="course-left">
-            {course.department}
-            {course.number}
+            {`${course.department} ${course.number}`}
           </div>
           <div className="spacer" />
           <div className="course-right">

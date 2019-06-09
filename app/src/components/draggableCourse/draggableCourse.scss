@@ -18,6 +18,7 @@
     width: 208px;
     height: 30px;
     &:hover {
+        cursor: pointer;
         filter: brightness(95%);
     }
 }
@@ -40,7 +41,6 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
-    // margin-right: 5px;
 }
 .spacer {
     margin-left: 5px;
@@ -51,6 +51,7 @@
 }
 
 .course-right {
-    font-size: 8px;
+    font-size: 10px;
     text-align: start;
+    line-height: 100%;
 }
