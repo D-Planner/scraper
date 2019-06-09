@@ -366,6 +366,22 @@ export function removeCourseFromTerm(course, term) {
   };
 }
 
+export function updateTerm(term) {
+  return (dispatch) => {
+    return axios.put(`${ROOT_URL}/terms/${term.id}`, term, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      // console.log(response);
+      // dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
+      // fetchCourse
+    })
+      .catch((error) => {
+        console.log(error);
+        dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      });
+  };
+}
+
 // ----- Major Actions ----- //
 
 /**
