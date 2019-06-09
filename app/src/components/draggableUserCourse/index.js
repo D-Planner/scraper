@@ -48,15 +48,15 @@ const UserCourse = (props) => {
   const { catalogCourse } = props;
 
   return props.connectDragSource(
-    <div>
-      <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
-        <div className="course">
-          <div>
-            {catalogCourse.department}
-            {catalogCourse.number}
+    <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
+      <div className="course">
+        <div className="title-box">
+          <div className="course-left">
+            {`${catalogCourse.department} ${catalogCourse.number}`}
           </div>
-          <div>
-            {catalogCourse.timeslot}
+          <div className="spacer" />
+          <div className="course-right">
+            {catalogCourse.name}
           </div>
         </div>
       </div>

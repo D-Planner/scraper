@@ -6,10 +6,15 @@ $term-min-width-13: 238px;
 $term-min-height-13: 205px;
 $term-margin: 0 21px 12px 0;
 
-.term {
-    box-sizing: border-box;
+.on {
     background: $blue-primary;
+}
+.off {
+    background: $gray-1;
+}
+.term {
     border-radius: $term-border-radius;
+    box-sizing: border-box;
     margin: $term-margin;
     padding: $term-padding;
     width: $term-min-width-13;
@@ -31,10 +36,14 @@ $term-margin: 0 21px 12px 0;
         .term-name {
             font-family: $roboto;
             font-size: $term-name-font-size;
-            color: $white;
+            &.on {
+                color: $white;
+            }
+            &.off {
+                color: #818181;
+            }
         }
-        .turn-term-off-button {
-            color: $blue-primary;
+        .toggle-button {
             background: $white;
             border-radius: 5px;
             display: flex;
@@ -44,32 +53,15 @@ $term-margin: 0 21px 12px 0;
             font-size: 12px;
             width: 30px;
             height: 22px;
-        }
-        .turn-term-on-button {
-            color: $gray-6;
-            background: $white;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 12px;
-            width: 30px;
-            height: 22px;
-        }
-        .offterm-toggle {
-            > .toggle-button {
-            margin: 0 3px;
-            color: #AAAAAA;
+            &.on {
+                color: $blue-primary;
             }
-        
-            .active {
-            color: #FFFFFF;
+            &.off {
+                color: $gray-6;
             }
-        }
-        
-        .offterm-toggle:hover {
-            cursor: pointer;
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
@@ -83,20 +75,21 @@ $term-margin: 0 21px 12px 0;
             text-align: center;
             justify-content: flex-start;
             align-items: center;
-
-            div {
+            &.on {
                 color: $white;
-                position: relative;
-                top: 45px;
-                padding: 0 37px 0 37px;
             }
+            &.off {
+                color: $gray-6;
+            }
+            position: relative;
+            top: 45px;
+            padding: 0 37px 0 37px;
         }
     }
+}
 
-    &.offterm {
-        background: $gray-1;
-        .term-name {
-            color: #818181;
-        }
-    }
+.course-row {
+    display: flex;
+    width: 208px;
+    align-items: center;
 }

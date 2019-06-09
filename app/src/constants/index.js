@@ -10,4 +10,5 @@ export const DialogTypes = {
   DELETE_PLAN: 'DELETE_PLAN',
   DECLARE_MAJOR: 'DECLARE_MAJOR',
   COURSE_INFO: 'COURSE_INFO',
+  OFF_TERM: 'OFF_TERM',
 };

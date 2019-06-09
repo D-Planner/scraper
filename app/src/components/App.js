@@ -12,31 +12,37 @@ import Dashboard from '../containers/dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
 import Discover from '../containers/discover';
+import tooSmall from './tooSmall';
 
 const FallBack = (props) => {
   return <div> URL Not Found </div>;
 };
 
-
 const App = (props) => {
-  return (
-    <div>
-      <Router>
-        <div className="app-container">
-          <Nav />
-          <Switch>
-            <Route exact path="/" component={requireAuth(Dashboard)} />
-            <Route exact path="/courses" component={requireAuth(Courses)} />
-            <Route path="/signup" component={signUp} />
-            <Route path="/signin" component={signIn} />
-            <Route path="/discover" component={Discover} />
-            <Route path="/plan/:id" component={DPlan} />
-            <Route component={FallBack} />
-          </Switch>
-        </div>
-      </Router>
-    </div>
-  );
+  if (window.innerWidth >= 500) {
+    return (
+      <div>
+        <Router>
+          <div className="app-container">
+            <Nav />
+            <Switch>
+              <Route exact path="/" component={requireAuth(Dashboard)} />
+              <Route exact path="/courses" component={requireAuth(Courses)} />
+              <Route path="/signup" component={signUp} />
+              <Route path="/signin" component={signIn} />
+              <Route path="/discover" component={Discover} />
+              <Route path="/plan/:id" component={DPlan} />
+              <Route component={FallBack} />
+            </Switch>
+          </div>
+        </Router>
+      </div>
+    );
+  } else {
+    return (
+      <tooSmall />
+    );
+  }
 };
 
 // eslint-disable-next-line new-cap

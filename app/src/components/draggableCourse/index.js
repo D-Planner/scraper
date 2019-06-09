@@ -26,6 +26,11 @@ const collect = (connectDrag, monitor) => {
   };
 };
 
+/**
+ * Sends off information for [dialogOrchestrator].
+ * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
+ * @param {*} props
+ */
 const showCourseInfoDialog = (props) => {
   const dialogOptions = {
     title: `${props.course.department} ${props.course.number}: ${props.course.name}`,
@@ -43,11 +48,14 @@ const Course = (props) => {
   return props.connectDragSource(
     <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
       <div className="course">
-        <div>
-          {`${course.department} ${course.number}`}
-        </div>
-        <div>
-          {course.timeslot}
+        <div className="title-box">
+          <div className="course-left">
+            {`${course.department} ${course.number}`}
+          </div>
+          <div className="spacer" />
+          <div className="course-right">
+            {course.name}
+          </div>
         </div>
       </div>
     </div>,
