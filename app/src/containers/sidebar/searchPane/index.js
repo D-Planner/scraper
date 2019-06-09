@@ -19,7 +19,7 @@ const SearchPane = (props) => {
   });
 
   const [searchText, setSearchText] = useState('');
-  const [searchMethod, setSearchMethod] = useState('number');
+  const [searchMethod, setSearchMethod] = useState('distrib');
 
   // Allows a user to search by the query entered in the search input
   const search = (query) => {
@@ -36,6 +36,9 @@ const SearchPane = (props) => {
         } else {
           props.search(queryParsed, searchMethod);
         }
+        break;
+      case 'distrib':
+        props.search(query, 'distrib');
         break;
       default:
         props.search(query, searchMethod);

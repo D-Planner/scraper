@@ -336,6 +336,16 @@ export function courseSearch(query, type) {
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
         });
         break;
+      case 'distrib':
+        axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }).then((response) => {
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+        });
+        break;
       default:
         axios.post(`${ROOT_URL}/courses/search`, { query }, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

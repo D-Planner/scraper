@@ -74,11 +74,12 @@ func newCourse(o *Offering) *Course {
 }
 
 func getNumber(s string) int {
-	pattern, _ := regexp.Compile(`[1-9][0-9]+`)
+	re := regexp.MustCompile(`[.0-9]+`)
 
-	submatches := pattern.FindString(s)
+	match := re.FindString(s)
+	match = strings.TrimLeft(match, "0")
 
-	num, _ := strconv.Atoi(submatches)
+	num, _ := strconv.Atoi(match)
 
 	return num
 }
