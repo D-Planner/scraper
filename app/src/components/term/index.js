@@ -44,78 +44,7 @@ const collect = (connect, monitor) => {
 };
 
 class Term extends Component {
-  constructor(props) {
-    super(props);
-
-    // Bindings
-    // this.turnOffTerm = this.turnOffTerm.bind(this);
-    this.showDialog = this.showDialog.bind(this);
-    // this.showOffTermDialog = this.showOffTermDialog.bind(this);
-    this.termClass = this.termClass.bind(this);
-    this.onButtonClass = this.onButtonClass.bind(this);
-    this.offButtonClass = this.offButtonClass.bind(this);
-    this.onButtonClick = this.onButtonClick.bind(this);
-    this.turnOnTerm = this.turnOnTerm.bind(this);
-  }
-
-
-  onButtonClick() {
-    console.log('clicked!');
-    console.log(this.props.term);
-    this.turnOnTerm();
-    // console.log(props.term.offterm)
-    console.log('result');
-    console.log(this.props.term);
-  }
-
-  onButtonClass() {
-    classNames({
-      // 'toggle-button': true,
-      active: !this.props.term.off_term,
-    });
-  }
-
-  offButtonClass() {
-    classNames({
-      // 'toggle-button': true,
-      active: this.props.term.off_term,
-    });
-  }
-
-
-  termClass() {
-    if (this.props.term.off_term) {
-      return 'offterm';
-    } else {
-      return 'onterm';
-    }
-
-    // classNames({
-    // term: true,
-    // offterm: this.props.term.off_term,
-    // });
-  }
-
-  // turnOffTerm(term) {
-  //   this.props.updateTerm(term).then(() => {
-  //     this.props.fetchPlan(this.props.plan.id);
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   });
-  // }
-
-  // showOffTermDialog(term) {
-  //   const opts = {
-  //     title: 'Turn Term Off',
-  //     okText: 'Ok!',
-  //     onOk: () => {
-  //       this.turnOffTerm(term);
-  //     },
-  //   };
-  //   this.props.showDialog(DialogTypes.OFF_TERM, opts);
-  // }
-
-  showDialog() {
+  turnOffTerm = () => {
     const opts = {
       title: 'Turn Term Off',
       okText: 'Ok!',
@@ -126,14 +55,12 @@ class Term extends Component {
           .then(() => {
             this.props.fetchPlan(this.props.plan.id);
           });
-        // this.props.deletePlan(this.props.plan.id, this.props.history);
       },
     };
     this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
-    // this.props.showDialog(DialogTypes.OFF_TERM, opts);
   }
 
-  turnOnTerm() {
+  turnOnTerm = () => {
     this.props.term.off_term = false;
     this.props.term.courses = [];
     this.props.updateTerm(this.props.term).then(() => {
@@ -141,56 +68,87 @@ class Term extends Component {
     });
   }
 
+  renderToggleButton = () => {
+    if (this.props.term.off_term) {
+      return (<span onClick={this.turnOnTerm} role="button" tabIndex={-1} className={classNames({ on: !this.props.term.off_term, off: this.props.term.off_term, 'toggle-button': true })}>OFF</span>
+      );
+    } else {
+      return (<span onClick={this.turnOffTerm} role="button" tabIndex={-1} className={classNames({ on: !this.props.term.off_term, off: this.props.term.off_term, 'toggle-button': true })}>ON</span>
+      );
+    }
+  };
+
+  renderContent = () => {
+    if (this.props.term.off_term) {
+      return (
+        <div className={classNames({
+          on: !this.props.term.off_term, off: this.props.term.off_term, 'term-content': true, 'no-content': true,
+        })}
+        >
+          off-term
+        </div>
+      );
+    } else if (this.props.term.courses.length === 0) {
+      return (
+        <div className={classNames({
+          on: !this.props.term.off_term, off: this.props.term.off_term, 'term-content': true, 'no-content': true,
+        })}
+        >
+          Drag-n-drop your courses here!
+        </div>
+      );
+    }
+    return (
+      <div className="term-content">
+        {this.props.term.courses.map((course) => {
+          return (
+            <div className="course-row">
+              <DraggableUserCourse
+                key={course.id}
+                catalogCourse={course.course}
+                course={course}
+                sourceTerm={this.props.term}
+                removeCourseFromTerm={() => {
+                  this.props.removeCourseFromTerm(course, this.props.term);
+                }}
+              />
+              <div>
+                <HourSelector timeslots={course.timeslot} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
+
   render() {
     return this.props.connectDropTarget(
-      <div className="term">
-        <div className={this.termClass}>
-          <div className="header">
-            <div className="term-name">{this.props.term.name}</div>
-            <div className="offterm-buttons">
-              <span onClick={this.onButtonClick} role="button" tabIndex={-1} className={this.onButtonClass}>OFF</span>
-              <span onClick={this.showDialog} role="button" tabIndex={-1} className={this.offButtonClass}>ON</span>
-            </div>
+      <div className={classNames({
+        on: !this.props.term.off_term,
+        off: this.props.term.off_term,
+        term: true,
+      })}
+      >
+        <div className="header">
+          <div className={classNames({
+            on: !this.props.term.off_term,
+            off: this.props.term.off_term,
+            'term-name': true,
+          })}
+          >
+            {this.props.term.name}
           </div>
-          {renderContent(this.props)}
+          <div className="toggle-buttons">
+            {this.renderToggleButton()}
+          </div>
         </div>
+        {this.renderContent()}
       </div>
       ,
     );
   }
 }
-
-const renderContent = (props) => {
-  if (props.term.courses.length === 0 && !props.term.off_term) {
-    return (
-      <div className="term-content no-content">
-        <div>Drag-n-drop your courses here!</div>
-      </div>
-    );
-  }
-  return (
-    <div className="term-content">
-      {props.term.courses.map((course) => {
-        return (
-          <div className="course-row">
-            <DraggableUserCourse
-              key={course.id}
-              catalogCourse={course.course}
-              course={course}
-              sourceTerm={props.term}
-              removeCourseFromTerm={() => {
-                props.removeCourseFromTerm(course, props.term);
-              }}
-            />
-            <div>
-              <HourSelector timeslots={course.timeslot} />
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
 
 const mapStateToProps = state => ({
   plan: state.plans.current,

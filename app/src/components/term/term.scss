@@ -6,10 +6,15 @@ $term-min-width-13: 238px;
 $term-min-height-13: 205px;
 $term-margin: 0 21px 12px 0;
 
-.term {
-    box-sizing: border-box;
+.on {
     background: $blue-primary;
+}
+.off {
+    background: $gray-1;
+}
+.term {
     border-radius: $term-border-radius;
+    box-sizing: border-box;
     margin: $term-margin;
     padding: $term-padding;
     width: $term-min-width-13;
@@ -31,67 +36,32 @@ $term-margin: 0 21px 12px 0;
         .term-name {
             font-family: $roboto;
             font-size: $term-name-font-size;
-            color: $white;
-        }
-        .turn-term-off-button {
-            color: $blue-primary;
-            background: $white;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 12px;
-            width: 30px;
-            height: 22px;
-        }
-        .turn-term-on-button {
-            color: $gray-6;
-            background: $white;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 12px;
-            width: 30px;
-            height: 22px;
-        }
-
-        .offterm-buttons {
-            display: flex;
-            justify-content: flex-end;
-            // > .toggle-button {
-            // margin: 0 3px;
-            // color: #AAAAAA;
-            // }
-        
-            // .active {
-            // color: #FFFFFF;
-            // }
-
-            span {
-                display: flex;
-                justify-items: center;
-                align-items: center;
-                text-align: center;
-                background: #FFFFFF;
-                border-radius: 5px;
-                color: #518FF5;
-                min-width: 40px;
-                min-height: 32px;
-                width: 30px;
-                height: 22px;
-                font-weight: 900;
-                font-size: 12px;
-                line-height: 14px;
-                margin: 0px 5px 0px 0px;
-
+            &.on {
+                color: $white;
+            }
+            &.off {
+                color: #818181;
             }
         }
-        
-        .offterm-toggle:hover {
-            cursor: pointer;
+        .toggle-button {
+            background: $white;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 12px;
+            width: 30px;
+            height: 22px;
+            &.on {
+                color: $blue-primary;
+            }
+            &.off {
+                color: $gray-6;
+            }
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
@@ -105,20 +75,15 @@ $term-margin: 0 21px 12px 0;
             text-align: center;
             justify-content: flex-start;
             align-items: center;
-
-            div {
+            &.on {
                 color: $white;
-                position: relative;
-                top: 45px;
-                padding: 0 37px 0 37px;
             }
-        }
-    }
-
-    &.offterm {
-        background: $gray-1;
-        .term-name {
-            color: #818181;
+            &.off {
+                color: $gray-6;
+            }
+            position: relative;
+            top: 45px;
+            padding: 0 37px 0 37px;
         }
     }
 }
