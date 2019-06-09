@@ -1,5 +1,5 @@
 {
-  "name": "example_express_with_es6",
+  "name": "dplanner-api",
   "version": "2.0.0",
   "description": "",
   "author": "",
@@ -10,15 +10,19 @@
     "dev:secret": "`echo 'AUTH_SECRET='6nyVvM5K@.ty$6%{'' > .env`",
     "start": "babel-node src/server.js",
     "build": "babel src -d dist",
-    "prod": "yarn build; node dist/server.js"
+    "prod": "yarn build; node dist/server.js",
+    "docs": "yarn docs:generate && yarn docs:serve",
+    "docs:generate": "./node_modules/apidoc/bin/apidoc -i src/ -o apidoc/",
+    "docs:serve": "open apidoc/index.html"
   },
   "license": "ISC",
   "engines": {
-    "node": ">=9 <=11",
+    "node": ">10.15.3",
     "npm": "^5.6.0",
     "yarn": "^1.6.0"
   },
   "dependencies": {
+    "apidoc": "^0.17.7",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "bcryptjs": "^2.4.3",

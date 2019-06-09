@@ -3,7 +3,43 @@ import PlanController from '../controllers/plan_controller';
 
 const plansRouter = Router();
 
-// GET /plans
+/**
+ * @api {get} /plans/ Get all plans for a user
+ * @apiName GetPlans
+ * @apiGroup Plans
+ *
+ * @apiSuccess {Array} plans the list of a user's plans
+ *
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ *      [
+ *          {
+ *              "terms": [
+ *                  "5c76d43808c20d8f9f016a82",
+ *                  "5c76d43808c20d8f9f016a83",
+ *                  "5c76d43808c20d8f9f016a84",
+ *                  "5c76d43808c20d8f9f016a85",
+ *                  "5c76d43808c20d8f9f016a86",
+ *                  "5c76d43808c20d8f9f016a87",
+ *                  "5c76d43808c20d8f9f016a88",
+ *                  "5c76d43808c20d8f9f016a89",
+ *                  "5c76d43808c20d8f9f016a8a",
+ *                  "5c76d43808c20d8f9f016a8b",
+ *                  "5c76d43808c20d8f9f016a8c",
+ *                  "5c76d43808c20d8f9f016a8d",
+ *                  "5c76d43808c20d8f9f016a8e",
+ *                  "5c76d43808c20d8f9f016a8f",
+ *                  "5c76d43808c20d8f9f016a90"
+ *              ],
+ *              "_id": "5c76d43808c20d8f9f016a81",
+ *              "name": "yeet",
+ *              "user_id": "5c52a8940dadc9e7ae96e1e2",
+ *              "__v": 1,
+ *              "normalizedName": "yeet",
+ *              "id": "5c76d43808c20d8f9f016a81"
+ *          },
+ *      ]
+ */
 plansRouter.get('/', (req, res, next) => {
     const userID = req.user.id;
     return PlanController.getPlansByUserId(userID).then((plans) => {
@@ -13,6 +49,45 @@ plansRouter.get('/', (req, res, next) => {
     });
 });
 
+/**
+ * @api {get} /plans/:id Get a plan by id
+ * @apiName GetPlansByID
+ * @apiGroup Plans
+ *
+ * @apiSuccess {Array} terms the list of term ids contained within the plan
+ * @apiSuccess {String} name the name of this plan
+ * @apiSuccess {String} user_id the id for the user that owns this plan
+ * @apiSuccess {String} normalizedName the normalized version of the name, e.g. Plan 1 -> plan-1
+ * @apiSuccess {String} id the id for the plan
+ *
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ *      {
+ *          "terms": [
+ *              "5c76d43808c20d8f9f016a82",
+ *              "5c76d43808c20d8f9f016a83",
+ *              "5c76d43808c20d8f9f016a84",
+ *              "5c76d43808c20d8f9f016a85",
+ *              "5c76d43808c20d8f9f016a86",
+ *              "5c76d43808c20d8f9f016a87",
+ *              "5c76d43808c20d8f9f016a88",
+ *              "5c76d43808c20d8f9f016a89",
+ *              "5c76d43808c20d8f9f016a8a",
+ *              "5c76d43808c20d8f9f016a8b",
+ *              "5c76d43808c20d8f9f016a8c",
+ *              "5c76d43808c20d8f9f016a8d",
+ *              "5c76d43808c20d8f9f016a8e",
+ *              "5c76d43808c20d8f9f016a8f",
+ *              "5c76d43808c20d8f9f016a90"
+ *          ],
+ *          "_id": "5c76d43808c20d8f9f016a81",
+ *          "name": "yeet",
+ *          "user_id": "5c52a8940dadc9e7ae96e1e2",
+ *          "__v": 1,
+ *          "normalizedName": "yeet",
+ *          "id": "5c76d43808c20d8f9f016a81"
+ *      },
+ */
 plansRouter.get('/:id', (req, res, next) => {
     const planID = req.params.id;
     return PlanController.getPlanByID(planID).then((plan) => {
@@ -22,7 +97,49 @@ plansRouter.get('/:id', (req, res, next) => {
     });
 });
 
-// POST /plans
+/**
+ * @api {post} /plans/ Create new plan
+ * @apiName CreatePlan
+ * @apiGroup Plans
+ *
+ * @apiParam {Object} plan the plan object to add
+ * @apiParam {String} plan.name the name for the new plan
+ * @apiParam {Array} plan.terms the list of terms for the new plan
+ *
+ * @apiSuccess {Array} terms the list of term ids contained within the plan
+ * @apiSuccess {String} name the name of this plan
+ * @apiSuccess {String} user_id the id for the user that owns this plan
+ * @apiSuccess {String} normalizedName the normalized version of the name, e.g. Plan 1 -> plan-1
+ * @apiSuccess {String} id the id for the plan
+ *
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ *      {
+ *          "terms": [
+ *              "5c76d43808c20d8f9f016a82",
+ *              "5c76d43808c20d8f9f016a83",
+ *              "5c76d43808c20d8f9f016a84",
+ *              "5c76d43808c20d8f9f016a85",
+ *              "5c76d43808c20d8f9f016a86",
+ *              "5c76d43808c20d8f9f016a87",
+ *              "5c76d43808c20d8f9f016a88",
+ *              "5c76d43808c20d8f9f016a89",
+ *              "5c76d43808c20d8f9f016a8a",
+ *              "5c76d43808c20d8f9f016a8b",
+ *              "5c76d43808c20d8f9f016a8c",
+ *              "5c76d43808c20d8f9f016a8d",
+ *              "5c76d43808c20d8f9f016a8e",
+ *              "5c76d43808c20d8f9f016a8f",
+ *              "5c76d43808c20d8f9f016a90"
+ *          ],
+ *          "_id": "5c76d43808c20d8f9f016a81",
+ *          "name": "yeet",
+ *          "user_id": "5c52a8940dadc9e7ae96e1e2",
+ *          "__v": 1,
+ *          "normalizedName": "yeet",
+ *          "id": "5c76d43808c20d8f9f016a81"
+ *      },
+ */
 plansRouter.post('/', (req, res, next) => {
     PlanController.createPlanForUser(req.body.plan, req.user.id).then((newPlan) => {
         res.send(PlanController.sortPlan(newPlan));
@@ -35,7 +152,18 @@ plansRouter.post('/', (req, res, next) => {
     });
 });
 
-// DELETE /plans/:id
+/**
+ * @api {delete} /plans/:id Delete plan by id
+ * @apiName DeletePlan
+ * @apiGroup Plans
+ *
+ * @apiParam {String} id the id of the plan to be deleted
+ *
+ * @apiSuccess {String} OK a 200 OK response
+ *
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ */
 plansRouter.delete('/:id', (req, res, next) => {
     PlanController.deletePlanById(req.params.id).then((result) => {
         res.sendStatus(200);
