@@ -5,16 +5,18 @@ const uploadMajor = (req, res) => {
     const file = req.files.majors;
     const obj = JSON.parse(file.data.toString('ascii'));
 
-    Promise.resolve(Major.create({
+    const major = new Major({
         name: obj.name,
         department: obj.department,
         link: obj.link,
         requirements: obj.requirements,
-    }).then((result) => {
+    });
+
+    major.save().then((result) => {
         res.json({ message: `🎓 Major ${result._id} created` });
     }).catch((error) => {
         res.status(500).json({ error });
-    }));
+    });
 };
 
 const getMajor = (req, res) => {
@@ -36,6 +38,7 @@ const getMajors = (req, res) => {
 };
 
 const declareMajor = (req, res) => {
+    console.log('yeet');
     User.findByIdAndUpdate(req.user.id, {
         $addToSet: { majors: req.params.id },
     }, { new: true }).then((result) => {
@@ -67,6 +70,34 @@ const getDeclared = (req, res) => {
         });
 };
 
+const getProgress = (req, res) => {
+    Major.findOne({ _id: req.params.id })
+        .populate()
+        .select('requirements')
+        .exec()
+        .then((result) => {
+            let fulfilled = 0;
+            const fullfilledCourses = [];
+            let unfulfilled = 0;
+            const unfulfilledCourses = [];
+            result.requirements.forEach((requirement) => {
+                if (requirement.options.some((r) => {
+                    return req.user.completed_courses.indexOf(r) >= 0;
+                })) {
+                    fulfilled += 1;
+                    fullfilledCourses.push(requirement.options);
+                } else {
+                    unfulfilled += 1;
+                    unfulfilledCourses.push(requirement.options);
+                }
+            });
+            res.json({
+                fulfilled: { total: fulfilled, courses: fullfilledCourses },
+                unfulfilled: { total: unfulfilled, courses: unfulfilledCourses },
+            });
+        });
+};
+
 const MajorController = {
     uploadMajor,
     getMajor,
@@ -74,6 +105,7 @@ const MajorController = {
     declareMajor,
     dropMajor,
     getDeclared,
+    getProgress,
 };
 
 export default MajorController;

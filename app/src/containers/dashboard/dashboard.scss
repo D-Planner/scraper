@@ -2,7 +2,7 @@
 
 .table-header {
   font-family: $poppins;
-  color: $purple;
+  color: $text-accent;
   font-weight: bold;
   text-transform: uppercase;
   margin: 2.5%;
@@ -47,7 +47,7 @@
   margin-bottom: 1.75%;
   margin-left: 1.75%;
   margin-right: 1.75%;
-  background: $blue-secondary;
+  background: $gray-1;
   border-radius: 2px;
   height: 70px;
 
@@ -63,7 +63,7 @@
   p {
     margin: 0;
     padding: 0;
-    color: $purple;
+    color: $text-accent;
     font-family: $poppins;
     font-size: 24px;
   }

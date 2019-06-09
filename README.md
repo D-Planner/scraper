@@ -37,7 +37,7 @@ yarn
 ...then start the server
 
 ```
-yarn start
+yarn dev
 ```
 
 Your output should resemble the following:
@@ -91,6 +91,10 @@ Entrypoint main = main.js main.js.map
 
 > For instructions on how to run the spider locally, see the [README.md](https://github.com/dali-lab/dplanner/blob/master/spider/README.md) in `/spider`
 
+#### 4. Seeding the Mongo Database
+
+Use the two API calls in the "Setting Up" Postman collection to seed the Mongo database with course data.
+
 ## Deployment
 Each sub-directory contains a [Procfile](https://devcenter.heroku.com/articles/procfile) that's used to deploy its respective app to Heroku. As such, the following steps could be used to deploy any of the projects contained in this repository; otherwise, additional steps can be located in the README.md of the project's sub-directory.
 
@@ -137,6 +141,7 @@ git subtree push --prefix api heroku master
 ## Authors
 * Christina Bae (Designer)
 * Zirui Hao (Partner, Project Manager)
+* Maddie Hess (Developer)
 * Adam McQuilkin (Partner, Project Manager)
 * Adam Rinehouse (Developer)
 * Raul Rodriguez (Developer)

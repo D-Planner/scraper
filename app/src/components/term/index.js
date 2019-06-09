@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import DraggableCourse from '../draggableCourse';
 import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
+import DraggableUserCourse from '../draggableUserCourse';
+
 import './term.scss';
 import { updateTerm, showDialog, fetchPlan } from '../../actions';
 
@@ -17,11 +18,16 @@ const termTarget = {
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
-      if (item.sourceTerm) {
-        props.removeCourseFromTerm(item.course, item.sourceTerm);
+      if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
+        return undefined;
+      } else if (item.sourceTerm) {
+        // this is a UserCourse, so deal with it accordingly
+        props.removeCourseFromTerm(item.userCourse, item.sourceTerm);
+        props.addCourseToTerm(item.catalogCourse, props.term);
+      } else {
+        // this is a regular course, so deal with it accordingly
+        props.addCourseToTerm(item.course, props.term);
       }
-
-      props.addCourseToTerm(item.course, props.term);
 
       // return an object containing the current term
       return { destinationTerm: props.term };
@@ -158,7 +164,7 @@ const renderContent = (props) => {
   if (props.term.courses.length === 0 && !props.term.off_term) {
     return (
       <div className="term-content no-content">
-        <p>Drag-n-drop your courses here!</p>
+        <div>Drag-n-drop your courses here!</div>
       </div>
     );
   }
@@ -167,8 +173,9 @@ const renderContent = (props) => {
       {props.term.courses.map((course) => {
         return (
           <div className="course-row">
-            <DraggableCourse
+            <DraggableUserCourse
               key={course.id}
+              catalogCourse={course.course}
               course={course}
               sourceTerm={props.term}
               removeCourseFromTerm={() => {

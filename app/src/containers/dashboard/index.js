@@ -11,6 +11,7 @@ import ErrorMessage from '../ErrorMessage';
 
 import './dashboard.scss';
 
+/** Homepage of the application once authenticated - displays plans */
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
