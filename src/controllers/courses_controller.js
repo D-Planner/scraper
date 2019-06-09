@@ -30,7 +30,7 @@ const getCoursesByDepartment = (req, res) => {
 };
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
-    Course.find({ distribs: req.params.distribs })
+    Course.find({ distribs: req.params.distrib })
         .then((result) => {
             res.json(result);
         }).catch((error) => {
