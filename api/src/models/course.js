@@ -20,7 +20,7 @@ const CourseSchema = new Schema({
     orc_url: String,
     medians: { type: ['Mixed'] },
     terms_offered: [String],
-    professors: [String],
+    professors: [{ type: Schema.Types.ObjectId, ref: 'Professor' }],
     // section: Number,
     // crn: Number,
     // enroll_limit: Number,
