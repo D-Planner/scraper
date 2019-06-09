@@ -2,6 +2,7 @@ import React from 'react';
 import noPlan from '../../style/no-plan.png';
 import './plans.scss';
 
+/** displays information on a user's plans and allows them to select one */
 const Plans = ({
   plans, showDialog, deletePlan, goToPlan,
 }) => {

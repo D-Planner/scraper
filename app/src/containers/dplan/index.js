@@ -9,6 +9,7 @@ import Sidebar from '../sidebar';
 import Term from '../../components/term';
 import './dplan.scss';
 
+/** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +21,16 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
+  }
+
+  getFlattenedCourses() {
+    const courses = [];
+    this.props.plan.terms.forEach((year) => {
+      year.forEach((term) => {
+        courses.push(...term.courses);
+      });
+    });
+    return courses;
   }
 
   addCourseToTerm(course, term) {
@@ -59,25 +70,11 @@ class DPlan extends Component {
         <div className="plan-header">
           <div className="header-left">
             <h1 className="plan-name">{this.props.plan.name}</h1>
-            <button type="button" className="save-button" onClick={this.savePlan}>
-              <p>Save</p>
-            </button>
           </div>
           <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
         </div>
-        <div className="plan-data">
-          <p>
-              On-Terms:
-          </p>
-          <p>
-              Courses:
-          </p>
-          <p>
-              Distributive Requirements:
-          </p>
-        </div>
         <div className="plan-content">
-          <Sidebar className="sidebar" />
+          <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (

@@ -6,6 +6,7 @@ import robot from '../../../assets/avatars/robot.svg';
 import { signoutUser, fetchCourses } from '../../actions';
 import './nav.scss';
 
+/** The navbar of the application -- changes dynamically if a user is authenticated or not */
 class Nav extends Component {
   constructor(props) {
     super(props);

@@ -36,7 +36,7 @@
         }
     }
 
-    .distribs-list {
+    .reqs-list {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -61,6 +61,35 @@
 
             .distrib-name {
                 flex-basis: 60%;
+            }
+        }
+    }
+
+    .no-major {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        .enroll-button {
+            background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
+            /* blue-drop-shadow */
+            box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
+            border-radius: 32px;
+            width: 200px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            p {
+                font-family: $poppins;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 16px;
+                color: #FFFFFF;
             }
         }
     }

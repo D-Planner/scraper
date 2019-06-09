@@ -4,7 +4,10 @@ import SearchPane from './searchPane';
 import RequirementsPane from './requirementsPane';
 import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
-import { addCourseToFavorites, courseSearch, fetchBookmarks } from '../../actions';
+import { DialogTypes } from '../../constants';
+import {
+  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
+} from '../../actions';
 
 const paneTypes = {
   SEARCH: 'SEARCH',
@@ -12,14 +15,33 @@ const paneTypes = {
   BOOKMARKS: 'BOOKMARKS',
 };
 
+/**
+ * @name Sidebar
+ * @description displays important information in panes on the side of the dplan component
+ */
 const Sidebar = (props) => {
   const [activePane, setActivePane] = useState(paneTypes.REQUIREMENTS);
 
-  useEffect(() => { props.fetchBookmarks(); }, []);
+  useEffect(() => {
+    props.fetchBookmarks();
+    props.fetchUser();
+  }, []);
 
   const addToBookmarks = (courseId) => {
     props.addCourseToFavorites(courseId);
     props.fetchBookmarks();
+  };
+
+  const showDeclareDialog = () => {
+    const opts = {
+      title: 'Declare New Major',
+      okText: 'Enroll',
+      onOk: (majorID) => {
+        props.declareMajor(majorID);
+        setTimeout(() => props.fetchUser(), 100);
+      },
+    };
+    props.showDialog(DialogTypes.DECLARE_MAJOR, opts);
   };
 
   return (
@@ -30,7 +52,14 @@ const Sidebar = (props) => {
         search={props.courseSearch}
         results={props.searchResults}
       />
-      <RequirementsPane active={activePane === paneTypes.REQUIREMENTS} activate={() => setActivePane(paneTypes.REQUIREMENTS)} />
+      <RequirementsPane
+        active={activePane === paneTypes.REQUIREMENTS}
+        activate={() => setActivePane(paneTypes.REQUIREMENTS)}
+        majors={props.user.majors}
+        showDeclareDialog={showDeclareDialog}
+        distribs={props.planCourses.map(c => c.course.distrib)}
+        wcs={props.planCourses.map(c => c.course.wc)}
+      />
       <BookmarksPane
         active={activePane === paneTypes.BOOKMARKS}
         activate={() => setActivePane(paneTypes.BOOKMARKS)}
@@ -45,6 +74,9 @@ const Sidebar = (props) => {
 const mapStateToProps = state => ({
   bookmarks: state.courses.bookmarks,
   searchResults: state.courses.results,
+  user: state.user.current,
 });
 
-export default connect(mapStateToProps, { addCourseToFavorites, courseSearch, fetchBookmarks })(Sidebar);
+export default connect(mapStateToProps, {
+  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
+})(Sidebar);

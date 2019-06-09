@@ -21,6 +21,10 @@ const importSVGs = (r) => {
 // import all svg files in the ../style/distrib_icons directory
 const icons = importSVGs(require.context('../../../style/distrib_icons', false, /\.svg$/));
 
+/**
+ * @name RequirementsPane
+ * @description displays information on a user's distributive and major reqirements for a plan to check progress
+ */
 const RequirementsPane = (props) => {
   const [distribsActive, setDistribsActive] = useState(true);
 
@@ -29,8 +33,8 @@ const RequirementsPane = (props) => {
     toggle: true,
     active: distribsActive,
   });
-  const degreeButtonClass = classNames({
-    degree: true,
+  const majorButtonClass = classNames({
+    major: true,
     toggle: true,
     active: !distribsActive,
   });
@@ -39,71 +43,88 @@ const RequirementsPane = (props) => {
     setDistribsActive(flag);
   };
 
+  const distribComplete = (name) => {
+    return props.distribs.includes(name);
+  };
+
+  const wcComplete = (name) => {
+    return props.distribs.includes(name);
+  };
+
   const distribTypes = [
     {
       name: 'Arts',
       icon: icons.art,
-      complete: false,
+      complete: distribComplete('ART'),
     },
     {
       name: 'Literature',
       icon: icons.lit,
-      complete: false,
+      complete: distribComplete('LIT'),
     },
     {
       name: 'Thought, Meaning, and Value',
       icon: icons.tmv,
-      complete: false,
+      complete: distribComplete('TMV'),
     },
     {
       name: 'International or Comparative Study',
       icon: icons.int,
-      complete: false,
+      complete: distribComplete('INT'),
     },
     {
       name: 'Social Analysis',
       icon: icons.soc,
-      complete: false,
+      complete: distribComplete('SOC'),
     },
     {
       name: 'Quantitative and Deductive Science',
       icon: icons.qds,
-      complete: false,
+      complete: distribComplete('QDS'),
+    },
+    {
+      name: 'Natural and Physical Science (LAB)',
+      icon: icons.sla,
+      complete: distribComplete('SLA'),
     },
     {
       name: 'Natural and Physical Science',
       icon: icons.sci,
-      complete: false,
+      complete: distribComplete('SCI'),
+    },
+    {
+      name: 'Technology and Applied Science (LAB)',
+      icon: icons.tla,
+      complete: distribComplete('TLA'),
     },
     {
       name: 'Technology and Applied Science',
       icon: icons.tas,
-      complete: false,
+      complete: distribComplete('TAS'),
     },
     {
       name: 'Western Cultures',
       icon: icons.wc_w,
-      complete: false,
+      complete: wcComplete('W'),
     },
     {
       name: 'Non-Western Cultures',
       icon: icons.wc_nw,
-      complete: false,
+      complete: wcComplete('NW'),
     },
     {
       name: 'Culture and Identity',
       icon: icons.wc_ci,
-      complete: false,
+      complete: wcComplete('CI'),
     },
   ];
 
-  const renderDistribs = (active) => {
-    if (!active) { return null; }
+  const renderDistribs = () => {
     return (
-      <div className="distribs-list">
+      <div className="reqs-list">
         {distribTypes.map((distrib) => {
           return (
-            <div className="distrib-row">
+            <div key={distrib.name} className="distrib-row">
               <img className="icon" src={distrib.icon} alt={`${distrib.name} icon`} />
               <div className="distrib-name">{distrib.name}</div>
               <img className="checkbox" src={distrib.complete ? checkedIcon : uncheckedIcon} alt="checkbox" />
@@ -112,6 +133,34 @@ const RequirementsPane = (props) => {
         })}
       </div>
     );
+  };
+
+  const renderMajorReqs = () => {
+    if (props.majors.length > 0) {
+      return (
+        <div className="reqs-list">
+          {props.majors.map((major) => {
+            console.log(major);
+            return (
+              <div className="major" id={major.id}>
+                <div className="major-header">
+                  {major.name}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <div className="no-major">
+          <p>You are not enrolled in a major.</p>
+          <button type="button" className="enroll-button" onClick={props.showDeclareDialog}>
+            <p>Choose A Major</p>
+          </button>
+        </div>
+      );
+    }
   };
 
   const paneClass = classNames({
@@ -128,12 +177,12 @@ const RequirementsPane = (props) => {
           ? (
             <div className="requirements-toggle">
               <button type="button" className={distribsButtonClass} onClick={() => setDistribsTabActive(true)}>Distribs</button>
-              <button type="button" className={degreeButtonClass} onClick={() => setDistribsTabActive(false)}>Degree</button>
+              <button type="button" className={majorButtonClass} onClick={() => setDistribsTabActive(false)}>Major</button>
             </div>
           )
           : <div /> }
       </div>
-      {props.active ? renderDistribs(distribsActive) : <div />}
+      {distribsActive ? renderDistribs() : renderMajorReqs()}
     </div>
   );
 };
