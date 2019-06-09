@@ -72,7 +72,6 @@ const mongooseOptions = {
     loggerLevel: 'error',
 };
 mongoose.connect(mongoURI, mongooseOptions).then(() => {
-    //mongoose.connection.db.dropDatabase();
     console.log('Connected to Database');
 }).catch((err) => {
     console.log('Not Connected to Database ERROR! ', err);
