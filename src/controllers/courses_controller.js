@@ -25,7 +25,6 @@ const getCourse = async (req, res) => {
 };
 
 const getCoursesByDepartment = async (req, res) => {
-
     Course.find({ department: req.params.department })
         .populate('professors')
         .then((result) => {
