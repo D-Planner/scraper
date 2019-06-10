@@ -19,7 +19,7 @@ const SearchPane = (props) => {
   });
 
   const [searchText, setSearchText] = useState('');
-  const [searchMethod, setSearchMethod] = useState('distrib');
+  const [searchMethod, setSearchMethod] = useState('number');
 
   // Allows a user to search by the query entered in the search input
   const search = (query) => {
@@ -62,7 +62,8 @@ const SearchPane = (props) => {
       <div className="pane-content">
         {props.results.length
           ? props.results.map((course) => {
-            return <DraggableCourse key={course.crn} course={course} />;
+            console.log(course);
+            return <DraggableCourse key={course.id} course={course} />;
           })
           : (<div />)}
       </div>

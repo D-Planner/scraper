@@ -15,7 +15,7 @@
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    width: 208px;
+    width: 181px;
     height: 30px;
     &:hover {
         cursor: pointer;
@@ -54,4 +54,5 @@
     font-size: 10px;
     text-align: start;
     line-height: 100%;
+    overflow-x:hidden;
 }
