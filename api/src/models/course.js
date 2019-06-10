@@ -43,7 +43,7 @@ const CourseSchema = new Schema({
     professors: [{ type: Schema.Types.ObjectId, ref: 'Professor' }],
     // section: Number,
     // crn: Number,
-    // enroll_limit: Number,
+    // enroll_limit: Number, // This needs to be updated, not sure why it went away in the first place
     // current_enrollment: Number,
     // room: String,
     // building: String,
@@ -57,20 +57,27 @@ const CourseSchema = new Schema({
     },
 });
 
+CourseSchema.virtual('course_count').get(function () {
+    let count = 0;
+    this.medians.forEach((t) => {
+        count += t.courses.length;
+    });
+    return count;
+});
+
 
 // This works!
 CourseSchema.virtual('avg_median').get(function () {
     try {
-        let sum = 0; let count = 0;
+        let sum = 0;
         this.medians.forEach((t) => {
             t.courses.forEach((c) => {
                 c.median.split('/').forEach((g) => {
                     sum += (LetterToScore[g]) ? LetterToScore[g] : 0;
-                    count += 1;
                 });
             });
         });
-        const avg = sum / count;
+        const avg = sum / this.course_count;
         const closest = Object.values(LetterToScore).reduce((prev, curr) => {
             return Math.abs(curr - avg) < Math.abs(prev - avg) ? curr : prev;
         });
@@ -110,7 +117,22 @@ CourseSchema.virtual('likely_terms').get(function () {
 //
 // // I'm not sure how we should do this, becuase the spider doesn't provide us with \
 // // max-enrollment for courses, just the amount enrolled in each individual course.
-// CourseSchema.virtual('enrollment_difficulty').get(() => {});
+
+// Once we update the spider to get max-enrollment this should work
+CourseSchema.virtual('entrance_difficulty').get(() => {
+    try {
+        let diffScore = 0; // Will be the average number of empty spaces
+
+        this.medians.forEach((m) => {
+            m.courses.forEach((c) => {
+                diffScore += c.enrollment / this.course_count;
+            });
+        });
+        return diffScore;
+    } catch (e) {
+        return null;
+    }
+});
 
 // create model class
 const CourseModel = mongoose.model('Course', CourseSchema);

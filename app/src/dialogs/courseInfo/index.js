@@ -201,6 +201,9 @@ const renderScores = (course) => {
       <div>
         Quality Score: {course.quality_score}
       </div>
+      <div>
+        Entrance Difficulty: {course.entrance_difficulty}
+      </div>
     </div>
   );
 };
