@@ -3,7 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 const CourseSchema = new Schema({
     layup_url: String,
     layup_id: Number,
-    title: { type: String, text:true},
+    title: String,
     department: String,
     offered: Boolean,
     distribs: [String],
