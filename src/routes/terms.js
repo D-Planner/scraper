@@ -114,4 +114,6 @@ termsRouter.delete('/:termID/course/:userCourseID', TermController.removeCourseF
  */
 termsRouter.put('/:id', TermController.updateTerm);
 
+termsRouter.post('/update/course/:userCourseID', TermController.updateCourseFromTerm);
+
 export default termsRouter;

@@ -72,11 +72,25 @@ const removeCourseFromTerm = async (req, res, next) => {
     res.status(200).json(term);
 };
 
+
+// Update Distrib, WC, or TimeSlot
+const updateCourseFromTerm = async (req, res) => {
+    const courseID = req.params.courseID;
+
+    try {
+        await UserCourseController.updateUserCourse(courseID, req.body.course);
+        res.status(200);
+    } catch (e) {
+        res.status(500).json({ e });
+    }
+};
+
 const TermController = {
     createTerm,
     updateTerm,
     addCourseToTerm,
     removeCourseFromTerm,
+    updateCourseFromTerm,
 };
 
 export default TermController;
