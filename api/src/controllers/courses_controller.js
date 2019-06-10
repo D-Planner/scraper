@@ -1,17 +1,16 @@
 import Course from '../models/course';
 import User from '../models/user';
-import Professor from '../models/professor';
 import ProfessorController from '../controllers/professors_controller';
 import courses from '../../static/data/courses.json';
 
 const getCourses = async (req, res) => {
-  Course.find({})
-      .populate('professors')
-      .then((result) => {
-          res.json(result);
-      }).catch((error) => {
-          res.status(500).json({ error });
-      });
+    Course.find({})
+        .populate('professors')
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
 };
 
 const getCourse = async (req, res) => {
@@ -52,7 +51,8 @@ const getCourseByName = (req, res) => {
         .populate('professors')
         .then((result) => {
             res.json(result);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
@@ -62,41 +62,39 @@ const getCourseByTitle = (req, res) => {
         $and: [{ department: req.params.department },
             { number: req.params.number }],
     }).populate('professors')
-      .then((response) => {
-        res.json(response);
-    }).catch((error) => {
-        res.status(500).json({ error });
-    });
+        .then((response) => {
+            res.json(response);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
 };
 
 const createCourse = (req, res) => {
-    Promise.resolve(courses.map( async (course) => {
+    Promise.resolve(courses.map(async (course) => {
         await ProfessorController.addProfessors(course.professors);
         const profs = await ProfessorController.getProfessorListId(course.professors);
-        return Course.create(
-            {
-                layup_url: course.layup_url,
-                layup_id: course.layup_id,
-                title: course.title,
-                department: course.department,
-                offered: course.offered,
-                distribs: course.distribs,
-                total_reviews: course.total_reviews,
-                quality_score: course.quality_score,
-                layup_score: course.layup_score,
-                xlist: course.xlist,
-                name: course.name,
-                number: course.number,
-                periods: course.periods,
-                description: course.description,
-                reviews: course.reviews,
-                similar_courses: course.similar_courses,
-                orc_url: course.orc_url,
-                medians: course.medians,
-                terms_offered: course.terms_offered,
-                professors: profs,
-            }
-        ).then((result) => {
+        return Course.create({
+            layup_url: course.layup_url,
+            layup_id: course.layup_id,
+            title: course.title,
+            department: course.department,
+            offered: course.offered,
+            distribs: course.distribs,
+            total_reviews: course.total_reviews,
+            quality_score: course.quality_score,
+            layup_score: course.layup_score,
+            xlist: course.xlist,
+            name: course.name,
+            number: course.number,
+            periods: course.periods,
+            description: course.description,
+            reviews: course.reviews,
+            similar_courses: course.similar_courses,
+            orc_url: course.orc_url,
+            medians: course.medians,
+            terms_offered: course.terms_offered,
+            professors: profs,
+        }).then((result) => {
             return result;
         }).catch((error) => {
             return error;
