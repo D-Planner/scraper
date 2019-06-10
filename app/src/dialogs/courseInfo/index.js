@@ -244,18 +244,17 @@ const renderNextTerm = (course, nextTerm) => {
  *
  *
  */
-// const renderProfessors = (professors) => {
-//   console.log(professors);
-//   return (
-//     <div id="content">
-//       {professors.map((p) => {
-//         return (
-//           <span>{p.name}</span>
-//         );
-//       })}
-//     </div>
-//   );
-// };
+const renderProfessors = (professors) => {
+  return (
+    <div id="content">
+      {professors.map((p) => {
+        return (
+          <span>{p.name}</span>
+        );
+      })}
+    </div>
+  );
+};
 
 
 /**

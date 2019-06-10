@@ -3,7 +3,7 @@
 
 $header-size: 18px;
 $active-height: calc(#{$content-height} * 0.8);
-$inactive-height: calc(#{$content-height} * 0.02);
+$inactive-height: calc(#{$content-height} * 0.01);
 
 .sidebar {
     display: flex;
@@ -33,7 +33,7 @@ $inactive-height: calc(#{$content-height} * 0.02);
 
         &.active {
             height: $active-height;
-            
+
             .pane-header {
                 line-height: inherit;
             }
