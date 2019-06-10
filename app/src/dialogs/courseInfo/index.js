@@ -244,17 +244,17 @@ const renderNextTerm = (course, nextTerm) => {
  *
  *
  */
-// const renderProfessors = (professors) => {
-//   return (
-//     <div id="content">
-//       {professors.map((p) => {
-//         return (
-//           <span>{p.name}</span>
-//         );
-//       })}
-//     </div>
-//   );
-// };
+const renderProfessors = (professors) => {
+  return (
+    <div id="content">
+      {professors.map((p) => {
+        return (
+          <span>{p.name}</span>
+        );
+      })}
+    </div>
+  );
+};
 
 
 /**
@@ -276,6 +276,7 @@ const courseInfo = (course, nextTerm) => {
         {renderScores(course)}
       </div>
       <hr className="horizontal-divider" />
+      {renderProfessors(course.professors)}
     </div>
   );
 };
