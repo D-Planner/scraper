@@ -245,6 +245,7 @@ const renderNextTerm = (course, nextTerm) => {
  *
  */
 // const renderProfessors = (professors) => {
+//   console.log(professors);
 //   return (
 //     <div id="content">
 //       {professors.map((p) => {
@@ -276,6 +277,9 @@ const courseInfo = (course, nextTerm) => {
         {renderScores(course)}
       </div>
       <hr className="horizontal-divider" />
+      <div id="professors">
+        {renderProfessors(course.professors)}
+      </div>
     </div>
   );
 };
