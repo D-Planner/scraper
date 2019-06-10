@@ -102,7 +102,7 @@ class Term extends Component {
       <div className="term-content">
         {this.props.term.courses.map((course) => {
           return (
-            <div className="course-row">
+            <div className="course-row" key={course.id}>
               <DraggableUserCourse
                 key={course.id}
                 catalogCourse={course.course}
