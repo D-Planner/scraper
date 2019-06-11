@@ -1,9 +1,11 @@
 import Course from '../models/course';
 import User from '../models/user';
+import ProfessorController from '../controllers/professors_controller';
 import courses from '../../static/data/courses.json';
 
-const getCourses = (req, res) => {
+const getCourses = async (req, res) => {
     Course.find({})
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -11,8 +13,9 @@ const getCourses = (req, res) => {
         });
 };
 
-const getCourse = (req, res) => {
+const getCourse = async (req, res) => {
     Course.find({ _id: req.params.id })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -20,8 +23,9 @@ const getCourse = (req, res) => {
         });
 };
 
-const getCoursesByDepartment = (req, res) => {
+const getCoursesByDepartment = async (req, res) => {
     Course.find({ department: req.params.department })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -30,7 +34,8 @@ const getCoursesByDepartment = (req, res) => {
 };
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
-    Course.find({ distribs: req.params.distribs })
+    Course.find({ distribs: req.params.distrib })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -43,9 +48,11 @@ const getCourseByName = (req, res) => {
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
+        .populate('professors')
         .then((result) => {
             res.json(result);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
@@ -54,44 +61,42 @@ const getCourseByTitle = (req, res) => {
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
-    }).then((response) => {
-        res.json(response);
-    }).catch((error) => {
-        res.status(500).json({ error });
-    });
+    }).populate('professors')
+        .then((response) => {
+            res.json(response);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
 };
 
 const createCourse = (req, res) => {
-    Promise.resolve(courses.map((course) => {
-        return Course.update(
-            { $or: [{ title: course.title }, { name: course.name }] }, // there's no longer a crn
-            {
-                layup_url: course.layup_url,
-                layup_id: course.layup_id,
-                title: course.title,
-                department: course.department,
-                offered: course.offered,
-                distribs: course.distribs,
-                total_reviews: course.total_reviews,
-                quality_score: course.quality_score,
-                layup_score: course.layup_score,
-                xlist: course.xlist,
-                name: course.name,
-                number: course.number,
-                periods: course.periods,
-                description: course.description,
-                reviews: course.reviews,
-                similar_courses: course.similar_courses,
-                orc_url: course.orc_url,
-                medians: course.medians,
-                terms_offered: course.terms_offered,
-                professors: course.professors,
-            }, { upsert: true },
-        ).then((result) => {
-            console.log(result);
+    Promise.resolve(courses.map(async (course) => {
+        await ProfessorController.addProfessors(course.professors);
+        const profs = await ProfessorController.getProfessorListId(course.professors);
+        return Course.create({
+            layup_url: course.layup_url,
+            layup_id: course.layup_id,
+            title: course.title,
+            department: course.department,
+            offered: course.offered,
+            distribs: course.distribs,
+            total_reviews: course.total_reviews,
+            quality_score: course.quality_score,
+            layup_score: course.layup_score,
+            xlist: course.xlist,
+            name: course.name,
+            number: course.number,
+            periods: course.periods,
+            description: course.description,
+            reviews: course.reviews,
+            similar_courses: course.similar_courses,
+            orc_url: course.orc_url,
+            medians: course.medians,
+            terms_offered: course.terms_offered,
+            professors: profs,
+        }).then((result) => {
             return result;
         }).catch((error) => {
-            console.log(error);
             return error;
         });
     })).then(() => {
