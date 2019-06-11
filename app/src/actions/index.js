@@ -11,6 +11,7 @@ export const ActionTypes = {
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   FETCH_MAJORS: 'FETCH_MAJORS',
+  UPDATE_USERCOURSE: 'UPDATE_USERCOURSE',
   COURSE_SEARCH: 'COURSE_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
@@ -379,6 +380,18 @@ export function updateTerm(term) {
         console.log(error);
         dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       });
+  };
+}
+
+export function updateUserCourse(userCourse) {
+  return (dispatch) => {
+    return axios.post(`${ROOT_URL}/terms/update/course/${userCourse.id}`, userCourse, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      // dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   };
 }
 

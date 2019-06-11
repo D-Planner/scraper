@@ -9,7 +9,9 @@ import { DialogTypes, ItemTypes } from '../../constants';
 import DraggableUserCourse from '../draggableUserCourse';
 
 import './term.scss';
-import { updateTerm, showDialog, fetchPlan } from '../../actions';
+import {
+  updateTerm, showDialog, fetchPlan, updateUserCourse,
+} from '../../actions';
 
 const termTarget = {
   drop: (props, monitor) => {
@@ -57,7 +59,7 @@ class Term extends Component {
           });
       },
     };
-    this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
+    this.props.showDialog(DialogTypes.OFF_TERM, opts);
   }
 
   turnOnTerm = () => {
@@ -113,7 +115,12 @@ class Term extends Component {
                 }}
               />
               <div>
-                <HourSelector timeslots={course.timeslot} />
+                <HourSelector
+                  timeslots={course.course.periods}
+                  onChange={() => {
+                    this.props.updateUserCourse(course);
+                  }}
+                />
               </div>
             </div>
           );
@@ -161,5 +168,5 @@ const mapStateToProps = state => ({
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTerm, showDialog, fetchPlan,
+  updateTerm, showDialog, fetchPlan, updateUserCourse,
 })(Term)));

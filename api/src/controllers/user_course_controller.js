@@ -26,7 +26,12 @@ const deleteUserCourse = async (userCourseID) => {
 const updateUserCourse = async (userCourseID, newData) => {
     try {
         // Do we want to make sure that we don't let two UserCourses have the same timeslot
-        await UserCourse.findByIdAndUpdate(userCourseID, { timeslot: newData.timeslot, wc: newData.wc, distrib: newData.distrib });
+        await UserCourse.findByIdAndUpdate(userCourseID, {
+            major: newData.major,
+            timeslot: newData.timeslot,
+            wc: newData.wc,
+            distrib: newData.distrib,
+        });
         return null;
     } catch (e) {
         return e;
