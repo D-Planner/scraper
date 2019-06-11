@@ -12,6 +12,7 @@ export const ActionTypes = {
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   FETCH_MAJORS: 'FETCH_MAJORS',
   UPDATE_USERCOURSE: 'UPDATE_USERCOURSE',
+  FETCH_PROFESSOR: 'FETCH_PROFESSOR',
   COURSE_SEARCH: 'COURSE_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
@@ -139,7 +140,6 @@ export function createPlan(plan, history) {
   };
   return (dispatch) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
-      console.log(response);
       history.push(`/plan/${response.data.id}`);
     }).catch((error) => {
       console.log(error);
@@ -179,6 +179,7 @@ export function fetchPlan(planID) {
   };
   return (dispatch) => {
     axios.get(`${ROOT_URL}/plans/${planID}`, { headers }).then((response) => {
+      console.log(response);
       dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -271,6 +272,23 @@ export function fetchBookmarks() {
 }
 
 /**
+ * Fetches a list of Professors for a given course
+ * @export
+ * @returns an action creator to gather all bookmarked courses and store them in the redux store
+ */
+export function fetchProfessors(id) {
+  console.log('hi');
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  axios.get(`${ROOT_URL}/professors/${id}`, { headers }).then((r) => {
+    console.log(r);
+  }).catch((e) => {
+    console.log(e);
+  });
+}
+
+/**
  * Adds a course to a user's favorites (i.e. their bookmarks)
  * @export
  * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
@@ -311,7 +329,18 @@ export function courseSearch(query, type) {
         axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
+          console.log(response);
           // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+        });
+        break;
+      case 'distrib':
+        axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        }).then((response) => {
           dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
         }).catch((error) => {
           console.log(error);

@@ -240,6 +240,24 @@ const renderNextTerm = (course, nextTerm) => {
 };
 
 /**
+ * Test for Professors
+ *
+ *
+ */
+const renderProfessors = (professors) => {
+  return (
+    <div id="content">
+      {professors.map((p) => {
+        return (
+          <span>{p.name}</span>
+        );
+      })}
+    </div>
+  );
+};
+
+
+/**
  * Master handlers for all information about the course.
  * @param {*} course
  * @param {String} nextTerm
@@ -258,6 +276,9 @@ const courseInfo = (course, nextTerm) => {
         {renderScores(course)}
       </div>
       <hr className="horizontal-divider" />
+      <div id="professors">
+        {renderProfessors(course.professors)}
+      </div>
     </div>
   );
 };

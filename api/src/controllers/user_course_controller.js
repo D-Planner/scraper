@@ -1,9 +1,9 @@
 import UserCourse from '../models/user_course';
 
-const createUserCourse = async (userID, courseID, termID) => {
+const createUserCourse = async (userID, catalogCourseID, termID) => {
     const newObj = await UserCourse.create({
         user: userID,
-        course: courseID,
+        course: catalogCourseID,
         term: termID,
         major: null,
         distrib: null,

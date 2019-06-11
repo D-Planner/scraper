@@ -7,7 +7,7 @@ import NewPlanDialog from './newPlan';
 import DeletePlanDialog from './deletePlan';
 import DeclareMajorDialog from './declareMajor';
 import CourseInfoDialog from './courseInfo';
-import TurnOffTermDialog from './offTerm';
+import TurnOffTermDialog from './turnOffTerm';
 
 // Top-level orchestrator for all dialogs in the application
 // Should accept all types enumerated in DialogTypes and provide a dialog component for each one
