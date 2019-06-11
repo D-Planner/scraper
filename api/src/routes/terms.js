@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import TermController from '../controllers/term_controller';
+import UserCourseController from '../controllers/user_course_controller';
 
 const termsRouter = Router();
 
@@ -114,6 +115,10 @@ termsRouter.delete('/:termID/course/:userCourseID', TermController.removeCourseF
  */
 termsRouter.put('/:id', TermController.updateTerm);
 
-termsRouter.post('/update/course/:userCourseID', TermController.updateCourseFromTerm);
+termsRouter.post('/update/course/:userCourseID', UserCourseController.updateUserCourse);
+
+termsRouter.get('/:termID', TermController.getTerm);
+
+termsRouter.get('/userCourse/:userCourseID', UserCourseController.getCourse);
 
 export default termsRouter;

@@ -72,14 +72,16 @@ const removeCourseFromTerm = async (req, res, next) => {
     res.status(200).json(term);
 };
 
-
-// Update Distrib, WC, or TimeSlot
-const updateCourseFromTerm = async (req, res) => {
-    const courseID = req.params.courseID;
-
+const getTerm = async (req, res) => {
     try {
-        await UserCourseController.updateUserCourse(courseID, req.body.course);
-        res.status(200);
+        const term = await Term.findById(req.params.termID)
+            .populate({
+                path: 'courses',
+                populate: {
+                    path: 'course',
+                },
+            });
+        res.json(term);
     } catch (e) {
         res.status(500).json({ e });
     }
@@ -90,7 +92,7 @@ const TermController = {
     updateTerm,
     addCourseToTerm,
     removeCourseFromTerm,
-    updateCourseFromTerm,
+    getTerm,
 };
 
 export default TermController;
