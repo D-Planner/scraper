@@ -85,6 +85,9 @@ const getPlanByID = async (planID) => {
                 path: 'courses',
                 populate: {
                     path: 'course',
+                    populate: {
+                        path: 'professors',
+                    },
                 },
             },
         }).execPopulate();
