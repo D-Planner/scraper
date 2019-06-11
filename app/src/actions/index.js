@@ -412,12 +412,12 @@ export function updateTerm(term) {
   };
 }
 
-export function updateUserCourse(userCourse) {
+export function updateUserCourse(userCourseID, changes) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/terms/update/course/${userCourse.id}`, userCourse, {
+    return axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      // dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
+      dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
     }).catch((error) => {
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });

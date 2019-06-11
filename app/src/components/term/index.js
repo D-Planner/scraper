@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import HourSelector from '../hourSelector';
+import HourSelector from '../../containers/hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import DraggableUserCourse from '../draggableUserCourse';
 
@@ -116,10 +116,10 @@ class Term extends Component {
               />
               <div>
                 <HourSelector
+                  key={course.id}
+                  course={course}
                   timeslots={course.course.periods}
-                  onChange={() => {
-                    this.props.updateUserCourse(course);
-                  }}
+                  updateUserCourse={this.props.updateUserCourse}
                 />
               </div>
             </div>
