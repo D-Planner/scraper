@@ -1,8 +1,9 @@
 # D-Planner
 D-Planner is a digital course planner at Dartmouth College. It aims to help students make course decisions based on data gathered from various systems—including Layup List and the ORC.
 
+![screenshot 1](https://github.com/dali-lab/dplanner/blob/master/app/assets/showcase/plan.png "Your Personal Plan")
 
-
+![screenshot 1](https://github.com/dali-lab/dplanner/blob/master/app/assets/showcase/course.png "Unparalleled Course Data")
 
 
 ## Architecture
