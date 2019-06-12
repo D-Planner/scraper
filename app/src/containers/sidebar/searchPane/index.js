@@ -24,24 +24,26 @@ const SearchPane = (props) => {
   // Allows a user to search by the query entered in the search input
   const search = (query) => {
     setSearchText(query);
-    switch (searchMethod) {
-      case 'number':
-        const queryParsed = {
-          department: query.split(' ')[0].toUpperCase(),
-          number: query.split(' ')[1],
-        };
-        if (typeof queryParsed.number === 'undefined') { // if user just searched 'COSC'
-          props.search(queryParsed, 'department');
-          setSearchMethod('number');
-        } else {
-          props.search(queryParsed, searchMethod);
-        }
-        break;
-      case 'distrib':
-        props.search(query, 'distrib');
-        break;
-      default:
-        props.search(query, searchMethod);
+    if (query.length !== 0) {
+      switch (searchMethod) {
+        case 'number':
+          const queryParsed = {
+            department: query.split(' ')[0].toUpperCase(),
+            number: query.split(' ')[1],
+          };
+          if (typeof queryParsed.number === 'undefined') { // if user just searched 'COSC'
+            props.search(queryParsed, 'department');
+            setSearchMethod('number');
+          } else {
+            props.search(queryParsed, searchMethod);
+          }
+          break;
+        case 'distrib':
+          props.search(query, 'distrib');
+          break;
+        default:
+          props.search(query, searchMethod);
+      }
     }
   };
 
@@ -62,7 +64,6 @@ const SearchPane = (props) => {
       <div className="pane-content">
         {props.results.length
           ? props.results.map((course) => {
-            console.log(course);
             return <DraggableCourse key={course.id} course={course} />;
           })
           : (<div />)}
