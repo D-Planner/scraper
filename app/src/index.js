@@ -16,7 +16,6 @@ export const store = createStore(reducers, {}, compose(
 ));
 
 const token = localStorage.getItem('token');
-console.log(`token: ${token}`);
 if (token) {
   store.dispatch({ type: ActionTypes.AUTH_USER });
 }
