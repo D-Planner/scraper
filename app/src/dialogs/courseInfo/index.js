@@ -117,18 +117,20 @@ const distribTypes = [
  * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
  */
 const renderDistribs = (course) => {
-  // const distribTypesNames = distribTypes.map(distrib => distrib.name);
   const distribs = [];
   const wcs = [];
+
   if (course.distribs !== null) {
     course.distribs.forEach((distrib) => {
-      if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
-        wcs.push(distribTypes.find(ref => ref.name === distrib));
-      } else {
-        distribs.push(distribTypes.find(ref => ref.name === distrib));
-      }
+      distribs.push(distribTypes.find(ref => ref.name === distrib));
     });
   }
+  if (course.wcs !== null) {
+    course.wcs.forEach((wc) => {
+      wcs.push(distribTypes.find(ref => ref.name === wc));
+    });
+  }
+  console.log((wcs.length === 0 || distribs.length === 0));
   return (
     <div id="distribs">
       <div className="section-header">Distributives</div>
