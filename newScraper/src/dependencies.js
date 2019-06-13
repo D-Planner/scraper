@@ -26,100 +26,97 @@ import courses from '../data/courses.json';
 
 
 // Loop over all courses
-const allPrerequisites = courses.reduce((acc, course) => {
+let allPrerequisites = [];
+for (let course of courses) {
   // For each individual course
-  if (!course.orc_url) {
-    return acc;
-  }
-  const val = request('GET',course.orc_url);
-  try {
-    const $ = cheerio.load(val.body);
+  let prerequisites = [];
+  if (course.orc_url) {
+    const val = request('GET',course.orc_url);
+    try {
+      const $ = cheerio.load(val.body);
 
-    let getNext = false;
-    let preReqText = '';
-    $('div[id=main]').contents().each(function (i, elm) {
-      if(elm.tagName === 'h3') getNext = false;
-      if (getNext) {
-        preReqText += $(this).text().trim();
-      }
-      if ($(this).text().trim().includes('Prerequisite')) {
-        getNext = true;
-      }
-    });
-
-    if (preReqText) {
-      let courseMatches = preReqText.replace(/\w{3,4}(\s|\-)\d{1,3}/g, (x) => {
-        return (x + "$%&");
-      }).split('$%&').filter((x) => {
-        return (x.match(/\d/) && !x.match(/\d{1,3}(F|W|S|X)/) && !x.includes(':') && !x.includes('Timetable of Class Meetings'));
-      });
-      if (courseMatches.length > 0) {
-        let currIdx = 0;
-        let currKey = '';
-        let prerequisites = [];
-        let delay = false;
-
-        for (let i = 0; i < courseMatches.length; i++) {
-          const currMatch = courseMatches[i];
-          if (currMatch.includes('/')) {
-            console.log('Has "/": ' + course.title);
-          }
-          if (currMatch.includes('abroad')) {
-            prerequisites.push({abroad:true});
-            currIdx++;
-            continue;
-          }
-          let trimmed = currMatch.match(/(\w{3,4})?(\s|\-)\d{1,3}/)[0].replace(/^(from|\-)/, '').trim();
-          if(!trimmed.match(/\D/)) trimmed = course.department + ' ' + trimmed;
-
-          if ((currMatch.includes("one of") || currMatch.includes("and")) && !delay && i !== 0) {
-            currIdx++;
-          }
-          if (prerequisites.length === currIdx) {
-            if (currMatch.includes('between') || currMatch.includes('from')) {
-              prerequisites.push({
-                range: [],
-              });
-              currKey = "range";
-              console.log("Has Between: " + course.title);
-            } else if (currMatch.includes('grade') || currMatch.includes('score')) {
-              prerequisites.push({
-                grade: [],
-              })
-              currKey = "grade";
-              console.log("Has Grade: " + course.title);
-            } else {
-              prerequisites.push({
-                req: [],
-              });
-              currKey = "req";
-            }
-          }
-          if (currKey !== '') prerequisites[currIdx][currKey].push(trimmed);
-
-
-          // The Delay
-          if ((currMatch.includes("one of") || currMatch.includes("and")) && delay) {
-            currIdx++;
-            delay = false;
-          }
-          if (currMatch.includes('between') || currMatch.includes('from')) delay = true;
+      let getNext = false;
+      let preReqText = '';
+      $('div[id=main]').contents().each(function (i, elm) {
+        if(elm.tagName === 'h3') getNext = false;
+        if (getNext) {
+          preReqText += $(this).text().trim();
         }
-        let newCourse = course;
-        newCourse.prerequisites = prerequisites;
-        acc.push(newCourse);
-      }
-    }
-  } catch (e) {
-    console.log(e);
-    console.log("Issue Parsing: " + course.orc_url);
-  } finally {
-    return acc;
-  }
-}, []);
+        if ($(this).text().trim().includes('Prerequisite')) {
+          getNext = true;
+        }
+      });
+      if (preReqText.length > 1) {
+        let courseMatches = preReqText.replace(/\w{3,4}(\s|\-)\d{1,3}/g, (x) => {
+          return (x + "$%&");
+        }).split('$%&').filter((x) => {
+          return (x.match(/\d/) && !x.match(/\d{1,3}(F|W|S|X)/) && !x.includes(':') && !x.includes('Timetable of Class Meetings'));
+        });
+        if (courseMatches.length > 0) {
+          let currIdx = 0;
+          let currKey = '';
+          let delay = false;
 
-// console.log(JSON.stringify(allPrerequisites));
-fs.writeFile('data/withPrereqs.json', JSON.stringify(allPrerequisites), (e) => {
+          for (let i = 0; i < courseMatches.length; i++) {
+            const currMatch = courseMatches[i];
+            if (currMatch.includes('/')) {
+              console.log('Has "/": ' + course.title);
+            }
+            if (currMatch.includes('abroad')) {
+              prerequisites.push({abroad:true});
+              currIdx++;
+              continue;
+            }
+            let trimmed = currMatch.match(/(\w{3,4})?(\s|\-)\d{1,3}/)[0].replace(/^(from|\-)/, '').trim();
+            if(!trimmed.match(/\D/)) trimmed = course.department + ' ' + trimmed;
+
+            if ((currMatch.includes("one of") || currMatch.includes("and")) && !delay && i !== 0) {
+              currIdx++;
+            }
+            if (prerequisites.length === currIdx) {
+              if (currMatch.includes('between') || currMatch.includes('from')) {
+                prerequisites.push({
+                  range: [],
+                });
+                currKey = "range";
+                console.log("Has Between: " + course.title);
+              } else if (currMatch.includes('grade') || currMatch.includes('score')) {
+                prerequisites.push({
+                  grade: [],
+                })
+                currKey = "grade";
+                console.log("Has Grade: " + course.title);
+              } else {
+                prerequisites.push({
+                  req: [],
+                });
+                currKey = "req";
+              }
+            }
+            if (currKey !== '') prerequisites[currIdx][currKey].push(trimmed);
+
+
+            // The Delay
+            if ((currMatch.includes("one of") || currMatch.includes("and")) && delay) {
+              currIdx++;
+              delay = false;
+            }
+            if (currMatch.includes('between') || currMatch.includes('from')) delay = true;
+          }
+
+        }
+      }
+    } catch (e) {
+      console.log(e);
+      console.log("Issue Parsing: " + course.orc_url);
+    }
+  }
+  let newCourse = course;
+  newCourse.prerequisites = prerequisites;
+  allPrerequisites.push(newCourse);
+};
+
+fs.writeFile('data/withPrereqs2.json', JSON.stringify(allPrerequisites), (e) => {
   if (e) throw e;
   console.log("Saved");
   return;
