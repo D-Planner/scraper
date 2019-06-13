@@ -23,6 +23,17 @@
 			"layup_score": 0
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/1651",
+			"layup_id": 1651,
+			"title": "HEBR033: Advanced Modern Hebrew",
+			"department": "HEBR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/1645",
 			"layup_id": 1645,
 			"title": "HEBR010: Introduction to Hebraic and Israeli Culture",
@@ -32,28 +43,6 @@
 				"LIT",
 				"CI"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1648",
-			"layup_id": 1648,
-			"title": "HEBR023: Intermediate Modern Hebrew",
-			"department": "HEBR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1651",
-			"layup_id": 1651,
-			"title": "HEBR033: Advanced Modern Hebrew",
-			"department": "HEBR",
-			"offered": false,
-			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -73,9 +62,20 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1647",
-			"layup_id": 1647,
-			"title": "HEBR022: Intermediate Modern Hebrew",
+			"layup_url": "https://www.layuplist.com/course/1643",
+			"layup_id": 1643,
+			"title": "HEBR002: First-Year Courses in Modern Hebrew",
+			"department": "HEBR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 6,
+			"quality_score": 3,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1652",
+			"layup_id": 1652,
+			"title": "HEBR051: The Hebrew of the Bible",
 			"department": "HEBR",
 			"offered": false,
 			"distribs": [
@@ -83,8 +83,8 @@
 				"LIT"
 			],
 			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
+			"quality_score": 1,
+			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/1644",
@@ -95,17 +95,6 @@
 			"distribs": null,
 			"total_reviews": 7,
 			"quality_score": 2,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1643",
-			"layup_id": 1643,
-			"title": "HEBR002: First-Year Courses in Modern Hebrew",
-			"department": "HEBR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 6,
-			"quality_score": 3,
 			"layup_score": 0
 		},
 		{
@@ -120,34 +109,9 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1656",
-			"layup_id": 1656,
-			"title": "HEBR062.01: Midrash: How the Rabbis Interpreted the Bible",
-			"department": "HEBR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1655",
-			"layup_id": 1655,
-			"title": "HEBR061.01: Film, Fiction, and the Arab-Israeli Conflict",
-			"department": "HEBR",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"CI"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1653",
-			"layup_id": 1653,
-			"title": "HEBR052: Readings in Biblical Hebrew",
+			"layup_url": "https://www.layuplist.com/course/1648",
+			"layup_id": 1648,
+			"title": "HEBR023: Intermediate Modern Hebrew",
 			"department": "HEBR",
 			"offered": false,
 			"distribs": null,
@@ -167,23 +131,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1654",
-			"layup_id": 1654,
-			"title": "HEBR059: Independent Advanced Study in Hebrew Language and Literature",
-			"department": "HEBR",
-			"offered": true,
-			"distribs": [
-				"NW",
-				"LIT"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1652",
-			"layup_id": 1652,
-			"title": "HEBR051: The Hebrew of the Bible",
+			"layup_url": "https://www.layuplist.com/course/1647",
+			"layup_id": 1647,
+			"title": "HEBR022: Intermediate Modern Hebrew",
 			"department": "HEBR",
 			"offered": false,
 			"distribs": [
@@ -191,8 +141,8 @@
 				"LIT"
 			],
 			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 1
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/1657",
@@ -218,8 +168,58 @@
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1656",
+			"layup_id": 1656,
+			"title": "HEBR062.01: Midrash: How the Rabbis Interpreted the Bible",
+			"department": "HEBR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1653",
+			"layup_id": 1653,
+			"title": "HEBR052: Readings in Biblical Hebrew",
+			"department": "HEBR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1654",
+			"layup_id": 1654,
+			"title": "HEBR059: Independent Advanced Study in Hebrew Language and Literature",
+			"department": "HEBR",
+			"offered": true,
+			"distribs": [
+				"NW",
+				"LIT"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1655",
+			"layup_id": 1655,
+			"title": "HEBR061.01: Film, Fiction, and the Arab-Israeli Conflict",
+			"department": "HEBR",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		}
 	],
-	"updated": "2019-05-26 10:48:10",
+	"updated": "2019-06-12 22:58:24",
 	"total": 18
 }

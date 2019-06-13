@@ -1,6 +1,19 @@
 {
 	"courses": [
 		{
+			"layup_url": "https://www.layuplist.com/course/2588",
+			"layup_id": 2588,
+			"title": "QSS030.01: Sports Analytics",
+			"department": "QSS",
+			"offered": true,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/2601",
 			"layup_id": 2601,
 			"title": "QSS088: Independent Study in Quantitative Social Science",
@@ -12,79 +25,31 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4862",
-			"layup_id": 4862,
-			"title": "QSS030.12: Quantitative Literary Crit",
+			"layup_url": "https://www.layuplist.com/course/2592",
+			"layup_id": 2592,
+			"title": "QSS030.05: Topics in Digital History: U.S. History Through Census Data",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"QDS",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2595",
+			"layup_id": 2595,
+			"title": "QSS036: Mathematical Models in the Social Science",
 			"department": "QSS",
 			"offered": false,
 			"distribs": [
 				"TAS"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2586",
-			"layup_id": 2586,
-			"title": "QSS017: Data Visualization",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"TLA"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2593",
-			"layup_id": 2593,
-			"title": "QSS030.06: By the Numbers: Race, Incarceration and Politics",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4963",
-			"layup_id": 4963,
-			"title": "QSS030.09: Data Wrangling",
-			"department": "QSS",
-			"offered": true,
-			"distribs": [
-				"TAS"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3456",
-			"layup_id": 3456,
-			"title": "QSS030.08: Misperceptions in Politics: When Do They Matter and Why?",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2594",
-			"layup_id": 2594,
-			"title": "QSS030: Special Topics in Quantitative Social Science",
-			"department": "QSS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 1,
+			"quality_score": 2,
 			"layup_score": 1
 		},
 		{
@@ -101,6 +66,17 @@
 			"layup_score": 13
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/4728",
+			"layup_id": 4728,
+			"title": "QSS082: Major One Quarter Project",
+			"department": "QSS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/2589",
 			"layup_id": 2589,
 			"title": "QSS030.02: Computational Text Analysis for the Social Sciences",
@@ -109,6 +85,43 @@
 			"distribs": [
 				"LIT",
 				"TLA"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2599",
+			"layup_id": 2599,
+			"title": "QSS046: Models of Voting and Decision Making",
+			"department": "QSS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4963",
+			"layup_id": 4963,
+			"title": "QSS030.09: Data Wrangling",
+			"department": "QSS",
+			"offered": true,
+			"distribs": [
+				"TAS"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2590",
+			"layup_id": 2590,
+			"title": "QSS030.03: Experiments in Politics",
+			"department": "QSS",
+			"offered": true,
+			"distribs": [
+				"QDS"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -128,112 +141,33 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2595",
-			"layup_id": 2595,
-			"title": "QSS036: Mathematical Models in the Social Science",
+			"layup_url": "https://www.layuplist.com/course/2586",
+			"layup_id": 2586,
+			"title": "QSS017: Data Visualization",
 			"department": "QSS",
 			"offered": false,
 			"distribs": [
-				"TAS"
-			],
-			"total_reviews": 1,
-			"quality_score": 2,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3232",
-			"layup_id": 3232,
-			"title": "QSS030.07: Simulating Social Systems: Complexity and Society",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"SOC"
+				"TLA"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 0
+			"layup_score": -1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2591",
-			"layup_id": 2591,
-			"title": "QSS030.04: Evolutionary Game Theory and Applications",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"QDS"
-			],
-			"total_reviews": 1,
-			"quality_score": 1,
-			"layup_score": 2
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2592",
-			"layup_id": 2592,
-			"title": "QSS030.05: Topics in Digital History: U.S. History Through Census Data",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"QDS",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2600",
-			"layup_id": 2600,
-			"title": "QSS080: Research Seminar in Quantitative Social Science",
-			"department": "QSS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2599",
-			"layup_id": 2599,
-			"title": "QSS046: Models of Voting and Decision Making",
-			"department": "QSS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2590",
-			"layup_id": 2590,
-			"title": "QSS030.03: Experiments in Politics",
+			"layup_url": "https://www.layuplist.com/course/4727",
+			"layup_id": 4727,
+			"title": "QSS081: Major Thesis Research",
 			"department": "QSS",
 			"offered": true,
-			"distribs": [
-				"QDS"
-			],
+			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2587",
-			"layup_id": 2587,
-			"title": "QSS018: Introduction to Game Theory",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 2,
-			"quality_score": 7,
-			"layup_score": -4
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4728",
-			"layup_id": 4728,
-			"title": "QSS082: Major One Quarter Project",
+			"layup_url": "https://www.layuplist.com/course/4729",
+			"layup_id": 4729,
+			"title": "QSS083: Minor One Quarter Project",
 			"department": "QSS",
 			"offered": false,
 			"distribs": null,
@@ -255,6 +189,107 @@
 			"layup_score": 1
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/2591",
+			"layup_id": 2591,
+			"title": "QSS030.04: Evolutionary Game Theory and Applications",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"QDS"
+			],
+			"total_reviews": 1,
+			"quality_score": 1,
+			"layup_score": 2
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2593",
+			"layup_id": 2593,
+			"title": "QSS030.06: By the Numbers: Race, Incarceration and Politics",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2600",
+			"layup_id": 2600,
+			"title": "QSS080: Research Seminar in Quantitative Social Science",
+			"department": "QSS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4862",
+			"layup_id": 4862,
+			"title": "QSS030.12: Quantitative Literary Crit",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"TAS"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2587",
+			"layup_id": 2587,
+			"title": "QSS018: Introduction to Game Theory",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 2,
+			"quality_score": 7,
+			"layup_score": -4
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2594",
+			"layup_id": 2594,
+			"title": "QSS030: Special Topics in Quantitative Social Science",
+			"department": "QSS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3232",
+			"layup_id": 3232,
+			"title": "QSS030.07: Simulating Social Systems: Complexity and Society",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3456",
+			"layup_id": 3456,
+			"title": "QSS030.08: Misperceptions in Politics: When Do They Matter and Why?",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/2597",
 			"layup_id": 2597,
 			"title": "QSS043: Mathematical Psychology",
@@ -264,41 +299,6 @@
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4729",
-			"layup_id": 4729,
-			"title": "QSS083: Minor One Quarter Project",
-			"department": "QSS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4727",
-			"layup_id": 4727,
-			"title": "QSS081: Major Thesis Research",
-			"department": "QSS",
-			"offered": true,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2588",
-			"layup_id": 2588,
-			"title": "QSS030.01: Sports Analytics",
-			"department": "QSS",
-			"offered": true,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/2598",
@@ -314,6 +314,6 @@
 			"layup_score": 1
 		}
 	],
-	"updated": "2019-05-26 10:50:47",
+	"updated": "2019-06-12 23:05:11",
 	"total": 25
 }

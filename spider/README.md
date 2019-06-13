@@ -1,17 +1,15 @@
-# Spider [![codecov](https://codecov.io/gh/dali-lab/dplanner/branch/code_experiment_0/graph/badge.svg?token=jiPXFTJ4fn)](https://codecov.io/gh/dali-lab/dplanner)
-The spider package is restful API that scrapes the scrapes the [ORC](https://oracle-www.dartmouth.edu/dart/groucho/timetable.main) and [Layup List](https://www.layuplist.com/) to provide aggregate course data to students. The API is deployed [here](https://limitless-forest-87283.herokuapp.com).
-
-## Install
-With a [correctly configured](https://golang.org/doc/install#testing) Go toolchain:
-```
-go get github.com/dali-lab/dplanner/spider
-```
+# Spider
+The spider package is a web scraper that aggregates course data from the [ORC](https://oracle-www.dartmouth.edu/dart/groucho/timetable.main) and [Layup List](https://www.layuplist.com). It's exposed through a RESTful API whose Postman collection is described [below](#postman-👩‍🚀).
 
 ## Getting Started
-To run without any configuration:
+To run the 🕷️ without any 😩, open your terminal and enter the following command:
 
 ```
-PORT=5000 ./bin/main
+PORT="8080" \
+ORC_URL="https://oracle-www.dartmouth.edu/dart/groucho/timetable.display_courses" \
+LAYUP_URL="https://www.layuplist.com" \
+LAYUP_COOKIE="__cfduid=d436705b2deba05e8a80fcc2ec98c5b8b1560383586; _ga=GA1.2.942041145.1560383588; _gid=GA1.2.1530077766.1560383588; _gat=1; sessionid=zfib5uah6clqoy587whqzsqiwucev2zh; csrftoken=taASqNgxNY1bSo8AyMZSDjLjbsokeE7whRGn0FPm6kw5YvPGqSQyc9j6G3MuJXCH" \
+./bin/spider
 ```
 
 ...or develop:
@@ -29,43 +27,40 @@ You should see the following:
  - using env:   export GIN_MODE=release
  - using code:  gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /                         --> main.getMainEngine.func1 (4 handlers)
-[GIN-debug] GET    /ping                     --> main.getMainEngine.func2 (4 handlers)
-[GIN-debug] GET    /term                     --> main.getMainEngine.func3 (4 handlers)
-[GIN-debug] GET    /courses                  --> main.getMainEngine.func4 (4 handlers)
-[GIN-debug] POST   /course/layup/id          --> main.getMainEngine.func5 (4 handlers)
-[GIN-debug] GET    /course/related/:id       --> main.getMainEngine.func6 (4 handlers)
-[GIN-debug] GET    /course/medians/:id       --> main.getMainEngine.func7 (4 handlers)
-[GIN-debug] GET    /course/professors/:id    --> main.getMainEngine.func8 (4 handlers)
+[GIN-debug] GET    /                         --> github.com/dali-lab/dplanner/spider/server.setupRouter.func1 (5 handlers)
+[GIN-debug] GET    /ping                     --> github.com/dali-lab/dplanner/spider/server.setupRouter.func2 (5 handlers)
+[GIN-debug] GET    /scrape                   --> github.com/dali-lab/dplanner/spider/server.setupRouter.func3 (5 handlers)
+[GIN-debug] GET    /courses                  --> github.com/dali-lab/dplanner/spider/server.setupRouter.func4 (5 handlers)
+[GIN-debug] GET    /timetable                --> github.com/dali-lab/dplanner/spider/server.setupRouter.func5 (5 handlers)
+[GIN-debug] GET    /departments              --> github.com/dali-lab/dplanner/spider/server.setupRouter.func6 (5 handlers)
+[GIN-debug] GET    /courses/:dept            --> github.com/dali-lab/dplanner/spider/server.setupRouter.func7 (5 handlers)
 [GIN-debug] Listening and serving HTTP on :8080
 ```
 
 ## Documentation
-For full documentation of the source code:
-
+For full documentation of the Go packages, enter the following command in your terminal:
 ```
 godoc -http=:6060
 ```
 
-Then navigate to the URL:
+... then enter the following URL in your browser:
 ```
 http://localhost:6060/pkg/github.com/dali-lab/dplanner/spider/
 ```
 
-## API Collection 👩‍🚀
-Here's a Postman collection for the spider API deployed on Heroku:
+## Postman 👩‍🚀
+Here's a Postman collection for the API:
 
 | Method | Description | Endpoint |
 | --- | --- | --- |
 | GET | Index  | `/` |
-| GET | Health-check  | `/ping` |
-| GET | Rerturns the current term's ID per ORC specification  | `/term` |
-| GET | Fetch course offerings for the current term  | `/courses` |
-| GET | Returns a list of similar courses  | `/course/related/:id` |
-| GET | Returns a list of professors who've taught and are currently teaching a course  | `/course/professors/:id` |
-| GET | Returns metadata about a course's median across the terms it was offered | `/course/medians/:id` |
-| POST | Fetches a course's ID on Layup List via `subj` + `num` (i.e. `mus051`)  | `/id` |
+| GET | Health check  | `/ping` |
+| GET | Scraping process (~5-10 mins) | `/scrape` |
+| GET | Courses | `/courses` |
+| GET | Departments  | `/departments` |
+| GET | ORC timetable (past 4 yrs)  | `/timetable` |
+| GET | Department's course offerings | `/courses/:dept` |
 
-Click below to try out the API and see some examples.
+... click below to run it in your browser
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/e5a78fa13b99cd034f72)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/4345820/S1Zudr5D?version=latest)

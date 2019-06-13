@@ -1,17 +1,6 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/558",
-			"layup_id": 558,
-			"title": "CLST007: First-Year Seminars in Classical Studies",
-			"department": "CLST",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 24,
-			"quality_score": 6,
-			"layup_score": 1
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/583",
 			"layup_id": 583,
 			"title": "CLST087: Thesis I",
@@ -23,33 +12,17 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3097",
-			"layup_id": 3097,
-			"title": "CLST011.09: Who Owns the Past?",
+			"layup_url": "https://www.layuplist.com/course/3387",
+			"layup_id": 3387,
+			"title": "CLST010.01: Rethinking the Divine",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
-				"SOC",
-				"CI"
+				"TMV"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/552",
-			"layup_id": 552,
-			"title": "CLST001: Antiquity Today: An Introduction to Classical Studies",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"INT",
-				"LIT",
-				"CI"
-			],
-			"total_reviews": 92,
-			"quality_score": 12,
-			"layup_score": 6
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/557",
@@ -67,136 +40,12 @@
 			"layup_score": 3
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/572",
-			"layup_id": 572,
-			"title": "CLST021: From Disaster to Triumph: Greek Archaeology from the Destruction of Mycenae to the Persian Wars",
+			"layup_url": "https://www.layuplist.com/course/4696",
+			"layup_id": 4696,
+			"title": "CLST007.09: Narratives-Trauma \u0026 Suffering",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
-				"SOC",
-				"W"
-			],
-			"total_reviews": 6,
-			"quality_score": 2,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4807",
-			"layup_id": 4807,
-			"title": "CLST010.09: Quantitative Literary Crit",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"TAS"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/571",
-			"layup_id": 571,
-			"title": "CLST020: Greek Prehistoric Archaeology: The Emergence of Civilization in the Aegean",
-			"department": "CLST",
-			"offered": true,
-			"distribs": [
-				"SOC",
-				"W"
-			],
-			"total_reviews": 9,
-			"quality_score": 1,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3723",
-			"layup_id": 3723,
-			"title": "CLST007.06: Pessimism and Happiness",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"W",
-				"TMV"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/554",
-			"layup_id": 554,
-			"title": "CLST003: Reason and the Good Life: Socrates to Epictetus",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"W",
-				"TMV"
-			],
-			"total_reviews": 6,
-			"quality_score": 7,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/555",
-			"layup_id": 555,
-			"title": "CLST004: Classical Mythology",
-			"department": "CLST",
-			"offered": true,
-			"distribs": [
-				"TMV",
-				"CI"
-			],
-			"total_reviews": 62,
-			"quality_score": 10,
-			"layup_score": 5
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/573",
-			"layup_id": 573,
-			"title": "CLST022: Greek Classical Archaeology: City-States and Panhellenic Sanctuaries",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"ART",
-				"W"
-			],
-			"total_reviews": 15,
-			"quality_score": 5,
-			"layup_score": -1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3389",
-			"layup_id": 3389,
-			"title": "CLST010: Topics in Greek and Roman Literature, Philosophy, and Religion",
-			"department": "CLST",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3297",
-			"layup_id": 3297,
-			"title": "CLST011.11: War Stories",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"INT",
-				"LIT",
-				"CI"
-			],
-			"total_reviews": 1,
-			"quality_score": 3,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3098",
-			"layup_id": 3098,
-			"title": "CLST007.07: The Novel Before the Novel",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"INT",
 				"LIT",
 				"W"
 			],
@@ -205,70 +54,14 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/553",
-			"layup_id": 553,
-			"title": "CLST002: The Tragedy and Comedy of Greece and Rome",
+			"layup_url": "https://www.layuplist.com/course/3391",
+			"layup_id": 3391,
+			"title": "CLST012.02: Greek and Roman Engineering and Technology",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
-				"ART",
+				"TAS",
 				"W"
-			],
-			"total_reviews": 27,
-			"quality_score": 3,
-			"layup_score": 4
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/556",
-			"layup_id": 556,
-			"title": "CLST005: The Heroic Vision: Epics of Greece and Rome",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 53,
-			"quality_score": 9,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3955",
-			"layup_id": 3955,
-			"title": "CLST011.03: Early Sparta and Corinth: A Comparative Approach to the Archaeohistory of Two Major Greek City-State",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"ART",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/574",
-			"layup_id": 574,
-			"title": "CLST024: Etruscan and Early Roman Archaeology: The Rise of Rome",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"W"
-			],
-			"total_reviews": 10,
-			"quality_score": 7,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3298",
-			"layup_id": 3298,
-			"title": "CLST011.12: Slaves, Wives, \u0026 Concubines: Did Roman Women Have a History?",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"CI"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -289,13 +82,13 @@
 			"layup_score": -1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/564",
-			"layup_id": 564,
-			"title": "CLST011.05: Greek and Roman Engineering and Technology",
+			"layup_url": "https://www.layuplist.com/course/3955",
+			"layup_id": 3955,
+			"title": "CLST011.03: Early Sparta and Corinth: A Comparative Approach to the Archaeohistory of Two Major Greek City-State",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
-				"TAS",
+				"ART",
 				"W"
 			],
 			"total_reviews": 0,
@@ -303,9 +96,49 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4656",
-			"layup_id": 4656,
-			"title": "CLST010.08: Laughter and Humor in the Ancient World",
+			"layup_url": "https://www.layuplist.com/course/3390",
+			"layup_id": 3390,
+			"title": "CLST011: Topics in Greek and Roman History",
+			"department": "CLST",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3723",
+			"layup_id": 3723,
+			"title": "CLST007.06: Pessimism and Happiness",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"W",
+				"TMV"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/552",
+			"layup_id": 552,
+			"title": "CLST001: Antiquity Today: An Introduction to Classical Studies",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"INT",
+				"LIT",
+				"CI"
+			],
+			"total_reviews": 92,
+			"quality_score": 12,
+			"layup_score": 6
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3097",
+			"layup_id": 3097,
+			"title": "CLST011.09: Who Owns the Past?",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
@@ -317,9 +150,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/579",
-			"layup_id": 579,
-			"title": "CLST030.02: Classical Art and Archaeology: Study Abroad (with CLST 30.01, 2 course credits)",
+			"layup_url": "https://www.layuplist.com/course/3299",
+			"layup_id": 3299,
+			"title": "CLST012: Topics in Classical Archaeology",
 			"department": "CLST",
 			"offered": false,
 			"distribs": null,
@@ -328,153 +161,13 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3821",
-			"layup_id": 3821,
-			"title": "CLST011.06: Sex, Celibacy, and the Problem of Purity: Asceticism and the Human Body in Late Antiquity",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"W",
-				"TMV"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3724",
-			"layup_id": 3724,
-			"title": "CLST030: Classical Art\u0026Archaeology;",
-			"department": "CLST",
-			"offered": true,
-			"distribs": [
-				"ART",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4657",
-			"layup_id": 4657,
-			"title": "CLST011.13: Democracy: Ancient to Modern",
+			"layup_url": "https://www.layuplist.com/course/3098",
+			"layup_id": 3098,
+			"title": "CLST007.07: The Novel Before the Novel",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
 				"INT",
-				"SOC",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4696",
-			"layup_id": 4696,
-			"title": "CLST007.09: Narratives-Trauma \u0026 Suffering",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/563",
-			"layup_id": 563,
-			"title": "CLST011.04: Sport and Democratization",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"INT",
-				"SOC",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3387",
-			"layup_id": 3387,
-			"title": "CLST010.01: Rethinking the Divine",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"TMV"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/575",
-			"layup_id": 575,
-			"title": "CLST025: Early Roman Imperial Archaeology: The First Emperors",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"ART",
-				"W"
-			],
-			"total_reviews": 17,
-			"quality_score": 5,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/565",
-			"layup_id": 565,
-			"title": "CLST011.07: Slave Societies Ancient and Modern: Imperial Rome and Brazil",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"INT",
-				"NW",
-				"LIT"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4658",
-			"layup_id": 4658,
-			"title": "CLST011.14: Gender and Sexuality in Ancient Greece",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/580",
-			"layup_id": 580,
-			"title": "CLST031: Ancient Literature and History: Study Abroad",
-			"department": "CLST",
-			"offered": true,
-			"distribs": [
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/561",
-			"layup_id": 561,
-			"title": "CLST010.04: The Ancient Book: An Introduction to Paleography, Papyrology, Codicology, and Textual Criticism",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
 				"LIT",
 				"W"
 			],
@@ -497,72 +190,77 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/562",
-			"layup_id": 562,
-			"title": "CLST010.05: Fictions of Sappho",
+			"layup_url": "https://www.layuplist.com/course/3297",
+			"layup_id": 3297,
+			"title": "CLST011.11: War Stories",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
+				"INT",
 				"LIT",
 				"CI"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 1,
+			"quality_score": 3,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/576",
-			"layup_id": 576,
-			"title": "CLST026: Later Roman Imperial Archaeology: The Golden Age and Beyond",
+			"layup_url": "https://www.layuplist.com/course/553",
+			"layup_id": 553,
+			"title": "CLST002: The Tragedy and Comedy of Greece and Rome",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
 				"ART",
 				"W"
 			],
-			"total_reviews": 5,
-			"quality_score": 1,
-			"layup_score": 1
+			"total_reviews": 27,
+			"quality_score": 3,
+			"layup_score": 4
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3390",
-			"layup_id": 3390,
-			"title": "CLST011: Topics in Greek and Roman History",
-			"department": "CLST",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3388",
-			"layup_id": 3388,
-			"title": "CLST010.06: The Concept of Love in Roman Literature",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/581",
-			"layup_id": 581,
-			"title": "CLST040: Translation: Theory and Practice",
+			"layup_url": "https://www.layuplist.com/course/4657",
+			"layup_id": 4657,
+			"title": "CLST011.13: Democracy: Ancient to Modern",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
 				"INT",
-				"LIT",
+				"SOC",
 				"W"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/563",
+			"layup_id": 563,
+			"title": "CLST011.04: Sport and Democratization",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"INT",
+				"SOC",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/566",
+			"layup_id": 566,
+			"title": "CLST014: Greek History: Archaic and Classical Greece",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 21,
+			"quality_score": 4,
+			"layup_score": -1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/560",
@@ -571,6 +269,63 @@
 			"department": "CLST",
 			"offered": false,
 			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3298",
+			"layup_id": 3298,
+			"title": "CLST011.12: Slaves, Wives, \u0026 Concubines: Did Roman Women Have a History?",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4658",
+			"layup_id": 4658,
+			"title": "CLST011.14: Gender and Sexuality in Ancient Greece",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3821",
+			"layup_id": 3821,
+			"title": "CLST011.06: Sex, Celibacy, and the Problem of Purity: Asceticism and the Human Body in Late Antiquity",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"W",
+				"TMV"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/565",
+			"layup_id": 565,
+			"title": "CLST011.07: Slave Societies Ancient and Modern: Imperial Rome and Brazil",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"INT",
+				"NW",
+				"LIT"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -591,6 +346,143 @@
 			"layup_score": 0
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/554",
+			"layup_id": 554,
+			"title": "CLST003: Reason and the Good Life: Socrates to Epictetus",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"W",
+				"TMV"
+			],
+			"total_reviews": 6,
+			"quality_score": 7,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/575",
+			"layup_id": 575,
+			"title": "CLST025: Early Roman Imperial Archaeology: The First Emperors",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"ART",
+				"W"
+			],
+			"total_reviews": 17,
+			"quality_score": 5,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/561",
+			"layup_id": 561,
+			"title": "CLST010.04: The Ancient Book: An Introduction to Paleography, Papyrology, Codicology, and Textual Criticism",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/579",
+			"layup_id": 579,
+			"title": "CLST030.02: Classical Art and Archaeology: Study Abroad (with CLST 30.01, 2 course credits)",
+			"department": "CLST",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/564",
+			"layup_id": 564,
+			"title": "CLST011.05: Greek and Roman Engineering and Technology",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"TAS",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/571",
+			"layup_id": 571,
+			"title": "CLST020: Greek Prehistoric Archaeology: The Emergence of Civilization in the Aegean",
+			"department": "CLST",
+			"offered": true,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 9,
+			"quality_score": 1,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3724",
+			"layup_id": 3724,
+			"title": "CLST030: Classical Art\u0026Archaeology;",
+			"department": "CLST",
+			"offered": true,
+			"distribs": [
+				"ART",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/572",
+			"layup_id": 572,
+			"title": "CLST021: From Disaster to Triumph: Greek Archaeology from the Destruction of Mycenae to the Persian Wars",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 6,
+			"quality_score": 2,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/555",
+			"layup_id": 555,
+			"title": "CLST004: Classical Mythology",
+			"department": "CLST",
+			"offered": true,
+			"distribs": [
+				"TMV",
+				"CI"
+			],
+			"total_reviews": 62,
+			"quality_score": 10,
+			"layup_score": 5
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/562",
+			"layup_id": 562,
+			"title": "CLST010.05: Fictions of Sappho",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/3862",
 			"layup_id": 3862,
 			"title": "CLST010.07: Ancient Magic and Religion",
@@ -606,40 +498,29 @@
 			"layup_score": 2
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/577",
-			"layup_id": 577,
-			"title": "CLST029: Independent Study Project",
+			"layup_url": "https://www.layuplist.com/course/558",
+			"layup_id": 558,
+			"title": "CLST007: First-Year Seminars in Classical Studies",
 			"department": "CLST",
 			"offered": false,
 			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 24,
+			"quality_score": 6,
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/568",
-			"layup_id": 568,
-			"title": "CLST017: Roman History: The Republic",
+			"layup_url": "https://www.layuplist.com/course/556",
+			"layup_id": 556,
+			"title": "CLST005: The Heroic Vision: Epics of Greece and Rome",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
-				"SOC",
+				"LIT",
 				"W"
 			],
-			"total_reviews": 17,
-			"quality_score": 8,
+			"total_reviews": 53,
+			"quality_score": 9,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/582",
-			"layup_id": 582,
-			"title": "CLST085: Independent Reading and Research",
-			"department": "CLST",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/578",
@@ -653,29 +534,15 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/566",
-			"layup_id": 566,
-			"title": "CLST014: Greek History: Archaic and Classical Greece",
-			"department": "CLST",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"W"
-			],
-			"total_reviews": 21,
-			"quality_score": 4,
-			"layup_score": -1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3299",
-			"layup_id": 3299,
-			"title": "CLST012: Topics in Classical Archaeology",
+			"layup_url": "https://www.layuplist.com/course/577",
+			"layup_id": 577,
+			"title": "CLST029: Independent Study Project",
 			"department": "CLST",
 			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 0
+			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/569",
@@ -693,6 +560,138 @@
 			"layup_score": 0
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/580",
+			"layup_id": 580,
+			"title": "CLST031: Ancient Literature and History: Study Abroad",
+			"department": "CLST",
+			"offered": true,
+			"distribs": [
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3388",
+			"layup_id": 3388,
+			"title": "CLST010.06: The Concept of Love in Roman Literature",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/573",
+			"layup_id": 573,
+			"title": "CLST022: Greek Classical Archaeology: City-States and Panhellenic Sanctuaries",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"ART",
+				"W"
+			],
+			"total_reviews": 15,
+			"quality_score": 5,
+			"layup_score": -1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/574",
+			"layup_id": 574,
+			"title": "CLST024: Etruscan and Early Roman Archaeology: The Rise of Rome",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 10,
+			"quality_score": 7,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/576",
+			"layup_id": 576,
+			"title": "CLST026: Later Roman Imperial Archaeology: The Golden Age and Beyond",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"ART",
+				"W"
+			],
+			"total_reviews": 5,
+			"quality_score": 1,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/568",
+			"layup_id": 568,
+			"title": "CLST017: Roman History: The Republic",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 17,
+			"quality_score": 8,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4656",
+			"layup_id": 4656,
+			"title": "CLST010.08: Laughter and Humor in the Ancient World",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/582",
+			"layup_id": 582,
+			"title": "CLST085: Independent Reading and Research",
+			"department": "CLST",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4807",
+			"layup_id": 4807,
+			"title": "CLST010.09: Quantitative Literary Crit",
+			"department": "CLST",
+			"offered": false,
+			"distribs": [
+				"TAS"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3389",
+			"layup_id": 3389,
+			"title": "CLST010: Topics in Greek and Roman Literature, Philosophy, and Religion",
+			"department": "CLST",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/570",
 			"layup_id": 570,
 			"title": "CLST019: Methods and Theory in Ancient History",
@@ -707,20 +706,21 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3391",
-			"layup_id": 3391,
-			"title": "CLST012.02: Greek and Roman Engineering and Technology",
+			"layup_url": "https://www.layuplist.com/course/581",
+			"layup_id": 581,
+			"title": "CLST040: Translation: Theory and Practice",
 			"department": "CLST",
 			"offered": false,
 			"distribs": [
-				"TAS",
+				"INT",
+				"LIT",
 				"W"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 0
+			"layup_score": 1
 		}
 	],
-	"updated": "2019-05-26 10:45:37",
+	"updated": "2019-06-12 22:57:38",
 	"total": 53
 }

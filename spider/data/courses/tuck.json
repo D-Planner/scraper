@@ -1,6 +1,17 @@
 {
 	"courses": [
 		{
+			"layup_url": "https://www.layuplist.com/course/2943",
+			"layup_id": 2943,
+			"title": "TUCK003: Business Management and Strategy",
+			"department": "TUCK",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 2,
+			"quality_score": 1,
+			"layup_score": 2
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/2941",
 			"layup_id": 2941,
 			"title": "TUCK001: Financial Accounting",
@@ -21,19 +32,8 @@
 			"total_reviews": 1,
 			"quality_score": 4,
 			"layup_score": 2
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2943",
-			"layup_id": 2943,
-			"title": "TUCK003: Business Management and Strategy",
-			"department": "TUCK",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 2,
-			"quality_score": 1,
-			"layup_score": 2
 		}
 	],
-	"updated": "2019-05-26 10:51:21",
+	"updated": "2019-06-12 23:04:09",
 	"total": 3
 }
