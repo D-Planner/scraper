@@ -25,64 +25,18 @@
 			"layup_score": 4
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/861",
-			"layup_id": 861,
-			"title": "ECON005: Adam Smith and Political Economy",
+			"layup_url": "https://www.layuplist.com/course/3312",
+			"layup_id": 3312,
+			"title": "ECON015: Political Economy of China",
 			"department": "ECON",
-			"offered": true,
+			"offered": false,
 			"distribs": [
-				"SOC",
-				"W"
+				"INT",
+				"SOC"
 			],
-			"total_reviews": 0,
+			"total_reviews": 1,
 			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/862",
-			"layup_id": 862,
-			"title": "ECON010: Introduction to Statistical Methods",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 246,
-			"quality_score": 24,
-			"layup_score": -23
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/884",
-			"layup_id": 884,
-			"title": "ECON075: Environmental and Energy Economics",
-			"department": "ECON",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/888",
-			"layup_id": 888,
-			"title": "ECON079: The Clash of Economic Ideas",
-			"department": "ECON",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4457",
-			"layup_id": 4457,
-			"title": "ECON070.01: The Transition of Poland to a Market Economy",
-			"department": "ECON",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
+			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/876",
@@ -94,31 +48,7 @@
 				"SOC"
 			],
 			"total_reviews": 7,
-			"quality_score": 2,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/864",
-			"layup_id": 864,
-			"title": "ECON021: Microeconomics",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 212,
-			"quality_score": 42,
-			"layup_score": -29
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/883",
-			"layup_id": 883,
-			"title": "ECON073: The Political Economy of Development",
-			"department": "ECON",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
+			"quality_score": 3,
 			"layup_score": 0
 		},
 		{
@@ -135,6 +65,45 @@
 			"layup_score": 2
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/872",
+			"layup_id": 872,
+			"title": "ECON036: Theory of Finance",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 98,
+			"quality_score": 6,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/877",
+			"layup_id": 877,
+			"title": "ECON046: Topics in Money and Finance",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 31,
+			"quality_score": 5,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/873",
+			"layup_id": 873,
+			"title": "ECON038: Urban and Land Use Economics",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 25,
+			"quality_score": 5,
+			"layup_score": 1
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/859",
 			"layup_id": 859,
 			"title": "ECON001: The Price System: Analysis, Problems, and Policies",
@@ -144,20 +113,260 @@
 				"SOC"
 			],
 			"total_reviews": 565,
-			"quality_score": 142,
-			"layup_score": -45
+			"quality_score": 145,
+			"layup_score": -46
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/889",
-			"layup_id": 889,
-			"title": "ECON080: Advanced Topics in Econometrics",
+			"layup_url": "https://www.layuplist.com/course/871",
+			"layup_id": 871,
+			"title": "ECON029: International Finance and Open-Economy Macroeconomics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"INT",
+				"SOC"
+			],
+			"total_reviews": 101,
+			"quality_score": 11,
+			"layup_score": -7
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3313",
+			"layup_id": 3313,
+			"title": "ECON016: Political Economy of Regulation",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 0,
+			"quality_score": 2,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/862",
+			"layup_id": 862,
+			"title": "ECON010: Introduction to Statistical Methods",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 246,
+			"quality_score": 24,
+			"layup_score": -23
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3314",
+			"layup_id": 3314,
+			"title": "ECON032: Monetary Policy and the Macroeconomy",
 			"department": "ECON",
 			"offered": true,
 			"distribs": [
 				"SOC"
 			],
-			"total_reviews": 13,
-			"quality_score": 5,
+			"total_reviews": 0,
+			"quality_score": 3,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/878",
+			"layup_id": 878,
+			"title": "ECON047: Topics in Labor Economics",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 1,
+			"quality_score": 2,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/874",
+			"layup_id": 874,
+			"title": "ECON039: International Trade",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"INT",
+				"SOC"
+			],
+			"total_reviews": 119,
+			"quality_score": 24,
+			"layup_score": -4
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/870",
+			"layup_id": 870,
+			"title": "ECON028: Public Economics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 68,
+			"quality_score": 11,
+			"layup_score": -2
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/867",
+			"layup_id": 867,
+			"title": "ECON025: Competition and Strategy",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 39,
+			"quality_score": 7,
+			"layup_score": 2
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/866",
+			"layup_id": 866,
+			"title": "ECON024: Development Economics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"INT",
+				"SOC",
+				"NW"
+			],
+			"total_reviews": 28,
+			"quality_score": 4,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/865",
+			"layup_id": 865,
+			"title": "ECON022: Macroeconomics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 223,
+			"quality_score": 66,
+			"layup_score": -14
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3255",
+			"layup_id": 3255,
+			"title": "ECON035: Games and Economic Behavior",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 1,
+			"quality_score": 1,
+			"layup_score": -3
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/861",
+			"layup_id": 861,
+			"title": "ECON005: Adam Smith and Political Economy",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/879",
+			"layup_id": 879,
+			"title": "ECON048: Topics in Public Economics",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 4,
+			"quality_score": 3,
+			"layup_score": -1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4456",
+			"layup_id": 4456,
+			"title": "ECON042: Topics in Macroeconomics",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"INT",
+				"SOC"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/875",
+			"layup_id": 875,
+			"title": "ECON044: Topics in Developing Economics",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"INT",
+				"SOC",
+				"NW"
+			],
+			"total_reviews": 4,
+			"quality_score": 0,
+			"layup_score": -1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/863",
+			"layup_id": 863,
+			"title": "ECON020: Econometrics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 139,
+			"quality_score": 28,
+			"layup_score": -17
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/864",
+			"layup_id": 864,
+			"title": "ECON021: Microeconomics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 213,
+			"quality_score": 42,
+			"layup_score": -30
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/868",
+			"layup_id": 868,
+			"title": "ECON026: The Economics of Financial Intermediaries and Markets",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 143,
+			"quality_score": 20,
+			"layup_score": -18
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/884",
+			"layup_id": 884,
+			"title": "ECON075: Environmental and Energy Economics",
+			"department": "ECON",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
@@ -175,57 +384,101 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3312",
-			"layup_id": 3312,
-			"title": "ECON015: Political Economy of China",
+			"layup_url": "https://www.layuplist.com/course/4366",
+			"layup_id": 4366,
+			"title": "ECON070.03: Macroeconomics Policy in Latin America: Argentina and Chile",
 			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"INT",
-				"SOC"
-			],
+			"offered": true,
+			"distribs": null,
 			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
+			"quality_score": 1,
+			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/877",
-			"layup_id": 877,
-			"title": "ECON046: Topics in Money and Finance",
+			"layup_url": "https://www.layuplist.com/course/882",
+			"layup_id": 882,
+			"title": "ECON071: Health Economics and Policy",
+			"department": "ECON",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/883",
+			"layup_id": 883,
+			"title": "ECON073: The Political Economy of Development",
+			"department": "ECON",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3784",
+			"layup_id": 3784,
+			"title": "ECON017: Technological Progress and the Entrepreneurial Economy",
 			"department": "ECON",
 			"offered": false,
 			"distribs": [
 				"SOC"
 			],
-			"total_reviews": 31,
+			"total_reviews": 3,
+			"quality_score": 2,
+			"layup_score": -3
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/889",
+			"layup_id": 889,
+			"title": "ECON080: Advanced Topics in Econometrics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 13,
 			"quality_score": 5,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/870",
-			"layup_id": 870,
-			"title": "ECON028: Public Economics",
+			"layup_url": "https://www.layuplist.com/course/4457",
+			"layup_id": 4457,
+			"title": "ECON070.01: The Transition of Poland to a Market Economy",
 			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 68,
-			"quality_score": 11,
-			"layup_score": -2
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/865",
-			"layup_id": 865,
-			"title": "ECON022: Macroeconomics",
+			"layup_url": "https://www.layuplist.com/course/891",
+			"layup_id": 891,
+			"title": "ECON082: Advanced Topics in Macroeconomics",
 			"department": "ECON",
-			"offered": true,
+			"offered": false,
 			"distribs": [
 				"SOC"
 			],
-			"total_reviews": 221,
-			"quality_score": 66,
-			"layup_score": -13
+			"total_reviews": 8,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/892",
+			"layup_id": 892,
+			"title": "ECON085: Independent Study in Economics",
+			"department": "ECON",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/4458",
@@ -236,6 +489,17 @@
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/881",
+			"layup_id": 881,
+			"title": "ECON070: Immersion Experience in Applied Economics and Policy",
+			"department": "ECON",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 1,
 			"layup_score": 0
 		},
 		{
@@ -277,124 +541,6 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/878",
-			"layup_id": 878,
-			"title": "ECON047: Topics in Labor Economics",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 1,
-			"quality_score": 2,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3313",
-			"layup_id": 3313,
-			"title": "ECON016: Political Economy of Regulation",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/871",
-			"layup_id": 871,
-			"title": "ECON029: International Finance and Open-Economy Macroeconomics",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"INT",
-				"SOC"
-			],
-			"total_reviews": 101,
-			"quality_score": 11,
-			"layup_score": -7
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/866",
-			"layup_id": 866,
-			"title": "ECON024: Development Economics",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"INT",
-				"SOC",
-				"NW"
-			],
-			"total_reviews": 28,
-			"quality_score": 4,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/891",
-			"layup_id": 891,
-			"title": "ECON082: Advanced Topics in Macroeconomics",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 8,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4366",
-			"layup_id": 4366,
-			"title": "ECON070.03: Macroeconomics Policy in Latin America: Argentina and Chile",
-			"department": "ECON",
-			"offered": true,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3784",
-			"layup_id": 3784,
-			"title": "ECON017: Technological Progress and the Entrepreneurial Economy",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 3,
-			"quality_score": 2,
-			"layup_score": -3
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/863",
-			"layup_id": 863,
-			"title": "ECON020: Econometrics",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 139,
-			"quality_score": 27,
-			"layup_score": -16
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/879",
-			"layup_id": 879,
-			"title": "ECON048: Topics in Public Economics",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 4,
-			"quality_score": 3,
-			"layup_score": -1
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/880",
 			"layup_id": 880,
 			"title": "ECON049: Topics in International Economics",
@@ -409,163 +555,17 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3314",
-			"layup_id": 3314,
-			"title": "ECON032: Monetary Policy and the Macroeconomy",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 0,
-			"quality_score": 3,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/867",
-			"layup_id": 867,
-			"title": "ECON025: Competition and Strategy",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 39,
-			"quality_score": 7,
-			"layup_score": 2
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/892",
-			"layup_id": 892,
-			"title": "ECON085: Independent Study in Economics",
-			"department": "ECON",
-			"offered": true,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/872",
-			"layup_id": 872,
-			"title": "ECON036: Theory of Finance",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 98,
-			"quality_score": 6,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/881",
-			"layup_id": 881,
-			"title": "ECON070: Immersion Experience in Applied Economics and Policy",
+			"layup_url": "https://www.layuplist.com/course/888",
+			"layup_id": 888,
+			"title": "ECON079: The Clash of Economic Ideas",
 			"department": "ECON",
 			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4456",
-			"layup_id": 4456,
-			"title": "ECON042: Topics in Macroeconomics",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"INT",
-				"SOC"
-			],
-			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3255",
-			"layup_id": 3255,
-			"title": "ECON035: Games and Economic Behavior",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 1,
-			"quality_score": 1,
-			"layup_score": -3
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/882",
-			"layup_id": 882,
-			"title": "ECON071: Health Economics and Policy",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/874",
-			"layup_id": 874,
-			"title": "ECON039: International Trade",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"INT",
-				"SOC"
-			],
-			"total_reviews": 119,
-			"quality_score": 24,
-			"layup_score": -4
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/868",
-			"layup_id": 868,
-			"title": "ECON026: The Economics of Financial Intermediaries and Markets",
-			"department": "ECON",
-			"offered": true,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 143,
-			"quality_score": 19,
-			"layup_score": -17
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/875",
-			"layup_id": 875,
-			"title": "ECON044: Topics in Developing Economics",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"INT",
-				"SOC",
-				"NW"
-			],
-			"total_reviews": 4,
-			"quality_score": 0,
-			"layup_score": -1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/873",
-			"layup_id": 873,
-			"title": "ECON038: Urban and Land Use Economics",
-			"department": "ECON",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 25,
-			"quality_score": 5,
-			"layup_score": 1
 		}
 	],
-	"updated": "2019-05-26 10:45:08",
+	"updated": "2019-06-12 22:58:31",
 	"total": 44
 }
