@@ -1,6 +1,20 @@
 {
 	"courses": [
 		{
+			"layup_url": "https://www.layuplist.com/course/3908",
+			"layup_id": 3908,
+			"title": "FRIT035.02: Fascisms",
+			"department": "FRIT",
+			"offered": true,
+			"distribs": [
+				"INT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/1338",
 			"layup_id": 1338,
 			"title": "FRIT093: Foreign Language Teaching Methods: Theory and Practice",
@@ -14,26 +28,18 @@
 			"layup_score": 2
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1337",
-			"layup_id": 1337,
-			"title": "FRIT037.01: Nature: A Literary History",
+			"layup_url": "https://www.layuplist.com/course/1333",
+			"layup_id": 1333,
+			"title": "FRIT034.01: Sex and Gender in the Italian Renaissance",
 			"department": "FRIT",
 			"offered": false,
-			"distribs": null,
+			"distribs": [
+				"LIT",
+				"W"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1332",
-			"layup_id": 1332,
-			"title": "FRIT034: Renaissance Studies in Translation",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 3,
-			"quality_score": 1,
-			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/4677",
@@ -44,20 +50,6 @@
 			"distribs": [
 				"SOC",
 				"CI"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4678",
-			"layup_id": 4678,
-			"title": "FRIT037.06: Italian Political Theory: From Dante and Machiavelli to Biopolitics",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": [
-				"W",
-				"TMV"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -78,34 +70,6 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3840",
-			"layup_id": 3840,
-			"title": "FRIT037.04: Italian Fairy Tales",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1333",
-			"layup_id": 1333,
-			"title": "FRIT034.01: Sex and Gender in the Italian Renaissance",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/1331",
 			"layup_id": 1331,
 			"title": "FRIT033.01: Dante's \u0026quot;Divine\u0026quot; Comedy",
@@ -120,14 +84,14 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1336",
-			"layup_id": 1336,
-			"title": "FRIT037: Topics in Literature and Culture",
+			"layup_url": "https://www.layuplist.com/course/1332",
+			"layup_id": 1332,
+			"title": "FRIT034: Renaissance Studies in Translation",
 			"department": "FRIT",
 			"offered": false,
 			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 3,
+			"quality_score": 1,
 			"layup_score": 1
 		},
 		{
@@ -145,28 +109,39 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3826",
-			"layup_id": 3826,
-			"title": "FRIT037.03: Black Feminisms in the French Atlantic",
+			"layup_url": "https://www.layuplist.com/course/3840",
+			"layup_id": 3840,
+			"title": "FRIT037.04: Italian Fairy Tales",
 			"department": "FRIT",
 			"offered": false,
 			"distribs": [
-				"INT",
-				"CI"
+				"LIT",
+				"W"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3908",
-			"layup_id": 3908,
-			"title": "FRIT035.02: Fascisms",
+			"layup_url": "https://www.layuplist.com/course/1336",
+			"layup_id": 1336,
+			"title": "FRIT037: Topics in Literature and Culture",
 			"department": "FRIT",
-			"offered": true,
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4678",
+			"layup_id": 4678,
+			"title": "FRIT037.06: Italian Political Theory: From Dante and Machiavelli to Biopolitics",
+			"department": "FRIT",
+			"offered": false,
 			"distribs": [
-				"INT",
-				"W"
+				"W",
+				"TMV"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -193,8 +168,33 @@
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1337",
+			"layup_id": 1337,
+			"title": "FRIT037.01: Nature: A Literary History",
+			"department": "FRIT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3826",
+			"layup_id": 3826,
+			"title": "FRIT037.03: Black Feminisms in the French Atlantic",
+			"department": "FRIT",
+			"offered": false,
+			"distribs": [
+				"INT",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		}
 	],
-	"updated": "2019-05-26 10:47:08",
+	"updated": "2019-06-12 23:01:54",
 	"total": 15
 }

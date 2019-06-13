@@ -1,19 +1,6 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/4333",
-			"layup_id": 4333,
-			"title": "SART017.03:",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/2774",
 			"layup_id": 2774,
 			"title": "SART090: Independent Study",
@@ -25,6 +12,17 @@
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2750",
+			"layup_id": 2750,
+			"title": "SART017.11: Embodied Magic: Drawing into Life",
+			"department": "SART",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/2755",
@@ -40,6 +38,58 @@
 			"layup_score": 1
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/3795",
+			"layup_id": 3795,
+			"title": "SART017.17: Handmade Cinema",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2751",
+			"layup_id": 2751,
+			"title": "SART017.12: Art Practices Across Media",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3368",
+			"layup_id": 3368,
+			"title": "SART017.14: Reinventing Architecture: Design and Social Action",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2744",
+			"layup_id": 2744,
+			"title": "SART015: Drawing I",
+			"department": "SART",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 181,
+			"quality_score": 67,
+			"layup_score": 7
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/2765",
 			"layup_id": 2765,
 			"title": "SART066: Architecture II",
@@ -53,42 +103,16 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2744",
-			"layup_id": 2744,
-			"title": "SART015: Drawing I",
-			"department": "SART",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 180,
-			"quality_score": 67,
-			"layup_score": 8
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2759",
-			"layup_id": 2759,
-			"title": "SART027: Printmaking I - Etching",
-			"department": "SART",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 9,
-			"quality_score": 3,
-			"layup_score": 4
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2746",
-			"layup_id": 2746,
-			"title": "SART017.07: THE PASSIONATE PURSUIT OF COLOR",
+			"layup_url": "https://www.layuplist.com/course/3813",
+			"layup_id": 3813,
+			"title": "SART017.18: Art \u0026 Activism",
 			"department": "SART",
 			"offered": false,
 			"distribs": [
 				"ART"
 			],
 			"total_reviews": 0,
-			"quality_score": 0,
+			"quality_score": 1,
 			"layup_score": 0
 		},
 		{
@@ -105,16 +129,51 @@
 			"layup_score": 3
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2757",
-			"layup_id": 2757,
-			"title": "SART025: Painting I",
+			"layup_url": "https://www.layuplist.com/course/2746",
+			"layup_id": 2746,
+			"title": "SART017.07: THE PASSIONATE PURSUIT OF COLOR",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3369",
+			"layup_id": 3369,
+			"title": "SART017.15: 3D Design and Digital Fabrication",
+			"department": "SART",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2747",
+			"layup_id": 2747,
+			"title": "SART017.08: Digital Drawing",
 			"department": "SART",
 			"offered": true,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 35,
-			"quality_score": 4,
+			"total_reviews": 2,
+			"quality_score": 1,
+			"layup_score": -1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2752",
+			"layup_id": 2752,
+			"title": "SART017: Special Topics:  Collage",
+			"department": "SART",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 1,
+			"quality_score": 2,
 			"layup_score": 1
 		},
 		{
@@ -131,9 +190,9 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3983",
-			"layup_id": 3983,
-			"title": "SART017.01: Collage: Bridging the Gap",
+			"layup_url": "https://www.layuplist.com/course/3273",
+			"layup_id": 3273,
+			"title": "SART017.13: Drawing with Van Gogh",
 			"department": "SART",
 			"offered": false,
 			"distribs": [
@@ -144,43 +203,17 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2758",
-			"layup_id": 2758,
-			"title": "SART026: Printmaking I: Lithography",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 4,
-			"quality_score": 3,
-			"layup_score": 2
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2747",
-			"layup_id": 2747,
-			"title": "SART017.08: Digital Drawing",
+			"layup_url": "https://www.layuplist.com/course/2753",
+			"layup_id": 2753,
+			"title": "SART020: Drawing II",
 			"department": "SART",
 			"offered": true,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 2,
+			"total_reviews": 9,
 			"quality_score": 1,
-			"layup_score": -1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2760",
-			"layup_id": 2760,
-			"title": "SART028: Printmaking II",
-			"department": "SART",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 2,
-			"quality_score": 0,
-			"layup_score": 0
+			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/2756",
@@ -209,22 +242,46 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2770",
-			"layup_id": 2770,
-			"title": "SART074: Printmaking III",
+			"layup_url": "https://www.layuplist.com/course/3844",
+			"layup_id": 3844,
+			"title": "SART017.16: Personal Iconography \u0026 the Public Debate: Text, Image and Form",
 			"department": "SART",
-			"offered": true,
+			"offered": false,
 			"distribs": [
 				"ART"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2771",
-			"layup_id": 2771,
-			"title": "SART075: Photography III",
+			"layup_url": "https://www.layuplist.com/course/2748",
+			"layup_id": 2748,
+			"title": "SART017.09: The Photographer as Activist: Making Art Inspired by the Hood Museum's Collection",
+			"department": "SART",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4529",
+			"layup_id": 4529,
+			"title": "SART017.19: Cut and Paste Cinema",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2767",
+			"layup_id": 2767,
+			"title": "SART071: Drawing III",
 			"department": "SART",
 			"offered": true,
 			"distribs": [
@@ -233,6 +290,82 @@
 			"total_reviews": 2,
 			"quality_score": 1,
 			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2754",
+			"layup_id": 2754,
+			"title": "SART021: Sculpture II",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 4,
+			"quality_score": 2,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3983",
+			"layup_id": 3983,
+			"title": "SART017.01: Collage: Bridging the Gap",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2757",
+			"layup_id": 2757,
+			"title": "SART025: Painting I",
+			"department": "SART",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 35,
+			"quality_score": 4,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4333",
+			"layup_id": 4333,
+			"title": "SART017.03:",
+			"department": "SART",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2760",
+			"layup_id": 2760,
+			"title": "SART028: Printmaking II",
+			"department": "SART",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 2,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2749",
+			"layup_id": 2749,
+			"title": "SART017.10: The Artist’s Book",
+			"department": "SART",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/2768",
@@ -248,38 +381,14 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2769",
-			"layup_id": 2769,
-			"title": "SART073: Sculpture III",
+			"layup_url": "https://www.layuplist.com/course/4914",
+			"layup_id": 4914,
+			"title": "SART017.20: Video Art",
 			"department": "SART",
 			"offered": false,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 2,
-			"quality_score": 1,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2761",
-			"layup_id": 2761,
-			"title": "SART029: Photography I",
-			"department": "SART",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 21,
-			"quality_score": 3,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2748",
-			"layup_id": 2748,
-			"title": "SART017.09: The Photographer as Activist: Making Art Inspired by the Hood Museum's Collection",
-			"department": "SART",
-			"offered": false,
-			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -298,30 +407,69 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3844",
-			"layup_id": 3844,
-			"title": "SART017.16: Personal Iconography \u0026 the Public Debate: Text, Image and Form",
+			"layup_url": "https://www.layuplist.com/course/2763",
+			"layup_id": 2763,
+			"title": "SART031: Painting II",
 			"department": "SART",
-			"offered": false,
+			"offered": true,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 11,
+			"quality_score": 4,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2761",
+			"layup_id": 2761,
+			"title": "SART029: Photography I",
+			"department": "SART",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 21,
+			"quality_score": 3,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2751",
-			"layup_id": 2751,
-			"title": "SART017.12: Art Practices Across Media",
+			"layup_url": "https://www.layuplist.com/course/2758",
+			"layup_id": 2758,
+			"title": "SART026: Printmaking I: Lithography",
 			"department": "SART",
 			"offered": false,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
+			"total_reviews": 4,
+			"quality_score": 3,
+			"layup_score": 2
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2759",
+			"layup_id": 2759,
+			"title": "SART027: Printmaking I - Etching",
+			"department": "SART",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 9,
+			"quality_score": 3,
+			"layup_score": 4
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2771",
+			"layup_id": 2771,
+			"title": "SART075: Photography III",
+			"department": "SART",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 2,
+			"quality_score": 1,
+			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/2772",
@@ -337,102 +485,17 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2767",
-			"layup_id": 2767,
-			"title": "SART071: Drawing III",
+			"layup_url": "https://www.layuplist.com/course/2770",
+			"layup_id": 2770,
+			"title": "SART074: Printmaking III",
 			"department": "SART",
 			"offered": true,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 2,
-			"quality_score": 1,
+			"total_reviews": 0,
+			"quality_score": 0,
 			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3368",
-			"layup_id": 3368,
-			"title": "SART017.14: Reinventing Architecture: Design and Social Action",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2763",
-			"layup_id": 2763,
-			"title": "SART031: Painting II",
-			"department": "SART",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 11,
-			"quality_score": 4,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3795",
-			"layup_id": 3795,
-			"title": "SART017.17: Handmade Cinema",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3369",
-			"layup_id": 3369,
-			"title": "SART017.15: 3D Design and Digital Fabrication",
-			"department": "SART",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2749",
-			"layup_id": 2749,
-			"title": "SART017.10: The Artist’s Book",
-			"department": "SART",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2750",
-			"layup_id": 2750,
-			"title": "SART017.11: Embodied Magic: Drawing into Life",
-			"department": "SART",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4914",
-			"layup_id": 4914,
-			"title": "SART017.20: Video Art",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/2773",
@@ -448,82 +511,19 @@
 			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3273",
-			"layup_id": 3273,
-			"title": "SART017.13: Drawing with Van Gogh",
+			"layup_url": "https://www.layuplist.com/course/2769",
+			"layup_id": 2769,
+			"title": "SART073: Sculpture III",
 			"department": "SART",
 			"offered": false,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2752",
-			"layup_id": 2752,
-			"title": "SART017: Special Topics:  Collage",
-			"department": "SART",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 1,
-			"quality_score": 2,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3813",
-			"layup_id": 3813,
-			"title": "SART017.18: Art \u0026 Activism",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
+			"total_reviews": 2,
 			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4529",
-			"layup_id": 4529,
-			"title": "SART017.19: Cut and Paste Cinema",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2753",
-			"layup_id": 2753,
-			"title": "SART020: Drawing II",
-			"department": "SART",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 9,
-			"quality_score": 1,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2754",
-			"layup_id": 2754,
-			"title": "SART021: Sculpture II",
-			"department": "SART",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 4,
-			"quality_score": 2,
 			"layup_score": 1
 		}
 	],
-	"updated": "2019-05-26 10:52:18",
+	"updated": "2019-06-12 23:02:41",
 	"total": 41
 }

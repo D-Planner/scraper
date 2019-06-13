@@ -1,5 +1,10 @@
 # D-Planner
-D-Planner is a web app for course-planning at Dartmouth College. It aims to help students make course decisions based on data gathered from various systems—including Layup List and the ORC.
+D-Planner is a digital course planner at Dartmouth College. It aims to help students make course decisions based on data gathered from various systems—including Layup List and the ORC.
+
+![screenshot 1](https://github.com/dali-lab/dplanner/blob/master/app/assets/showcase/plan.png "Your Personal Plan")
+
+![screenshot 1](https://github.com/dali-lab/dplanner/blob/master/app/assets/showcase/course.png "Unparalleled Course Data")
+
 
 ## Architecture
 The project is built on top of [Node.js](https://nodejs.org/en/), [Express](http://expressjs.com/), [React](https://reactjs.org/), and [Go](https://golang.org/). It also contains modern web development tools such as [Webpack](http://webpack.github.io/), [Babel](https://babeljs.io/), and [ESLint](https://eslint.org/).
