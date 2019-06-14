@@ -246,10 +246,35 @@ const renderNextTerm = (course, nextTerm) => {
  */
 const renderProfessors = (professors) => {
   return (
-    <div id="content">
+    <div>
       {professors.map((p) => {
         return (
           <span>{p.name}</span>
+        );
+      })}
+    </div>
+  );
+};
+
+const renderPrerequisites = (prerequisites) => {
+  return (
+    <div>
+      {prerequisites.map((e) => {
+        return (
+          <div>
+            {Object.keys(e).map((k) => {
+              return (<p>{k}</p>);
+            })}
+            {Object.values(e).map((req) => {
+              return (
+                <div>
+                  {req.map((c) => {
+                    return (<p>{c}</p>);
+                  })}
+                </div>
+              );
+            })}
+          </div>
         );
       })}
     </div>
@@ -276,8 +301,9 @@ const courseInfo = (course, nextTerm) => {
         {renderScores(course)}
       </div>
       <hr className="horizontal-divider" />
-      <div id="professors">
+      <div>
         {renderProfessors(course.professors)}
+        {renderPrerequisites(course.prerequisites)}
       </div>
     </div>
   );

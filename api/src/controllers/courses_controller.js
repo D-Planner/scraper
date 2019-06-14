@@ -1,7 +1,7 @@
 import Course from '../models/course';
 import User from '../models/user';
-import ProfessorController from '../controllers/professors_controller';
-import courses from '../../static/data/courses.json';
+import Professor from '../models/professor';
+import courses from '../../static/data/coursesWithPrerequisites.json';
 
 const getCourses = async (req, res) => {
     Course.find({})
@@ -71,33 +71,50 @@ const getCourseByTitle = (req, res) => {
 
 const createCourse = (req, res) => {
     Promise.resolve(courses.map(async (course) => {
-        await ProfessorController.addProfessors(course.professors);
-        const profs = await ProfessorController.getProfessorListId(course.professors);
-        return Course.create({
-            layup_url: course.layup_url,
-            layup_id: course.layup_id,
-            title: course.title,
-            department: course.department,
-            offered: course.offered,
-            distribs: course.distribs,
-            total_reviews: course.total_reviews,
-            quality_score: course.quality_score,
-            layup_score: course.layup_score,
-            xlist: course.xlist,
-            name: course.name,
-            number: course.number,
-            periods: course.periods,
-            description: course.description,
-            reviews: course.reviews,
-            similar_courses: course.similar_courses,
-            orc_url: course.orc_url,
-            medians: course.medians,
-            terms_offered: course.terms_offered,
-            professors: profs,
-        }).then((result) => {
-            return result;
-        }).catch((error) => {
-            return error;
+        let profs = [];
+        if (course.professors) {
+            profs = course.professors.map((name) => {
+                const query = { name };
+                const update = { name };
+                const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+                // Find the document
+                const res = Professor.findOneAndUpdate(query, update, options);
+                return res.exec().then((r) => {
+                    return r._id;
+                });
+            });
+        }
+        Promise.all(profs).then((r) => {
+            return Course.create({
+                layup_url: course.layup_url,
+                layup_id: course.layup_id,
+                title: course.title,
+                department: course.department,
+                offered: course.offered,
+                distribs: course.distribs,
+                total_reviews: course.total_reviews,
+                quality_score: course.quality_score,
+                layup_score: course.layup_score,
+                xlist: course.xlist,
+                name: course.name,
+                number: course.number,
+                periods: course.periods,
+                description: course.description,
+                reviews: course.reviews,
+                similar_courses: course.similar_courses,
+                orc_url: course.orc_url,
+                medians: course.medians,
+                terms_offered: course.terms_offered,
+                professors: r,
+                prerequisites: course.prerequisites,
+            }).then((result) => {
+                return result;
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((e) => {
+            return e;
         });
     })).then(() => {
         res.status(200).json({ message: 'Courses successfully added to db 🚀' });
