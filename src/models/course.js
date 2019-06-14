@@ -41,6 +41,7 @@ const CourseSchema = new Schema({
     medians: { type: ['Mixed'] },
     terms_offered: [String],
     professors: [{ type: Schema.Types.ObjectId, ref: 'Professor' }],
+    prerequisites: { type: ['Mixed'] },
     // section: Number,
     // crn: Number,
     // enroll_limit: Number,
