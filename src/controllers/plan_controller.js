@@ -78,16 +78,24 @@ const getPlanByID = async (planID) => {
         if (!plan) {
             throw new Error('This plan does not exist for this user');
         }
-
         const populated = await plan.populate({
             path: 'terms',
             populate: {
                 path: 'courses',
                 populate: {
                     path: 'course',
-                    populate: {
+                    populate: [{
                         path: 'professors',
-                    },
+                    }, {
+                        path: 'prerequisites.req',
+                        select: ['department', 'number', 'name'],
+                    }, {
+                        path: 'prerequisites.range',
+                        select: ['department', 'number', 'name'],
+                    }, {
+                        path: 'prerequisites.grade',
+                        select: ['department', 'number', 'name'],
+                    }],
                 },
             },
         }).execPopulate();
