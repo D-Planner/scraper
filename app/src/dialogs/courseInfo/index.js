@@ -4,6 +4,12 @@ import DialogWrapper from '../dialogWrapper';
 
 import './courseInfo.scss';
 
+const Dependencies = {
+  req: 'One from:',
+  range: 'One between:',
+  grade: 'High Grade in:',
+};
+
 /** displays information on a course -- displayed when a draggable course is clicked without dragging */
 const CourseInfoDialog = (props) => {
   // console.log(props);
@@ -256,21 +262,30 @@ const renderProfessors = (professors) => {
   );
 };
 
+// https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
+
+
 const renderPrerequisites = (prerequisites) => {
   return (
     <div>
-      {prerequisites.map((e) => {
+      {prerequisites.map((o) => {
+        const dependencyType = Object.keys(o)[0];
+
         return (
           <div>
-            {Object.keys(e).map((k) => {
-              return (<p>{k}</p>);
-            })}
-            {Object.values(e).map((req) => {
+            <h2>{Dependencies[dependencyType]}</h2>
+            {o[dependencyType].map((c) => {
               return (
-                <div>
-                  {req.map((c) => {
-                    return (<p>{c}</p>);
-                  })}
+                <div className="course">
+                  <div className="title-box">
+                    <div className="course-left">
+                      {`${c.department} ${c.number}`}
+                    </div>
+                    <div className="spacer" />
+                    <div className="course-right">
+                      {c.name}
+                    </div>
+                  </div>
                 </div>
               );
             })}

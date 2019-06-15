@@ -44,7 +44,6 @@ const showCourseInfoDialog = (props) => {
 /** a drag-n-drop capable component containing information on a Course object */
 const Course = (props) => {
   const { course } = props;
-
   return props.connectDragSource(
     <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
       <div className="course">

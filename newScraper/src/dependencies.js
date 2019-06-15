@@ -2,6 +2,11 @@ import cheerio from 'cheerio';
 import request from 'sync-request';
 import fs from 'fs';
 import courses from '../data/courses.json';
+import departmentsJson from '../data/departments';
+
+const departmentCodes = departmentsJson.departments.map((dep) => {
+  return dep.code;
+})
 
  // const courses = [
  //  {'orc_url' : 'https://dartmouth.smartcatalogiq.com/current/orc/Departments-Programs-Undergraduate/Cognitive-Science/COGS-Cognitive-Science/COGS-25'},
@@ -19,7 +24,12 @@ import courses from '../data/courses.json';
  //  {'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Economics/ECON-Economics/ECON-73'},
  //  {'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Economics/ECON-Economics/ECON-70-02'},
  //  {'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/College-Courses/COCO-College-Courses/COCO-21'}, // Text: Study abroad 2017/18
- //  {'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Computer-Science/COSC-Computer-Science-Undergraduate/COSC-77'} // "Math 22 or 24"
+ //  {'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Computer-Science/COSC-Computer-Science-Undergraduate/COSC-77'}, // "Math 22 or 24"
+ //  {'department' : 'ITAL' , 'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/French-and-Italian-Languages-and-Literatures/ITAL-Italian/ITAL-21'},
+ //  {'department' : 'PHYS', 'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Graduate/Physics-and-Astronomy/PHYS-Physics/100/PHYS-126'},
+ //  {'department' : 'ENGS', 'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Engineering-Sciences/ENGS-Engineering-Sciences-Undergraduate/ENGS-89'},
+ //  {'department' : 'BIOL', 'orc_url' : 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Graduate/Biological-Sciences/BIOL-Biological-Sciences/100/BIOL-129'},
+ //  {'department' : 'BIOL', 'orc_url': 'http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Biological-Sciences/BIOL-Biological-Sciences-Undergraduate/BIOL-70'},
  // ];
 
  // From is not always a range, sometimes it means one from a list
@@ -50,7 +60,7 @@ for (let course of courses) {
         let courseMatches = preReqText.replace(/\w{3,4}(\s|\-)\d{1,3}/g, (x) => {
           return (x + "$%&");
         }).split('$%&').filter((x) => {
-          return (x.match(/\d/) && !x.match(/\d{1,3}(F|W|S|X)/) && !x.includes(':') && !x.includes('Timetable of Class Meetings'));
+          return (x.match(/\d/) && !x.match(/\d{1,3}(F|W|S|X)/) && !x.includes(':') && !x.includes('Timetable of Class Meetings') && !x.includes('offered'));
         });
         if (courseMatches.length > 0) {
           let currIdx = 0;
@@ -67,8 +77,14 @@ for (let course of courses) {
               currIdx++;
               continue;
             }
-            let trimmed = currMatch.match(/(\w{3,4})?(\s|\-)\d{1,3}/)[0].replace(/^(from|\-)/, '').trim();
-            if(!trimmed.match(/\D/)) trimmed = course.department + ' ' + trimmed;
+            let trimmed = currMatch.match(/(\w{3,4})?(\s|\-)\d{1,3}/)[0].replace(/^from/, ' ').replace('-',' ').trim().toUpperCase();
+
+            const tokens = trimmed.split(' ');
+            if(!(new RegExp(departmentCodes.join('|')).test(trimmed))) {
+              tokens[0] = course.department;
+            }
+            //Zero Padding
+            trimmed = tokens[0] + ' ' + ('00' + tokens[1]).slice(-3);
 
             if ((currMatch.includes("one of") || currMatch.includes("and")) && !delay && i !== 0) {
               currIdx++;
@@ -116,7 +132,7 @@ for (let course of courses) {
   allPrerequisites.push(newCourse);
 };
 
-fs.writeFile('data/withPrereqs2.json', JSON.stringify(allPrerequisites), (e) => {
+fs.writeFile('data/withPrereqs3.json', JSON.stringify(allPrerequisites), (e) => {
   if (e) throw e;
   console.log("Saved");
   return;
@@ -166,3 +182,4 @@ fs.writeFile('data/withPrereqs2.json', JSON.stringify(allPrerequisites), (e) => 
 // Has "/": MATH005.01: Computational Text Analysis for the Social Sciences
 // Has Between: ENGS162: Methods in Biotechnology
 // Has Between: MUS052.01: Conducting and Artistic Direction
+// http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Engineering-Sciences/ENGS-Engineering-Sciences-Undergraduate/ENGS-89

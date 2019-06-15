@@ -62,7 +62,6 @@ const SearchPane = (props) => {
       <div className="pane-content">
         {props.results.length
           ? props.results.map((course) => {
-            console.log(course);
             return <DraggableCourse key={course.id} course={course} />;
           })
           : (<div />)}
