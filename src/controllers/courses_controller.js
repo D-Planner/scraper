@@ -1,12 +1,22 @@
 import Course from '../models/course';
 import User from '../models/user';
 import Professor from '../models/professor';
-import courses from '../../static/data/withPrereqs3.json';
+import courses from '../../static/data/courses.json';
+import prerequisitesJSON from '../../static/data/prerequisites.json';
 
 const getCourses = async (req, res) => {
     Course.find({})
         .populate('professors')
-        .populate({ path: 'prerequisites.req', select: ['department', 'number', 'name'] })
+        .populate([{
+            path: 'prerequisites.req',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.range',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.grade',
+            select: ['department', 'number', 'name'],
+        }])
         .then((result) => {
             res.json(result);
         })
@@ -18,7 +28,16 @@ const getCourses = async (req, res) => {
 const getCourse = async (req, res) => {
     Course.find({ _id: req.params.id })
         .populate('professors')
-        .populate({ path: 'prerequisites.req', select: ['department', 'number', 'name'] })
+        .populate([{
+            path: 'prerequisites.req',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.range',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.grade',
+            select: ['department', 'number', 'name'],
+        }])
         .then((result) => {
             res.json(result);
         })
@@ -30,7 +49,16 @@ const getCourse = async (req, res) => {
 const getCoursesByDepartment = async (req, res) => {
     Course.find({ department: req.params.department })
         .populate('professors')
-        .populate({ path: 'prerequisites.req', select: ['department', 'number', 'name'] })
+        .populate([{
+            path: 'prerequisites.req',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.range',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.grade',
+            select: ['department', 'number', 'name'],
+        }])
         .then((result) => {
             res.json(result);
         })
@@ -42,7 +70,16 @@ const getCoursesByDepartment = async (req, res) => {
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
     Course.find({ distribs: req.params.distrib })
         .populate('professors')
-        .populate({ path: 'prerequisites.req', select: ['department', 'number', 'name'] })
+        .populate([{
+            path: 'prerequisites.req',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.range',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.grade',
+            select: ['department', 'number', 'name'],
+        }])
         .then((result) => {
             res.json(result);
         })
@@ -57,7 +94,16 @@ const getCourseByName = (req, res) => {
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
         .populate('professors')
-        .populate({ path: 'prerequisites.req', select: ['department', 'number', 'name'] })
+        .populate([{
+            path: 'prerequisites.req',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.range',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.grade',
+            select: ['department', 'number', 'name'],
+        }])
         .then((result) => {
             res.json(result);
         })
@@ -72,7 +118,16 @@ const getCourseByTitle = (req, res) => {
             { number: req.params.number }],
     })
         .populate('professors')
-        .populate({ path: 'prerequisites.req', select: ['department', 'number', 'name'] })
+        .populate([{
+            path: 'prerequisites.req',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.range',
+            select: ['department', 'number', 'name'],
+        }, {
+            path: 'prerequisites.grade',
+            select: ['department', 'number', 'name'],
+        }])
         .then((response) => {
             res.json(response);
         })
@@ -98,16 +153,16 @@ const createCourse = (req, res) => {
             });
         }
         let prerequisites = [];
-        if (course.prerequisites) {
+        if (prerequisitesJSON[course.title]) {
             // Still need to edit the scraper so that it doesn't change all single digit ones to number: 0
-            prerequisites = course.prerequisites.map((o) => {
+            prerequisites = prerequisitesJSON[course.title].map((o) => {
                 const newVal = o[Object.keys(o)[0]].map((c) => {
                     const tokens = c.split(' ');
                     return Course.findOne({ department: tokens[0], number: tokens[1] }).then((result) => {
                         if (result) return result._id;
-                        console.log(result);
                         return null;
                     }).catch((error) => {
+                        console.log(c);
                         return error;
                     });
                 });
@@ -122,7 +177,6 @@ const createCourse = (req, res) => {
         }
         Promise.all(professors).then((profs) => {
             Promise.all(prerequisites).then((reqs) => {
-                console.log(reqs);
                 return Course.findOneAndUpdate(
                     { title: course.title },
                     {
