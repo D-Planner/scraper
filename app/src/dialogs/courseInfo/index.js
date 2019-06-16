@@ -5,8 +5,8 @@ import DialogWrapper from '../dialogWrapper';
 import './courseInfo.scss';
 
 const Dependencies = {
-  req: 'One from:',
-  range: 'One between:',
+  req: 'Required:',
+  range: 'Between:',
   grade: 'High Grade in:',
 };
 
@@ -252,46 +252,49 @@ const renderNextTerm = (course, nextTerm) => {
  */
 const renderProfessors = (professors) => {
   return (
-    <div>
+    <div id="professors">
+      <div className="section-header">Professors</div>
       {professors.map((p) => {
         return (
-          <span>{p.name}</span>
+          <div className="professor">{p.name}</div>
         );
       })}
     </div>
   );
 };
 
-// https://stackoverflow.com/questions/2970525/converting-any-string-into-camel-case
-
-
 const renderPrerequisites = (prerequisites) => {
   return (
-    <div>
-      {prerequisites.map((o) => {
-        const dependencyType = Object.keys(o)[0];
+    <div id="dependenciesContainer">
+      <div className="section-header">Dependencies</div>
+      <div id="dependencies">
+        {prerequisites.map((o) => {
+          const dependencyType = Object.keys(o).find((key) => {
+            return (o[key].length > 0 && key !== '_id');
+          });
 
-        return (
-          <div>
-            <h2>{Dependencies[dependencyType]}</h2>
-            {o[dependencyType].map((c) => {
-              return (
-                <div className="course">
-                  <div className="title-box">
-                    <div className="course-left">
-                      {`${c.department} ${c.number}`}
-                    </div>
-                    <div className="spacer" />
-                    <div className="course-right">
-                      {c.name}
+          return (
+            <div className="dependency">
+              <div className="section-header">{Dependencies[dependencyType]}</div>
+              {o[dependencyType].map((c) => {
+                return (
+                  <div className="course">
+                    <div className="title-box">
+                      <div className="course-left">
+                        {`${c.department} ${c.number}`}
+                      </div>
+                      <div className="spacer" />
+                      <div className="course-right">
+                        {c.name}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -316,9 +319,9 @@ const courseInfo = (course, nextTerm) => {
         {renderScores(course)}
       </div>
       <hr className="horizontal-divider" />
-      <div>
-        {renderProfessors(course.professors)}
+      <div id="last">
         {renderPrerequisites(course.prerequisites)}
+        {renderProfessors(course.professors)}
       </div>
     </div>
   );
