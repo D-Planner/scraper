@@ -9698,12 +9698,13 @@
   "PHYS041: Electricity and Magnetism": [
     {
       "req": [
-        "PHYS 015"
+        "PHYS 015",
+        "PHYS 019"
       ]
     },
     {
       "req": [
-        "PHYS ned",
+        "PHYS 014",
         "PHYS 016"
       ]
     }
@@ -9726,12 +9727,13 @@
   "PHYS043: Statistical Physics": [
     {
       "req": [
-        "PHYS 015"
+        "PHYS 015",
+        "PHYS 019"
       ]
     },
     {
       "req": [
-        "PHYS ned",
+        "PHYS 014",
         "PHYS 016"
       ]
     }
@@ -10641,10 +10643,6 @@
     },
     {
       "req": [
-        "PBPL ned",
-        "GOVT 010",
-        "PSYC 010",
-        "SOCY 010",
         "PBPL 010"
       ]
     }
