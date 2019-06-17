@@ -38,6 +38,10 @@ const showCourseInfoDialog = (props) => {
     title: `${props.catalogCourse.department} ${props.catalogCourse.number}: ${props.catalogCourse.name}`,
     size: 'lg',
     data: props.catalogCourse,
+    source: {
+      term: props.sourceTerm,
+      plan: props.sourcePlan,
+    },
     showOk: false,
   };
   props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
@@ -49,7 +53,7 @@ const UserCourse = (props) => {
 
   return props.connectDragSource(
     <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
-      <div className="course">
+      <div className="course sm">
         <div className="title-box">
           <div className="course-left">
             {`${catalogCourse.department} ${catalogCourse.number}`}

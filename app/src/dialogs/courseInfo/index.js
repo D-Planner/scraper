@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getPreviousCourses } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 
 import './courseInfo.scss';
@@ -12,10 +13,80 @@ const Dependencies = {
 
 /** displays information on a course -- displayed when a draggable course is clicked without dragging */
 const CourseInfoDialog = (props) => {
-  // console.log(props);
+  const renderPrerequisites = (prerequisites, source) => {
+    return (
+      <div id="dependenciesContainer">
+        <div className="section-header">Dependencies</div>
+        <div id="dependencies">
+          {prerequisites.map((o) => {
+            const dependencyType = Object.keys(o).find((key) => {
+              return (o[key].length > 0 && key !== '_id');
+            });
+
+            return (
+              <div className="dependency">
+                <div className="section-header">{Dependencies[dependencyType]}</div>
+                {o[dependencyType].map((c) => {
+                  return (
+                    <div className="course bg">
+                      <div className="title-box">
+                        <div className="course-left">
+                          {`${c.department} ${c.number}`}
+                        </div>
+                        <div className="spacer" />
+                        <div className="course-right">
+                          <div className="name">
+                            {c.name}
+                          </div>
+                          <div className="check-box">
+                            <input type="checkbox" checked={(props.prevCourses) ? props.prevCourses.includes(c.id) : false} disabled />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  /**
+   * Master handlers for all information about the course.
+   * @param {*} course
+   * @param {String} nextTerm
+   */
+  const courseInfo = (course, nextTerm, source) => {
+    if (props.source) {
+      props.getPreviousCourses(props.source);
+    }
+    console.log(course);
+    return (
+      <div id="content">
+        <div id="major">Engineering Department: Prerequisite</div>
+        <hr className="horizontal-divider" />
+        <div id="first">{renderNextTerm(course, nextTerm)}{renderDescription(course.description)}</div>
+        <hr className="horizontal-divider" />
+        <div id="metrics">
+          {renderDistribs(course)}
+          {renderMedians(course.medians)}
+          {renderScores(course)}
+        </div>
+        <hr className="horizontal-divider" />
+        <div id="last">
+          {renderPrerequisites(course.prerequisites, source)}
+          {renderProfessors(course.professors)}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <DialogWrapper {...props}>
-      {courseInfo(props.data, props.nextTerm)}
+      {courseInfo(props.data, props.nextTerm, props.source)}
     </DialogWrapper>
   );
 };
@@ -263,72 +334,10 @@ const renderProfessors = (professors) => {
   );
 };
 
-const renderPrerequisites = (prerequisites) => {
-  return (
-    <div id="dependenciesContainer">
-      <div className="section-header">Dependencies</div>
-      <div id="dependencies">
-        {prerequisites.map((o) => {
-          const dependencyType = Object.keys(o).find((key) => {
-            return (o[key].length > 0 && key !== '_id');
-          });
-
-          return (
-            <div className="dependency">
-              <div className="section-header">{Dependencies[dependencyType]}</div>
-              {o[dependencyType].map((c) => {
-                return (
-                  <div className="course">
-                    <div className="title-box">
-                      <div className="course-left">
-                        {`${c.department} ${c.number}`}
-                      </div>
-                      <div className="spacer" />
-                      <div className="course-right">
-                        {c.name}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-
-/**
- * Master handlers for all information about the course.
- * @param {*} course
- * @param {String} nextTerm
- */
-const courseInfo = (course, nextTerm) => {
-  console.log(course);
-  return (
-    <div id="content">
-      <div id="major">Engineering Department: Prerequisite</div>
-      <hr className="horizontal-divider" />
-      <div id="first">{renderNextTerm(course, nextTerm)}{renderDescription(course.description)}</div>
-      <hr className="horizontal-divider" />
-      <div id="metrics">
-        {renderDistribs(course)}
-        {renderMedians(course.medians)}
-        {renderScores(course)}
-      </div>
-      <hr className="horizontal-divider" />
-      <div id="last">
-        {renderPrerequisites(course.prerequisites)}
-        {renderProfessors(course.professors)}
-      </div>
-    </div>
-  );
-};
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
+  prevCourses: state.plans.prevCourses,
 });
 
-export default connect(mapStateToProps, null)(CourseInfoDialog);
+export default connect(mapStateToProps, { getPreviousCourses })(CourseInfoDialog);

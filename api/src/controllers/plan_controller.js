@@ -1,5 +1,6 @@
 import Plan from '../models/plan';
 import TermController from '../controllers/term_controller';
+import PopulateCourse from './populators';
 
 const getPlansByUserId = (id) => {
     return Plan.find({ user_id: id }).populate({
@@ -84,18 +85,8 @@ const getPlanByID = async (planID) => {
                 path: 'courses',
                 populate: {
                     path: 'course',
-                    populate: [{
-                        path: 'professors',
-                    }, {
-                        path: 'prerequisites.req',
-                        select: ['department', 'number', 'name'],
-                    }, {
-                        path: 'prerequisites.range',
-                        select: ['department', 'number', 'name'],
-                    }, {
-                        path: 'prerequisites.grade',
-                        select: ['department', 'number', 'name'],
-                    }],
+                    select: '-reviews',
+                    populate: PopulateCourse,
                 },
             },
         }).execPopulate();
@@ -115,12 +106,34 @@ const deletePlanById = async (planId) => {
     }
 };
 
+const getPreviousCourses = (req, res) => {
+    Promise.resolve(getPlanByID(req.params.planID)).then((plan) => {
+        res.json(plan.terms.reduce((acc, curr, i, array) => {
+            curr.filter((t) => {
+                return t.courses.length > 0;
+            }).forEach((term) => {
+                if (term.id === req.params.termID) {
+                    array.slice(0, i - 1);
+                } else {
+                    term.courses.forEach((course) => {
+                        acc.push(course.course._id);
+                    });
+                }
+            });
+            return acc;
+        }, []));
+    }).catch((err) => {
+        res.status(500).send(err);
+    });
+};
+
 const PlanController = {
     getPlansByUserId,
     createPlanForUser,
     sortPlan,
     getPlanByID,
     deletePlanById,
+    getPreviousCourses,
 };
 
 export default PlanController;

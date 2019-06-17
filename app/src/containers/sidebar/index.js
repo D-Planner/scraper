@@ -43,7 +43,6 @@ const Sidebar = (props) => {
     };
     props.showDialog(DialogTypes.DECLARE_MAJOR, opts);
   };
-
   return (
     <div className="sidebar">
       <SearchPane

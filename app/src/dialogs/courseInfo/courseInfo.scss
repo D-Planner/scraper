@@ -159,6 +159,24 @@
           .dependency {
             flex:1;
             padding:5px;
+
+            .course-right {
+              display:flex;
+              flex-direction: row;
+              justify-content: flex-end;
+
+              .name {
+                flex:1;
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-right: 5px;
+              }
+
+              .check-box{
+                
+              }
+            }
           }
         }
       }

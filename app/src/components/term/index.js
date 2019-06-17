@@ -23,6 +23,7 @@ const termTarget = {
       if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
         return undefined;
       } else if (item.sourceTerm) {
+        console.log(item);
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm);
         props.addCourseToTerm(item.catalogCourse, props.term);
@@ -109,7 +110,8 @@ class Term extends Component {
                 key={course.id}
                 catalogCourse={course.course}
                 course={course}
-                sourceTerm={this.props.term}
+                sourcePlan={this.props.plan.id}
+                sourceTerm={this.props.term.id}
                 removeCourseFromTerm={() => {
                   this.props.removeCourseFromTerm(course, this.props.term);
                 }}

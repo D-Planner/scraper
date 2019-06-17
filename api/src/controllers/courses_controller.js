@@ -3,21 +3,13 @@ import User from '../models/user';
 import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
+import PopulateCourse from './populators';
 
 const getCourses = async (req, res) => {
     Course.find({})
-        .populate('professors')
-        .populate([{
-            path: 'prerequisites.req',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.range',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.grade',
-            select: ['department', 'number', 'name'],
-        }])
+        .populate(PopulateCourse)
         .then((result) => {
+            // result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
         })
         .catch((error) => {
@@ -27,17 +19,7 @@ const getCourses = async (req, res) => {
 
 const getCourse = async (req, res) => {
     Course.find({ _id: req.params.id })
-        .populate('professors')
-        .populate([{
-            path: 'prerequisites.req',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.range',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.grade',
-            select: ['department', 'number', 'name'],
-        }])
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
         })
@@ -48,17 +30,7 @@ const getCourse = async (req, res) => {
 
 const getCoursesByDepartment = async (req, res) => {
     Course.find({ department: req.params.department })
-        .populate('professors')
-        .populate([{
-            path: 'prerequisites.req',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.range',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.grade',
-            select: ['department', 'number', 'name'],
-        }])
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
         })
@@ -69,17 +41,7 @@ const getCoursesByDepartment = async (req, res) => {
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
     Course.find({ distribs: req.params.distrib })
-        .populate('professors')
-        .populate([{
-            path: 'prerequisites.req',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.range',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.grade',
-            select: ['department', 'number', 'name'],
-        }])
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
         })
@@ -93,17 +55,7 @@ const getCourseByName = (req, res) => {
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
-        .populate('professors')
-        .populate([{
-            path: 'prerequisites.req',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.range',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.grade',
-            select: ['department', 'number', 'name'],
-        }])
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
         })
@@ -117,18 +69,9 @@ const getCourseByTitle = (req, res) => {
         $and: [{ department: req.params.department },
             { number: req.params.number }],
     })
-        .populate('professors')
-        .populate([{
-            path: 'prerequisites.req',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.range',
-            select: ['department', 'number', 'name'],
-        }, {
-            path: 'prerequisites.grade',
-            select: ['department', 'number', 'name'],
-        }])
+        .populate(PopulateCourse)
         .then((response) => {
+            response[0].reviews = response[0].reviews.slice(0, 30);
             res.json(response);
         })
         .catch((error) => {
@@ -136,27 +79,28 @@ const getCourseByTitle = (req, res) => {
         });
 };
 
-const createCourse = (req, res) => {
-    Promise.resolve(courses.map(async (course) => {
-        let professors = [];
-        if (course.professors) {
-            professors = course.professors.map((name) => {
-                const query = { name };
-                const update = { name };
-                const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+const filledValues = (course) => {
+    let professors = [];
+    if (course.professors) {
+        professors = course.professors.map((name) => {
+            const query = { name };
+            const update = { name };
+            const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 
-                // Find the document
-                const res = Professor.findOneAndUpdate(query, update, options);
-                return res.exec().then((r) => {
-                    return r._id;
-                });
+            // Find the document
+            const res = Professor.findOneAndUpdate(query, update, options);
+            return res.exec().then((r) => {
+                return r._id;
             });
-        }
-        let prerequisites = [];
-        if (prerequisitesJSON[course.title]) {
-            // Still need to edit the scraper so that it doesn't change all single digit ones to number: 0
-            prerequisites = prerequisitesJSON[course.title].map((o) => {
-                const newVal = o[Object.keys(o)[0]].map((c) => {
+        });
+    }
+    let prerequisites = [];
+    if (prerequisitesJSON[course.title]) {
+        // Still need to edit the scraper so that it doesn't change all single digit ones to number: 0
+        prerequisites = prerequisitesJSON[course.title].map((o) => {
+            const key = o[Object.keys(o)[0]];
+            if (key) {
+                const newVal = (typeof key === 'boolean') ? true : key.map((c) => {
                     const tokens = c.split(' ');
                     return Course.findOne({ department: tokens[0], number: tokens[1] }).then((result) => {
                         if (result) return result._id;
@@ -173,44 +117,67 @@ const createCourse = (req, res) => {
                 }).catch((e) => {
                     return e;
                 });
+            } else {
+                return [];
+            }
+        });
+    }
+    let xListed = [];
+    if (course.xlist) {
+        xListed = course.xlist.map((c) => {
+            return Course.findOne({ layup_id: c }).then((res) => {
+                if (res) return res._id;
+                return null;
+            }).catch((err) => {
+                console.log(err);
+                return err;
             });
-        }
-        Promise.all(professors).then((profs) => {
-            Promise.all(prerequisites).then((reqs) => {
-                return Course.findOneAndUpdate(
-                    { title: course.title },
-                    {
-                        layup_url: course.layup_url,
-                        layup_id: course.layup_id,
-                        title: course.title,
-                        department: course.department,
-                        offered: course.offered,
-                        distribs: course.distribs,
-                        total_reviews: course.total_reviews,
-                        quality_score: course.quality_score,
-                        layup_score: course.layup_score,
-                        xlist: course.xlist,
-                        name: course.name,
-                        number: course.number,
-                        periods: course.periods,
-                        description: course.description,
-                        reviews: course.reviews,
-                        similar_courses: course.similar_courses,
-                        orc_url: course.orc_url,
-                        medians: course.medians,
-                        terms_offered: course.terms_offered,
-                        professors: profs,
-                        prerequisites: reqs,
-                    },
-                    { upsert: true },
-                ).then((res) => {
-                    return res;
-                }).catch((error) => {
-                    return error;
-                });
+        });
+    }
+    return [
+        Promise.all(xListed),
+        Promise.all(prerequisites),
+        Promise.all(professors),
+    ];
+};
+
+const createCourse = (req, res) => {
+    Promise.resolve(courses.map(async (course) => {
+        Promise.all(filledValues(course)).then((r) => {
+            const [xlist, prerequisites, professors] = r;
+            return Course.findOneAndUpdate(
+                { title: course.title },
+                {
+                    layup_url: course.layup_url,
+                    layup_id: course.layup_id,
+                    title: course.title,
+                    department: course.department,
+                    offered: course.offered,
+                    distribs: course.distribs,
+                    total_reviews: course.total_reviews,
+                    quality_score: course.quality_score,
+                    layup_score: course.layup_score,
+                    xlist,
+                    name: course.name,
+                    number: course.number,
+                    periods: course.periods,
+                    description: course.description,
+                    reviews: course.reviews,
+                    similar_courses: course.similar_courses,
+                    orc_url: course.orc_url,
+                    medians: course.medians,
+                    terms_offered: course.terms_offered,
+                    professors,
+                    prerequisites,
+                },
+                { upsert: true },
+            ).then((res) => {
+                return res;
+            }).catch((error) => {
+                return error;
             });
         }).catch((e) => {
-            return e;
+            console.log(e);
         });
     })).then(() => {
         res.status(200).json({ message: 'Courses successfully added to db 🚀' });
