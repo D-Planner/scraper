@@ -1,0 +1,18 @@
+@import '../../style/variables.scss';
+
+.new-plan-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: stretch;
+    flex-grow: 1;
+
+    .description {
+        font-size: 12px;
+    }
+
+    .warning {
+        font-size: 10px;
+        color: $error;
+    }
+}

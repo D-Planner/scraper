@@ -2,7 +2,12 @@ import Plan from '../models/plan';
 import TermController from '../controllers/term_controller';
 
 const getPlansByUserId = (id) => {
-    return Plan.find({ user_id: id });
+    return Plan.find({ user_id: id }).populate({
+        path: 'terms',
+        populate: {
+            path: 'courses',
+        },
+    });
 };
 
 const createPlanForUser = async (plan, userId) => {

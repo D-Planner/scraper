@@ -7,6 +7,7 @@ import NewPlanDialog from './newPlan';
 import DeletePlanDialog from './deletePlan';
 import DeclareMajorDialog from './declareMajor';
 import CourseInfoDialog from './courseInfo';
+import TurnOffTermDialog from './turnOffTerm';
 
 // Top-level orchestrator for all dialogs in the application
 // Should accept all types enumerated in DialogTypes and provide a dialog component for each one
@@ -23,6 +24,8 @@ const DialogOrchestrator = (props) => {
       return (<DeclareMajorDialog {...props.options} hideDialog={props.hideDialog} majors={props.majors} />);
     case DialogTypes.COURSE_INFO:
       return (<CourseInfoDialog {...props.options} hideDialog={props.hideDialog} />);
+    case DialogTypes.OFF_TERM:
+      return (<TurnOffTermDialog {...props.options} hideDialog={props.hideDialog} />);
     default:
       return null;
   }

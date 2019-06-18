@@ -72,11 +72,27 @@ const removeCourseFromTerm = async (req, res, next) => {
     res.status(200).json(term);
 };
 
+const getTerm = async (req, res) => {
+    try {
+        const term = await Term.findById(req.params.termID)
+            .populate({
+                path: 'courses',
+                populate: {
+                    path: 'course',
+                },
+            });
+        res.json(term);
+    } catch (e) {
+        res.status(500).json({ e });
+    }
+};
+
 const TermController = {
     createTerm,
     updateTerm,
     addCourseToTerm,
     removeCourseFromTerm,
+    getTerm,
 };
 
 export default TermController;
