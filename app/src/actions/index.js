@@ -179,7 +179,6 @@ export function fetchPlan(planID) {
   };
   return (dispatch) => {
     axios.get(`${ROOT_URL}/plans/${planID}`, { headers }).then((response) => {
-      console.log(response);
       dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -312,14 +311,14 @@ export function addCourseToFavorites(courseID) {
  */
 export function courseSearch(query, type) {
   return (dispatch) => {
-    console.log(type);
     switch (type) {
       case 'number':
         axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
+          console.log(response);
           // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
           console.log(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -329,9 +328,8 @@ export function courseSearch(query, type) {
         axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
-          console.log(response);
           // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
           console.log(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -341,7 +339,7 @@ export function courseSearch(query, type) {
         axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
           console.log(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -459,11 +457,10 @@ export function declareMajor(majorID) {
       // console.log(response);
       // dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
       // fetchCourse
-    })
-      .catch((error) => {
-        console.log(error);
-        dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-      });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   };
 }
 
