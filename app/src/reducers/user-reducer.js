@@ -1,13 +1,13 @@
 import { ActionTypes } from '../actions';
 
 const initialState = {
-  all: [],
+  current: {},
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_USER:
-      return Object.assign({}, state, { all: action.payload });
+      return Object.assign({}, state, { current: action.payload });
     default:
       return state;
   }

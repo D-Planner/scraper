@@ -1,5 +1,10 @@
 # D-Planner
-D-Planner is a web app for course-planning at Dartmouth College. It aims to help students make course decisions based on data gathered from various systems—including Layup List and the ORC.
+D-Planner is a digital course planner at Dartmouth College. It aims to help students make course decisions based on data gathered from various systems—including Layup List and the ORC.
+
+![screenshot 1](https://github.com/dali-lab/dplanner/blob/master/app/assets/showcase/plan.png "Your Personal Plan")
+
+![screenshot 1](https://github.com/dali-lab/dplanner/blob/master/app/assets/showcase/course.png "Unparalleled Course Data")
+
 
 ## Architecture
 The project is built on top of [Node.js](https://nodejs.org/en/), [Express](http://expressjs.com/), [React](https://reactjs.org/), and [Go](https://golang.org/). It also contains modern web development tools such as [Webpack](http://webpack.github.io/), [Babel](https://babeljs.io/), and [ESLint](https://eslint.org/).
@@ -37,7 +42,7 @@ yarn
 ...then start the server
 
 ```
-yarn start
+yarn dev
 ```
 
 Your output should resemble the following:
@@ -91,6 +96,10 @@ Entrypoint main = main.js main.js.map
 
 > For instructions on how to run the spider locally, see the [README.md](https://github.com/dali-lab/dplanner/blob/master/spider/README.md) in `/spider`
 
+#### 4. Seeding the Mongo Database
+
+Use the two API calls in the "Setting Up" Postman collection to seed the Mongo database with course data.
+
 ## Deployment
 Each sub-directory contains a [Procfile](https://devcenter.heroku.com/articles/procfile) that's used to deploy its respective app to Heroku. As such, the following steps could be used to deploy any of the projects contained in this repository; otherwise, additional steps can be located in the README.md of the project's sub-directory.
 
@@ -137,6 +146,7 @@ git subtree push --prefix api heroku master
 ## Authors
 * Christina Bae (Designer)
 * Zirui Hao (Partner, Project Manager)
+* Maddie Hess (Developer)
 * Adam McQuilkin (Partner, Project Manager)
 * Adam Rinehouse (Developer)
 * Raul Rodriguez (Developer)

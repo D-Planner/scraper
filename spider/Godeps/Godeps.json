@@ -5,8 +5,8 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/PuerkitoBio/goquery",
-			"Comment": "v1.5.0",
-			"Rev": "2d2796f41742ece03e8086188fa4db16a3a0b458"
+			"Comment": "v1.5.0-4-g3dcf72e",
+			"Rev": "3dcf72e6c17f694381a21592651ca1464ded0e10"
 		},
 		{
 			"ImportPath": "github.com/andybalholm/cascadia",
@@ -15,42 +15,48 @@
 		},
 		{
 			"ImportPath": "github.com/gin-contrib/sse",
-			"Rev": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
+			"Comment": "v0.1.0",
+			"Rev": "54d8467d122d380a14768b6b4e5cd7ca4755938f"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin",
-			"Comment": "v1.3.0-95-g29a145c",
-			"Rev": "29a145c85dc0fafc3dd0ada62d856c4d95240010"
+			"Comment": "v1.4.0-14-g73c4633",
+			"Rev": "73c4633943d596bdbeaa7d02cebdd4bd0c4f4630"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin/binding",
-			"Comment": "v1.3.0-95-g29a145c",
-			"Rev": "29a145c85dc0fafc3dd0ada62d856c4d95240010"
+			"Comment": "v1.4.0-14-g73c4633",
+			"Rev": "73c4633943d596bdbeaa7d02cebdd4bd0c4f4630"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin/internal/json",
-			"Comment": "v1.3.0-95-g29a145c",
-			"Rev": "29a145c85dc0fafc3dd0ada62d856c4d95240010"
+			"Comment": "v1.4.0-14-g73c4633",
+			"Rev": "73c4633943d596bdbeaa7d02cebdd4bd0c4f4630"
 		},
 		{
 			"ImportPath": "github.com/gin-gonic/gin/render",
-			"Comment": "v1.3.0-95-g29a145c",
-			"Rev": "29a145c85dc0fafc3dd0ada62d856c4d95240010"
+			"Comment": "v1.4.0-14-g73c4633",
+			"Rev": "73c4633943d596bdbeaa7d02cebdd4bd0c4f4630"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/proto",
-			"Comment": "v1.2.0-39-g1d3f30b",
-			"Rev": "1d3f30b51784bec5aad268e59fd3c2fc1c2fe73f"
+			"Comment": "v1.3.1-5-gb285ee9",
+			"Rev": "b285ee9cfc6c881bb20c0d8dc73370ea9b9ec90f"
 		},
 		{
 			"ImportPath": "github.com/json-iterator/go",
-			"Comment": "1.1.5-11-gd05f387",
-			"Rev": "d05f387f50c0c406889b62cb5ec51c76a64d89ee"
+			"Comment": "v1.1.6-7-g0039f4a",
+			"Rev": "0039f4ac3d5680243e7d0650c581e7ec0885ef5a"
+		},
+		{
+			"ImportPath": "github.com/konsorten/go-windows-terminal-sequences",
+			"Comment": "v1.0.2",
+			"Rev": "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e"
 		},
 		{
 			"ImportPath": "github.com/mattn/go-isatty",
-			"Comment": "v0.0.4-6-g3fb116b",
-			"Rev": "3fb116b820352b7f0c281308a4d6250c22d94e27"
+			"Comment": "v0.0.8",
+			"Rev": "1311e847b0cb909da63b5fecfb5370aa66236465"
 		},
 		{
 			"ImportPath": "github.com/modern-go/concurrent",
@@ -63,9 +69,14 @@
 			"Rev": "94122c33edd36123c84d5368cfb2b69df93a0ec8"
 		},
 		{
+			"ImportPath": "github.com/sirupsen/logrus",
+			"Comment": "v1.4.1-2-g9b3cdde",
+			"Rev": "9b3cdde74fbe9443d704467498a7dcb61a79de9b"
+		},
+		{
 			"ImportPath": "github.com/ugorji/go/codec",
-			"Comment": "v1.1.1-72-g772ced7",
-			"Rev": "772ced7fd4c2f6322c07537a9a93b68d74551fa6"
+			"Comment": "v1.1.4-102-g19cb75f",
+			"Rev": "19cb75f56d02e9eaa11a23c037d641afa194bf4f"
 		},
 		{
 			"ImportPath": "golang.org/x/net/html",

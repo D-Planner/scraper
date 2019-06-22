@@ -1,0 +1,43 @@
+@import '../sidebar.scss';
+
+.search {
+    .pane-header {
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .dropdown-icon {
+          height: calc(#{$header-size} + 5px);
+        }
+
+        .search-input {
+            font-size: $header-size;
+            margin: 0 0 0 15px;
+            width:70%;
+            font-weight: normal;
+            color: rgba(0, 0, 0, 0.24);
+            background: none;
+            border: none;
+            outline: none;
+
+            &::placeholder {
+                color: rgba(0, 0, 0, 0.24);
+            }
+        }
+
+        .search-icon {
+            height: calc(#{$header-size} + 2px);
+        }
+    }
+
+    .pane-content {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        max-width: calc(100% + 50px); // I'm porbably doing this wrong, but it was getting cut off and 50px made it not get cut off.
+        overflow-x: hide;
+        overflow-y: scroll;
+        padding: 10px;
+    }
+}

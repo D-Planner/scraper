@@ -1,9 +1,11 @@
 import Course from '../models/course';
 import User from '../models/user';
+import ProfessorController from '../controllers/professors_controller';
 import courses from '../../static/data/courses.json';
 
-const getCourses = (req, res) => {
+const getCourses = async (req, res) => {
     Course.find({})
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -11,8 +13,9 @@ const getCourses = (req, res) => {
         });
 };
 
-const getCourse = (req, res) => {
+const getCourse = async (req, res) => {
     Course.find({ _id: req.params.id })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -20,8 +23,9 @@ const getCourse = (req, res) => {
         });
 };
 
-const getCoursesByDepartment = (req, res) => {
+const getCoursesByDepartment = async (req, res) => {
     Course.find({ department: req.params.department })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -29,8 +33,9 @@ const getCoursesByDepartment = (req, res) => {
         });
 };
 
-const getCoursesByDistrib = (req, res) => {
-    Course.find({ distrib: req.params.distrib })
+const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
+    Course.find({ distribs: req.params.distrib })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -38,8 +43,9 @@ const getCoursesByDistrib = (req, res) => {
         });
 };
 
-const getCoursesByWC = (req, res) => {
-    Course.find({ wc: req.params.wc })
+const getCoursesByWC = (req, res) => { // needs to be updated since [distribs] is now an array
+    Course.find({ wcs: req.params.wc })
+        .populate('professors')
         .then((result) => {
             res.json(result);
         }).catch((error) => {
@@ -52,52 +58,57 @@ const getCourseByName = (req, res) => {
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
+        .populate('professors')
         .then((result) => {
             res.json(result);
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
+const getCourseByNumber = (req, res) => {
+    Course.find({
+        $and: [{ department: req.params.department },
+            { number: req.params.number }],
+    }).populate('professors')
+        .then((response) => {
+            res.json(response);
         }).catch((error) => {
             res.status(500).json({ error });
         });
 };
 
-const getCourseByTitle = (req, res) => {
-    Course.find({
-        $and: [{ department: req.params.department },
-            { number: req.params.number }],
-    }).then((response) => {
-        res.json(response);
-    }).catch((error) => {
-        res.status(500).json({ error });
-    });
-};
-
 const createCourse = (req, res) => {
-    Promise.resolve(courses.map((course) => {
-        return Course.update(
-            { $or: [{ name: course.title }, { crn: course.crn }] },
-            {
-                name: course.title,
-                department: course.subject,
-                number: course.number,
-                section: course.section,
-                crn: course.crn,
-                professors: course.professors,
-                enroll_limit: course.enrollment_limit,
-                current_enrollment: course.current_enrollment,
-                timeslot: course.period,
-                room: course.room,
-                building: course.building,
-                description: course.description,
-                term: course.term,
-                wc: course.wc,
-                distrib: course.distrib,
-                links: course.links,
-                related_courses: course.related_courses,
-                terms_offered: course.terms_offered,
-                layuplist_score: course.layuplist_score,
-                layuplist_id: course.layuplist_id,
-                medians: course.medians,
-            }, { upsert: true },
-        ).then((result) => {
+    Promise.resolve(courses.map(async (course) => {
+        await ProfessorController.addProfessors(course.professors);
+        const profs = await ProfessorController.getProfessorListId(course.professors);
+        // separates into [wcs] and [distribs]
+        const wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
+        const distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
+        return Course.create({
+            layup_url: course.layup_url,
+            layup_id: course.layup_id,
+            title: course.title,
+            department: course.department,
+            offered: course.offered,
+            distribs,
+            wcs,
+            total_reviews: course.total_reviews,
+            quality_score: course.quality_score,
+            layup_score: course.layup_score,
+            xlist: course.xlist,
+            name: course.name,
+            number: course.number,
+            periods: course.periods,
+            description: course.description,
+            reviews: course.reviews,
+            similar_courses: course.similar_courses,
+            orc_url: course.orc_url,
+            medians: course.medians,
+            terms_offered: course.terms_offered,
+            professors: profs,
+        }).then((result) => {
             return result;
         }).catch((error) => {
             return error;
@@ -180,7 +191,7 @@ const CoursesController = {
     getCoursesByDistrib,
     getCoursesByWC,
     getCourseByName,
-    getCourseByTitle,
+    getCourseByNumber,
     createCourse,
     getFavorite,
     addFavorite,

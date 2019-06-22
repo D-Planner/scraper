@@ -19,6 +19,7 @@ const importSVGs = (r) => {
 // import all svg files in the ../style/distrib_icons directory
 const icons = importSVGs(require.context('../../style/distrib_icons', false, /\.svg$/));
 
+/** a single row of search results for the discover page */
 const SearchResultRow = (props) => {
   return (
     <div className="result-row">
@@ -54,49 +55,6 @@ const SearchResultRow = (props) => {
         </div>
       </div>
     </div>
-  // <div className="result-row">
-  //   <Row>
-  //     <Col xs="2">
-  //       <div className="name result-col">
-  //         <div className="name-text">
-  //           {`${props.course.department} ${props.course.number}`}
-  //         </div>
-  //         <button
-  //           type="button"
-  //           onClick={() => props.addCourseToFavorites(props.id)}
-  //           className="add-course-button"
-  //         >
-  //           <img src={plusIcon} alt="add" />
-  //         </button>
-  //       </div>
-  //     </Col>
-  //     <Col xs="6">
-  //       <div className="description result-col">
-  //         <div className="description-text">
-  //           {props.course.description}
-  //         </div>
-  //       </div>
-  //     </Col>
-  //     <Col xs="1">
-  //       <div className="period result-col">
-  //         {props.course.timeslot}
-  //       </div>
-  //     </Col>
-  //     <Col xs="1">
-  //       <div className="median result-col">
-  //         {props.course.medians.length ? getMedians(props.course.medians) : 'N/A'}
-  //       </div>
-  //     </Col>
-  //     <Col xs="1">
-  //       <div className="distribs result-col">
-  //         {getDistribIcon(props.course.distrib)}
-  //       </div>
-  //     </Col>
-  //     <Col xs="1" className="distribs result-col">
-  //       {getWCIcon(props.course.wc)}
-  //     </Col>
-  //   </Row>
-  // </div>
   );
 };
 

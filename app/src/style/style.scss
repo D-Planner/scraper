@@ -6,9 +6,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+* {
+  // below arguments necessary because otherwise web browser will override with defaults
+  box-sizing: border-box;
+  padding: 0;
+  border-style: none;
+  margin: 0;
 }

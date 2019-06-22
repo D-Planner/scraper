@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, fetchBucket, updateTerm, showDialog,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
-import Bucket from '../../components/bucket';
+import Sidebar from '../sidebar';
 import Term from '../../components/term';
 import Majors from '../majors';
 import './dplan.scss';
 
+/** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
   constructor(props) {
     super(props);
@@ -21,13 +22,20 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.props.fetchPlan(this.props.match.params.id);
-    this.props.fetchBucket();
+  }
+
+  getFlattenedCourses() {
+    const courses = [];
+    this.props.plan.terms.forEach((year) => {
+      year.forEach((term) => {
+        courses.push(...term.courses);
+      });
+    });
+    return courses;
   }
 
   addCourseToTerm(course, term) {
-    term.courses = term.courses.filter(c => c.id !== course.id);
-    term.courses.push(course);
-    this.props.updateTerm(term).then(() => {
+    this.props.addCourseToTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {
       console.log(err);
@@ -35,8 +43,7 @@ class DPlan extends Component {
   }
 
   removeCourseFromTerm(course, term) {
-    term.courses = term.courses.filter(c => c.id !== course.id);
-    this.props.updateTerm(term).then(() => {
+    this.props.removeCourseFromTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {
       console.log(err);
@@ -64,29 +71,11 @@ class DPlan extends Component {
         <div className="plan-header">
           <div className="header-left">
             <h1 className="plan-name">{this.props.plan.name}</h1>
-            <button type="button" className="save-button" onClick={this.savePlan}>
-              <p>Save</p>
-            </button>
           </div>
           <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
         </div>
-        <div className="plan-data">
-          <p>
-              On-Terms:
-          </p>
-          <p>
-              Courses:
-          </p>
-          <p>
-              Distributive Requirements:
-          </p>
-        </div>
         <div className="plan-content">
-          <div>
-            <Bucket className="bucket" bucket={this.props.bucket || []} />
-            <br />
-            <Majors />
-          </div>
+          <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
           <div className="plan-grid">
             {this.props.plan.terms.map((year) => {
               return (
@@ -113,9 +102,8 @@ class DPlan extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
-  bucket: state.courses.bucket,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, fetchBucket, updateTerm, showDialog,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog,
 })(DPlan));
