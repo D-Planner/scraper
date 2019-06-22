@@ -43,6 +43,16 @@ const getCoursesByDistrib = (req, res) => { // needs to be updated since [distri
         });
 };
 
+const getCoursesByWC = (req, res) => { // needs to be updated since [distribs] is now an array
+    Course.find({ wcs: req.params.wc })
+        .populate('professors')
+        .then((result) => {
+            res.json(result);
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
 const getCourseByName = (req, res) => {
     Course.find(
         { $text: { $search: req.body.query } },
@@ -57,7 +67,7 @@ const getCourseByName = (req, res) => {
         });
 };
 
-const getCourseByTitle = (req, res) => {
+const getCourseByNumber = (req, res) => {
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
@@ -73,13 +83,17 @@ const createCourse = (req, res) => {
     Promise.resolve(courses.map(async (course) => {
         await ProfessorController.addProfessors(course.professors);
         const profs = await ProfessorController.getProfessorListId(course.professors);
+        // separates into [wcs] and [distribs]
+        const wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
+        const distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
         return Course.create({
             layup_url: course.layup_url,
             layup_id: course.layup_id,
             title: course.title,
             department: course.department,
             offered: course.offered,
-            distribs: course.distribs,
+            distribs,
+            wcs,
             total_reviews: course.total_reviews,
             quality_score: course.quality_score,
             layup_score: course.layup_score,
@@ -175,8 +189,9 @@ const CoursesController = {
     getCourse,
     getCoursesByDepartment,
     getCoursesByDistrib,
+    getCoursesByWC,
     getCourseByName,
-    getCourseByTitle,
+    getCourseByNumber,
     createCourse,
     getFavorite,
     addFavorite,
