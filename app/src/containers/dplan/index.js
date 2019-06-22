@@ -7,6 +7,7 @@ import {
 import { DialogTypes } from '../../constants';
 import Sidebar from '../sidebar';
 import Term from '../../components/term';
+import Majors from '../majors';
 import './dplan.scss';
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
