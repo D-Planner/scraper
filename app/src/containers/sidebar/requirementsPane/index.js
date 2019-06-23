@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import Majors from '../../majors';
 import checkedIcon from '../../../style/checkboxChecked.svg';
 import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
 
@@ -152,14 +153,15 @@ const RequirementsPane = (props) => {
         </div>
       );
     } else {
-      return (
-        <div className="no-major">
-          <p>You are not enrolled in a major.</p>
-          <button type="button" className="enroll-button" onClick={props.showDeclareDialog}>
-            <p>Choose A Major</p>
-          </button>
-        </div>
-      );
+      return <Majors />;
+      // return (
+      //   <div className="no-major">
+      //     <p>You are not enrolled in a major.</p>
+      //     <button type="button" className="enroll-button" onClick={props.showDeclareDialog}>
+      //       <p>Choose A Major</p>
+      //     </button>
+      //   </div>
+      // );
     }
   };
 
