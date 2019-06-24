@@ -84,8 +84,11 @@ const createCourse = (req, res) => {
         await ProfessorController.addProfessors(course.professors);
         const profs = await ProfessorController.getProfessorListId(course.professors);
         // separates into [wcs] and [distribs]
-        const wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
-        const distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
+        let wcs = []; let distribs = [];
+        if (course.distribs != null) {
+            wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
+            distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
+        }
         return Course.create({
             layup_url: course.layup_url,
             layup_id: course.layup_id,
