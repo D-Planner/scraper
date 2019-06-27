@@ -14,7 +14,7 @@ import {
 } from '../../actions';
 
 const termTarget = {
-  drop: (props, monitor) => {
+  drop: async (props, monitor) => {
     const item = monitor.getItem();
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
@@ -27,7 +27,7 @@ const termTarget = {
         props.addCourseToTerm(item.catalogCourse, props.term);
       } else {
         // this is a regular course, so deal with it accordingly
-        props.addCourseToTerm(item.course, props.term);
+        await props.addCourseToTerm(item.course, props.term);
       }
       // return an object containing the current term
       return { destinationTerm: props.term };
@@ -98,7 +98,6 @@ class Term extends Component {
         </div>
       );
     }
-    console.log(this.props.term);
     return (
 
       <div className="term-content">
