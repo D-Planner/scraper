@@ -1276,7 +1276,7 @@
   ],
   "EARS040: Materials of the Earth": [
     {
-      "range": [
+      "req": [
         "EARS 001",
         "EARS 002",
         "EARS 003",
@@ -4276,7 +4276,7 @@
     {
       "range": [
         "BIOL 020",
-        "BIOL 200"
+        "BIOL 300"
       ]
     }
   ],
@@ -4366,7 +4366,7 @@
     {
       "range": [
         "BIOL 020",
-        "BIOL 200"
+        "BIOL 300"
       ]
     }
   ],
@@ -4375,13 +4375,13 @@
     {
       "range": [
         "BIOL 011",
-        "BIOL 200"
+        "BIOL 300"
       ]
     },
     {
       "range": [
         "BIOL 011",
-        "BIOL 200"
+        "BIOL 300"
       ]
     }
   ],
@@ -4818,7 +4818,7 @@
       ]
     },
     {
-      "range": [
+      "req": [
         "BIOL 038",
         "BIOL 040",
         "BIOL 041",
@@ -6024,7 +6024,7 @@
     {
       "range": [
         "RUSS 029",
-        "RUSS 200"
+        "RUSS 300"
       ]
     }
   ],

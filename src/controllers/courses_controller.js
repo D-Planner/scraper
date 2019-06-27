@@ -5,6 +5,7 @@ import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import PopulateCourse from './populators';
 
+
 const getCourses = async (req, res) => {
     Course.find({})
         .populate(PopulateCourse)
@@ -96,12 +97,15 @@ const filledValues = (course) => {
     }
     let prerequisites = [];
     if (prerequisitesJSON[course.title]) {
-        // Still need to edit the scraper so that it doesn't change all single digit ones to number: 0
         prerequisites = prerequisitesJSON[course.title].map((o) => {
-            const key = o[Object.keys(o)[0]];
-            if (key) {
-                const newVal = (typeof key === 'boolean') ? true : key.map((c) => {
+            const key = Object.keys(o)[0];
+            const val = o[key];
+            if (val) {
+                const newVal = (key === 'abroad') ? true : val.map((c) => {
                     const tokens = c.split(' ');
+                    if (key === 'range') {
+                        return parseInt(tokens[1]);
+                    }
                     return Course.findOne({ department: tokens[0], number: tokens[1] }).then((result) => {
                         if (result) return result._id;
                         return null;
@@ -208,7 +212,11 @@ const removeFavorite = (req, res) => {
 
 const getFavorite = (req, res) => {
     User.findOne({ _id: req.user.id })
-        .populate({ path: 'favorite_courses', model: 'Course' })
+        .populate({
+            path: 'favorite_courses',
+            model: 'Course',
+            populate: PopulateCourse,
+        })
         .exec()
         .then((result) => {
             res.json(result.favorite_courses);
@@ -240,7 +248,11 @@ const removeCompleted = (req, res) => {
 
 const getCompleted = (req, res) => {
     User.findOne({ _id: req.params.id })
-        .populate({ path: 'completed_courses', model: 'Course' })
+        .populate({
+            path: 'completed_courses',
+            model: 'Course',
+            populate: PopulateCourse,
+        })
         .exec()
         .then((result) => {
             res.json(result.completed_courses);

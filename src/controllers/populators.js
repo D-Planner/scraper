@@ -1,10 +1,7 @@
-const CourseReferenceSelect = ['department', 'number', 'name'];
+const CourseReferenceSelect = ['department', 'number', 'name', 'id'];
 
-const PopulateCourseRef = [{
+const PopulateCourse = [{
     path: 'prerequisites.req',
-    select: CourseReferenceSelect,
-}, {
-    path: 'prerequisites.range',
     select: CourseReferenceSelect,
 }, {
     path: 'prerequisites.grade',
@@ -21,4 +18,19 @@ const PopulateCourseRef = [{
     select: CourseReferenceSelect,
 }];
 
-export default PopulateCourseRef;
+const PopulateTerm = {
+    path: 'courses',
+    populate: [{
+        path: 'course',
+        select: '-reviews',
+        populate: PopulateCourse,
+    }, {
+        path: 'previousCourses',
+        select: 'id',
+    }],
+};
+
+export default [
+    PopulateCourse,
+    PopulateTerm,
+];

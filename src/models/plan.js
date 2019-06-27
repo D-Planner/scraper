@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+// import UserCourse from './user_course';
 
 const PlanSchema = new Schema({
     user_id: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -23,6 +24,23 @@ PlanSchema.virtual('normalizedName')
     .get(function () { // eslint-disable-line prefer-arrow-callback
         return this.name.toLowerCase().replace(/ /g, '-');
     });
+
+// Make this run on every findbyID(), I know it's possible
+// PlanSchema.pre('setPrevCourses', function (next) {
+//     this.terms.slice(0).reduce((acc, curr, i, array) => {
+//         curr.courses.forEach(async (course) => {
+//             await UserCourse.findByIdAndUpdate(course._id, {
+//                 previousCourses: acc,
+//             });
+//             acc.push(course);
+//             course.course.xlist.forEach((xlisted) => {
+//                 acc.push(xlisted);
+//             });
+//         });
+//         return acc;
+//     }, []);
+//     next();
+// });
 
 // create model class
 const PlanModel = mongoose.model('Plan', PlanSchema);
