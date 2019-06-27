@@ -1,13 +1,13 @@
 import Plan from '../models/plan';
+import UserCourse from '../models/user_course';
 import TermController from '../controllers/term_controller';
-import PopulateCourse from './populators';
+import PopulateTerm from './populators';
+
 
 const getPlansByUserId = (id) => {
     return Plan.find({ user_id: id }).populate({
         path: 'terms',
-        populate: {
-            path: 'courses',
-        },
+        populate: PopulateTerm,
     });
 };
 
@@ -72,7 +72,46 @@ const sortPlan = (plan) => {
     return plan;
 };
 
+const setTermsPrevCourses = async (planID) => {
+    const plan = await Plan.findById(planID).populate({
+        path: 'terms',
+        populate: PopulateTerm,
+    });
+
+    plan.terms.reduce((acc, curr) => {
+        // Get the last courses
+        const termCourses = curr.courses.map((course) => {
+            return UserCourse.findById(course._id)
+                .populate('course', '_id xlist')
+                .then((c) => {
+                    return c.xlist ? c.xlist.map((x) => { return x.id; }).push(c.id) : [c.course._id];
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        });
+        Promise.all(acc).then((ac) => {
+            curr.courses.forEach((course) => {
+                // console.log('Server', course.course.number, 'Previous Coursecourse', ac.flat());
+                UserCourse.update({ _id: course._id }, { previousCourses: ac.flat() }).then((r) => { return r; }).catch((e) => { return e; });
+                // UserCourse.findById(course._id).then((r) => { console.log(r); }).catch((e) => { return e; });
+            });
+        });
+        const next = (termCourses.length) ? termCourses.map((promise) => {
+            return promise.then((r) => {
+                return r;
+            });
+        }) : [];
+
+        acc = acc.concat(next);
+
+        return acc;
+    }, []);
+};
+
 const getPlanByID = async (planID) => {
+    await setTermsPrevCourses(planID);
+
     try {
         const plan = await Plan.findById(planID);
 
@@ -81,16 +120,14 @@ const getPlanByID = async (planID) => {
         }
         const populated = await plan.populate({
             path: 'terms',
-            populate: {
-                path: 'courses',
-                populate: {
-                    path: 'course',
-                    select: '-reviews',
-                    populate: PopulateCourse,
-                },
-            },
+            populate: PopulateTerm,
         }).execPopulate();
 
+        populated.terms.forEach((term) => {
+            term.courses.forEach((course) => {
+                // console.log(course.course.department, course.course.number, 'Previous Coursecourse', course.previousCourses);
+            });
+        });
         return sortPlan(populated.toJSON());
     } catch (e) {
         throw e;
@@ -106,34 +143,12 @@ const deletePlanById = async (planId) => {
     }
 };
 
-const getPreviousCourses = (req, res) => {
-    Promise.resolve(getPlanByID(req.params.planID)).then((plan) => {
-        res.json(plan.terms.reduce((acc, curr, i, array) => {
-            curr.filter((t) => {
-                return t.courses.length > 0;
-            }).forEach((term) => {
-                if (term.id === req.params.termID) {
-                    array.slice(0, i - 1);
-                } else {
-                    term.courses.forEach((course) => {
-                        acc.push(course.course._id);
-                    });
-                }
-            });
-            return acc;
-        }, []));
-    }).catch((err) => {
-        res.status(500).send(err);
-    });
-};
-
 const PlanController = {
     getPlansByUserId,
     createPlanForUser,
     sortPlan,
     getPlanByID,
     deletePlanById,
-    getPreviousCourses,
 };
 
 export default PlanController;

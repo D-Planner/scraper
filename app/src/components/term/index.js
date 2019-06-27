@@ -16,14 +16,12 @@ import {
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
-
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
       if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
         return undefined;
       } else if (item.sourceTerm) {
-        console.log(item);
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm);
         props.addCourseToTerm(item.catalogCourse, props.term);
@@ -31,7 +29,6 @@ const termTarget = {
         // this is a regular course, so deal with it accordingly
         props.addCourseToTerm(item.course, props.term);
       }
-
       // return an object containing the current term
       return { destinationTerm: props.term };
     }
@@ -101,7 +98,9 @@ class Term extends Component {
         </div>
       );
     }
+    console.log(this.props.term);
     return (
+
       <div className="term-content">
         {this.props.term.courses.map((course) => {
           return (
@@ -110,7 +109,6 @@ class Term extends Component {
                 key={course.id}
                 catalogCourse={course.course}
                 course={course}
-                sourcePlan={this.props.plan.id}
                 sourceTerm={this.props.term.id}
                 removeCourseFromTerm={() => {
                   this.props.removeCourseFromTerm(course, this.props.term);

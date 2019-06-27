@@ -1,5 +1,13 @@
 @import '../../style/variables.scss';
 
+.bookmark {
+  display:flex;
+
+  &:hover {
+    filter:invert(100%);
+  }
+}
+
 #content {
     flex:1;
     display: flex;
@@ -174,7 +182,7 @@
               }
 
               .check-box{
-                
+
               }
             }
           }
@@ -185,9 +193,11 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        overflow-y: scroll;
 
         .professor {
           flex: 1;
+
         }
       }
     }

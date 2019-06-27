@@ -176,6 +176,4 @@ plansRouter.delete('/:id', (req, res, next) => {
     });
 });
 
-plansRouter.get('/:planID/prevCourses/:termID', PlanController.getPreviousCourses);
-
 export default plansRouter;
