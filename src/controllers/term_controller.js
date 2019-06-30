@@ -1,4 +1,6 @@
 import Term from '../models/term';
+import User from '../models/user';
+import UserCourse from '../models/user_course';
 import UserCourseController from '../controllers/user_course_controller';
 
 const createTerm = async (term, planID) => {
@@ -29,29 +31,56 @@ const updateTerm = (req, res) => {
         });
 };
 
+const addCompleted = (userID, courseID) => {
+    User.findByIdAndUpdate(userID, {
+        $push: { completed_courses: courseID },
+    }, { new: true }).then((result) => {
+    }).catch((error) => {
+        console.log(error);
+    });
+};
+
+const removeCompleted = (userID, courseID) => {
+    User.findByIdAndUpdate(userID, {
+        $pull: { completed_courses: courseID },
+    }, { new: true }).then((result) => {
+    }).catch((error) => {
+        console.log(error);
+    });
+};
+
 const addCourseToTerm = async (req, res, next) => {
-    console.log(req.body.course);
     const termID = req.params.termID;
     const userCourse = await UserCourseController.createUserCourse(req.user.id, req.body.course.id, termID);
+    // TO-DO: build in auto-scheduler that will put in appropriate course hour that fits with the other courses in the term
 
     const term = await Term.findById(termID);
-    const populated = await term.populate({
-        path: 'courses',
-        populate: {
-            path: 'course',
-        },
-    }).execPopulate();
+    // const populated = await term.populate({
+    //     path: 'courses',
+    //     populate: {
+    //         path: 'course',
+    //     },
+    // }).execPopulate();
 
-    // check if a course with this id already exists in the term
-    if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
-        term.courses.push(userCourse);
-    } else {
-        res.status(409).json({ message: 'This course already exists in this term' });
-    }
+    // // check if a course with this id already exists in the term
+    // if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
+    //     term.courses.push(userCourse);
+    // } else {
+    //     res.status(409).json({ message: 'This course already exists in this term' });
+    // }
 
-    await term.save();
-
-    res.send(term);
+    // check if a course with this id already exists in the user's completed courses
+    User.findById(req.user.id).populate('completed_courses').then((user) => {
+        if (user.completed_courses.filter((c) => { return c.id === req.body.course.id; }).length === 0) {
+            term.courses.push(userCourse);
+            term.save().then(() => {
+                addCompleted(req.user.id, req.body.course.id);
+                res.send(term);
+            });
+        } else {
+            res.status(409).json({ message: 'This course already exists in this term' });
+        }
+    });
 };
 
 const removeCourseFromTerm = async (req, res, next) => {
@@ -61,7 +90,15 @@ const removeCourseFromTerm = async (req, res, next) => {
 
     // filter out the course we are removing and save the new object
     term.courses = term.courses.filter((c) => { return c.toString() !== userCourseID; });
+
     await term.save();
+
+    // remove the course from the user's completed courses
+    UserCourse.findById(userCourseID).populate('course').then((userCourse) => {
+        console.log(userCourse.course.id);
+        console.log(req.user.id);
+        removeCompleted(req.user.id, userCourse.course.id);
+    });
 
     // delete the user course object
     const err = await UserCourseController.deleteUserCourse(userCourseID);
