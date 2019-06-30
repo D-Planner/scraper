@@ -25,6 +25,7 @@ const termTarget = {
       } else if (item.sourceTerm) {
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm);
+        // TO-DO: need to make this a promise
         props.addCourseToTerm(item.catalogCourse, props.term);
       } else {
         // this is a regular course, so deal with it accordingly
