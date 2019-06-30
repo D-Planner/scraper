@@ -41,11 +41,15 @@ const addCompleted = (userID, courseID) => {
 };
 
 const removeCompleted = (userID, courseID) => {
-    User.findByIdAndUpdate(userID, {
-        $pull: { completed_courses: courseID },
-    }, { new: true }).then((result) => {
-    }).catch((error) => {
-        console.log(error);
+    return new Promise((resolve, reject) => {
+        User.findByIdAndUpdate(userID, {
+            $pull: { completed_courses: courseID },
+        }, { new: true }).then((result) => {
+            resolve();
+        }).catch((error) => {
+            console.log(error);
+            reject();
+        });
     });
 };
 
@@ -95,18 +99,15 @@ const removeCourseFromTerm = async (req, res, next) => {
 
     // remove the course from the user's completed courses
     UserCourse.findById(userCourseID).populate('course').then((userCourse) => {
-        console.log(userCourse.course.id);
-        console.log(req.user.id);
-        removeCompleted(req.user.id, userCourse.course.id);
+        removeCompleted(req.user.id, userCourse.course.id).then(() => {
+        // delete the user course object
+            UserCourseController.deleteUserCourse(userCourseID).then(() => {
+                res.status(200).json(term);
+            }).catch((error) => {
+                next(error);
+            });
+        });
     });
-
-    // delete the user course object
-    const err = await UserCourseController.deleteUserCourse(userCourseID);
-    if (err) {
-        next(err);
-    }
-
-    res.status(200).json(term);
 };
 
 const getTerm = async (req, res) => {
