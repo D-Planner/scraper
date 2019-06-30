@@ -22,7 +22,6 @@ export const ActionTypes = {
   FETCH_DECLARED: 'FETCH_DECLARED',
   DROP_MAJOR: 'DROP_MAJOR',
   FETCH_MAJOR: 'FETCH_MAJOR',
-  FETCH_MAJORS: 'FETCH_MAJORS',
   FETCH_PROGRESS: 'FETCH_PROGRESS',
 };
 
@@ -378,6 +377,7 @@ export function addCourseToTerm(course, term) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).catch((err) => {
       console.log(err);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: err.response.data });
     });
   };
 }
@@ -390,14 +390,17 @@ export function addCourseToTerm(course, term) {
  * @returns an action creator to remove a course from the given term
  */
 export function removeCourseFromTerm(course, term) {
-  return (dispatch) => {
-    return axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then(() => {
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 export function updateTerm(term) {
@@ -455,47 +458,6 @@ export function fetchMajors() {
  * @param {String} majorID a string representing the Mongoose ObjectID for a major to declare
  * @returns an action creator to declare a major for a user
  */
-export function declareMajor(majorID) {
-  return (dispatch) => {
-    return axios.post(`${ROOT_URL}/majors/declared/${majorID}`, {}, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
-      // console.log(response);
-      // dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
-      // fetchCourse
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    });
-  };
-}
-
-// ----- Dialog Actions ----- //
-
-/**
- * Notifies the top-level of the app to display a dialog box
- * @export
- * @param {ActionTypes} type the type of dialog to show
- * @param {*} options the options to send to the dialog (things like title, onOk action, etc)
- * @returns an action creator to display a dialog
- */
-export function showDialog(type, options) {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.SHOW_DIALOG, payload: { type, options } });
-  };
-}
-
-/**
- * Notifies the top-level of the app to hide the displayed dialog box
- * @export
- * @returns an action creator to hide the global dialog box
- */
-export function hideDialog() {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.HIDE_DIALOG });
-  };
-}
-
 export function declareMajor(id) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/majors/declared/${id}`, null, {
@@ -544,18 +506,6 @@ export function fetchMajor(id) {
   };
 }
 
-export function fetchMajors() {
-  return (dispatch) => {
-    axios.get(`${ROOT_URL}/majors`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_MAJORS, payload: response.data });
-    }).catch((error) => {
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    });
-  };
-}
-
 export function fetchProgress(id) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/majors/progress/${id}`, {
@@ -565,5 +515,32 @@ export function fetchProgress(id) {
     }).catch((error) => {
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
+  };
+}
+
+
+// ----- Dialog Actions ----- //
+
+/**
+ * Notifies the top-level of the app to display a dialog box
+ * @export
+ * @param {ActionTypes} type the type of dialog to show
+ * @param {*} options the options to send to the dialog (things like title, onOk action, etc)
+ * @returns an action creator to display a dialog
+ */
+export function showDialog(type, options) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SHOW_DIALOG, payload: { type, options } });
+  };
+}
+
+/**
+ * Notifies the top-level of the app to hide the displayed dialog box
+ * @export
+ * @returns an action creator to hide the global dialog box
+ */
+export function hideDialog() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.HIDE_DIALOG });
   };
 }
