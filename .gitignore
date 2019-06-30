@@ -80,3 +80,4 @@ app/build
 .env.production.local
 *.DS_Store
 .vs
+.code-workspace
