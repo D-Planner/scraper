@@ -390,14 +390,17 @@ export function addCourseToTerm(course, term) {
  * @returns an action creator to remove a course from the given term
  */
 export function removeCourseFromTerm(course, term) {
-  return (dispatch) => {
-    return axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then(() => {
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 export function updateTerm(term) {
