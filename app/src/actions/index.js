@@ -377,6 +377,7 @@ export function addCourseToTerm(course, term) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).catch((err) => {
       console.log(err);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: err.response.data });
     });
   };
 }
