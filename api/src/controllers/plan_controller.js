@@ -84,7 +84,7 @@ const setTermsPrevCourses = async (planID) => {
             return UserCourse.findById(course._id)
                 .populate('course', '_id xlist')
                 .then((c) => {
-                    return c.xlist ? c.xlist.map((x) => { return x.id; }).push(c.id) : [c.course._id];
+                    return c.course.xlist ? c.course.xlist.concat(c.course._id) : [c.course._id];
                 })
                 .catch((e) => {
                     console.log(e);
