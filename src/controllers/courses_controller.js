@@ -19,7 +19,7 @@ const getCourses = async (req, res) => {
 };
 
 const getCourse = async (req, res) => {
-    Course.find({ _id: req.params.id })
+    Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
@@ -110,7 +110,7 @@ const filledValues = (course) => {
                         if (result) return result._id;
                         return null;
                     }).catch((error) => {
-                        console.log(c);
+                        console.log('reseed', c);
                         return error;
                     });
                 });
@@ -133,7 +133,7 @@ const filledValues = (course) => {
                 if (res) return res._id;
                 return null;
             }).catch((err) => {
-                console.log(err);
+                console.log('reseed', err);
                 return err;
             });
         });
