@@ -167,7 +167,7 @@ class CourseInfoDialog extends Component {
     const { prerequisites } = course;
     return (
       <div id="dependenciesContainer">
-        <div className="section-header">Dependencies</div>
+        <div className="section-header">Prerequisites</div>
         <div id="dependencies">
           {prerequisites.map((o) => {
             const dependencyType = Object.keys(o).find((key) => {
