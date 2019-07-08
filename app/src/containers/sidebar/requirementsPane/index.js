@@ -61,13 +61,11 @@ const RequirementsPane = (props) => {
     console.log(fixed);
     console.log(flexible);
 
-    // let counter = 0;
+    let counter = 0;
 
-    while ((flexible.length > 0 || fixed.length > 0) && true) {
-      // counter += 1;
-      console.log('hi');
-      console.log((flexible.length > 0 || fixed.length > 0));
-      // console.log(fixed.length);
+    while ((flexible.length > 0 || fixed.length > 0) && counter < 10) {
+      console.log('1');
+      counter += 1;
       // for every [rank1] course, simply check off the distrib
       Promise.all(
         fixed.map((userCourse) => {
@@ -77,6 +75,7 @@ const RequirementsPane = (props) => {
           });
         }),
       ).then(() => { // once all [distrib]s have been checked through, clear the [fixed] array
+        console.log('2');
         fixed.length = 0;
         for (let i = 0; i < flexible.length; i += 1) {
           const userCourse = flexible[i];
@@ -95,8 +94,8 @@ const RequirementsPane = (props) => {
             }
           });
         }
-        console.log(fixed.length);
       });
+      console.log('3');
     }
   };
 
