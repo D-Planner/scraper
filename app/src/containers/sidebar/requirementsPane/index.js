@@ -44,91 +44,159 @@ const RequirementsPane = (props) => {
     setDistribsActive(flag);
   };
 
-  const distribComplete = (name) => {
-    return props.distribs.includes(name);
+  const fillDistribs = () => {
+    const fixed = [];
+    const flexible = [];
+    // does initial sort, sorts the list of user courses into [fixed] or [flexible]
+    props.userCourses.forEach((userCourse) => {
+      if (userCourse.course.distribs.length > 1) {
+        flexible.push(userCourse);
+      } else if (userCourse.course.distribs.length > 0) {
+        // eslint-disable-next-line prefer-destructuring
+        userCourse.distrib = userCourse.course.distribs[0];
+        fixed.push(userCourse);
+      }
+    });
+
+    console.log(fixed);
+    console.log(flexible);
+
+    // let counter = 0;
+
+    while ((flexible.length > 0 || fixed.length > 0) && true) {
+      // counter += 1;
+      console.log('hi');
+      console.log((flexible.length > 0 || fixed.length > 0));
+      // console.log(fixed.length);
+      // for every [rank1] course, simply check off the distrib
+      Promise.all(
+        fixed.map((userCourse) => {
+          return new Promise((resolve) => {
+            genEdsReference[userCourse.distrib].fulfilled = true;
+            resolve();
+          });
+        }),
+      ).then(() => { // once all [distrib]s have been checked through, clear the [fixed] array
+        fixed.length = 0;
+        for (let i = 0; i < flexible.length; i += 1) {
+          const userCourse = flexible[i];
+          userCourse.course.distribs.forEach((distrib) => {
+            // checks to see if one of the [flexible]'s [distrib]s are already fulfilled; if so, then it should get moved to [fixed]
+            if (genEdsReference[distrib].fulfilled) {
+              userCourse.distrib = userCourse.course.distribs[findOtherDistrib(distrib, userCourse.course.distribs)];
+              // determines whether the [userCourse] is already in the [fixed] array
+              if (fixed.findIndex(e => e.id === userCourse.id) !== -1) {
+                fixed.splice(fixed.findIndex(e => e.id === userCourse.id), 1, userCourse);
+              } else {
+                fixed.push(userCourse);
+              }
+              flexible.splice(i, 1);
+              i -= 1;
+            }
+          });
+        }
+        console.log(fixed.length);
+      });
+    }
   };
 
-  const wcComplete = (name) => {
-    return props.distribs.includes(name);
+  const findOtherDistrib = (unwantedDistrib, distribs) => {
+    if (distribs.indexOf(unwantedDistrib) === 1) return 0;
+    else if (distribs.indexOf(unwantedDistrib) === 0) return 1;
+    else return null;
   };
 
-  const distribTypes = [
-    {
-      name: 'Arts',
+  const genEdsReference = {
+    ART: {
+      fullName: 'Arts',
+      name: 'ART',
       icon: icons.art,
-      complete: distribComplete('ART'),
+      fulfilled: false,
     },
-    {
-      name: 'Literature',
+    LIT: {
+      fullName: 'Literature',
+      name: 'LIT',
       icon: icons.lit,
-      complete: distribComplete('LIT'),
+      fulfilled: true,
     },
-    {
-      name: 'Thought, Meaning, and Value',
+    TMV: {
+      fullName: 'Thought, Meaning, and Value',
+      name: 'TMV',
       icon: icons.tmv,
-      complete: distribComplete('TMV'),
+      fulfilled: false,
     },
-    {
-      name: 'International or Comparative Study',
+    INT: {
+      fullName: 'International or Comparative Study',
+      name: 'INT',
       icon: icons.int,
-      complete: distribComplete('INT'),
+      fulfilled: false,
     },
-    {
-      name: 'Social Analysis',
+    SOC: {
+      fullName: 'Social Analysis',
+      name: 'SOC',
       icon: icons.soc,
-      complete: distribComplete('SOC'),
+      fulfilled: false,
     },
-    {
-      name: 'Quantitative and Deductive Science',
+    QDS: {
+      fullName: 'Quantitative and Deductive Science',
+      name: 'QDS',
       icon: icons.qds,
-      complete: distribComplete('QDS'),
+      fulfilled: false,
     },
-    {
-      name: 'Natural and Physical Science (LAB)',
+    SLA: {
+      fullName: 'Natural and Physical Science (LAB)',
+      name: 'SLA',
       icon: icons.sla,
-      complete: distribComplete('SLA'),
+      fulfilled: false,
     },
-    {
-      name: 'Natural and Physical Science',
+    SCI: {
+      fullName: 'Natural and Physical Science',
+      name: 'SCI',
       icon: icons.sci,
-      complete: distribComplete('SCI'),
+      fulfilled: false,
     },
-    {
-      name: 'Technology and Applied Science (LAB)',
+    TLA: {
+      fullName: 'Technology and Applied Science (LAB)',
+      name: 'TLA',
       icon: icons.tla,
-      complete: distribComplete('TLA'),
+      fulfilled: false,
     },
-    {
-      name: 'Technology and Applied Science',
+    TAS: {
+      fullName: 'Technology and Applied Science',
+      name: 'TAS',
       icon: icons.tas,
-      complete: distribComplete('TAS'),
+      fulfilled: false,
     },
-    {
-      name: 'Western Cultures',
+    W: {
+      fullName: 'Western Cultures',
+      name: 'W',
       icon: icons.wc_w,
-      complete: wcComplete('W'),
+      fulfilled: false,
     },
-    {
-      name: 'Non-Western Cultures',
+    NW: {
+      fullName: 'Non-Western Cultures',
+      name: 'NW',
       icon: icons.wc_nw,
-      complete: wcComplete('NW'),
+      fulfilled: false,
     },
-    {
-      name: 'Culture and Identity',
+    CI: {
+      fullName: 'Culture and Identity',
+      name: 'CI',
       icon: icons.wc_ci,
-      complete: wcComplete('CI'),
+      fulfilled: false,
     },
-  ];
+  };
 
-  const renderDistribs = () => {
+  const renderGenEds = () => {
+    fillDistribs();
     return (
       <div className="reqs-list">
-        {distribTypes.map((distrib) => {
+        {Object.values(genEdsReference).map((genEd) => {
           return (
-            <div key={distrib.name} className="distrib-row">
-              <img className="icon" src={distrib.icon} alt={`${distrib.name} icon`} />
-              <div className="distrib-name">{distrib.name}</div>
-              <img className="checkbox" src={distrib.complete ? checkedIcon : uncheckedIcon} alt="checkbox" />
+            <div key={genEd.name} className="genEd-row">
+              <img className="icon" src={genEd.icon} alt={`${genEd.name} icon`} />
+              <div className="genEd-name">{genEd.name}</div>
+              <img className="checkbox" src={genEd.fulfilled ? checkedIcon : uncheckedIcon} alt="checkbox" />
             </div>
           );
         })}
@@ -184,7 +252,7 @@ const RequirementsPane = (props) => {
           )
           : <div /> }
       </div>
-      {distribsActive ? renderDistribs() : renderMajorReqs()}
+      {distribsActive ? renderGenEds() : renderMajorReqs()}
     </div>
   );
 };
