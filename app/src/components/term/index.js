@@ -111,7 +111,7 @@ class Term extends Component {
             <div className="course-row" key={course.id}>
               <DraggableUserCourse
                 key={course.id}
-                catalogCourse={course.catalogCourse}
+                catalogCourse={course.course}
                 course={course}
                 sourceTerm={this.props.term}
                 removeCourseFromTerm={() => {
@@ -122,7 +122,7 @@ class Term extends Component {
                 <HourSelector
                   key={course.id}
                   course={course}
-                  timeslots={course.catalogCourse.periods}
+                  timeslots={course.course.periods}
                   updateUserCourse={this.props.updateUserCourse}
                 />
               </div>
