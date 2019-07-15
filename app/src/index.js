@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import Cytoscape from './components/Cytoscape';
 import App from './components/App';
 import DialogOrchestrator from './dialogs/dialogOrchestrator';
 import { ActionTypes } from './actions';
@@ -26,7 +25,6 @@ ReactDOM.render(
   <Provider store={store}>
     <App />
     <DialogOrchestrator />
-    <Cytoscape />
   </Provider>,
   document.getElementById('root'),
 );
