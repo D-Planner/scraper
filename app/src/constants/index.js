@@ -11,6 +11,7 @@ export const DialogTypes = {
   DECLARE_MAJOR: 'DECLARE_MAJOR',
   COURSE_INFO: 'COURSE_INFO',
   OFF_TERM: 'OFF_TERM',
+  PROFILE: 'PROFILE',
 };
 
 export const Departments = [

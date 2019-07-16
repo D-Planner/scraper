@@ -18,7 +18,7 @@ const PopulateCourse = [{
     select: CourseReferenceSelect,
 }];
 
-const PopulateTerm = {
+const PopulateTerm = [{
     path: 'courses',
     populate: [{
         path: 'course',
@@ -28,9 +28,20 @@ const PopulateTerm = {
         path: 'previousCourses',
         select: 'id',
     }],
-};
+}, {
+    path: 'plan_id.user_id',
+},
+];
+
+const PopulateUser = [{
+    path: 'placement_courses',
+    select: CourseReferenceSelect,
+}, {
+    path: 'majors',
+}];
 
 export default [
     PopulateCourse,
     PopulateTerm,
+    PopulateUser,
 ];

@@ -9,9 +9,13 @@ const UserSchema = new Schema({
     last_name: String,
     favorite_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     completed_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
+    placement_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     majors: [{ type: Schema.Types.ObjectId, ref: 'Major' }],
     settings: {},
 }, {
+    toObject: {
+        virtuals: true,
+    },
     toJSON: {
         virtuals: true,
     },
