@@ -18,6 +18,33 @@ coursesRouter.post('/create', CoursesController.createCourse);
 coursesRouter.get('/favorite', CoursesController.getFavorite);
 
 /**
+ * @api {post} /courses/placement/:id Add course to Placement
+ * @apiName addToPlacements
+ * @apiGroup Courses
+ *
+ * @apiParam {String} id the id of the course object to add to placement
+ *
+ * @apiSuccess {Object} user the user object with the new course added to their placement
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ *      {
+ *          "favorite_courses": [
+ *              "5c76db2df37f2dc9348f890a"
+ *          ],
+ *          "completed_courses": [],
+ *          "majors": [
+ *              "5ceda41ad78037c2c039affa"
+ *          ],
+ *          "_id": "5c52a8940dadc9e7ae96e1e2",
+ *          "email": "a@a.com",
+ *          "password": "$2a$10$SjegbbEiUR.dJBnC5JQ0aeWUVOeYgaVosdXI7F0U/S9OAi2kVlBom",
+ *          "__v": 0,
+ *          "id": "5c52a8940dadc9e7ae96e1e2"
+ *      }
+ */
+coursesRouter.post('/placement/:id', CoursesController.addPlacement);
+
+/**
  * @api {post} /courses/favorite/:id Add course to favorites
  * @apiName AddToFavorites
  * @apiGroup Courses
