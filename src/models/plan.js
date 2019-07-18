@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 // import UserCourse from './user_course';
+import PopulateTerm from '../controllers/populators';
 
 const PlanSchema = new Schema({
     user_id: { type: Schema.Types.ObjectId, ref: 'User' },
