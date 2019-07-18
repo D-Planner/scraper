@@ -58,7 +58,6 @@ export const getUser = (req, res) => {
         .exec()
         .then((user) => {
             const json = user.toJSON();
-            console.log(json);
             delete json.password;
             res.json(json);
         })
