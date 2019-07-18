@@ -3,10 +3,12 @@ import { connect } from 'react-redux';
 import DialogWrapper from '../dialogWrapper';
 // import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import {
-  addCourseToFavorites, addCourseToPlacements, fetchPlan, fetchUser,
+  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
+import bookmarkFilled from '../../style/bookmarkFilled.svg';
+import plus from '../../style/plus.svg';
 import CourseElement from '../../components/staticCourseElement';
 
 import './courseInfo.scss';
@@ -166,7 +168,6 @@ class CourseInfoDialog extends Component {
   }
 
   renderPrerequisites = (course) => {
-    console.log(this.props);
     const { prerequisites } = course;
     return (
       <div id="dependenciesContainer">
@@ -218,23 +219,42 @@ class CourseInfoDialog extends Component {
     );
   }
 
-  courseUserOptions() {
-    console.log(this.props);
+  courseUserOptions(courseID) {
+    const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
+    const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
     return (
-      <div>
-        <p onClick={() => {
-          this.props.addCourseToPlacements(this.props.data._id);
-          this.props.fetchPlan(this.props.plan.id);
-        }}
-        > Add this to your placements
-        </p>
-        <div className="spacer" />
-        <p onClick={() => {
-          this.props.addCourseToFavorites(this.props.data._id);
-          this.props.fetchUser(this.props.user.id);
-        }}
-        > Add this to your Favorites
-        </p>
+      <div id="user-actions">
+        <img
+          className="action"
+          src={bookmarked ? bookmarkFilled : bookmark}
+          alt="Bookmark"
+          onClick={
+            (bookmarked)
+              ? () => this.props.removeCourseFromFavorites(this.props.data.id)
+                .then(() => this.props.fetchUser(this.props.user.id))
+              : () => this.props.addCourseToFavorites(this.props.data.id)
+                .then(() => this.props.fetchUser(this.props.user.id))
+          }
+        />
+        {
+          (!placement ? (
+            <>
+              <div className="spacer" />
+              <img
+                className="action"
+                src={plus}
+                alt="Placement"
+                onClick={
+                  placement
+                    ? () => this.props.removePlacement(this.props.data.id)
+                      .then(r => this.props.fetchPlan(this.props.plan.id))
+                    : () => this.props.addCourseToPlacements(this.props.data.id)
+                      .then(r => this.props.fetchPlan(this.props.plan.id))
+                }
+              />
+            </>
+          ) : <></>)
+        }
       </div>
     );
   }
@@ -247,7 +267,10 @@ class CourseInfoDialog extends Component {
   courseInfo(course, nextTerm) {
     return (
       <div id="content">
-        <div id="major">Engineering Department: Prerequisite</div>
+        <div id="top">
+          <div id="major">Engineering Department: Prerequisite</div>
+          {this.courseUserOptions(course.id)}
+        </div>
         <hr className="horizontal-divider" />
         <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description)}</div>
         <hr className="horizontal-divider" />
@@ -268,7 +291,6 @@ class CourseInfoDialog extends Component {
   render() {
     return (
       <DialogWrapper {...this.props}>
-        {this.courseUserOptions()}
         {this.courseInfo(this.props.data, this.props.nextTerm)}
       </DialogWrapper>
     );
@@ -381,5 +403,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites,
+  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement,
 })(CourseInfoDialog);

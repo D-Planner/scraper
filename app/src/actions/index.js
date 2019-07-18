@@ -300,14 +300,16 @@ export function fetchProfessors(id) {
  * @returns an action creator to add a course to a user's favorites
  */
 export function addCourseToFavorites(courseID) {
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/courses/favorite/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
-  };
+  }));
 }
 
 /**
@@ -317,7 +319,6 @@ export function addCourseToFavorites(courseID) {
  * @returns an action creator to add a course to a user's favorites
  */
 export function removeCourseFromFavorites(courseID) {
-  console.log('hi');
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/favorite/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

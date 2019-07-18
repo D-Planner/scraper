@@ -36,11 +36,12 @@ class DPlan extends Component {
   addCourseToTerm(course, term) {
     this.props.addCourseToTerm(course, term)
       .then((r) => {
+        // Change this to a newly creaed updatePlan()
         return this.props.fetchPlan(this.props.plan.id);
       })
-      // .then((r) => {
-      //   this.props.fetchPlan(this.props.plan.id);
-      // })
+      .then((r) => {
+        this.props.fetchPlan(this.props.plan.id);
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -49,11 +50,12 @@ class DPlan extends Component {
   removeCourseFromTerm(course, term) {
     this.props.removeCourseFromTerm(course, term)
       .then((r) => {
+        // Change this to a newly creaed updatePlan()
         return this.props.fetchPlan(this.props.plan.id);
       })
-      // .then((r) => {
-      //   this.props.fetchPlan(this.props.plan.id);
-      // })
+      .then((r) => {
+        this.props.fetchPlan(this.props.plan.id);
+      })
       .catch((err) => {
         console.log(err);
       });
