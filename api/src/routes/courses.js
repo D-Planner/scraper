@@ -42,7 +42,9 @@ coursesRouter.get('/favorite', CoursesController.getFavorite);
  *          "id": "5c52a8940dadc9e7ae96e1e2"
  *      }
  */
-coursesRouter.post('/placement/:id', CoursesController.addPlacement);
+coursesRouter.route('/placement/:id')
+    .post(CoursesController.addPlacement)
+    .delete(CoursesController.removePlacement);
 
 /**
  * @api {post} /courses/favorite/:id Add course to favorites

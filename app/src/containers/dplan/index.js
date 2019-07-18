@@ -34,19 +34,29 @@ class DPlan extends Component {
   }
 
   addCourseToTerm(course, term) {
-    this.props.addCourseToTerm(course, term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
-    }).catch((err) => {
-      console.log(err);
-    });
+    this.props.addCourseToTerm(course, term)
+      .then((r) => {
+        return this.props.fetchPlan(this.props.plan.id);
+      })
+      // .then((r) => {
+      //   this.props.fetchPlan(this.props.plan.id);
+      // })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   removeCourseFromTerm(course, term) {
-    this.props.removeCourseFromTerm(course, term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
-    }).catch((err) => {
-      console.log(err);
-    });
+    this.props.removeCourseFromTerm(course, term)
+      .then((r) => {
+        return this.props.fetchPlan(this.props.plan.id);
+      })
+      // .then((r) => {
+      //   this.props.fetchPlan(this.props.plan.id);
+      // })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   showDialog() {

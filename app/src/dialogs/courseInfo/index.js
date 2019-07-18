@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DialogWrapper from '../dialogWrapper';
 // import bookmarkFilled from '../../style/bookmarkFilled.svg';
-import { addCourseToFavorites, addCourseToPlacements } from '../../actions';
+import { addCourseToFavorites, addCourseToPlacements, fetchPlan } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
+import CourseElement from '../../components/staticCourseElement';
 
 import './courseInfo.scss';
 
@@ -183,22 +184,15 @@ class CourseInfoDialog extends Component {
                   </div>
                 ) : o[dependencyType].map((c) => {
                   return (
-                    <div className="course bg">
-                      <div className="title-box">
-                        <div className="course-left">
-                          {`${c.department} ${c.number}`}
-                        </div>
-                        <div className="spacer" />
-                        <div className="course-right">
-                          <div className="name">
-                            {c.name}
-                          </div>
-                          <div className="check-box">
-                            <img className="bookmark" src={bookmark} alt="bookmark" onClick={addCourseToFavorites(c.id)} />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <CourseElement
+                      course={c}
+                      size="bg"
+                      action={{
+                        type: 'bookmark',
+                        svg: bookmark,
+                        method: addCourseToFavorites(c.id),
+                      }}
+                    />
                   );
                 })}
               </div>
@@ -211,7 +205,6 @@ class CourseInfoDialog extends Component {
                 })) ? <img src={checkedBox} alt="fulfilled" /> : render;
               case 'range':
                 return (this.props.previousCourses.some((c) => {
-                  console.log(c);
                   return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
                 })) ? <img src={checkedBox} alt="fulfilled" /> : render;
               default:
@@ -229,6 +222,7 @@ class CourseInfoDialog extends Component {
       <div>
         <p onClick={() => {
           this.props.addCourseToPlacements(this.props.data._id);
+          this.props.fetchPlan(this.props.plan.id);
         }}
         > Add this to your placements
         </p>
@@ -373,6 +367,7 @@ const distribTypes = [
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
+  plan: state.plans.current,
 });
 
-export default connect(mapStateToProps, { addCourseToPlacements })(CourseInfoDialog);
+export default connect(mapStateToProps, { addCourseToPlacements, fetchPlan })(CourseInfoDialog);

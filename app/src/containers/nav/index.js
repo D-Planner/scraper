@@ -12,7 +12,6 @@ import { DialogTypes } from '../../constants';
 const showProfileDialog = (props) => {
   const dialogOptions = {
     size: 'lg',
-    data: props.user,
     showOk: false,
   };
   props.showDialog(DialogTypes.PROFILE, dialogOptions);
