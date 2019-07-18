@@ -317,6 +317,7 @@ export function addCourseToFavorites(courseID) {
  * @returns an action creator to add a course to a user's favorites
  */
 export function removeCourseFromFavorites(courseID) {
+  console.log('hi');
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/favorite/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

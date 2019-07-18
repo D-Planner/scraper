@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removePlacement, fetchUser, fetchPlan } from '../../actions';
+import {
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan,
+} from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import remove from '../../style/close.svg';
 import CourseElement from '../../components/staticCourseElement';
@@ -37,8 +39,39 @@ class ProfileDialog extends Component {
             {this.renderPlacements()}
           </div>
         </div>
+        <div className="info">
+          <div className="label">Bookmarked Courses</div>
+          <div className="data">
+            {this.renderBookmarks()}
+          </div>
+        </div>
 
       </div>
+    );
+  }
+
+  renderBookmarks = () => {
+    return (
+      this.props.user.favorite_courses.map((c, i) => {
+        return (
+          <CourseElement
+            size="bg"
+            course={c}
+            action={{
+              type: 'remove',
+              svg: remove,
+              method: () => {
+                this.props.removeCourseFromFavorites(c.id).then((r) => {
+                  this.props.fetchUser();
+                  this.props.fetchPlan(this.props.plan.id);
+                }).catch((e) => {
+                  console.log(e);
+                });
+              },
+            }}
+          />
+        );
+      })
     );
   }
 
@@ -81,4 +114,6 @@ const mapStateToProps = state => ({
   plan: state.plans.current,
 });
 
-export default connect(mapStateToProps, { removePlacement, fetchUser, fetchPlan })(ProfileDialog);
+export default connect(mapStateToProps, {
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan,
+})(ProfileDialog);

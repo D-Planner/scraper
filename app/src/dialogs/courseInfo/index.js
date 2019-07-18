@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DialogWrapper from '../dialogWrapper';
 // import bookmarkFilled from '../../style/bookmarkFilled.svg';
-import { addCourseToFavorites, addCourseToPlacements, fetchPlan } from '../../actions';
+import {
+  addCourseToFavorites, addCourseToPlacements, fetchPlan, fetchUser,
+} from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
 import CourseElement from '../../components/staticCourseElement';
@@ -226,6 +228,13 @@ class CourseInfoDialog extends Component {
         }}
         > Add this to your placements
         </p>
+        <div className="spacer" />
+        <p onClick={() => {
+          this.props.addCourseToFavorites(this.props.data._id);
+          this.props.fetchUser(this.props.user.id);
+        }}
+        > Add this to your Favorites
+        </p>
       </div>
     );
   }
@@ -368,6 +377,9 @@ const distribTypes = [
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
   plan: state.plans.current,
+  user: state.user.current,
 });
 
-export default connect(mapStateToProps, { addCourseToPlacements, fetchPlan })(CourseInfoDialog);
+export default connect(mapStateToProps, {
+  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites,
+})(CourseInfoDialog);

@@ -23,13 +23,12 @@ const Sidebar = (props) => {
   const [activePane, setActivePane] = useState(paneTypes.REQUIREMENTS);
 
   useEffect(() => {
-    props.fetchBookmarks();
     props.fetchUser();
   }, []);
 
   const addToBookmarks = (courseId) => {
     props.addCourseToFavorites(courseId);
-    props.fetchBookmarks();
+    props.fetchUser();
   };
 
   const showDeclareDialog = () => {
@@ -62,7 +61,7 @@ const Sidebar = (props) => {
       <BookmarksPane
         active={activePane === paneTypes.BOOKMARKS}
         activate={() => setActivePane(paneTypes.BOOKMARKS)}
-        bookmarks={props.bookmarks}
+        bookmarks={props.user.favorite_courses}
         addToBookmarks={addToBookmarks}
       />
     </div>

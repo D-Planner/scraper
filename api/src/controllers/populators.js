@@ -34,10 +34,11 @@ const PopulateTerm = [{
 ];
 
 const PopulateUser = [{
+    path: 'favorite_courses',
+    populate: CourseReferenceSelect,
+}, {
     path: 'placement_courses',
     select: CourseReferenceSelect,
-}, {
-    path: 'majors',
 }];
 
 export default [

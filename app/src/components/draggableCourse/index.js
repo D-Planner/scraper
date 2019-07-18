@@ -2,6 +2,7 @@ import React from 'react';
 import './draggableCourse.scss';
 import { DragSource as DraggableCourse } from 'react-dnd';
 import { connect } from 'react-redux';
+import CourseElement from '../staticCourseElement';
 import { ItemTypes, DialogTypes } from '../../constants';
 import { showDialog } from '../../actions';
 
@@ -46,17 +47,10 @@ const Course = (props) => {
   const { course } = props;
   return props.connectDragSource(
     <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
-      <div className="course bg">
-        <div className="title-box">
-          <div className="course-left">
-            {`${course.department} ${course.number}`}
-          </div>
-          <div className="spacer" />
-          <div className="course-right">
-            {course.name}
-          </div>
-        </div>
-      </div>
+      <CourseElement
+        size="bg"
+        course={course}
+      />
     </div>,
   );
 };

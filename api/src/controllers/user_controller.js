@@ -1,6 +1,5 @@
 import jwt from 'jwt-simple';
 import User from '../models/user';
-import PopulateUser from './populators';
 
 export const signin = (req, res, next) => {
     const json = req.user.toJSON();
@@ -54,11 +53,12 @@ export const getUser = (req, res) => {
     }
 
     User.findById(userID)
-        .then((user) => {
-            return user.populate(PopulateUser).execPopulate();
-        })
+        .populate('favorite_courses', 'department name number id')
+        .populate('placement_courses', 'department name number id')
+        .exec()
         .then((user) => {
             const json = user.toJSON();
+            console.log(json);
             delete json.password;
             res.json(json);
         })

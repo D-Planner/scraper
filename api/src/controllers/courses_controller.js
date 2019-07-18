@@ -273,7 +273,6 @@ const getCompleted = (req, res) => {
             model: 'Course',
             populate: PopulateCourse,
         })
-        .exec()
         .then((result) => {
             res.json(result.completed_courses);
         })

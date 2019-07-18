@@ -10,7 +10,7 @@ import DraggableUserCourse from '../draggableUserCourse';
 
 import './term.scss';
 import {
-  updateTerm, showDialog, fetchPlan, updateUserCourse,
+  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 } from '../../actions';
 
 const termTarget = {
@@ -49,11 +49,16 @@ class Term extends Component {
       title: 'Turn Term Off',
       okText: 'Ok!',
       onOk: () => {
+        this.props.term.courses.forEach((course) => {
+          console.log(this.props.term.courses);
+          this.props.removeCourseFromFavorites(course.course.id);
+        });
         this.props.term.off_term = true;
         this.props.term.courses = [];
         this.props.updateTerm(this.props.term)
           .then(() => {
             this.props.fetchPlan(this.props.plan.id);
+            this.props.fetchUser();
           });
       },
     };
@@ -167,5 +172,5 @@ const mapStateToProps = state => ({
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTerm, showDialog, fetchPlan, updateUserCourse,
+  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 })(Term)));

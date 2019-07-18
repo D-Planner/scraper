@@ -4,6 +4,7 @@ import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
 import { ItemTypes, DialogTypes } from '../../constants';
 import { showDialog } from '../../actions';
+import CourseElement from '../staticCourseElement';
 
 const source = {
   beginDrag(props) {
@@ -55,17 +56,11 @@ class UserCourse extends Component {
     console.log(this.props.course.fulfilled);
     return this.props.connectDragSource(
       <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
-        <div className={`course sm${(!this.props.course.fulfilled) ? ' error' : ''}`}>
-          <div className="title-box">
-            <div className="course-left">
-              {`${this.catalogCourse.department} ${this.catalogCourse.number}`}
-            </div>
-            <div className="spacer" />
-            <div className="course-right">
-              {this.catalogCourse.name}
-            </div>
-          </div>
-        </div>
+        <CourseElement
+          size="sm"
+          error={!this.props.course.fulfilled}
+          course={this.catalogCourse}
+        />
       </div>,
     );
   }

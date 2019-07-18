@@ -21,7 +21,7 @@ class CourseElement extends Component {
 
   render() {
     return (
-      <div className={`course ${this.props.size}`}>
+      <div className={`course ${this.props.size} ${(this.props.error) ? 'error' : ''}`}>
         <div className="title-box">
           <div className="course-left">
             {`${this.props.course.department} ${this.props.course.number}`}
@@ -31,13 +31,19 @@ class CourseElement extends Component {
             <div className="name">
               {this.props.course.name}
             </div>
-            <div className="check-box">
-              <img className={this.props.action.type}
-                src={this.props.action.svg}
-                alt={this.props.action.type}
-                onClick={this.props.action.method}
-              />
-            </div>
+            {(this.props.action)
+              ? (
+                <div className="check-box">
+                  <img className={this.props.action.type}
+                    src={this.props.action.svg}
+                    alt={this.props.action.type}
+                    onClick={this.props.action.method}
+                  />
+                </div>
+              )
+              : <div />
+            }
+
           </div>
         </div>
       </div>

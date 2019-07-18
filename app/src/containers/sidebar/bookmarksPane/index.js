@@ -43,7 +43,6 @@ const component = (props) => {
                   key={course.crn}
                   index={index}
                   course={course}
-                  removeCourseFromTerm={() => {}}
                 />
               );
             })}
