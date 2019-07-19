@@ -1,4 +1,5 @@
 import Term from '../models/term';
+import User from '../models/user';
 import UserCourseController from '../controllers/user_course_controller';
 import PopulateTerm from './populators';
 
@@ -37,14 +38,20 @@ const addCourseToTerm = async (req, res, next) => {
     const term = await Term.findById(termID);
     const populated = await term.populate(PopulateTerm).execPopulate();
 
+    const user = await User.findById(req.user.id).populate('completed_courses');
+
     // check if a course with this id already exists in the term
     if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
         term.courses.push(userCourse);
     } else {
         res.status(409).json({ message: 'This course already exists in this term' });
     }
+    if (user.completed_courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
+        user.completed_courses.push(userCourse);
+    }
 
     await term.save();
+    await user.save();
 
     res.send(term);
 };
@@ -53,10 +60,14 @@ const removeCourseFromTerm = async (req, res, next) => {
     const termID = req.params.termID;
     const term = await Term.findById(termID);
     const userCourseID = req.params.userCourseID;
+    const user = await User.findById(req.user.id);
+    console.log(user);
 
     // filter out the course we are removing and save the new object
-    term.courses = term.courses.filter((c) => { return c.toString() !== userCourseID; });
+    term.courses = term.courses.filter((c) => { return c.toString() !== userCourseID.toString(); });
+    user.completed_courses = user.completed_courses.filter((c) => { return c.toString() !== userCourseID.toString(); });
     await term.save();
+    await user.save();
 
     // delete the user course object
     const err = await UserCourseController.deleteUserCourse(userCourseID);
