@@ -423,7 +423,6 @@ export function courseSearch(query, type) {
     }
   };
 }
-
 /**
  * Adds a new UserCourse object to a specific term
  * @export

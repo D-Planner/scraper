@@ -9,6 +9,7 @@ import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
+import minus from '../../style/minus.svg';
 import CourseElement from '../../components/staticCourseElement';
 
 import './courseInfo.scss';
@@ -229,32 +230,26 @@ class CourseInfoDialog extends Component {
           src={bookmarked ? bookmarkFilled : bookmark}
           alt="Bookmark"
           onClick={
-            (bookmarked)
+            bookmarked
               ? () => this.props.removeCourseFromFavorites(this.props.data.id)
-                .then(() => this.props.fetchUser(this.props.user.id))
+                .then(r => this.props.fetchUser(this.props.user.id))
               : () => this.props.addCourseToFavorites(this.props.data.id)
-                .then(() => this.props.fetchUser(this.props.user.id))
+                .then(r => this.props.fetchUser(this.props.user.id))
           }
         />
-        {
-          (!placement ? (
-            <>
-              <div className="spacer" />
-              <img
-                className="action"
-                src={plus}
-                alt="Placement"
-                onClick={
-                  placement
-                    ? () => this.props.removePlacement(this.props.data.id)
-                      .then(r => this.props.fetchPlan(this.props.plan.id))
-                    : () => this.props.addCourseToPlacements(this.props.data.id)
-                      .then(r => this.props.fetchPlan(this.props.plan.id))
-                }
-              />
-            </>
-          ) : <></>)
-        }
+        <div className="spacer" />
+        <img
+          className="action"
+          src={placement ? minus : plus}
+          alt="Placement"
+          onClick={
+            placement
+              ? () => this.props.removePlacement(this.props.data.id)
+                .then(r => this.props.fetchUser(this.props.plan.id))
+              : () => this.props.addCourseToPlacements(this.props.data.id)
+                .then(r => this.props.fetchUser(this.props.plan.id))
+          }
+        />
       </div>
     );
   }

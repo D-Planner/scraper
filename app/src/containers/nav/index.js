@@ -27,7 +27,6 @@ class Nav extends Component {
   }
 
   render() {
-    console.log(this.props.user);
     const discoverActive = this.props.location.pathname.includes('discover');
     const planClass = classNames({ 'nav-tab': true, 'nav-tab-active': !discoverActive });
     const discoverClass = classNames({ 'nav-tab': true, 'nav-tab-active': discoverActive });
