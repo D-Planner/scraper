@@ -19,6 +19,11 @@ export const ActionTypes = {
   HIDE_DIALOG: 'HIDE_DIALOG',
   ERROR_SET: 'ERROR_SET',
   ERROR_CLEAR: 'ERROR_CLEAR',
+  DECLARE_MAJOR: 'DECLARE_MAJOR',
+  FETCH_DECLARED: 'FETCH_DECLARED',
+  DROP_MAJOR: 'DROP_MAJOR',
+  FETCH_MAJOR: 'FETCH_MAJOR',
+  FETCH_PROGRESS: 'FETCH_PROGRESS',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
@@ -310,13 +315,14 @@ export function addCourseToFavorites(courseID) {
  */
 export function courseSearch(query, type) {
   return (dispatch) => {
-    console.log(type);
     switch (type) {
       case 'number':
         axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+          console.log(response);
+          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
           console.log(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -326,7 +332,8 @@ export function courseSearch(query, type) {
         axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
           console.log(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -336,7 +343,7 @@ export function courseSearch(query, type) {
         axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
           console.log(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -383,14 +390,17 @@ export function addCourseToTerm(course, term) {
  */
 export function removeCourseFromTerm(course, term) {
   const termID = (typeof term === 'object') ? term.id : term;
-  return (dispatch) => {
-    return axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}`, {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then(() => {
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 export function updateTerm(term) {
@@ -461,21 +471,66 @@ export function fetchMajors() {
  * @param {String} majorID a string representing the Mongoose ObjectID for a major to declare
  * @returns an action creator to declare a major for a user
  */
-export function declareMajor(majorID) {
+export function declareMajor(id) {
   return (dispatch) => {
-    return axios.post(`${ROOT_URL}/majors/declared/${majorID}`, {}, {
+    axios.post(`${ROOT_URL}/majors/declared/${id}`, null, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      // console.log(response);
-      // dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
-      // fetchCourse
-    })
-      .catch((error) => {
-        console.log(error);
-        dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-      });
+      dispatch(fetchDeclared());
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   };
 }
+
+export function fetchDeclared() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/majors/declared`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_DECLARED, payload: response.data });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function dropMajor(id) {
+  return (dispatch) => {
+    axios.delete(`${ROOT_URL}/majors/declared/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.DROP_MAJOR, payload: id });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function fetchMajor(id) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/majors/declared/${id}`, null, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_MAJOR, payload: response.data });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+export function fetchProgress(id) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/majors/progress/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_PROGRESS, payload: response.data });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
 
 // ----- Dialog Actions ----- //
 

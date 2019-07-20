@@ -33,21 +33,25 @@ class DPlan extends Component {
     return courses;
   }
 
-  addCourseToTerm(course, term) {
+  addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
     this.props.addCourseToTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
+      resolve();
     }).catch((err) => {
       console.log(err);
+      reject();
     });
-  }
+  })
 
-  removeCourseFromTerm(course, term) {
+  removeCourseFromTerm = (course, term) => new Promise((resolve, reject) => {
     this.props.removeCourseFromTerm(course, term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
+      resolve();
     }).catch((err) => {
       console.log(err);
+      reject();
     });
-  }
+  })
 
   showDialog() {
     const opts = {

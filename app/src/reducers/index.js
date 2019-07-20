@@ -5,7 +5,7 @@ import coursesReducer from './courses-reducer';
 import dialogReducer from './dialog-reducer';
 import plansReducer from './plans-reducer';
 import userReducer from './user-reducer';
-import majorReducer from './major-reducer';
+import majorReducer from './majors-reducer';
 import timeReducer from './time-reducer';
 
 const rootReducer = combineReducers({
