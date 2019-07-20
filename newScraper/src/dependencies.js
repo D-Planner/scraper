@@ -3,6 +3,9 @@ import request from 'sync-request';
 import fs from 'fs';
 import courses from '../../spider/data/courses.json';
 import departmentsJson from '../../spider/data/departments.json';
+// import parsedReqs from '../data/prerequisites2.json';
+// import parsedReqs2 from '../data/prerequisites2_0.json';
+import prereqs from '../data/prerequisites.json';
 
 const departmentCodes = departmentsJson.departments.map((dep) => {
   return dep.code;
@@ -10,10 +13,15 @@ const departmentCodes = departmentsJson.departments.map((dep) => {
 
 
 // Loop over all courses
-// let allPrerequisites = {};
+let allPrerequisites = {};
 for (let course of courses) {
   // For each individual course
   let prerequisites = [];
+  // if (course.title in parsedReqs) {
+  //   prerequisites = parsedReqs[course.title];
+  // } else if (course.title in parsedReqs2) {
+  //   prerequisites = parsedReqs2[course.title];
+  // } else
   if (course.orc_url) {
     const val = request('GET',course.orc_url);
     try {
@@ -76,8 +84,9 @@ for (let course of courses) {
 
             const tokens = trimmed.split(' ');
             if(!(new RegExp(departmentCodes.join('|')).test(trimmed))) {
+              if (tokens.length === 1) tokens.unshift(course.department);
+              else tokens[0] = course.department;
               console.log("Fixed Dept: " + course.title);
-              tokens[0] = course.department;
             }
             //Zero Padding
             trimmed = tokens[0] + ' ' + ('00' + tokens[1]).slice(-3);
@@ -123,16 +132,14 @@ for (let course of courses) {
       console.log("Issue Parsing: " + course.orc_url);
     }
   }
-  // let newCourse = course;
-  // newCourse.prerequisites = prerequisites;
-  // allPrerequisites[newCourse.title] = prerequisites;
+  allPrerequisites[course.title] = prerequisites;
 };
 
-// fs.writeFile('data/prerequisites2.json', JSON.stringify(allPrerequisites), (e) => {
-//   if (e) throw e;
-//   console.log("Saved");
-//   return;
-// });
+fs.writeFile('data/prerequisites3.json', JSON.stringify(allPrerequisites), (e) => {
+  if (e) throw e;
+  console.log("Saved");
+  return;
+});
 
 // Courses that need checking / Fixing
 
