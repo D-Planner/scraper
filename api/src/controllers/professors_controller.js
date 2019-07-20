@@ -8,41 +8,6 @@ const getProfessors = (req, res) => {
     });
 };
 
-const getProfessorId = async (pName) => {
-    const query = Professor.find({ name: pName });
-    const res = query.then((docs) => {
-        try {
-            return docs[0]._id;
-        } catch (e) {
-            return false;
-        }
-    });
-    return res;
-};
-
-const getProfessorListId = async (profs) => {
-    const list = [];
-    if (profs && profs.length !== 0) {
-        profs.forEach(async (pName) => {
-            list.push(await getProfessorId(pName));
-        });
-    }
-    return list;
-};
-
-const addProfessors = async (professors) => {
-    if (professors && professors.length) {
-        professors.forEach(async (pName) => {
-            const id = await getProfessorId(pName);
-            if (!id) {
-                await Professor.create({ name: pName }, (err, res) => {
-                    if (err) console.log(err);
-                });
-            }
-        });
-    }
-};
-
 const getProfessorById = (req, res) => {
     Professor.find({ id: req.query.id }, 'name')
         .then((r) => {
@@ -55,9 +20,6 @@ const getProfessorById = (req, res) => {
 
 const ProfessorController = {
     getProfessors,
-    addProfessors,
-    getProfessorId,
-    getProfessorListId,
     getProfessorById,
 };
 

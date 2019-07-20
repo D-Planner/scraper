@@ -2,6 +2,7 @@ import Term from '../models/term';
 import User from '../models/user';
 import UserCourse from '../models/user_course';
 import UserCourseController from '../controllers/user_course_controller';
+import PopulateTerm from './populators';
 
 const createTerm = async (term, planID) => {
     const newTerm = await Term.create({
@@ -59,12 +60,14 @@ const addCourseToTerm = async (req, res, next) => {
     // TO-DO: build in auto-scheduler that will put in appropriate course hour that fits with the other courses in the term
 
     const term = await Term.findById(termID);
-    // const populated = await term.populate({
-    //     path: 'courses',
-    //     populate: {
-    //         path: 'course',
-    //     },
-    // }).execPopulate();
+    const populated = await term.populate(PopulateTerm).execPopulate();
+
+    // check if a course with this id already exists in the term
+    if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
+        term.courses.push(userCourse);
+    } else {
+        res.status(409).json({ message: 'This course already exists in this term' });
+    }
 
     // // check if a course with this id already exists in the term
     // if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
@@ -113,12 +116,7 @@ const removeCourseFromTerm = async (req, res, next) => {
 const getTerm = async (req, res) => {
     try {
         const term = await Term.findById(req.params.termID)
-            .populate({
-                path: 'courses',
-                populate: {
-                    path: 'course',
-                },
-            });
+            .populate(PopulateTerm);
         res.json(term);
     } catch (e) {
         res.status(500).json({ e });

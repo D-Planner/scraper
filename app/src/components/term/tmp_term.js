@@ -5,7 +5,7 @@ import { DropTarget as TermTarget } from 'react-dnd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DraggableCourse from '../draggableCourse';
-import HourSelector from '../hourSelector';
+import HourSelector from '../../containers/hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import './term.scss';
 import { updateTerm, showDialog } from '../../actions';

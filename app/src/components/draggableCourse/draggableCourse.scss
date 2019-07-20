@@ -15,11 +15,21 @@
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    width: 181px;
     height: 30px;
+
+    &.bg {
+      width: 203px;
+    }
+    &.sm {
+      width: 181px;
+    }
     &:hover {
         cursor: pointer;
         filter: brightness(95%);
+    }
+
+    &.error {
+      color: $error !important;
     }
 }
 

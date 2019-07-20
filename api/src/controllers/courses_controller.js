@@ -1,44 +1,52 @@
 import Course from '../models/course';
 import User from '../models/user';
-import ProfessorController from '../controllers/professors_controller';
+import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
+import prerequisitesJSON from '../../static/data/prerequisites.json';
+import PopulateCourse from './populators';
+
 
 const getCourses = async (req, res) => {
     Course.find({})
-        .populate('professors')
+        .populate(PopulateCourse)
         .then((result) => {
+            // result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
 
 const getCourse = async (req, res) => {
-    Course.find({ _id: req.params.id })
-        .populate('professors')
+    Course.findById(req.params.id)
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
 
 const getCoursesByDepartment = async (req, res) => {
     Course.find({ department: req.params.department })
-        .populate('professors')
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
     Course.find({ distribs: req.params.distrib })
-        .populate('professors')
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
@@ -58,7 +66,7 @@ const getCourseByName = (req, res) => {
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
-        .populate('professors')
+        .populate(PopulateCourse)
         .then((result) => {
             res.json(result);
         })
@@ -71,50 +79,126 @@ const getCourseByNumber = (req, res) => {
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
-    }).populate('professors')
+    })
+        .populate(PopulateCourse)
         .then((response) => {
+            response[0].reviews = response[0].reviews.slice(0, 30);
             res.json(response);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
 
+const filledValues = (course) => {
+    let professors = [];
+    if (course.professors) {
+        professors = course.professors.map((name) => {
+            const query = { name };
+            const update = { name };
+            const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+
+            // Find the document
+            const res = Professor.findOneAndUpdate(query, update, options);
+            return res.exec().then((r) => {
+                return r._id;
+            });
+        });
+    }
+    let prerequisites = [];
+    if (prerequisitesJSON[course.title]) {
+        prerequisites = prerequisitesJSON[course.title].map((o) => {
+            const key = Object.keys(o)[0];
+            const val = o[key];
+            if (val) {
+                const newVal = (key === 'abroad') ? true : val.map((c) => {
+                    const tokens = c.split(' ');
+                    if (key === 'range') {
+                        return parseInt(tokens[1]);
+                    }
+                    return Course.findOne({ department: tokens[0], number: tokens[1] }).then((result) => {
+                        if (result) return result._id;
+                        return null;
+                    }).catch((error) => {
+                        console.log('reseed', c);
+                        return error;
+                    });
+                });
+                return Promise.all(newVal).then((r) => {
+                    return {
+                        [Object.keys(o)[0]]: r,
+                    };
+                }).catch((e) => {
+                    return e;
+                });
+            } else {
+                return [];
+            }
+        });
+    }
+    let xListed = [];
+    if (course.xlist) {
+        xListed = course.xlist.map((c) => {
+            return Course.findOne({ layup_id: c }).then((res) => {
+                if (res) return res._id;
+                return null;
+            }).catch((err) => {
+                console.log('reseed', err);
+                return err;
+            });
+        });
+    }
+    return [
+        Promise.all(xListed),
+        Promise.all(prerequisites),
+        Promise.all(professors),
+    ];
+};
+
 const createCourse = (req, res) => {
     Promise.resolve(courses.map(async (course) => {
-        await ProfessorController.addProfessors(course.professors);
-        const profs = await ProfessorController.getProfessorListId(course.professors);
-        // separates into [wcs] and [distribs]
-        let wcs = []; let distribs = [];
-        if (course.distribs != null) {
-            wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
-            distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
-        }
-        return Course.create({
-            layup_url: course.layup_url,
-            layup_id: course.layup_id,
-            title: course.title,
-            department: course.department,
-            offered: course.offered,
-            distribs,
-            wcs,
-            total_reviews: course.total_reviews,
-            quality_score: course.quality_score,
-            layup_score: course.layup_score,
-            xlist: course.xlist,
-            name: course.name,
-            number: course.number,
-            periods: course.periods,
-            description: course.description,
-            reviews: course.reviews,
-            similar_courses: course.similar_courses,
-            orc_url: course.orc_url,
-            medians: course.medians,
-            terms_offered: course.terms_offered,
-            professors: profs,
-        }).then((result) => {
-            return result;
-        }).catch((error) => {
-            return error;
+        Promise.all(filledValues(course)).then((r) => {
+            // separates into [wcs] and [distribs]
+            let wcs = []; let distribs = [];
+            if (course.distribs != null) {
+                wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
+                distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
+            }
+            const [xlist, prerequisites, professors] = r;
+            return Course.findOneAndUpdate(
+                { title: course.title },
+                {
+                    layup_url: course.layup_url,
+                    layup_id: course.layup_id,
+                    title: course.title,
+                    department: course.department,
+                    offered: course.offered,
+                    distribs,
+                    wcs,
+                    total_reviews: course.total_reviews,
+                    quality_score: course.quality_score,
+                    layup_score: course.layup_score,
+                    xlist,
+                    name: course.name,
+                    number: course.number,
+                    periods: course.periods,
+                    description: course.description,
+                    reviews: course.reviews,
+                    similar_courses: course.similar_courses,
+                    orc_url: course.orc_url,
+                    medians: course.medians,
+                    terms_offered: course.terms_offered,
+                    professors,
+                    prerequisites,
+                },
+                { upsert: true },
+            ).then((res) => {
+                return res;
+            }).catch((error) => {
+                return error;
+            });
+        }).catch((e) => {
+            console.log(e);
         });
     })).then(() => {
         res.status(200).json({ message: 'Courses successfully added to db 🚀' });
@@ -145,7 +229,11 @@ const removeFavorite = (req, res) => {
 
 const getFavorite = (req, res) => {
     User.findOne({ _id: req.user.id })
-        .populate({ path: 'favorite_courses', model: 'Course' })
+        .populate({
+            path: 'favorite_courses',
+            model: 'Course',
+            populate: PopulateCourse,
+        })
         .exec()
         .then((result) => {
             res.json(result.favorite_courses);
@@ -177,7 +265,11 @@ const removeCompleted = (req, res) => {
 
 const getCompleted = (req, res) => {
     User.findOne({ _id: req.params.id })
-        .populate({ path: 'completed_courses', model: 'Course' })
+        .populate({
+            path: 'completed_courses',
+            model: 'Course',
+            populate: PopulateCourse,
+        })
         .exec()
         .then((result) => {
             res.json(result.completed_courses);

@@ -4,6 +4,7 @@ const initialState = {
   all: [],
   current: null,
   errorMessage: null, // ''?
+  prevCourses: null,
 };
 
 const plansReducer = (state = initialState, action) => {
@@ -18,6 +19,8 @@ const plansReducer = (state = initialState, action) => {
       return Object.assign({}, state, { errorMessage: action.payload });
     case ActionTypes.ERROR_CLEAR:
       return Object.assign({}, state, { errorMessage: action.payload });
+    case ActionTypes.FETCH_PREV_COURSES:
+      return Object.assign({}, state, { prevCourses: action.payload });
     default:
       return state;
   }

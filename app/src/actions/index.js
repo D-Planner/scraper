@@ -13,6 +13,7 @@ export const ActionTypes = {
   FETCH_MAJORS: 'FETCH_MAJORS',
   UPDATE_USERCOURSE: 'UPDATE_USERCOURSE',
   FETCH_PROFESSOR: 'FETCH_PROFESSOR',
+  FETCH_PREV_COURSES: 'FETCH_PREV_COURSES',
   COURSE_SEARCH: 'COURSE_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
@@ -227,7 +228,6 @@ export function fetchCourses() {
   };
   return (dispatch) => {
     axios.get(`${ROOT_URL}/courses`, { headers }).then((response) => {
-      console.log(response.data);
       dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -281,7 +281,6 @@ export function fetchBookmarks() {
  * @returns an action creator to gather all bookmarked courses and store them in the redux store
  */
 export function fetchProfessors(id) {
-  console.log('hi');
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
@@ -390,8 +389,9 @@ export function addCourseToTerm(course, term) {
  * @returns an action creator to remove a course from the given term
  */
 export function removeCourseFromTerm(course, term) {
+  const termID = (typeof term === 'object') ? term.id : term;
   return dispatch => new Promise(((resolve, reject) => {
-    axios.delete(`${ROOT_URL}/terms/${term.id}/course/${course.id}`, {
+    axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then(() => {
       resolve();
@@ -425,6 +425,19 @@ export function updateUserCourse(userCourseID, changes) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
+    }).catch((error) => {
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+
+export function getPreviousCourses(source) {
+  return (dispatch) => {
+    return axios.get(`${ROOT_URL}/plans/${source.plan}/prevCourses/${source.term}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_PREV_COURSES, payload: response.data });
     }).catch((error) => {
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });

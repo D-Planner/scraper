@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
@@ -27,7 +27,6 @@ const collect = (connectDrag, monitor) => {
     isDragging: monitor.isDragging(),
   };
 };
-
 /**
  * Sends off information for [dialogOrchestrator].
  * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
@@ -38,32 +37,38 @@ const showCourseInfoDialog = (props) => {
     title: `${props.catalogCourse.department} ${props.catalogCourse.number}: ${props.catalogCourse.name}`,
     size: 'lg',
     data: props.catalogCourse,
+    previousCourses: props.course.previousCourses,
     showOk: false,
   };
   props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
 };
 
 /** a drag-n-drop capable component containing information on a UserCourse object */
-const UserCourse = (props) => {
-  const { catalogCourse } = props;
+class UserCourse extends Component {
+  constructor(props) {
+    super(props);
+    this.catalogCourse = props.catalogCourse;
+  }
 
-  return props.connectDragSource(
-    <div className="popover" onClick={() => showCourseInfoDialog(props)} role="button" tabIndex="0">
-      <div className="course">
-        <div className="title-box">
-          <div className="course-left">
-            {`${catalogCourse.department} ${catalogCourse.number}`}
-          </div>
-          <div className="spacer" />
-          <div className="course-right">
-            {catalogCourse.name}
+
+  render() {
+    console.log(this.props.course.fulfilled);
+    return this.props.connectDragSource(
+      <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
+        <div className={`course sm${(!this.props.course.fulfilled) ? ' error' : ''}`}>
+          <div className="title-box">
+            <div className="course-left">
+              {`${this.catalogCourse.department} ${this.catalogCourse.number}`}
+            </div>
+            <div className="spacer" />
+            <div className="course-right">
+              {this.catalogCourse.name}
+            </div>
           </div>
         </div>
-      </div>
-    </div>,
-  );
-};
-
-
+      </div>,
+    );
+  }
+}
 // eslint-disable-next-line new-cap
 export default connect(null, { showDialog })(DraggableUserCourse(ItemTypes.COURSE, source, collect)(UserCourse));
