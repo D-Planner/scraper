@@ -27,6 +27,7 @@ const CourseSchema = new Schema({
     department: String,
     offered: Boolean,
     distribs: [String],
+    wcs: [String],
     total_reviews: Number,
     quality_score: Number,
     layup_score: Number,
