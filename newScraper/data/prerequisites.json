@@ -93,18 +93,7 @@
   "CRWT022: Intermediate Poetry I": [
     {
       "req": [
-        "CRWT 012",
-        "ENGL 082"
-      ]
-    },
-    {
-      "req": [
-        "CRWT 020"
-      ]
-    },
-    {
-      "req": [
-        "CRWT ned"
+        "CRWT 012"
       ]
     }
   ],
@@ -121,18 +110,7 @@
   "CRWT021: Intermediate Creative Non Fiction I": [
     {
       "req": [
-        "CRWT 011",
-        "ENGL 081"
-      ]
-    },
-    {
-      "req": [
-        "CRWT 020"
-      ]
-    },
-    {
-      "req": [
-        "CRWT ned"
+        "CRWT 011"
       ]
     }
   ],
@@ -153,17 +131,7 @@
   "CRWT020: Intermediate Fiction I": [
     {
       "req": [
-        "ENGL 080"
-      ]
-    },
-    {
-      "req": [
-        "CRWT 020"
-      ]
-    },
-    {
-      "req": [
-        "CRWT ned"
+        "CRWT 010"
       ]
     }
   ],
@@ -587,9 +555,7 @@
     {
       "grade": [
         "CHEM 006",
-        "CHEM 010",
-        "CHEM 006",
-        "CHEM 057"
+        "CHEM 010"
       ]
     }
   ],
@@ -1263,13 +1229,14 @@
   "EARS034: Earth’s Biogeochemical Cycles": [
     {
       "req": [
-        "CHEM 005"
+        "CHEM 005",
+        "CHEM 010"
       ]
     },
     {
       "range": [
-        "EARS ned",
-        "EARS ned"
+        "EARS 001",
+        "EARS 009"
       ]
     }
   ],
@@ -1277,7 +1244,7 @@
   "EARS141: Level I - Thesis Research (one-course equivalent)": [],
   "EARS037: Marine Geology": [
     {
-      "range": [
+      "req": [
         "EARS 001",
         "EARS 002",
         "EARS 003",
@@ -1309,7 +1276,7 @@
   ],
   "EARS040: Materials of the Earth": [
     {
-      "range": [
+      "req": [
         "EARS 001",
         "EARS 002",
         "EARS 003",
@@ -1317,7 +1284,9 @@
         "EARS 005",
         "EARS 006",
         "EARS 008",
-        "EARS 009",
+        "EARS 009"
+      ],
+      "rec": [
         "CHEM 005"
       ]
     }
@@ -1362,7 +1331,7 @@
     {
       "req": [
         "EARS 087",
-        "EARS ned"
+        "EARS 089"
       ]
     }
   ],
@@ -1376,7 +1345,7 @@
   ],
   "EARS065: Remote Sensing": [
     {
-      "range": [
+      "req": [
         "EARS 001",
         "EARS 002",
         "EARS 003",
@@ -1413,8 +1382,7 @@
     {
       "req": [
         "EARS 062",
-        "EARS 073",
-        "EARS 020"
+        "EARS 073"
       ]
     }
   ],
@@ -1447,8 +1415,22 @@
     },
     {
       "req": [
-        "EARS ned",
-        "EARS 038"
+        "EARS 045"
+      ]
+    },
+    {
+      "req": [
+        "EARS 046"
+      ]
+    },
+    {
+      "req": [
+        "EARS 047"
+      ]
+    },
+    {
+      "rec": [
+        "EARS 38"
       ]
     }
   ],
@@ -1504,7 +1486,7 @@
   "EARS272: Topic in Historical Geobiology": [],
   "EARS038: Introduction to Sedimentary Systems": [
     {
-      "range": [
+      "req": [
         "EARS 001",
         "EARS 002",
         "EARS 003",
@@ -1813,7 +1795,6 @@
   "COSC258: Advanced Operating Systems": [
     {
       "grade": [
-        "COSC 058",
         "COSC 058"
       ]
     }
@@ -1932,18 +1913,8 @@
   "COSC039: Theory of Computation": [
     {
       "req": [
-        "COSC 030"
-      ]
-    },
-    {
-      "req": [
-        "COSC 031",
-        "COSC 030"
-      ]
-    },
-    {
-      "req": [
-        "COSC ned"
+        "COSC 030",
+        "COSC 031"
       ]
     }
   ],
@@ -2031,7 +2002,6 @@
   "COSC231: Advanced Algorithms": [
     {
       "grade": [
-        "COSC 031",
         "COSC 031"
       ]
     }
@@ -2063,7 +2033,7 @@
       "req": [
         "COSC 011",
         "MATH 022",
-        "COSC ned"
+        "MATH 024"
       ]
     }
   ],
@@ -2851,8 +2821,9 @@
       ]
     },
     {
-      "req": [
-        "LING 020"
+      "range": [
+        "LING 020",
+        "LING 029"
       ]
     }
   ],
@@ -2902,8 +2873,9 @@
       ]
     },
     {
-      "req": [
-        "LING 020"
+      "range": [
+        "LING 020",
+        "LING 029"
       ]
     }
   ],
@@ -2920,8 +2892,9 @@
       ]
     },
     {
-      "req": [
-        "LING 020"
+      "range": [
+        "LING 020",
+        "LING 029"
       ]
     }
   ],
@@ -3320,18 +3293,22 @@
   ],
   "ECON081: Advanced Topics in Microeconomics": [
     {
-      "req": [
-        "ECON 020",
-        "ECON 021"
+      "grade": [
+        "ECON 020"
       ]
     },
     {
-      "req": [
+      "grade": [
+        "ECON 020"
+      ]
+    },
+    {
+      "grade": [
         "ECON 022"
       ]
     },
     {
-      "range": [
+      "req": [
         "MATH 008"
       ]
     }
@@ -3407,13 +3384,7 @@
       ]
     }
   ],
-  "ECON087: Senior Thesis": [
-    {
-      "req": [
-        "ECON ned"
-      ]
-    }
-  ],
+  "ECON087: Senior Thesis": [],
   "ECON001: The Price System: Analysis, Problems, and Policies": [],
   "ECON070: Immersion Experience in Applied Economics and Policy": [
     {
@@ -3582,7 +3553,7 @@
     {
       "req": [
         "MATH 010",
-        "RQSS 015",
+        "QSS 015",
         "COSC 001"
       ]
     }
@@ -3714,8 +3685,7 @@
   "MATH096: Mathematical Finance II": [
     {
       "req": [
-        "MATH 086",
-        "MATH 020"
+        "MATH 086"
       ]
     }
   ],
@@ -4304,8 +4274,9 @@
   "EDUC062: Adolescent Development and Education": [],
   "BIOL095: Independent Research in Biology I": [
     {
-      "req": [
-        "BIOL 020"
+      "range": [
+        "BIOL 020",
+        "BIOL 300"
       ]
     }
   ],
@@ -4320,7 +4291,11 @@
     },
     {
       "req": [
-        "BIOL 013",
+        "BIOL 013"
+      ]
+    },
+    {
+      "req": [
         "BIOL 038",
         "BIOL 040",
         "BIOL 045",
@@ -4366,7 +4341,7 @@
   "BIOL127: Biostatistics": [],
   "BIOL025: Introductory Marine Biology and Ecology": [
     {
-      "range": [
+      "req": [
         "BIOL 012",
         "BIOL 013",
         "BIOL 014",
@@ -4389,16 +4364,24 @@
   "BIOL011.07: Major Events in the History of Life and the Human Genome": [],
   "BIOL097: Honors Research in Biology": [
     {
-      "req": [
-        "BIOL 020"
+      "range": [
+        "BIOL 020",
+        "BIOL 300"
       ]
     }
   ],
   "BIOL014: Physiology": [],
   "BIOL029: Biostatistics": [
     {
-      "req": [
-        "BIOL 011"
+      "range": [
+        "BIOL 011",
+        "BIOL 300"
+      ]
+    },
+    {
+      "range": [
+        "BIOL 011",
+        "BIOL 300"
       ]
     }
   ],
@@ -4415,7 +4398,7 @@
       ]
     },
     {
-      "range": [
+      "req": [
         "BIOL 037",
         "BIOL 040",
         "BIOL 041",
@@ -4448,7 +4431,7 @@
       ]
     },
     {
-      "range": [
+      "req": [
         "BIOL 038",
         "BIOL 040",
         "BIOL 041",
@@ -4479,7 +4462,7 @@
   ],
   "BIOL031: Physiological Ecology": [
     {
-      "range": [
+      "req": [
         "BIOL 012",
         "BIOL 013",
         "BIOL 014",
@@ -4512,7 +4495,7 @@
   ],
   "BIOL048: Disease, The Environment, and Human History": [
     {
-      "range": [
+      "req": [
         "BIOL 012",
         "BIOL 013",
         "BIOL 014",
@@ -4531,7 +4514,6 @@
   "BIOL129: Biostatistics III: Generalized Linear Mixed Models": [
     {
       "req": [
-        "BIOL 128",
         "BIOL 128"
       ]
     }
@@ -4543,7 +4525,7 @@
       ]
     },
     {
-      "range": [
+      "req": [
         "BIOL 022",
         "BIOL 024",
         "BIOL 025",
@@ -4573,7 +4555,7 @@
   "BIOL068: Advanced Animal Behavior": [],
   "BIOL063: RNA: The Real Secret of Life": [
     {
-      "range": [
+      "req": [
         "BIOL 028",
         "BIOL 038",
         "BIOL 040",
@@ -4644,7 +4626,7 @@
   "BIOL036: History of Genetics": [],
   "BIOL023: Social Evolution: Cooperation and Construction Among Animal Architects": [
     {
-      "range": [
+      "req": [
         "BIOL 015",
         "BIOL 016"
       ]
@@ -4663,7 +4645,7 @@
       ]
     },
     {
-      "range": [
+      "req": [
         "BIOL 040",
         "BIOL 045",
         "CHEM 041",
@@ -4722,7 +4704,7 @@
   ],
   "BIOL028: Macroevolution": [
     {
-      "range": [
+      "req": [
         "BIOL 012",
         "BIOL 013",
         "BIOL 014",
@@ -4744,7 +4726,7 @@
       ]
     },
     {
-      "range": [
+      "req": [
         "BIOL 038",
         "BIOL 040",
         "BIOL 041",
@@ -4782,7 +4764,7 @@
   ],
   "BIOL049: Cellular and Molecular Neuroscience": [
     {
-      "range": [
+      "req": [
         "BIOL 012",
         "BIOL 014",
         "PSYC 006"
@@ -4836,7 +4818,7 @@
       ]
     },
     {
-      "range": [
+      "req": [
         "BIOL 038",
         "BIOL 040",
         "BIOL 041",
@@ -4856,7 +4838,6 @@
     },
     {
       "req": [
-        "BIOL 001",
         "BIOL 021",
         "BIOL 024",
         "BIOL 027",
@@ -4912,7 +4893,7 @@
   ],
   "BIOL032: Animal Communication": [
     {
-      "range": [
+      "req": [
         "BIOL 012",
         "BIOL 013",
         "BIOL 014",
@@ -5182,7 +5163,9 @@
   "ENGL086: Senior Workshop in Creative Writing": [
     {
       "req": [
-        "ENGL 083"
+        "ENGL 083",
+        "ENGL 084",
+        "ENGL 085"
       ]
     }
   ],
@@ -5993,8 +5976,9 @@
   "RUSS017: Russian Fairy Tales": [],
   "RUSS071: Advanced Seminar in Russian Culture": [
     {
-      "req": [
-        "RUSS 040"
+      "range": [
+        "RUSS 040",
+        "RUSS 049"
       ]
     }
   ],
@@ -6038,9 +6022,9 @@
   ],
   "RUSS045: Special Topics in Russian Language": [
     {
-      "req": [
+      "range": [
         "RUSS 029",
-        "RUSS ned"
+        "RUSS 300"
       ]
     }
   ],
@@ -6282,7 +6266,7 @@
     {
       "req": [
         "ITAL 008",
-        "ITAL ned"
+        "ITAL 009"
       ]
     }
   ],
@@ -6309,7 +6293,7 @@
     {
       "req": [
         "ITAL 008",
-        "ITAL ned"
+        "ITAL 009"
       ]
     }
   ],
@@ -6319,7 +6303,7 @@
     {
       "req": [
         "ITAL 008",
-        "ITAL ned"
+        "ITAL 009"
       ]
     }
   ],
@@ -6327,7 +6311,7 @@
     {
       "req": [
         "ITAL 008",
-        "ITAL ned"
+        "ITAL 009"
       ]
     }
   ],
@@ -6450,10 +6434,7 @@
       "req": [
         "ENGS 092",
         "MATH 033",
-        "MATH 043",
-        "ENGS 019",
-        "PHYS 100",
-        "ENGS 011"
+        "MATH 043"
       ]
     }
   ],
@@ -6529,12 +6510,17 @@
     },
     {
       "req": [
-        "COSC 051",
-        "ENGS 037",
-        "COSC 057",
-        "ENGS 048",
-        "COSC 058",
-        "ENGS 019"
+        "COSC 051"
+      ]
+    },
+    {
+      "req": [
+        "COSC 057"
+      ]
+    },
+    {
+      "req": [
+        "COSC 058"
       ]
     }
   ],
@@ -6622,8 +6608,7 @@
     {
       "req": [
         "COSC 071",
-        "ENGS 091",
-        "ENGS 019"
+        "ENGS 091"
       ]
     }
   ],
@@ -6726,8 +6711,7 @@
   "ENGS250: Turbulence in Fluids": [
     {
       "req": [
-        "ENGS 150",
-        "ENGS 019"
+        "ENGS 150"
       ]
     }
   ],
@@ -6754,8 +6738,7 @@
     },
     {
       "req": [
-        "ENGS 027",
-        "ENGS 019"
+        "ENGS 027"
       ]
     }
   ],
@@ -6962,8 +6945,7 @@
     {
       "req": [
         "ENGS 026",
-        "MATH 023",
-        "ENGS 019"
+        "MATH 023"
       ]
     }
   ],
@@ -7090,15 +7072,19 @@
   "ENGS089: Engineering Design Methodology and Project Initiation": [
     {
       "req": [
-        "ENGS 089",
-        "ENGS 021",
-        "ENGS 022",
-        "ENGS ned"
+        "ENGS 021"
       ]
     },
     {
-      "req": [
-        "ENGS 091"
+      "range": [
+        "ENGS 022",
+        "ENGS 076"
+      ]
+    },
+    {
+      "range": [
+        "ENGS 091",
+        "ENGS 300"
       ]
     }
   ],
@@ -7120,8 +7106,7 @@
     },
     {
       "req": [
-        "ENGS 145",
-        "ENGS 019"
+        "ENGS 145"
       ]
     }
   ],
@@ -7170,8 +7155,7 @@
   "ENGS124: Optical Devices and Systems": [
     {
       "req": [
-        "ENGS 023",
-        "ENGS 019"
+        "ENGS 023"
       ]
     }
   ],
@@ -7214,7 +7198,7 @@
   ],
   "ENGS162: Methods in Biotechnology": [
     {
-      "range": [
+      "req": [
         "ENGS 035",
         "ENGS 160",
         "ENGS 161"
@@ -7279,10 +7263,13 @@
   "ENGS164: Cellular and Molecular Biomechanics": [
     {
       "req": [
-        "ENGS 030",
+        "ENGS 030"
+      ]
+    },
+    {
+      "req": [
         "ENGS 033",
-        "ENGS 034",
-        "ENGS 014"
+        "ENGS 034"
       ]
     }
   ],
@@ -7373,8 +7360,7 @@
   "ENGS200: Methods in Applied Mathematics II": [
     {
       "req": [
-        "ENGS 100",
-        "ENGS 019"
+        "ENGS 100"
       ]
     }
   ],
@@ -7406,22 +7392,24 @@
     {
       "req": [
         "ENGS 091",
-        "COSC 071",
-        "ENGS 019"
+        "COSC 071"
       ]
     }
   ],
   "ENGS122: Semiconductor Theory and Devices": [
     {
       "req": [
-        "ENGS 024",
-        "ENGS 032"
+        "ENGS 024"
       ]
     },
     {
       "req": [
-        "ENGS 060",
-        "ENGS 019"
+        "ENGS 060"
+      ]
+    },
+    {
+      "req": [
+        "ENGS 032"
       ]
     }
   ],
@@ -7453,8 +7441,7 @@
     },
     {
       "req": [
-        "ENGS 120",
-        "ENGS 019"
+        "ENGS 120"
       ]
     }
   ],
@@ -7634,12 +7621,25 @@
     {
       "range": [
         "MUS 021",
-        "MUS ned"
+        "MUS 023"
+      ]
+    },
+    {
+      "range": [
+        "MUS 021",
+        "MUS 023"
       ]
     },
     {
       "req": [
-        "MUS ned"
+        "MUS 006",
+        "MUS 010",
+        "MUS 011",
+        "MUS 040",
+        "MUS 041",
+        "MUS 042",
+        "MUS 043",
+        "MUS 043"
       ]
     }
   ],
@@ -8133,7 +8133,7 @@
   "GEOG042: Environment and Development in South Asia": [],
   "GEOG051: Remote Sensing": [
     {
-      "range": [
+      "req": [
         "EARS 001",
         "EARS 002",
         "EARS 003",
@@ -8179,7 +8179,7 @@
     {
       "range": [
         "GEOG 012",
-        "GEOG ned"
+        "GEOG 041"
       ]
     }
   ],
@@ -8200,7 +8200,7 @@
       ]
     },
     {
-      "req": [
+      "rec": [
         "GEOG 011",
         "GEOG 050",
         "GEOG 051"
@@ -8221,7 +8221,7 @@
       ]
     },
     {
-      "req": [
+      "rec": [
         "GEOG 011",
         "GEOG 050",
         "GEOG 051"
@@ -8507,12 +8507,7 @@
     },
     {
       "req": [
-        "ENVS ned",
-        "GOVT 010",
-        "MATH 010",
-        "PSYC 010",
-        "PBPL 010",
-        "SOCY 010"
+        "ENVS 010"
       ]
     }
   ],
@@ -8960,11 +8955,6 @@
       "req": [
         "ENVS 002"
       ]
-    },
-    {
-      "req": [
-        "NAS 019"
-      ]
     }
   ],
   "NAS030.19: Indigistory": [],
@@ -9070,7 +9060,27 @@
   "THEA061: Classical Performance II": [
     {
       "req": [
-        "THEA ned"
+        "THEA 015",
+        "THEA 016",
+        "THEA 017"
+      ]
+    },
+    {
+      "req": [
+        "THEA 010",
+        "THEA 025",
+        "THEA 026",
+        "THEA 027",
+        "THEA 028",
+        "THEA 029",
+        "THEA 030",
+        "THEA 036",
+        "THEA 040",
+        "THEA 041",
+        "THEA 042",
+        "THEA 044",
+        "THEA 048",
+        "THEA 050"
       ]
     }
   ],
@@ -9085,7 +9095,27 @@
   "THEA062: Plays in Performance-Perception and Analysis": [
     {
       "req": [
-        "THEA ned"
+        "THEA 015",
+        "THEA 016",
+        "THEA 017"
+      ]
+    },
+    {
+      "req": [
+        "THEA 010",
+        "THEA 025",
+        "THEA 026",
+        "THEA 027",
+        "THEA 028",
+        "THEA 029",
+        "THEA 030",
+        "THEA 036",
+        "THEA 040",
+        "THEA 041",
+        "THEA 042",
+        "THEA 044",
+        "THEA 048",
+        "THEA 050"
       ]
     }
   ],
@@ -9122,7 +9152,27 @@
   "THEA060: Classical Performance I": [
     {
       "req": [
-        "THEA ned"
+        "THEA 015",
+        "THEA 016",
+        "THEA 017"
+      ]
+    },
+    {
+      "req": [
+        "THEA 010",
+        "THEA 025",
+        "THEA 026",
+        "THEA 027",
+        "THEA 028",
+        "THEA 029",
+        "THEA 030",
+        "THEA 036",
+        "THEA 040",
+        "THEA 041",
+        "THEA 042",
+        "THEA 044",
+        "THEA 048",
+        "THEA 050"
       ]
     }
   ],
@@ -9242,12 +9292,7 @@
   "SPAN009: Culture and Conversation: Advanced Spanish Language": [
     {
       "req": [
-        "SPAN 003",
-        "SPAN 004",
-        "SPAN 004",
-        "SPAN 600",
-        "SPAN 009",
-        "SPAN 020"
+        "SPAN 003"
       ]
     }
   ],
@@ -9411,12 +9456,11 @@
     {
       "req": [
         "SPAN 009",
-        "SPAN 015",
-        "SPAN 009",
-        "SPAN 020",
-        "SPAN 030",
-        "SPAN 040"
+        "SPAN 015"
       ]
+    },
+    {
+      "abroad": true
     }
   ],
   "SPAN060.03: Racism at Work Then and Now. Five centuries of Race, Ethnicity and Culture in Span. Amer. Lit": [
@@ -9654,12 +9698,13 @@
   "PHYS041: Electricity and Magnetism": [
     {
       "req": [
-        "PHYS 015"
+        "PHYS 015",
+        "PHYS 019"
       ]
     },
     {
       "req": [
-        "PHYS ned",
+        "PHYS 014",
         "PHYS 016"
       ]
     }
@@ -9682,12 +9727,13 @@
   "PHYS043: Statistical Physics": [
     {
       "req": [
-        "PHYS 015"
+        "PHYS 015",
+        "PHYS 019"
       ]
     },
     {
       "req": [
-        "PHYS ned",
+        "PHYS 014",
         "PHYS 016"
       ]
     }
@@ -10597,10 +10643,6 @@
     },
     {
       "req": [
-        "PBPL ned",
-        "GOVT 010",
-        "PSYC 010",
-        "SOCY 010",
         "PBPL 010"
       ]
     }

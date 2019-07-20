@@ -12,7 +12,8 @@
     "sync-request": "^6.1.0"
   },
   "scripts": {
-    "start": "nodemon src/dependencies.js --exec babel-node"
+    "start": "nodemon src/dependencies.js --exec babel-node",
+    "check_reqs": "nodemon check.js --exec babel-node"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

@@ -24,14 +24,12 @@ const termTarget = {
       } else if (item.sourceTerm) {
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm).then(() => {
-          props.addCourseToTerm(item.catalogCourse, props.term).then(() => {
-            this.props.fetchPlan(this.props.plan.id);
-          });
+          props.addCourseToTerm(item.catalogCourse, props.term);
         });
         // TO-DO: need to make this a promise
       } else {
         // this is a regular course, so deal with it accordingly
-        await props.addCourseToTerm(item.course, props.term);
+        props.addCourseToTerm(item.course, props.term);
       }
       // return an object containing the current term
       return { destinationTerm: props.term };

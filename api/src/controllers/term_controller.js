@@ -60,14 +60,13 @@ const addCourseToTerm = async (req, res, next) => {
     // TO-DO: build in auto-scheduler that will put in appropriate course hour that fits with the other courses in the term
 
     const term = await Term.findById(termID);
-    const populated = await term.populate(PopulateTerm).execPopulate();
-
+    //
     // check if a course with this id already exists in the term
-    if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
-        term.courses.push(userCourse);
-    } else {
-        res.status(409).json({ message: 'This course already exists in this term' });
-    }
+    // if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
+    //     term.courses.push(userCourse);
+    // } else {
+    //     res.status(409).json({ message: 'This course already exists in this term' });
+    // }
 
     // // check if a course with this id already exists in the term
     // if (populated.courses.filter((c) => { return c.course.id === req.body.course.id; }).length === 0) {
