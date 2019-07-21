@@ -14,13 +14,23 @@ const createUserCourse = async (userID, catalogCourseID, termID) => {
     return newObj.save();
 };
 
-const deleteUserCourse = async (userCourseID) => {
-    try {
-        await UserCourse.findByIdAndRemove(userCourseID);
-        return null;
-    } catch (e) {
-        return e;
-    }
+// const deleteUserCourse = async (userCourseID) => {
+//     try {
+//         await UserCourse.findByIdAndRemove(userCourseID);
+//         return null;
+//     } catch (e) {
+//         return e;
+//     }
+// };
+
+const deleteUserCourse = (userCourseID) => {
+    return new Promise((resolve, reject) => {
+        UserCourse.findByIdAndRemove(userCourseID).then(() => {
+            resolve(null);
+        }).catch((error) => {
+            reject(error);
+        });
+    });
 };
 
 const updateUserCourse = async (req, res, next) => {
