@@ -22,7 +22,7 @@ const termTarget = {
       if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
         return undefined;
       } else if (item.sourceTerm) {
-        console.log('[TERM.js] We think this is a term-to-term drag')
+        console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm).then(() => {
           console.log(`[TERM].jsThe ccourse \n${item.catalogCourse.id} has been removed from \n${item.sourceTerm}`);
@@ -35,10 +35,12 @@ const termTarget = {
         });
         // TO-DO: need to make this a promise
       } else {
-        console.log('[TERM.js] We think this is a search-to-term drag')
+        console.log('[TERM.js] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
         props.addCourseToTerm(item.course, props.term).then(() => {
-          console.log(`[TERM.js] The ccourse \n${item.course.id} has been added to term \n${props.term.id}`);
+          this.props.fetchPlan(this.props.plan.id).then(() => {
+            console.log(`[TERM.js] The ccourse \n${item.course.id} has been added to term \n${props.term.id}`);
+          });
         });
       }
       // return an object containing the current term
