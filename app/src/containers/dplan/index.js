@@ -33,33 +33,25 @@ class DPlan extends Component {
     return courses;
   }
 
-  addCourseToTerm(course, term) {
-    this.props.addCourseToTerm(course, term)
-      .then((r) => {
-        // Change this to a newly creaed updatePlan()
-        return this.props.fetchPlan(this.props.plan.id);
-      })
-      .then((r) => {
-        this.props.fetchPlan(this.props.plan.id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
+    this.props.addCourseToTerm(course, term).then(() => {
+      this.props.fetchPlan(this.props.plan.id);
+      resolve();
+    }).catch((err) => {
+      console.log(err);
+      reject();
+    });
+  })
 
-  removeCourseFromTerm(course, term) {
-    this.props.removeCourseFromTerm(course, term)
-      .then((r) => {
-        // Change this to a newly creaed updatePlan()
-        return this.props.fetchPlan(this.props.plan.id);
-      })
-      .then((r) => {
-        this.props.fetchPlan(this.props.plan.id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  removeCourseFromTerm = (course, term) => new Promise((resolve, reject) => {
+    this.props.removeCourseFromTerm(course, term).then(() => {
+      this.props.fetchPlan(this.props.plan.id);
+      resolve();
+    }).catch((err) => {
+      console.log(err);
+      reject();
+    });
+  })
 
   showDialog() {
     const opts = {

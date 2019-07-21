@@ -55,8 +55,9 @@ const Sidebar = (props) => {
         activate={() => setActivePane(paneTypes.REQUIREMENTS)}
         majors={props.user.majors}
         showDeclareDialog={showDeclareDialog}
-        distribs={props.planCourses.map(c => c.course.distrib)}
-        wcs={props.planCourses.map(c => c.course.wc)}
+        // distribs={props.planCourses.map(c => c.course.distrib)}
+        // wcs={props.planCourses.map(c => c.course.wc)}
+        userCourses={props.planCourses}
       />
       <BookmarksPane
         active={activePane === paneTypes.BOOKMARKS}

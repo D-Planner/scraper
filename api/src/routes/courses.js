@@ -104,11 +104,13 @@ coursesRouter.route('/completed/:id')
     .post(CoursesController.addCompleted)
     .delete(CoursesController.removeCompleted);
 
-coursesRouter.get('/:department&:number', CoursesController.getCourseByTitle);
+coursesRouter.get('/:department&:number', CoursesController.getCourseByNumber);
 
 coursesRouter.get('/departments/:department', CoursesController.getCoursesByDepartment);
 
 coursesRouter.get('/distribs/:distrib', CoursesController.getCoursesByDistrib);
+
+coursesRouter.get('/wcs/:wc', CoursesController.getCoursesByWC);
 
 /**
  * @api {get} /courses/:id Get course by id
