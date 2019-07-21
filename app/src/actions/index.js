@@ -190,6 +190,8 @@ export function fetchPlan(planID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
       .then((response) => {
+        console.log('[INDEX.js] fetched plan');
+        console.log(response.data);
         dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
         resolve(response);
       }).catch((error) => {
@@ -388,7 +390,6 @@ export function courseSearch(query, type) {
         axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
-          console.log(response);
           // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
           dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
@@ -438,11 +439,13 @@ export function courseSearch(query, type) {
  * @returns an action creator to add a new course to the given term
  */
 export function addCourseToTerm(course, term) {
+  console.log('[ACTION.js] We got the resquest to add course to term');
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      resolve(response);
+      console.log(`[ACTION.js] The ccourse \n${course.id} has been added to term \n${term.id}`);
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });

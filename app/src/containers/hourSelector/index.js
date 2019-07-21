@@ -32,7 +32,7 @@ class HourSelector extends Component {
         <select onChange={this.handleChange}>
           {this.props.timeslots.map((hour) => {
             return (
-              <option selected={(this.state.timeslot === hour)} value={hour}>{(hour === 'other') ? 'OTH' : hour}</option>
+              <option key={hour} defaultValue={(this.state.timeslot === hour)} value={hour}>{(hour === 'other') ? 'OTH' : hour}</option>
             );
           })}
         </select>

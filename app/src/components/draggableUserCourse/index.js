@@ -53,7 +53,7 @@ class UserCourse extends Component {
 
 
   render() {
-    console.log(this.props.course.fulfilled);
+    console.log(`Prereq check? ${this.props.course.fulfilled}`);
     return this.props.connectDragSource(
       <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
         <CourseElement
