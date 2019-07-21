@@ -55,6 +55,7 @@ export const getUser = (req, res) => {
     User.findById(userID)
         .populate('favorite_courses', 'department name number id')
         .populate('placement_courses', 'department name number id')
+        .populate('completed_courses', 'department name number id')
         .exec()
         .then((user) => {
             const json = user.toJSON();
