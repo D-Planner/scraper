@@ -207,6 +207,26 @@ const createCourse = (req, res) => {
     });
 };
 
+const addPlacement = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $addToSet: { placement_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
+const removePlacement = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $pull: { placement_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
 const addFavorite = (req, res) => {
     User.findByIdAndUpdate(req.user.id, {
         $addToSet: { favorite_courses: req.params.id },
@@ -270,7 +290,6 @@ const getCompleted = (req, res) => {
             model: 'Course',
             populate: PopulateCourse,
         })
-        .exec()
         .then((result) => {
             res.json(result.completed_courses);
         })
@@ -288,6 +307,8 @@ const CoursesController = {
     getCourseByName,
     getCourseByNumber,
     createCourse,
+    addPlacement,
+    removePlacement,
     getFavorite,
     addFavorite,
     removeFavorite,

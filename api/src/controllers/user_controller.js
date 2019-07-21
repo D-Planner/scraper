@@ -53,9 +53,10 @@ export const getUser = (req, res) => {
     }
 
     User.findById(userID)
-        .then((user) => {
-            return user.populate('majors').execPopulate();
-        })
+        .populate('favorite_courses', 'department name number id')
+        .populate('placement_courses', 'department name number id')
+        .populate('completed_courses', 'department name number id')
+        .exec()
         .then((user) => {
             const json = user.toJSON();
             delete json.password;

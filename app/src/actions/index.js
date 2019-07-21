@@ -121,14 +121,16 @@ export function fetchUser() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 // ----- PLAN ACTIONS ----- //
@@ -163,14 +165,16 @@ export function fetchPlans() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 /**
@@ -183,14 +187,19 @@ export function fetchPlan(planID) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return (dispatch) => {
-    axios.get(`${ROOT_URL}/plans/${planID}`, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    });
-  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
+      .then((response) => {
+        console.log('[INDEX.js] fetched plan');
+        console.log(response.data);
+        dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
+        resolve(response);
+      }).catch((error) => {
+        console.log(error);
+        dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+        reject();
+      });
+  }));
 }
 
 /**
@@ -298,14 +307,75 @@ export function fetchProfessors(id) {
  * @returns an action creator to add a course to a user's favorites
  */
 export function addCourseToFavorites(courseID) {
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/courses/favorite/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
-  };
+  }));
+}
+
+/**
+ * Removes a course to a user's favorites (i.e. their bookmarks)
+ * @export
+ * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
+ * @returns an action creator to add a course to a user's favorites
+ */
+export function removeCourseFromFavorites(courseID) {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/courses/favorite/${courseID}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+/**
+ * Adds a course to a user's placement courses
+ * @export
+ * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
+ * @returns an action creator to add a course to a user's favorites
+ */
+export function addCourseToPlacements(courseID) {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+/**
+ * Removes a course to a user's placement courses
+ * @export
+ * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
+ * @returns an action creator to add a course to a user's favorites
+ */
+export function removePlacement(courseID) {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
 }
 
 /**
@@ -320,7 +390,6 @@ export function courseSearch(query, type) {
         axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         }).then((response) => {
-          console.log(response);
           // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
           dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
         }).catch((error) => {
@@ -362,7 +431,6 @@ export function courseSearch(query, type) {
     }
   };
 }
-
 /**
  * Adds a new UserCourse object to a specific term
  * @export
@@ -371,14 +439,19 @@ export function courseSearch(query, type) {
  * @returns an action creator to add a new course to the given term
  */
 export function addCourseToTerm(course, term) {
-  return (dispatch) => {
-    return axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course }, {
+  console.log('[ACTION.js] We got the resquest to add course to term');
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).catch((err) => {
-      console.log(err);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: err.response.data });
+    }).then((response) => {
+      console.log(`[ACTION.js] The ccourse \n${course.id} has been added to term \n${term.id}`);
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 /**

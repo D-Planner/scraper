@@ -34,8 +34,12 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
+    console.log('[DPLAN.js] We got request to add course to term');
     this.props.addCourseToTerm(course, term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
+      console.log(`[DPLAN.js] The ccourse \n${course.id} has been added to term \n${term.id}`);
+      this.props.fetchPlan(this.props.plan.id).then(() => {
+        console.log('[DPLAN.js] fetched plan');
+      });
       resolve();
     }).catch((err) => {
       console.log(err);

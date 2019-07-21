@@ -3,8 +3,19 @@ import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import robot from '../../../assets/avatars/robot.svg';
-import { signoutUser, fetchCourses } from '../../actions';
+import {
+  signoutUser, fetchCourses, showDialog, fetchUser,
+} from '../../actions';
 import './nav.scss';
+import { DialogTypes } from '../../constants';
+
+const showProfileDialog = (props) => {
+  const dialogOptions = {
+    size: 'lg',
+    showOk: false,
+  };
+  props.showDialog(DialogTypes.PROFILE, dialogOptions);
+};
 
 /** The navbar of the application -- changes dynamically if a user is authenticated or not */
 class Nav extends Component {
@@ -31,7 +42,17 @@ class Nav extends Component {
                 <NavLink className={discoverClass} to="/discover">Discover</NavLink>
               </li>
               <li className="avatar-container">
-                <img className="avatar" src={robot} alt="avatar" />
+                <img className="avatar"
+                  src={robot}
+                  alt="avatar"
+                  onClick={() => {
+                    this.props.fetchUser().then((r) => {
+                      showProfileDialog(this.props);
+                    }).catch((e) => {
+                      console.log(e);
+                    });
+                  }}
+                />
               </li>
             </div>
           </ul>
@@ -56,6 +77,10 @@ class Nav extends Component {
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
+  user: state.user.current,
+  plan: state.plans.current,
 });
 
-export default withRouter(connect(mapStateToProps, { signoutUser, fetchCourses })(Nav));
+export default withRouter(connect(mapStateToProps, {
+  signoutUser, fetchCourses, showDialog, fetchUser,
+})(Nav));
