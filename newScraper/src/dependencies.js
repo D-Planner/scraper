@@ -3,18 +3,15 @@ import request from 'sync-request';
 import fs from 'fs';
 import courses from '../../spider/data/courses.json';
 import departmentsJson from '../../spider/data/departments.json';
-// import parsedReqs from '../data/prerequisites2.json';
-// import parsedReqs2 from '../data/prerequisites2_0.json';
-import prereqs from '../data/prerequisites.json';
 
 const departmentCodes = departmentsJson.departments.map((dep) => {
   return dep.code;
-})
+});
 
 
 // Loop over all courses
-let allPrerequisites = {};
-for (let course of courses) {
+const allPrerequisites = {};
+for (const course of courses) {
   // For each individual course
   let prerequisites = [];
   // if (course.title in parsedReqs) {
@@ -23,14 +20,14 @@ for (let course of courses) {
   //   prerequisites = parsedReqs2[course.title];
   // } else
   if (course.orc_url) {
-    const val = request('GET',course.orc_url);
+    const val = request('GET', course.orc_url);
     try {
       const $ = cheerio.load(val.body);
 
       let getNext = false;
       let preReqText = '';
       $('div[id=main]').contents().each(function (i, elm) {
-        if(elm.tagName === 'h3') getNext = false;
+        if (elm.tagName === 'h3') getNext = false;
         if (getNext) {
           preReqText += $(this).text().trim();
         }
@@ -39,30 +36,29 @@ for (let course of courses) {
         }
       });
       if (preReqText.length > 1) {
-        let courseMatches = preReqText.replace(/\w{3,4}(\s|\-)\d{1,3}/g, (x) => {
-          return (x + "$%&");
+        const courseMatches = preReqText.replace(/\w{3,4}(\s|\-)\d{1,3}/g, (x) => {
+          return (`${x}$%&`);
         }).split('$%&').filter((x) => {
           return (x.match(/\d/) && !x.match(/\d{1,3}(F|W|S|X)/) && !x.includes(':') && !x.includes('Timetable of Class Meetings') && !x.includes('offered'));
         });
 
         switch (preReqText) {
-          case "LING 1 and one other Linguistics course in the 20s.":
+          case 'LING 1 and one other Linguistics course in the 20s.':
             prerequisites = [
-                {
-                  "req": [
-                    "LING 021"
-                  ]
-                },
-                {
-                  "range": [
-                    "LING 020",
-                    "LING 029"
-                  ]
-                }
-              ];
+              {
+                req: [
+                  'LING 021',
+                ],
+              },
+              {
+                range: [
+                  'LING 020',
+                  'LING 029',
+                ],
+              },
+            ];
 
           default:
-
         }
 
         if (courseMatches.length > 0) {
@@ -73,25 +69,25 @@ for (let course of courses) {
           for (let i = 0; i < courseMatches.length; i++) {
             const currMatch = courseMatches[i];
             if (currMatch.includes('/')) {
-              console.log('Has "/": ' + course.title);
+              console.log(`Has "/": ${course.title}`);
             }
             if (currMatch.includes('abroad')) {
-              prerequisites.push({abroad:true});
+              prerequisites.push({ abroad: true });
               currIdx++;
               continue;
             }
-            let trimmed = currMatch.match(/(\w{3,4})?(\s|\-)\d{1,3}/)[0].replace('-',' ').trim().toUpperCase();
+            let trimmed = currMatch.match(/(\w{3,4})?(\s|\-)\d{1,3}/)[0].replace('-', ' ').trim().toUpperCase();
 
             const tokens = trimmed.split(' ');
-            if(!(new RegExp(departmentCodes.join('|')).test(trimmed))) {
+            if (!(new RegExp(departmentCodes.join('|')).test(trimmed))) {
               if (tokens.length === 1) tokens.unshift(course.department);
               else tokens[0] = course.department;
-              console.log("Fixed Dept: " + course.title);
+              console.log(`Fixed Dept: ${course.title}`);
             }
-            //Zero Padding
-            trimmed = tokens[0] + ' ' + ('00' + tokens[1]).slice(-3);
+            // Zero Padding
+            trimmed = `${tokens[0]} ${(`00${tokens[1]}`).slice(-3)}`;
 
-            if ((currMatch.includes("one of") || currMatch.includes("and")) && !delay && i !== 0) {
+            if ((currMatch.includes('one of') || currMatch.includes('and')) && !delay && i !== 0) {
               currIdx++;
             }
             if (prerequisites.length === currIdx) {
@@ -99,46 +95,44 @@ for (let course of courses) {
                 prerequisites.push({
                   range: [],
                 });
-                currKey = "range";
-                console.log("Has Between: " + course.title);
+                currKey = 'range';
+                console.log(`Has Between: ${course.title}`);
               } else if (currMatch.includes('grade') || currMatch.includes('score')) {
                 prerequisites.push({
                   grade: [],
-                })
-                currKey = "grade";
-                console.log("Has Grade: " + course.title);
+                });
+                currKey = 'grade';
+                console.log(`Has Grade: ${course.title}`);
               } else {
                 prerequisites.push({
                   req: [],
                 });
-                currKey = "req";
+                currKey = 'req';
               }
             }
             if (currKey !== '' && !prerequisites[currIdx][currKey].includes(trimmed)) prerequisites[currIdx][currKey].push(trimmed);
 
 
             // The Delay
-            if ((currMatch.includes("one of") || currMatch.includes("and")) && delay) {
+            if ((currMatch.includes('one of') || currMatch.includes('and')) && delay) {
               currIdx++;
               delay = false;
             }
             if (currMatch.includes('between') || currMatch.includes('from')) delay = true;
           }
-
         }
       }
     } catch (e) {
       console.log(e);
-      console.log("Issue Parsing: " + course.orc_url);
+      console.log(`Issue Parsing: ${course.orc_url}`);
     }
   }
   allPrerequisites[course.title] = prerequisites;
-};
+}
 
 fs.writeFile('data/prerequisites3.json', JSON.stringify(allPrerequisites), (e) => {
   if (e) throw e;
-  console.log("Saved");
-  return;
+  console.log('Saved');
 });
 
 // Courses that need checking / Fixing
