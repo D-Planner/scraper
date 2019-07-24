@@ -5,6 +5,14 @@ import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import PopulateCourse from './populators';
 
+const trim = (res) => {
+    return res
+        .map((course) => {
+            course.reviews.splice(20);
+            return course;
+        });
+};
+
 const searchCourses = (req, res) => {
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
@@ -14,11 +22,11 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    console.log(query);
     Course.find(query)
         .populate(PopulateCourse)
         .then((result) => {
-            res.json(result);
+            console.log(trim(result));
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });

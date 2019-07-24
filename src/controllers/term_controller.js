@@ -101,14 +101,16 @@ const removeCourseFromTerm = async (req, res, next) => {
 
     // remove the course from the user's completed courses
     UserCourse.findById(userCourseID).populate('course').then((userCourse) => {
-        removeCompleted(req.user.id, userCourse.course.id).then(() => {
-        // delete the user course object
-            UserCourseController.deleteUserCourse(userCourseID).then(() => {
-                res.status(200).json(term);
-            }).catch((error) => {
-                next(error);
+        if (userCourse) {
+            removeCompleted(req.user.id, userCourse.course.id).then(() => {
+                // delete the user course object
+                UserCourseController.deleteUserCourse(userCourseID).then(() => {
+                    res.status(200).json(term);
+                }).catch((error) => {
+                    next(error);
+                });
             });
-        });
+        }
     });
 };
 
