@@ -53,39 +53,39 @@ const SearchPane = (props) => {
         />
         <img className="search-icon" src={searchIcon} alt="search" />
       </div>
+      <select className="gened-picker"
+        onChange={(e) => {
+          setWC(e.target.value);
+        }}
+      >
+        <option value="">None</option>
+        {
+          Object.keys(GenEds).filter((g) => {
+            return g.length <= 2;
+          }).map((g) => {
+            return (
+              <option value={g}>{GenEds[g].fullName} ({g})</option>
+            );
+          })
+        }
+      </select>
+      <select className="gened-picker"
+        onChange={(e) => {
+          setDistrib(e.target.value);
+        }}
+      >
+        <option value="">None</option>
+        {
+          Object.keys(GenEds).filter((g) => {
+            return g.length > 2;
+          }).map((g) => {
+            return (
+              <option value={g}>{GenEds[g].fullName} ({g})</option>
+            );
+          })
+        }
+      </select>
       <div className="pane-content">
-        <select className="gened-picker"
-          onChange={(e) => {
-            setWC(e.target.value);
-          }}
-        >
-          <option value="">None</option>
-          {
-            Object.keys(GenEds).filter((g) => {
-              return g.length <= 2;
-            }).map((g) => {
-              return (
-                <option value={g}>{GenEds[g].fullName} ({g})</option>
-              );
-            })
-          }
-        </select>
-        <select className="gened-picker"
-          onChange={(e) => {
-            setDistrib(e.target.value);
-          }}
-        >
-          <option value="">None</option>
-          {
-            Object.keys(GenEds).filter((g) => {
-              return g.length > 2;
-            }).map((g) => {
-              return (
-                <option value={g}>{GenEds[g].fullName} ({g})</option>
-              );
-            })
-          }
-        </select>
         {props.results.length
           ? props.results.map((course) => {
             return <DraggableCourse key={course.id} course={course} />;
