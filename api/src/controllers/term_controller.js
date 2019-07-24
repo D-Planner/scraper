@@ -59,26 +59,28 @@ const addCourseToTerm = (req, res) => {
     const termID = req.params.termID;
     Term.findById(termID)
         .then((term) => {
-            User.findById(req.user.id).populate('completed_courses')
+            User.findById(req.user.id)
                 .then((user) => {
                     if (user.completed_courses.filter((c) => { return c.id === req.body.course.id; }).length === 0) {
-                        return UserCourseController.createUserCourse(req.user.id, req.body.course.id, termID);
+                        UserCourseController.createUserCourse(req.user.id, req.body.course.id, termID)
+                            .then((userCourse) => {
+                                term.courses.push(userCourse);
+                                return term.save();
+                            })
+                            .then(() => {
+                                addCompleted(req.user.id, req.body.course.id);
+                                // console.log('COURSE ADDED TO TERM');
+                                return setTermsPrevCourses(req.body.planID, user.placement_courses);
+                            })
+                            .then(() => {
+                                res.send(term);
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                            });
                     } else {
-                        res.status(409).json({ message: 'This course already exists in this term' });
-                        return null;
+                        res.sendStatus(409).json({ message: 'This course already exists in this term' });
                     }
-                })
-                .then((userCourse) => {
-                    term.courses.push(userCourse);
-                    return term.save();
-                })
-                .then(() => {
-                    addCompleted(req.user.id, req.body.course.id);
-                    // console.log('COURSE ADDED TO TERM');
-                    return setTermsPrevCourses(req.body.planID);
-                })
-                .then(() => {
-                    res.send(term);
                 });
         });
     // TO-DO: build in auto-scheduler that will put in appropriate course hour that fits with the other courses in the term
@@ -104,6 +106,7 @@ const addCourseToTerm = (req, res) => {
 
 const removeCourseFromTerm = (req, res) => {
     const { userCourseID, termID, planID } = req.params;
+    const userID = req.user.id;
 
     Term.findById(termID)
         .then((term) => {
@@ -115,21 +118,23 @@ const removeCourseFromTerm = (req, res) => {
                     return UserCourse.findById(userCourseID).populate('course');
                 })
                 .then((userCourse) => {
-                    return removeCompleted(req.user.id, userCourse.course.id);
+                    return removeCompleted(userID, userCourse.course.id);
                 })
                 .then(() => {
                     return UserCourseController.deleteUserCourse(userCourseID);
                 })
                 .then(() => {
-                    // console.log('COURSE REMOVED TO TERM');
-                    return setTermsPrevCourses(planID);
+                    return User.findById(userID);
+                })
+                .then((user) => {
+                    return setTermsPrevCourses(planID, user.placement_courses);
                 })
                 .then(() => {
-                    res.status(200).json(term);
-                })
-                .catch((e) => {
-                    console.log(e);
+                    res.json(term);
                 });
+        }).catch((e) => {
+            console.log(e);
+            res.status(400).json({ e });
         });
 };
 

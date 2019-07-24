@@ -1,4 +1,5 @@
 import Plan from '../models/plan';
+import User from '../models/user';
 import UserCourse from '../models/user_course';
 import TermController from '../controllers/term_controller';
 import PopulateTerm from './populators';
@@ -72,7 +73,7 @@ const sortPlan = (plan) => {
     return plan;
 };
 
-export const setTermsPrevCourses = (planID) => {
+export const setTermsPrevCourses = (planID, placements) => {
     return new Promise(((resolve, reject) => {
         Promise.resolve(Plan.findById(planID).populate({
             path: 'terms',
@@ -116,8 +117,16 @@ export const setTermsPrevCourses = (planID) => {
     }));
 };
 
-const getPlanByID = (planID) => {
-    return Plan.findById(planID)
+const getPlanByID = (req, res) => {
+    const planID = req.params.id;
+    const userID = req.user.id;
+    User.findById(userID)
+        .then((user) => {
+            return setTermsPrevCourses(planID, user.placement_courses);
+        })
+        .then(() => {
+            return Plan.findById(planID);
+        })
         .then((plan) => {
             if (!plan) {
                 throw new Error('This plan does not exist for this user');
@@ -128,10 +137,11 @@ const getPlanByID = (planID) => {
             }).execPopulate();
         })
         .then((populated) => {
-            return sortPlan(populated.toJSON());
+            res.json(sortPlan(populated.toJSON()));
         })
-        .catch((e) => {
-            console.log(e);
+        .catch((error) => {
+            console.log('Error', error);
+            res.status(400).send({ error });
         });
     //   try {
     //       const plan = await Plan.findById(planID);

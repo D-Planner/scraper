@@ -45,6 +45,12 @@ class ProfileDialog extends Component {
             {this.renderBookmarks()}
           </div>
         </div>
+        <div className="info">
+          <div className="label">Bookmarked Courses</div>
+          <div className="data">
+            {this.renderCompleted()}
+          </div>
+        </div>
 
       </div>
     );
@@ -93,6 +99,23 @@ class ProfileDialog extends Component {
                   console.log(e);
                 });
               },
+            }}
+          />
+        );
+      })
+    );
+  }
+
+  renderCompleted = () => {
+    return (
+      this.props.user.completed_courses.map((c, i) => {
+        return (
+          <CourseElement
+            size="bg"
+            course={c}
+            action={{
+              type: 'remove',
+              svg: remove,
             }}
           />
         );
