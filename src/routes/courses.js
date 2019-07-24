@@ -3,7 +3,7 @@ import CoursesController from '../controllers/courses_controller';
 
 const coursesRouter = Router();
 
-coursesRouter.post('/search', CoursesController.getCourseByName);
+coursesRouter.get('/search', CoursesController.searchCourses);
 coursesRouter.post('/create', CoursesController.createCourse);
 
 /**

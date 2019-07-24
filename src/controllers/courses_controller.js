@@ -5,6 +5,25 @@ import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import PopulateCourse from './populators';
 
+const searchCourses = (req, res) => {
+    const query = Object.entries(req.query)
+        .filter(([k, v]) => {
+            return v.length > 0;
+        })
+        .reduce((acc, [k, v]) => {
+            acc[k] = v;
+            return acc;
+        }, {});
+    console.log(query);
+    Course.find(query)
+        .populate(PopulateCourse)
+        .then((result) => {
+            res.json(result);
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+};
 
 const getCourses = async (req, res) => {
     Course.find({})
@@ -280,6 +299,7 @@ const getCompleted = (req, res) => {
 };
 
 const CoursesController = {
+    searchCourses,
     getCourses,
     getCourse,
     getCoursesByDepartment,
