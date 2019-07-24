@@ -28,8 +28,6 @@ UserCourseSchema.virtual('fulfilled')
             switch (dependencyType) {
             case 'req':
                 return (o[dependencyType].some((c) => {
-                    console.log('prev', this.previousCourses);
-                    console.log('id', c.id);
                     return (this.previousCourses.length) ? this.previousCourses.map((prev) => {
                         return prev.id.toString();
                     }).includes(c.id.toString()) : false;
