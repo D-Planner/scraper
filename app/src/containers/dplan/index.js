@@ -35,11 +35,11 @@ class DPlan extends Component {
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
     console.log('[DPLAN.js] We got request to add course to term');
-    this.props.addCourseToTerm(course, term).then(() => {
-      console.log(`[DPLAN.js] The ccourse \n${course.id} has been added to term \n${term.id}`);
-      this.props.fetchPlan(this.props.plan.id).then(() => {
-        console.log('[DPLAN.js] fetched plan');
-      });
+    this.props.addCourseToTerm(course, term, this.props.plan.id).then(() => {
+      console.log(`[DPLAN.js] The course \n${course.name} has been added to term \n${term.id}`);
+      return this.props.fetchPlan(this.props.plan.id);
+    }).then(() => {
+      console.log('[DPLAN.js] fetched plan');
       resolve();
     }).catch((err) => {
       console.log(err);
@@ -48,8 +48,11 @@ class DPlan extends Component {
   })
 
   removeCourseFromTerm = (course, term) => new Promise((resolve, reject) => {
-    this.props.removeCourseFromTerm(course, term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
+    this.props.removeCourseFromTerm(course, term, this.props.plan.id).then(() => {
+      console.log(`[DPLAN.js] The course \n${course.name} has been removed from term \n${term.id}`);
+      return this.props.fetchPlan(this.props.plan.id);
+    }).then(() => {
+      console.log('[DPLAN.js] fetched plan');
       resolve();
     }).catch((err) => {
       console.log(err);
