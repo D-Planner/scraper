@@ -72,7 +72,7 @@ const sortPlan = (plan) => {
     return plan;
 };
 
-const setTermsPrevCourses = (planID) => {
+export const setTermsPrevCourses = (planID) => {
     return new Promise(((resolve, reject) => {
         Promise.resolve(Plan.findById(planID).populate({
             path: 'terms',
@@ -117,10 +117,7 @@ const setTermsPrevCourses = (planID) => {
 };
 
 const getPlanByID = (planID) => {
-    return setTermsPrevCourses(planID)
-        .then((r) => {
-            return Plan.findById(planID);
-        })
+    return Plan.findById(planID)
         .then((plan) => {
             if (!plan) {
                 throw new Error('This plan does not exist for this user');
