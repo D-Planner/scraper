@@ -2,7 +2,7 @@ import Plan from '../models/plan';
 import User from '../models/user';
 import UserCourse from '../models/user_course';
 import TermController from '../controllers/term_controller';
-import PopulateTerm from './populators';
+import { PopulateTerm } from './populators';
 
 
 const getPlansByUserId = (id) => {

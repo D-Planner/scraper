@@ -3,7 +3,7 @@ import User from '../models/user';
 import UserCourse from '../models/user_course';
 import UserCourseController from '../controllers/user_course_controller';
 import { setTermsPrevCourses } from '../controllers/plan_controller';
-import PopulateTerm from './populators';
+import { PopulateTerm } from './populators';
 
 const createTerm = async (term, planID) => {
     const newTerm = await Term.create({

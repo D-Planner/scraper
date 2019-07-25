@@ -12,6 +12,7 @@ import './staticCourseElement.scss';
 // }
 //
 //
+
 class CourseElement extends Component {
   constructor(props) {
     super(props);

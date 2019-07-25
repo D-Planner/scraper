@@ -1,5 +1,6 @@
 import jwt from 'jwt-simple';
 import User from '../models/user';
+import { PopulateCourse } from './populators';
 
 export const signin = (req, res, next) => {
     const json = req.user.toJSON();
@@ -51,9 +52,12 @@ export const getUser = (req, res) => {
     } else {
         userID = req.user.id;
     }
-
+    console.log(PopulateCourse);
     User.findById(userID)
-        .populate('favorite_courses', 'department name number id')
+        .populate({
+            path: 'favorite_courses',
+            populate: PopulateCourse,
+        })
         .populate('placement_courses', 'department name number id')
         .populate('completed_courses', 'department name number id')
         .exec()
