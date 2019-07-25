@@ -3,14 +3,14 @@ import User from '../models/user';
 import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
-import PopulateCourse from './populators';
-
+import { PopulateCourse } from './populators';
 
 const getCourses = async (req, res) => {
+    console.log('[course_controller] getCourses');
     Course.find({})
         .populate(PopulateCourse)
         .then((result) => {
-            // result[0].reviews = result[0].reviews.slice(1, 30);
+            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
         })
         .catch((error) => {
@@ -19,9 +19,11 @@ const getCourses = async (req, res) => {
 };
 
 const getCourse = async (req, res) => {
+    console.log('[course_controller] getCourse');
     Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
+            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
         })
         .catch((error) => {
@@ -30,9 +32,11 @@ const getCourse = async (req, res) => {
 };
 
 const getCoursesByDepartment = async (req, res) => {
+    console.log('[course_controller] getCoursesByDepartment');
     Course.find({ department: req.params.department })
         .populate(PopulateCourse)
         .then((result) => {
+            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
         })
         .catch((error) => {
@@ -41,9 +45,11 @@ const getCoursesByDepartment = async (req, res) => {
 };
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
+    console.log('[course_controller] getCoursesByDistrib');
     Course.find({ distribs: req.params.distrib })
         .populate(PopulateCourse)
         .then((result) => {
+            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
         })
         .catch((error) => {
@@ -52,22 +58,27 @@ const getCoursesByDistrib = (req, res) => { // needs to be updated since [distri
 };
 
 const getCoursesByWC = (req, res) => { // needs to be updated since [distribs] is now an array
+    console.log('[course_controller] getCoursesByWC');
     Course.find({ wcs: req.params.wc })
-        .populate('professors')
+        .populate(PopulateCourse)
         .then((result) => {
+            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
 
 const getCourseByName = (req, res) => {
+    console.log('[course_controller] getCoursesByName');
     Course.find(
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
         .populate(PopulateCourse)
         .then((result) => {
+            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
             res.json(result);
         })
         .catch((error) => {
@@ -76,13 +87,14 @@ const getCourseByName = (req, res) => {
 };
 
 const getCourseByNumber = (req, res) => {
+    console.log('[course_controller] getCoursesByNumber');
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
     })
         .populate(PopulateCourse)
         .then((response) => {
-            response[0].reviews = response[0].reviews.slice(0, 30);
+            if (response[0] && response[0].reviews) response[0].reviews = response[0].reviews.slice(1, 30);
             res.json(response);
         })
         .catch((error) => {
@@ -111,26 +123,33 @@ const filledValues = (course) => {
             const key = Object.keys(o)[0];
             const val = o[key];
             if (val) {
-                const newVal = (key === 'abroad') ? true : val.map((c) => {
+                if (key === 'abroad') {
+                    console.log(course.title);
+                    return Promise.resolve({ abroad: true });
+                }
+                const newVal = val.map((c) => {
                     const tokens = c.split(' ');
                     if (key === 'range') {
                         return parseInt(tokens[1]);
                     }
-                    return Course.findOne({ department: tokens[0], number: tokens[1] }).then((result) => {
-                        if (result) return result._id;
-                        return null;
-                    }).catch((error) => {
-                        console.log('reseed', c);
-                        return error;
+                    return Course.findOne({ department: tokens[0], number: tokens[1] })
+                        .then((result) => {
+                            if (result) return result._id;
+                            return null;
+                        })
+                        .catch((error) => {
+                            console.log('reseed', c);
+                            return error;
+                        });
+                });
+                return Promise.all(newVal)
+                    .then((r) => {
+                        return {
+                            [key]: r,
+                        };
+                    }).catch((e) => {
+                        return e;
                     });
-                });
-                return Promise.all(newVal).then((r) => {
-                    return {
-                        [Object.keys(o)[0]]: r,
-                    };
-                }).catch((e) => {
-                    return e;
-                });
             } else {
                 return [];
             }
@@ -165,6 +184,7 @@ const createCourse = (req, res) => {
                 distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
             }
             const [xlist, prerequisites, professors] = r;
+            if (course.title === 'SPAN020: Writing and Reading: A Critical and Cultural Approach') console.log(prerequisites);
             return Course.findOneAndUpdate(
                 { title: course.title },
                 {
@@ -193,6 +213,7 @@ const createCourse = (req, res) => {
                 },
                 { upsert: true },
             ).then((res) => {
+                if (course.title === 'SPAN020: Writing and Reading: A Critical and Cultural Approach') console.log(res);
                 return res;
             }).catch((error) => {
                 return error;
@@ -203,6 +224,7 @@ const createCourse = (req, res) => {
     })).then(() => {
         res.status(200).json({ message: 'Courses successfully added to db 🚀' });
     }).catch((error) => {
+        console.log(error);
         res.status(500).json({ error });
     });
 };
