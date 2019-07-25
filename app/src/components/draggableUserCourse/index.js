@@ -58,7 +58,7 @@ class UserCourse extends Component {
       <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
         <CourseElement
           size="sm"
-          error={!this.props.course.fulfilled}
+          error={this.props.course.fulfilled}
           course={this.catalogCourse}
         />
       </div>,

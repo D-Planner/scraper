@@ -22,7 +22,7 @@ class CourseElement extends Component {
 
   render() {
     return (
-      <div className={`course ${this.props.size} ${(this.props.error) ? 'error' : ''}`}>
+      <div className={`course ${this.props.size} ${this.props.error}`}>
         <div className="title-box">
           <div className="course-left">
             {`${this.props.course.department} ${this.props.course.number}`}
