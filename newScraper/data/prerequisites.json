@@ -131,7 +131,11 @@
   "CRWT020: Intermediate Fiction I": [
     {
       "req": [
+<<<<<<< HEAD
         "CRWT 010"
+=======
+        "CRWT 10"
+>>>>>>> test
       ]
     }
   ],
@@ -276,7 +280,7 @@
         "WRIT 005",
         "WRIT 002",
         "WRIT 003",
-        "RHUM 001"
+        "HUM 001"
       ]
     }
   ],
@@ -290,7 +294,7 @@
         "WRIT 005",
         "WRIT 002",
         "WRIT 003",
-        "RHUM 001"
+        "HUM 001"
       ]
     }
   ],
@@ -307,7 +311,7 @@
         "WRIT 005",
         "WRIT 002",
         "WRIT 003",
-        "RHUM 001"
+        "HUM 001"
       ]
     }
   ],
@@ -317,7 +321,7 @@
         "WRIT 005",
         "WRIT 002",
         "WRIT 003",
-        "RHUM 001"
+        "HUM 001"
       ]
     }
   ],
@@ -336,7 +340,7 @@
         "WRIT 005",
         "WRIT 002",
         "WRIT 003",
-        "RHUM 001"
+        "HUM 001"
       ]
     }
   ],
@@ -354,7 +358,7 @@
         "WRIT 005",
         "WRIT 002",
         "WRIT 003",
-        "RHUM 001"
+        "HUM 001"
       ]
     }
   ],
@@ -555,7 +559,12 @@
     {
       "grade": [
         "CHEM 006",
+<<<<<<< HEAD
         "CHEM 010"
+=======
+        "CHEM 010",
+        "CHEM 057"
+>>>>>>> test
       ]
     }
   ],
@@ -1236,6 +1245,15 @@
     {
       "range": [
         "EARS 001",
+<<<<<<< HEAD
+=======
+        "EARS 002",
+        "EARS 003",
+        "EARS 004",
+        "EARS 005",
+        "EARS 006",
+        "EARS 008",
+>>>>>>> test
         "EARS 009"
       ]
     }
@@ -1285,7 +1303,13 @@
         "EARS 006",
         "EARS 008",
         "EARS 009"
+<<<<<<< HEAD
       ],
+=======
+      ]
+    },
+    {
+>>>>>>> test
       "rec": [
         "CHEM 005"
       ]
@@ -1331,7 +1355,12 @@
     {
       "req": [
         "EARS 087",
+<<<<<<< HEAD
         "EARS 089"
+=======
+        "EARS 089",
+        "EARS 091"
+>>>>>>> test
       ]
     }
   ],
@@ -1430,7 +1459,11 @@
     },
     {
       "rec": [
+<<<<<<< HEAD
         "EARS 38"
+=======
+        "EARS 038"
+>>>>>>> test
       ]
     }
   ],
@@ -1440,8 +1473,7 @@
       "req": [
         "EARS 016",
         "EARS 033",
-        "BIOL 023",
-        "EARS 071"
+        "BIOL 023"
       ]
     }
   ],
@@ -1913,7 +1945,15 @@
   "COSC039: Theory of Computation": [
     {
       "req": [
+<<<<<<< HEAD
         "COSC 030",
+=======
+        "COSC 030"
+      ]
+    },
+    {
+      "req": [
+>>>>>>> test
         "COSC 031"
       ]
     }
@@ -2033,7 +2073,11 @@
       "req": [
         "COSC 011",
         "MATH 022",
+<<<<<<< HEAD
         "MATH 024"
+=======
+        "COSC 024"
+>>>>>>> test
       ]
     }
   ],
@@ -2144,7 +2188,6 @@
     },
     {
       "req": [
-        "COSC 030",
         "COSC 030",
         "COSC 031"
       ]
@@ -3295,15 +3338,26 @@
     {
       "grade": [
         "ECON 020"
+<<<<<<< HEAD
+=======
       ]
     },
     {
       "grade": [
+        "ECON 021"
+>>>>>>> test
+      ]
+    },
+    {
+      "grade": [
+<<<<<<< HEAD
         "ECON 020"
       ]
     },
     {
       "grade": [
+=======
+>>>>>>> test
         "ECON 022"
       ]
     },
@@ -3329,10 +3383,7 @@
     {
       "req": [
         "ECON 001",
-        "ECON 001",
-        "ECON 002",
-        "ECON 002",
-        "ECON 001"
+        "ECON 002"
       ]
     }
   ],
@@ -3732,7 +3783,6 @@
     {
       "req": [
         "MATH 071",
-        "MATH 031",
         "MATH 031"
       ]
     }
@@ -3936,7 +3986,6 @@
     {
       "req": [
         "MATH 071",
-        "MATH 031",
         "MATH 031"
       ]
     }
@@ -4272,6 +4321,7 @@
   "EDUC009.06: Children and Young Adult Literature: Reading Experiences in the K-8 Classroom": [],
   "EDUC045: Principles of Teaching and Learning in the Secondary School: Theory and Practice": [],
   "EDUC062: Adolescent Development and Education": [],
+<<<<<<< HEAD
   "BIOL095: Independent Research in Biology I": [
     {
       "range": [
@@ -4280,6 +4330,9 @@
       ]
     }
   ],
+=======
+  "BIOL095: Independent Research in Biology I": [],
+>>>>>>> test
   "BIOL003: Independent Research in History and Philosophy of Biology": [],
   "BIOL297: Graduate Research II: Level I": [],
   "BIOL005: Fundamental Applied Mathematics for the Sciences": [],
@@ -4306,7 +4359,11 @@
   "BIOL055: Ecological Research in the Tropics I": [
     {
       "req": [
-        "BIOL 016",
+        "BIOL 016"
+      ]
+    },
+    {
+      "req": [
         "BIOL 021",
         "BIOL 022",
         "BIOL 024",
@@ -4362,6 +4419,7 @@
     }
   ],
   "BIOL011.07: Major Events in the History of Life and the Human Genome": [],
+<<<<<<< HEAD
   "BIOL097: Honors Research in Biology": [
     {
       "range": [
@@ -4370,18 +4428,29 @@
       ]
     }
   ],
+=======
+  "BIOL097: Honors Research in Biology": [],
+>>>>>>> test
   "BIOL014: Physiology": [],
   "BIOL029: Biostatistics": [
     {
       "range": [
         "BIOL 011",
+<<<<<<< HEAD
         "BIOL 300"
+=======
+        "BIOL 999"
+>>>>>>> test
       ]
     },
     {
       "range": [
         "BIOL 011",
+<<<<<<< HEAD
         "BIOL 300"
+=======
+        "BIOL 999"
+>>>>>>> test
       ]
     }
   ],
@@ -5135,13 +5204,6 @@
       "req": [
         "ENGL 081"
       ]
-    },
-    {
-      "req": [
-        "ENGL 083",
-        "ENGL 084",
-        "ENGL 085"
-      ]
     }
   ],
   "ENGL003: Literary History III: Literature in the Twentieth and Twenty-First Centuries": [],
@@ -5160,6 +5222,7 @@
   "ENGL074.02: Understanding Biopolitics": [],
   "ENGL048: Critical Issues in Postcolonial Studies": [],
   "ENGL053.40: The Historical Philosophy of W.E.B. Dubois": [],
+<<<<<<< HEAD
   "ENGL086: Senior Workshop in Creative Writing": [
     {
       "req": [
@@ -5169,6 +5232,9 @@
       ]
     }
   ],
+=======
+  "ENGL086: Senior Workshop in Creative Writing": [],
+>>>>>>> test
   "ENGL007.11: New American Short Story": [],
   "ENGL052.11: Daniel Webster and the Dartmouth College Case": [],
   "ENGL055.19: Maroons to Marley": [],
@@ -5253,13 +5319,6 @@
       "req": [
         "ENGL 082"
       ]
-    },
-    {
-      "req": [
-        "ENGL 083",
-        "ENGL 084",
-        "ENGL 085"
-      ]
     }
   ],
   "ENGL063.28: Rethinking Frost: Robert Frost in a Declining Landscape": [],
@@ -5317,13 +5376,6 @@
     {
       "req": [
         "ENGL 080"
-      ]
-    },
-    {
-      "req": [
-        "ENGL 083",
-        "ENGL 084",
-        "ENGL 085"
       ]
     }
   ],
@@ -5629,8 +5681,9 @@
   "FREN078: Senior Major Workshop: Methods in Reading, Writing and Cultural Analysis": [],
   "FREN070.05: Mystical and Earthly Love": [
     {
-      "req": [
-        "FREN 010"
+      "range": [
+        "FREN 010",
+        "FREN 019"
       ]
     }
   ],
@@ -5744,16 +5797,18 @@
   ],
   "FREN075.02: Toward a History of French Cinema": [
     {
-      "req": [
-        "FREN 010"
+      "range": [
+        "FREN 010",
+        "FREN 019"
       ]
     }
   ],
   "FREN009: Language Study Abroad: Readings in French Literature": [],
   "FREN080.03: Men Behaving Badly: The Offending Sex in Literature and Music": [
     {
-      "req": [
-        "FREN 010"
+      "range": [
+        "FREN 010",
+        "FREN 019"
       ]
     }
   ],
@@ -5974,6 +6029,7 @@
   ],
   "RUSS038.01: The Sound of Silence: A Chekhov Writing Workshop": [],
   "RUSS017: Russian Fairy Tales": [],
+<<<<<<< HEAD
   "RUSS071: Advanced Seminar in Russian Culture": [
     {
       "range": [
@@ -5982,6 +6038,9 @@
       ]
     }
   ],
+=======
+  "RUSS071: Advanced Seminar in Russian Culture": [],
+>>>>>>> test
   "RUSS036: The Seer of the Flesh&quot;: Tolstoy's Art and Thought": [],
   "RUSS023: The Russian Language: Study Abroad": [],
   "RUSS022: The Russian Language: Study Abroad": [],
@@ -6022,9 +6081,14 @@
   ],
   "RUSS045: Special Topics in Russian Language": [
     {
+<<<<<<< HEAD
       "range": [
         "RUSS 029",
         "RUSS 300"
+=======
+      "req": [
+        "RUSS 029"
+>>>>>>> test
       ]
     }
   ],
@@ -6510,6 +6574,7 @@
     },
     {
       "req": [
+<<<<<<< HEAD
         "COSC 051"
       ]
     },
@@ -6520,6 +6585,10 @@
     },
     {
       "req": [
+=======
+        "COSC 051",
+        "COSC 057",
+>>>>>>> test
         "COSC 058"
       ]
     }
@@ -6654,7 +6723,6 @@
     },
     {
       "req": [
-        "PHYS 014",
         "PHYS 014"
       ]
     }
@@ -6868,7 +6936,6 @@
     {
       "req": [
         "PHYS 014",
-        "PHYS 014",
         "PHYS 003"
       ]
     },
@@ -7069,6 +7136,7 @@
       ]
     }
   ],
+<<<<<<< HEAD
   "ENGS089: Engineering Design Methodology and Project Initiation": [
     {
       "req": [
@@ -7088,6 +7156,9 @@
       ]
     }
   ],
+=======
+  "ENGS089: Engineering Design Methodology and Project Initiation": [],
+>>>>>>> test
   "ENGS108: Applied Machine Learning": [
     {
       "req": [
@@ -7163,8 +7234,7 @@
     {
       "req": [
         "ENGS 020",
-        "COSC 050",
-        "COSC 023"
+        "COSC 050"
       ]
     }
   ],
@@ -7201,14 +7271,8 @@
       "req": [
         "ENGS 035",
         "ENGS 160",
-        "ENGS 161"
-      ]
-    },
-    {
-      "req": [
-        "BIOL 046",
-        "ENGS 064",
-        "ENGS 019"
+        "ENGS 161",
+        "BIOL 046"
       ]
     }
   ],
@@ -7405,11 +7469,14 @@
     {
       "req": [
         "ENGS 060"
+<<<<<<< HEAD
       ]
     },
     {
       "req": [
         "ENGS 032"
+=======
+>>>>>>> test
       ]
     }
   ],
@@ -7571,7 +7638,7 @@
     {
       "req": [
         "MUS 021",
-        "RMUS 022"
+        "MUS 022"
       ]
     }
   ],
@@ -7594,8 +7661,7 @@
   "MUS032: Improvisation": [
     {
       "req": [
-        "MUS 001",
-        "MMUS 001"
+        "MUS 001"
       ]
     }
   ],
@@ -7610,7 +7676,7 @@
     {
       "req": [
         "MUS 021",
-        "RMUS 022",
+        "MUS 022",
         "MUS 030"
       ]
     }
@@ -7619,6 +7685,7 @@
   "MUS058.03: Percussion Individual Instruction": [],
   "MUS052.01: Conducting and Artistic Direction": [
     {
+<<<<<<< HEAD
       "range": [
         "MUS 021",
         "MUS 023"
@@ -7631,6 +7698,8 @@
       ]
     },
     {
+=======
+>>>>>>> test
       "req": [
         "MUS 006",
         "MUS 010",
@@ -7639,7 +7708,11 @@
         "MUS 041",
         "MUS 042",
         "MUS 043",
+<<<<<<< HEAD
         "MUS 043"
+=======
+        "MUS 044"
+>>>>>>> test
       ]
     }
   ],
@@ -7679,7 +7752,7 @@
     },
     {
       "req": [
-        "DMUS 022"
+        "MUS 022"
       ]
     }
   ],
@@ -7710,8 +7783,7 @@
   "MUS022: Harmony and Rhythm": [
     {
       "req": [
-        "MUS 020",
-        "MMUS 020"
+        "MUS 020"
       ]
     }
   ],
@@ -7740,7 +7812,7 @@
     {
       "req": [
         "MUS 021",
-        "RMUS 022"
+        "MUS 022"
       ]
     }
   ],
@@ -7751,7 +7823,7 @@
     {
       "req": [
         "MUS 021",
-        "RMUS 022"
+        "MUS 022"
       ]
     }
   ],
@@ -7777,8 +7849,7 @@
   "MUS021: Melody and Rhythm": [
     {
       "req": [
-        "MUS 020",
-        "MMUS 020"
+        "MUS 020"
       ]
     }
   ],
@@ -8040,7 +8111,7 @@
     {
       "req": [
         "LAT 003",
-        "RLAT 010"
+        "LAT 010"
       ]
     }
   ],
@@ -8419,8 +8490,8 @@
     {
       "req": [
         "NAS 008",
-        "RNAS 010",
-        "RNAS 025",
+        "NAS 010",
+        "NAS 025",
         "ENVS 011",
         "ENVS 002",
         "ENVS 003"
@@ -8501,13 +8572,17 @@
   "ENVS070: Environmental Policy Research Workshop": [
     {
       "req": [
-        "ENVS 002",
-        "ENVS 003"
+        "GEOG 002",
+        "GEOG 003"
       ]
     },
     {
       "req": [
+<<<<<<< HEAD
         "ENVS 010"
+=======
+        "ECON 10"
+>>>>>>> test
       ]
     }
   ],
@@ -8997,8 +9072,8 @@
     {
       "req": [
         "NAS 008",
-        "RNAS 010",
-        "RNAS 025",
+        "NAS 010",
+        "NAS 025",
         "ENVS 011",
         "ENVS 002",
         "ENVS 003"
@@ -9060,6 +9135,7 @@
   "THEA061: Classical Performance II": [
     {
       "req": [
+<<<<<<< HEAD
         "THEA 015",
         "THEA 016",
         "THEA 017"
@@ -9081,6 +9157,9 @@
         "THEA 044",
         "THEA 048",
         "THEA 050"
+=======
+        "THEA 025"
+>>>>>>> test
       ]
     }
   ],
@@ -9095,6 +9174,7 @@
   "THEA062: Plays in Performance-Perception and Analysis": [
     {
       "req": [
+<<<<<<< HEAD
         "THEA 015",
         "THEA 016",
         "THEA 017"
@@ -9116,6 +9196,9 @@
         "THEA 044",
         "THEA 048",
         "THEA 050"
+=======
+        "THEA 025"
+>>>>>>> test
       ]
     }
   ],
@@ -9152,6 +9235,7 @@
   "THEA060: Classical Performance I": [
     {
       "req": [
+<<<<<<< HEAD
         "THEA 015",
         "THEA 016",
         "THEA 017"
@@ -9173,6 +9257,9 @@
         "THEA 044",
         "THEA 048",
         "THEA 050"
+=======
+        "THEA 025"
+>>>>>>> test
       ]
     }
   ],
@@ -9292,7 +9379,15 @@
   "SPAN009: Culture and Conversation: Advanced Spanish Language": [
     {
       "req": [
+<<<<<<< HEAD
         "SPAN 003"
+=======
+        "SPAN 003",
+        "SPAN 004",
+        "SPAN 600",
+        "SPAN 009",
+        "SPAN 020"
+>>>>>>> test
       ]
     }
   ],
@@ -9456,7 +9551,14 @@
     {
       "req": [
         "SPAN 009",
+<<<<<<< HEAD
         "SPAN 015"
+=======
+        "SPAN 015",
+        "SPAN 020",
+        "SPAN 030",
+        "SPAN 040"
+>>>>>>> test
       ]
     },
     {
@@ -9619,8 +9721,7 @@
     {
       "req": [
         "ENGS 023",
-        "PHYS 041",
-        "PHYS 019"
+        "PHYS 041"
       ]
     }
   ],
@@ -9639,8 +9740,7 @@
   "PHYS120: Nonlinear Systems": [
     {
       "req": [
-        "ENGS 100",
-        "PHYS 019"
+        "ENGS 100"
       ]
     }
   ],
@@ -9739,13 +9839,7 @@
     }
   ],
   "PHYS031.01: Nonlinear Dynamics of Physical Systems": [],
-  "PHYS114: General Relativity and Cosmology": [
-    {
-      "req": [
-        "PHYS 019"
-      ]
-    }
-  ],
+  "PHYS114: General Relativity and Cosmology": [],
   "PHYS085.01: Reading Course": [],
   "PHYS111: Plasma Kinetic Theory": [
     {
@@ -9779,7 +9873,6 @@
     },
     {
       "req": [
-        "PHYS 014",
         "PHYS 014",
         "PHYS 003"
       ]
@@ -9909,8 +10002,7 @@
   "PHYS110: Methods in Applied Mathematics II": [
     {
       "req": [
-        "PHYS 100",
-        "PHYS 019"
+        "PHYS 100"
       ]
     }
   ],
@@ -9961,8 +10053,7 @@
     },
     {
       "req": [
-        "ENGS 032",
-        "PHYS 019"
+        "ENGS 032"
       ]
     }
   ],
@@ -10282,7 +10373,6 @@
     },
     {
       "req": [
-        "PSYC 010",
         "PSYC 010"
       ]
     }
@@ -10369,7 +10459,8 @@
     },
     {
       "req": [
-        "PSYC 011"
+        "PSYC 011",
+        "PSYC 060"
       ]
     }
   ],
@@ -10637,13 +10728,17 @@
   "PBPL049: Environmental Policy Research Workshop": [
     {
       "req": [
-        "ENVS 002",
-        "ENVS 003"
+        "GEOG 002",
+        "GEOG 003"
       ]
     },
     {
       "req": [
+<<<<<<< HEAD
         "PBPL 010"
+=======
+        "ECON 10"
+>>>>>>> test
       ]
     }
   ],
@@ -10688,8 +10783,7 @@
   "PBPL048: Policy Analysis and Local Governance": [
     {
       "req": [
-        "PBPL 005",
-        "PBPL 019"
+        "PBPL 005"
       ]
     }
   ],
@@ -10793,8 +10887,7 @@
   "ARAB025: Moroccan Arabic": [
     {
       "req": [
-        "ARAB 003",
-        "ARAB 019"
+        "ARAB 003"
       ]
     }
   ],

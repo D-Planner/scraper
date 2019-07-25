@@ -5,13 +5,40 @@ import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse } from './populators';
 
+const trim = (res) => {
+    return (res.length) ? res
+        .map((course) => {
+            course.reviews.splice(20);
+            return course;
+        }) : res;
+};
+
+const searchCourses = (req, res) => {
+    const query = Object.entries(req.query)
+        .filter(([k, v]) => {
+            return v.length > 0;
+        })
+        .reduce((acc, [k, v]) => {
+            acc[k] = v;
+            return acc;
+        }, {});
+    Course.find(query)
+        .populate(PopulateCourse)
+        .then((result) => {
+            console.log(trim(result));
+            res.json(trim(result));
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
 const getCourses = async (req, res) => {
     console.log('[course_controller] getCourses');
     Course.find({})
         .populate(PopulateCourse)
         .then((result) => {
-            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -23,8 +50,7 @@ const getCourse = async (req, res) => {
     Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
-            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -36,8 +62,7 @@ const getCoursesByDepartment = async (req, res) => {
     Course.find({ department: req.params.department })
         .populate(PopulateCourse)
         .then((result) => {
-            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -49,8 +74,7 @@ const getCoursesByDistrib = (req, res) => { // needs to be updated since [distri
     Course.find({ distribs: req.params.distrib })
         .populate(PopulateCourse)
         .then((result) => {
-            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -62,8 +86,7 @@ const getCoursesByWC = (req, res) => { // needs to be updated since [distribs] i
     Course.find({ wcs: req.params.wc })
         .populate(PopulateCourse)
         .then((result) => {
-            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -78,8 +101,7 @@ const getCourseByName = (req, res) => {
     ).sort({ score: { $meta: 'textScore' } })
         .populate(PopulateCourse)
         .then((result) => {
-            if (result[0] && result[0].reviews) result[0].reviews = result[0].reviews.slice(1, 30);
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -93,9 +115,8 @@ const getCourseByNumber = (req, res) => {
             { number: req.params.number }],
     })
         .populate(PopulateCourse)
-        .then((response) => {
-            if (response[0] && response[0].reviews) response[0].reviews = response[0].reviews.slice(1, 30);
-            res.json(response);
+        .then((result) => {
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -321,6 +342,7 @@ const getCompleted = (req, res) => {
 };
 
 const CoursesController = {
+    searchCourses,
     getCourses,
     getCourse,
     getCoursesByDepartment,
