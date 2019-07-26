@@ -42,12 +42,18 @@ class signIn extends Component {
 
   render() {
     return (
-      <form>
-        <div>Sign In</div>
-        <input placeholder="Email" value={this.state.email} onChange={this.email} />
-        <input placeholder="Password" value={this.state.password} onChange={this.password} />
-        <button type="button" onClick={this.signIn}>Login</button>
-      </form>
+      <div className="verticalContainer">
+        <div className="container">
+          <div id="signIn-form">
+            <div className="title">Sign In</div>
+            <form className="data-entry">
+              <input placeholder="Email" value={this.state.email} onChange={this.email} />
+              <input placeholder="Password" value={this.state.password} onChange={this.password} />
+              <button type="button" onClick={this.signIn}>Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }
