@@ -52,7 +52,6 @@ export const getUser = (req, res) => {
     } else {
         userID = req.user.id;
     }
-    console.log(PopulateCourse);
     User.findById(userID)
         .populate({
             path: 'favorite_courses',
