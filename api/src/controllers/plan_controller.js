@@ -1,6 +1,7 @@
 import Plan from '../models/plan';
 import User from '../models/user';
 import UserCourse from '../models/user_course';
+import Course from '../models/course';
 import TermController from '../controllers/term_controller';
 import { PopulateTerm } from './populators';
 
@@ -74,6 +75,12 @@ const sortPlan = (plan) => {
 };
 
 export const setTermsPrevCourses = (planID, placements) => {
+    placements = placements.map((p) => {
+        return Course.findById(p)
+            .then((c) => {
+                return c.xlist;
+            });
+    }).flat();
     return new Promise(((resolve, reject) => {
         Promise.resolve(Plan.findById(planID).populate({
             path: 'terms',
@@ -108,7 +115,7 @@ export const setTermsPrevCourses = (planID, placements) => {
                 acc = acc.concat(next);
 
                 return acc;
-            }, []);
+            }, placements);
             resolve();
         }).catch((e) => {
             console.log(e);

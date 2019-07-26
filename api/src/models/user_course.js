@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import Course from './course';
 
 const UserCourseSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -40,10 +41,12 @@ UserCourseSchema.virtual('fulfilled')
                 return (o[key].length > 0 && key !== '_id');
             });
             if (!dependencyType) dependencyType = 'abroad';
+
             const prevCoursesIncludes = () => {
-                return (o[dependencyType].some((c) => {
-                    return (prevCourses) ? prevCourses.includes(c.id.toString()) : false;
-                }));
+                return o[dependencyType].map((c) => { return c.id; })
+                    .some((id) => {
+                        return (prevCourses) ? prevCourses.includes(id.toString()) : false;
+                    });
             };
             switch (dependencyType) {
             case 'abroad':
