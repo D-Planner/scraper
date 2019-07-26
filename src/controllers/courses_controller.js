@@ -148,7 +148,6 @@ const filledValues = (course) => {
             const val = o[key];
             if (val) {
                 if (key === 'abroad') {
-                    console.log(course.title);
                     return Promise.resolve({ abroad: true });
                 }
                 const newVal = val.map((c) => {
@@ -183,7 +182,21 @@ const filledValues = (course) => {
     if (course.xlist) {
         xListed = course.xlist.map((c) => {
             return Course.findOne({ layup_id: c }).then((res) => {
-                if (res) return res._id;
+                if (res) {
+                    Course.findOne({ layup_id: course.layup_id })
+                        .then((origCourse) => {
+                            if (origCourse) {
+                                Course.findByIdAndUpdate(
+                                    res._id,
+                                    { $push: { xlist: origCourse.id } },
+                                ).then((r) => {
+                                    console.log('added xlist for: ', r.title, origCourse.id);
+                                });
+                            }
+                        });
+
+                    return res._id;
+                }
                 return null;
             }).catch((err) => {
                 console.log('reseed', err);
@@ -208,7 +221,6 @@ const createCourse = (req, res) => {
                 distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
             }
             const [xlist, prerequisites, professors] = r;
-            if (course.title === 'SPAN020: Writing and Reading: A Critical and Cultural Approach') console.log(prerequisites);
             return Course.findOneAndUpdate(
                 { title: course.title },
                 {
@@ -237,7 +249,6 @@ const createCourse = (req, res) => {
                 },
                 { upsert: true },
             ).then((res) => {
-                if (course.title === 'SPAN020: Writing and Reading: A Critical and Cultural Approach') console.log(res);
                 return res;
             }).catch((error) => {
                 return error;

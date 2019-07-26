@@ -1,10 +1,10 @@
 const CourseReferenceSelect = ['department', 'number', 'name', 'id'];
 
 export const PopulateCourse = [{
-    path: 'professors',
-}, {
     path: 'xlist',
     select: CourseReferenceSelect,
+}, {
+    path: 'professors',
 }, {
     path: 'prerequisites.req',
     select: CourseReferenceSelect,
