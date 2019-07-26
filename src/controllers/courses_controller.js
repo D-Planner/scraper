@@ -6,11 +6,14 @@ import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse } from './populators';
 
 const trim = (res) => {
-    return (res.length) ? res
-        .map((course) => {
+    try {
+        return res.map((course) => {
             course.reviews.splice(20);
             return course;
-        }) : res;
+        });
+    } catch (e) {
+        return res;
+    }
 };
 
 const searchCourses = (req, res) => {
@@ -25,10 +28,10 @@ const searchCourses = (req, res) => {
     Course.find(query)
         .populate(PopulateCourse)
         .then((result) => {
-            console.log(trim(result));
             res.json(trim(result));
         })
         .catch((error) => {
+            console.log(error);
             res.status(500).json({ error });
         });
 };
