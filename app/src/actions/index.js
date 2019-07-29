@@ -190,7 +190,7 @@ export function fetchPlan(planID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
       .then((response) => {
-        console.log('[ACTION.js] fetched plan');
+        // console.log('[ACTION.js] fetched plan');
         console.log(response.data);
         dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
         resolve(response);
@@ -452,7 +452,7 @@ export function courseSearch(query) {
  * @returns an action creator to add a new course to the given term
  */
 export function addCourseToTerm(course, term, planID) {
-  console.log('[ACTION.js] We got the resquest to add course to term');
+  // console.log('[ACTION.js] We got the resquest to add course to term');
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course, planID }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

@@ -22,20 +22,19 @@ const termTarget = {
       if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
         return undefined;
       } else if (item.sourceTerm) {
-        console.log('[TERM.js] We think this is a term-to-term drag');
+        // console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm).then(() => {
-          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          // console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
           return props.addCourseToTerm(item.catalogCourse, props.term);
         }).then(() => {
-          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+          // console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         });
-        // TO-DO: need to make this a promise
       } else {
-        console.log('[TERM.js] We think this is a search-to-term drag');
+        // console.log('[TERM.js] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
         props.addCourseToTerm(item.course, props.term).then(() => {
-          console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
+          // console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
         });
       }
       // return an object containing the current term
@@ -59,7 +58,7 @@ class Term extends Component {
       okText: 'Ok!',
       onOk: () => {
         this.props.term.courses.forEach((course) => {
-          console.log(`Because you are turning off this term, deleting: ${course}`);
+          // console.log(`Because you are turning off this term, deleting: ${course}`);
           this.props.removeCourseFromFavorites(course.course.id);
         });
         this.props.term.off_term = true;
@@ -116,7 +115,7 @@ class Term extends Component {
 
       <div className="term-content">
         {this.props.term.courses.map((course) => {
-          console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
+          // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
             <div className="course-row" key={course.id}>
               <DraggableUserCourse
