@@ -105,7 +105,7 @@ export const GenEds = {
     fullName: 'Literature',
     name: 'LIT',
     icon: icons.lit,
-    fulfilled: true,
+    fulfilled: false,
   },
   TMV: {
     fullName: 'Thought, Meaning, and Value',
