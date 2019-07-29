@@ -4,6 +4,7 @@
   "license": "MIT",
   "main": "src/index.js",
   "dependencies": {
+    "async": "^3.1.0",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "cytoscape": "^3.8.0",
