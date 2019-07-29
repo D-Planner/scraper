@@ -32,6 +32,7 @@ const RequirementsPane = (props) => {
   const fillDistribs = () => {
     const fixed = [];
     const flexible = [];
+
     // does initial sort, sorts the list of user courses into [fixed] or [flexible]
     props.userCourses.forEach((userCourse) => {
       if (userCourse.course.distribs.length > 1) {
@@ -44,10 +45,10 @@ const RequirementsPane = (props) => {
     });
 
     let counter = 0;
-
     while ((flexible.length > 0 || fixed.length > 0) && counter < 10) {
       counter += 1;
       // for every [rank1] course, simply check off the distrib
+      console.log('FIXED ARRAY LENGTH:', fixed.length);
       Promise.all(
         fixed.map((userCourse) => {
           return new Promise((resolve) => {
@@ -56,26 +57,43 @@ const RequirementsPane = (props) => {
           });
         }),
       ).then(() => { // once all [distrib]s have been checked through, clear the [fixed] array
+        // Now we are just dealing with the flexible Array
         fixed.length = 0;
         for (let i = 0; i < flexible.length; i += 1) {
+          console.log('Flex length', flexible.length);
           const userCourse = flexible[i];
           userCourse.course.distribs.forEach((distrib) => {
             // checks to see if one of the [flexible]'s [distrib]s are already fulfilled; if so, then it should get moved to [fixed]
             if (GenEds[distrib].fulfilled) {
+              // Does each course ony have a max of two distribs
               userCourse.distrib = userCourse.course.distribs[findOtherDistrib(distrib, userCourse.course.distribs)];
               // determines whether the [userCourse] is already in the [fixed] array
               if (fixed.findIndex(e => e.id === userCourse.id) !== -1) {
                 fixed.splice(fixed.findIndex(e => e.id === userCourse.id), 1, userCourse);
               } else {
                 fixed.push(userCourse);
+                console.log('ADDED TO FIXED');
               }
               flexible.splice(i, 1);
+              console.log('Edited FLEX LENGTH, CURR VAL=', flexible.length);
               i -= 1;
             }
           });
         }
       });
     }
+    // if (flexible.length) {
+    //   const userCourse = flexible[0];
+    //   userCourse.distrib = userCourse.course.distribs[0];
+    //   if (fixed.findIndex(e => e.id === userCourse.id) !== -1) {
+    //     fixed.splice(fixed.findIndex(e => e.id === userCourse.id), 1, userCourse);
+    //   } else {
+    //     fixed.push(userCourse);
+    //     console.log('ADDED TO FIXED');
+    //   }
+    //   flexible.splice(0, 1);
+    //   fillDistribs();
+    // }
   };
 
   const findOtherDistrib = (unwantedDistrib, distribs) => {
