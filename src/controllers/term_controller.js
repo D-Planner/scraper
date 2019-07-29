@@ -5,6 +5,30 @@ import UserCourseController from '../controllers/user_course_controller';
 import { setTermsPrevCourses } from '../controllers/plan_controller';
 import { PopulateTerm } from './populators';
 
+// Helpers
+const addCompleted = (userID, courseID) => {
+    User.findByIdAndUpdate(userID, {
+        $push: { completed_courses: courseID },
+    }, { new: true }).then((result) => {
+    }).catch((error) => {
+        console.log(error);
+    });
+};
+
+const removeCompleted = (userID, courseID) => {
+    console.log('REMOVING COURSE FROM COMPLETED, ', courseID);
+    return new Promise((resolve, reject) => {
+        User.findByIdAndUpdate(userID, {
+            $pull: { completed_courses: courseID },
+        }, { new: true }).then((result) => {
+            resolve();
+        }).catch((error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
 const createTerm = async (term, planID) => {
     const newTerm = await Term.create({
         plan_id: planID,
@@ -31,28 +55,6 @@ const updateTerm = (req, res) => {
         .catch((error) => {
             res.status(500).json({ error });
         });
-};
-
-const addCompleted = (userID, courseID) => {
-    User.findByIdAndUpdate(userID, {
-        $push: { completed_courses: courseID },
-    }, { new: true }).then((result) => {
-    }).catch((error) => {
-        console.log(error);
-    });
-};
-
-const removeCompleted = (userID, courseID) => {
-    return new Promise((resolve, reject) => {
-        User.findByIdAndUpdate(userID, {
-            $pull: { completed_courses: courseID },
-        }, { new: true }).then((result) => {
-            resolve();
-        }).catch((error) => {
-            console.log(error);
-            reject();
-        });
-    });
 };
 
 const addCourseToTerm = (req, res) => {
