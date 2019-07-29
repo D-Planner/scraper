@@ -2,9 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import DialogWrapper from '../dialogWrapper';
 // import bookmarkFilled from '../../style/bookmarkFilled.svg';
-import { addCourseToFavorites } from '../../actions';
+import {
+  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser,
+} from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
+import bookmarkFilled from '../../style/bookmarkFilled.svg';
+import plus from '../../style/plus.svg';
+import minus from '../../style/minus.svg';
+import CourseElement from '../../components/staticCourseElement';
 
 import './courseInfo.scss';
 
@@ -163,44 +169,55 @@ class CourseInfoDialog extends Component {
   }
 
   renderPrerequisites = (course) => {
-    console.log(this.props);
     const { prerequisites } = course;
+
+    const renderPrereqByType = (o, dependencyType) => {
+      console.log(dependencyType);
+      console.log(o);
+      if (dependencyType === 'range') {
+        return (
+          <div>
+            One from {course.department} {o[dependencyType][0]} {(o[dependencyType][1] === 300) ? '+' : ` - ${o[dependencyType][1]}`}
+          </div>
+        );
+      } else if (dependencyType === 'abroad') {
+        return (
+          <div>
+            This course requires having been abroad.
+          </div>
+        );
+      } else {
+        return (
+          o[dependencyType].map((c) => {
+            return (
+              <CourseElement
+                course={c}
+                size="bg"
+                action={{
+                  type: 'bookmark',
+                  svg: bookmark,
+                  method: addCourseToFavorites(c.id),
+                }}
+              />
+            );
+          })
+        );
+      }
+    };
     return (
       <div id="dependenciesContainer">
         <div className="section-header">Prerequisites</div>
         <div id="dependencies">
           {prerequisites.map((o) => {
-            const dependencyType = Object.keys(o).find((key) => {
+            let dependencyType = Object.keys(o).find((key) => {
               return (o[key].length > 0 && key !== '_id');
             });
+            if (!dependencyType) dependencyType = 'abroad';
 
             const render = (
               <div className="dependency">
                 <div className="section-header">{Dependencies[dependencyType]}</div>
-                {(dependencyType === 'range') ? (
-                  <div>
-                    One from {course.department} {o[dependencyType][0]} {(o[dependencyType][1] === 300) ? '+' : ` - ${o[dependencyType][1]}`}
-                  </div>
-                ) : o[dependencyType].map((c) => {
-                  return (
-                    <div className="course bg">
-                      <div className="title-box">
-                        <div className="course-left">
-                          {`${c.department} ${c.number}`}
-                        </div>
-                        <div className="spacer" />
-                        <div className="course-right">
-                          <div className="name">
-                            {c.name}
-                          </div>
-                          <div className="check-box">
-                            <img className="bookmark" src={bookmark} alt="bookmark" onClick={addCourseToFavorites(c.id)} />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {renderPrereqByType(o, dependencyType)}
               </div>
             );
             if (!this.props.previousCourses) return render;
@@ -211,7 +228,6 @@ class CourseInfoDialog extends Component {
                 })) ? <img src={checkedBox} alt="fulfilled" /> : render;
               case 'range':
                 return (this.props.previousCourses.some((c) => {
-                  console.log(c);
                   return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
                 })) ? <img src={checkedBox} alt="fulfilled" /> : render;
               default:
@@ -219,6 +235,42 @@ class CourseInfoDialog extends Component {
             }
           })}
         </div>
+      </div>
+    );
+  }
+
+  courseUserOptions(courseID) {
+    const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
+    const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
+    return (
+      <div id="user-actions">
+        <img
+          className="action"
+          src={bookmarked ? bookmarkFilled : bookmark}
+          alt="Bookmark"
+          onClick={
+            bookmarked
+              ? () => this.props.removeCourseFromFavorites(this.props.data.id)
+                .then(r => this.props.fetchUser(this.props.user.id))
+              : () => this.props.addCourseToFavorites(this.props.data.id)
+                .then(r => this.props.fetchUser(this.props.user.id))
+          }
+        />
+        <div className="spacer" />
+        <img
+          className="action"
+          src={placement ? minus : plus}
+          alt="Placement"
+          onClick={
+            placement
+              ? () => this.props.removePlacement(this.props.data.id)
+                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchUser())
+              : () => this.props.addCourseToPlacements(this.props.data.id)
+                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchUser())
+          }
+        />
       </div>
     );
   }
@@ -231,7 +283,10 @@ class CourseInfoDialog extends Component {
   courseInfo(course, nextTerm) {
     return (
       <div id="content">
-        <div id="major">Engineering Department: Prerequisite</div>
+        <div id="top">
+          <div id="major">Engineering Department: Prerequisite</div>
+          {this.courseUserOptions(course.id)}
+        </div>
         <hr className="horizontal-divider" />
         <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description)}</div>
         <hr className="horizontal-divider" />
@@ -250,6 +305,7 @@ class CourseInfoDialog extends Component {
   }
 
   render() {
+    console.log(this.props.data);
     return (
       <DialogWrapper {...this.props}>
         {this.courseInfo(this.props.data, this.props.nextTerm)}
@@ -359,6 +415,10 @@ const distribTypes = [
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
+  plan: state.plans.current,
+  user: state.user.current,
 });
 
-export default connect(mapStateToProps, { })(CourseInfoDialog);
+export default connect(mapStateToProps, {
+  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement,
+})(CourseInfoDialog);

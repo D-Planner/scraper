@@ -31,6 +31,10 @@
     &.error {
       color: $error !important;
     }
+
+    &.warning {
+      color: $warning !important;
+    }
 }
 
 .title-box {

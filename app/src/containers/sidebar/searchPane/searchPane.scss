@@ -30,6 +30,9 @@
             height: calc(#{$header-size} + 2px);
         }
     }
+    .gened-picker {
+      color:black;
+    }
 
     .pane-content {
         display: flex;

@@ -1,7 +1,9 @@
 import Plan from '../models/plan';
+import User from '../models/user';
 import UserCourse from '../models/user_course';
+import Course from '../models/course';
 import TermController from '../controllers/term_controller';
-import PopulateTerm from './populators';
+import { PopulateTerm } from './populators';
 
 
 const getPlansByUserId = (id) => {
@@ -72,66 +74,103 @@ const sortPlan = (plan) => {
     return plan;
 };
 
-const setTermsPrevCourses = async (planID) => {
-    const plan = await Plan.findById(planID).populate({
-        path: 'terms',
-        populate: PopulateTerm,
-    });
-
-    plan.terms.reduce((acc, curr) => {
-        // Get the last courses
-        const termCourses = curr.courses.map((course) => {
-            return UserCourse.findById(course._id)
-                .populate('course', '_id xlist')
-                .then((c) => {
-                    return c.course.xlist ? c.course.xlist.concat(c.course._id) : [c.course._id];
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
-        });
-        Promise.all(acc).then((ac) => {
-            curr.courses.forEach((course) => {
-                // console.log('Server', course.course.number, 'Previous Coursecourse', ac.flat());
-                UserCourse.update({ _id: course._id }, { previousCourses: ac.flat() }).then((r) => { return r; }).catch((e) => { return e; });
-                // UserCourse.findById(course._id).then((r) => { console.log(r); }).catch((e) => { return e; });
+export const setTermsPrevCourses = (planID, placements) => {
+    placements = placements.map((p) => {
+        return Course.findById(p)
+            .then((c) => {
+                return c.xlist;
             });
-        });
-        const next = (termCourses.length) ? termCourses.map((promise) => {
-            return promise.then((r) => {
-                return r;
-            });
-        }) : [];
-
-        acc = acc.concat(next);
-
-        return acc;
-    }, []);
-};
-
-const getPlanByID = async (planID) => {
-    await setTermsPrevCourses(planID);
-
-    try {
-        const plan = await Plan.findById(planID);
-
-        if (!plan) {
-            throw new Error('This plan does not exist for this user');
-        }
-        const populated = await plan.populate({
+    }).flat();
+    return new Promise(((resolve, reject) => {
+        Promise.resolve(Plan.findById(planID).populate({
             path: 'terms',
             populate: PopulateTerm,
-        }).execPopulate();
+        })).then((plan) => {
+            plan.terms.reduce((acc, curr) => {
+            // Get the last courses
+                let next = curr.courses.map((course) => {
+                    return UserCourse.findById(course._id)
+                        .populate('course', '_id xlist')
+                        .then((c) => {
+                            return c.course.xlist ? c.course.xlist.concat(c.course._id) : [c.course._id];
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                }).map((promise) => {
+                    return promise.then((r) => {
+                        return r;
+                    });
+                });
+                if (!next) next = [];
 
-        populated.terms.forEach((term) => {
-            term.courses.forEach((course) => {
-                // console.log(course.course.department, course.course.number, 'Previous Coursecourse', course.previousCourses);
-            });
+                Promise.all(acc).then((ac) => {
+                    curr.courses.forEach((course) => {
+                    // console.log('Server', course.course.number, 'Previous Coursecourse', ac.flat());
+                        UserCourse.update({ _id: course._id }, { previousCourses: ac.flat() }).then((r) => { return r; }).catch((e) => { return e; });
+                    // UserCourse.findById(course._id).then((r) => { console.log(r); }).catch((e) => { return e; });
+                    });
+                });
+
+                acc = acc.concat(next);
+
+                return acc;
+            }, placements);
+            resolve();
+        }).catch((e) => {
+            console.log(e);
+            reject();
         });
-        return sortPlan(populated.toJSON());
-    } catch (e) {
-        throw e;
-    }
+    }));
+};
+
+const getPlanByID = (req, res) => {
+    const planID = req.params.id;
+    const userID = req.user.id;
+    User.findById(userID)
+        .then((user) => {
+            return setTermsPrevCourses(planID, user.placement_courses);
+        })
+        .then(() => {
+            return Plan.findById(planID);
+        })
+        .then((plan) => {
+            if (!plan) {
+                throw new Error('This plan does not exist for this user');
+            }
+            return plan.populate({
+                path: 'terms',
+                populate: PopulateTerm,
+            }).execPopulate();
+        })
+        .then((populated) => {
+            res.json(sortPlan(populated.toJSON()));
+        })
+        .catch((error) => {
+            console.log('Error', error);
+            res.status(400).send({ error });
+        });
+    //   try {
+    //       const plan = await Plan.findById(planID);
+    //
+    //       if (!plan) {
+    //           throw new Error('This plan does not exist for this user');
+    //       }
+    //       const populated = await plan.populate({
+    //           path: 'terms',
+    //           populate: PopulateTerm,
+    //       }).execPopulate();
+    //
+    //       populated.terms.forEach((term) => {
+    //           term.courses.forEach((course) => {
+    //               // console.log(course.course.department, course.course.number, 'Previous Coursecourse', course.previousCourses);
+    //           });
+    //       });
+    //       return sortPlan(populated.toJSON());
+    //   } catch (e) {
+    //       throw e;
+    //   }
+    // });
 };
 
 // delete a plan by id

@@ -10,11 +10,11 @@ import DraggableUserCourse from '../draggableUserCourse';
 
 import './term.scss';
 import {
-  updateTerm, showDialog, fetchPlan, updateUserCourse,
+  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 } from '../../actions';
 
 const termTarget = {
-  drop: async (props, monitor) => {
+  drop: (props, monitor) => {
     const item = monitor.getItem();
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
@@ -22,16 +22,21 @@ const termTarget = {
       if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
         return undefined;
       } else if (item.sourceTerm) {
+        console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm).then(() => {
-          props.addCourseToTerm(item.catalogCourse, props.term).then(() => {
-            this.props.fetchPlan(this.props.plan.id);
-          });
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          return props.addCourseToTerm(item.catalogCourse, props.term);
+        }).then(() => {
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         });
         // TO-DO: need to make this a promise
       } else {
+        console.log('[TERM.js] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
-        await props.addCourseToTerm(item.course, props.term);
+        props.addCourseToTerm(item.course, props.term).then(() => {
+          console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
+        });
       }
       // return an object containing the current term
       return { destinationTerm: props.term };
@@ -53,11 +58,16 @@ class Term extends Component {
       title: 'Turn Term Off',
       okText: 'Ok!',
       onOk: () => {
+        this.props.term.courses.forEach((course) => {
+          console.log(`Because you are turning off this term, deleting: ${course}`);
+          this.props.removeCourseFromFavorites(course.course.id);
+        });
         this.props.term.off_term = true;
         this.props.term.courses = [];
         this.props.updateTerm(this.props.term)
           .then(() => {
             this.props.fetchPlan(this.props.plan.id);
+            this.props.fetchUser();
           });
       },
     };
@@ -106,6 +116,7 @@ class Term extends Component {
 
       <div className="term-content">
         {this.props.term.courses.map((course) => {
+          console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
             <div className="course-row" key={course.id}>
               <DraggableUserCourse
@@ -171,5 +182,5 @@ const mapStateToProps = state => ({
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTerm, showDialog, fetchPlan, updateUserCourse,
+  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 })(Term)));

@@ -3,15 +3,45 @@ import User from '../models/user';
 import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
-import PopulateCourse from './populators';
+import { PopulateCourse } from './populators';
 
+const trim = (res) => {
+    try {
+        return res.map((course) => {
+            course.reviews.splice(20);
+            return course;
+        });
+    } catch (e) {
+        return res;
+    }
+};
+
+const searchCourses = (req, res) => {
+    const query = Object.entries(req.query)
+        .filter(([k, v]) => {
+            return v.length > 0;
+        })
+        .reduce((acc, [k, v]) => {
+            acc[k] = v;
+            return acc;
+        }, {});
+    Course.find(query)
+        .populate(PopulateCourse)
+        .then((result) => {
+            res.json(trim(result));
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({ error });
+        });
+};
 
 const getCourses = async (req, res) => {
+    console.log('[course_controller] getCourses');
     Course.find({})
         .populate(PopulateCourse)
         .then((result) => {
-            // result[0].reviews = result[0].reviews.slice(1, 30);
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -19,10 +49,11 @@ const getCourses = async (req, res) => {
 };
 
 const getCourse = async (req, res) => {
+    console.log('[course_controller] getCourse');
     Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -30,10 +61,11 @@ const getCourse = async (req, res) => {
 };
 
 const getCoursesByDepartment = async (req, res) => {
+    console.log('[course_controller] getCoursesByDepartment');
     Course.find({ department: req.params.department })
         .populate(PopulateCourse)
         .then((result) => {
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -41,10 +73,11 @@ const getCoursesByDepartment = async (req, res) => {
 };
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
+    console.log('[course_controller] getCoursesByDistrib');
     Course.find({ distribs: req.params.distrib })
         .populate(PopulateCourse)
         .then((result) => {
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -52,23 +85,26 @@ const getCoursesByDistrib = (req, res) => { // needs to be updated since [distri
 };
 
 const getCoursesByWC = (req, res) => { // needs to be updated since [distribs] is now an array
+    console.log('[course_controller] getCoursesByWC');
     Course.find({ wcs: req.params.wc })
-        .populate('professors')
+        .populate(PopulateCourse)
         .then((result) => {
-            res.json(result);
-        }).catch((error) => {
+            res.json(trim(result));
+        })
+        .catch((error) => {
             res.status(500).json({ error });
         });
 };
 
 const getCourseByName = (req, res) => {
+    console.log('[course_controller] getCoursesByName');
     Course.find(
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
     ).sort({ score: { $meta: 'textScore' } })
         .populate(PopulateCourse)
         .then((result) => {
-            res.json(result);
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -76,14 +112,14 @@ const getCourseByName = (req, res) => {
 };
 
 const getCourseByNumber = (req, res) => {
+    console.log('[course_controller] getCoursesByNumber');
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
     })
         .populate(PopulateCourse)
-        .then((response) => {
-            response[0].reviews = response[0].reviews.slice(0, 30);
-            res.json(response);
+        .then((result) => {
+            res.json(trim(result));
         })
         .catch((error) => {
             res.status(500).json({ error });
@@ -111,26 +147,32 @@ const filledValues = (course) => {
             const key = Object.keys(o)[0];
             const val = o[key];
             if (val) {
-                const newVal = (key === 'abroad') ? true : val.map((c) => {
+                if (key === 'abroad') {
+                    return Promise.resolve({ abroad: true });
+                }
+                const newVal = val.map((c) => {
                     const tokens = c.split(' ');
                     if (key === 'range') {
                         return parseInt(tokens[1]);
                     }
-                    return Course.findOne({ department: tokens[0], number: tokens[1] }).then((result) => {
-                        if (result) return result._id;
-                        return null;
-                    }).catch((error) => {
-                        console.log('reseed', c);
-                        return error;
+                    return Course.findOne({ department: tokens[0], number: tokens[1] })
+                        .then((result) => {
+                            if (result) return result._id;
+                            return null;
+                        })
+                        .catch((error) => {
+                            console.log('reseed', c);
+                            return error;
+                        });
+                });
+                return Promise.all(newVal)
+                    .then((r) => {
+                        return {
+                            [key]: r,
+                        };
+                    }).catch((e) => {
+                        return e;
                     });
-                });
-                return Promise.all(newVal).then((r) => {
-                    return {
-                        [Object.keys(o)[0]]: r,
-                    };
-                }).catch((e) => {
-                    return e;
-                });
             } else {
                 return [];
             }
@@ -140,7 +182,21 @@ const filledValues = (course) => {
     if (course.xlist) {
         xListed = course.xlist.map((c) => {
             return Course.findOne({ layup_id: c }).then((res) => {
-                if (res) return res._id;
+                if (res) {
+                    Course.findOne({ layup_id: course.layup_id })
+                        .then((origCourse) => {
+                            if (origCourse) {
+                                Course.findByIdAndUpdate(
+                                    res._id,
+                                    { $push: { xlist: origCourse.id } },
+                                ).then((r) => {
+                                    console.log('added xlist for: ', r.title, origCourse.id);
+                                });
+                            }
+                        });
+
+                    return res._id;
+                }
                 return null;
             }).catch((err) => {
                 console.log('reseed', err);
@@ -202,6 +258,27 @@ const createCourse = (req, res) => {
         });
     })).then(() => {
         res.status(200).json({ message: 'Courses successfully added to db 🚀' });
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).json({ error });
+    });
+};
+
+const addPlacement = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $addToSet: { placement_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
+const removePlacement = (req, res) => {
+    User.findByIdAndUpdate(req.user.id, {
+        $pull: { placement_courses: req.params.id },
+    }, { new: true }).then((result) => {
+        res.json(result);
     }).catch((error) => {
         res.status(500).json({ error });
     });
@@ -270,7 +347,6 @@ const getCompleted = (req, res) => {
             model: 'Course',
             populate: PopulateCourse,
         })
-        .exec()
         .then((result) => {
             res.json(result.completed_courses);
         })
@@ -280,6 +356,7 @@ const getCompleted = (req, res) => {
 };
 
 const CoursesController = {
+    searchCourses,
     getCourses,
     getCourse,
     getCoursesByDepartment,
@@ -288,6 +365,8 @@ const CoursesController = {
     getCourseByName,
     getCourseByNumber,
     createCourse,
+    addPlacement,
+    removePlacement,
     getFavorite,
     addFavorite,
     removeFavorite,
