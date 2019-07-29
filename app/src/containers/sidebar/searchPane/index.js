@@ -7,6 +7,8 @@ import arrowDropDown from '../../../style/arrowDropDown.svg';
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
 
+import { GenEds } from '../../../constants';
+
 /**
  * @name SearchPane
  * @description allows a user to search specific courses right in the sidebar
@@ -19,48 +21,70 @@ const SearchPane = (props) => {
   });
 
   const [searchText, setSearchText] = useState('');
-  const [searchMethod, setSearchMethod] = useState('number');
+  const [wcs, setWC] = useState('');
+  const [distribs, setDistrib] = useState('');
 
   // Allows a user to search by the query entered in the search input
-  const search = (query) => {
-    setSearchText(query);
-    if (query.length !== 0) {
-      switch (searchMethod) {
-        case 'number':
-          const queryParsed = {
-            department: query.split(' ')[0].toUpperCase(),
-            number: query.split(' ')[1],
-          };
-          if (typeof queryParsed.number === 'undefined') { // if user just searched 'COSC'
-            props.search(queryParsed, 'department');
-            setSearchMethod('number');
-          } else {
-            props.search(queryParsed, searchMethod);
-          }
-          break;
-        case 'distrib':
-          props.search(query, 'distrib');
-          break;
-        default:
-          props.search(query, searchMethod);
-      }
-    }
-  };
 
   // Clears the search input when the component updates to go inactive
   useEffect(() => {
-    if (!props.active) {
-      search('');
+    if (searchText.length !== 0) {
+      const queryParsed = {
+        department: searchText.split(' ')[0].toUpperCase(),
+        number: searchText.split(' ')[1],
+        distribs,
+        wcs,
+      };
+      props.search(queryParsed);
     }
-  }, [props.active]);
+  }, [searchText, wcs, distribs]);
 
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
         <img className="dropdown-icon" src={arrowDropDown} alt="search" />
-        <input type="text" className="search-input" placeholder="Search" value={searchText} onChange={(e) => { search(e.target.value); }} />
+        <input type="text"
+          className="search-input"
+          placeholder="Search"
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+          }}
+        />
         <img className="search-icon" src={searchIcon} alt="search" />
       </div>
+      <select className="gened-picker"
+        onChange={(e) => {
+          setWC(e.target.value);
+        }}
+      >
+        <option value="">None</option>
+        {
+          Object.keys(GenEds).filter((g) => {
+            return g.length <= 2;
+          }).map((g) => {
+            return (
+              <option value={g}>{GenEds[g].fullName} ({g})</option>
+            );
+          })
+        }
+      </select>
+      <select className="gened-picker"
+        onChange={(e) => {
+          setDistrib(e.target.value);
+        }}
+      >
+        <option value="">None</option>
+        {
+          Object.keys(GenEds).filter((g) => {
+            return g.length > 2;
+          }).map((g) => {
+            return (
+              <option value={g}>{GenEds[g].fullName} ({g})</option>
+            );
+          })
+        }
+      </select>
       <div className="pane-content">
         {props.results.length
           ? props.results.map((course) => {

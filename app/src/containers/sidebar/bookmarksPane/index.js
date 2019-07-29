@@ -38,10 +38,10 @@ const component = (props) => {
         ? (
           <div className="bookmarked-courses-list">
             {props.bookmarks.map((course, index) => {
+              console.log(course);
               return (
                 <DraggableCourse
                   key={course.crn}
-                  index={index}
                   course={course}
                 />
               );

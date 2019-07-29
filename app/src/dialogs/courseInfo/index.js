@@ -170,35 +170,54 @@ class CourseInfoDialog extends Component {
 
   renderPrerequisites = (course) => {
     const { prerequisites } = course;
+
+    const renderPrereqByType = (o, dependencyType) => {
+      console.log(dependencyType);
+      console.log(o);
+      if (dependencyType === 'range') {
+        return (
+          <div>
+            One from {course.department} {o[dependencyType][0]} {(o[dependencyType][1] === 300) ? '+' : ` - ${o[dependencyType][1]}`}
+          </div>
+        );
+      } else if (dependencyType === 'abroad') {
+        return (
+          <div>
+            This course requires having been abroad.
+          </div>
+        );
+      } else {
+        return (
+          o[dependencyType].map((c) => {
+            return (
+              <CourseElement
+                course={c}
+                size="bg"
+                action={{
+                  type: 'bookmark',
+                  svg: bookmark,
+                  method: addCourseToFavorites(c.id),
+                }}
+              />
+            );
+          })
+        );
+      }
+    };
     return (
       <div id="dependenciesContainer">
         <div className="section-header">Prerequisites</div>
         <div id="dependencies">
           {prerequisites.map((o) => {
-            const dependencyType = Object.keys(o).find((key) => {
+            let dependencyType = Object.keys(o).find((key) => {
               return (o[key].length > 0 && key !== '_id');
             });
+            if (!dependencyType) dependencyType = 'abroad';
 
             const render = (
               <div className="dependency">
                 <div className="section-header">{Dependencies[dependencyType]}</div>
-                {(dependencyType === 'range') ? (
-                  <div>
-                    One from {course.department} {o[dependencyType][0]} {(o[dependencyType][1] === 300) ? '+' : ` - ${o[dependencyType][1]}`}
-                  </div>
-                ) : o[dependencyType].map((c) => {
-                  return (
-                    <CourseElement
-                      course={c}
-                      size="bg"
-                      action={{
-                        type: 'bookmark',
-                        svg: bookmark,
-                        method: addCourseToFavorites(c.id),
-                      }}
-                    />
-                  );
-                })}
+                {renderPrereqByType(o, dependencyType)}
               </div>
             );
             if (!this.props.previousCourses) return render;
@@ -245,9 +264,11 @@ class CourseInfoDialog extends Component {
           onClick={
             placement
               ? () => this.props.removePlacement(this.props.data.id)
-                .then(r => this.props.fetchUser(this.props.plan.id))
+                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(this.props.data.id)
-                .then(r => this.props.fetchUser(this.props.plan.id))
+                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchUser())
           }
         />
       </div>
@@ -284,6 +305,7 @@ class CourseInfoDialog extends Component {
   }
 
   render() {
+    console.log(this.props.data);
     return (
       <DialogWrapper {...this.props}>
         {this.courseInfo(this.props.data, this.props.nextTerm)}

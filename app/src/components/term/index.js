@@ -25,22 +25,17 @@ const termTarget = {
         console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse, item.sourceTerm).then(() => {
-          console.log(`[TERM].jsThe ccourse \n${item.catalogCourse.id} has been removed from \n${item.sourceTerm}`);
-          props.addCourseToTerm(item.catalogCourse, props.term).then(() => {
-            console.log(`[TERM.js] The ccourse \n${item.catalogCourse.id} has been added to term \n${props.term.id}`);
-            this.props.fetchPlan(this.props.plan.id).then(() => {
-              console.log('[TERM.js] fetched plan');
-            });
-          });
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          return props.addCourseToTerm(item.catalogCourse, props.term);
+        }).then(() => {
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         });
         // TO-DO: need to make this a promise
       } else {
         console.log('[TERM.js] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
         props.addCourseToTerm(item.course, props.term).then(() => {
-          this.props.fetchPlan(this.props.plan.id).then(() => {
-            console.log(`[TERM.js] The ccourse \n${item.course.id} has been added to term \n${props.term.id}`);
-          });
+          console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
         });
       }
       // return an object containing the current term
@@ -121,7 +116,7 @@ class Term extends Component {
 
       <div className="term-content">
         {this.props.term.courses.map((course) => {
-          console.log(`The course: \n ${course.course.id} \n is in term: \n ${this.props.term.id}`);
+          console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
             <div className="course-row" key={course.id}>
               <DraggableUserCourse

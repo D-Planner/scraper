@@ -190,7 +190,7 @@ export function fetchPlan(planID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
       .then((response) => {
-        console.log('[INDEX.js] fetched plan');
+        console.log('[ACTION.js] fetched plan');
         console.log(response.data);
         dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
         resolve(response);
@@ -383,52 +383,65 @@ export function removePlacement(courseID) {
  * @param {*} query
  * @param {String} type
  */
-export function courseSearch(query, type) {
+export function courseSearch(query) {
+  console.log(query);
   return (dispatch) => {
-    switch (type) {
-      case 'number':
-        axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        }).then((response) => {
-          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
-        }).catch((error) => {
-          console.log(error);
-          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-        });
-        break;
-      case 'department':
-        axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        }).then((response) => {
-          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
-        }).catch((error) => {
-          console.log(error);
-          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-        });
-        break;
-      case 'distrib':
-        axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        }).then((response) => {
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
-        }).catch((error) => {
-          console.log(error);
-          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-        });
-        break;
-      default:
-        axios.post(`${ROOT_URL}/courses/search`, { query }, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-        }).then((response) => {
-          // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
-          dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
-        }).catch((error) => {
-          console.log(error);
-          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-        });
-    }
+    axios.get(`${ROOT_URL}/courses/search`, {
+      params: query,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      console.log(response);
+      // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+    // switch (type) {
+    //   case 'number':
+    //     axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
+    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    //     }).then((response) => {
+    //       console.log(response);
+    //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
+    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+    //     }).catch((error) => {
+    //       console.log(error);
+    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    //     });
+    //     break;
+    //   case 'department':
+    //     axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
+    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    //     }).then((response) => {
+    //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+    //     }).catch((error) => {
+    //       console.log(error);
+    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    //     });
+    //     break;
+    //   case 'distrib':
+    //     axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
+    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    //     }).then((response) => {
+    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+    //     }).catch((error) => {
+    //       console.log(error);
+    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    //     });
+    //     break;
+    //   default:
+    //     axios.post(`${ROOT_URL}/courses/search`, { query }, {
+    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    //     }).then((response) => {
+    //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+    //     }).catch((error) => {
+    //       console.log(error);
+    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    //     });
+    // }
   };
 }
 /**
@@ -438,13 +451,13 @@ export function courseSearch(query, type) {
  * @param {*} term the term object to which this course should be added
  * @returns an action creator to add a new course to the given term
  */
-export function addCourseToTerm(course, term) {
+export function addCourseToTerm(course, term, planID) {
   console.log('[ACTION.js] We got the resquest to add course to term');
   return dispatch => new Promise(((resolve, reject) => {
-    axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course }, {
+    axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course, planID }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(`[ACTION.js] The ccourse \n${course.id} has been added to term \n${term.id}`);
+      console.log(`[ACTION.js] The course \n${course.name} has been added to term \n${term.id}`);
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -461,10 +474,11 @@ export function addCourseToTerm(course, term) {
  * @param {*} term the term object from which this course should be removed
  * @returns an action creator to remove a course from the given term
  */
-export function removeCourseFromTerm(course, term) {
+export function removeCourseFromTerm(course, term, planID) {
+  console.log(planID);
   const termID = (typeof term === 'object') ? term.id : term;
   return dispatch => new Promise(((resolve, reject) => {
-    axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}`, {
+    axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}/${planID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then(() => {
       resolve();

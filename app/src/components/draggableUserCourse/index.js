@@ -53,12 +53,12 @@ class UserCourse extends Component {
 
 
   render() {
-    console.log(`Prereq check? ${this.props.course.fulfilled}`);
+    console.log(`Prereq check? ${this.props.course.fulfilled} for ${this.props.catalogCourse.name}`);
     return this.props.connectDragSource(
       <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
         <CourseElement
           size="sm"
-          error={!this.props.course.fulfilled}
+          error={this.props.course.fulfilled}
           course={this.catalogCourse}
         />
       </div>,

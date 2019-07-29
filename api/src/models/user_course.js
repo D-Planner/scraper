@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+import Course from './course';
 
 const UserCourseSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -20,34 +21,53 @@ UserCourseSchema.pre('find', function (next) {
     next();
 });
 
+// -1: Unfulfilled
+// 0: warning
+// 1: fulfilled
+
+const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
+
 UserCourseSchema.virtual('fulfilled')
     .get(function () {
-        const prevCourses = (this.user.placement_courses) ? this.user.placement_courses.concat(this.previousCourses.map((c) => {
+        const prevCourses = ((this.user.placement_courses) ? this.user.placement_courses.concat(this.previousCourses.map((c) => {
             return c._id;
-        })) : this.previousCourses;
-        const prereqs = (this.course.prerequisites) ? this.course.prerequisites.toObject() : [];
+        })) : this.previousCourses).map((p) => { return p.toString(); });
+        let prereqs = (this.course.prerequisites) ? this.course.prerequisites.toObject() : [];
         if (!prereqs || prereqs.length === 0) {
-            return true;
+            return CLEAR;
         }
-        return prereqs.every((o) => {
-            const dependencyType = Object.keys(o).find((key) => {
+        prereqs = prereqs.map((o) => {
+            let dependencyType = Object.keys(o).find((key) => {
                 return (o[key].length > 0 && key !== '_id');
             });
+            if (!dependencyType) dependencyType = 'abroad';
+
+            const prevCoursesIncludes = () => {
+                return o[dependencyType].map((c) => { return c.id; })
+                    .some((id) => {
+                        return (prevCourses) ? prevCourses.includes(id.toString()) : false;
+                    });
+            };
             switch (dependencyType) {
+            case 'abroad':
+                return WARNING;
             case 'req':
-                return (o[dependencyType].some((c) => {
-                    return (prevCourses) ? prevCourses.map((prev) => {
-                        return prev.toString();
-                    }).includes(c.id.toString()) : false;
-                }));
+                return prevCoursesIncludes() ? CLEAR : ERROR;
             case 'range':
                 return (prevCourses.some((c) => {
                     return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
-                }));
+                })) ? CLEAR : ERROR;
+            case 'grade':
+                return prevCoursesIncludes() ? WARNING : ERROR;
+            case 'rec':
+                return prevCoursesIncludes() ? WARNING : ERROR;
             default:
-                return true;
+                return CLEAR;
             }
         });
+        if (prereqs.includes(ERROR)) return ERROR;
+        if (prereqs.includes(WARNING)) return WARNING;
+        return CLEAR;
     });
 
 // create model class

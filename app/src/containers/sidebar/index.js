@@ -27,8 +27,9 @@ const Sidebar = (props) => {
   }, []);
 
   const addToBookmarks = (courseId) => {
-    props.addCourseToFavorites(courseId);
-    props.fetchUser();
+    props.addCourseToFavorites(courseId).then(() => {
+      props.fetchUser();
+    });
   };
 
   const showDeclareDialog = () => {

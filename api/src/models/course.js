@@ -44,10 +44,10 @@ const CourseSchema = new Schema({
     professors: [{ type: Schema.Types.ObjectId, ref: 'Professor' }],
     prerequisites: [{
         req: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
-        range: [Number],
+        range: [{ type: Number }],
         grade: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
         rec: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
-        abroad: Boolean,
+        abroad: { type: Boolean },
     }],
     // section: Number,
     // crn: Number,

@@ -88,14 +88,7 @@ plansRouter.get('/', (req, res, next) => {
  *          "id": "5c76d43808c20d8f9f016a81"
  *      },
  */
-plansRouter.get('/:id', (req, res, next) => {
-    const planID = req.params.id;
-    return PlanController.getPlanByID(planID).then((plan) => {
-        res.json(plan);
-    }).catch((err) => {
-        next(err);
-    });
-});
+plansRouter.get('/:id', PlanController.getPlanByID);
 
 /**
  * @api {post} /plans/ Create new plan

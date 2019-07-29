@@ -1,7 +1,9 @@
 import Plan from '../models/plan';
+import User from '../models/user';
 import UserCourse from '../models/user_course';
+import Course from '../models/course';
 import TermController from '../controllers/term_controller';
-import PopulateTerm from './populators';
+import { PopulateTerm } from './populators';
 
 
 const getPlansByUserId = (id) => {
@@ -72,7 +74,13 @@ const sortPlan = (plan) => {
     return plan;
 };
 
-const setTermsPrevCourses = (planID) => {
+export const setTermsPrevCourses = (planID, placements) => {
+    placements = placements.map((p) => {
+        return Course.findById(p)
+            .then((c) => {
+                return c.xlist;
+            });
+    }).flat();
     return new Promise(((resolve, reject) => {
         Promise.resolve(Plan.findById(planID).populate({
             path: 'terms',
@@ -107,7 +115,7 @@ const setTermsPrevCourses = (planID) => {
                 acc = acc.concat(next);
 
                 return acc;
-            }, []);
+            }, placements);
             resolve();
         }).catch((e) => {
             console.log(e);
@@ -116,9 +124,14 @@ const setTermsPrevCourses = (planID) => {
     }));
 };
 
-const getPlanByID = (planID) => {
-    return setTermsPrevCourses(planID)
-        .then((r) => {
+const getPlanByID = (req, res) => {
+    const planID = req.params.id;
+    const userID = req.user.id;
+    User.findById(userID)
+        .then((user) => {
+            return setTermsPrevCourses(planID, user.placement_courses);
+        })
+        .then(() => {
             return Plan.findById(planID);
         })
         .then((plan) => {
@@ -131,10 +144,11 @@ const getPlanByID = (planID) => {
             }).execPopulate();
         })
         .then((populated) => {
-            return sortPlan(populated.toJSON());
+            res.json(sortPlan(populated.toJSON()));
         })
-        .catch((e) => {
-            console.log(e);
+        .catch((error) => {
+            console.log('Error', error);
+            res.status(400).send({ error });
         });
     //   try {
     //       const plan = await Plan.findById(planID);
