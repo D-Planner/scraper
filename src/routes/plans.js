@@ -40,7 +40,7 @@ const plansRouter = Router();
  *          },
  *      ]
  */
-plansRouter.get('/', PlanController.getPlans);
+plansRouter.get('/', PlanController.getPlansByUserId);
 
 /**
  * @api {get} /plans/:id Get a plan by id
