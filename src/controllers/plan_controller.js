@@ -5,11 +5,14 @@ import Course from '../models/course';
 import TermController from '../controllers/term_controller';
 import { PopulateTerm } from './populators';
 
-
-const getPlansByUserId = (id) => {
-    return Plan.find({ user_id: id }).populate({
+const getPlansByUserId = (req, res, next) => {
+    Plan.find({ user_id: req.user.id }).populate({
         path: 'terms',
         populate: PopulateTerm,
+    }).then((plans) => {
+        return res.json(plans);
+    }).catch((err) => {
+        return next(err);
     });
 };
 
