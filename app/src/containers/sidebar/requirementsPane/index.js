@@ -1,4 +1,9 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable func-names */
+/* eslint-disable prefer-arrow-callback */
+
 import React, { useState } from 'react';
+import async from 'async';
 import classNames from 'classnames';
 import Majors from '../../majors';
 import checkedIcon from '../../../style/checkboxChecked.svg';
@@ -29,7 +34,7 @@ const RequirementsPane = (props) => {
     setDistribsActive(flag);
   };
 
-  const fillDistribs = () => {
+  const fillDistribs = async () => {
     const fixed = [];
     const flexible = [];
     // does initial sort, sorts the list of user courses into [fixed] or [flexible]
@@ -45,37 +50,66 @@ const RequirementsPane = (props) => {
 
     let counter = 0;
 
-    while ((flexible.length > 0 || fixed.length > 0) && counter < 10) {
-      counter += 1;
-      // for every [rank1] course, simply check off the distrib
-      Promise.all(
-        fixed.map((userCourse) => {
-          return new Promise((resolve) => {
-            GenEds[userCourse.distrib].fulfilled = true;
-            resolve();
-          });
-        }),
-      ).then(() => { // once all [distrib]s have been checked through, clear the [fixed] array
-        fixed.length = 0;
-        for (let i = 0; i < flexible.length; i += 1) {
-          const userCourse = flexible[i];
-          userCourse.course.distribs.forEach((distrib) => {
-            // checks to see if one of the [flexible]'s [distrib]s are already fulfilled; if so, then it should get moved to [fixed]
-            if (GenEds[distrib].fulfilled) {
-              userCourse.distrib = userCourse.course.distribs[findOtherDistrib(distrib, userCourse.course.distribs)];
-              // determines whether the [userCourse] is already in the [fixed] array
-              if (fixed.findIndex(e => e.id === userCourse.id) !== -1) {
-                fixed.splice(fixed.findIndex(e => e.id === userCourse.id), 1, userCourse);
-              } else {
-                fixed.push(userCourse);
-              }
-              flexible.splice(i, 1);
-              i -= 1;
-            }
-          });
-        }
-      });
-    }
+    async.whilst(
+      function functionName1(callbackFunction) {
+        // perform before each execution of iterFunctionInside, you need a condition(or other related condition) in 2nd params.
+        console.log(`${fixed.length} ${flexible.length}`);
+        callbackFunction(null, ((flexible.length > 0 || fixed.length > 0) && counter < 30));
+      },
+      // this func is called each time when functionName1 invoked
+      function iterFunctionInside(callback) {
+        // increase counter to compare with compareVariable
+        counter += 1;
+        console.log('iteration', counter);
+        console.log(fixed);
+        console.log(flexible);
+        // for every [fixed] course, simply check off the distrib
+        Promise.all(
+          fixed.map((userCourse) => {
+            return new Promise((resolve) => {
+              console.log('dsjdnak');
+              GenEds[userCourse.distrib].fulfilled = true;
+              resolve();
+              // setTimeout(() => { resolve(); }, 1000);
+            });
+          }),
+        ).then(async () => { // once all [distrib]s have been checked through, clear the [fixed] array
+          fixed.length = 0;
+          for (let i = 0; i < flexible.length; i += 1) {
+            console.log(`\tflexible iteration ${i}`);
+            const userCourse = flexible[i];
+            await Promise.all(
+              userCourse.course.distribs.map((distrib) => {
+                console.log('\t\tstarted distrib');
+                return new Promise((resolve2) => { // each and every one of these promises are not getting executed in order...
+                  console.log(`\t\t\t${distrib}`);
+                  // checks to see if one of the [flexible]'s [distrib]s are already fulfilled; if so, then it should get moved to [fixed]
+                  if (GenEds[distrib].fulfilled) {
+                    console.log('hit');
+                    userCourse.distrib = userCourse.course.distribs[findOtherDistrib(distrib, userCourse.course.distribs)];
+                    // determines whether the [userCourse] is already in the [fixed] array
+                    if (fixed.findIndex(e => e.id === userCourse.id) !== -1) {
+                      fixed.splice(fixed.findIndex(e => e.id === userCourse.id), 1, userCourse);
+                    } else {
+                      fixed.push(userCourse);
+                    }
+                    flexible.splice(i, 1);
+                    i -= 1;
+                  }
+                  console.log('\t\tfinished distrib');
+                  setTimeout(() => { resolve2(); }, 1000);
+                });
+              }),
+            );
+            console.log('\tfinished iteration');
+          }
+          callback(null, counter);
+        });
+      },
+      function (err, n) {
+        console.log('end');
+      },
+    );
   };
 
   const findOtherDistrib = (unwantedDistrib, distribs) => {
