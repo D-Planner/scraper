@@ -285,7 +285,7 @@ class CourseInfoDialog extends Component {
       <div id="content">
         <div id="top">
           <div id="major">Engineering Department: Prerequisite</div>
-          {this.courseUserOptions(course.id)}
+          { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
         </div>
         <hr className="horizontal-divider" />
         <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description)}</div>

@@ -24,6 +24,7 @@ export const ActionTypes = {
   DROP_MAJOR: 'DROP_MAJOR',
   FETCH_MAJOR: 'FETCH_MAJOR',
   FETCH_PROGRESS: 'FETCH_PROGRESS',
+  RANDOM_COURSE: 'RANDOM_COURSE',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
@@ -443,6 +444,22 @@ export function courseSearch(query) {
     //     });
     // }
   };
+}
+
+
+export function getRandomCourse() {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/courses/random/`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.RANDOM_COURSE, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
 }
 /**
  * Adds a new UserCourse object to a specific term
