@@ -3,7 +3,24 @@ import CoursesController from '../controllers/courses_controller';
 
 const coursesRouter = Router();
 
+/**
+ * @api {get} /search Search For Courses
+ * @apiName Search
+ * @apiGroup Courses
+ *
+ * @apiSuccess {Array} courses the list of courses that satisfy search
+ *
+ * @apiUse CoursesSuccessExample
+ */
 coursesRouter.get('/search', CoursesController.searchCourses);
+
+/**
+ * @api {post} /create Seed the database
+ * @apiName Create
+ * @apiGroup Courses
+ * *
+ * @apiUse CoursesSuccessExample
+ */
 coursesRouter.post('/create', CoursesController.createCourse);
 
 /**
@@ -42,6 +59,14 @@ coursesRouter.get('/favorite', CoursesController.getFavorite);
  *          "id": "5c52a8940dadc9e7ae96e1e2"
  *      }
  */
+/**
+  * @api {delete} /courses/placement/:id Delete course from Placement
+  * @apiName removeFromPlacements
+  * @apiGroup Courses
+  *
+  * @apiParam {String} id the id of the course object to removed from placement
+  *
+  */
 coursesRouter.route('/placement/:id')
     .post(CoursesController.addPlacement)
     .delete(CoursesController.removePlacement);
@@ -98,6 +123,40 @@ coursesRouter.route('/placement/:id')
 coursesRouter.route('/favorite/:id')
     .post(CoursesController.addFavorite)
     .delete(CoursesController.removeFavorite);
+
+/**
+ * @api {post} /courses/completed/:id Add course to Completed
+ * @apiName addToCompleted
+ * @apiGroup Courses
+ *
+ * @apiParam {String} id the id of the course object to add to completed
+ *
+ * @apiSuccess {Object} user the user object with the new course added to their completed
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ *      {
+ *          "favorite_courses": [
+ *              "5c76db2df37f2dc9348f890a"
+ *          ],
+ *          "completed_courses": [],
+ *          "majors": [
+ *              "5ceda41ad78037c2c039affa"
+ *          ],
+ *          "_id": "5c52a8940dadc9e7ae96e1e2",
+ *          "email": "a@a.com",
+ *          "password": "$2a$10$SjegbbEiUR.dJBnC5JQ0aeWUVOeYgaVosdXI7F0U/S9OAi2kVlBom",
+ *          "__v": 0,
+ *          "id": "5c52a8940dadc9e7ae96e1e2"
+ *      }
+ */
+/**
+  * @api {delete} /courses/completed/:id Delete course from Completed
+  * @apiName removeFromCompleted
+  * @apiGroup Courses
+  *
+  * @apiParam {String} id the id of the course object to removed from completed
+  *
+  */
 
 coursesRouter.route('/completed/:id')
     .get(CoursesController.getCompleted)
