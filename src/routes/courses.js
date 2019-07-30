@@ -15,6 +15,17 @@ const coursesRouter = Router();
 coursesRouter.get('/search', CoursesController.searchCourses);
 
 /**
+ * @api {get} /random Get a random Course
+ * @apiName Random
+ * @apiGroup Courses
+ *
+ * @apiSuccess {Course} a random Course
+ *
+ * @apiUse CoursesSuccessExample
+ */
+coursesRouter.get('/random', CoursesController.randomCourse);
+
+/**
  * @api {post} /create Seed the database
  * @apiName Create
  * @apiGroup Courses

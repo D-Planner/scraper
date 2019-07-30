@@ -48,6 +48,18 @@ const getCourses = async (req, res) => {
         });
 };
 
+const randomCourse = async (req, res) => {
+    Course.count().then((count) => {
+        const random = Math.floor(Math.random() * count);
+        return Course.findOne().skip(random).populate(PopulateCourse);
+    }).then((course) => {
+        console.log(course);
+        res.json(course);
+    }).catch((e) => {
+        res.status(500).json({ e });
+    });
+};
+
 const getCourse = async (req, res) => {
     console.log('[course_controller] getCourse');
     Course.findById(req.params.id)
@@ -359,6 +371,7 @@ const CoursesController = {
     searchCourses,
     getCourses,
     getCourse,
+    randomCourse,
     getCoursesByDepartment,
     getCoursesByDistrib,
     getCoursesByWC,
