@@ -61,6 +61,7 @@ class Term extends Component {
         this.props.term.courses.forEach((course) => {
           console.log(`Because you are turning off this term, deleting: ${course}`);
           this.props.removeCourseFromFavorites(course.course.id);
+          // Not sure if this needs to be made into a Promise.all() ??
           this.props.removeCourseFromTerm(course, this.props.term);
         });
         this.props.term.off_term = true;
