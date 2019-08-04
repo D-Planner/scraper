@@ -98,7 +98,11 @@ Entrypoint main = main.js main.js.map
 
 #### 4. Seeding the Mongo Database
 
-Use the two API calls in the "Setting Up" Postman collection to seed the Mongo database with course data. Use the second /courses/create API call twice to seed Cross Listed courses and Prerequisites.
+Start the API. - ` yarn dev `
+
+In ` /app ` run ` yarn seed `
+
+This will create a user with username (admin) and password (password) You may now start the app and login with those credentials.
 
 ## Deployment
 Each sub-directory contains a [Procfile](https://devcenter.heroku.com/articles/procfile) that's used to deploy its respective app to Heroku. As such, the following steps could be used to deploy any of the projects contained in this repository; otherwise, additional steps can be located in the README.md of the project's sub-directory.

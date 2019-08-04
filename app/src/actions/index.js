@@ -29,6 +29,21 @@ export const ActionTypes = {
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
 
+export function createCourses() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/courses/create`, { headers }).then((response) => {
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
 // ----- Error Handling ----- //
 /**
  * An action creator to dispatch and authorization error to redux
