@@ -201,9 +201,7 @@ const filledValues = (course) => {
                                 Course.findByIdAndUpdate(
                                     res._id,
                                     { $push: { xlist: origCourse.id } },
-                                ).then((r) => {
-                                    console.log('added xlist for: ', r.title, origCourse.id);
-                                });
+                                );
                             }
                         });
 
