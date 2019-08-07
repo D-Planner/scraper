@@ -4,6 +4,24 @@ import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse } from './populators';
+import Globals from '../models/globals';
+
+const monthToTerm = ['W', 'S', 'X', 'F'];
+
+export const setGlobals = () => {
+    const date = new Date();
+    const [year, term] = [date.getFullYear() - 2000, (date.getMonth() - 1) % 4];
+    const globals = {
+        name: 'global',
+        currentTerm: { year, term: monthToTerm[term] },
+        nextTerm: {
+            year: (term === 3) ? year + 1 : year,
+            term: monthToTerm[(term + 1) % 4],
+        },
+    };
+    Globals.findOneAndUpdate({ name: 'global' }, { globals }, { new: true });
+    return { currTerm: globals.currentTerm, nextTerm: globals.nextTerm };
+};
 
 const trim = (res) => {
     try {
@@ -222,6 +240,7 @@ const filledValues = (course) => {
 };
 
 const createCourse = (req, res) => {
+    setGlobals();
     Promise.resolve(courses.map(async (course) => {
         Promise.all(filledValues(course)).then((r) => {
             // separates into [wcs] and [distribs]

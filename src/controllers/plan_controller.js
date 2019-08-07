@@ -24,7 +24,6 @@ const createPlanForUser = async (plan, userId) => {
         });
 
         const { id } = await newPlan.save();
-
         // iterate through each term and create a term in the database for each one
         const promises = plan.terms.map((term) => {
             return TermController.createTerm(term, id);
