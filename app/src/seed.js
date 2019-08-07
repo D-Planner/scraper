@@ -1,11 +1,8 @@
 const fetch = require('isomorphic-fetch');
 
-const cosc = require('../../api/static/data/majors/cosc.json');
+// const cosc = require('../../api/static/data/majors/cosc.json');
 
-const majors = [cosc];
-
-console.log(majors);
-
+// const majors = [cosc];
 
 const data = {
   email: 'admin',
@@ -21,6 +18,7 @@ const seedCourses = (token) => {
       },
       method: 'POST',
     }).then((d) => {
+      console.log(d);
       return fetch('http://localhost:9090/courses/create', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -40,7 +38,7 @@ const seedCourses = (token) => {
   });
 };
 
-fetch('http://localhost:9090/auth/signup', {
+fetch('http://localhost:9090/auth/signin', {
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -51,24 +49,11 @@ fetch('http://localhost:9090/auth/signup', {
   return r.json();
 }).then((r) => {
   const { token } = r;
-
-  return Promise.all(majors.map((major) => {
-    return fetch('http://localhost:9090/majors/upload', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(major),
-    });
-  }).concat(seedCourses(token)));
+  console.log(token);
+  return seedCourses(token);
 }).then((r) => {
-  return r.json();
+  console.log(r);
 })
-  .then((r) => {
-    console.log(r);
-  })
   .catch((e) => {
     console.log(e);
   });

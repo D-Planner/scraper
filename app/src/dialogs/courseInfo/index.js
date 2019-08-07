@@ -186,23 +186,22 @@ class CourseInfoDialog extends Component {
             This course requires having been abroad.
           </div>
         );
-      } else {
-        return (
-          o[dependencyType].map((c) => {
-            return (
-              <CourseElement
-                course={c}
-                size="bg"
-                action={{
-                  type: 'bookmark',
-                  svg: bookmark,
-                  method: addCourseToFavorites(c.id),
-                }}
-              />
-            );
-          })
-        );
+      } else if (dependencyType) {
+        return o[dependencyType].map((c) => {
+          return (
+            <CourseElement
+              course={c}
+              size="bg"
+              action={{
+                type: 'bookmark',
+                svg: bookmark,
+                method: addCourseToFavorites(c.id),
+              }}
+            />
+          );
+        });
       }
+      return null;
     };
     return (
       <div id="dependenciesContainer">
@@ -212,7 +211,7 @@ class CourseInfoDialog extends Component {
             let dependencyType = Object.keys(o).find((key) => {
               return (o[key].length > 0 && key !== '_id');
             });
-            if (!dependencyType) dependencyType = 'abroad';
+            if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
             const render = (
               <div className="dependency">

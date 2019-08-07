@@ -32,7 +32,7 @@ const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090
 
 export function getTimes() {
   return dispatch => new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/globals`).then((response) => {
+    axios.get(`${ROOT_URL}/globals/`).then((response) => {
       dispatch({ type: ActionTypes.FETCH_TIME, payload: response.data });
       resolve();
     }).catch((error) => {

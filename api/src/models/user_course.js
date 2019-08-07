@@ -40,7 +40,7 @@ UserCourseSchema.virtual('fulfilled')
             let dependencyType = Object.keys(o).find((key) => {
                 return (o[key].length > 0 && key !== '_id');
             });
-            if (!dependencyType) dependencyType = 'abroad';
+            if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
             const prevCoursesIncludes = () => {
                 return o[dependencyType].map((c) => { return c.id; })
