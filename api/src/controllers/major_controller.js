@@ -2,8 +2,7 @@ import Major from '../models/major';
 import User from '../models/user';
 
 const uploadMajor = (req, res) => {
-    const file = req.files.majors;
-    const obj = JSON.parse(file.data.toString('ascii'));
+    const obj = JSON.parse(req.body);
 
     const major = new Major({
         name: obj.name,

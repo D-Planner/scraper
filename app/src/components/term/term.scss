@@ -12,6 +12,9 @@ $term-margin: 0 21px 12px 0;
 .off {
     background: $gray-1;
 }
+.past {
+    background: $white;
+}
 .term {
     border-radius: $term-border-radius;
     box-sizing: border-box;
@@ -42,6 +45,10 @@ $term-margin: 0 21px 12px 0;
             &.off {
                 color: #818181;
             }
+            &.past {
+                color: $blue-primary;
+            }
+            
         }
         .toggle-button {
             background: $white;
@@ -58,6 +65,9 @@ $term-margin: 0 21px 12px 0;
             }
             &.off {
                 color: $gray-6;
+            }
+            &.past {
+                color: $blue-primary;
             }
             &:hover {
                 cursor: pointer;
@@ -81,10 +91,17 @@ $term-margin: 0 21px 12px 0;
             &.off {
                 color: $gray-6;
             }
+            &.past {
+                color: $blue-primary;
+            }
             position: relative;
             top: 45px;
             padding: 0 37px 0 37px;
         }
+    }
+
+    &.past {
+        border:2px dashed $blue-primary;
     }
 }
 

@@ -4,7 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import robot from '../../../assets/avatars/robot.svg';
 import {
-  signoutUser, fetchCourses, showDialog, fetchUser,
+  signoutUser, fetchCourses, showDialog, fetchUser, getTimes,
 } from '../../actions';
 import './nav.scss';
 import { DialogTypes } from '../../constants';
@@ -21,7 +21,7 @@ const showProfileDialog = (props) => {
 class Nav extends Component {
   constructor(props) {
     super(props);
-
+    this.props.getTimes();
     this.state = {
     };
   }
@@ -82,5 +82,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  signoutUser, fetchCourses, showDialog, fetchUser,
+  signoutUser, fetchCourses, showDialog, fetchUser, getTimes,
 })(Nav));

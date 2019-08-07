@@ -94,11 +94,24 @@ class Term extends Component {
     }
   };
 
+  past = () => {
+    const terms = ['W', 'S', 'X', 'F'];
+    const [thisYear, thisTerm] = [this.props.term.name.match(/\d{2}/)[0], terms.indexOf(this.props.term.quarter)];
+    if (thisYear < this.props.time.currTerm.year) return true;
+    if (thisYear > this.props.time.currTerm.year) return false;
+    if (thisTerm < terms.indexOf(this.props.time.currTerm.term)) return true;
+    return false;
+  }
+
   renderContent = () => {
     if (this.props.term.off_term) {
       return (
         <div className={classNames({
-          on: !this.props.term.off_term, off: this.props.term.off_term, 'term-content': true, 'no-content': true,
+          on: !this.props.term.off_term,
+          off: this.props.term.off_term,
+          'term-content': true,
+          'no-content': true,
+          past: this.past(),
         })}
         >
           off-term
@@ -107,7 +120,11 @@ class Term extends Component {
     } else if (this.props.term.courses.length === 0) {
       return (
         <div className={classNames({
-          on: !this.props.term.off_term, off: this.props.term.off_term, 'term-content': true, 'no-content': true,
+          on: !this.props.term.off_term,
+          off: this.props.term.off_term,
+          'term-content': true,
+          'no-content': true,
+          past: this.past(),
         })}
         >
           Drag-n-drop your courses here!
@@ -115,7 +132,6 @@ class Term extends Component {
       );
     }
     return (
-
       <div className="term-content">
         {this.props.term.courses.map((course) => {
           console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
@@ -146,17 +162,21 @@ class Term extends Component {
   };
 
   render() {
+    console.log(this.props.term.name);
+    console.log(this.past());
     return this.props.connectDropTarget(
       <div className={classNames({
         on: !this.props.term.off_term,
         off: this.props.term.off_term,
         term: true,
+        past: this.past(),
       })}
       >
         <div className="header">
           <div className={classNames({
             on: !this.props.term.off_term,
             off: this.props.term.off_term,
+            past: this.past(),
             'term-name': true,
           })}
           >
@@ -175,6 +195,7 @@ class Term extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
+  time: state.time,
 });
 
 // export default withRouter(connect(mapStateToProps, {

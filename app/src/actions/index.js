@@ -25,9 +25,23 @@ export const ActionTypes = {
   FETCH_MAJOR: 'FETCH_MAJOR',
   FETCH_PROGRESS: 'FETCH_PROGRESS',
   RANDOM_COURSE: 'RANDOM_COURSE',
+  FETCH_TIME: 'FETCH_TIME',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
+
+export function getTimes() {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/globals`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_TIME, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
 
 export function createCourses() {
   const headers = {
@@ -83,7 +97,7 @@ export function signinUser({ email, password }, history) {
   const fields = { email, password };
   return (dispatch) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
-    // do something with response.data  (some json)
+      // do something with response.data  (some json)
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       history.push('/');
