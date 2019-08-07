@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter } from './routes';
-import { setGlobals } from './controllers/courses_controller';
+import { setGlobals } from './controllers/globals_controller';
 
 require('dotenv').config();
 
@@ -85,7 +85,7 @@ app.get('/reset', (req, res) => {
     resetDB();
     res.send('database reset');
 });
-app.get('/globals', (req, res) => {
+app.get('/globals/', (req, res) => {
     res.send(setGlobals());
 });
 // custom middleware for 404 errors

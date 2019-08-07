@@ -10,7 +10,7 @@ const createUserCourse = (userID, catalogCourseID, termID) => {
             major: null,
             distrib: null,
             wc: null,
-            timeslot: r.periods.length === 1 ? r.periods[0] : null,
+            timeslot: r.preiods && r.periods.length === 1 ? r.periods[0] : null,
         });
         return newCourse.save();
     });
