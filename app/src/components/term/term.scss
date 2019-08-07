@@ -109,4 +109,10 @@ $term-margin: 0 21px 12px 0;
     display: flex;
     width: 208px;
     align-items: center;
+
+    .hourSelector{
+        &.past {
+            color:$blue-primary;
+        }
+    }
 }

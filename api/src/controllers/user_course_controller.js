@@ -1,17 +1,19 @@
 import UserCourse from '../models/user_course';
+import Course from '../models/course';
 
-const createUserCourse = async (userID, catalogCourseID, termID) => {
-    const newObj = await UserCourse.create({
-        user: userID,
-        course: catalogCourseID,
-        term: termID,
-        major: null,
-        distrib: null,
-        wc: null,
-        timeslot: null,
+const createUserCourse = (userID, catalogCourseID, termID) => {
+    return Course.findById(catalogCourseID).then(async (r) => {
+        const newCourse = await UserCourse.create({
+            user: userID,
+            course: catalogCourseID,
+            term: termID,
+            major: null,
+            distrib: null,
+            wc: null,
+            timeslot: r.periods.length === 1 ? r.periods[0] : null,
+        });
+        return newCourse.save();
     });
-
-    return newObj.save();
 };
 
 // const deleteUserCourse = async (userCourseID) => {
@@ -36,9 +38,11 @@ const deleteUserCourse = (userCourseID) => {
 const updateUserCourse = async (req, res, next) => {
     const change = req.body;
     // Do we want to make sure that we don't let two UserCourses have the same timeslot
-
+    console.log(change);
     try {
-        await UserCourse.findByIdAndUpdate(req.params.userCourseID, change);
+        UserCourse.findByIdAndUpdate(req.params.userCourseID, change).then((r) => {
+            console.log(r);
+        });
         res.status(201).json('Saved');
     } catch (e) {
         next(e);

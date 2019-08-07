@@ -21,7 +21,7 @@ const showProfileDialog = (props) => {
 class Nav extends Component {
   constructor(props) {
     super(props);
-    this.props.getTimes();
+    this.props.getTimes().then(() => console.log(this.props.time));
     this.state = {
     };
   }
@@ -79,6 +79,7 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
   user: state.user.current,
   plan: state.plans.current,
+  time: state.time,
 });
 
 export default withRouter(connect(mapStateToProps, {

@@ -103,6 +103,27 @@ class Term extends Component {
     return false;
   }
 
+  isNextTerm = () => {
+    const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
+    if (year === this.props.time.nextTerm.year && term === this.props.time.nextTerm.term) return true;
+    return false;
+  }
+
+  checkHourError = () => {
+    const hours = this.props.term.courses.map((c) => {
+      return c.timeslot;
+    });
+    const uniqueHours = new Set(hours);
+    return hours.length !== uniqueHours.size;
+  }
+
+  updateUserCourse = (courseID, change) => {
+    this.props.updateUserCourse(courseID, change).then((r) => {
+      this.props.fetchPlan(this.props.plan.id).then(() => {
+      });
+    });
+  }
+
   renderContent = () => {
     if (this.props.term.off_term) {
       return (
@@ -127,7 +148,7 @@ class Term extends Component {
           past: this.past(),
         })}
         >
-          Drag-n-drop your courses here!
+          {this.past() ? 'Place Your Previous Courses here' : 'Drag-n-drop your courses here!'}
         </div>
       );
     }
@@ -138,6 +159,7 @@ class Term extends Component {
           return (
             <div className="course-row" key={course.id}>
               <DraggableUserCourse
+                size={(this.isNextTerm() ? 'sm' : 'bg')}
                 key={course.id}
                 catalogCourse={course.course}
                 course={course}
@@ -146,14 +168,21 @@ class Term extends Component {
                   this.props.removeCourseFromTerm(course, this.props.term);
                 }}
               />
-              <div>
-                <HourSelector
-                  key={course.id}
-                  course={course}
-                  timeslots={course.course.periods}
-                  updateUserCourse={this.props.updateUserCourse}
-                />
-              </div>
+              {
+                this.isNextTerm()
+                  ? (
+                    <div>
+                      <HourSelector
+                        past={this.past()}
+                        key={course.id}
+                        course={course}
+                        timeslots={course.course.periods}
+                        updateUserCourse={this.updateUserCourse}
+                      />
+                    </div>
+                  )
+                  : <></>
+              }
             </div>
           );
         })}
@@ -162,8 +191,6 @@ class Term extends Component {
   };
 
   render() {
-    console.log(this.props.term.name);
-    console.log(this.past());
     return this.props.connectDropTarget(
       <div className={classNames({
         on: !this.props.term.off_term,
@@ -180,6 +207,7 @@ class Term extends Component {
             'term-name': true,
           })}
           >
+            {/* Add a warning if two courses occupy the same timeslot */}
             {this.props.term.name}
           </div>
           <div className="toggle-buttons">

@@ -553,15 +553,18 @@ export function updateTerm(term) {
 }
 
 export function updateUserCourse(userCourseID, changes) {
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     return axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
       dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
+      resolve();
     }).catch((error) => {
+      console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 
