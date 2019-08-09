@@ -1,51 +1,54 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
+import './signUp.scss';
 
-class signUp extends Component {
-  constructor(props) {
-    super(props);
+const signUp = (props) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [college, setCollege] = useState('');
+  const [grad, setGrad] = useState(2023);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    this.state = {
-      email: '',
-      password: '',
-      username: '',
-    };
-    this.signUp = this.signUp.bind(this);
-    this.email = this.email.bind(this);
-    this.password = this.password.bind(this);
-    this.username = this.username.bind(this);
-  }
+  const signup = () => {
+    props.signupUser({ email, password, userName: `${firstName} ${lastName}` }, props.history);
+  };
 
-  email(event) {
-    this.setState({ email: event.target.value });
-  }
+  const signin = () => {
+    window.location.href = '/signin';
+  };
 
-  password(event) {
-    this.setState({ password: event.target.value });
-  }
-
-  username(event) {
-    this.setState({ username: event.target.value });
-  }
-
-  signUp(event) {
-    this.props.signupUser(this.state, this.props.history);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form>
-        <div>Sign Up</div>
-        <input id="email" placeholder="Email" onChange={this.email} value={this.state.email} />
-        <input id="password" placeholder="Password" onChange={this.password} value={this.state.password} />
-        <input id="username" placeholder="Username" onChange={this.username} value={this.state.username} />
-        <button type="button" onClick={this.signUp}>Register</button>
-      </form>
-    );
-  }
-}
+  return (
+    <div className="signInContainer">
+      <div className="title">
+          Create Your Account.
+      </div>
+      <div className="formContainer">
+        <form>
+          <div className="row">
+            <input id="firstName" value={firstName} placeholder="First Name" onChange={e => setFirstName(e.target.value)} />
+            <input id="lastName" value={lastName} placeholder="Last Name" onChange={e => setLastName(e.target.value)} />
+          </div>
+          <div className="row">
+            <input id="college" value={college} placeholder="College / University" onChange={e => setCollege(e.target.value)} />
+            <input id="grad" type="number" value={grad} placeholder="2023" onChange={e => setGrad(e.target.value)} />
+          </div>
+          <div className="spacer" />
+          <div className="row">
+            <input id="email" value={email} placeholder="College Email" onChange={e => setEmail(e.target.value)} />
+          </div>
+          <div className="row">
+            <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
+          </div>
+          <div className="spacer" />
+          <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
+          <button type="button" className="sign-in" onClick={signin}>Have an account? Sign in</button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default withRouter(connect(null, { signupUser })(signUp));
