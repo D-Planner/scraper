@@ -43,9 +43,18 @@ class Dashboard extends React.Component {
     console.log(this.props.errorMessage);
   }
 
-  createNewPlan(name) {
-    emptyPlan.name = name;
-    this.props.createPlan(emptyPlan, this.props.history);
+  createNewPlan(name, gradYear) {
+    const terms = ['F', 'W', 'S', 'X'];
+    let currYear = gradYear - 4;
+    let currQuarter = -1;
+    this.props.createPlan({
+      terms: emptyPlan.terms.map((term) => {
+        if (currQuarter === 3) currYear += 1;
+        currQuarter = (currQuarter + 1) % 4;
+        return { ...term, year: currYear, quarter: terms[currQuarter] };
+      }),
+      name,
+    }, this.props.history);
   }
 
   removePlan(event, id) {
@@ -68,8 +77,8 @@ class Dashboard extends React.Component {
     const dialogOptions = {
       title: 'Name your plan',
       okText: 'Create',
-      onOk: (name) => {
-        this.createNewPlan(name);
+      onOk: (name, gradYear) => {
+        this.createNewPlan(name, gradYear);
       },
     };
     this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);

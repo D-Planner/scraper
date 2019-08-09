@@ -3,20 +3,19 @@ import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
 import { DragDropContext } from 'react-dnd';
+
 import HTML5Backend from 'react-dnd-html5-backend';
 import signUp from '../containers/signUp';
 import signIn from '../containers/signIn';
-import Courses from '../containers/courses';
+// import Courses from '../containers/courses';
 import Dashboard from '../containers/dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
 import Discover from '../containers/discover';
 import tooSmall from './tooSmall';
 import Landing from '../containers/landing';
+import FallBack from './fallBack';
 
-const FallBack = (props) => {
-  return <div> URL Not Found </div>;
-};
 
 const App = (props) => {
   if (window.innerWidth >= 500) {

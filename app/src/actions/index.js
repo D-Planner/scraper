@@ -24,9 +24,39 @@ export const ActionTypes = {
   DROP_MAJOR: 'DROP_MAJOR',
   FETCH_MAJOR: 'FETCH_MAJOR',
   FETCH_PROGRESS: 'FETCH_PROGRESS',
+  RANDOM_COURSE: 'RANDOM_COURSE',
+  FETCH_TIME: 'FETCH_TIME',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
+
+export function getTimes() {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/globals/`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_TIME, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function createCourses() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/courses/create`, { headers }).then((response) => {
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
 
 // ----- Error Handling ----- //
 /**
@@ -67,7 +97,7 @@ export function signinUser({ email, password }, history) {
   const fields = { email, password };
   return (dispatch) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
-    // do something with response.data  (some json)
+      // do something with response.data  (some json)
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       history.push('/');
@@ -446,6 +476,22 @@ export function courseSearch(query) {
     // }
   };
 }
+
+
+export function getRandomCourse() {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/courses/random/`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.RANDOM_COURSE, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
 /**
  * Adds a new UserCourse object to a specific term
  * @export
@@ -509,15 +555,18 @@ export function updateTerm(term) {
 }
 
 export function updateUserCourse(userCourseID, changes) {
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     return axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
       dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
+      resolve();
     }).catch((error) => {
+      console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  }));
 }
 
 

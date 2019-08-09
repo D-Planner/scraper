@@ -1,6 +1,7 @@
 {
   "plugins": ["transform-class-properties"],
   "presets": [
+    ["mobx"],
     ["@babel/react"],
     ["@babel/preset-env", {
       "targets": {

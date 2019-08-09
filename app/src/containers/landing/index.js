@@ -37,7 +37,7 @@ const Landing = (props) => {
                     For Students
                 </div>
                 <div className="body">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
                 </div>
               </div>
               <div className="text">

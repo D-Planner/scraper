@@ -18,7 +18,7 @@ const PlanSchema = new Schema({
     },
 });
 
-PlanSchema.index({ user_id: 1, name: -1 }, { unique: true });
+// PlanSchema.index({ user_id: 1, name: -1 }, { unique: true });
 
 PlanSchema.virtual('normalizedName')
     .get(function () { // eslint-disable-line prefer-arrow-callback

@@ -1,7 +1,6 @@
 import React from 'react';
 import noPlan from '../../style/no-plan.png';
 import './plans.scss';
-import Nav from '../../containers/nav';
 
 
 /** displays information on a user's plans and allows them to select one */

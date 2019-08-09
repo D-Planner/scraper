@@ -5,8 +5,10 @@
   "main": "src/index.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-preset-mobx": "^2.0.0",
     "classnames": "^2.2.6",
     "cytoscape": "^3.8.0",
+    "isomorphic-fetch": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.0",
     "react-cytoscapejs": "^1.1.0",
@@ -25,7 +27,8 @@
     "start": "NODE_ENV=development webpack-serve ./webpack.config.js",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",
-    "deploy": "yarn build; surge -p dist -d dplanner.surge.sh; yarn clean"
+    "deploy": "yarn build; surge -p dist -d dplanner.surge.sh; yarn clean",
+    "seed": "node src/seed.js"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
