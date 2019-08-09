@@ -5,11 +5,14 @@ import Course from '../models/course';
 import TermController from '../controllers/term_controller';
 import { PopulateTerm } from './populators';
 
-
-const getPlansByUserId = (id) => {
-    return Plan.find({ user_id: id }).populate({
+const getPlansByUserId = (req, res, next) => {
+    Plan.find({ user_id: req.user.id }).populate({
         path: 'terms',
         populate: PopulateTerm,
+    }).then((plans) => {
+        return res.json(plans);
+    }).catch((err) => {
+        return next(err);
     });
 };
 
@@ -20,11 +23,10 @@ const createPlanForUser = async (plan, userId) => {
             user_id: userId,
         });
 
-        const { planId } = await newPlan.save();
-
+        const { id } = await newPlan.save();
         // iterate through each term and create a term in the database for each one
         const promises = plan.terms.map((term) => {
-            return TermController.createTerm(term, planId);
+            return TermController.createTerm(term, id);
         });
 
         // resolve that big promise array to get a terms array with ids that reference the Terms model
