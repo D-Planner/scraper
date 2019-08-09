@@ -8,6 +8,8 @@ import { DialogTypes } from '../../constants';
 import Sidebar from '../sidebar';
 import Term from '../../components/term';
 import './dplan.scss';
+import Nav from '../nav';
+
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
@@ -77,35 +79,38 @@ class DPlan extends Component {
     }
 
     return (
-      <div className="dplan-page">
-        <div className="plan-header">
-          <div className="header-left">
-            <h1 className="plan-name">{this.props.plan.name}</h1>
+      <>
+        <Nav />
+        <div className="dplan-page">
+          <div className="plan-header">
+            <div className="header-left">
+              <h1 className="plan-name">{this.props.plan.name}</h1>
+            </div>
+            <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
           </div>
-          <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
-        </div>
-        <div className="plan-content">
-          <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
-          <div className="plan-grid">
-            {this.props.plan.terms.map((year) => {
-              return (
-                <div className="plan-row" key={year[0].id}>
-                  {year.map((term) => {
-                    return (
-                      <Term
-                        term={term}
-                        key={term.id}
-                        addCourseToTerm={this.addCourseToTerm}
-                        removeCourseFromTerm={this.removeCourseFromTerm}
-                      />
-                    );
-                  })}
-                </div>
-              );
-            })}
+          <div className="plan-content">
+            <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
+            <div className="plan-grid">
+              {this.props.plan.terms.map((year) => {
+                return (
+                  <div className="plan-row" key={year[0].id}>
+                    {year.map((term) => {
+                      return (
+                        <Term
+                          term={term}
+                          key={term.id}
+                          addCourseToTerm={this.addCourseToTerm}
+                          removeCourseFromTerm={this.removeCourseFromTerm}
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

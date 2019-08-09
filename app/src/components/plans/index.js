@@ -1,18 +1,21 @@
 import React from 'react';
 import noPlan from '../../style/no-plan.png';
 import './plans.scss';
+import Nav from '../../containers/nav';
+
 
 /** displays information on a user's plans and allows them to select one */
 const Plans = ({
   plans, showDialog, deletePlan, goToPlan,
 }) => {
   return (
-    <div className="plans">
-      <div className="plans-header">
-        <h1 className="table-header">My Plans</h1>
-        {plans.length ? renderNewPlanButton(showDialog) : <div />}
-      </div>
-      {
+    <>
+      <div className="plans">
+        <div className="plans-header">
+          <h1 className="table-header">My Plans</h1>
+          {plans.length ? renderNewPlanButton(showDialog) : <div />}
+        </div>
+        {
     plans.length === 0
       ? (
         <div className="no-plans">
@@ -35,7 +38,8 @@ const Plans = ({
           })}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 };
 

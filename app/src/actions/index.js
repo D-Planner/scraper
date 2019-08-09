@@ -84,8 +84,10 @@ export function signinUser({ email, password }, history) {
  * @param {*} history the React-Router history object passed to props when using withRouter()
  * @returns a callback function that sends a signup request to the API and then dispatches an AUTH_USER action on success
  */
-export function signupUser({ email, password, username }, history) {
-  const fields = { email, password, username };
+export function signupUser(email, password, firstName, lastName, college, grad, history) {
+  const fields = {
+    email, password, firstName, lastName, college, grad,
+  };
 
   return (dispatch) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {

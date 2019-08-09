@@ -8,6 +8,7 @@ import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
+import Nav from '../nav';
 
 import './dashboard.scss';
 
@@ -76,14 +77,17 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className="dashboard-container">
-        <div className="plans-container">
-          <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
+      <>
+        <Nav />
+        <div className="dashboard-container">
+          <div className="plans-container">
+            <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
+          </div>
+          <div id="error-container">
+            {this.displayIfError()}
+          </div>
         </div>
-        <div id="error-container">
-          {this.displayIfError()}
-        </div>
-      </div>
+      </>
     );
   }
 }

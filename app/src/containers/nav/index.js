@@ -36,6 +36,9 @@ class Nav extends Component {
           <ul>
             <div className="list-container">
               <li>
+                <NavLink className={planClass} to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
+              </li>
+              <li>
                 <NavLink className={planClass} to="/">Plan</NavLink>
               </li>
               <li>
