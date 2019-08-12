@@ -1,11 +1,8 @@
 @import '../sidebar.scss';
 
-.search {
+.search {    
+
     .pane-header {
-        max-width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
 
         .dropdown-icon {
           height: calc(#{$header-size} + 5px);
@@ -13,12 +10,11 @@
 
         .search-input {
             font-size: $header-size;
-            margin: 0 0 0 15px;
             width:70%;
             font-weight: normal;
             color: rgba(0, 0, 0, 0.24);
             background: none;
-            border: none;
+            border: 1px solid black;
             outline: none;
 
             &::placeholder {

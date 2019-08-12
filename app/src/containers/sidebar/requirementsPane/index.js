@@ -180,7 +180,7 @@ const RequirementsPane = (props) => {
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
-        <h1 className="pane-title">Requirements</h1>
+        <h1 className="pane-title">Your Degree</h1>
         {props.active
           ? (
             <div className="requirements-toggle">

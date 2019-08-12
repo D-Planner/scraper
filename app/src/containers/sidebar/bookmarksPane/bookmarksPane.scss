@@ -7,9 +7,16 @@
 
     .pane-header {
         margin: 0;
-        align-self: flex-start;
-        font-size: $header-size;
-        font-weight: normal;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        .pane-title {
+            align-self: flex-start;
+            font-size: $header-size;
+            margin: 0;
+            font-weight: 600;
+        }
     }
 
     .bookmarked-courses-list {
