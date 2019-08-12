@@ -14,6 +14,7 @@ $term-margin: 0 21px 12px 0;
 }
 .past {
     background: $white;
+    box-shadow: none !important; // the reason for this !important is to override the default term settings
 }
 .term {
     border-radius: $term-border-radius;
@@ -25,6 +26,7 @@ $term-margin: 0 21px 12px 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    box-shadow: $tablet-box-shadow;
 
     .header {
         $term-name-font-size: 24px;
