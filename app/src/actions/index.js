@@ -28,7 +28,7 @@ export const ActionTypes = {
   FETCH_TIME: 'FETCH_TIME',
 };
 
-const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-api.herokuapp.com';
+const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-dartmouth.herokuapp.com';
 
 export function getTimes() {
   return dispatch => new Promise(((resolve, reject) => {
