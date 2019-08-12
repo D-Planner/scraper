@@ -24,12 +24,14 @@ $gray-6: #838484;
 
 // colors -old (we're not removing because of possible dependencies:
 
-$background: #F8F8F8;
+$background: #F5F5F5;
 $border: #D8D5D5;
 $white: #FFFFFF;
 $med-grey: #848484;
 $black: #000000;
 
 // box shadows:
-$box-shadow-default: 0px 4px 4px rgba(0, 0, 0, 0.25);
+$box-shadow-default: 0px 4px 12px rgba(0, 0, 0, 0.15);
 $box-shadow-button: 0px 6px 12px rgba(153, 153, 153, 0.25);
+$tablet-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+

@@ -6,10 +6,13 @@
     }
 
     .pane-header {
-        margin: 0;
-        align-self: flex-start;
-        font-size: $header-size;
-        font-weight: normal;
+
+        .pane-title {
+            align-self: flex-start;
+            font-size: $header-size;
+            margin: 0;
+            font-weight: 600;
+        }
     }
 
     .bookmarked-courses-list {
