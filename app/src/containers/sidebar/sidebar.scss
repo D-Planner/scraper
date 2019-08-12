@@ -14,17 +14,17 @@ $inactive-height: 50px;
     height: $content-height;
 
     .pane {
-        background: #ECF3FF;
-        color:#574966;
+        background:$white;
+        color: $text-accent;
         width: 303px;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        margin: 5px 0;
+        margin-bottom: 36px;
+        border-radius: 6px;
         padding: 0 20px 0 20px;
-        background: $background;
-        box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.24);
+        box-shadow: $tablet-box-shadow;
         font-weight: normal;
 
         height: $inactive-height;
@@ -38,6 +38,7 @@ $inactive-height: 50px;
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            // height: 100%;
         }
 
         &.active {

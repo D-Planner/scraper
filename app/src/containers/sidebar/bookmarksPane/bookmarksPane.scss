@@ -6,11 +6,7 @@
     }
 
     .pane-header {
-        margin: 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
+
         .pane-title {
             align-self: flex-start;
             font-size: $header-size;
