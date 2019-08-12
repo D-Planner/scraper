@@ -57,7 +57,7 @@ class UserCourse extends Component {
     return this.props.connectDragSource(
       <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
         <CourseElement
-          size="sm"
+          size={this.props.size}
           error={this.props.course.fulfilled}
           course={this.catalogCourse}
         />

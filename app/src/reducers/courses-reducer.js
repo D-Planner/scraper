@@ -14,6 +14,8 @@ const coursesReducer = (state = initialState, action) => {
       return Object.assign({}, state, { results: action.payload });
     case ActionTypes.FETCH_BOOKMARKS:
       return Object.assign({}, state, { bookmarks: action.payload });
+    case ActionTypes.RANDOM_COURSE:
+      return Object.assign({}, state, { random_course: action.payload });
     default:
       return state;
   }

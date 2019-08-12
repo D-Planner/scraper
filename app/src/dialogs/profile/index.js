@@ -46,7 +46,7 @@ class ProfileDialog extends Component {
           </div>
         </div>
         <div className="info">
-          <div className="label">Bookmarked Courses</div>
+          <div className="label">Completed Courses</div>
           <div className="data">
             {this.renderCompleted()}
           </div>
