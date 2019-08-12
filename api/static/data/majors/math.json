@@ -1,0 +1,222 @@
+{
+    "name": "Mathematics",
+    "department": "MATH",
+    "link": "http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Mathematics",
+    "requirements": [
+        {
+            "group": "prerequisites",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 4,
+                    "greater_than": 2
+                }
+            ]
+        },
+        {
+            "group": "prerequisites",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 9,
+                    "greater_than": 7
+                }
+            ]
+        },
+        {
+            "group": "prerequisites",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 14,
+                    "greater_than": 12
+                }
+            ]
+        },
+        {
+            "group": "prerequisites",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 25,
+                    "greater_than": 23
+                },
+                {
+                    "department": "MATH",
+                    "less_than": 23,
+                    "greater_than": 21
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 32,
+                    "greater_than": 30
+                },
+                {
+                    "department": "MATH",
+                    "less_than": 72,
+                    "greater_than": 70
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 36,
+                    "greater_than": 34
+                },
+                {
+                    "department": "MATH",
+                    "less_than": 44,
+                    "greater_than": 42
+                },
+                {
+                    "department": "MATH",
+                    "less_than": 64,
+                    "greater_than": 62
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "requirements",
+            "ranges": [
+                {
+                    "department": "MATH",
+                    "less_than": 97,
+                    "greater_than": 19
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 49
+                }
+            ]
+        },
+        {
+            "group": "culminating_experiences",
+            "ranges": [
+                {
+                    "department": "COSC",
+                    "less_than": 90,
+                    "greater_than": 88
+                },
+                {
+                    "department": "COSC",
+                    "less_than": 99,
+                    "greater_than": 97
+                }
+            ]
+        }
+    ]
+}

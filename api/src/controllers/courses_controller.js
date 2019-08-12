@@ -5,6 +5,7 @@ import courses from '../../static/data/courses.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse } from './populators';
 
+
 const trim = (res) => {
     try {
         return res.map((course) => {
@@ -46,6 +47,18 @@ const getCourses = async (req, res) => {
         .catch((error) => {
             res.status(500).json({ error });
         });
+};
+
+const randomCourse = async (req, res) => {
+    Course.count().then((count) => {
+        const random = Math.floor(Math.random() * count);
+        return Course.findOne().skip(random).populate(PopulateCourse);
+    }).then((course) => {
+        console.log(course);
+        res.json(course);
+    }).catch((e) => {
+        res.status(500).json({ e });
+    });
 };
 
 const getCourse = async (req, res) => {
@@ -189,9 +202,7 @@ const filledValues = (course) => {
                                 Course.findByIdAndUpdate(
                                     res._id,
                                     { $push: { xlist: origCourse.id } },
-                                ).then((r) => {
-                                    console.log('added xlist for: ', r.title, origCourse.id);
-                                });
+                                );
                             }
                         });
 
@@ -359,6 +370,7 @@ const CoursesController = {
     searchCourses,
     getCourses,
     getCourse,
+    randomCourse,
     getCoursesByDepartment,
     getCoursesByDistrib,
     getCoursesByWC,

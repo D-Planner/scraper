@@ -60,6 +60,8 @@ class Term extends Component {
         this.props.term.courses.forEach((course) => {
           // console.log(`Because you are turning off this term, deleting: ${course}`);
           this.props.removeCourseFromFavorites(course.course.id);
+          // Not sure if this needs to be made into a Promise.all() ??
+          this.props.removeCourseFromTerm(course, this.props.term);
         });
         this.props.term.off_term = true;
         this.props.term.courses = [];
@@ -91,11 +93,45 @@ class Term extends Component {
     }
   };
 
+  past = () => {
+    const terms = ['W', 'S', 'X', 'F'];
+    const [thisYear, thisTerm] = [this.props.term.name.match(/\d{2}/)[0], terms.indexOf(this.props.term.quarter)];
+    if (thisYear < this.props.time.currTerm.year) return true;
+    if (thisYear > this.props.time.currTerm.year) return false;
+    if (thisTerm < terms.indexOf(this.props.time.currTerm.term)) return true;
+    return false;
+  }
+
+  isNextTerm = () => {
+    const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
+    if (year === this.props.time.nextTerm.year && term === this.props.time.nextTerm.term) return true;
+    return false;
+  }
+
+  checkHourError = () => {
+    const hours = this.props.term.courses.map((c) => {
+      return c.timeslot;
+    });
+    const uniqueHours = new Set(hours);
+    return hours.length !== uniqueHours.size;
+  }
+
+  updateUserCourse = (courseID, change) => {
+    this.props.updateUserCourse(courseID, change).then((r) => {
+      this.props.fetchPlan(this.props.plan.id).then(() => {
+      });
+    });
+  }
+
   renderContent = () => {
     if (this.props.term.off_term) {
       return (
         <div className={classNames({
-          on: !this.props.term.off_term, off: this.props.term.off_term, 'term-content': true, 'no-content': true,
+          on: !this.props.term.off_term,
+          off: this.props.term.off_term,
+          'term-content': true,
+          'no-content': true,
+          past: this.past(),
         })}
         >
           off-term
@@ -104,21 +140,25 @@ class Term extends Component {
     } else if (this.props.term.courses.length === 0) {
       return (
         <div className={classNames({
-          on: !this.props.term.off_term, off: this.props.term.off_term, 'term-content': true, 'no-content': true,
+          on: !this.props.term.off_term,
+          off: this.props.term.off_term,
+          'term-content': true,
+          'no-content': true,
+          past: this.past(),
         })}
         >
-          Drag-n-drop your courses here!
+          {this.past() ? 'Place Your Previous Courses here' : 'Drag-n-drop your courses here!'}
         </div>
       );
     }
     return (
-
       <div className="term-content">
         {this.props.term.courses.map((course) => {
           // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
             <div className="course-row" key={course.id}>
               <DraggableUserCourse
+                size={(this.isNextTerm() ? 'sm' : 'bg')}
                 key={course.id}
                 catalogCourse={course.course}
                 course={course}
@@ -127,14 +167,21 @@ class Term extends Component {
                   this.props.removeCourseFromTerm(course, this.props.term);
                 }}
               />
-              <div>
-                <HourSelector
-                  key={course.id}
-                  course={course}
-                  timeslots={course.course.periods}
-                  updateUserCourse={this.props.updateUserCourse}
-                />
-              </div>
+              {
+                this.isNextTerm()
+                  ? (
+                    <div>
+                      <HourSelector
+                        past={this.past()}
+                        key={course.id}
+                        course={course}
+                        timeslots={course.course.periods}
+                        updateUserCourse={this.updateUserCourse}
+                      />
+                    </div>
+                  )
+                  : <></>
+              }
             </div>
           );
         })}
@@ -148,15 +195,18 @@ class Term extends Component {
         on: !this.props.term.off_term,
         off: this.props.term.off_term,
         term: true,
+        past: this.past(),
       })}
       >
         <div className="header">
           <div className={classNames({
             on: !this.props.term.off_term,
             off: this.props.term.off_term,
+            past: this.past(),
             'term-name': true,
           })}
           >
+            {/* Add a warning if two courses occupy the same timeslot */}
             {this.props.term.name}
           </div>
           <div className="toggle-buttons">
@@ -172,6 +222,7 @@ class Term extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
+  time: state.time,
 });
 
 // export default withRouter(connect(mapStateToProps, {
