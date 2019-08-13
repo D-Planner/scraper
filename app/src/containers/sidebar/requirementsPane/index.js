@@ -135,7 +135,7 @@ const RequirementsPane = (props) => {
           return (
             <div key={genEd.name} className="genEd-row">
               <img className="icon" src={genEd.icon} alt={`${genEd.name} icon`} />
-              <div className="genEd-name">{genEd.name}</div>
+              <div className="genEd-name">{genEd.fullName}</div>
               <img className="checkbox" src={genEd.fulfilled ? checkedIcon : uncheckedIcon} alt="checkbox" />
             </div>
           );
