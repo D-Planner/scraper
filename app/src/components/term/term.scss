@@ -74,21 +74,33 @@ $term-margin: 0 15px 15px 0;
             &.on {
                 border: 0.5px solid $blue-primary;
                 color: $blue-primary;
+                &:hover {
+                    cursor: pointer;
+                    background: $blue-primary;
+                    color: $white;
+                }
             }
             &.off {
                 width: 34px;
                 background: $background;
                 border: 0.5px solid $gray-6;
                 color: $gray-6;
+                &:hover {
+                    cursor: pointer;
+                    background: $gray-6;
+                    color: $background;
+                }
             }
             &.past {
                 background: $background !important;
                 color: $blue-primary;
+                &:hover {
+                    cursor: pointer;
+                    background: $blue-primary;
+                    color: $white;
+                }
             }
-            &:hover {
-                animation: shake 0.5s;
-                cursor: pointer;
-            }
+
         }
     }
 
@@ -134,8 +146,9 @@ $term-margin: 0 15px 15px 0;
     align-items: center;
 
     .hourSelector{
-        &.past {
-            color:$blue-primary;
+        select {
+            color: $blue-primary;
         }
     }
+
 }
