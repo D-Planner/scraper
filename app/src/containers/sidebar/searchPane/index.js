@@ -55,14 +55,16 @@ const SearchPane = (props) => {
       </div>
       {props.active
         ? (
-          <div>
-            <select className="gened-picker"
-              onChange={(e) => {
-                setWC(e.target.value);
-              }}
-            >
-              <option value="">None</option>
-              {
+          <div className="pane-content">
+
+            <div className="filters">
+              <select className="gened-picker"
+                onChange={(e) => {
+                  setWC(e.target.value);
+                }}
+              >
+                <option value="">WC filter</option>
+                {
           Object.keys(GenEds).filter((g) => {
             return g.length <= 2;
           }).map((g) => {
@@ -71,14 +73,14 @@ const SearchPane = (props) => {
             );
           })
         }
-            </select>
-            <select className="gened-picker"
-              onChange={(e) => {
-                setDistrib(e.target.value);
-              }}
-            >
-              <option value="">None</option>
-              {
+              </select>
+              <select className="gened-picker"
+                onChange={(e) => {
+                  setDistrib(e.target.value);
+                }}
+              >
+                <option value="">Distrib filter</option>
+                {
           Object.keys(GenEds).filter((g) => {
             return g.length > 2;
           }).map((g) => {
@@ -87,13 +89,14 @@ const SearchPane = (props) => {
             );
           })
         }
-            </select>
-            <div className="pane-content">
+              </select>
+            </div>
+            <div className="search-results">
               {props.results.length
                 ? props.results.map((course) => {
                   return <DraggableCourse key={course.id} course={course} />;
                 })
-                : (<div />)}
+                : (<div className="no-search">Search for courses!</div>)}
             </div>
           </div>
         ) : null
