@@ -214,6 +214,7 @@ class Term extends Component {
           </div>
         </div>
         {this.renderContent()}
+        <div className="accent" />
       </div>
       ,
     );
