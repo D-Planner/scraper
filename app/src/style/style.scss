@@ -17,6 +17,7 @@ code {
 }
 
 * {
+  transition: all 500ms ease-in-out;
   // below arguments necessary because otherwise web browser will override with defaults
   box-sizing: border-box;
   padding: 0;
