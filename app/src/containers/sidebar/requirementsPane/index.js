@@ -37,88 +37,88 @@ const RequirementsPane = (props) => {
   };
 
   const fillDistribs = async () => {
-    return new Promise((resolve3) => {
-      const fixed = [];
-      const flexible = [];
+    const fixed = [];
+    const flexible = [];
 
-      // does initial sort, sorts the list of user courses into [fixed] or [flexible]
-      props.userCourses.forEach((userCourse) => {
-        if (userCourse.course.distribs.length > 1) {
-          flexible.push(userCourse);
-        } else if (userCourse.course.distribs.length > 0) {
-          userCourse.distrib = userCourse.course.distribs[0];
-          fixed.push(userCourse);
-        }
+    // does initial sort, sorts the list of user courses into [fixed] or [flexible]
+    props.userCourses.forEach((userCourse) => {
+      userCourse.course.distribs.forEach((distrib) => {
+        GenEds[distrib].fulfilled = true;
       });
-
-      let counter = 0;
-
-      async.whilst(
-        function functionName1(callbackFunction) {
-          // perform before each execution of iterFunctionInside, you need a condition(or other related condition) in 2nd params.
-          console.log(`Lengths: ${fixed.length} ${flexible.length}`);
-          callbackFunction(null, ((flexible.length > 0 || fixed.length > 0) && counter < 10));
-        },
-        // this func is called each time when functionName1 invoked
-        function iterFunctionInside(callback) {
-          // increase counter to compare with compareVariable
-          counter += 1;
-          console.log('iteration', counter);
-          // for every [fixed] course, simply check off the distrib
-          Promise.all(
-            fixed.map((userCourse) => {
-              return new Promise((resolve) => {
-                GenEds[userCourse.distrib].fulfilled = true;
-                resolve();
-              });
-            }),
-          ).then(async () => { // once all [distrib]s have been checked through, clear the [fixed] array
-            let hitCount = 0;
-            fixed.length = 0;
-            for (let i = 0; i < flexible.length; i += 1) {
-              console.log(`\tflexible iteration ${i}`);
-              const userCourse = flexible[i];
-              await Promise.all(
-                userCourse.course.distribs.map((distrib) => {
-                  console.log('\t\tstarted distrib');
-                  return new Promise((resolve2) => { // each and every one of these promises are not getting executed in order...
-                    console.log(`\t\t\t${distrib}`);
-                    // checks to see if one of the [flexible]'s [distrib]s are already fulfilled; if so, then it should get moved to [fixed]
-                    if (GenEds[distrib].fulfilled) {
-                      hitCount += 1;
-                      userCourse.distrib = userCourse.course.distribs[findOtherDistrib(distrib, userCourse.course.distribs)];
-                      // determines whether the [userCourse] is already in the [fixed] array
-                      if (fixed.findIndex(e => e.id === userCourse.id) !== -1) {
-                        fixed.splice(fixed.findIndex(e => e.id === userCourse.id), 1, userCourse);
-                      } else {
-                        fixed.push(userCourse);
-                      }
-                      flexible.splice(i, 1);
-                      i -= 1;
-                    }
-                    console.log('\t\tfinished distrib');
-                    resolve2();
-                  });
-                }),
-              );
-              console.log('\tfinished iteration');
-            }
-            if (hitCount === 0) {
-              console.log('there were no hits');
-              flexible.forEach((userCourse) => {
-                userCourse.distrib = userCourse.course.distribs[0];
-                console.log(userCourse.distrib);
-                GenEds[userCourse.distrib].fulfilled = true;
-              });
-            }
-            callback(null, counter);
-          });
-        },
-        function (err, n) {
-          resolve3();
-        },
-      );
+      if (userCourse.course.distribs.length > 1) {
+        flexible.push(userCourse);
+      } else if (userCourse.course.distribs.length > 0) {
+        userCourse.distrib = userCourse.course.distribs[0];
+        fixed.push(userCourse);
+      }
     });
+
+    let counter = 0;
+
+    async.whilst(
+      function functionName1(callbackFunction) {
+        // perform before each execution of iterFunctionInside, you need a condition(or other related condition) in 2nd params.
+        console.log(`Lengths: ${fixed.length} ${flexible.length}`);
+        callbackFunction(null, ((flexible.length > 0 || fixed.length > 0) && counter < 10));
+      },
+      // this func is called each time when functionName1 invoked
+      function iterFunctionInside(callback) {
+        // increase counter to compare with compareVariable
+        counter += 1;
+        console.log('iteration', counter);
+        // for every [fixed] course, simply check off the distrib
+        Promise.all(
+          fixed.map((userCourse) => {
+            return new Promise((resolve) => {
+              GenEds[userCourse.distrib].fulfilled = true;
+              resolve();
+            });
+          }),
+        ).then(async () => { // once all [distrib]s have been checked through, clear the [fixed] array
+          let hitCount = 0;
+          fixed.length = 0;
+          for (let i = 0; i < flexible.length; i += 1) {
+            console.log(`\tflexible iteration ${i}`);
+            const userCourse = flexible[i];
+            await Promise.all(
+              userCourse.course.distribs.map((distrib) => {
+                console.log('\t\tstarted distrib');
+                return new Promise((resolve2) => { // each and every one of these promises are not getting executed in order...
+                  console.log(`\t\t\t${distrib}`);
+                  // checks to see if one of the [flexible]'s [distrib]s are already fulfilled; if so, then it should get moved to [fixed]
+                  if (GenEds[distrib].fulfilled) {
+                    hitCount += 1;
+                    userCourse.distrib = userCourse.course.distribs[findOtherDistrib(distrib, userCourse.course.distribs)];
+                    // determines whether the [userCourse] is already in the [fixed] array
+                    if (fixed.findIndex(e => e.id === userCourse.id) !== -1) {
+                      fixed.splice(fixed.findIndex(e => e.id === userCourse.id), 1, userCourse);
+                    } else {
+                      fixed.push(userCourse);
+                    }
+                    flexible.splice(i, 1);
+                    i -= 1;
+                  }
+                  console.log('\t\tfinished distrib');
+                  resolve2();
+                });
+              }),
+            );
+            console.log('\tfinished iteration');
+          }
+          if (hitCount === 0) {
+            console.log('there were no hits');
+            flexible.forEach((userCourse) => {
+              userCourse.distrib = userCourse.course.distribs[0];
+              console.log(userCourse.distrib);
+              GenEds[userCourse.distrib].fulfilled = true;
+            });
+          }
+          callback(null, counter);
+        });
+      },
+      function (err, n) {
+      },
+    );
   };
 
   const findOtherDistrib = (unwantedDistrib, distribs) => {
