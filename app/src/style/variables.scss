@@ -50,3 +50,7 @@ $tablet-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
     90% { transform: translate(0.3px, 0.6px) rotate(0deg); }
     100% { transform: translate(0.3px, -0.6px) rotate(-1deg); }
 }
+@keyframes jump {
+    75% { transform: translate(0, -2px); }
+    100% { transform: translate(0, 2px); }
+}

@@ -28,7 +28,7 @@ $course-border-radius: 5px;
     &:hover {
         cursor: pointer;
         filter: brightness(95%);
-        animation: shake 0.2s;
+        animation: jump 0.2s ease-in-out;
     }
 
     &.error {
