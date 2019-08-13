@@ -33,18 +33,20 @@
 
     }
 
+
     .reqs-list {
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        overflow: scroll;
+        overflow-y: scroll;
         margin-bottom: 20px;
         width: 100%;
+        padding-right: 10px;
 
         .genEd-row {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
             width: 100%;
             margin-bottom: 10px;
@@ -52,8 +54,9 @@
                 width: 20px;
             }
             .genEd-name {
+                text-align: left;
                 font-size: 14px;
-                flex-basis: 60%;
+                width: 60%;
             }
             .icon {
                 width: 36px;
