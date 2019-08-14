@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import {
-  fetchPlans, createPlan, deletePlan, showDialog,
+  fetchPlans, createPlan, showDialog,
 } from '../../actions';
 import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
@@ -15,9 +17,12 @@ import './dashboard.scss';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      active: false,
+    };
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
-    this.removePlan = this.removePlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.goToPlan = this.goToPlan.bind(this);
 
@@ -53,23 +58,12 @@ class Dashboard extends React.Component {
         return { ...term, year: currYear, quarter: terms[currQuarter] };
       }),
       name,
-    }, this.props.history);
-  }
-
-  removePlan(event, id) {
-    event.stopPropagation();
-    const opts = {
-      title: 'Delete Plan',
-      okText: 'Delete',
-      onOk: () => {
-        this.props.deletePlan(id, this.props.history);
-      },
-    };
-    this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
+    }, this.props.setCurrentPlan);
   }
 
   goToPlan(id) {
-    this.props.history.push(`/plan/${id}`);
+    this.props.setCurrentPlan(id);
+    // this.props.history.push(`/plan/${id}`);
   }
 
   showDialog() {
@@ -83,11 +77,30 @@ class Dashboard extends React.Component {
     this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
   }
 
+
+  handleMouseEnter() {
+    this.setState({
+      active: true,
+    });
+  }
+
+  handleMouseLeave() {
+    this.setState({
+      active: false,
+    });
+  }
+
   render() {
     return (
-      <div className="dashboard-container">
+      <div className={classNames({
+        menu: true,
+        active: this.state.active,
+      })}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
         <div className="plans-container">
-          <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
+          <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
         </div>
         <div id="error-container">
           {this.displayIfError()}
@@ -103,5 +116,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlans, createPlan, deletePlan, showDialog,
+  fetchPlans, createPlan, showDialog,
 })(Dashboard));
