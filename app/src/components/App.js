@@ -9,7 +9,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import signUp from '../containers/signUp';
 import signIn from '../containers/signIn';
 import Courses from '../containers/courses';
-import Dashboard from '../containers/dashboard';
+// import Dashboard from '../containers/dashboard';
 import requireAuth from '../containers/requireAuth';
 import DPlan from '../containers/dplan';
 import Discover from '../containers/discover';
@@ -24,12 +24,12 @@ const App = (props) => {
         <Router>
           <div className="app-container">
             <Switch>
-              <Route exact path="/" component={requireAuth(Dashboard)} />
+              <Route exact path="/" component={requireAuth(DPlan)} />
               <Route exact path="/courses" component={requireAuth(Courses)} />
               <Route path="/signup" component={signUp} />
               <Route path="/signin" component={signIn} />
               <Route path="/discover" component={Discover} />
-              <Route path="/plan/:id" component={DPlan} />
+              {/* <Route path="/plan/:id" component={DPlan} /> */}
               <Route component={FallBack} />
             </Switch>
           </div>
