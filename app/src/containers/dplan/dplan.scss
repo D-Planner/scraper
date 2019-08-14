@@ -5,120 +5,107 @@ $plan-header-margin: 36px;
 $bottom-margin: 20px;
 $content-height: 743px;
 // $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$bottom-margin}));
-
-.dplan-page {
+::-webkit-scrollbar {
+    width: 0px;
+    display: none;
+}
+.dashboard {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: $background;
-    padding: 0 34px;
+    width: 100vw;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    align-items: stretch;
+    height: 100vh;
 
-    .plan-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        height: $plan-header-height;
-        position: relative; // this is to position the .accent bar, since that is position: absolute
-        background: $white;
-        margin-bottom: $plan-header-margin;
-        box-shadow: $tablet-box-shadow;
-    
-        .header-left {
+        .dplan-page {
             display: flex;
-            flex-direction: row;
-            align-items: center;
-    
-            .plan-name {
-                font-family: $poppins;
-                font-style: normal;
-                font-weight: bold;
-                line-height: normal;
-                font-size: 36px;
-                color: $text-accent;
-            }
-        
-            .save-button {
-                background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
-                /* blue-drop-shadow */
-                box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
-                border-radius: 32px;
-                width: 100px;
-                height: 40px;
-                margin-left: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-        
-                &:hover {
-                    cursor: pointer;
-                    filter: brightness(120%);
-                }
-        
-                p {
-                    font-family: $poppins;
-                    font-style: normal;
-                    font-weight: bold;
-                    font-size: 18px;
-                    color: #FFFFFF;
-                }
-            }
-        }
-    
-        .delete-button {
-            display: none;
-            align-items: center;
-            justify-content: center;
             flex-direction: column;
-            font-weight: 200;
-            font-size: 12pt;
-            color: $error;
-            background: white;
-            border: 0.25px solid #D7D6D6;
-            border-radius: 32px;
-            box-shadow: 0 4px 4px rgba(0,0,0,0.25);
-            width: 120px;
-            height: 40px;
-            margin-right: 50px;
-    
-            &:hover {
-                filter: brightness(90%);
-            }
-        }
-        #bottom-divider {
-            height: 1px;
-            background: $gray-5;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            
-        }
-    }
-    
-    .plan-content {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-
-        .sidebar {
-            flex-basis: 10%;
-        }
-
-        .plan-grid {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            overflow: scroll;
-            padding-left: 36px;
-
-            .plan-row {
+            align-items: center;
+            background: $background;
+            padding: 0 34px;
+            .plan-header {
                 display: flex;
                 flex-direction: row;
-                flex: 1;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                height: $plan-header-height;
+                position: relative; // this is to position the .accent bar, since that is position: absolute
+                background: $white;
+                margin-bottom: $plan-header-margin;
+                box-shadow: $tablet-box-shadow;
+            
+                .header-left {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+            
+                    .plan-name {
+                        font-family: $poppins;
+                        font-style: normal;
+                        font-weight: bold;
+                        line-height: normal;
+                        font-size: 36px;
+                        color: $text-accent;
+                    }
+                
+                }
+            
+                .delete-button {
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    font-weight: 200;
+                    font-size: 12pt;
+                    color: $error;
+                    background: white;
+                    border: 0.25px solid #D7D6D6;
+                    border-radius: 32px;
+                    box-shadow: 0 4px 4px rgba(0,0,0,0.25);
+                    width: 120px;
+                    height: 40px;
+                    margin-right: 50px;
+            
+                    &:hover {
+                        filter: brightness(90%);
+                    }
+                }
+                #bottom-divider {
+                    height: 1px;
+                    background: $gray-5;
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    
+                }
+            }
+            
+            .plan-content {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+                max-height: 90vh;
+        
+                .sidebar {
+                    flex-basis: 10%;
+                }
+        
+                .plan-grid {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    overflow-y: scroll !important;
+                    padding-left: 36px;
+        
+                    .plan-row {
+                        display: flex;
+                        flex-direction: row;
+                        flex: 1;
+                    }
+                }
             }
         }
-    }
+
 }
