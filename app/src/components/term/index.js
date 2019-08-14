@@ -95,6 +95,7 @@ class Term extends Component {
 
   past = () => {
     const terms = ['W', 'S', 'X', 'F'];
+    console.log(this.props.term);
     const [thisYear, thisTerm] = [this.props.term.name.match(/\d{2}/)[0], terms.indexOf(this.props.term.quarter)];
     if (thisYear < this.props.time.currTerm.year) return true;
     if (thisYear > this.props.time.currTerm.year) return false;
