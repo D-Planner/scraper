@@ -6,7 +6,7 @@ import {
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import Sidebar from '../sidebar';
-import Term from '../../components/term';
+import Term from '../term';
 import './dplan.scss';
 import Nav from '../nav';
 
@@ -97,6 +97,8 @@ class DPlan extends Component {
                     {year.map((term) => {
                       return (
                         <Term
+                          plan={this.props.plan}
+                          time={this.time}
                           term={term}
                           key={term.id}
                           addCourseToTerm={this.addCourseToTerm}
@@ -117,6 +119,7 @@ class DPlan extends Component {
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
+  time: state.time,
 });
 
 export default withRouter(connect(mapStateToProps, {

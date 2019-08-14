@@ -7,10 +7,17 @@ $white: #FFFFFF;
 
 $font-secondary: 'Poppins';
 
+.container {
+    height:100vw;
+    display:flex;
+    justify-content: center;
+}
+
 .signInContainer {
     width:75%;
     display:flex;
     flex-direction: column;
+    justify-content: center;
     margin: 0 auto 0 auto;
 
     .title {
@@ -84,6 +91,10 @@ $font-secondary: 'Poppins';
         font-size: 18px;
         line-height: normal;
         text-transform: uppercase;
+
+        &:disabled {
+            background:gray;
+        }
     }
 
     .sign-in {

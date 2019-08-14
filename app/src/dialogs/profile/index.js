@@ -34,6 +34,12 @@ class ProfileDialog extends Component {
           </div>
         </div>
         <div className="info">
+          <div className="label">Graduation Year</div>
+          <div className="data">
+            {this.props.user.graduationYear}
+          </div>
+        </div>
+        <div className="info">
           <div className="label">Placement Courses</div>
           <div className="data">
             {this.renderPlacements()}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
@@ -11,6 +11,14 @@ export const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   const [grad, setGrad] = useState(2023);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [permitted, setPermitted] = useState(false);
+
+  useEffect(() => {
+    if (email && grad && password) {
+      setPermitted(true);
+    } else setPermitted(false);
+  }, [email, password, grad]);
 
   const signup = () => {
     props.signupUser(email, password, firstName, lastName, college, grad, props.history);
@@ -39,7 +47,7 @@ export const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
-        <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
+        <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button>
         <button type="button" className="sign-in" onClick={signin}>Have an account? Sign in</button>
       </form>
     </div>
@@ -48,12 +56,15 @@ export const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
 
 const SignUp = (props) => {
   return (
-    <div className="signInContainer">
-      <div className="title">
+    <div className="container">
+      <div className="signInContainer">
+        <div className="title">
           Create Your Account.
+        </div>
+        <SignUpForm />
       </div>
-      <SignUpForm />
     </div>
+
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signinUser } from '../../actions';
@@ -6,6 +6,8 @@ import { signinUser } from '../../actions';
 export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [permitted, setPermitted] = useState(false);
 
 
   const signin = () => {
@@ -15,6 +17,11 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   const signup = () => {
     window.location.href = '/signup';
   };
+
+  useEffect(() => {
+    if (email && password) setPermitted(true);
+    else setPermitted(false);
+  }, [email, password]);
 
 
   return (
@@ -28,7 +35,7 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
           <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
-        <button type="button" className="sign-up" onClick={signin}>Sign In</button>
+        <button type="button" disabled={!permitted} className="sign-up" onClick={signin}>Sign In</button>
         <button type="button" className="sign-in" onClick={signup}>Don&apos;t have an account? Sign up</button>
       </form>
     </div>
@@ -37,11 +44,13 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
 
 const SignIn = () => {
   return (
-    <div className="signInContainer">
-      <div className="title">
+    <div className="container">
+      <div className="signInContainer">
+        <div className="title">
         Welcome Back.
+        </div>
+        <SignInForm />
       </div>
-      <SignInForm />
     </div>
   );
 };
