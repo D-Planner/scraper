@@ -21,9 +21,7 @@ $content-height: 743px;
         width: 100%;
         height: $plan-header-height;
         position: relative; // this is to position the .accent bar, since that is position: absolute
-        background: $white;
         margin-bottom: $plan-header-margin;
-        box-shadow: $tablet-box-shadow;
     
         .header-left {
             display: flex;
@@ -68,7 +66,7 @@ $content-height: 743px;
         }
     
         .delete-button {
-            display: none;
+            display: none; // This is going to have to change at some point
             align-items: center;
             justify-content: center;
             flex-direction: column;

@@ -83,8 +83,7 @@ class DPlan extends Component {
           <div className="header-left">
             <h1 className="plan-name">{this.props.plan.name}</h1>
           </div>
-          <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
-          <div id="bottom-divider" />
+          <input type="button" value="input" className="delete-button" onClick={this.showDialog} />
         </div>
         <div className="plan-content">
           <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
