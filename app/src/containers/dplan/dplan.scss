@@ -39,39 +39,39 @@ $content-height: 743px;
         }
     }
 
-        .dplan-page {
+    .dplan-page {
+            
+    .plan-content {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-height: 100vh;
+        background: $background;
+        
+        .plan-side {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            background: $background;
-            padding: 0 34px;
             .plan-header {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
-                height: $plan-header-height;
                 position: relative; // this is to position the .accent bar, since that is position: absolute
-                background: $white;
-                margin-bottom: $plan-header-margin;
-                box-shadow: $tablet-box-shadow;
-            
-                .header-left {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-            
-                    .plan-name {
-                        font-family: $poppins;
-                        font-style: normal;
-                        font-weight: bold;
-                        line-height: normal;
-                        font-size: 36px;
-                        color: $text-accent;
-                    }
-                
+                flex-shrink: 0;
+                .plan-name {
+                    font-family: $poppins;
+                    font-style: normal;
+                    font-weight: bold;
+                    line-height: normal;
+                    font-size: 24px;
+                    color: $text-accent;
+                    margin: 18px 0 18px 0;
                 }
+                .settings-button {
+                    
+                }
+                
             
                 .delete-button {
                     display: none;
@@ -93,41 +93,25 @@ $content-height: 743px;
                         filter: brightness(90%);
                     }
                 }
-                #bottom-divider {
-                    height: 1px;
-                    background: $gray-5;
-                    position: absolute;
-                    bottom: 0;
-                    width: 100%;
-                    
-                }
             }
-            
-            .plan-content {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                width: 100%;
-                max-height: 90vh;
-        
-                .sidebar {
-                    flex-basis: 10%;
-                }
-        
-                .plan-grid {
-                    display: flex;
-                    flex-direction: row;
-                    flex-wrap: wrap;
-                    overflow-y: scroll !important;
-                    padding-left: 36px;
-        
-                    .plan-row {
-                        display: flex;
-                        flex-direction: row;
-                        flex: 1;
-                    }
-                }
+            .sidebar {
+                flex-basis: 10%;
             }
         }
+
+        .plan-grid {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            overflow-y: scroll !important;
+            padding-top: 50px; // this depends on the sum of the .plan-name height and the 36px margins
+            
+            .plan-row {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+    }
+        
 
 }
