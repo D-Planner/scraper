@@ -114,36 +114,31 @@ class DPlan extends Component {
       return (
         <div className="dashboard">
           <Dashboard setCurrentPlan={this.setCurrentPlan} />
-          <div className="dplan-page">
-            <div className="current-plan">
+          <div className="plan-content">
+            <div className="plan-side">
               <div className="plan-header">
-                <div className="header-left">
-                  <h1 className="plan-name">{this.props.plan.name}</h1>
-                </div>
-                <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
-                <div id="bottom-divider" />
+                <h1 className="plan-name">{this.props.plan.name}</h1>
+                <button type="button" className="settings-button" onClick={this.showDialog}>+</button>
               </div>
-              <div className="plan-content">
-                <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
-                <div className="plan-grid">
-                  {this.props.plan.terms.map((year) => {
-                    return (
-                      <div className="plan-row" key={year[0].id}>
-                        {year.map((term) => {
-                          return (
-                            <Term
-                              term={term}
-                              key={term.id}
-                              addCourseToTerm={this.addCourseToTerm}
-                              removeCourseFromTerm={this.removeCourseFromTerm}
-                            />
-                          );
-                        })}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+              <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
+            </div>
+            <div className="plan-grid">
+              {this.props.plan.terms.map((year) => {
+                return (
+                  <div className="plan-row" key={year[0].id}>
+                    {year.map((term) => {
+                      return (
+                        <Term
+                          term={term}
+                          key={term.id}
+                          addCourseToTerm={this.addCourseToTerm}
+                          removeCourseFromTerm={this.removeCourseFromTerm}
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
