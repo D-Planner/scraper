@@ -104,7 +104,6 @@ const Landing = (props) => {
                  <div className="row">
                    {
                      Object.entries(row).map(([k, v]) => {
-                       console.log(k, v);
                        return (
                          <div className="text">
                            <div className="textHeader">
@@ -135,7 +134,6 @@ const Landing = (props) => {
                  <div className="row">
                    {
                      Object.entries(row).map(([k, v]) => {
-                       console.log(k, v);
                        return (
                          <div className="text allLeft">
                            <div className="textHeader">

@@ -95,10 +95,11 @@ class DPlan extends Component {
                 return (
                   <div className="plan-row" key={year[0].id}>
                     {year.map((term) => {
+                      console.log(this.props.time);
                       return (
                         <Term
                           plan={this.props.plan}
-                          time={this.time}
+                          time={this.props.time}
                           term={term}
                           key={term.id}
                           addCourseToTerm={this.addCourseToTerm}
