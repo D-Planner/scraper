@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import Sidebar from '../sidebar';
-import Term from '../../components/term';
+import Term from '../term';
 import './dplan.scss';
+import Nav from '../nav';
+
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
@@ -17,6 +19,7 @@ class DPlan extends Component {
     this.showDialog = this.showDialog.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
+    this.props.getTimes();
   }
 
   componentDidMount() {
@@ -77,43 +80,50 @@ class DPlan extends Component {
     }
 
     return (
-      <div className="dplan-page">
-        <div className="plan-header">
-          <div className="header-left">
-            <h1 className="plan-name">{this.props.plan.name}</h1>
+      <>
+        <Nav />
+        <div className="dplan-page">
+          <div className="plan-header">
+            <div className="header-left">
+              <h1 className="plan-name">{this.props.plan.name}</h1>
+            </div>
+            <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
           </div>
-          <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
-        </div>
-        <div className="plan-content">
-          <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
-          <div className="plan-grid">
-            {this.props.plan.terms.map((year) => {
-              return (
-                <div className="plan-row" key={year[0].id}>
-                  {year.map((term) => {
-                    return (
-                      <Term
-                        term={term}
-                        key={term.id}
-                        addCourseToTerm={this.addCourseToTerm}
-                        removeCourseFromTerm={this.removeCourseFromTerm}
-                      />
-                    );
-                  })}
-                </div>
-              );
-            })}
+          <div className="plan-content">
+            <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
+            <div className="plan-grid">
+              {this.props.plan.terms.map((year) => {
+                return (
+                  <div className="plan-row" key={year[0].id}>
+                    {year.map((term) => {
+                      console.log(this.props.time);
+                      return (
+                        <Term
+                          plan={this.props.plan}
+                          time={this.props.time}
+                          term={term}
+                          key={term.id}
+                          addCourseToTerm={this.addCourseToTerm}
+                          removeCourseFromTerm={this.removeCourseFromTerm}
+                        />
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
 
 const mapStateToProps = state => ({
   plan: state.plans.current,
+  time: state.time,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
 })(DPlan));

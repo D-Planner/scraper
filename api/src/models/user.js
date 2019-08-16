@@ -7,6 +7,8 @@ const UserSchema = new Schema({
     username: { type: String },
     first_name: String,
     last_name: String,
+    university: String,
+    graduationYear: Number,
     favorite_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     completed_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     placement_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],

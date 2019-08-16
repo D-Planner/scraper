@@ -1,33 +1,42 @@
 @import '../../style/variables.scss';
 
 $term-border-radius: 6px;
-$term-padding: 0 15px;
-$term-min-width-13: 238px;
-$term-min-height-13: 205px;
-$term-margin: 0 21px 12px 0;
+$term-padding: 15px;
+$term-width-13: 238px;
+$term-height-13: 205px;
+$term-margin: 0 15px 15px 0;
 
-.on {
-    background: $blue-primary;
-}
-.off {
-    background: $gray-1;
-}
-.past {
-    background: $white;
-    box-shadow: none !important; // the reason for this !important is to override the default term settings
-}
+
 .term {
     border-radius: $term-border-radius;
     box-sizing: border-box;
     margin: $term-margin;
-    padding: $term-padding;
-    width: $term-min-width-13;
-    height: $term-min-height-13;
+    padding-right: $term-padding;
+    padding-left: $term-padding;
+    width: $term-width-13;
+    height: $term-height-13;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     box-shadow: $tablet-box-shadow;
-
+    position: relative; // this is to position the .accent bar, since that is position: absolute
+    &.on {
+        background: $white;
+    }
+    &.off {
+        background: $background;
+        .accent {
+            background: $gray-6 !important; // the reason for this !important is to override the default .term settings
+        }
+    }
+    &.past {
+        background: $background;
+        border: 1px dashed $blue-primary;
+        box-shadow: none !important; // the reason for this !important is to override the default .term settings
+        .accent {
+            display: none; // if the term is a past term, don't show the accent bar
+        }
+    }
     .header {
         $term-name-font-size: 24px;
         $term-header-min-height-13: 52px;
@@ -42,10 +51,10 @@ $term-margin: 0 21px 12px 0;
             font-family: $roboto;
             font-size: $term-name-font-size;
             &.on {
-                color: $white;
+                color: $blue-primary;
             }
             &.off {
-                color: #818181;
+                color: $gray-6;
             }
             &.past {
                 color: $blue-primary;
@@ -63,17 +72,35 @@ $term-margin: 0 21px 12px 0;
             width: 30px;
             height: 22px;
             &.on {
+                border: 0.5px solid $blue-primary;
                 color: $blue-primary;
+                &:hover {
+                    cursor: pointer;
+                    background: $blue-primary;
+                    color: $white;
+                }
             }
             &.off {
+                width: 34px;
+                background: $background;
+                border: 0.5px solid $gray-6;
                 color: $gray-6;
+                &:hover {
+                    cursor: pointer;
+                    background: $gray-6;
+                    color: $background;
+                }
             }
             &.past {
+                background: $background !important;
                 color: $blue-primary;
+                &:hover {
+                    cursor: pointer;
+                    background: $blue-primary;
+                    color: $white;
+                }
             }
-            &:hover {
-                cursor: pointer;
-            }
+
         }
     }
 
@@ -88,7 +115,7 @@ $term-margin: 0 21px 12px 0;
             justify-content: flex-start;
             align-items: center;
             &.on {
-                color: $white;
+                color: $blue-primary;
             }
             &.off {
                 color: $gray-6;
@@ -101,10 +128,16 @@ $term-margin: 0 21px 12px 0;
             padding: 0 37px 0 37px;
         }
     }
-
-    &.past {
-        border:2px dashed $blue-primary;
+    .accent {
+        position: absolute;
+        width: 100%;
+        margin-left: -$term-padding;
+        height: 6px;
+        border-radius: 0px 0px 6px 6px;
+        background: $blue-primary;
+        bottom: 0;
     }
+
 }
 
 .course-row {
@@ -113,8 +146,9 @@ $term-margin: 0 21px 12px 0;
     align-items: center;
 
     .hourSelector{
-        &.past {
-            color:$blue-primary;
+        select {
+            color: $blue-primary;
         }
     }
+
 }

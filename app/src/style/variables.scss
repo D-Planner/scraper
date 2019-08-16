@@ -19,6 +19,7 @@ $error: #FF0031;
 $warning: #FF6700;
 $success: #18E020;
 $gray-1: #F8F8F8;
+$gray-3: #E8E8E8;
 $gray-5: #D8D5D5;
 $gray-6: #838484;
 
@@ -35,3 +36,21 @@ $box-shadow-default: 0px 4px 12px rgba(0, 0, 0, 0.15);
 $box-shadow-button: 0px 6px 12px rgba(153, 153, 153, 0.25);
 $tablet-box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
 
+// animations
+@keyframes shake {
+    0% { transform: translate(0.3px, 0.3px) rotate(0deg); }
+    10% { transform: translate(-0.3px, -0.6px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 0.6px) rotate(0deg); }
+    40% { transform: translate(0.3px, -0.3px) rotate(1deg); }
+    50% { transform: translate(-0.3px, 0.6px) rotate(-1deg); }
+    60% { transform: translate(-3px, 0.3px) rotate(0deg); }
+    70% { transform: translate(3px, 0.3px) rotate(-1deg); }
+    80% { transform: translate(-0.3px, -0.3px) rotate(1deg); }
+    90% { transform: translate(0.3px, 0.6px) rotate(0deg); }
+    100% { transform: translate(0.3px, -0.6px) rotate(-1deg); }
+}
+@keyframes jump {
+    75% { transform: translate(0, -2px); }
+    100% { transform: translate(0, 2px); }
+}

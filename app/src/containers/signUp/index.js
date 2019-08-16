@@ -1,51 +1,71 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
+import './signUp.scss';
 
-class signUp extends Component {
-  constructor(props) {
-    super(props);
+export const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [college, setCollege] = useState('');
+  const [grad, setGrad] = useState(2023);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    this.state = {
-      email: '',
-      password: '',
-      username: '',
-    };
-    this.signUp = this.signUp.bind(this);
-    this.email = this.email.bind(this);
-    this.password = this.password.bind(this);
-    this.username = this.username.bind(this);
-  }
+  const [permitted, setPermitted] = useState(false);
 
-  email(event) {
-    this.setState({ email: event.target.value });
-  }
+  useEffect(() => {
+    if (email && grad && password) {
+      setPermitted(true);
+    } else setPermitted(false);
+  }, [email, password, grad]);
 
-  password(event) {
-    this.setState({ password: event.target.value });
-  }
+  const signup = () => {
+    props.signupUser(email, password, firstName, lastName, college, grad, props.history);
+  };
 
-  username(event) {
-    this.setState({ username: event.target.value });
-  }
+  const signin = () => {
+    window.location.href = '/signin';
+  };
 
-  signUp(event) {
-    this.props.signupUser(this.state, this.props.history);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
+  return (
+    <div className="formContainer">
       <form>
-        <div>Sign Up</div>
-        <input id="email" placeholder="Email" onChange={this.email} value={this.state.email} />
-        <input id="password" placeholder="Password" onChange={this.password} value={this.state.password} />
-        <input id="username" placeholder="Username" onChange={this.username} value={this.state.username} />
-        <button type="button" onClick={this.signUp}>Register</button>
+        <div className="row">
+          <input id="firstName" value={firstName} placeholder="First Name" onChange={e => setFirstName(e.target.value)} />
+          <input id="lastName" value={lastName} placeholder="Last Name" onChange={e => setLastName(e.target.value)} />
+        </div>
+        <div className="row">
+          <input id="college" value={college} placeholder="College / University" onChange={e => setCollege(e.target.value)} />
+          <input id="grad" type="number" value={grad} placeholder="2023" onChange={e => setGrad(e.target.value)} />
+        </div>
+        <div className="spacer" />
+        <div className="row">
+          <input id="email" value={email} placeholder="College Email" onChange={e => setEmail(e.target.value)} />
+        </div>
+        <div className="row">
+          <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
+        </div>
+        <div className="spacer" />
+        <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button>
+        <button type="button" className="sign-in" onClick={signin}>Have an account? Sign in</button>
       </form>
-    );
-  }
-}
+    </div>
+  );
+}));
 
-export default withRouter(connect(null, { signupUser })(signUp));
+const SignUp = (props) => {
+  return (
+    <div className="container">
+      <div className="signInContainer">
+        <div className="title">
+          Create Your Account.
+        </div>
+        <SignUpForm />
+      </div>
+    </div>
+
+  );
+};
+
+export default SignUp;
