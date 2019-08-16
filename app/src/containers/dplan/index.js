@@ -9,6 +9,7 @@ import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
 import Term from '../../components/term';
 import noPlan from '../../style/no-plan.png';
+import settingsButton from '../../style/settings.svg';
 import './dplan.scss';
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
@@ -118,7 +119,9 @@ class DPlan extends Component {
             <div className="plan-side">
               <div className="plan-header">
                 <h1 className="plan-name">{this.props.plan.name}</h1>
-                <button type="button" className="settings-button" onClick={this.showDialog}>+</button>
+                <button type="button" className="settings-button" onClick={this.showDialog}>
+                  <img src={settingsButton} alt="" />
+                </button>
               </div>
               <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
             </div>

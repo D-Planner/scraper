@@ -3,8 +3,7 @@
 $plan-header-height: 60px;
 $plan-header-margin: 36px;
 $bottom-margin: 20px;
-$content-height: 743px;
-// $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$bottom-margin}));
+
 ::-webkit-scrollbar {
     width: 0px;
     display: none;
@@ -19,7 +18,7 @@ $content-height: 743px;
             
     .plan-content {
         display: flex;
-        justify-content: center;
+        justify-content: space-around;
         width: 100%;
         max-height: 100vh;
         background: $background;
@@ -33,7 +32,7 @@ $content-height: 743px;
                 justify-content: space-between;
                 align-items: center;
                 width: 100%;
-                position: relative; // this is to position the .accent bar, since that is position: absolute
+                position: relative; // CSS-DEF this is to position the .accent bar, since that is position: absolute
                 flex-shrink: 0;
                 .plan-name {
                     font-family: $poppins;
@@ -45,33 +44,10 @@ $content-height: 743px;
                     margin: 18px 0 18px 0;
                 }
                 .settings-button {
-                    
-                }
-                
-            
-                .delete-button {
-                    display: none;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-                    font-weight: 200;
-                    font-size: 12pt;
-                    color: $error;
-                    background: white;
-                    border: 0.25px solid #D7D6D6;
-                    border-radius: 32px;
-                    box-shadow: 0 4px 4px rgba(0,0,0,0.25);
-                    width: 120px;
-                    height: 40px;
-                    margin-right: 50px;
-            
-                    &:hover {
-                        filter: brightness(90%);
-                    }
-                }
-            }
-            .sidebar {
-                flex-basis: 10%;
+                    background: $background;
+                    width: 24px;
+                    cursor: pointer;
+                }               
             }
         }
 
@@ -79,8 +55,9 @@ $content-height: 743px;
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
+            max-width: 1012px; // CSS-DEF this number is dependent on the sum of all tiles and their margins
             overflow-y: scroll !important;
-            padding-top: 50px; // this depends on the sum of the .plan-name height and the 36px margins
+            padding-top: 50px; // CSS-DEF this depends on the sum of the .plan-name height and the 36px margins
             
             .plan-row {
                 display: flex;
