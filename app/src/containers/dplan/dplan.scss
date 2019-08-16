@@ -37,13 +37,12 @@ $bottom-margin: 20px;
             color: $white;
         }
     }
-
-    .dplan-page {
             
     .plan-content {
         display: flex;
         justify-content: space-around;
         width: 100%;
+        min-width: calc(100vw - 68px); // CSS-DEF the 68px refers to $menu-width-closed
         max-height: 100vh;
         background: $background;
         
@@ -90,5 +89,4 @@ $bottom-margin: 20px;
         }
     }
         
-
 }
