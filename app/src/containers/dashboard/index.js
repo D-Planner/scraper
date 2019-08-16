@@ -1,16 +1,17 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
+import searchIcon from '../../style/searchSimple.svg';
+import personIcon from '../../style/person.svg';
 import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
-import robot from '../../../assets/avatars/robot.svg';
 
 
 import './dashboard.scss';
@@ -113,23 +114,29 @@ class Dashboard extends React.Component {
         <div className="plans-container">
           <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
         </div>
-        <div className="list-container">
-          <NavLink to="/discover">Discover</NavLink>
-          <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
-          <div className="avatar-container">
-            <img className="avatar"
-              src={robot}
-              width="40px"
-              alt="avatar"
-              onClick={() => {
-                this.props.fetchUser().then((r) => {
-                  this.showProfileDialog(this.props);
-                }).catch((e) => {
-                  console.log(e);
-                });
-              }}
-            />
+        <div className="nav-container">
+          <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
+            {this.state.active
+              ? <p>Discover</p>
+              : <img className="search-icon" src={searchIcon} alt="search" />
+            }
           </div>
+          <div role="presentation"
+            className="option-button"
+            onClick={() => {
+              this.props.fetchUser().then((r) => {
+                this.showProfileDialog(this.props);
+              }).catch((e) => {
+                console.log(e);
+              });
+            }}
+          >
+            {this.state.active
+              ? <p>Your Profile</p>
+              : <img className="search-icon" src={personIcon} alt="search" />
+            }
+          </div>
+          {/* <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink> */}
         </div>
       </div>
     );
