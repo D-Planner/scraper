@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import Sidebar from '../sidebar';
@@ -17,6 +17,7 @@ class DPlan extends Component {
     this.showDialog = this.showDialog.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
+    this.props.getTimes();
   }
 
   componentDidMount() {
@@ -82,7 +83,7 @@ class DPlan extends Component {
           <div className="header-left">
             <h1 className="plan-name">{this.props.plan.name}</h1>
           </div>
-          <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
+          <input type="button" value="input" className="delete-button" onClick={this.showDialog} />
         </div>
         <div className="plan-content">
           <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
@@ -115,5 +116,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
 })(DPlan));
