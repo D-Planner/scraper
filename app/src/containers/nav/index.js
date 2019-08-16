@@ -21,7 +21,7 @@ const showProfileDialog = (props) => {
 class Nav extends Component {
   constructor(props) {
     super(props);
-    this.props.getTimes().then(() => console.log(this.props.time));
+    this.props.getTimes();
     this.state = {
     };
   }
@@ -35,6 +35,9 @@ class Nav extends Component {
         {this.props.authenticated === true ? (
           <ul>
             <div className="list-container">
+              <li>
+                <NavLink className={planClass} to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
+              </li>
               <li>
                 <NavLink className={planClass} to="/">Plan</NavLink>
               </li>

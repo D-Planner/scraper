@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import HourSelector from '../../containers/hourSelector';
+import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
-import DraggableUserCourse from '../draggableUserCourse';
+import DraggableUserCourse from '../../components/draggableUserCourse';
 
 import './term.scss';
 import {
@@ -95,6 +95,7 @@ class Term extends Component {
 
   past = () => {
     const terms = ['W', 'S', 'X', 'F'];
+    console.log(this.props.term);
     const [thisYear, thisTerm] = [this.props.term.name.match(/\d{2}/)[0], terms.indexOf(this.props.term.quarter)];
     if (thisYear < this.props.time.currTerm.year) return true;
     if (thisYear > this.props.time.currTerm.year) return false;
@@ -221,10 +222,6 @@ class Term extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  plan: state.plans.current,
-  time: state.time,
-});
 
 // export default withRouter(connect(mapStateToProps, {
 //   fetchPlan, deletePlan, updateTerm, showDialog,
@@ -232,6 +229,6 @@ const mapStateToProps = state => ({
 // eslint-disable-next-line new-cap
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
-export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
+export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(null, {
   updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 })(Term)));

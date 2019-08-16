@@ -96,13 +96,15 @@ CourseSchema.virtual('avg_median').get(function () {
 // Working!
 CourseSchema.virtual('likely_terms').get(function () {
     try {
-        const occurrences = this.terms_offered.map((t) => {
-            return TermToString[t.replace(/\d/g, '')];
-        }).reduce((acc, cur, i) => {
-            if (!acc[cur]) acc[cur] = 1;
-            else acc[cur] += 1;
-            return acc;
-        }, {});
+        const occurrences = this.terms_offered
+            .map((t) => {
+                return t.replace(/\d/g, '');
+            })
+            .reduce((acc, cur, i) => {
+                if (!acc[cur]) acc[cur] = 1;
+                else acc[cur] += 1;
+                return acc;
+            }, {});
         const avg = Object.values(occurrences).reduce((acc, curr) => {
             acc += curr / Object.values(occurrences).length;
             return acc;

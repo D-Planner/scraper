@@ -1,0 +1,175 @@
+/* eslint-disable max-len */
+import React from 'react';
+import './landing.scss';
+import { Link, Element } from 'react-scroll';
+import { SignInForm } from '../../containers/signIn';
+import pine from '../../style/pine_name.png';
+import dplanner from '../../style/dplanner-19.png';
+import dplannerTransparent from '../../style/d-planner_transparent.png';
+import arrowDown from '../../style/arrow_down.svg';
+
+
+const features = [
+  {
+    'Intelligent Course Planning': 'We\'e tired of planning our courses in Excel (or worse on paper) and we know you are too, but fear not! D-Planner is centered around an intuitive plan-based interface that allows students to plan out multiple different paths through their time at Dartmouth with different majors, minors, and more. Whether an on or off-term, D-Planner can help you feel confident in your course decisions!',
+    'Auto-Generate Plans': 'To help students who are looking for a starting point for their course plans, we offer course plan auto-generation based on user-specified off and on-terms, user-selected major and minor, courses already taken, as well as the user\'s expected graduation date. All auto-generated plans will satisfy both prerequisite hierarchy and the requirements of the major and minor, giving you the perfect starting point in finding your path!',
+  },
+  {
+    'Detailed Course Information': 'Once you\'ve found a class that looks interesting for your plan, our extensive course database offers all information publicly available on the course, from its full name and description to its distributive, past medians, LayupList score, prerequisites and classes with it as a prerequisite, and much more. You no longer need to search through multiple different sites to find all of the course information you will ever need!',
+    'Major/Minor Planning': 'There are no viable solutions for undergraduates looking to plan out their majors and minors before actually declaring sophomore year, that is until now! D-Planner offers major and minor planning features such as required classes and prerequisites. We\'ve done the hard work for you, now all that\'s left is to dream big!',
+  },
+  {
+    'Keyword-based Course Search': 'Instead of needing to search for courses based on a specific and arbitrary course name (who here knows what ENGS 30 is by name?), D-Planner is equipped with a powerful and easy to use search engine that allows students to search for all of the courses in the ORC by keywords, name, term, and any other information the college maintains. Enjoy discovering your next favorite course!',
+    'Excel/Sheets Plan Import': 'We understand that students you may have created personal course plans before the advent of D-Planner, but don\'t worry! D-Planner accepts Excel and Sheets-based .csv files and allows you to import these past documents to a D-Planner plan! We have created a spreadsheet import specification that allows you to quickly and painlessly transfer your hard work to the D-Planner system!',
+  },
+  {
+    'Automatic Prerequisite Checking': 'We\'ve listened to you, and you\'ve told us that making sure you have all of your prerequisites are fulfilled in the correct is order is hard. Thanks to our novel live prerequisite-checking algorithms, you will never again be trying to register for a class only to find out that you aren\'t eligible. Our prerequisite checking also functions with major and minor planning, allowing you to plan quickly and effectively!',
+    'Advanced Class Search': 'Besides our basic plan search, we also offer an advanced search for finding the perfect class schedule for sophomore summer (or any other term!). Advanced search includes filters ranging from broad department selection to specific distributive requirements, historical term offerings, and more! For when out basic search just isn\'t enough, advanced search is sure to kick your plan to the next level!',
+  },
+];
+
+const credits = [
+  {
+    'Founding Members': ['Adam McQuilkin', 'Zirui Hao'],
+  },
+  {
+    'Supporting Organizations': ['Dartmouth Applied Learning and Innovation (DALI) Lab', 'Magnuson Family Center for Entrepreneurship at Dartmouth', 'Information and Technologies Consulting at Dartmouth', 'Thayer School of Engineering at Dartmouth'],
+    'Project Mentors': ['Peter Robbie', 'Erica Lobel', 'Natalie Svoboda', 'Annie Ren'],
+  },
+  {
+    'Project Developers': ['Adam Rinehouse', 'Raul Rodriguez', 'Madeline Hess', 'Benjamin Cape'],
+    'Project Designers': ['Regina Yan', 'Christina Bae', 'Emma Staiger', 'Angeline Janumala ', 'Kiera Jackson'],
+  },
+  {
+    'Initial Ideation': ['Bryton Moeller', 'Claire Collins', 'Vivian Zhai'],
+    'Additional thanks to...': ['Geoffrey Parker', 'Gillian Yue', 'Lorie Loeb', 'Sarah Morgan', 'Jamie Coughlin', 'Philip Hanlon'],
+  },
+];
+
+const Landing = (props) => {
+  return (
+    <>
+      <div className="container">
+        <div className="left">
+          <div className="header">
+            <span className="line1">Welcome to</span>
+            <span className="line2">D-PLANNER</span>
+            <span className="line3">The Future Of Course Selection</span>
+          </div>
+          <img className="pine" src={pine} alt="" />
+        </div>
+        <div className="right">
+          <SignInForm className="form" />
+          <Link to="philosophy" spy smooth duration={750}>
+            <div className="scroller">
+              <img src={arrowDown} alt="" />
+            </div>
+          </Link>
+        </div>
+      </div>
+      <div className="info">
+        <div className="section">
+          <div className="title">
+            <Element name="philosophy">Our Philosophy</Element>
+          </div>
+          <div className="content">
+            <img className="img" src={dplanner} alt="" width="615px" height="auto" />
+            <div className="textContainer">
+              <div className="text">
+                <div className="textHeader">
+                    For Students
+                </div>
+                <div className="body">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
+                </div>
+              </div>
+              <div className="text">
+                <div className="textHeader">
+                    By Students
+                </div>
+                <div className="body">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="section">
+          <div className="title">
+            Features
+          </div>
+          {
+             features.map((row) => {
+               return (
+                 <div className="row">
+                   {
+                     Object.entries(row).map(([k, v]) => {
+                       return (
+                         <div className="text">
+                           <div className="textHeader">
+                             {k}
+                           </div>
+                           <div className="body">
+                             {v}
+                           </div>
+                         </div>
+                       );
+                     })
+                   }
+                 </div>
+               );
+             })
+            }
+        </div>
+        <div className="section">
+          <div className="title">
+            Credits
+          </div>
+          <div className="creditTitle">
+          The D-Planner Project wouldn’t be where it is today without the dedication and support of many talented members of the Dartmouth community. We would like to extend a heartfelt thank-you to the following individuals and organizations
+          </div>
+          {
+             credits.map((row) => {
+               return (
+                 <div className="row">
+                   {
+                     Object.entries(row).map(([k, v]) => {
+                       return (
+                         <div className="text allLeft">
+                           <div className="textHeader">
+                             {k}
+                           </div>
+                           <div className="body">
+                             {
+                               v.map((c) => {
+                                 return <>{c}<br /></>;
+                               })
+                             }
+                           </div>
+                         </div>
+                       );
+                     })
+                   }
+                 </div>
+               );
+             })
+            }
+        </div>
+      </div>
+      <div className="footer">
+        <div className="left">
+          <div className="content">
+            <img src={dplannerTransparent} alt="" />
+            <p>The D-Planner Project</p>
+            <p className="copy">&#9400;2019</p>
+          </div>
+        </div>
+        <div className="right">
+          <SignInForm />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Landing;

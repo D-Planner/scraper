@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
-import Term from '../../components/term';
 import noPlan from '../../style/no-plan.png';
 import settingsButton from '../../style/settings.svg';
+import Term from '../term';
 import './dplan.scss';
+
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
@@ -23,6 +24,7 @@ class DPlan extends Component {
     this.showDialog = this.showDialog.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
+    this.props.getTimes();
   }
 
   componentDidMount() {
@@ -141,6 +143,8 @@ class DPlan extends Component {
                     {year.map((term) => {
                       return (
                         <Term
+                          plan={this.props.plan}
+                          time={this.props.time}
                           term={term}
                           key={term.id}
                           addCourseToTerm={this.addCourseToTerm}
@@ -163,8 +167,9 @@ class DPlan extends Component {
 const mapStateToProps = state => ({
   plans: state.plans.all,
   plan: state.plans.current,
+  time: state.time,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
 })(DPlan));

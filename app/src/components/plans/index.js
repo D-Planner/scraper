@@ -1,6 +1,7 @@
 import React from 'react';
 import './plans.scss';
 
+
 /** displays information on a user's plans and allows them to select one */
 const Plans = ({
   plans, showDialog, goToPlan, active,

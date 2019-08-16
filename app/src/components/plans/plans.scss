@@ -52,28 +52,6 @@
             font-size: 24px;
         }
     }
-
-
-        // .delete-button-container {
-        //     justify-content: center;
-        //     cursor: pointer;
-        //     align-self: center;
-        //     margin-right: 2%;
-        
-        //     button {
-        //       cursor: pointer;
-        //       background: $white;
-        //       height: 40px;
-        //       width: 120px;
-        //       box-shadow: $box-shadow-button;
-        //       border-radius: 32px;
-        //       border: none;
-        //       font-family: $roboto;
-        //       font-weight: 300;
-        //       font-size: 18px;
-        //       text-align: center;
-        //     }
-        // }
     }
 
     .no-plans {
@@ -81,13 +59,13 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    
+
         img {
             width: 380px;
             height: 380px;
             margin-top: 100px;
         }
-    
+
         p {
             font-family: Roboto;
             font-style: normal;

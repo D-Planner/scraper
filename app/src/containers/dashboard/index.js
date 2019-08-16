@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
@@ -10,6 +10,8 @@ import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
+import robot from '../../../assets/avatars/robot.svg';
+
 
 import './dashboard.scss';
 
@@ -20,6 +22,7 @@ class Dashboard extends React.Component {
     this.state = {
       active: false,
     };
+    this.showProfileDialog = this.showProfileDialog.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
@@ -90,6 +93,14 @@ class Dashboard extends React.Component {
     });
   }
 
+  showProfileDialog(props) {
+    const dialogOptions = {
+      size: 'lg',
+      showOk: false,
+    };
+    this.props.showDialog(DialogTypes.PROFILE, dialogOptions);
+  }
+
   render() {
     return (
       <div className={classNames({
@@ -102,9 +113,29 @@ class Dashboard extends React.Component {
         <div className="plans-container">
           <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
         </div>
-        <div id="error-container">
-          {this.displayIfError()}
-        </div>
+        <ul>
+          <div className="list-container">
+            <li>
+              <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
+            </li>
+            <li>
+              <NavLink to="/discover">Discover</NavLink>
+            </li>
+            <li className="avatar-container">
+              <img className="avatar"
+                src={robot}
+                alt="avatar"
+                onClick={() => {
+                  this.props.fetchUser().then((r) => {
+                    this.showProfileDialog(this.props);
+                  }).catch((e) => {
+                    console.log(e);
+                  });
+                }}
+              />
+            </li>
+          </div>
+        </ul>
       </div>
     );
   }

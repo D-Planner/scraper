@@ -98,8 +98,8 @@ export function signinUser({ email, password }, history) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
       // do something with response.data  (some json)
-      dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
+      dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
     }).catch((error) => {
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
@@ -114,9 +114,10 @@ export function signinUser({ email, password }, history) {
  * @param {*} history the React-Router history object passed to props when using withRouter()
  * @returns a callback function that sends a signup request to the API and then dispatches an AUTH_USER action on success
  */
-export function signupUser({ email, password, username }, history) {
-  const fields = { email, password, username };
-
+export function signupUser(email, password, firstName, lastName, college, grad, history) {
+  const fields = {
+    email, password, firstName, lastName, college, grad,
+  };
   return (dispatch) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
       dispatch({ type: ActionTypes.AUTH_USER });
@@ -192,6 +193,7 @@ export function createPlan(plan, planSetter) {
  * @returns an action creator to gather all plans and store them in the redux store
  */
 export function fetchPlans() {
+  console.log(`FETCHING PLANS for: ${localStorage.getItem('token')}`);
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
@@ -265,14 +267,16 @@ export function fetchCourses() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
     });
-  };
+  }));
 }
 
 /**
@@ -414,65 +418,65 @@ export function removePlacement(courseID) {
  * @param {String} type
  */
 export function courseSearch(query) {
-  console.log(query);
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/search`, {
       params: query,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(response);
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-    // switch (type) {
-    //   case 'number':
-    //     axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
-    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    //     }).then((response) => {
-    //       console.log(response);
-    //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
-    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
-    //     }).catch((error) => {
-    //       console.log(error);
-    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    //     });
-    //     break;
-    //   case 'department':
-    //     axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
-    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    //     }).then((response) => {
-    //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
-    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
-    //     }).catch((error) => {
-    //       console.log(error);
-    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    //     });
-    //     break;
-    //   case 'distrib':
-    //     axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
-    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    //     }).then((response) => {
-    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
-    //     }).catch((error) => {
-    //       console.log(error);
-    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    //     });
-    //     break;
-    //   default:
-    //     axios.post(`${ROOT_URL}/courses/search`, { query }, {
-    //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    //     }).then((response) => {
-    //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
-    //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
-    //     }).catch((error) => {
-    //       console.log(error);
-    //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-    //     });
-    // }
-  };
+  }));
+  // switch (type) {
+  //   case 'number':
+  //     axios.get(`${ROOT_URL}/courses/${query.department}&${query.number}`, { // sends second axios request
+  //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //     }).then((response) => {
+  //       console.log(response);
+  //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
+  //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+  //     }).catch((error) => {
+  //       console.log(error);
+  //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+  //     });
+  //     break;
+  //   case 'department':
+  //     axios.get(`${ROOT_URL}/courses/departments/${query.department}`, { // sends second axios request
+  //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //     }).then((response) => {
+  //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+  //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+  //     }).catch((error) => {
+  //       console.log(error);
+  //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+  //     });
+  //     break;
+  //   case 'distrib':
+  //     axios.get(`${ROOT_URL}/courses/distribs/${query}`, {
+  //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //     }).then((response) => {
+  //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+  //     }).catch((error) => {
+  //       console.log(error);
+  //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+  //     });
+  //     break;
+  //   default:
+  //     axios.post(`${ROOT_URL}/courses/search`, { query }, {
+  //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //     }).then((response) => {
+  //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
+  //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
+  //     }).catch((error) => {
+  //       console.log(error);
+  //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+  //     });
+  // }
 }
 
 
