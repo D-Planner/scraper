@@ -15,6 +15,30 @@ $bottom-margin: 20px;
     overflow-y: hidden;
     align-items: stretch;
     height: 100vh;
+
+    .no-plans {
+        flex:1;
+
+        display:flex;
+        justify-content: center;
+
+        .newPlanButton {
+            margin:10px;
+            width:50%;
+            display: flex;
+            justify-content: center;
+            margin-bottom:22px;
+            font-size: 36px;
+
+            background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
+            box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
+            height: 50px;
+            border-radius: 100px;
+            color: $white;
+        }
+    }
+
+    .dplan-page {
             
     .plan-content {
         display: flex;

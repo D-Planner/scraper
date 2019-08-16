@@ -90,12 +90,21 @@ class DPlan extends Component {
     this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
   }
 
+  showNewPlanDialog() {
+    const dialogOptions = {
+      title: 'Name your plan',
+      okText: 'Create',
+      onOk: (name, gradYear) => {
+        this.createNewPlan(name, gradYear);
+      },
+    };
+    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
+  }
+
 
   renderNewPlanButton = (fn) => {
     return (
-      <button id="newPlanButton" type="button" onClick={fn}>
-        <p>New Plan</p>
-      </button>
+      <button type="button" className="newPlanButton" id="newPlanButton" onClick={fn}>New Plan</button>
     );
   };
 
@@ -107,7 +116,7 @@ class DPlan extends Component {
           <div className="no-plans">
             <img src={noPlan} alt="" />
             <p>Oh no! Looks like you don’t have any plans yet. Click below to get started with your first plan.</p>
-            {this.renderNewPlanButton(this.showDialog)}
+            {this.renderNewPlanButton(this.showNewPlanDialog)}
           </div>
         </div>
       );
