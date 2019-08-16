@@ -6,12 +6,48 @@
   background: $text-accent;
   color: $white;
   transition: all 200ms ease-in-out !important; // we want this faster
-  padding: 0 10px 0 10px;
+  padding: 0 10px 10px 10px;
   flex-shrink: 0;
+  display:flex;
+  flex-direction:column;
+  justify-content: space-between;
+  align-content: center;
+
   &.active {
     transition: all 200ms ease-in-out !important; // we want this faster
     width: $menu-width-open;
-    padding: 0 20px 0 20px;
+    padding: 0 20px 10px 20px;
+  }
+
+  .list-container{
+    justify-self: end;
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    height:200px;
+
+    a {
+      color:$white;
+      text-decoration: none;
+
+      &:hover{
+        cursor: pointer;
+        color:$med-grey;
+      }
+    }
+
+    .avatar-container{
+      width:80px;
+      height:80px;
+      background:$med-grey;
+      border-radius: 100%;
+      
+      display:flex;
+      align-content: center;
+      justify-content: center;
+    }
   }
 }
 

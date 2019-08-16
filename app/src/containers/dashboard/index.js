@@ -114,11 +114,12 @@ class Dashboard extends React.Component {
           <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
         </div>
         <div className="list-container">
-          <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
           <NavLink to="/discover">Discover</NavLink>
+          <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
           <div className="avatar-container">
             <img className="avatar"
               src={robot}
+              width="40px"
               alt="avatar"
               onClick={() => {
                 this.props.fetchUser().then((r) => {
