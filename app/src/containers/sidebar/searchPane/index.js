@@ -9,6 +9,24 @@ import DraggableCourse from '../../../components/draggableCourse';
 
 import { GenEds } from '../../../constants';
 
+
+const LikelyTerms = (props) => {
+  const terms = ['F', 'W', 'S', 'X'];
+  return (
+    <>
+      <div className="terms">
+        {
+          terms.map((term) => {
+            return (
+              <div className={classNames({ likely: (props.terms.length && props.terms.includes(term)) })}>{term}</div>
+            );
+          })
+        }
+      </div>
+    </>
+  );
+};
+
 /**
  * @name SearchPane
  * @description allows a user to search specific courses right in the sidebar
@@ -94,7 +112,12 @@ const SearchPane = (props) => {
             <div className="search-results">
               {props.results.length
                 ? props.results.map((course) => {
-                  return <DraggableCourse key={course.id} course={course} />;
+                  return (
+                    <div className="searchedCourse">
+                      <DraggableCourse key={course.id} course={course} />
+                      <LikelyTerms terms={course.likely_terms} />
+                    </div>
+                  );
                 })
                 : (<div className="no-search">Search for courses!</div>)}
             </div>
@@ -104,5 +127,6 @@ const SearchPane = (props) => {
     </div>
   );
 };
+
 
 export default SearchPane;
