@@ -2,16 +2,12 @@
 @import '../../containers/dplan/dplan.scss';
 
 $header-size: 18px;
-// $active-height: calc(#{$content-height} * 0.8);
-// $inactive-height: calc(#{$content-height} * 0.01);
-
 $active-height: 500px;
 $inactive-height: 50px;
 
 .sidebar {
     display: flex;
     flex-direction: column;
-    height: $content-height;
 
     .pane {
         background:$white;

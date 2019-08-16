@@ -25,6 +25,9 @@
             &::placeholder {
                 color: rgba(0, 0, 0, 0.24);
             }
+            &:focus {
+                border-bottom: 1px solid $blue-primary;
+            }
         }
 
         .search-icon {

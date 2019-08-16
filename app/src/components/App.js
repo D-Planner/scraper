@@ -7,11 +7,9 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import signUp from '../containers/signUp';
 import signIn from '../containers/signIn';
-// import Courses from '../containers/courses';
+import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
-import Dashboard from '../containers/dashboard';
 import requireAuth from '../containers/requireAuth';
-// import Discover from '../containers/discover';
 import tooSmall from './tooSmall';
 import Landing from './landing';
 import FallBack from './fallBack';
@@ -26,7 +24,11 @@ const App = (props) => {
         <Router>
           <div className="app-container">
             <Switch>
-              <Route exact path="/" component={requireAuth(Landing, Dashboard)} />
+              <Route exact path="/" component={requireAuth(Landing, DPlan)} />
+              <Route exact path="/courses" component={requireAuth(Courses)} />
+              <Route path="/signup" component={signUp} />
+              <Route path="/signin" component={signIn} />
+              {/* <Route path="/plan/:id" component={DPlan} /> */}
               <Route path="/signup" component={signUp} />
               <Route path="/signin" component={signIn} />
               {/* This Was Discoer */}

@@ -2,28 +2,50 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
+import { emptyPlan } from '../../services/empty_plan';
 import Sidebar from '../sidebar';
+import Dashboard from '../dashboard';
+import noPlan from '../../style/no-plan.png';
+import settingsButton from '../../style/settings.svg';
 import Term from '../term';
 import './dplan.scss';
-import Nav from '../nav';
 
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      noPlan: true,
+    };
+    this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
+    this.createNewPlan = this.createNewPlan.bind(this);
+    this.showNewPlanDialog = this.showNewPlanDialog.bind(this);
+    this.getFlattenedCourses = this.getFlattenedCourses.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
   }
 
   componentDidMount() {
-    this.props.fetchPlan(this.props.match.params.id);
+    // if (typeof this.props.match.params.id === 'undefined') {
+    //   this.setState({
+    //     noPlan: true,
+    //   });
+    // } else {
+    //   this.props.fetchPlan(this.props.match.params.id);
+    // }
+  }
+
+  setCurrentPlan(planID) {
+    this.props.fetchPlan(planID);
+    this.setState({
+      noPlan: false,
+    });
   }
 
   getFlattenedCourses() {
@@ -74,29 +96,77 @@ class DPlan extends Component {
     this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
   }
 
-  render() {
-    if (!this.props.plan) {
-      return (<div />);
-    }
+  showNewPlanDialog() {
+    const dialogOptions = {
+      title: 'Name your plan',
+      okText: 'Create',
+      onOk: (name, gradYear) => {
+        this.createNewPlan(name, gradYear);
+      },
+    };
+    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
+  }
 
+  createNewPlan(name, gradYear) {
+    const terms = ['F', 'W', 'S', 'X'];
+    let currYear = gradYear - 4;
+    let currQuarter = -1;
+    this.props.createPlan({
+      terms: emptyPlan.terms.map((term) => {
+        if (currQuarter === 3) currYear += 1;
+        currQuarter = (currQuarter + 1) % 4;
+        return { ...term, year: currYear, quarter: terms[currQuarter] };
+      }),
+      name,
+    }, this.setCurrentPlan);
+  }
+
+
+  renderNewPlanButton = (fn) => {
     return (
-      <>
-        <Nav />
-        <div className="dplan-page">
-          <div className="plan-header">
-            <div className="header-left">
-              <h1 className="plan-name">{this.props.plan.name}</h1>
-            </div>
-            <button type="button" className="delete-button" onClick={this.showDialog}>Delete Plan</button>
+      <button type="button" className="newPlanButton" id="newPlanButton" onClick={fn}>New Plan</button>
+    );
+  };
+
+  renderPlanName = (planName) => {
+    if (planName.length > 20) {
+      return `${planName.substring(0, 16)}...`;
+    } else {
+      return planName;
+    }
+  };
+
+  render() {
+    if (!this.props.plan || this.state.noPlan) {
+      return (
+        <div className="dashboard">
+          <Dashboard setCurrentPlan={this.setCurrentPlan} />
+          <div className="no-plans">
+            <img src={noPlan} alt="" />
+            <p>Oh no! Looks like you don’t have any plans yet. Click below to get started with your first plan.</p>
+            {this.renderNewPlanButton(this.showNewPlanDialog)}
           </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="dashboard">
+          <Dashboard setCurrentPlan={this.setCurrentPlan} />
           <div className="plan-content">
-            <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
+            <div className="plan-side">
+              <div className="plan-header">
+                <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
+                <button type="button" className="settings-button" onClick={this.showDialog}>
+                  <img src={settingsButton} alt="" />
+                </button>
+              </div>
+              <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
+            </div>
             <div className="plan-grid">
               {this.props.plan.terms.map((year) => {
                 return (
                   <div className="plan-row" key={year[0].id}>
                     {year.map((term) => {
-                      console.log(this.props.time);
                       return (
                         <Term
                           plan={this.props.plan}
@@ -114,16 +184,18 @@ class DPlan extends Component {
             </div>
           </div>
         </div>
-      </>
-    );
+      );
+    }
   }
 }
 
+
 const mapStateToProps = state => ({
+  plans: state.plans.all,
   plan: state.plans.current,
   time: state.time,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
 })(DPlan));

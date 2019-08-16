@@ -1,14 +1,18 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import {
-  fetchPlans, createPlan, deletePlan, showDialog,
+  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
+import searchIcon from '../../style/searchSimple.svg';
+import personIcon from '../../style/person.svg';
 import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
-import Nav from '../nav';
+
 
 import './dashboard.scss';
 
@@ -16,9 +20,13 @@ import './dashboard.scss';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      active: false,
+    };
+    this.showProfileDialog = this.showProfileDialog.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
-    this.removePlan = this.removePlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.goToPlan = this.goToPlan.bind(this);
 
@@ -54,23 +62,12 @@ class Dashboard extends React.Component {
         return { ...term, year: currYear, quarter: terms[currQuarter] };
       }),
       name,
-    }, this.props.history);
-  }
-
-  removePlan(event, id) {
-    event.stopPropagation();
-    const opts = {
-      title: 'Delete Plan',
-      okText: 'Delete',
-      onOk: () => {
-        this.props.deletePlan(id, this.props.history);
-      },
-    };
-    this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
+    }, this.props.setCurrentPlan);
   }
 
   goToPlan(id) {
-    this.props.history.push(`/plan/${id}`);
+    this.props.setCurrentPlan(id);
+    // this.props.history.push(`/plan/${id}`);
   }
 
   showDialog() {
@@ -84,19 +81,64 @@ class Dashboard extends React.Component {
     this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
   }
 
+
+  handleMouseEnter() {
+    this.setState({
+      active: true,
+    });
+  }
+
+  handleMouseLeave() {
+    this.setState({
+      active: false,
+    });
+  }
+
+  showProfileDialog(props) {
+    const dialogOptions = {
+      size: 'lg',
+      showOk: false,
+    };
+    this.props.showDialog(DialogTypes.PROFILE, dialogOptions);
+  }
+
   render() {
     return (
-      <>
-        <Nav />
-        <div className="dashboard-container">
-          <div className="plans-container">
-            <Plans plans={this.props.plans} goToPlan={this.goToPlan} showDialog={this.showDialog} deletePlan={this.removePlan} />
-          </div>
-          <div id="error-container">
-            {this.displayIfError()}
-          </div>
+      <div className={classNames({
+        menu: true,
+        active: this.state.active,
+      })}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
+        <div className="plans-container">
+          <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
         </div>
-      </>
+        <div className="nav-container">
+          <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
+            {this.state.active
+              ? <p>Discover</p>
+              : <img className="search-icon" src={searchIcon} alt="search" />
+            }
+          </div>
+          <div role="presentation"
+            className="option-button"
+            onClick={() => {
+              this.props.fetchUser().then((r) => {
+                this.showProfileDialog(this.props);
+              }).catch((e) => {
+                console.log(e);
+              });
+            }}
+          >
+            {this.state.active
+              ? <p>Your Profile</p>
+              : <img className="search-icon" src={personIcon} alt="search" />
+            }
+          </div>
+          {/* <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink> */}
+        </div>
+      </div>
     );
   }
 }
@@ -107,5 +149,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlans, createPlan, deletePlan, showDialog,
+  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 })(Dashboard));

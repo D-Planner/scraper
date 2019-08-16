@@ -173,13 +173,13 @@ export function fetchUser() {
  * @param {*} history the React-Router history object passed to props when using withRouter()
  * @returns an action creator to create a new plan in the API
  */
-export function createPlan(plan, history) {
+export function createPlan(plan, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
   return (dispatch) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
-      history.push(`/plan/${response.data.id}`);
+      planSetter(response.data.id);
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });

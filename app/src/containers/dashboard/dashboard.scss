@@ -1,117 +1,109 @@
 @import '../../style/variables.scss';
 
-.table-header {
-  font-family: $poppins;
-  color: $text-accent;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin: 2.5%;
-}
 
-.image-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2.5%;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  margin-bottom: 5%;
+.menu {
+  width: $menu-width-closed;
+  background: $text-accent;
+  color: $white;
+  transition: all 200ms ease-in-out !important; // we want this faster
+  padding: 0 10px 10px 10px;
+  flex-shrink: 0;
+  display:flex;
+  flex-direction:column;
+  justify-content: space-between;
+  align-content: center;
 
-  img {
-    width: 25%;
-    height: auto;
+  &.active {
+    transition: all 200ms ease-in-out !important; // we want this faster
+    width: $menu-width-open;
+    padding: 0 20px 10px 20px;
   }
-}
 
-.table-header {
-  margin: 0;
-  padding: 0;
-  margin-right: auto;
-}
-
-.text-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2.5%;
-
-  p {
-    width: 50%;
+  .nav-container{
+    justify-self: end;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    font-family: $roboto;
-    margin-top: 15px;
-  }
-}
 
-.plan-container {
-  margin-bottom: 1.75%;
-  margin-left: 1.75%;
-  margin-right: 1.75%;
-  background: $gray-1;
-  border-radius: 2px;
-  height: 70px;
-
-  display: flex;
-
-  a {
-    justify-content: center;
-    align-self: center;
-    margin-left: 2.5%;
-    margin-right: auto;
-  }
-
-  p {
-    margin: 0;
-    padding: 0;
-    color: $text-accent;
-    font-family: $poppins;
-    font-size: 24px;
-  }
-
-  .delete-button-container {
-    justify-content: center;
-    cursor: pointer;
-    align-self: center;
-    margin-right: 2.5%;
-
-    button {
+    .option-button {
+      width: 100%;
+      margin-bottom: 10px;
+      width: 100%;
+      height: calc(68px - 20px);
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      background: $purple-light;
+      border-radius: 5px;
       cursor: pointer;
-      background: $white;
-      height: 40px;
-      width: 120px;
-      box-shadow: $box-shadow-button;
-      border-radius: 32px;
-      border: none;
-      font-family: $roboto;
-      font-weight: 300;
-      font-size: 18px;
-      text-align: center;
+
+      p {
+        color: $text-accent;
+        font-family: $poppins;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+      &:hover {
+          filter: opacity(90%);
+      }
+    }
+
+    a {
+      color:$white;
+      text-decoration: none;
+
+      &:hover{
+        cursor: pointer;
+        color:$med-grey;
+      }
     }
   }
 }
 
-.button-container-primary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+// .table-header {
+//   font-family: $poppins;
+//   color: $text-accent;
+//   font-weight: bold;
+//   text-transform: uppercase;
+//   margin: 2.5%;
+// }
 
-  button {
-    background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
-    box-shadow: $box-shadow-button;
-    border-radius: 32px;
-    width: 165px;
-    height: 55px;
+// .image-container {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-top: 2.5%;
+//   margin-left: 2.5%;
+//   margin-right: 2.5%;
+//   margin-bottom: 5%;
 
-    p {
-      font-family: $roboto;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 18px;
-      line-height: normal;
-      text-align: center;
-      color: $white;
-      padding: 0;
-      margin: 0;
-    }
-  }
-}
+//   img {
+//     width: 25%;
+//     height: auto;
+//   }
+// }
+
+// .table-header {
+//   margin: 0;
+//   padding: 0;
+//   margin-right: auto;
+// }
+
+// .text-container {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin: 2.5%;
+
+//   p {
+//     width: 50%;
+//     text-align: center;
+//     font-family: $roboto;
+//     margin-top: 15px;
+//   }
+// }
+
+
