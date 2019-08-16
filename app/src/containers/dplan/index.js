@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
+import { emptyPlan } from '../../services/empty_plan';
 import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
 import noPlan from '../../style/no-plan.png';
@@ -22,6 +23,9 @@ class DPlan extends Component {
     };
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
+    this.createNewPlan = this.createNewPlan.bind(this);
+    this.showNewPlanDialog = this.showNewPlanDialog.bind(this);
+    this.getFlattenedCourses = this.getFlattenedCourses.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
@@ -103,6 +107,20 @@ class DPlan extends Component {
     this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
   }
 
+  createNewPlan(name, gradYear) {
+    const terms = ['F', 'W', 'S', 'X'];
+    let currYear = gradYear - 4;
+    let currQuarter = -1;
+    this.props.createPlan({
+      terms: emptyPlan.terms.map((term) => {
+        if (currQuarter === 3) currYear += 1;
+        currQuarter = (currQuarter + 1) % 4;
+        return { ...term, year: currYear, quarter: terms[currQuarter] };
+      }),
+      name,
+    }, this.setCurrentPlan);
+  }
+
 
   renderNewPlanButton = (fn) => {
     return (
@@ -171,5 +189,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
 })(DPlan));

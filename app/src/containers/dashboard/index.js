@@ -4,7 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
-  fetchPlans, createPlan, showDialog,
+  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
 import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
@@ -113,29 +113,23 @@ class Dashboard extends React.Component {
         <div className="plans-container">
           <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
         </div>
-        <ul>
-          <div className="list-container">
-            <li>
-              <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
-            </li>
-            <li>
-              <NavLink to="/discover">Discover</NavLink>
-            </li>
-            <li className="avatar-container">
-              <img className="avatar"
-                src={robot}
-                alt="avatar"
-                onClick={() => {
-                  this.props.fetchUser().then((r) => {
-                    this.showProfileDialog(this.props);
-                  }).catch((e) => {
-                    console.log(e);
-                  });
-                }}
-              />
-            </li>
+        <div className="list-container">
+          <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
+          <NavLink to="/discover">Discover</NavLink>
+          <div className="avatar-container">
+            <img className="avatar"
+              src={robot}
+              alt="avatar"
+              onClick={() => {
+                this.props.fetchUser().then((r) => {
+                  this.showProfileDialog(this.props);
+                }).catch((e) => {
+                  console.log(e);
+                });
+              }}
+            />
           </div>
-        </ul>
+        </div>
       </div>
     );
   }
@@ -147,5 +141,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlans, createPlan, showDialog,
+  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 })(Dashboard));
