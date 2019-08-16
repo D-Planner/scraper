@@ -128,6 +128,14 @@ class DPlan extends Component {
     );
   };
 
+  renderPlanName = (planName) => {
+    if (planName.length > 20) {
+      return `${planName.substring(0, 16)}...`;
+    } else {
+      return planName;
+    }
+  };
+
   render() {
     if (!this.props.plan || this.state.noPlan) {
       return (
@@ -147,7 +155,7 @@ class DPlan extends Component {
           <div className="plan-content">
             <div className="plan-side">
               <div className="plan-header">
-                <h1 className="plan-name">{this.props.plan.name}</h1>
+                <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
                 <button type="button" className="settings-button" onClick={this.showDialog}>
                   <img src={settingsButton} alt="" />
                 </button>
