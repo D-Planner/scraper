@@ -177,14 +177,16 @@ export function createPlan(plan, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return (dispatch) => {
+  return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
       planSetter(response.data.id);
+      resolve();
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
     });
-  };
+  });
 }
 
 /**
@@ -197,7 +199,7 @@ export function fetchPlans() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return dispatch => new Promise(((resolve, reject) => {
+  return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
       resolve();
@@ -206,7 +208,7 @@ export function fetchPlans() {
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
-  }));
+  });
 }
 
 /**

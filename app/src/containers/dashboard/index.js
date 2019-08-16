@@ -62,7 +62,9 @@ class Dashboard extends React.Component {
         return { ...term, year: currYear, quarter: terms[currQuarter] };
       }),
       name,
-    }, this.props.setCurrentPlan);
+    }, this.props.setCurrentPlan).then(() => {
+      this.props.fetchPlans();
+    });
   }
 
   goToPlan(id) {
