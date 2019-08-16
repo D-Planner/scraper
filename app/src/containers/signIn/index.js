@@ -1,55 +1,58 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signinUser } from '../../actions';
-import './signIn.scss';
 
-class signIn extends Component {
-  constructor(props) {
-    super(props);
+export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    this.state = {
-      email: '',
-      password: '',
-    };
-
-    this.signIn = this.signIn.bind(this);
-    this.email = this.email.bind(this);
-    this.password = this.password.bind(this);
-  }
-
-  email(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  password(event) {
-    this.setState({ password: event.target.value });
-  }
+  const [permitted, setPermitted] = useState(false);
 
 
-  signIn(event) {
-    event.preventDefault();
-    this.props.signinUser(this.state, this.props.history);
-  }
+  const signin = () => {
+    props.signinUser({ email, password }, props.history);
+  };
 
-  renderError() {
-    if (this.props.error === null) {
-      return <div />;
-    } else {
-      return <div className="error">{this.props.error}</div>;
-    }
-  }
+  const signup = () => {
+    window.location.href = '/signup';
+  };
 
-  render() {
-    return (
+  useEffect(() => {
+    if (email && password) setPermitted(true);
+    else setPermitted(false);
+  }, [email, password]);
+
+
+  return (
+
+    <div className="formContainer">
       <form>
-        <div>Sign In</div>
-        <input placeholder="Email" value={this.state.email} onChange={this.email} />
-        <input placeholder="Password" value={this.state.password} onChange={this.password} />
-        <button type="button" onClick={this.signIn}>Login</button>
+        <div className="row">
+          <input id="email" value={email} placeholder="College Email" onChange={e => setEmail(e.target.value)} />
+        </div>
+        <div className="row">
+          <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
+        </div>
+        <div className="spacer" />
+        <button type="button" disabled={!permitted} className="sign-up" onClick={signin}>Sign In</button>
+        <button type="button" className="sign-in" onClick={signup}>Don&apos;t have an account? Sign up</button>
       </form>
-    );
-  }
-}
+    </div>
+  );
+}));
 
-export default withRouter(connect(null, { signinUser })(signIn));
+const SignIn = () => {
+  return (
+    <div className="container">
+      <div className="signInContainer">
+        <div className="title">
+        Welcome Back.
+        </div>
+        <SignInForm />
+      </div>
+    </div>
+  );
+};
+
+export default SignIn;

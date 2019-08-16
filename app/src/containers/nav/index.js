@@ -4,7 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import robot from '../../../assets/avatars/robot.svg';
 import {
-  signoutUser, fetchCourses, showDialog, fetchUser,
+  signoutUser, fetchCourses, showDialog, fetchUser, getTimes,
 } from '../../actions';
 import './nav.scss';
 import { DialogTypes } from '../../constants';
@@ -21,6 +21,7 @@ const showProfileDialog = (props) => {
 class Nav extends Component {
   constructor(props) {
     super(props);
+    this.props.getTimes();
     this.state = {
     };
   }
@@ -34,6 +35,9 @@ class Nav extends Component {
         {this.props.authenticated === true ? (
           <ul>
             <div className="list-container">
+              <li>
+                <NavLink className={planClass} to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink>
+              </li>
               <li>
                 <NavLink className={planClass} to="/">Plan</NavLink>
               </li>
