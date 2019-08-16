@@ -119,11 +119,13 @@ $font-secondary: 'Poppins';
     }
 }
 
-input {
-    border-bottom: 1px solid black;
-    padding:10px;
-
-    &:focus {
-        outline:none;
+.formContainer {
+    input {
+        border-bottom: 1px solid black;
+        padding:10px;
+    
+        &:focus {
+            outline: none;
+        }
     }
 }
