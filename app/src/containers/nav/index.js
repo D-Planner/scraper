@@ -4,7 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import robot from '../../../assets/avatars/robot.svg';
 import {
-  signoutUser, fetchCourses, showDialog, fetchUser, getTimes,
+  signoutUser, fetchCourses, showDialog, fetchUser,
 } from '../../actions';
 import './nav.scss';
 import { DialogTypes } from '../../constants';

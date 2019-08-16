@@ -1,17 +1,17 @@
 @import '../../style/variables.scss';
 
-$plan-header-height: 107px;
-$plan-data-height: 20px;
-$plan-data-margin: 20px;
+$plan-header-height: 60px;
+$plan-header-margin: 36px;
 $bottom-margin: 20px;
-
-$content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan-data-height} + (2 * #{$plan-data-margin}) + #{$bottom-margin}));
+$content-height: 743px;
+// $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$bottom-margin}));
 
 .dplan-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 34px;
+    background: $background;
+    padding: 0 34px;
 
     .plan-header {
         display: flex;
@@ -20,6 +20,8 @@ $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan
         align-items: center;
         width: 100%;
         height: $plan-header-height;
+        position: relative; // this is to position the .accent bar, since that is position: absolute
+        margin-bottom: $plan-header-margin;
     
         .header-left {
             display: flex;
@@ -31,7 +33,7 @@ $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan
                 font-style: normal;
                 font-weight: bold;
                 line-height: normal;
-                font-size: 48px;
+                font-size: 36px;
                 color: $text-accent;
             }
         
@@ -64,7 +66,7 @@ $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan
         }
     
         .delete-button {
-            display: flex;
+            display: none; // This is going to have to change at some point
             align-items: center;
             justify-content: center;
             flex-direction: column;
@@ -83,25 +85,21 @@ $content-height: calc(100vh - (#{$nav-height} + #{$plan-header-height} + #{$plan
                 filter: brightness(90%);
             }
         }
-    }
-    
-    .plan-data {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        margin: $plan-data-margin;
-        height: $plan-data-height;
-        width: 80%;
+        #bottom-divider {
+            height: 1px;
+            background: $gray-5;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            
+        }
     }
     
     .plan-content {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-
-        margin: 0 50px;
-        width: calc(100% - 40px);
-        height: $content-height;
+        width: 100%;
 
         .sidebar {
             flex-basis: 10%;

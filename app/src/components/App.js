@@ -11,11 +11,11 @@ import signIn from '../containers/signIn';
 import Cytoscape from './Cytoscape';
 import Dashboard from '../containers/dashboard';
 import requireAuth from '../containers/requireAuth';
-import DPlan from '../containers/dplan';
 // import Discover from '../containers/discover';
 import tooSmall from './tooSmall';
 import Landing from './landing';
 import FallBack from './fallBack';
+import DPlan from '../containers/dplan';
 // import FlowChart from './flowchart';
 
 
