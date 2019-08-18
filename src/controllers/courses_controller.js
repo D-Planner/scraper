@@ -2,6 +2,7 @@ import Course from '../models/course';
 import User from '../models/user';
 import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
+import departments from '../../static/data/departments.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse } from './populators';
 
@@ -18,23 +19,39 @@ const trim = (res) => {
 };
 
 const searchCourses = (req, res) => {
+    const searchText = req.query.title;
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
-            return v.length > 0;
+            if (k === 'department' && !departments.includes(v)) return false;
+            if (k === 'number' && v.match(/\D+/)) return false;
+            return v.length > 0 && k !== 'title';
         })
         .reduce((acc, [k, v]) => {
             acc[k] = v;
             return acc;
         }, {});
-    Course.find(query)
-        .populate(PopulateCourse)
-        .then((result) => {
-            res.json(trim(result));
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(500).json({ error });
-        });
+    console.log(searchText, query);
+    if (query.department && query.number) {
+        Course.find(query)
+            .populate(PopulateCourse)
+            .then((result) => {
+                res.json(trim(result));
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({ error });
+            });
+    } else {
+        Course.find({ $text: { $search: `"${searchText}"` } })
+            .populate(PopulateCourse)
+            .then((result) => {
+                res.json(trim(result));
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({ error });
+            });
+    }
 };
 
 const getCourses = async (req, res) => {
