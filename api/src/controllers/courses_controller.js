@@ -30,7 +30,6 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    console.log(searchText, query);
     if (query.department && query.number) {
         Course.find(query)
             .populate(PopulateCourse)
