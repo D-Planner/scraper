@@ -304,7 +304,7 @@ class CourseInfoDialog extends Component {
   }
 
   render() {
-    console.log(this.props.data);
+    console.log(this.props.data.xlist);
     return (
       <DialogWrapper {...this.props}>
         {this.courseInfo(this.props.data, this.props.nextTerm)}
