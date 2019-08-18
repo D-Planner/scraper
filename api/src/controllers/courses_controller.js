@@ -42,7 +42,8 @@ const searchCourses = (req, res) => {
                 res.status(500).json({ error });
             });
     } else {
-        Course.find({ $text: { $search: `"${searchText}"` } })
+        const search = (searchText.includes(' ')) ? `"${searchText}"` : searchText;
+        Course.find({ $text: { $search: search } })
             .populate(PopulateCourse)
             .then((result) => {
                 res.json(trim(result));
