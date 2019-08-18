@@ -48,6 +48,7 @@ const SearchPane = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       const queryParsed = {
+        title: searchText,
         department: searchText.split(' ')[0].toUpperCase(),
         number: searchText.split(' ')[1],
         distribs,
