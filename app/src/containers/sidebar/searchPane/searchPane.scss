@@ -44,24 +44,6 @@
         overflow-y: scroll;
         padding: 10px;
 
-        .paneCourse {
-            display:flex;
-
-            .terms {
-                flex:1;
-                margin-left:5px;
-                display:flex;
-                justify-content: space-around;
-                color: $med-grey;
-    
-                .likely {
-                    color: $text-accent;
-                    font-weight: 800;
-                }
-            }
-
-        }
-
         
         overflow-x: visible;
         padding-right: 10px;
