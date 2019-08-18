@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { DropTarget as BookmarksPane } from 'react-dnd';
 import { ItemTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
+import { LikelyTerms } from '../searchPane';
 
 import './bookmarksPane.scss';
 
@@ -42,10 +43,10 @@ const component = (props) => {
             {props.bookmarks.map((course, index) => {
               console.log(course);
               return (
-                <DraggableCourse
-                  key={course.crn}
-                  course={course}
-                />
+                <div className="paneCourse">
+                  <DraggableCourse key={course.id} course={course} />
+                  <LikelyTerms terms={course.likely_terms} />
+                </div>
               );
             })}
           </div>
