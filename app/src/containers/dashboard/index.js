@@ -106,53 +106,58 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className={classNames({
-        menu: true,
-        active: this.state.active,
-      })}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <div className="plans-container">
-          <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
-        </div>
-        <div className="nav-container">
-          <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
-            {this.state.active
-              ? (
-                <>
-                  <img className="search-icon" src={searchIcon} alt="search" />
-                  <space />
-                  <p>Discover</p>
-                </>
-              )
-              : <img className="search-icon" src={searchIcon} alt="search" />
-            }
+      <>
+        <div className={classNames({
+          menu: true,
+          active: this.state.active,
+        })}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        >
+          <div className="plans-container">
+            <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
-          <div role="presentation"
-            className="option-button"
-            onClick={() => {
-              this.props.fetchUser().then((r) => {
-                this.showProfileDialog(this.props);
-              }).catch((e) => {
-                console.log(e);
-              });
-            }}
-          >
-            {this.state.active
-              ? (
-                <>
-                  <img className="search-icon" src={personIcon} alt="search" />
-                  <space />
-                  <p>Your Profile</p>
-                </>
-              )
-              : <img className="search-icon" src={personIcon} alt="search" />
+          <div className="nav-container">
+            <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={searchIcon} alt="search" />
+                    <space />
+                    <p>Discover</p>
+                  </>
+                )
+                : <img className="search-icon" src={searchIcon} alt="search" />
             }
+            </div>
+            <div role="presentation"
+              className="option-button"
+              onClick={() => {
+                this.props.fetchUser().then((r) => {
+                  this.showProfileDialog(this.props);
+                }).catch((e) => {
+                  console.log(e);
+                });
+              }}
+            >
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={personIcon} alt="search" />
+                    <space />
+                    <p>Your Profile</p>
+                  </>
+                )
+                : <img className="search-icon" src={personIcon} alt="search" />
+            }
+            </div>
+            {/* <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink> */}
           </div>
-          {/* <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink> */}
         </div>
-      </div>
+        <div id="error-container">
+          {this.displayIfError()}
+        </div>
+      </>
     );
   }
 }

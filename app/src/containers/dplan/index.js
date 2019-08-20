@@ -141,10 +141,9 @@ class DPlan extends Component {
       return (
         <div className="dashboard">
           <Dashboard setCurrentPlan={this.setCurrentPlan} />
-          <div className="no-plans">
-            <img src={noPlan} alt="" />
-            <p>Oh no! Looks like you don’t have any plans yet. Click below to get started with your first plan.</p>
-            {this.renderNewPlanButton(this.showNewPlanDialog)}
+          <div className="welcome-text">
+            <div className="welcome-title">Welcome to D-Planner!</div>
+            <div className="welcome-subtitle">Get started by creating a new Plan.</div>
           </div>
         </div>
       );
