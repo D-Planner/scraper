@@ -195,7 +195,7 @@ class CourseInfoDialog extends Component {
               action={{
                 type: 'bookmark',
                 svg: bookmark,
-                method: addCourseToFavorites(c.id),
+                method: this.props.addCourseToFavorites,
               }}
             />
           );
@@ -250,9 +250,7 @@ class CourseInfoDialog extends Component {
           onClick={
             bookmarked
               ? () => this.props.removeCourseFromFavorites(this.props.data.id)
-                .then(r => this.props.fetchUser(this.props.user.id))
               : () => this.props.addCourseToFavorites(this.props.data.id)
-                .then(r => this.props.fetchUser(this.props.user.id))
           }
         />
         <div className="spacer" />
