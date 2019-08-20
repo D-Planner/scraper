@@ -130,7 +130,7 @@ class DPlan extends Component {
 
   renderPlanName = (planName) => {
     if (planName.length > 20) {
-      return `${planName.substring(0, 16)}...`;
+      return `${planName.substring(0, 20)}...`;
     } else {
       return planName;
     }
