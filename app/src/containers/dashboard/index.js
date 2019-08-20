@@ -119,7 +119,13 @@ class Dashboard extends React.Component {
         <div className="nav-container">
           <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
             {this.state.active
-              ? <p>Discover</p>
+              ? (
+                <>
+                  <img className="search-icon" src={searchIcon} alt="search" />
+                  <space />
+                  <p>Discover</p>
+                </>
+              )
               : <img className="search-icon" src={searchIcon} alt="search" />
             }
           </div>
@@ -134,7 +140,13 @@ class Dashboard extends React.Component {
             }}
           >
             {this.state.active
-              ? <p>Your Profile</p>
+              ? (
+                <>
+                  <img className="search-icon" src={personIcon} alt="search" />
+                  <space />
+                  <p>Your Profile</p>
+                </>
+              )
               : <img className="search-icon" src={personIcon} alt="search" />
             }
           </div>
