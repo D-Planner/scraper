@@ -5,7 +5,7 @@
 /* eslint-disable prefer-arrow-callback */
 
 import React, { useState } from 'react';
-import async from 'async';
+// import async from 'async';
 import classNames from 'classnames';
 import Majors from '../../majors';
 import checkedIcon from '../../../style/checkboxChecked.svg';
@@ -121,11 +121,11 @@ const RequirementsPane = (props) => {
     // );
   };
 
-  const findOtherDistrib = (unwantedDistrib, distribs) => {
-    if (distribs.indexOf(unwantedDistrib) === 1) return 0;
-    else if (distribs.indexOf(unwantedDistrib) === 0) return 1;
-    else return null;
-  };
+  // const findOtherDistrib = (unwantedDistrib, distribs) => {
+  //   if (distribs.indexOf(unwantedDistrib) === 1) return 0;
+  //   else if (distribs.indexOf(unwantedDistrib) === 0) return 1;
+  //   else return null;
+  // };
 
   const renderGenEds = () => {
     fillDistribs();
