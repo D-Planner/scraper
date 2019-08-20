@@ -38,7 +38,7 @@ class CourseElement extends Component {
                   <img className={this.props.action.type}
                     src={this.props.action.svg}
                     alt={this.props.action.type}
-                    onClick={this.props.action.method}
+                    onClick={() => this.props.action.method(this.props.course.id)} // need to add the .then() here, or in the actions
                   />
                 </div>
               )

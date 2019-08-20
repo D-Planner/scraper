@@ -2,6 +2,7 @@ import Course from '../models/course';
 import User from '../models/user';
 import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
+import departments from '../../static/data/departments.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse } from './populators';
 
@@ -18,23 +19,39 @@ const trim = (res) => {
 };
 
 const searchCourses = (req, res) => {
+    const searchText = req.query.title;
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
-            return v.length > 0;
+            if (k === 'department' && !departments.includes(v)) return false;
+            if (k === 'number' && v.match(/\D+/)) return false;
+            return v.length > 0 && k !== 'title';
         })
         .reduce((acc, [k, v]) => {
             acc[k] = v;
             return acc;
         }, {});
-    Course.find(query)
-        .populate(PopulateCourse)
-        .then((result) => {
-            res.json(trim(result));
-        })
-        .catch((error) => {
-            console.log(error);
-            res.status(500).json({ error });
-        });
+    if (query.department && query.number) {
+        Course.find(query)
+            .populate(PopulateCourse)
+            .then((result) => {
+                res.json(trim(result));
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({ error });
+            });
+    } else {
+        const search = (searchText.includes(' ')) ? `"${searchText}"` : searchText;
+        Course.find({ $text: { $search: search } })
+            .populate(PopulateCourse)
+            .then((result) => {
+                res.json(trim(result));
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({ error });
+            });
+    }
 };
 
 const getCourses = async (req, res) => {
@@ -54,7 +71,6 @@ const randomCourse = async (req, res) => {
         const random = Math.floor(Math.random() * count);
         return Course.findOne().skip(random).populate(PopulateCourse);
     }).then((course) => {
-        console.log(course);
         res.json(course);
     }).catch((e) => {
         res.status(500).json({ e });
@@ -191,28 +207,35 @@ const filledValues = (course) => {
             }
         });
     }
+
     let xListed = [];
     if (course.xlist) {
-        xListed = course.xlist.map((c) => {
-            return Course.findOne({ layup_id: c }).then((res) => {
-                if (res) {
-                    Course.findOne({ layup_id: course.layup_id })
-                        .then((origCourse) => {
-                            if (origCourse) {
-                                Course.findByIdAndUpdate(
-                                    res._id,
-                                    { $push: { xlist: origCourse.id } },
-                                );
-                            }
-                        });
-
-                    return res._id;
-                }
-                return null;
-            }).catch((err) => {
-                console.log('reseed', err);
-                return err;
-            });
+        // Take `course` and find all it's xlisted courses
+        xListed = course.xlist.map((xCourse) => {
+            // xCourse is a layup_id
+            return Course.findOne({ layup_id: xCourse })
+                .then((linkedCourse) => {
+                    if (linkedCourse) {
+                        // Find the original course
+                        Course.findOne({ layup_id: course.layup_id })
+                            .then((origCourse) => {
+                                if (origCourse) {
+                                    // Update the linked course with the Original Courses ID, doubly link.
+                                    Course.findByIdAndUpdate(
+                                        linkedCourse._id,
+                                        { $addToSet: { xlist: origCourse._id } },
+                                    ).then((r) => { return console.log(r); }).catch((e) => { return console.log(e); });
+                                    console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
+                                }
+                            });
+                        // Return the linked course to set the xlisted for the original course
+                        return linkedCourse._id;
+                    }
+                    return null;
+                }).catch((err) => {
+                    console.log('reseed', err);
+                    return err;
+                });
         });
     }
     return [
@@ -245,7 +268,6 @@ const createCourse = (req, res) => {
                     total_reviews: course.total_reviews,
                     quality_score: course.quality_score,
                     layup_score: course.layup_score,
-                    xlist,
                     name: course.name,
                     number: course.number,
                     periods: course.periods,
@@ -260,6 +282,8 @@ const createCourse = (req, res) => {
                 },
                 { upsert: true },
             ).then((res) => {
+                return Course.findByIdAndUpdate(res._id, { $addToSet: { xlist: { $each: xlist.flat() } } });
+            }).then((res) => {
                 return res;
             }).catch((error) => {
                 return error;

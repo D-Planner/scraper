@@ -23,7 +23,7 @@ const TermToString = {
 const CourseSchema = new Schema({
     layup_url: String,
     layup_id: Number,
-    title: String,
+    title: { type: String, index: 'text' },
     department: String,
     offered: Boolean,
     distribs: [String],

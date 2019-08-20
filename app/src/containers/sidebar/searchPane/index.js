@@ -10,7 +10,7 @@ import DraggableCourse from '../../../components/draggableCourse';
 import { GenEds } from '../../../constants';
 
 
-const LikelyTerms = (props) => {
+export const LikelyTerms = (props) => {
   const terms = ['F', 'W', 'S', 'X'];
   return (
     <>
@@ -48,6 +48,7 @@ const SearchPane = (props) => {
   useEffect(() => {
     if (searchText.length !== 0) {
       const queryParsed = {
+        title: searchText,
         department: searchText.split(' ')[0].toUpperCase(),
         number: searchText.split(' ')[1],
         distribs,
@@ -113,7 +114,7 @@ const SearchPane = (props) => {
               {props.results.length
                 ? props.results.map((course) => {
                   return (
-                    <div className="searchedCourse">
+                    <div className="paneCourse">
                       <DraggableCourse key={course.id} course={course} />
                       <LikelyTerms terms={course.likely_terms} />
                     </div>
