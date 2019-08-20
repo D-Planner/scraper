@@ -8,7 +8,7 @@ import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
 import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
-import noPlan from '../../style/no-plan.png';
+// import noPlan from '../../style/no-plan.png';
 import settingsButton from '../../style/settings.svg';
 import Term from '../term';
 import './dplan.scss';
