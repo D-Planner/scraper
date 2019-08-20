@@ -344,7 +344,8 @@ export function addCourseToFavorites(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/courses/favorite/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
+      dispatch(fetchUser());
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -363,7 +364,8 @@ export function removeCourseFromFavorites(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/favorite/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
+      dispatch(fetchUser());
       resolve();
     }).catch((error) => {
       console.log(error);
