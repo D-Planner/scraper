@@ -9,7 +9,7 @@
         width: 100%;
         margin-bottom: 10px;
         width: 100%;
-        height: calc(68px - 20px);
+        height: calc(68px - 20px); // CSS-DEF the 68px refers to $menu-width-closed and the 20px refers to the 10px margins on either side.. this is to make it square
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -30,29 +30,44 @@
         }
 
     }
+
     #newPlanButton {
         width: 100%;
-        height: calc(68px - 20px);
+        height: calc(68px - 20px); // CSS-DEF the 68px refers to $menu-width-closed and the 20px refers to the 10px margins on either side.. this is to make it square
         display: flex;
-        flex-direction: row;
         justify-content: center;
         align-items: center;
-        background: $purple-light;
+        background: none;
+        border: 1px $purple-light dotted;
         border-radius: 5px;
         cursor: pointer;
 
         &:hover {
             filter: opacity(90%);
         }
-
         p {
-            color: $text-accent;
+            color: $purple-light;
             font-family: $poppins;
-            font-weight: 400;
-            font-size: 24px;
+            font-weight: 300;
+            font-size: 18px;
+        }
+
+    }
+    #noMorePlans {
+        width: 100%;
+        height: calc(68px - 20px); // CSS-DEF the 68px refers to $menu-width-closed and the 20px refers to the 10px margins on either side.. this is to make it square
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        border-radius: 5px;
+        p {
+            color: $purple-light;
+            font-family: $poppins;
+            font-size: 12px;
+            font-weight: 300;
         }
     }
-    }
+}
 
     .no-plans {
         display: flex;

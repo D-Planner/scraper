@@ -6,6 +6,7 @@ import './plans.scss';
 const Plans = ({
   plans, showDialog, goToPlan, active,
 }) => {
+  const maxedPlans = (plans.length >= 10);
   return (
     <div className="plans">
       {plans.map((plan) => {
@@ -15,7 +16,7 @@ const Plans = ({
           </div>
         );
       })}
-      {renderNewPlanButton(showDialog)}
+      {renderNewPlanButton(showDialog, active, maxedPlans)}
     </div>
   );
 };
@@ -32,12 +33,32 @@ const renderPlanName = (planName, whetherActive) => {
   }
 };
 
-const renderNewPlanButton = (fn) => {
-  return (
-    <button id="newPlanButton" type="button" onClick={fn}>
-      <p>+</p>
-    </button>
-  );
+const renderNewPlanButton = (showDialog, whetherActive, maxedPlans) => {
+  if (maxedPlans) {
+    if (whetherActive) {
+      return (
+        <div id="noMorePlans">
+          <p>Max of 10 Plans</p>
+        </div>
+      );
+    } else {
+      return (
+        <div id="noMorePlans" />
+      );
+    }
+  } else if (whetherActive) {
+    return (
+      <button id="newPlanButton" type="button" onClick={showDialog}>
+        <p>+ New Plan</p>
+      </button>
+    );
+  } else {
+    return (
+      <button id="newPlanButton" type="button" onClick={showDialog}>
+        <p>+</p>
+      </button>
+    );
+  }
 };
 
 export default Plans;
