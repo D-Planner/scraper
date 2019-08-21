@@ -43,19 +43,21 @@
         align-items: stretch;
         overflow-y: scroll;
         padding: 10px;
-
-        
         overflow-x: visible;
-        padding-right: 10px;
+
         .filters {
             display: flex;
             flex-direction: column;
-            align-content: flex-start;
+            justify-content: flex-start;
+            align-items: center;
             margin-bottom: 10px;
+
             .gened-picker {
+                width: 50px;
                 font-size: 12px;
-                color:$gray-6;;
+                color: $gray-6;;
                 margin-bottom: 5px;
+
                 &:hover {
                     background: rgba(0,0,0,0.10);
                     transition: 0.3s;
@@ -63,14 +65,13 @@
             }
         }
         .search-results {
-
-        }
-        .no-search {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            height: 100px;
+            .no-search {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                height: 100px;
+            }
         }
     }
 }

@@ -82,42 +82,45 @@ const SearchPane = (props) => {
                   setWC(e.target.value);
                 }}
               >
-                <option value="">WC filter</option>
+                <option value="">None</option>
                 {
-          Object.keys(GenEds).filter((g) => {
-            return g.length <= 2;
-          }).map((g) => {
-            return (
-              <option value={g}>{GenEds[g].fullName} ({g})</option>
-            );
-          })
-        }
+                  Object.keys(GenEds).filter((g) => {
+                    return g.length <= 2;
+                  }).map((g) => {
+                    return (
+                      <option value={g}>{GenEds[g].fullName} ({g})</option>
+                    );
+                  })
+                }
               </select>
               <select className="gened-picker"
                 onChange={(e) => {
                   setDistrib(e.target.value);
                 }}
               >
-                <option value="">Distrib filter</option>
+                <option value="">None</option>
                 {
-          Object.keys(GenEds).filter((g) => {
-            return g.length > 2;
-          }).map((g) => {
-            return (
-              <option value={g}>{GenEds[g].fullName} ({g})</option>
-            );
-          })
-        }
+                  Object.keys(GenEds).filter((g) => {
+                    return g.length > 2;
+                  }).map((g) => {
+                    return (
+                      <option value={g}>{GenEds[g].fullName} ({g})</option>
+                    );
+                  })
+                }
               </select>
             </div>
             <div className="search-results">
               {props.results.length
                 ? props.results.map((course) => {
                   return (
-                    <div className="paneCourse">
-                      <DraggableCourse key={course.id} course={course} />
-                      <LikelyTerms terms={course.likely_terms} />
-                    </div>
+                    <>
+                      <div className="paneCourse">
+                        <DraggableCourse key={course.id} course={course} />
+                        <LikelyTerms terms={course.likely_terms} />
+                      </div>
+                      <div id="course-spacer-large" />
+                    </>
                   );
                 })
                 : (<div className="no-search">Search for courses!</div>)}
