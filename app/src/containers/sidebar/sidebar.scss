@@ -49,11 +49,12 @@ $inactive-height: 50px;
             display:flex;
 
             .terms {
-                flex:1;
-                margin-left:5px;
-                display:flex;
+                margin-left: 5px;
+                display: flex;
                 justify-content: space-around;
+                align-items: center;
                 color: $med-grey;
+
     
                 .likely {
                     color: $text-accent;
