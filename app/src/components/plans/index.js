@@ -23,7 +23,7 @@ const Plans = ({
 
 const renderPlanName = (planName, whetherActive) => {
   if (whetherActive) {
-    if (planName.length > 20) {
+    if (planName.length > 16) {
       return `${planName.substring(0, 16)}...`;
     } else {
       return planName;

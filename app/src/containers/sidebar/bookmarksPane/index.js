@@ -43,10 +43,13 @@ const component = (props) => {
             {props.bookmarks.map((course, index) => {
               console.log(course);
               return (
-                <div className="paneCourse">
-                  <DraggableCourse key={course.id} course={course} />
-                  <LikelyTerms terms={course.likely_terms} />
-                </div>
+                <>
+                  <div className="paneCourse">
+                    <DraggableCourse key={course.id} course={course} />
+                    <LikelyTerms terms={course.likely_terms} />
+                  </div>
+                  <div id="course-spacer-large" />
+                </>
               );
             })}
           </div>

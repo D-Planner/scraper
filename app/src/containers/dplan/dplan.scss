@@ -16,27 +16,41 @@ $bottom-margin: 20px;
     align-items: stretch;
     height: 100vh;
 
-    .no-plans {
-        flex:1;
 
-        display:flex;
+    .welcome-text {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
-
-        .newPlanButton {
-            margin:10px;
-            width:50%;
+        align-content: center;
+        * {
             display: flex;
             justify-content: center;
-            margin-bottom:22px;
-            font-size: 36px;
-
-            background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
-            box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
-            height: 50px;
-            border-radius: 100px;
-            color: $white;
+            font-family: $poppins;
+            color: $text-accent;
         }
+        .welcome-title {
+            font-size: 48px;
+            font-weight: 700;
+        }
+        .welcome-subtitle {
+            font-size: 24px;
+            font-weight: 400;
+        }
+        // .newPlanButton {
+        //     display: flex;
+        //     justify-content: center;
+        //     font-size: 24px;
+    
+        //     background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
+        //     box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
+        //     height: 50px;
+        //     border-radius: 100px;
+        //     color: $white;
+        // }
     }
+
+
             
     .plan-content {
         display: flex;

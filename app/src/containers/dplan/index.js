@@ -8,7 +8,7 @@ import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
 import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
-import noPlan from '../../style/no-plan.png';
+// import noPlan from '../../style/no-plan.png';
 import settingsButton from '../../style/settings.svg';
 import Term from '../term';
 import './dplan.scss';
@@ -130,7 +130,7 @@ class DPlan extends Component {
 
   renderPlanName = (planName) => {
     if (planName.length > 20) {
-      return `${planName.substring(0, 16)}...`;
+      return `${planName.substring(0, 20)}...`;
     } else {
       return planName;
     }
@@ -141,10 +141,9 @@ class DPlan extends Component {
       return (
         <div className="dashboard">
           <Dashboard setCurrentPlan={this.setCurrentPlan} />
-          <div className="no-plans">
-            <img src={noPlan} alt="" />
-            <p>Oh no! Looks like you don’t have any plans yet. Click below to get started with your first plan.</p>
-            {this.renderNewPlanButton(this.showNewPlanDialog)}
+          <div className="welcome-text">
+            <div className="welcome-title">Welcome to D-Planner!</div>
+            <div className="welcome-subtitle">Get started by creating a new Plan.</div>
           </div>
         </div>
       );
