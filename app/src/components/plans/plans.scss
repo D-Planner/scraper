@@ -16,10 +16,17 @@
         align-items: center;
         background: $purple-light;
         border-radius: 5px;
-
+        filter: opacity(40%);
         cursor: pointer;
+
         &:hover {
-            filter: opacity(90%);
+            filter: opacity(100%);
+        }
+
+        &.current {
+            filter: opacity(100%);
+            padding: 5px;
+            border: 2px $purple-light solid;
         }
 
         .plan-letter {
@@ -43,7 +50,7 @@
         cursor: pointer;
 
         &:hover {
-            filter: opacity(90%);
+            background: $purple-light-10;
         }
         p {
             color: $purple-light;

@@ -115,7 +115,7 @@ class Dashboard extends React.Component {
           onMouseLeave={this.handleMouseLeave}
         >
           <div className="plans-container">
-            <Plans plans={this.props.plans} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
+            <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
             <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
@@ -164,6 +164,7 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({
   plans: state.plans.all,
+  currentPlan: state.plans.current,
   errorMessage: state.plans.errorMessage,
 });
 
