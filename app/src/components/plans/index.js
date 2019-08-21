@@ -1,26 +1,41 @@
 import React from 'react';
 import './plans.scss';
 
-
-/** displays information on a user's plans and allows them to select one */
+/**
+ * Displays all the user's plans and allows them to create a new plan.
+ * @param {*} param0
+ */
 const Plans = ({
-  plans, showDialog, goToPlan, active,
+  plans, currentPlan, showDialog, goToPlan, active,
 }) => {
   const maxedPlans = (plans.length >= 10);
   return (
     <div className="plans">
       {plans.map((plan) => {
-        return (
-          <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
-            <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
-          </div>
-        );
+        if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
+          return (
+            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan current">
+              <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
+            </div>
+          );
+        } else {
+          return (
+            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
+              <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
+            </div>
+          );
+        }
       })}
       {renderNewPlanButton(showDialog, active, maxedPlans)}
     </div>
   );
 };
 
+/**
+ * Renders the plan name box depending on whether the user is hovering on the menu.
+ * @param {String} planName
+ * @param {Boolean} whetherActive
+ */
 const renderPlanName = (planName, whetherActive) => {
   if (whetherActive) {
     if (planName.length > 16) {
@@ -33,6 +48,12 @@ const renderPlanName = (planName, whetherActive) => {
   }
 };
 
+/**
+ * Renders the new plan button depending on whether the user is hovering over the menu and whether the user has reached the maximum number of plans.
+ * @param {Object} showDialog
+ * @param {Boolean} whetherActive
+ * @param {Boolean} maxedPlans
+ */
 const renderNewPlanButton = (showDialog, whetherActive, maxedPlans) => {
   if (maxedPlans) {
     if (whetherActive) {
