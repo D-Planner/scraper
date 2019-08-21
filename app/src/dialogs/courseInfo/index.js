@@ -120,13 +120,22 @@ class CourseInfoDialog extends Component {
    * Handles rendering of the description.
    * @param {String} description
    */
-  renderDescription = (description) => {
-    return (
-      <div id="description">
-        <div className="section-header">Description</div>
-        {description}
-      </div>
-    );
+  renderDescription = (description, orc_url) => {
+    if (description.length > 600) {
+      return (
+        <div id="description">
+          <div className="section-header">Description</div>
+          {`${description.substring(0, 600)}... `}<a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a>
+        </div>
+      );
+    } else {
+      return (
+        <div id="description">
+          <div className="section-header">Description</div>
+          {description} <a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a>
+        </div>
+      );
+    }
   }
 
   /**
@@ -285,7 +294,7 @@ class CourseInfoDialog extends Component {
           { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
         </div>
         <hr className="horizontal-divider" />
-        <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description)}</div>
+        <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
         <hr className="horizontal-divider" />
         <div id="metrics">
           {this.renderDistribs(course)}
