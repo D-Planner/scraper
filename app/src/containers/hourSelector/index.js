@@ -10,14 +10,14 @@ const HourSelector = (props) => {
 
   const hours = () => {
     return (
-      <select value={timeslot || 'N/A'} onChange={e => setTimeslot(e.target.value)} className={(props.past) ? 'past' : ''}>
+      <select value={timeslot || '-'} onChange={e => setTimeslot(e.target.value)} className={(props.past) ? 'past' : ''}>
         {props.timeslots
           ? props.timeslots.map((hour) => {
             return (
               <option key={hour} value={hour}>{(hour === 'other') ? 'OTH' : hour}</option>
             );
           })
-          : <option value="N/A">N/A</option>}
+          : <option value="-">-</option>}
       </select>
     );
   };
