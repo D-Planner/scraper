@@ -74,7 +74,7 @@ class Dashboard extends React.Component {
 
   showDialog() {
     const dialogOptions = {
-      title: 'Name your plan',
+      title: 'New plan',
       okText: 'Create',
       onOk: (name, gradYear) => {
         this.createNewPlan(name, gradYear);
