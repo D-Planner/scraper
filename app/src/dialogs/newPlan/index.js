@@ -6,11 +6,10 @@ import './newPlan.scss';
 /** allows a user to name and create a new plan */
 const NewPlan = (props) => {
   const [text, setText] = useState('');
-  // const [gradYear, setGradYear] = useState('');
 
 
   return (
-    <DialogWrapper {...props} onOk={() => { props.onOk(text, 2023); }}>
+    <DialogWrapper {...props} onOk={() => { props.onOk(text); }}>
       <div className="new-plan-content">
         <div className="description">Give your new plan a name.</div>
         <input
@@ -19,13 +18,6 @@ const NewPlan = (props) => {
           className="new-plan-name"
           onChange={(e) => { setText(e.target.value); }}
         />
-        {/* <input
-          type="number"
-          placeholder="Graduation Year (xxxx)"
-          className="new-plan-name"
-          onChange={(e) => { setGradYear(e.target.value); }}
-        /> */}
-
       </div>
     </DialogWrapper>
   );

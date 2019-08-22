@@ -51,9 +51,9 @@ class Dashboard extends React.Component {
     console.log(this.props.errorMessage);
   }
 
-  createNewPlan(name, gradYear) {
+  createNewPlan(name) {
     const terms = ['F', 'W', 'S', 'X'];
-    let currYear = gradYear - 4;
+    let currYear = this.props.user.graduationYear - 4;
     let currQuarter = -1;
     this.props.createPlan({
       terms: emptyPlan.terms.map((term) => {
@@ -163,6 +163,7 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.user.current,
   plans: state.plans.all,
   currentPlan: state.plans.current,
   errorMessage: state.plans.errorMessage,
