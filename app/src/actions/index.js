@@ -26,6 +26,8 @@ export const ActionTypes = {
   FETCH_PROGRESS: 'FETCH_PROGRESS',
   RANDOM_COURSE: 'RANDOM_COURSE',
   FETCH_TIME: 'FETCH_TIME',
+  BEGIN_DRAG: 'BEGIN_DRAG',
+  END_DRAG: 'END_DRAG',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-dartmouth.herokuapp.com';
@@ -56,6 +58,20 @@ export function createCourses() {
       reject();
     });
   }));
+}
+
+export function setDraggingState(isDragging) {
+  if (isDragging) {
+    return {
+      type: ActionTypes.BEGIN_DRAG,
+      payload: true,
+    };
+  } else {
+    return {
+      type: ActionTypes.END_DRAG,
+      payload: false,
+    };
+  }
 }
 
 // ----- Error Handling ----- //
