@@ -123,7 +123,7 @@ class Dashboard extends React.Component {
                 ? (
                   <>
                     <img className="search-icon" src={searchIcon} alt="search" />
-                    <space />
+                    <div className="space" />
                     <p>Discover</p>
                   </>
                 )
@@ -144,7 +144,7 @@ class Dashboard extends React.Component {
                 ? (
                   <>
                     <img className="search-icon" src={personIcon} alt="search" />
-                    <space />
+                    <div className="space" />
                     <p>Your Profile</p>
                   </>
                 )
