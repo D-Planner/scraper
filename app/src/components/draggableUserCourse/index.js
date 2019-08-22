@@ -3,11 +3,12 @@ import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
 import { ItemTypes, DialogTypes } from '../../constants';
-import { showDialog } from '../../actions';
+import { showDialog, setDraggingState } from '../../actions';
 import CourseElement from '../staticCourseElement';
 
 const source = {
   beginDrag(props) {
+    props.setDraggingState(true);
     return {
       userCourse: props.course,
       catalogCourse: props.catalogCourse,
@@ -15,6 +16,7 @@ const source = {
     };
   },
   endDrag(props, monitor) {
+    props.setDraggingState(false);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
       props.removeCourseFromTerm();
@@ -66,4 +68,4 @@ class UserCourse extends Component {
   }
 }
 // eslint-disable-next-line new-cap
-export default connect(null, { showDialog })(DraggableUserCourse(ItemTypes.COURSE, source, collect)(UserCourse));
+export default connect(null, { showDialog, setDraggingState })(DraggableUserCourse(ItemTypes.COURSE, source, collect)(UserCourse));
