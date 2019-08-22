@@ -5,6 +5,7 @@ $term-border-radius: 6px;
 $term-padding: 15px;
 $term-width-13: 238px;
 $term-height-13: 205px;
+$term-height-13-4: 235px;
 $term-margin: 0 15px 15px 0;
 
 
@@ -37,6 +38,9 @@ $term-margin: 0 15px 15px 0;
         .accent {
             display: none; // if the term is a past term, don't show the accent bar
         }
+    }
+    &.fourCourses {
+        height: $term-height-13-4;
     }
     .header {
         $term-name-font-size: 24px;

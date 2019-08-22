@@ -102,6 +102,14 @@ class Term extends Component {
     return false;
   }
 
+  fourCourses = () => {
+    if (this.props.isDragging) {
+      return (this.props.term.courses.length === 3 || this.props.term.courses.length === 4);
+    } else {
+      return (this.props.term.courses.length === 4);
+    }
+  }
+
   isNextTerm = () => {
     const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
     if (year === this.props.time.nextTerm.year && term === this.props.time.nextTerm.term) return true;
@@ -124,7 +132,7 @@ class Term extends Component {
   }
 
   renderIfDragging = () => {
-    if (this.props.isDragging) {
+    if (this.props.isDragging && this.props.term.courses.length < 4) {
       return (
         <div className="course-row">
           <div className="phantom-course" />
@@ -213,6 +221,7 @@ class Term extends Component {
         off: this.props.term.off_term,
         term: true,
         past: this.past(),
+        fourCourses: this.fourCourses(),
       })}
       >
         <div className="header">
