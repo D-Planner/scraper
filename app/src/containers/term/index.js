@@ -123,6 +123,18 @@ class Term extends Component {
     });
   }
 
+  renderIfDragging = () => {
+    if (this.props.isDragging) {
+      return (
+        <div className="course-row">
+          <div className="phantom-course" />
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   renderContent = () => {
     if (this.props.term.off_term) {
       return (
@@ -147,7 +159,8 @@ class Term extends Component {
           past: this.past(),
         })}
         >
-          {this.past() ? 'Place Your Previous Courses here' : 'Drag-n-drop your courses here!'}
+          {this.renderIfDragging()}
+          {/* {this.past() ? 'Place Your Previous Courses here' : 'Drag-n-drop your courses here!'} */}
         </div>
       );
     }
@@ -156,35 +169,39 @@ class Term extends Component {
         {this.props.term.courses.map((course) => {
           // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
-            <div className="course-row" key={course.id}>
-              <DraggableUserCourse
-                size={(this.isNextTerm() ? 'sm' : 'bg')}
-                key={course.id}
-                catalogCourse={course.course}
-                course={course}
-                sourceTerm={this.props.term.id}
-                removeCourseFromTerm={() => {
-                  this.props.removeCourseFromTerm(course, this.props.term);
-                }}
-              />
-              {
-                this.isNextTerm()
-                  ? (
-                    <div>
-                      <HourSelector
-                        past={this.past()}
-                        key={course.id}
-                        course={course}
-                        timeslots={course.course.periods}
-                        updateUserCourse={this.updateUserCourse}
-                      />
-                    </div>
-                  )
-                  : <></>
-              }
-            </div>
+            <>
+              <div className="course-row" key={course.id}>
+                <DraggableUserCourse
+                  size={(this.isNextTerm() ? 'sm' : 'bg')}
+                  key={course.id}
+                  catalogCourse={course.course}
+                  course={course}
+                  sourceTerm={this.props.term.id}
+                  removeCourseFromTerm={() => {
+                    this.props.removeCourseFromTerm(course, this.props.term);
+                  }}
+                />
+                {
+                  this.isNextTerm()
+                    ? (
+                      <div>
+                        <HourSelector
+                          past={this.past()}
+                          key={course.id}
+                          course={course}
+                          timeslots={course.course.periods}
+                          updateUserCourse={this.updateUserCourse}
+                        />
+                      </div>
+                    )
+                    : <></>
+                }
+              </div>
+              <div id="course-spacer-small" />
+            </>
           );
         })}
+        {this.renderIfDragging()}
       </div>
     );
   };
@@ -221,6 +238,9 @@ class Term extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  isDragging: state.dragStatus.isDragging,
+});
 
 // export default withRouter(connect(mapStateToProps, {
 //   fetchPlan, deletePlan, updateTerm, showDialog,
@@ -228,6 +248,6 @@ class Term extends Component {
 // eslint-disable-next-line new-cap
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
-export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(null, {
+export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
   updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 })(Term)));
