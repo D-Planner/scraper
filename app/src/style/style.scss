@@ -25,6 +25,10 @@ code {
   margin: 0;
   font-family: $poppins;
 
+  &:focus { // this is to get rid of the ugly orange outline when you focus on an element
+    outline: none;
+  }
+
   // flex-shrink: 0;
 
   // styling for scroll bars
