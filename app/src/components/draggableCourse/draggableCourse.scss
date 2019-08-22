@@ -1,6 +1,9 @@
 @import '../../style/variables.scss';
 
 $course-border-radius: 5px;
+$course-height: 30px;
+$course-width-large: 203px;
+$course-width-small: 181px;
 
 
 .course {
@@ -16,13 +19,13 @@ $course-border-radius: 5px;
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
-    height: 30px;
+    height: $course-height;
 
     &.bg {
-      width: 203px;
+      width: $course-width-large;
     }
     &.sm {
-      width: 181px;
+      width: $course-width-small;
     }
     &:hover {
         cursor: pointer;
