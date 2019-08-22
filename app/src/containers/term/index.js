@@ -169,8 +169,8 @@ class Term extends Component {
         {this.props.term.courses.map((course) => {
           // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
-            <>
-              <div className="course-row" key={course.id}>
+            <div className="course-row-with-space" key={course.id}>
+              <div className="course-row">
                 <DraggableUserCourse
                   size={(this.isNextTerm() ? 'sm' : 'bg')}
                   key={course.id}
@@ -198,7 +198,7 @@ class Term extends Component {
                 }
               </div>
               <div id="course-spacer-small" />
-            </>
+            </div>
           );
         })}
         {this.renderIfDragging()}

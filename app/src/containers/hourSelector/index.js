@@ -10,7 +10,7 @@ const HourSelector = (props) => {
 
   const hours = () => {
     return (
-      <select value={timeslot} onChange={e => setTimeslot(e.target.value)} className={(props.past) ? 'past' : ''}>
+      <select value={timeslot || 'N/A'} onChange={e => setTimeslot(e.target.value)} className={(props.past) ? 'past' : ''}>
         {props.timeslots
           ? props.timeslots.map((hour) => {
             return (

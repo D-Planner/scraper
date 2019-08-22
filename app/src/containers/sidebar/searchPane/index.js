@@ -18,7 +18,7 @@ export const LikelyTerms = (props) => {
         {
           terms.map((term) => {
             return (
-              <div className={classNames({ likely: (props.terms.length && props.terms.includes(term)) })}>{term}</div>
+              <div className={classNames({ likely: (props.terms.length && props.terms.includes(term)) })} key={term}>{term}</div>
             );
           })
         }
@@ -88,7 +88,7 @@ const SearchPane = (props) => {
                     return g.length <= 2;
                   }).map((g) => {
                     return (
-                      <option value={g}>{GenEds[g].fullName} ({g})</option>
+                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
                     );
                   })
                 }
@@ -104,7 +104,7 @@ const SearchPane = (props) => {
                     return g.length > 2;
                   }).map((g) => {
                     return (
-                      <option value={g}>{GenEds[g].fullName} ({g})</option>
+                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
                     );
                   })
                 }
@@ -114,13 +114,13 @@ const SearchPane = (props) => {
               {props.results.length
                 ? props.results.map((course) => {
                   return (
-                    <>
+                    <div className="result-row" key={course.id}>
                       <div className="paneCourse">
                         <DraggableCourse key={course.id} course={course} />
                         <LikelyTerms terms={course.likely_terms} />
                       </div>
                       <div id="course-spacer-large" />
-                    </>
+                    </div>
                   );
                 })
                 : (<div className="no-search">Search for courses!</div>)}

@@ -53,17 +53,19 @@ class Dashboard extends React.Component {
 
   createNewPlan(name) {
     const terms = ['F', 'W', 'S', 'X'];
-    let currYear = this.props.user.graduationYear - 4;
-    let currQuarter = -1;
-    this.props.createPlan({
-      terms: emptyPlan.terms.map((term) => {
-        if (currQuarter === 3) currYear += 1;
-        currQuarter = (currQuarter + 1) % 4;
-        return { ...term, year: currYear, quarter: terms[currQuarter] };
-      }),
-      name,
-    }, this.props.setCurrentPlan).then(() => {
-      this.props.fetchPlans();
+    this.props.fetchUser().then(() => { // grabs most recent user data first
+      let currYear = this.props.user.graduationYear - 4;
+      let currQuarter = -1;
+      this.props.createPlan({
+        terms: emptyPlan.terms.map((term) => {
+          if (currQuarter === 3) currYear += 1;
+          currQuarter = (currQuarter + 1) % 4;
+          return { ...term, year: currYear, quarter: terms[currQuarter] };
+        }),
+        name,
+      }, this.props.setCurrentPlan).then(() => {
+        this.props.fetchPlans();
+      });
     });
   }
 
