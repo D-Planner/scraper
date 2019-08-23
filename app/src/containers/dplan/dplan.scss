@@ -49,12 +49,11 @@ $sidebar-margin-left: 30px;
 
             
     .plan-content {
-
         box-shadow: -5px 0px 20px rgba(0, 0, 0, 0.15);
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         width: 100%;
-        min-width: calc(100vw - 68px); // CSS-DEF the 68px refers to $menu-width-closed
+        min-width: calc(100vw - #{$menu-width-closed}); // CSS-DEF the 68px refers to $menu-width-closed
         max-height: 100vh;
         background: $background;
         
@@ -87,7 +86,8 @@ $sidebar-margin-left: 30px;
             }
         }
 
-        .plan-grid {            
+        .plan-grid {      
+            flex-grow: 1;      
             overflow-x: hidden;
             padding-left: 30px; // the reaosn why this has to be padding-left instead of margin-left is because otherwise, the box-shadow gets cut-off
             display: flex;
@@ -101,7 +101,9 @@ $sidebar-margin-left: 30px;
             .plan-row {
                 display: flex;
                 flex-direction: row;
+                justify-content: flex-start;
                 margin-bottom: 10px;
+                width: 100%;
             }
         }
     }
