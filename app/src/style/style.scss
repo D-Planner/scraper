@@ -56,5 +56,16 @@ code {
 }
 
 .app-container {
-  height:100%;
+  height: 100%;
+}
+
+@media (max-width: 1392px) {
+    .plan-grid {
+        .plan-row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            margin-bottom: 30px !important; // we need this !important so that the @media can override the default 10px
+        }                   
+    }
 }
