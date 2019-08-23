@@ -11,12 +11,12 @@ $term-margin: 0 15px 15px 0;
 
 .term {
     border-radius: $term-border-radius;
-    box-sizing: border-box;
     margin: $term-margin;
     padding-right: $term-padding;
     padding-left: $term-padding;
     width: $term-width-13;
     height: $term-height-13;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -124,6 +124,7 @@ $term-margin: 0 15px 15px 0;
                 border-radius: $course-border-radius;
                 width: $course-width-large;
                 height: $course-height;
+                animation: pulse 0.5s infinite;
             }
         
             .hourSelector {
