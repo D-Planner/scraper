@@ -12,7 +12,7 @@ $inactive-height: 50px;
     .pane {
         background:$white;
         color: $text-accent;
-        width: 303px;
+        width: $sidebar-width;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
