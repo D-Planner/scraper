@@ -54,8 +54,8 @@ const collect = (connect, monitor) => {
 class Term extends Component {
   turnOffTerm = () => {
     const opts = {
-      title: 'Turn Term Off',
-      okText: 'Ok!',
+      title: 'Turn term off',
+      okText: 'Turn Off',
       onOk: () => {
         this.props.term.courses.forEach((course) => {
           // console.log(`Because you are turning off this term, deleting: ${course}`);

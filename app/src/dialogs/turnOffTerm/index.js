@@ -8,8 +8,8 @@ const TurnOffTerm = (props) => {
   return (
     <DialogWrapper {...props}>
       <div className="new-plan-content">
-        <div className="description">Are you sure you want to turn off this term?</div>
-        <div className="warning">Warning: You will lose any courses currently in this term</div>
+        <div className="description">Make this an off-term?</div>
+        <div className="warning">You will lose any courses currently in this term.</div>
       </div>
     </DialogWrapper>
   );
