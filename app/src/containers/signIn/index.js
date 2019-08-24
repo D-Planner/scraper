@@ -25,18 +25,17 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
 
 
   return (
-
     <div className="formContainer">
       <form>
         <div className="row">
-          <input id="email" value={email} placeholder="College Email" onChange={e => setEmail(e.target.value)} />
+          <input id="email" value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="row">
           <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
         <button type="button" disabled={!permitted} className="sign-up" onClick={signin}>Sign In</button>
-        <button type="button" className="sign-in" onClick={signup}>Don&apos;t have an account? Sign up</button>
+        <button type="button" className="sign-in" onClick={signup}>Sign Up</button>
       </form>
     </div>
   );

@@ -31,101 +31,81 @@ $font-secondary: 'Poppins';
 }
 
 .formContainer {
-    align-self: center;
-    width:654px;
-
-    display: flex;
-    flex-direction: column;
-
-    * {
-        font-family: Poppins;
-        font-style: normal;
-        font-weight: 300;
-        font-size: 21px;
-        line-height: 31px;
-        color:#838484;
-    }
-
+    width: 300px;
+    form {
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     
-
-    .spacer {
-        height:50px;
-        border:none;
-    }
-
-    
-    .row {
-        display:flex;
-        flex-direction:row;
-
-        #firstName {
-            width:257px;
-            flex:0 1 auto !important;
-        }
-
-        #college {
-            width:433px;
-            flex:0 1 auto !important;
-        }
         * {
-            margin:5px;
-            flex:1;
+            font-size: 18px;
         }
-    }
-        
-    .sign-up {
-        width:100%;
-        display: flex;
-        justify-content: center;
-        margin-bottom:22px;
-
-        background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
-        box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
-        height: 50px;
-        border-radius: 100px;
-        color: $white;
-
-        font-family: $font-secondary;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: normal;
-        text-transform: uppercase;
-
-        &:disabled {
-            background:gray;
-        }
-    }
-
-    .sign-in {
-        width:100%;
-        display: flex;
-        justify-content: center;
-        
-
-        box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
-        height: 50px;
-        border-radius: 100px;
-        background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-
-        font-family: $font-secondary;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: normal;
-        text-transform: uppercase;
-    }
-}
-
-.formContainer {
-    input {
-        border-bottom: 1px solid black;
-        padding:10px;
     
-        &:focus {
-            outline: none;
+        input {
+            padding: 10px;
+            background: $white;
+            border: 1px solid $gray-5;
+            border-radius: 12px;
+        
+            &:focus {
+                border: 1.5px solid $blue-primary;
+            }
+        }
+    
+        .spacer {
+            height: 20px;
+            border: none;
+        }
+    
+        
+        .row {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            #firstName {
+                width: 257px;
+                flex:0 1 auto !important;
+            }
+    
+            #college {
+                width: 433px;
+                flex:0 1 auto !important;
+            }
+            * {
+                margin: 5px;
+                flex: 1;
+            }
+        }
+            
+        .sign-up {
+            width: 120px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            background: $blue-primary;
+            height: 40px;
+            border-radius: 12px;
+            color: $white;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+    
+        }
+    
+        .sign-in {
+            width: 120px;
+            display: flex;
+            justify-content: center;
+            background: $white;
+            border: 1px solid $blue-primary;
+            height: 40px;
+            border-radius: 12px;
+            color: $blue-primary;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
         }
     }
+
 }
