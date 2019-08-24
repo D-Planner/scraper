@@ -87,7 +87,7 @@ class DPlan extends Component {
 
   showDialog() {
     const opts = {
-      title: 'Delete Plan',
+      title: 'Delete plan',
       okText: 'Delete',
       onOk: () => {
         this.props.deletePlan(this.props.plan.id, this.props.history);

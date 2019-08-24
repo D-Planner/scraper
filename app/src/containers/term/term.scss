@@ -1,20 +1,22 @@
 @import '../../style/variables.scss';
+@import '../../components/draggableCourse/draggableCourse.scss';
 
 $term-border-radius: 6px;
 $term-padding: 15px;
 $term-width-13: 238px;
 $term-height-13: 205px;
+$term-height-13-4: 235px;
 $term-margin: 0 15px 15px 0;
 
 
 .term {
     border-radius: $term-border-radius;
-    box-sizing: border-box;
     margin: $term-margin;
     padding-right: $term-padding;
     padding-left: $term-padding;
     width: $term-width-13;
     height: $term-height-13;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -36,6 +38,9 @@ $term-margin: 0 15px 15px 0;
         .accent {
             display: none; // if the term is a past term, don't show the accent bar
         }
+    }
+    &.fourCourses {
+        height: $term-height-13-4;
     }
     .header {
         $term-name-font-size: 24px;
@@ -67,7 +72,7 @@ $term-margin: 0 15px 15px 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 900;
+            font-weight: 700;
             font-size: 12px;
             width: 30px;
             height: 22px;
@@ -110,22 +115,49 @@ $term-margin: 0 15px 15px 0;
         align-items: stretch;
         justify-content: flex-start;
 
-        &.no-content {
-            text-align: center;
-            justify-content: flex-start;
+        .course-row {
+            display: flex;
             align-items: center;
+
+            .phantom-course {
+                background: $gray-2;
+                border-radius: $course-border-radius;
+                width: $course-width-large;
+                height: $course-height;
+                animation: pulse 0.5s infinite;
+            }
+        
+            .hourSelector {
+                select {
+                    color: $blue-primary;
+                }
+            }
+        
+        }
+
+
+        &.no-content {
             &.on {
                 color: $blue-primary;
             }
             &.off {
+                text-align: center;
+                justify-content: flex-start;
+                align-items: center;
                 color: $gray-6;
+                position: relative;
+                top: 45px;
+                padding: 0 37px 0 37px;
             }
             &.past {
+                text-align: center;
+                justify-content: flex-start;
+                align-items: center;
                 color: $blue-primary;
+                position: relative;
+                top: 45px;
+                padding: 0 37px 0 37px;
             }
-            position: relative;
-            top: 45px;
-            padding: 0 37px 0 37px;
         }
     }
     .accent {
@@ -140,15 +172,4 @@ $term-margin: 0 15px 15px 0;
 
 }
 
-.course-row {
-    display: flex;
-    width: 208px;
-    align-items: center;
 
-    .hourSelector{
-        select {
-            color: $blue-primary;
-        }
-    }
-
-}

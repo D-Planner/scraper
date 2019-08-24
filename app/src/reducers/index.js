@@ -7,6 +7,7 @@ import plansReducer from './plans-reducer';
 import userReducer from './user-reducer';
 import majorReducer from './majors-reducer';
 import timeReducer from './time-reducer';
+import dragReducer from './drag-reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   plans: plansReducer,
   user: userReducer,
   time: timeReducer,
+  dragStatus: dragReducer,
 });
 
 export default rootReducer;

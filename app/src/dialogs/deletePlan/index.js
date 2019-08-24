@@ -9,7 +9,7 @@ const DeletePlan = (props) => {
     <DialogWrapper {...props}>
       <div className="new-plan-content">
         <div className="description">Are you sure you want to delete this plan?</div>
-        <div className="warning">Warning: This cannot be undone.</div>
+        <div className="warning">This cannot be undone.</div>
       </div>
     </DialogWrapper>
   );

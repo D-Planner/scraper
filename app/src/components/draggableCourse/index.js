@@ -4,15 +4,17 @@ import { DragSource as DraggableCourse } from 'react-dnd';
 import { connect } from 'react-redux';
 import CourseElement from '../staticCourseElement';
 import { ItemTypes, DialogTypes } from '../../constants';
-import { showDialog } from '../../actions';
+import { showDialog, setDraggingState } from '../../actions';
 
 const source = {
   beginDrag(props) {
+    props.setDraggingState(true);
     return {
       course: props.course,
     };
   },
   endDrag(props, monitor) {
+    props.setDraggingState(false);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop() && props.removeCourseFromTerm) {
       props.removeCourseFromTerm();
@@ -55,4 +57,4 @@ const Course = (props) => {
   );
 };
 
-export default connect(null, { showDialog })(DraggableCourse(ItemTypes.COURSE, source, collect)(Course));
+export default connect(null, { showDialog, setDraggingState })(DraggableCourse(ItemTypes.COURSE, source, collect)(Course));

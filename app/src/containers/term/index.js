@@ -54,8 +54,8 @@ const collect = (connect, monitor) => {
 class Term extends Component {
   turnOffTerm = () => {
     const opts = {
-      title: 'Turn Term Off',
-      okText: 'Ok!',
+      title: 'Turn term off',
+      okText: 'Turn Off',
       onOk: () => {
         this.props.term.courses.forEach((course) => {
           // console.log(`Because you are turning off this term, deleting: ${course}`);
@@ -102,6 +102,14 @@ class Term extends Component {
     return false;
   }
 
+  fourCourses = () => {
+    if (this.props.isDragging) {
+      return (this.props.term.courses.length === 3 || this.props.term.courses.length === 4);
+    } else {
+      return (this.props.term.courses.length === 4);
+    }
+  }
+
   isNextTerm = () => {
     const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
     if (year === this.props.time.nextTerm.year && term === this.props.time.nextTerm.term) return true;
@@ -121,6 +129,18 @@ class Term extends Component {
       this.props.fetchPlan(this.props.plan.id).then(() => {
       });
     });
+  }
+
+  renderIfDragging = () => {
+    if (this.props.isDragging && this.props.term.courses.length < 4) {
+      return (
+        <div className="course-row">
+          <div className="phantom-course" />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 
   renderContent = () => {
@@ -147,7 +167,8 @@ class Term extends Component {
           past: this.past(),
         })}
         >
-          {this.past() ? 'Place Your Previous Courses here' : 'Drag-n-drop your courses here!'}
+          {this.renderIfDragging()}
+          {/* {this.past() ? 'Place Your Previous Courses here' : 'Drag-n-drop your courses here!'} */}
         </div>
       );
     }
@@ -156,35 +177,39 @@ class Term extends Component {
         {this.props.term.courses.map((course) => {
           // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
-            <div className="course-row" key={course.id}>
-              <DraggableUserCourse
-                size={(this.isNextTerm() ? 'sm' : 'bg')}
-                key={course.id}
-                catalogCourse={course.course}
-                course={course}
-                sourceTerm={this.props.term.id}
-                removeCourseFromTerm={() => {
-                  this.props.removeCourseFromTerm(course, this.props.term);
-                }}
-              />
-              {
-                this.isNextTerm()
-                  ? (
-                    <div>
-                      <HourSelector
-                        past={this.past()}
-                        key={course.id}
-                        course={course}
-                        timeslots={course.course.periods}
-                        updateUserCourse={this.updateUserCourse}
-                      />
-                    </div>
-                  )
-                  : <></>
-              }
+            <div className="course-row-with-space" key={course.id}>
+              <div className="course-row">
+                <DraggableUserCourse
+                  size={(this.isNextTerm() ? 'sm' : 'bg')}
+                  key={course.id}
+                  catalogCourse={course.course}
+                  course={course}
+                  sourceTerm={this.props.term.id}
+                  removeCourseFromTerm={() => {
+                    this.props.removeCourseFromTerm(course, this.props.term);
+                  }}
+                />
+                {
+                  this.isNextTerm()
+                    ? (
+                      <div>
+                        <HourSelector
+                          past={this.past()}
+                          key={course.id}
+                          course={course}
+                          timeslots={course.course.periods}
+                          updateUserCourse={this.updateUserCourse}
+                        />
+                      </div>
+                    )
+                    : <></>
+                }
+              </div>
+              <div id="course-spacer-small" />
             </div>
           );
         })}
+        {this.renderIfDragging()}
       </div>
     );
   };
@@ -196,6 +221,7 @@ class Term extends Component {
         off: this.props.term.off_term,
         term: true,
         past: this.past(),
+        fourCourses: this.fourCourses(),
       })}
       >
         <div className="header">
@@ -221,6 +247,9 @@ class Term extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  isDragging: state.dragStatus.isDragging,
+});
 
 // export default withRouter(connect(mapStateToProps, {
 //   fetchPlan, deletePlan, updateTerm, showDialog,
@@ -228,6 +257,6 @@ class Term extends Component {
 // eslint-disable-next-line new-cap
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
-export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(null, {
+export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
   updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 })(Term)));

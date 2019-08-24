@@ -51,19 +51,21 @@ class Dashboard extends React.Component {
     console.log(this.props.errorMessage);
   }
 
-  createNewPlan(name, gradYear) {
+  createNewPlan(name) {
     const terms = ['F', 'W', 'S', 'X'];
-    let currYear = gradYear - 4;
-    let currQuarter = -1;
-    this.props.createPlan({
-      terms: emptyPlan.terms.map((term) => {
-        if (currQuarter === 3) currYear += 1;
-        currQuarter = (currQuarter + 1) % 4;
-        return { ...term, year: currYear, quarter: terms[currQuarter] };
-      }),
-      name,
-    }, this.props.setCurrentPlan).then(() => {
-      this.props.fetchPlans();
+    this.props.fetchUser().then(() => { // grabs most recent user data first
+      let currYear = this.props.user.graduationYear - 4;
+      let currQuarter = -1;
+      this.props.createPlan({
+        terms: emptyPlan.terms.map((term) => {
+          if (currQuarter === 3) currYear += 1;
+          currQuarter = (currQuarter + 1) % 4;
+          return { ...term, year: currYear, quarter: terms[currQuarter] };
+        }),
+        name,
+      }, this.props.setCurrentPlan).then(() => {
+        this.props.fetchPlans();
+      });
     });
   }
 
@@ -74,7 +76,7 @@ class Dashboard extends React.Component {
 
   showDialog() {
     const dialogOptions = {
-      title: 'Name your plan',
+      title: 'New plan',
       okText: 'Create',
       onOk: (name, gradYear) => {
         this.createNewPlan(name, gradYear);
@@ -123,7 +125,7 @@ class Dashboard extends React.Component {
                 ? (
                   <>
                     <img className="search-icon" src={searchIcon} alt="search" />
-                    <space />
+                    <div className="space" />
                     <p>Discover</p>
                   </>
                 )
@@ -144,7 +146,7 @@ class Dashboard extends React.Component {
                 ? (
                   <>
                     <img className="search-icon" src={personIcon} alt="search" />
-                    <space />
+                    <div className="space" />
                     <p>Your Profile</p>
                   </>
                 )
@@ -163,6 +165,7 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  user: state.user.current,
   plans: state.plans.all,
   currentPlan: state.plans.current,
   errorMessage: state.plans.errorMessage,

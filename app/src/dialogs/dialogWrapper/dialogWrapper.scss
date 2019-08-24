@@ -22,18 +22,16 @@
         padding: 20px;
 
         &.sz-small {
-            min-width: 20%;
-            min-height: 25%;
+            min-width: 300px;
         }
 
         &.sz-medium {
-            min-width: 30%;
-            min-height: 40%;
+            min-width: 500px;
         }
 
         &.sz-large {
-            width: 50%;
-            height: 70%;
+            width: 830px;
+            max-height: 600px;
             .dialog-header {
                 .dialog-title {
                     font-size: 32px;
@@ -46,42 +44,52 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            margin-bottom: 10px;
 
             .dialog-title {
-                font-family: $poppins;
                 font-size: 24px;
                 color: $text-accent;
                 font-weight: 600;
-                margin: 0;
             }
 
             .close-button {
+                align-self: flex-start;
                 background: none;
                 border: none;
                 padding: 0;
+                cursor: pointer;
             }
         }
 
         .ok-button {
-            background: #FFFFFF;
-            box-shadow: 0px 3.028px 9.084px rgba(30, 67, 139, 0.4);
-            border-radius: 24.224px;
+            background: $text-accent;
             padding: 5px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 10px;
+            border-radius: 12px;
+            cursor: pointer;
 
             .button-text {
                 font-family: $poppins;
-                font-weight: bold;
+                font-weight: 500;
                 font-size: 14px;
-                color: rgba(0,0,0,0);
-                background: linear-gradient(to right, #5797FD, #8901FB);
+                color: $purple-light;
+                // background: linear-gradient(to right, #5797FD, #8901FB);
                 background-clip: text;
-                text-transform: uppercase;
+                // text-transform: uppercase;
             }
+
+            &:hover {
+                filter: brightness(150%); 
+            }
+            &:active {
+                background: $purple-light;
+                border: 1px $text-accent solid;
+                .button-text {
+                    color: $text-accent;
+                }
+            }
+
         }
     }
 }

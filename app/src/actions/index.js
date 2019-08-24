@@ -26,6 +26,8 @@ export const ActionTypes = {
   FETCH_PROGRESS: 'FETCH_PROGRESS',
   RANDOM_COURSE: 'RANDOM_COURSE',
   FETCH_TIME: 'FETCH_TIME',
+  BEGIN_DRAG: 'BEGIN_DRAG',
+  END_DRAG: 'END_DRAG',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-dartmouth.herokuapp.com';
@@ -56,6 +58,24 @@ export function createCourses() {
       reject();
     });
   }));
+}
+
+/**
+ * An action creator to dispatch whether the user is currently dragging a course around.
+ * @param {Boolean} isDragging
+ */
+export function setDraggingState(isDragging) {
+  if (isDragging) {
+    return {
+      type: ActionTypes.BEGIN_DRAG,
+      payload: true,
+    };
+  } else {
+    return {
+      type: ActionTypes.END_DRAG,
+      payload: false,
+    };
+  }
 }
 
 // ----- Error Handling ----- //
@@ -195,7 +215,6 @@ export function createPlan(plan, planSetter) {
  * @returns an action creator to gather all plans and store them in the redux store
  */
 export function fetchPlans() {
-  console.log(`FETCHING PLANS for: ${localStorage.getItem('token')}`);
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
@@ -225,7 +244,6 @@ export function fetchPlan(planID) {
     axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
       .then((response) => {
         // console.log('[ACTION.js] fetched plan');
-        console.log(response.data);
         dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
         resolve(response);
       }).catch((error) => {
@@ -510,8 +528,8 @@ export function addCourseToTerm(course, term, planID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course, planID }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
-      console.log(`[ACTION.js] The course \n${course.name} has been added to term \n${term.id}`);
+    }).then(() => {
+      // console.log(`[ACTION.js] The course \n${course.name} has been added to term \n${term.id}`);
       resolve();
     }).catch((error) => {
       console.log(error);
