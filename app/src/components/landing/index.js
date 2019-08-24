@@ -7,7 +7,9 @@ import pine from '../../style/pine_name.png';
 import dplanner from '../../style/dplanner-19.png';
 import dplannerTransparent from '../../style/d-planner_transparent.png';
 import arrowDown from '../../style/arrow_down.svg';
-
+import feature1 from '../../style/feature1.svg';
+import feature2 from '../../style/feature2.svg';
+import feature3 from '../../style/feature3.svg';
 
 const features = [
   {
@@ -51,15 +53,28 @@ const Landing = (props) => {
     <>
       <div className="container">
         <div className="left">
-          <div className="header">
-            <span className="line1">Welcome to</span>
-            <span className="line2">D-PLANNER</span>
-            <span className="line3">The Future Of Course Selection</span>
+          <div className="intro">
+            <span className="line1">Welcome to D-Planner.</span>
+            <span className="line2">A whole new way of building your D-Plan.</span>
+            <div className="showcase">
+              <div className="feature">
+                <img className="feature-icon" src={feature1} alt="feature-icon" />
+                <div className="feature-text">Browse over 3,000 courses - full with Layup-list data, terms-offered predictions, and more.</div>
+              </div>
+              <div className="feature">
+                <img className="feature-icon" src={feature2} alt="feature-icon" />
+                <div className="feature-text">Build out academic plans that fit your needs. Test out different scenarios easily.</div>
+              </div>
+              <div className="feature">
+                <img className="feature-icon" src={feature3} alt="feature-icon" />
+                <div className="feature-text">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</div>
+              </div>
+            </div>
           </div>
           <img className="pine" src={pine} alt="" />
         </div>
         <div className="right">
-          <SignInForm className="form" />
+          <SignInForm />
           <Link to="philosophy" spy smooth duration={750}>
             <div className="scroller">
               <img src={arrowDown} alt="" />
