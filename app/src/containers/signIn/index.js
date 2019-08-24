@@ -35,7 +35,9 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
         </div>
         <div className="spacer" />
         <button type="button" disabled={!permitted} className="sign-up" onClick={signin}>Sign In</button>
-        <button type="button" className="sign-in" onClick={signup}>Sign Up</button>
+        <button type="button" className="sign-in" onClick={signup}>
+          <div className="button-cover"><div className="button-text">Sign Up</div></div>
+        </button>
       </form>
     </div>
   );

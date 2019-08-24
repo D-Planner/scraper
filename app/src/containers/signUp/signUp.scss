@@ -77,34 +77,54 @@ $font-secondary: 'Poppins';
                 flex: 1;
             }
         }
+
+        button {
+            cursor: pointer;
+            &:hover {
+                filter: brightness(130%);
+            }
+        }
             
         .sign-up {
             width: 120px;
             display: flex;
             justify-content: center;
             margin-bottom: 10px;
-            background: $blue-primary;
+            background: $gradient;
             height: 40px;
             border-radius: 12px;
             color: $white;
             font-weight: bold;
             font-size: 16px;
             text-transform: uppercase;
-    
         }
     
         .sign-in {
-            width: 120px;
             display: flex;
             justify-content: center;
-            background: $white;
-            border: 1px solid $blue-primary;
-            height: 40px;
+            align-items: center;
+            .button-cover {
+                background: $white;
+                $virtual-border: 2px;
+                margin: $virtual-border;
+                border-radius: inherit;
+                .button-text {
+                    width: calc(120px - #{$virtual-border} - #{$virtual-border});
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: $gradient;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    height: calc(40px - #{$virtual-border} - #{$virtual-border});
+                    font-weight: bold;
+                    font-size: 16px;
+                    text-transform: uppercase;
+                }
+            }
+            background: $gradient;
             border-radius: 12px;
-            color: $blue-primary;
-            font-weight: bold;
-            font-size: 16px;
-            text-transform: uppercase;
+            border: 1px solid $gradient;
         }
     }
 
