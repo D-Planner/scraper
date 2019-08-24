@@ -13,59 +13,70 @@ $content-divide: 100px;
     flex-direction: row;
 
     .left {
-        flex:1;
+        width: 63%;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        justify-content: center;
         background: linear-gradient(215.91deg, #5897FD -11.34%, rgba(255, 255, 255, 0) 81.43%), #733DF9;
         box-shadow: 0px 4px 100px rgba(0, 0, 0, 0.25);
-        padding:50px;
 
-        .header {
-            flex:1;
-            padding-top:100px;
-            font-family: Poppins;
-            font-style: normal;
-            font-weight: bold;
-
+        .intro {
+            width: 600px;
             display: flex;
             flex-direction: column;
-            text-align: right;
-            color:white;
+            color: white;
 
             .line1 {
-                font-size: 84px;
+                font-size: 48px;
+                font-weight: 700;
+                margin-bottom: 25px;
             }
             .line2 {
-                font-size: 120px;
+                font-size: 24px;
+                font-weight: 500;
             }
-            .line3 {
-                font-size:42px;
+            .showcase {
+                width: 85%;
+                .feature {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 25px;
+                    .feature-icon {
+                        margin-right: 20px;
+                        max-width: 75px;
+                    }
+                    .feature-text {
+                        font-size: 16px;
+                    }
+                }
+
             }
         }
 
         .pine {
+            display: none;
             align-self: flex-end;
             width: 120px;
             height: 97px;
         }
     }
     .right {
-        flex:1;
-        box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+        flex: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
+        justify-content: center;
 
         .scroller {
             border-radius: 100%;
             text-align: center;
             background: #518FF5;
             box-shadow: 0px 4px 100px rgba(0, 0, 0, 0.25);
-            width:61px;
-            height:61px;
+            width: 32px;
+            height: 32px;
 
-            display:flex;
+            display: none;
             justify-content: center;
             align-content: center;
         }
@@ -90,7 +101,6 @@ $content-divide: 100px;
             font-style: normal;
             font-weight: bold;
             font-size: 48px;
-            line-height: 72px;
             text-align: center;
             color:#574966;
         }
