@@ -11,6 +11,8 @@ import { GenEds } from '../../../constants';
 
 
 export const LikelyTerms = (props) => {
+  if (!props.terms) return <></>;
+
   const terms = ['F', 'W', 'S', 'X'];
   return (
     <>
@@ -57,7 +59,6 @@ const SearchPane = (props) => {
       props.search(queryParsed);
     }
   }, [searchText, wcs, distribs]);
-
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">

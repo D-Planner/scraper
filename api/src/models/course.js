@@ -13,13 +13,6 @@ const LetterToScore = { // Need to also consider 'A / A-' ones, how should we ma
     D: 1,
 };
 
-const TermToString = {
-    F: 'Fall',
-    W: 'Winter',
-    S: 'Spring',
-    X: 'Summer',
-};
-
 const CourseSchema = new Schema({
     layup_url: String,
     layup_id: Number,
@@ -93,27 +86,47 @@ CourseSchema.virtual('avg_median').get(function () {
 // For terms most likely to be offered, I'm thinking we take the average of times offered in each term (F,W,S,X), \
 // and whichever term has recurrence greater than the average, we display those as likely_terms?
 
-// Working!
+// Format ["F", "W", "S", "X"]
 CourseSchema.virtual('likely_terms').get(function () {
     try {
-        const occurrences = this.terms_offered
-            .map((t) => {
-                return t.replace(/\d/g, '');
-            })
+        const yearlyOccurences = (this.terms_offered) ? this.terms_offered
             .reduce((acc, cur, i) => {
-                if (!acc[cur]) acc[cur] = 1;
-                else acc[cur] += 1;
+                const [year, term] = cur.split(/(?!\d)/g);
+                if (acc[year]) acc[year].push(term);
+                else acc[year] = [term];
                 return acc;
-            }, {});
-        const avg = Object.values(occurrences).reduce((acc, curr) => {
-            acc += curr / Object.values(occurrences).length;
-            return acc;
-        }, 0);
-        Object.keys(occurrences).forEach((k) => {
-            if (occurrences[k] < avg) delete occurrences[k];
-        });
-        return Object.keys(occurrences);
+            }, {}) : {};
+
+        const indexFromEndYearlyOccurences = (i) => {
+            const values = Object.values(yearlyOccurences);
+            return values[values.length - i];
+        };
+
+        const patternSeach = (yOccurences) => {
+            const patternTypes = {
+                consistency: (occ) => {
+                    const annualRepititions = Object.entries(occ).reduce((acc, [k, v]) => {
+                        if (acc.some((e) => { return e.every((i, j) => { return i === v[j]; }); })) return acc;
+                        if (Object.values(occ).reduce((n, x) => { return (n + (x.every((e, i) => { return e === v[i]; }))); }, 0) > Object.values(occ).length - 3) acc.push(v);
+                        return acc;
+                    }, []);
+                    console.log(annualRepititions);
+                    if (annualRepititions.length === 1) return Object.values(occ)[Object.values(occ).length - 2];
+                    return null;
+                },
+            };
+            console.log('Pattern', Object.entries(patternTypes)
+                .map(([k, fn]) => { return fn(yOccurences); }));
+            return Object.entries(patternTypes)
+                .map(([k, fn]) => { return fn(yOccurences); })
+                .filter((e) => { return e !== null; });
+        };
+
+        const foundPatterns = patternSeach(yearlyOccurences);
+        if (foundPatterns.length === 1) return indexFromEndYearlyOccurences(2);
+        return indexFromEndYearlyOccurences(1);
     } catch (e) {
+        console.log(e);
         return e;
     }
 });
