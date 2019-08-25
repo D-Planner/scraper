@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, getFulfilledStatus,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -84,6 +84,15 @@ class DPlan extends Component {
       reject();
     });
   })
+
+  getFulfilledStatus = (termID, courseID) => new Promise((resolve, reject) => {
+    getFulfilledStatus(this.props.plan.id, termID, courseID).then((res) => {
+      resolve(res);
+    }).catch((e) => {
+      console.log(e);
+      reject();
+    });
+  });
 
   showDialog() {
     const opts = {
@@ -174,6 +183,7 @@ class DPlan extends Component {
                           key={term.id}
                           addCourseToTerm={this.addCourseToTerm}
                           removeCourseFromTerm={this.removeCourseFromTerm}
+                          getFulfilledStatus={this.getFulfilledStatus}
                         />
                       );
                     })}

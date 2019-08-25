@@ -32,6 +32,18 @@ export const ActionTypes = {
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-dartmouth.herokuapp.com';
 
+export function getFulfilledStatus(planID, termID, courseID) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return axios.get(`${ROOT_URL}/courses/fulfilled/${courseID}/${termID}/${planID}`, { headers }).then((response) => {
+    return response.data;
+  }).catch((error) => {
+    console.log(error);
+    return error;
+  });
+}
+
 export function getTimes() {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/globals/`).then((response) => {
@@ -64,11 +76,11 @@ export function createCourses() {
  * An action creator to dispatch whether the user is currently dragging a course around.
  * @param {Boolean} isDragging
  */
-export function setDraggingState(isDragging) {
+export function setDraggingState(isDragging, course) {
   if (isDragging) {
     return {
       type: ActionTypes.BEGIN_DRAG,
-      payload: true,
+      payload: course,
     };
   } else {
     return {

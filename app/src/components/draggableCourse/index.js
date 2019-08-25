@@ -8,13 +8,13 @@ import { showDialog, setDraggingState } from '../../actions';
 
 const source = {
   beginDrag(props) {
-    props.setDraggingState(true);
+    props.setDraggingState(true, props.course);
     return {
       course: props.course,
     };
   },
   endDrag(props, monitor) {
-    props.setDraggingState(false);
+    props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop() && props.removeCourseFromTerm) {
       props.removeCourseFromTerm();

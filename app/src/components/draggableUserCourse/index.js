@@ -8,7 +8,7 @@ import CourseElement from '../staticCourseElement';
 
 const source = {
   beginDrag(props) {
-    props.setDraggingState(true);
+    props.setDraggingState(true, props.catalogCourse);
     return {
       userCourse: props.course,
       catalogCourse: props.catalogCourse,
@@ -16,7 +16,7 @@ const source = {
     };
   },
   endDrag(props, monitor) {
-    props.setDraggingState(false);
+    props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
       props.removeCourseFromTerm();

@@ -1,10 +1,12 @@
 import Course from '../models/course';
+import Plan from '../models/plan';
+import Term from '../models/term';
 import User from '../models/user';
 import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
 import departments from '../../static/data/departments.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
-import { PopulateCourse } from './populators';
+import { PopulateCourse, PopulateTerm } from './populators';
 
 
 const trim = (res) => {
@@ -390,6 +392,66 @@ const getCompleted = (req, res) => {
         });
 };
 
+const getFulfilledStatus = (req, res) => {
+    const { planID, termID, courseID } = req.params;
+    const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
+
+    Plan.findById(planID)
+        .populate({
+            path: 'terms',
+            populate: PopulateTerm,
+        })
+        .then((plan) => {
+            const previousTerms = plan.terms.slice(0, plan.terms.findIndex((t) => { return t.id === termID; }));
+            const previousCourses = previousTerms.map((t) => { return t.courses; }).flat().map((c) => { return c.course.id.toString(); }); // Need to add User's Placement Courses
+            console.log(previousCourses);
+            Course.findById(courseID).populate(PopulateCourse)
+                .then((course) => {
+                    let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
+                    if (!prereqs || prereqs.length === 0) {
+                        res.send(CLEAR);
+                    }
+                    console.log(prereqs);
+                    prereqs = prereqs.map((o) => {
+                        let dependencyType = Object.keys(o).find((key) => {
+                            return (o[key].length > 0 && key !== '_id');
+                        });
+                        if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
+
+                        const prevCoursesIncludes = () => {
+                            return o[dependencyType].map((c) => { return c.id; })
+                                .some((id) => {
+                                    return (previousCourses) ? previousCourses.includes(id.toString()) : false;
+                                });
+                        };
+
+                        switch (dependencyType) {
+                        case 'abroad':
+                            return WARNING;
+                        case 'req':
+                            return prevCoursesIncludes() ? CLEAR : ERROR;
+                        case 'range':
+                            return (previousCourses.some((c) => {
+                                return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
+                            })) ? CLEAR : ERROR;
+                        case 'grade':
+                            return prevCoursesIncludes() ? WARNING : ERROR;
+                        case 'rec':
+                            return prevCoursesIncludes() ? WARNING : ERROR;
+                        default:
+                            return CLEAR;
+                        }
+                    });
+                    if (prereqs.includes(ERROR)) return res.send(ERROR);
+                    if (prereqs.includes(WARNING)) return res.send(WARNING);
+                    res.send(CLEAR);
+                    return true;
+                });
+        }).catch((error) => {
+            res.status(500).json({ error });
+        });
+};
+
 const CoursesController = {
     searchCourses,
     getCourses,
@@ -409,6 +471,7 @@ const CoursesController = {
     addCompleted,
     removeCompleted,
     getCompleted,
+    getFulfilledStatus,
 };
 
 export default CoursesController;

@@ -125,6 +125,14 @@ $term-margin: 0 15px 15px 0;
                 width: $course-width-large;
                 height: $course-height;
                 animation: pulse 0.5s infinite;
+                
+
+                &.error{
+                    border: $error 1px solid;
+                }
+                &.warning{
+                    border: $warning 1px solid;
+                }
             }
         
             .hourSelector {

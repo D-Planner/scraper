@@ -52,6 +52,14 @@ const collect = (connect, monitor) => {
 };
 
 class Term extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dragFulfilled: '',
+    };
+  }
+
   turnOffTerm = () => {
     const opts = {
       title: 'Turn term off',
@@ -132,14 +140,25 @@ class Term extends Component {
   }
 
   renderIfDragging = () => {
-    if (this.props.isDragging && this.props.term.courses.length < 4) {
+    if (this.props.drag.isDragging && this.props.term.courses.length < 4) {
+      this.props.getFulfilledStatus(this.props.term.id, this.props.drag.dragCourse.id).then((r) => {
+        console.log(r);
+        this.setState({ dragFulfilled: r });
+      });
       return (
         <div className="course-row">
-          <div className="phantom-course" />
+          <div className={classNames({
+            'phantom-course': true,
+            [this.state.dragFulfilled]: true,
+          })}
+          >
+            {this.state.dragFulfilled === 'error' ? 'Prereq Missing' : ''}
+            {this.state.dragFulfilled === 'warning' ? 'Warning, Check Prereqs' : ''}
+          </div>
         </div>
       );
     } else {
-      return null;
+      return <></>;
     }
   }
 
@@ -248,7 +267,7 @@ class Term extends Component {
 }
 
 const mapStateToProps = state => ({
-  isDragging: state.dragStatus.isDragging,
+  drag: state.dragStatus,
 });
 
 // export default withRouter(connect(mapStateToProps, {
