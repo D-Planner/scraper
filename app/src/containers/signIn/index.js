@@ -34,10 +34,10 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
           <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
-        <button type="button" disabled={!permitted} className="sign-up" onClick={signin}>Sign In</button>
-        <button type="button" className="sign-in" onClick={signup}>
-          <div className="button-cover"><div className="button-text">Sign Up</div></div>
+        <button type="button" className="sign-in" onClick={signin}>
+          <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
         </button>
+        <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
       </form>
     </div>
   );

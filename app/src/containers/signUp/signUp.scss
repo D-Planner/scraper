@@ -89,7 +89,6 @@ $font-secondary: 'Poppins';
             width: 120px;
             display: flex;
             justify-content: center;
-            margin-bottom: 10px;
             background: $gradient;
             height: 40px;
             border-radius: 12px;
@@ -100,6 +99,7 @@ $font-secondary: 'Poppins';
         }
     
         .sign-in {
+            margin-bottom: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
