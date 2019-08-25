@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signinUser } from '../../actions';
 
-export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
+const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,9 +14,9 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
     props.signinUser({ email, password }, props.history);
   };
 
-  const signup = () => {
-    window.location.href = '/signup';
-  };
+  // const signup = () => {
+  //   window.location.href = '/signup';
+  // };
 
   useEffect(() => {
     if (email && password) setPermitted(true);
@@ -27,6 +27,8 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   return (
     <div className="formContainer">
       <form>
+        <div className="greeting">Welcome back.</div>
+        <div className="spacer" />
         <div className="row">
           <input id="email" value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
         </div>
@@ -37,23 +39,11 @@ export const SignInForm = withRouter(connect(null, { signinUser })((props) => {
         <button type="button" className="sign-in" onClick={signin}>
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
         </button>
-        <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
+        <div className="spacer" />
+        <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button>
       </form>
     </div>
   );
 }));
 
-const SignIn = () => {
-  return (
-    <div className="container">
-      <div className="signInContainer">
-        <div className="title">
-        Welcome Back.
-        </div>
-        <SignInForm />
-      </div>
-    </div>
-  );
-};
-
-export default SignIn;
+export default SignInForm;
