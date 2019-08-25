@@ -131,7 +131,7 @@ $term-margin: 0 15px 15px 0;
                 &.error{
                     border: $error 1px solid;
                 }
-                &.warning{
+                &.warning, &.unlikely{
                     border: $warning 1px solid;
                 }
             }

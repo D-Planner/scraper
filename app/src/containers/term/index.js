@@ -145,15 +145,20 @@ class Term extends Component {
         console.log(r);
         this.setState({ dragFulfilled: r });
       });
+      const unlikely = (this.props.drag.dragCourse.likely_terms && this.props.drag.dragCourse.likely_terms.length) ? !this.props.drag.dragCourse.likely_terms.includes(this.props.term.quarter) : false;
       return (
         <div className="course-row">
           <div className={classNames({
             'phantom-course': true,
             [this.state.dragFulfilled]: true,
+            unlikely,
+            error: !this.props.drag.dragCourse.offered,
           })}
           >
             {this.state.dragFulfilled === 'error' ? 'Prereq Missing' : ''}
             {this.state.dragFulfilled === 'warning' ? 'Warning, Check Prereqs' : ''}
+            {unlikely ? 'This course is unlikely to be offered this term' : ''}
+            {!this.props.drag.dragCourse.offered ? 'Not offered this term' : ''}
           </div>
         </div>
       );
