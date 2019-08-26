@@ -22,6 +22,18 @@ const trim = (res) => {
 };
 
 const searchCourses = (req, res) => {
+    if (!req.query.title) {
+        Course.find({})
+            .populate(PopulateCourse)
+            .then((result) => {
+                res.json(trim(result));
+            })
+            .catch((error) => {
+                console.log(error);
+                res.status(500).json({ error });
+            });
+        return;
+    }
     const searchText = req.query.title;
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
