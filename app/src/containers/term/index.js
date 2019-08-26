@@ -256,7 +256,7 @@ class Term extends Component {
           })}
           >
             {/* Add a warning if two courses occupy the same timeslot */}
-            {this.props.term.name}
+            {this.props.term.name} {this.props.term.index}
           </div>
           <div className="toggle-buttons">
             {this.renderToggleButton()}

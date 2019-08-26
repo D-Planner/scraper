@@ -14,10 +14,15 @@ const TermSchema = new Schema({
     off_term: Boolean,
     courses: [{ type: Schema.Types.ObjectId, ref: 'UserCourse' }],
     previousCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
+    index: Number,
 }, {
     toJSON: {
         virtuals: true,
     },
+});
+
+TermSchema.pre('init', function () {
+    this.populate('courses');
 });
 
 // define a virtual to extract the abbreviated term name

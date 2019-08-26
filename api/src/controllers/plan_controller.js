@@ -4,6 +4,7 @@ import Term from '../models/term';
 import UserCourse from '../models/user_course';
 import Course from '../models/course';
 import TermController from '../controllers/term_controller';
+import CoursesController from '../controllers/courses_controller';
 import { PopulateTerm } from './populators';
 
 const getPlansByUserId = (req, res, next) => {
@@ -26,8 +27,8 @@ const createPlanForUser = async (plan, userId) => {
 
         const { id } = await newPlan.save();
         // iterate through each term and create a term in the database for each one
-        const promises = plan.terms.map((term) => {
-            return TermController.createTerm(term, id);
+        const promises = plan.terms.map((term, i) => {
+            return TermController.createTerm(term, id, i);
         });
 
         // resolve that big promise array to get a terms array with ids that reference the Terms model
@@ -89,31 +90,32 @@ export const setTermsPrevCourses = (planID, placements) => {
             path: 'terms',
             populate: PopulateTerm,
         })).then((plan) => {
-            plan.terms.reduce((acc, curr) => {
-            // Get the last courses
+            plan.terms.sort((t1, t2) => {
+                return t1.index - t2.index;
+            }).reduce((acc, curr) => {
+                // Get the last courses
                 let next = curr.courses.map((course) => {
-                    return UserCourse.findById(course._id)
-                        .populate('course', '_id xlist')
-                        .then((c) => {
-                            return c.course.xlist ? c.course.xlist.concat(c.course._id) : [c.course._id];
-                        })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                }).map((promise) => {
-                    return promise.then((r) => {
-                        return r;
-                    });
+                    console.log(course.course.title);
+                    if (course.fulfilledStatus !== '') return [];
+                    return course.course.xlist ? course.course.xlist.concat(course.course._id) : [course.course._id];
                 });
                 if (!next) next = [];
 
                 Promise.all(acc).then((ac) => {
-                    Term.update({ _id: curr._id }, { previousCourses: ac.flat() }).then((r) => { return r; }).catch((e) => { return e; });
-                    // curr.courses.forEach((course) => {
-                    // // console.log('Server', course.course.number, 'Previous Coursecourse', ac.flat());
-
-                    // // UserCourse.findById(course._id).then((r) => { console.log(r); }).catch((e) => { return e; });
-                    // });
+                    Term.update({ _id: curr._id }, { previousCourses: ac.flat() })
+                        .then(() => {
+                            Promise.all(curr.courses.map((course) => {
+                                return Promise.resolve(CoursesController.getFulfilledStatus(planID, curr._id, course.course.id))
+                                    .then((status) => {
+                                        return UserCourse.update({ _id: course.id }, { fulfilledStatus: status }, { upsert: true });
+                                    }).then(() => {
+                                        UserCourse.findById(course.id).populate('course').then((c) => { console.log(c); });
+                                    });
+                            }));
+                        })
+                        .catch((e) => {
+                            return e;
+                        });
                 });
 
                 acc = acc.concat(next);
@@ -133,7 +135,9 @@ const getPlanByID = (req, res) => {
     const userID = req.user.id;
     User.findById(userID)
         .then((user) => {
-            return setTermsPrevCourses(planID, user.placement_courses);
+            return setTermsPrevCourses(planID, user.placement_courses).then(() => {
+                setTermsPrevCourses(planID, user.placement_courses);
+            });
         })
         .then(() => {
             return Plan.findById(planID);
@@ -154,27 +158,6 @@ const getPlanByID = (req, res) => {
             console.log('Error', error);
             res.status(400).send({ error });
         });
-    //   try {
-    //       const plan = await Plan.findById(planID);
-    //
-    //       if (!plan) {
-    //           throw new Error('This plan does not exist for this user');
-    //       }
-    //       const populated = await plan.populate({
-    //           path: 'terms',
-    //           populate: PopulateTerm,
-    //       }).execPopulate();
-    //
-    //       populated.terms.forEach((term) => {
-    //           term.courses.forEach((course) => {
-    //               // console.log(course.course.department, course.course.number, 'Previous Coursecourse', course.previousCourses);
-    //           });
-    //       });
-    //       return sortPlan(populated.toJSON());
-    //   } catch (e) {
-    //       throw e;
-    //   }
-    // });
 };
 
 // delete a plan by id

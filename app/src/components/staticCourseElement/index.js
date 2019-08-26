@@ -19,6 +19,7 @@ class CourseElement extends Component {
     super(props);
 
     this.state = {};
+    console.log(this.props);
   }
 
   render() {

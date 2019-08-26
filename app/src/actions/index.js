@@ -536,7 +536,7 @@ export function getRandomCourse() {
  * @returns an action creator to add a new course to the given term
  */
 export function addCourseToTerm(course, term, planID) {
-  // console.log('[ACTION.js] We got the resquest to add course to term');
+  console.log('[ACTION.js] We got the resquest to add course to term');
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course, planID }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

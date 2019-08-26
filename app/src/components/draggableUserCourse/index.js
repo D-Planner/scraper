@@ -50,6 +50,7 @@ const showCourseInfoDialog = (props) => {
 class UserCourse extends Component {
   constructor(props) {
     super(props);
+    console.log(props.catalogCourse.name, props.course.fulfilledStatus);
     this.catalogCourse = props.catalogCourse;
   }
 
@@ -59,7 +60,7 @@ class UserCourse extends Component {
       <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
         <CourseElement
           size={this.props.size}
-          error={this.props.course.fulfilled}
+          error={this.props.course.fulfilledStatus}
           course={this.catalogCourse}
         />
       </div>,
