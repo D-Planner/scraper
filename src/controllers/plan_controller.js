@@ -1,5 +1,6 @@
 import Plan from '../models/plan';
 import User from '../models/user';
+import Term from '../models/term';
 import UserCourse from '../models/user_course';
 import Course from '../models/course';
 import TermController from '../controllers/term_controller';
@@ -107,11 +108,12 @@ export const setTermsPrevCourses = (planID, placements) => {
                 if (!next) next = [];
 
                 Promise.all(acc).then((ac) => {
-                    curr.courses.forEach((course) => {
-                    // console.log('Server', course.course.number, 'Previous Coursecourse', ac.flat());
-                        UserCourse.update({ _id: course._id }, { previousCourses: ac.flat() }).then((r) => { return r; }).catch((e) => { return e; });
-                    // UserCourse.findById(course._id).then((r) => { console.log(r); }).catch((e) => { return e; });
-                    });
+                    Term.update({ _id: curr._id }, { previousCourses: ac.flat() }).then((r) => { return r; }).catch((e) => { return e; });
+                    // curr.courses.forEach((course) => {
+                    // // console.log('Server', course.course.number, 'Previous Coursecourse', ac.flat());
+
+                    // // UserCourse.findById(course._id).then((r) => { console.log(r); }).catch((e) => { return e; });
+                    // });
                 });
 
                 acc = acc.concat(next);

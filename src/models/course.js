@@ -110,13 +110,10 @@ CourseSchema.virtual('likely_terms').get(function () {
                         if (Object.values(occ).reduce((n, x) => { return (n + (x.every((e, i) => { return e === v[i]; }))); }, 0) > Object.values(occ).length - 3) acc.push(v);
                         return acc;
                     }, []);
-                    console.log(annualRepititions);
                     if (annualRepititions.length === 1) return Object.values(occ)[Object.values(occ).length - 2];
                     return null;
                 },
             };
-            console.log('Pattern', Object.entries(patternTypes)
-                .map(([k, fn]) => { return fn(yOccurences); }));
             return Object.entries(patternTypes)
                 .map(([k, fn]) => { return fn(yOccurences); })
                 .filter((e) => { return e !== null; });

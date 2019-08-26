@@ -13,6 +13,7 @@ const TermSchema = new Schema({
     },
     off_term: Boolean,
     courses: [{ type: Schema.Types.ObjectId, ref: 'UserCourse' }],
+    previousCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
 }, {
     toJSON: {
         virtuals: true,

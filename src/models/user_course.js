@@ -9,7 +9,6 @@ const UserCourseSchema = new Schema({
     distrib: String,
     wc: String,
     timeslot: String,
-    previousCourses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
 }, {
     toJSON: {
         virtuals: true,
@@ -31,7 +30,7 @@ UserCourseSchema.virtual('fulfilled')
     .get(function () {
         const prevCourses = ((this.user.placement_courses) ? this.user.placement_courses.concat(this.previousCourses.map((c) => {
             return c._id; // check first if it is already fulfilled
-        })) : this.previousCourses).map((p) => { return p.toString(); });
+        })) : this.term.previousCourses).map((p) => { return p.toString(); });
         let prereqs = (this.course.prerequisites) ? this.course.prerequisites.toObject() : [];
         if (!prereqs || prereqs.length === 0) {
             return CLEAR;
