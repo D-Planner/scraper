@@ -1,4 +1,5 @@
 import Course from '../models/course';
+import UserCourse from '../models/user_course';
 import Plan from '../models/plan';
 import Term from '../models/term';
 import User from '../models/user';
@@ -392,8 +393,7 @@ const getCompleted = (req, res) => {
         });
 };
 
-const getFulfilledStatus = (req, res) => {
-    const { planID, termID, courseID } = req.params;
+const getFulfilledStatus = (planID, termID, courseID, placementCourses) => {
     const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
     Plan.findById(planID)
@@ -403,53 +403,81 @@ const getFulfilledStatus = (req, res) => {
         })
         .then((plan) => {
             const previousTerms = plan.terms.slice(0, plan.terms.findIndex((t) => { return t.id === termID; }));
-            const previousCourses = previousTerms.map((t) => { return t.courses; }).flat().map((c) => { return c.course.id.toString(); }); // Need to add User's Placement Courses
-            console.log(previousCourses);
-            Course.findById(courseID).populate(PopulateCourse)
-                .then((course) => {
-                    let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
-                    if (!prereqs || prereqs.length === 0) {
-                        res.send(CLEAR);
-                    }
-                    console.log(prereqs);
-                    prereqs = prereqs.map((o) => {
-                        let dependencyType = Object.keys(o).find((key) => {
-                            return (o[key].length > 0 && key !== '_id');
+            const previousCourses = previousTerms
+                .map((t) => {
+                    return t.courses;
+                })
+                .flat()
+                .map((c) => { return c.course.id; })
+                .concat(placementCourses)
+                .map((id) => {
+                    return Course.findById(id)
+                        .then((c) => {
+                            return c.xlist ? c.xlist.concat(c.id) : [c.course._id];
+                        })
+                        .catch((e) => {
+                            console.log(e);
                         });
-                        if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
-
-                        const prevCoursesIncludes = () => {
-                            return o[dependencyType].map((c) => { return c.id; })
-                                .some((id) => {
-                                    return (previousCourses) ? previousCourses.includes(id.toString()) : false;
+                })
+                .flat();
+            Promise.all(previousCourses)
+                .then((r) => {
+                    const prevCourses = r.flat().map((e) => { return e.toString(); });
+                    Course.findById(courseID).populate(PopulateCourse)
+                        .then((course) => {
+                            let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
+                            if (!prereqs || prereqs.length === 0) {
+                                return CLEAR;
+                            }
+                            prereqs = prereqs.map((o) => {
+                                let dependencyType = Object.keys(o).find((key) => {
+                                    return (o[key].length > 0 && key !== '_id');
                                 });
-                        };
+                                if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
-                        switch (dependencyType) {
-                        case 'abroad':
-                            return WARNING;
-                        case 'req':
-                            return prevCoursesIncludes() ? CLEAR : ERROR;
-                        case 'range':
-                            return (previousCourses.some((c) => {
-                                return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
-                            })) ? CLEAR : ERROR;
-                        case 'grade':
-                            return prevCoursesIncludes() ? WARNING : ERROR;
-                        case 'rec':
-                            return prevCoursesIncludes() ? WARNING : ERROR;
-                        default:
+                                const prevCoursesIncludes = () => {
+                                    return o[dependencyType].map((c) => { return c.id; })
+                                        .some((id) => {
+                                            return (previousCourses) ? prevCourses.includes(id.toString()) : false;
+                                        });
+                                };
+
+                                switch (dependencyType) {
+                                case 'abroad':
+                                    return WARNING;
+                                case 'req':
+                                    return prevCoursesIncludes() ? CLEAR : ERROR;
+                                case 'range':
+                                    return (prevCourses.some((c) => {
+                                        return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
+                                    })) ? CLEAR : ERROR;
+                                case 'grade':
+                                    return prevCoursesIncludes() ? WARNING : ERROR;
+                                case 'rec':
+                                    return prevCoursesIncludes() ? WARNING : ERROR;
+                                default:
+                                    return CLEAR;
+                                }
+                            });
+                            if (prereqs.includes(ERROR)) {
+                                return ERROR;
+                            }
+                            if (prereqs.includes(WARNING)) {
+                                return WARNING;
+                            }
                             return CLEAR;
-                        }
-                    });
-                    if (prereqs.includes(ERROR)) return res.send(ERROR);
-                    if (prereqs.includes(WARNING)) return res.send(WARNING);
-                    res.send(CLEAR);
-                    return true;
+                        });
                 });
         }).catch((error) => {
-            res.status(500).json({ error });
+            console.log({ error });
+            return { error };
         });
+};
+
+const getFulfilledStatusTerm = (req, res) => {
+    const { planID, termID, courseID } = req.params;
+    res.send(getFulfilledStatus(planID, termID, courseID, req.user.placement_courses));
+    // Add Error Status availability
 };
 
 const CoursesController = {
@@ -471,7 +499,7 @@ const CoursesController = {
     addCompleted,
     removeCompleted,
     getCompleted,
-    getFulfilledStatus,
+    getFulfilledStatusTerm,
 };
 
 export default CoursesController;
