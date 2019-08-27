@@ -141,19 +141,20 @@ class Term extends Component {
     if (this.props.drag.isDragging && this.props.term.courses.length < 4) {
       const unlikely = (this.props.drag.dragCourse.likely_terms && this.props.drag.dragCourse.likely_terms.length) ? !this.props.drag.dragCourse.likely_terms.includes(this.props.term.quarter) : false;
       const dragStatus = this.props.drag.fulfilledStatus[this.props.term.index];
+      const currentTermOfferedError = !this.props.drag.dragCourse.offered && this.isCurrTerm();
       return (
         <div className="course-row">
           <div className={classNames({
             'phantom-course': true,
             [dragStatus]: true,
             unlikely,
-            error: !this.props.drag.dragCourse.offered,
+            error: currentTermOfferedError,
           })}
           >
             {dragStatus === 'error' ? 'Prereq Missing' : ''}
             {dragStatus === 'warning' ? 'Warning, Check Prereqs' : ''}
             {unlikely ? 'This course is unlikely to be offered this term' : ''}
-            {!this.props.drag.dragCourse.offered && this.isCurrTerm() ? 'Not offered this term' : ''}
+            {currentTermOfferedError ? 'Not offered this term' : ''}
           </div>
         </div>
       );
