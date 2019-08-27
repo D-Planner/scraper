@@ -69,7 +69,7 @@ const searchCourses = (req, res) => {
 };
 
 const getCourses = async (req, res) => {
-    console.log('[course_controller] getCourses');
+    // console.log('[course_controller] getCourses');
     Course.find({})
         .populate(PopulateCourse)
         .then((result) => {
@@ -92,7 +92,7 @@ const randomCourse = async (req, res) => {
 };
 
 const getCourse = async (req, res) => {
-    console.log('[course_controller] getCourse');
+    // console.log('[course_controller] getCourse');
     Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
@@ -104,7 +104,7 @@ const getCourse = async (req, res) => {
 };
 
 const getCoursesByDepartment = async (req, res) => {
-    console.log('[course_controller] getCoursesByDepartment');
+    // console.log('[course_controller] getCoursesByDepartment');
     Course.find({ department: req.params.department })
         .populate(PopulateCourse)
         .then((result) => {
@@ -116,7 +116,7 @@ const getCoursesByDepartment = async (req, res) => {
 };
 
 const getCoursesByDistrib = (req, res) => { // needs to be updated since [distribs] is now an array
-    console.log('[course_controller] getCoursesByDistrib');
+    // console.log('[course_controller] getCoursesByDistrib');
     Course.find({ distribs: req.params.distrib })
         .populate(PopulateCourse)
         .then((result) => {
@@ -128,7 +128,7 @@ const getCoursesByDistrib = (req, res) => { // needs to be updated since [distri
 };
 
 const getCoursesByWC = (req, res) => { // needs to be updated since [distribs] is now an array
-    console.log('[course_controller] getCoursesByWC');
+    // console.log('[course_controller] getCoursesByWC');
     Course.find({ wcs: req.params.wc })
         .populate(PopulateCourse)
         .then((result) => {
@@ -140,7 +140,7 @@ const getCoursesByWC = (req, res) => { // needs to be updated since [distribs] i
 };
 
 const getCourseByName = (req, res) => {
-    console.log('[course_controller] getCoursesByName');
+    // console.log('[course_controller] getCoursesByName');
     Course.find(
         { $text: { $search: req.body.query } },
         { score: { $meta: 'textScore' } },
@@ -155,7 +155,7 @@ const getCourseByName = (req, res) => {
 };
 
 const getCourseByNumber = (req, res) => {
-    console.log('[course_controller] getCoursesByNumber');
+    // console.log('[course_controller] getCoursesByNumber');
     Course.find({
         $and: [{ department: req.params.department },
             { number: req.params.number }],
@@ -239,7 +239,7 @@ const filledValues = (course) => {
                                         linkedCourse._id,
                                         { $addToSet: { xlist: origCourse._id } },
                                     ).then((r) => { return console.log(r); }).catch((e) => { return console.log(e); });
-                                    console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
+                                    // console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
                                 }
                             });
                         // Return the linked course to set the xlisted for the original course
@@ -404,84 +404,103 @@ const getCompleted = (req, res) => {
         });
 };
 
-const getFulfilledStatus = (planID, termID, courseID) => {
-    const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
+const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
-    return Plan.findById(planID)
-        .populate({
-            path: 'terms',
-            populate: PopulateTerm,
-        })
-        .then((plan) => {
-            return Term.findById(termID).then((term) => {
-                const previousTerms = plan.terms.filter((t) => {
-                    return t.index <= term.index;
-                });
-                return previousTerms;
-            }).then((previousTerms) => {
-                const previousCourses = previousTerms
-                    .map((t) => {
-                        return t.previousCourses;
-                    }).flat()
-                    .map((t) => { return t.toString(); });
-                const prevCourses = [...new Set(previousCourses)];
+const getFulfilledStatus = (planID, termID, courseID, userID) => {
+    // console.log('GETFULFILLEDSTATUS', userID);
+    return User.findById(userID)
+        .select('placement_courses')
+        .then((user) => {
+            if (!user) throw new Error('bad userID');
+            return Plan.findById(planID)
+                .populate({
+                    path: 'terms',
+                    populate: PopulateTerm,
+                })
+                .then((plan) => {
+                    return Term.findById(termID).then((term) => {
+                        const previousCourses = plan.terms.filter((t) => {
+                            return t.index <= term.index;
+                        }).map((t) => {
+                            return t.previousCourses;
+                        }).flat()
+                            .map((t) => { return t.toString(); });
+                        const prevCourses = [...new Set((user.placement_courses.length)
+                            ? user.placement_courses.map((c) => { return c.toString(); }).concat(previousCourses)
+                            : previousCourses)];
 
-                return Course.findById(courseID).populate(PopulateCourse)
-                    .then((course) => {
-                        console.log(`Previous Courses for ${course.title}: ${prevCourses}`);
-                        let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
-                        if (!prereqs || prereqs.length === 0) {
-                            return CLEAR;
-                        }
-                        prereqs = prereqs.map((o) => {
-                            let dependencyType = Object.keys(o).find((key) => {
-                                return (o[key].length > 0 && key !== '_id');
-                            });
-                            if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
-
-                            const prevCoursesIncludes = () => {
-                                return o[dependencyType].map((c) => { return c.id.toString(); })
-                                    .some((id) => {
-                                        return (prevCourses.length) ? prevCourses.includes(id) : false;
+                        return Course.findById(courseID).populate(PopulateCourse)
+                            .then((course) => {
+                                // console.log(`Previous Courses for ${course.title}: ${prevCourses}`);
+                                let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
+                                if (!prereqs || prereqs.length === 0) {
+                                    return CLEAR;
+                                }
+                                prereqs = prereqs.map((o) => {
+                                    let dependencyType = Object.keys(o).find((key) => {
+                                        return (o[key].length > 0 && key !== '_id');
                                     });
-                            };
+                                    if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
-                            switch (dependencyType) {
-                            case 'abroad':
-                                return WARNING;
-                            case 'req':
-                                return prevCoursesIncludes() ? CLEAR : ERROR;
-                            case 'range':
-                                return (prevCourses.some((c) => {
-                                    return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
-                                })) ? CLEAR : ERROR;
-                            case 'grade':
-                                return prevCoursesIncludes() ? WARNING : ERROR;
-                            case 'rec':
-                                return prevCoursesIncludes() ? WARNING : ERROR;
-                            default:
+                                    const prevCoursesIncludes = () => {
+                                        return o[dependencyType].map((c) => { return c.id.toString(); })
+                                            .some((id) => {
+                                                return (prevCourses.length) ? prevCourses.includes(id) : false;
+                                            });
+                                    };
+
+                                    switch (dependencyType) {
+                                    case 'abroad':
+                                        return WARNING;
+                                    case 'req':
+                                        return prevCoursesIncludes() ? CLEAR : ERROR;
+                                    case 'range':
+                                        return (prevCourses.some((c) => {
+                                            return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
+                                        })) ? CLEAR : ERROR;
+                                    case 'grade':
+                                        return prevCoursesIncludes() ? WARNING : ERROR;
+                                    case 'rec':
+                                        return prevCoursesIncludes() ? WARNING : ERROR;
+                                    default:
+                                        return CLEAR;
+                                    }
+                                });
+                                if (prereqs.includes(ERROR)) {
+                                    return ERROR;
+                                }
+                                if (prereqs.includes(WARNING)) {
+                                    return WARNING;
+                                }
                                 return CLEAR;
-                            }
-                        });
-                        if (prereqs.includes(ERROR)) {
-                            return ERROR;
-                        }
-                        if (prereqs.includes(WARNING)) {
-                            return WARNING;
-                        }
-                        return CLEAR;
+                            });
                     });
-            });
-        }).catch((error) => {
-            return { error };
+                }).catch((error) => {
+                    return { error };
+                });
         });
 };
 
 const getFulfilledStatusTerm = (req, res) => {
     const { planID, termID, courseID } = req.params;
-    Promise.resolve(getFulfilledStatus(planID, termID, courseID)).then((r) => {
-        res.send(r);
+    Promise.resolve(getFulfilledStatus(planID, termID, courseID, req.user._id)).then((r) => {
+        if ([ERROR, WARNING, CLEAR].includes(r)) {
+            res.status(200).json(r);
+        } else res.status(500).json(r);
     });
+};
+
+const getFulfilledStatusPlan = (req, res) => {
+    const { planID, courseID } = req.params;
+    Plan.findById(planID)
+        .then((plan) => {
+            Promise.all(plan.terms.map((term) => {
+                return Promise.resolve(getFulfilledStatus(planID, term._id, courseID, req.user._id));
+            }))
+                .then((r) => {
+                    res.json(r);
+                });
+        });
 };
 
 const CoursesController = {
@@ -505,6 +524,7 @@ const CoursesController = {
     getCompleted,
     getFulfilledStatus,
     getFulfilledStatusTerm,
+    getFulfilledStatusPlan,
 };
 
 export default CoursesController;
