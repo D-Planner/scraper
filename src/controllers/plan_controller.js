@@ -116,7 +116,7 @@ export const setTermsPrevCourses = (planID, userID) => {
                                 return Promise.all(trueTerm.courses.map((course) => {
                                     return Promise.resolve(CoursesController.getFulfilledStatus(planID, trueTerm._id, course.course.id, userID))
                                         .then((status) => {
-                                            console.log(`Updating ${course.course.title} to ${status}`);
+                                            // console.log(`Updating ${course.course.title} to ${status}`);
                                             return UserCourse.update({ _id: course.id }, { fulfilledStatus: status }, { upsert: true });
                                         });
                                 // .then(() => {
@@ -148,7 +148,7 @@ const getPlanByID = (req, res) => {
             return setTermsPrevCourses(planID, userID);
         })
         .then(() => {
-            console.log('DONE!');
+            // console.log('DONE!');
             return Plan.findById(planID);
         })
         .then((plan) => {
