@@ -1,8 +1,6 @@
 import Plan from '../models/plan';
-import User from '../models/user';
 import Term from '../models/term';
 import UserCourse from '../models/user_course';
-import Course from '../models/course';
 import TermController from '../controllers/term_controller';
 import CoursesController from '../controllers/courses_controller';
 import { PopulateTerm } from './populators';
