@@ -1,5 +1,4 @@
 import Course from '../models/course';
-import UserCourse from '../models/user_course';
 import Plan from '../models/plan';
 import Term from '../models/term';
 import User from '../models/user';
