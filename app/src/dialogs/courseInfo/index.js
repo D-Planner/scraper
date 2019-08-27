@@ -270,10 +270,10 @@ class CourseInfoDialog extends Component {
           onClick={
             placement
               ? () => this.props.removePlacement(this.props.data.id)
-                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(this.props.data.id)
-                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
           }
         />

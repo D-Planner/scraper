@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, getFulfilledStatus,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -85,9 +85,9 @@ class DPlan extends Component {
     });
   })
 
-  getFulfilledStatus = (termID, courseID) => new Promise((resolve, reject) => {
-    getFulfilledStatus(this.props.plan.id, termID, courseID).then((res) => {
-      resolve(res);
+  setDraggingFulfilledStatus = courseID => new Promise((resolve, reject) => {
+    this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
+      resolve();
     }).catch((e) => {
       console.log(e);
       reject();
@@ -168,7 +168,7 @@ class DPlan extends Component {
                   <img src={settingsButton} alt="" />
                 </button>
               </div>
-              <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
+              <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} setDraggingFulfilledStatus={this.setDraggingFulfilledStatus} />
             </div>
             <div className="plan-grid">
               {this.props.plan.terms.map((year) => {
@@ -183,7 +183,7 @@ class DPlan extends Component {
                           key={term.id}
                           addCourseToTerm={this.addCourseToTerm}
                           removeCourseFromTerm={this.removeCourseFromTerm}
-                          getFulfilledStatus={this.getFulfilledStatus}
+                          setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                         />
                       );
                     })}
@@ -206,5 +206,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 })(DPlan));

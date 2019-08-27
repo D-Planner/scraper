@@ -9,6 +9,7 @@ import { showDialog, setDraggingState } from '../../actions';
 const source = {
   beginDrag(props) {
     props.setDraggingState(true, props.course);
+    props.setDraggingFulfilledStatus(props.course.id);
     return {
       course: props.course,
     };

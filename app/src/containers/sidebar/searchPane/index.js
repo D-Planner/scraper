@@ -117,7 +117,7 @@ const SearchPane = (props) => {
                   return (
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
-                        <DraggableCourse key={course.id} course={course} />
+                        <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
                         <LikelyTerms terms={course.likely_terms} />
                       </div>
                       <div id="course-spacer-large" />

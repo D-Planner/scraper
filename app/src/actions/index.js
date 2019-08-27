@@ -28,6 +28,7 @@ export const ActionTypes = {
   FETCH_TIME: 'FETCH_TIME',
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
+  DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-dartmouth.herokuapp.com';
@@ -42,6 +43,23 @@ export function getFulfilledStatus(planID, termID, courseID) {
     console.log(error);
     return error;
   });
+}
+
+export function setDraggingFulfilledStatus(planID, courseID) {
+  console.log('olah!');
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/courses/fulfilled/${courseID}/${planID}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.DRAG_FULFILLED_STATUS, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
 }
 
 export function getTimes() {

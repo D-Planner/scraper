@@ -77,7 +77,7 @@ const addCourseToTerm = (req, res) => {
                             })
                             .then(() => {
                                 // addCompleted(req.user.id, req.body.course.id); let's not do this because we don't want a universal completed list
-                                return setTermsPrevCourses(req.body.planID, user.placement_courses);
+                                return setTermsPrevCourses(req.body.planID, req.user.id);
                             })
                             .then(() => {
                                 res.send(term);
@@ -129,11 +129,8 @@ const removeCourseFromTerm = (req, res) => {
                 .then(() => {
                     return UserCourseController.deleteUserCourse(userCourseID);
                 })
-                .then(() => {
-                    return User.findById(userID);
-                })
                 .then((user) => {
-                    return setTermsPrevCourses(planID, user.placement_courses);
+                    return setTermsPrevCourses(planID, userID);
                 })
                 .then(() => {
                     res.json(term);

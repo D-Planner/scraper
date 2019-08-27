@@ -9,6 +9,7 @@ import CourseElement from '../staticCourseElement';
 const source = {
   beginDrag(props) {
     props.setDraggingState(true, props.catalogCourse);
+    props.setDraggingFulfilledStatus(props.catalogCourse.id);
     return {
       userCourse: props.course,
       catalogCourse: props.catalogCourse,

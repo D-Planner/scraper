@@ -52,14 +52,6 @@ const collect = (connect, monitor) => {
 };
 
 class Term extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      dragFulfilled: '',
-    };
-  }
-
   turnOffTerm = () => {
     const opts = {
       title: 'Turn term off',
@@ -118,6 +110,12 @@ class Term extends Component {
     }
   }
 
+  isCurrTerm = () => {
+    const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
+    if (year === this.props.time.currTerm.year && term === this.props.time.currTerm.term) return true;
+    return false;
+  }
+
   isNextTerm = () => {
     const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
     if (year === this.props.time.nextTerm.year && term === this.props.time.nextTerm.term) return true;
@@ -141,23 +139,21 @@ class Term extends Component {
 
   renderIfDragging = () => {
     if (this.props.drag.isDragging && this.props.term.courses.length < 4) {
-      this.props.getFulfilledStatus(this.props.term.id, this.props.drag.dragCourse.id).then((r) => {
-        this.setState({ dragFulfilled: r });
-      });
       const unlikely = (this.props.drag.dragCourse.likely_terms && this.props.drag.dragCourse.likely_terms.length) ? !this.props.drag.dragCourse.likely_terms.includes(this.props.term.quarter) : false;
+      const dragStatus = this.props.drag.fulfilledStatus[this.props.term.index];
       return (
         <div className="course-row">
           <div className={classNames({
             'phantom-course': true,
-            [this.state.dragFulfilled]: true,
+            [dragStatus]: true,
             unlikely,
             error: !this.props.drag.dragCourse.offered,
           })}
           >
-            {this.state.dragFulfilled === 'error' ? 'Prereq Missing' : ''}
-            {this.state.dragFulfilled === 'warning' ? 'Warning, Check Prereqs' : ''}
+            {dragStatus === 'error' ? 'Prereq Missing' : ''}
+            {dragStatus === 'warning' ? 'Warning, Check Prereqs' : ''}
             {unlikely ? 'This course is unlikely to be offered this term' : ''}
-            {!this.props.drag.dragCourse.offered ? 'Not offered this term' : ''}
+            {!this.props.drag.dragCourse.offered && this.isCurrTerm() ? 'Not offered this term' : ''}
           </div>
         </div>
       );
@@ -211,6 +207,7 @@ class Term extends Component {
                   removeCourseFromTerm={() => {
                     this.props.removeCourseFromTerm(course, this.props.term);
                   }}
+                  setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
                 />
                 {
                   this.isNextTerm()
