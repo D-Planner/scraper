@@ -148,12 +148,13 @@ class Term extends Component {
             'phantom-course': true,
             [dragStatus]: true,
             unlikely,
+            likely: !unlikely,
             error: currentTermOfferedError,
           })}
           >
             {dragStatus === 'error' ? 'Prereq Missing' : ''}
             {dragStatus === 'warning' ? 'Warning, Check Prereqs' : ''}
-            {unlikely ? 'This course is unlikely to be offered this term' : ''}
+            {unlikely ? 'This course is unlikely to be offered this term' : 'Likely in this term'}
             {currentTermOfferedError ? 'Not offered this term' : ''}
           </div>
         </div>

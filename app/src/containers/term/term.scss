@@ -134,6 +134,10 @@ $term-margin: 0 15px 15px 0;
                 &.warning, &.unlikely{
                     border: $warning 1px solid;
                 }
+
+                &.likely {
+                    border: $success 1px solid;
+                }
             }
         
             .hourSelector {
