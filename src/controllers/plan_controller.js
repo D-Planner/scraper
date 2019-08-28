@@ -101,7 +101,7 @@ export const setTermsPrevCourses = (planID, userID) => {
                             return c.fulfilledStatus === '';
                         })
                         .map((c) => {
-                            return c.course.id;
+                            return (c.course.xlist.length) ? [...c.course.xlist, c.course.id] : c.course.id;
                         })
                         .flat())];
                     return { [term._id]: prevCourses };
