@@ -86,47 +86,76 @@ CourseSchema.virtual('avg_median').get(function () {
 // For terms most likely to be offered, I'm thinking we take the average of times offered in each term (F,W,S,X), \
 // and whichever term has recurrence greater than the average, we display those as likely_terms?
 
-// Format ["F", "W", "S", "X"]
-CourseSchema.virtual('likely_terms').get(function () {
-    try {
-        const yearlyOccurences = (this.terms_offered) ? this.terms_offered
+CourseSchema.virtual('yearlyOccurences')
+    .get(function () {
+        return (this.terms_offered) ? this.terms_offered
             .reduce((acc, cur, i) => {
                 const [year, term] = cur.split(/(?!\d)/g);
                 if (acc[year]) acc[year].push(term);
                 else acc[year] = [term];
                 return acc;
             }, {}) : {};
+    });
 
+// Format ["F", "W", "S", "X"]
+CourseSchema.virtual('likely_terms').get(function () {
+    try {
         const indexFromEndYearlyOccurences = (i) => {
-            const values = Object.values(yearlyOccurences);
+            const values = Object.values(this.yearlyOccurences);
             return values[values.length - i];
         };
-
         const patternSeach = (yOccurences) => {
+            // This is a dictionary of pattern types as keys and functions as values that test the key pattern type.
+            // Each function returns
             const patternTypes = {
                 consistency: (occ) => {
-                    const annualRepititions = Object.entries(occ).reduce((acc, [k, v]) => {
-                        if (acc.some((e) => { return e.every((i, j) => { return i === v[j]; }); })) return acc;
-                        if (Object.values(occ).reduce((n, x) => { return (n + (x.every((e, i) => { return e === v[i]; }))); }, 0) > Object.values(occ).length - 3) acc.push(v);
-                        return acc;
-                    }, []);
+                    const annualRepititions = Object.entries(occ)
+                        .reduce((acc, [k, v]) => {
+                            if (acc.some((e) => {
+                                return e.every((i, j) => {
+                                    return i === v[j];
+                                });
+                            })) return acc;
+                            if (Object.values(occ)
+                                .reduce((n, x) => {
+                                    return (n + (x.every((e, i) => {
+                                        return e === v[i];
+                                    })));
+                                }, 0) > Object.values(occ).length - 3) acc.push(v);
+                            return acc;
+                        }, []);
                     if (annualRepititions.length === 1) return Object.values(occ)[Object.values(occ).length - 2];
                     return null;
                 },
+                // biennial: (occ) => {
+                //     const evenYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 === 0);
+                //         });
+                //     const oddYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 !== 0);
+                //         });
+                //     console.log('Even Years,', evenYears);
+                //     console.log('Odd Years,', oddYears);
+                // },
             };
             return Object.entries(patternTypes)
                 .map(([k, fn]) => { return fn(yOccurences); })
                 .filter((e) => { return e !== null; });
         };
 
-        const foundPatterns = patternSeach(yearlyOccurences);
-        if (foundPatterns.length === 1) return indexFromEndYearlyOccurences(2);
-        return indexFromEndYearlyOccurences(1);
+        const foundPatterns = patternSeach(this.yearlyOccurences);
+        if (foundPatterns.length === 1) return foundPatterns[0];
+        // If we didn't find a single patter (If we have multiple, or none), just return what happened last year
+        return indexFromEndYearlyOccurences(2);
     } catch (e) {
         console.log(e);
         return e;
     }
 });
+
+
 //
 // // I'm not sure how we should do this, becuase the spider doesn't provide us with \
 // // max-enrollment for courses, just the amount enrolled in each individual course.

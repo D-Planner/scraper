@@ -139,22 +139,29 @@ class Term extends Component {
 
   renderIfDragging = () => {
     if (this.props.drag.isDragging && this.props.term.courses.length < 4) {
-      const unlikely = (this.props.drag.dragCourse.likely_terms && this.props.drag.dragCourse.likely_terms.length) ? !this.props.drag.dragCourse.likely_terms.includes(this.props.term.quarter) : false;
+      const { dragCourse } = this.props.drag;
+      const likelyTerm = (dragCourse.likely_terms && dragCourse.likely_terms.length) ? dragCourse.likely_terms.includes(this.props.term.quarter) : false;
       const dragStatus = this.props.drag.fulfilledStatus[this.props.term.index];
-      const currentTermOfferedError = !this.props.drag.dragCourse.offered && this.isCurrTerm();
+      const currentTermOfferedError = !dragCourse.offered && this.isCurrTerm();
+      const likelyYear = (dragCourse.likely_years && dragCourse.likely_years.length) ? dragCourse.likely_years.includes(this.props.term.year - 2000) : false;
+
+
       return (
         <div className="course-row">
           <div className={classNames({
             'phantom-course': true,
             [dragStatus]: true,
-            unlikely,
-            likely: !unlikely,
+            likely: likelyTerm || likelyYear,
+            unlikely: !likelyTerm || !likelyYear,
             error: currentTermOfferedError,
           })}
           >
+            {
+              this.warnings();
+            }
             {dragStatus === 'error' ? 'Prereq Missing' : ''}
             {dragStatus === 'warning' ? 'Warning, Check Prereqs' : ''}
-            {unlikely ? 'This course is unlikely to be offered this term' : 'Likely in this term'}
+            {!likelyTerm || !likelyYear ? 'This course is unlikely to be offered this term' : 'Likely in this term'}
             {currentTermOfferedError ? 'Not offered this term' : ''}
           </div>
         </div>
