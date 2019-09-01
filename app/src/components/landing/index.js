@@ -64,7 +64,7 @@ class Landing extends React.Component {
           <div className="left">
             <div className="intro">
               <span className="line1">Welcome to D-Planner.</span>
-              <span className="line2">A whole new way of building your D-Plan.</span>
+              <span className="line2">A whole new way to build your D-Plan.</span>
               <div className="showcase">
                 <div className="feature">
                   <img className="feature-icon" src={feature1} alt="feature-icon" />
