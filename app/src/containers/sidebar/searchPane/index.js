@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import searchIcon from '../../../style/searchSimple.svg';
+import filterIcon from '../../../style/filter.svg';
 import arrowDropDown from '../../../style/arrowDropDown.svg';
 
 import './searchPane.scss';
@@ -61,7 +61,9 @@ const SearchPane = (props) => {
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
-        <img className="dropdown-icon" src={arrowDropDown} alt="search" />
+        <button type="button" className="search-config-button">
+          <img className="search-config-icon" src={arrowDropDown} alt="filter" />
+        </button>
         <input type="text"
           className="search-input"
           placeholder="Search"
@@ -70,7 +72,26 @@ const SearchPane = (props) => {
             setSearchText(e.target.value);
           }}
         />
-        <img className="search-icon" src={searchIcon} alt="search" />
+        <button type="button" className="search-config-button">
+          <img className="search-config-icon" src={filterIcon} alt="filter" />
+          <div className="option-menu">
+
+            <div className="option-menu-option">
+              option 1
+            </div>
+            <div className="option-menu-option">
+              option 2
+            </div>
+            <div className="option-menu">
+              <div className="option-menu-option">
+                sub option 1
+              </div>
+              <div className="option-menu-option">
+                sub option 2
+              </div>
+            </div>
+          </div>
+        </button>
       </div>
       {props.active
         ? (
