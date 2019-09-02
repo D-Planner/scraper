@@ -2,130 +2,108 @@
 
 $input-padding: 31px;
 $off-white: #F9F9F9;
-$blue: #3A84FF;
 $white: #FFFFFF;
 
-$font-secondary: 'Poppins';
-
-.container {
-    height:100vw;
-    display:flex;
-    justify-content: center;
-}
-
-.signInContainer {
-    width:75%;
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto 0 auto;
-
-    .title {
-        font-family: Poppins;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 84px;
-        line-height: 156%;
-        color: #574966;
-    }
-}
-
 .formContainer {
-    align-self: center;
-    width:654px;
+    width: 300px;
 
-    display: flex;
-    flex-direction: column;
-
-    * {
-        font-family: Poppins;
-        font-style: normal;
-        font-weight: 300;
-        font-size: 21px;
-        line-height: 31px;
-        color:#838484;
-    }
-
+    form {
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     
-
-    .spacer {
-        height:50px;
-        border:none;
-    }
-
-    
-    .row {
-        display:flex;
-        flex-direction:row;
-
-        #firstName {
-            width:257px;
-            flex:0 1 auto !important;
-        }
-
-        #college {
-            width:433px;
-            flex:0 1 auto !important;
-        }
         * {
-            margin:5px;
-            flex:1;
+            font-size: 18px;
         }
-    }
-        
-    .sign-up {
-        width:100%;
-        display: flex;
-        justify-content: center;
-        margin-bottom:22px;
-
-        background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
-        box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
-        height: 50px;
-        border-radius: 100px;
-        color: $white;
-
-        font-family: $font-secondary;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: normal;
-        text-transform: uppercase;
-
-        &:disabled {
-            background:gray;
-        }
-    }
-
-    .sign-in {
-        width:100%;
-        display: flex;
-        justify-content: center;
-        
-
-        box-shadow: 0px 6px 12px rgba(153, 153, 153, 0.25);
-        height: 50px;
-        border-radius: 100px;
-        background: linear-gradient(90deg, #5797FD 7.64%, rgba(255, 255, 255, 0) 95.1%), #8901FB;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-
-        font-family: $font-secondary;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: normal;
-        text-transform: uppercase;
-    }
-}
-
-.formContainer {
-    input {
-        border-bottom: 1px solid black;
-        padding:10px;
     
-        &:focus {
-            outline: none;
+        .greeting {
+            display: flex;
+            justify-content: flex-start;
+            margin-left: 12px;
+            align-items: center;
+            font-weight: 700;
+            color: $text-accent;
+            font-size: 24px;
+        }
+
+        input {
+            padding: 10px;
+            background: $white;
+            border: 1px solid $gray-5;
+            border-radius: 12px;
+        
+            &:focus {
+                border: 1.5px solid $blue-primary;
+            }
+        }
+    
+        .spacer {
+            height: 20px;
+            border: none;
+        }
+    
+        
+        .row {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            * {
+                margin: 5px;
+                flex: 1;
+            }
+        }
+
+        button {
+            cursor: pointer;
+            &:hover {
+                filter: brightness(130%);
+            }
+        }
+        $button-height: 40px;
+        $button-width: 120px;
+        $button-border-radius: 12px;
+            
+        .sign-up {
+            width: $button-width;
+            display: flex;
+            justify-content: center;
+            background: $gradient;
+            height: $button-height;
+            border-radius: $button-border-radius;
+            color: $white;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+    
+        .sign-in {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .button-cover {
+                background: $white;
+                $virtual-border: 2px;
+                margin: $virtual-border;
+                border-radius: inherit;
+                .button-text {
+                    width: calc(#{$button-width} - #{$virtual-border} - #{$virtual-border});
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: $gradient;
+                    background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    height: calc(#{$button-height} - #{$virtual-border} - #{$virtual-border});
+                    font-weight: bold;
+                    font-size: 16px;
+                    text-transform: uppercase;
+                }
+            }
+            background: $gradient;
+            border-radius: $button-border-radius;
+            border: 1px solid $gradient;
         }
     }
+
 }

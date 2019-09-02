@@ -10,8 +10,54 @@
 
     .pane-header {
 
-        .dropdown-icon {
-          height: calc(#{$header-size} + 5px);
+        .option-menu {
+            z-index: 100;
+            background: $white;
+            box-shadow: $tablet-box-shadow;
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            right: -100px;
+            top: 0px;
+            &:hover {
+                display: flex;
+            }
+            .option-menu-option {
+                height: 20px;
+                font-size: 14px;
+                color: $text-accent;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding-right: 14px;
+                .option-menu {
+                    display: none;
+                }
+                &:hover {
+                    filter: brightness(90%);
+                    .option-menu {
+                        background: $white;
+                        box-shadow: $tablet-box-shadow;
+                        display: flex;
+                        flex-direction: column;                    }
+                }
+            }
+        }
+
+        .search-config-button {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+                filter: brightness(90%);
+                .option-menu {
+                    display: flex;
+                }
+            }
+            .search-config-icon {
+                margin: 0 2px;
+                height: calc(#{$header-size} + 5px);
+              }
         }
 
         .search-input {
@@ -30,9 +76,6 @@
             }
         }
 
-        .search-icon {
-            height: calc(#{$header-size} + 2px);
-        }
     }
 
 
