@@ -156,6 +156,35 @@ CourseSchema.virtual('likely_terms').get(function () {
 });
 
 
+// Need to think of a better way to do this.
+CourseSchema.virtual('likely_years')
+    .get(function () {
+        const years = Object.entries(this.yearlyOccurences)
+            .map(([k, v]) => {
+                return parseInt(k);
+            });
+        const currYear = new Date().getFullYear - 2000;
+        let [evens, odds] = [0, 0];
+        let i = years.length - 1;
+        while (i > -1) {
+            if (years[i] % 2 === 0) evens += 1;
+            else odds += 1;
+            i -= 1;
+        }
+        // If curr year is even
+        if (currYear % 2 === 0) {
+            // And we have no odds, it should be offered in even years, so this year, and in two years.
+            if (!odds.length) return [currYear, currYear + 2];
+            // And we have no evens, then it should be offered next year and in 3 years
+            else if (!evens.length) return [currYear + 1, currYear + 3];
+        } else if (currYear % 2 !== 0) { // If curr year is odd
+            // And we have no odds, then it should be offered next year and in 3 years
+            if (!odds.length) return [currYear + 1, currYear + 3];
+            // And we have no evens, it should be offered in even years, so this year, and in two years.
+            else if (!evens.length) return [currYear, currYear + 2];
+        }
+        return [];
+    });
 //
 // // I'm not sure how we should do this, becuase the spider doesn't provide us with \
 // // max-enrollment for courses, just the amount enrolled in each individual course.

@@ -143,8 +143,8 @@ class Term extends Component {
       const likelyTerm = (dragCourse.likely_terms && dragCourse.likely_terms.length) ? dragCourse.likely_terms.includes(this.props.term.quarter) : false;
       const dragStatus = this.props.drag.fulfilledStatus[this.props.term.index];
       const currentTermOfferedError = !dragCourse.offered && this.isCurrTerm();
-      const likelyYear = (dragCourse.likely_years && dragCourse.likely_years.length) ? dragCourse.likely_years.includes(this.props.term.year - 2000) : false;
-
+      // const likelyYear = (dragCourse.likely_years && dragCourse.likely_years.length) ? dragCourse.likely_years.includes(this.props.term.year - 2000) : false;
+      const likelyYear = true;
 
       return (
         <div className="course-row">
@@ -156,9 +156,6 @@ class Term extends Component {
             error: currentTermOfferedError,
           })}
           >
-            {
-              this.warnings();
-            }
             {dragStatus === 'error' ? 'Prereq Missing' : ''}
             {dragStatus === 'warning' ? 'Warning, Check Prereqs' : ''}
             {!likelyTerm || !likelyYear ? 'This course is unlikely to be offered this term' : 'Likely in this term'}
