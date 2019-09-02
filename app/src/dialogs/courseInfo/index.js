@@ -168,7 +168,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="professors">
         <div className="section-header">Professors</div>
-        {professors.map((p) => {
+        {professors.slice(0, 5).map((p) => {
           return (
             <div className="professor">{p.name}</div>
           );
