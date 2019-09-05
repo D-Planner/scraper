@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, signoutUser,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import remove from '../../style/close.svg';
@@ -45,47 +45,35 @@ class ProfileDialog extends Component {
             {this.renderPlacements()}
           </div>
         </div>
-        <div className="info">
-          <div className="label">Bookmarked Courses</div>
-          <div className="data">
-            {this.renderBookmarks()}
-          </div>
-        </div>
-        <div className="info">
-          <div className="label">Completed Courses</div>
-          <div className="data">
-            {this.renderCompleted()}
-          </div>
-        </div>
-
+        {/* <button type="button" className="signout-button" onClick={this.props.signoutUser(this.props.history)}>Sign out</button> */}
       </div>
     );
   }
 
-  renderBookmarks = () => {
-    return (
-      this.props.user.favorite_courses.map((c, i) => {
-        return (
-          <CourseElement
-            size="bg"
-            course={c}
-            action={{
-              type: 'remove',
-              svg: remove,
-              method: () => {
-                this.props.removeCourseFromFavorites(c.id).then((r) => {
-                  this.props.fetchUser();
-                  this.props.fetchPlan(this.props.plan.id);
-                }).catch((e) => {
-                  console.log(e);
-                });
-              },
-            }}
-          />
-        );
-      })
-    );
-  }
+  // renderBookmarks = () => {
+  //   return (
+  //     this.props.user.favorite_courses.map((c, i) => {
+  //       return (
+  //         <CourseElement
+  //           size="bg"
+  //           course={c}
+  //           action={{
+  //             type: 'remove',
+  //             svg: remove,
+  //             method: () => {
+  //               this.props.removeCourseFromFavorites(c.id).then((r) => {
+  //                 this.props.fetchUser();
+  //                 this.props.fetchPlan(this.props.plan.id);
+  //               }).catch((e) => {
+  //                 console.log(e);
+  //               });
+  //             },
+  //           }}
+  //         />
+  //       );
+  //     })
+  //   );
+  // }
 
   renderPlacements = () => {
     return (
@@ -112,23 +100,6 @@ class ProfileDialog extends Component {
     );
   }
 
-  renderCompleted = () => {
-    return (
-      this.props.user.completed_courses.map((c, i) => {
-        return (
-          <CourseElement
-            size="bg"
-            course={c}
-            action={{
-              type: 'remove',
-              svg: remove,
-            }}
-          />
-        );
-      })
-    );
-  }
-
   render() {
     return (
       <DialogWrapper {...this.props}>
@@ -143,6 +114,6 @@ const mapStateToProps = state => ({
   plan: state.plans.current,
 });
 
-export default connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan,
-})(ProfileDialog);
+export default (connect(mapStateToProps, {
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, signoutUser,
+})(ProfileDialog));

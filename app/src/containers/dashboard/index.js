@@ -101,7 +101,10 @@ class Dashboard extends React.Component {
   showProfileDialog(props) {
     const dialogOptions = {
       size: 'lg',
-      showOk: false,
+      okText: 'Sign out',
+      onOk: () => {
+        this.props.signoutUser(this.props.history);
+      },
     };
     this.props.showDialog(DialogTypes.PROFILE, dialogOptions);
   }

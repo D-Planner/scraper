@@ -1,3 +1,5 @@
+@import '../../style/variables.scss';
+
 .remove {
   display:flex;
   width:9px;
@@ -29,6 +31,22 @@
       flex-direction: column;
       align-self: flex-end;
       flex: 1;
+    }
+  }
+
+  .signout-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $purple-light;
+    background: $text-accent;
+    font-size: 18px;
+    font-weight: 700;
+    width: 40px;
+    height: 24x;
+
+    &:hover {
+      filter: brightness(140%);
     }
   }
 }
