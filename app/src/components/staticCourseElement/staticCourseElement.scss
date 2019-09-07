@@ -1,15 +1,53 @@
 @import '../../style/variables.scss';
 
-.course-right {
-  display:flex;
-  flex-direction: row;
-  justify-content: flex-end;
+.title-box {
+  display: flex;
+  flex-flow: row nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  align-items: center;
+  .course-left {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .spacer {
+      margin-left: 5px;
+      padding-left: 5px;
+      border-left-style: solid;
+      border-width: 1px;
+      height: 15px;
+  }
 
-  .name {
-    flex:1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-right: 5px;
+  .course-right {
+      font-size: 10px;
+      text-align: start;
+      line-height: 100%;
+      overflow-x: hidden;
+      .name {
+        flex:1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 5px;
+      }
+  }
+  .likely-terms {
+    .terms {
+      margin-left: 5px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      color: $gray-6;
+
+
+      .likely {
+          color: $text-accent;
+          font-weight: 800;
+      }
+    }
+  }
+  .genEds {
+
   }
 }
