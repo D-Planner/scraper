@@ -6,26 +6,9 @@ import arrowDropDown from '../../../style/arrowDropDown.svg';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
+import LikelyTerms from '../../../components/likelyTerms';
 
 import { GenEds } from '../../../constants';
-
-
-export const LikelyTerms = (props) => {
-  const terms = ['F', 'W', 'S', 'X'];
-  return (
-    <>
-      <div className="terms">
-        {
-          terms.map((term) => {
-            return (
-              <div className={classNames({ likely: (props.terms.length && props.terms.includes(term)) })} key={term}>{term}</div>
-            );
-          })
-        }
-      </div>
-    </>
-  );
-};
 
 /**
  * @name SearchPane
