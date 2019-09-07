@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 // import async from 'async';
 import classNames from 'classnames';
 import Majors from '../../majors';
-import checkedIcon from '../../../style/checkboxChecked.svg';
-import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
+// import checkedIcon from '../../../style/checkboxChecked.svg';
+// import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
 
 import './requirementsPane.scss';
 import { GenEds } from '../../../constants';
@@ -135,8 +135,9 @@ const RequirementsPane = (props) => {
           return (
             <div key={genEd.name} className="genEd-row">
               <img className="icon" src={genEd.icon} alt={`${genEd.name} icon`} />
-              <div className="genEd-name">{genEd.fullName}</div>
-              <img className="checkbox" src={genEd.fulfilled ? checkedIcon : uncheckedIcon} alt="checkbox" />
+              {/* <div className="genEd-name">{genEd.fullName}</div> */}
+              <div className="checkbox complete">{genEd.fulfilled ? 'Complete' : 'Incomplete'}</div>
+              {/* <img className="checkbox" src={genEd.fulfilled ? checkedIcon : uncheckedIcon} alt="checkbox" /> */}
             </div>
           );
         })}
