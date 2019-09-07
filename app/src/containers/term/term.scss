@@ -126,17 +126,23 @@ $term-margin: 0 15px 15px 0;
                 height: $course-height;
                 animation: pulse 0.5s infinite;
                 text-align: center;
-                
+                font-size: 12px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
                 &.error{
-                    border: $error 1px solid !important;
+                    color: $error !important;
+                    // border: $error 1px solid !important;
                 }
                 &.warning, &.unlikely{
-                    border: $warning 1px solid !important;
+                    color: $warning !important;
+                    // border: $warning 1px solid !important;
                 }
 
                 &.likely {
-                    border: $success 1px solid;
+                    color: $success;
+                    // border: $success 1px solid;
                 }
             }
         
