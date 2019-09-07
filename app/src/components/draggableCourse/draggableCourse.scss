@@ -43,11 +43,48 @@ $course-width-small: 181px;
 }
 
 .title-box {
-    display: flex;
-    flex-flow: row nowrap;
-    white-space: nowrap;
-    overflow: hidden;
-    align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  align-items: center;
+  .course-left {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .spacer {
+      margin-left: 5px;
+      padding-left: 5px;
+      border-left-style: solid;
+      border-width: 1px;
+      height: 15px;
+  }
+
+  .course-right {
+      font-size: 10px;
+      text-align: start;
+      line-height: 100%;
+      overflow-x: hidden;
+  }
+  .likely-terms {
+    .terms {
+      margin-left: 5px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      color: $gray-6;
+
+
+      .likely {
+          color: $text-accent;
+          font-weight: 800;
+      }
+    }
+  }
+  .genEds {
+
+  }
 }
 
 .list-group-item-heading {
@@ -56,22 +93,4 @@ $course-width-small: 181px;
     justify-content: space-between;
 }
 
-.course-left {
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 16px;
-}
-.spacer {
-    margin-left: 5px;
-    padding-left: 5px;
-    border-left-style: solid;
-    border-width: 1px;
-    height: 15px;
-}
 
-.course-right {
-    font-size: 10px;
-    text-align: start;
-    line-height: 100%;
-    overflow-x: hidden;
-}
