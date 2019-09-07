@@ -471,19 +471,19 @@ export const GenEds = {
   W: {
     fullName: 'Western Cultures',
     name: 'W',
-    icon: icons.wc_w,
+    icon: icons.w,
     fulfilled: false,
   },
   NW: {
     fullName: 'Non-Western Cultures',
     name: 'NW',
-    icon: icons.wc_nw,
+    icon: icons.nw,
     fulfilled: false,
   },
   CI: {
     fullName: 'Culture and Identity',
     name: 'CI',
-    icon: icons.wc_ci,
+    icon: icons.ci,
     fulfilled: false,
   },
 };
