@@ -46,22 +46,21 @@ $inactive-height: 50px;
         }
 
         .paneCourse {
-            display:flex;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
             .terms {
                 margin-left: 5px;
                 display: flex;
-                justify-content: space-around;
                 align-items: center;
                 color: $gray-6;
-
     
                 .likely {
                     color: $text-accent;
                     font-weight: 800;
                 }
             }
-
         }
     }
 }
