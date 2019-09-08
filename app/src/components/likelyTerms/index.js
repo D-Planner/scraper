@@ -4,17 +4,15 @@ import classNames from 'classnames';
 const LikelyTerms = (props) => {
   const terms = ['F', 'W', 'S', 'X'];
   return (
-    <>
-      <div className="terms">
-        {
-            terms.map((term) => {
-              return (
-                <div className={classNames({ likely: (props.terms.length && props.terms.includes(term)) })} key={term}>{term}</div>
-              );
-            })
-          }
-      </div>
-    </>
+    <div className="likely-terms">
+      {
+        terms.map((term) => {
+          return (
+            <div className={classNames({ likely: (props.terms.length && props.terms.includes(term)), 'single-term': true })} key={term}>{term}</div>
+          );
+        })
+      }
+    </div>
   );
 };
 
