@@ -119,32 +119,7 @@ $term-margin: 0 15px 15px 0;
             display: flex;
             align-items: center;
 
-            .phantom-course {
-                background: $gray-2;
-                border-radius: $course-border-radius;
-                width: $course-width-large;
-                height: $course-height;
-                animation: pulse 0.5s infinite;
-                text-align: center;
-                font-size: 12px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
 
-                &.error{
-                    color: $error !important;
-                    // border: $error 1px solid !important;
-                }
-                &.warning, &.unlikely{
-                    color: $warning !important;
-                    // border: $warning 1px solid !important;
-                }
-
-                &.likely {
-                    color: $success;
-                    // border: $success 1px solid;
-                }
-            }
         
             .hourSelector {
                 select {
@@ -153,7 +128,6 @@ $term-margin: 0 15px 15px 0;
             }
         
         }
-
 
         &.no-content {
             &.on {

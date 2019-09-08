@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import DraggableUserCourse from '../../components/draggableUserCourse';
+import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
 import {
@@ -147,19 +148,7 @@ class Term extends Component {
       const likelyYear = true;
       return (
         <div className="course-row">
-          <div className={classNames({
-            'phantom-course': true,
-            [dragStatus]: true,
-            likely: likelyTerm || likelyYear,
-            unlikely: !likelyTerm || !likelyYear,
-            error: currentTermOfferedError,
-          })}
-          >
-            {dragStatus === 'error' ? 'Prereq missing, ' : ''}
-            {dragStatus === 'warning' ? 'Prereq warning, ' : ''}
-            {!likelyTerm || !likelyYear ? 'Unlikely to be offered' : 'Likely to be offered'}
-            {currentTermOfferedError ? 'Not offered' : ''}
-          </div>
+          <PhantomCourse likelyTerm={likelyTerm} likelyYear={likelyYear} dragStatus={dragStatus} currentTermOfferedError={currentTermOfferedError} />
         </div>
       );
     } else {
