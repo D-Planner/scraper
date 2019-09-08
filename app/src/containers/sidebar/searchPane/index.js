@@ -21,7 +21,7 @@ const SearchPane = (props) => {
     active: props.active,
   });
 
-  const [searchText, setSearchText] = useState('');
+  // const [searchText, setSearchText] = useState('');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
 
@@ -29,17 +29,17 @@ const SearchPane = (props) => {
 
   // Clears the search input when the component updates to go inactive
   useEffect(() => {
-    if (searchText.length !== 0) {
+    if (props.searchQuery.length !== 0) {
       const queryParsed = {
-        title: searchText,
-        department: searchText.split(' ')[0].toUpperCase(),
-        number: searchText.split(' ')[1],
+        title: props.searchQuery,
+        department: props.searchQuery.split(' ')[0].toUpperCase(),
+        number: props.searchQuery.split(' ')[1],
         distribs,
         wcs,
       };
       props.search(queryParsed);
     }
-  }, [searchText, wcs, distribs]);
+  }, [props.searchQuery, wcs, distribs]);
 
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
@@ -50,9 +50,9 @@ const SearchPane = (props) => {
         <input type="text"
           className="search-input"
           placeholder="Search"
-          value={searchText}
+          value={props.searchQuery}
           onChange={(e) => {
-            setSearchText(e.target.value);
+            props.setSearchQuery(e.target.value);
           }}
         />
         <button type="button" className="search-config-button">
