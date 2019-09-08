@@ -30,38 +30,49 @@ const collect = (connectDrag, monitor) => {
     isDragging: monitor.isDragging(),
   };
 };
-/**
- * Sends off information for [dialogOrchestrator].
- * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
- * @param {*} props
- */
-const showCourseInfoDialog = (props) => {
-  const dialogOptions = {
-    title: `${props.catalogCourse.department} ${props.catalogCourse.number}: ${props.catalogCourse.name}`,
-    size: 'lg',
-    data: props.catalogCourse,
-    previousCourses: props.course.previousCourses,
-    showOk: false,
-  };
-  props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
-};
 
 /** a drag-n-drop capable component containing information on a UserCourse object */
 class UserCourse extends Component {
   constructor(props) {
     super(props);
     this.catalogCourse = props.catalogCourse;
+    this.state = {
+      beingHovered: false,
+    };
+  }
+
+  /**
+   * Sends off information for [dialogOrchestrator].
+   * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
+   * @param {*} props
+   */
+  showCourseInfoDialog = () => {
+    const dialogOptions = {
+      title: `${this.props.course.department} ${this.props.course.number}: ${this.props.course.name}`,
+      size: 'lg',
+      data: this.props.course,
+      showOk: false,
+    };
+    this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
   }
 
 
   render() {
     // console.log(`Prereq check? ${this.props.course.fulfilled} for ${this.props.catalogCourse.name}`);
     return this.props.connectDragSource(
-      <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
+      <div
+        className="popover"
+        onMouseEnter={() => this.setState({ beingHovered: true })}
+        onMouseLeave={() => this.setState({ beingHovered: false })}
+        onClick={() => this.showCourseInfoDialog(this.props)}
+        role="button"
+        tabIndex="0"
+      >
         <CourseElement
           size={this.props.size}
           error={this.props.course.fulfilled}
           course={this.catalogCourse}
+          beingHovered={this.state.beingHovered}
         />
       </div>,
     );
