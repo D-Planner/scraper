@@ -193,7 +193,7 @@ class Term extends Component {
             <div className="course-row-with-space" key={course.id}>
               <div className="course-row">
                 <DraggableUserCourse
-                  size={(this.isNextTerm() ? 'sm' : 'bg')}
+                  size={(this.isCurrTerm() ? 'sm' : 'bg')}
                   key={course.id}
                   catalogCourse={course.course}
                   course={course}
@@ -204,7 +204,7 @@ class Term extends Component {
                   setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
                 />
                 {
-                  this.isNextTerm()
+                  this.isCurrTerm()
                     ? (
                       <div>
                         <HourSelector
