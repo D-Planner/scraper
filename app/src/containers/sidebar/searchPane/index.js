@@ -49,7 +49,7 @@ const SearchPane = (props) => {
         </button>
         <input type="text"
           className="search-input"
-          placeholder="Search"
+          placeholder="Search for courses"
           value={props.searchQuery}
           onChange={(e) => {
             props.setSearchQuery(e.target.value);
