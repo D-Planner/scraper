@@ -62,23 +62,20 @@
 
         .search-input {
             font-size: $header-size;
-            width:70%;
-            font-weight: normal;
-            color: rgba(0, 0, 0, 0.24);
+            width: 70%;
+            color: $text-accent;
             background: none;
             outline: none;
 
             &::placeholder {
-                color: rgba(0, 0, 0, 0.24);
+                color: $gray-3;
             }
             &:focus {
-                border-bottom: 1px solid $blue-primary;
+                border-bottom: 1px solid $blue-primary outset;
             }
         }
 
     }
-
-
 
     .pane-content {
         display: flex;
