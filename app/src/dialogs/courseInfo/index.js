@@ -10,7 +10,7 @@ import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
-import CourseElement from '../../components/staticCourseElement';
+import NonDraggableCourse from '../../components/nondraggableCourse';
 
 import './courseInfo.scss';
 
@@ -23,11 +23,6 @@ const Dependencies = {
 
 /** displays information on a course -- displayed when a draggable course is clicked without dragging */
 class CourseInfoDialog extends Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
-  }
-
   /**
    * Handles rendering of distributive bubbles.
    * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
@@ -49,15 +44,15 @@ class CourseInfoDialog extends Component {
       <div id="distribs">
         <div className="section-header">Distributives</div>
         <div id="bubbles">
-          {distribs.map((distrib) => {
+          {distribs.map((distrib, i) => {
             return (
-              <img key={distrib.name} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
+              <img key={i.toString()} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
             );
           })}
           {(wcs.length === 0 || distribs.length === 0) ? null : <div className="vertical-divider" />}
-          {wcs.map((wc) => {
+          {wcs.map((wc, i) => {
             return (
-              <img key={wc.name} className="wc-icon" src={wc.icon} alt={wc.name} />
+              <img key={i.toString()} className="wc-icon" src={wc.icon} alt={wc.name} />
             );
           })}
         </div>
@@ -175,7 +170,7 @@ class CourseInfoDialog extends Component {
         <div className="section-header">Professors</div>
         {professors.slice(0, 5).map((p) => {
           return (
-            <div className="professor">{p.name}</div>
+            <div key={p.name} className="professor">{p.name}</div>
           );
         })}
       </div>
@@ -183,7 +178,6 @@ class CourseInfoDialog extends Component {
   }
 
   renderPrerequisites = (course) => {
-    console.log(this.props.previousCourses);
     const { prerequisites } = course;
 
     const renderPrereqByType = (o, dependencyType) => {
@@ -202,14 +196,9 @@ class CourseInfoDialog extends Component {
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
           return (
-            <CourseElement
+            <NonDraggableCourse
+              key={c.id.toString()}
               course={c}
-              size="bg"
-              action={{
-                type: 'bookmark',
-                svg: bookmark,
-                method: this.props.addCourseToFavorites,
-              }}
             />
           );
         });
@@ -220,14 +209,14 @@ class CourseInfoDialog extends Component {
       <div id="dependenciesContainer">
         <div className="section-header">Prerequisites</div>
         <div id="dependencies">
-          {prerequisites.map((o) => {
+          {prerequisites.map((o, i) => {
             let dependencyType = Object.keys(o).find((key) => {
               return (o[key].length > 0 && key !== '_id');
             });
             if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
             const render = (
-              <div className="dependency">
+              <div key={i.toString()} className="dependency">
                 <div className="section-header">{Dependencies[dependencyType]}</div>
                 {renderPrereqByType(o, dependencyType)}
               </div>
@@ -237,11 +226,11 @@ class CourseInfoDialog extends Component {
               case 'req':
                 return (o[dependencyType].some((c) => {
                   return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
-                })) ? <img src={checkedBox} alt="fulfilled" /> : render;
+                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
               case 'range':
                 return (this.props.previousCourses.some((c) => {
                   return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
-                })) ? <img src={checkedBox} alt="fulfilled" /> : render;
+                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
               default:
                 return render;
             }

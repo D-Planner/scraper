@@ -36,7 +36,6 @@ const collect = (connectDrag, monitor) => {
 class UserCourse extends Component {
   constructor(props) {
     super(props);
-    console.log('USERCOURSE', this.props);
     this.catalogCourse = props.catalogCourse;
     this.state = {
       beingHovered: false,

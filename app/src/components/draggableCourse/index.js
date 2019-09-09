@@ -37,7 +37,6 @@ const collect = (connectDrag, monitor) => {
 class Course extends React.Component {
   constructor(props) {
     super(props);
-    console.log('COURSE', props);
     this.state = {
       beingHovered: false,
     };
