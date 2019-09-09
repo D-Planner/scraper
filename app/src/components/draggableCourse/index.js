@@ -9,13 +9,14 @@ import './draggableCourse.scss';
 
 const source = {
   beginDrag(props) {
-    props.setDraggingState(true);
+    props.setDraggingState(true, props.course);
+    props.setDraggingFulfilledStatus(props.course.id);
     return {
       course: props.course,
     };
   },
   endDrag(props, monitor) {
-    props.setDraggingState(false);
+    props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop() && props.removeCourseFromTerm) {
       props.removeCourseFromTerm();
@@ -36,6 +37,7 @@ const collect = (connectDrag, monitor) => {
 class Course extends React.Component {
   constructor(props) {
     super(props);
+    console.log('COURSE', props);
     this.state = {
       beingHovered: false,
     };

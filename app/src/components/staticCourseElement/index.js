@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
@@ -21,6 +20,7 @@ class CourseElement extends Component {
     super(props);
 
     this.state = {};
+    console.log(this.props);
   }
 
   renderCourseSupplementaryInfo = () => {

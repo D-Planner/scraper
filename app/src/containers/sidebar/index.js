@@ -61,6 +61,7 @@ const Sidebar = (props) => {
         searchQuery={searchQuery}
         search={props.courseSearch}
         results={props.searchResults}
+        setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
       />
       <RequirementsPane
         active={activePane === paneTypes.REQUIREMENTS}

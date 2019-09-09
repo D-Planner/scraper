@@ -93,11 +93,13 @@ class Majors extends Component {
   }
 
   render() {
+    // className="majors-container"
     return (
-      <div className="majors-container">
-        {this.props.declared.length
+      <div className="msg">
+        Feature coming out soon!
+        {/* {this.props.declared.length
           ? this.renderDeclared()
-          : this.renderMajors()}
+          : this.renderMajors()} */}
       </div>
     );
   }

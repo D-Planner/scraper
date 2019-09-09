@@ -8,7 +8,8 @@ import CourseElement from '../staticCourseElement';
 
 const source = {
   beginDrag(props) {
-    props.setDraggingState(true);
+    props.setDraggingState(true, props.catalogCourse);
+    props.setDraggingFulfilledStatus(props.catalogCourse.id);
     return {
       userCourse: props.course,
       catalogCourse: props.catalogCourse,
@@ -16,7 +17,7 @@ const source = {
     };
   },
   endDrag(props, monitor) {
-    props.setDraggingState(false);
+    props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
       props.removeCourseFromTerm();
@@ -35,6 +36,7 @@ const collect = (connectDrag, monitor) => {
 class UserCourse extends Component {
   constructor(props) {
     super(props);
+    console.log('USERCOURSE', this.props);
     this.catalogCourse = props.catalogCourse;
     this.state = {
       beingHovered: false,
@@ -48,9 +50,9 @@ class UserCourse extends Component {
    */
   showCourseInfoDialog = () => {
     const dialogOptions = {
-      title: `${this.props.course.department} ${this.props.course.number}: ${this.props.course.name}`,
+      title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',
-      data: this.props.course,
+      data: this.props.catalogCourse,
       showOk: false,
     };
     this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
@@ -58,7 +60,6 @@ class UserCourse extends Component {
 
 
   render() {
-    // console.log(`Prereq check? ${this.props.course.fulfilled} for ${this.props.catalogCourse.name}`);
     return this.props.connectDragSource(
       <div
         className="popover"
@@ -70,7 +71,7 @@ class UserCourse extends Component {
       >
         <CourseElement
           size={this.props.size}
-          error={this.props.course.fulfilled}
+          error={this.props.course.fulfilledStatus}
           course={this.catalogCourse}
           beingHovered={this.state.beingHovered}
         />

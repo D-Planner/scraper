@@ -23,6 +23,11 @@ const Dependencies = {
 
 /** displays information on a course -- displayed when a draggable course is clicked without dragging */
 class CourseInfoDialog extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
+
   /**
    * Handles rendering of distributive bubbles.
    * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
@@ -31,7 +36,7 @@ class CourseInfoDialog extends Component {
     // const distribTypesNames = distribTypes.map(distrib => distrib.name);
     const distribs = [];
     const wcs = [];
-    if (course.distribs !== null) {
+    if (course.distribs && course.distribs.length) {
       course.distribs.forEach((distrib) => {
         if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
           wcs.push(distribTypes.find(ref => ref.name === distrib));
@@ -121,7 +126,7 @@ class CourseInfoDialog extends Component {
    * @param {String} description
    */
   renderDescription = (description, orc_url) => {
-    if (description.length > 600) {
+    if (description && description.length > 600) {
       return (
         <div id="description">
           <div className="section-header">Description</div>
@@ -270,10 +275,10 @@ class CourseInfoDialog extends Component {
           onClick={
             placement
               ? () => this.props.removePlacement(this.props.data.id)
-                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(this.props.data.id)
-                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
           }
         />
@@ -287,6 +292,7 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
+    console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
         <div id="top">
@@ -311,7 +317,6 @@ class CourseInfoDialog extends Component {
   }
 
   render() {
-    console.log(this.props.data.xlist);
     return (
       <DialogWrapper {...this.props}>
         {this.courseInfo(this.props.data, this.props.nextTerm)}
