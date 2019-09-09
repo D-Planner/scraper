@@ -8,7 +8,8 @@ import CourseElement from '../staticCourseElement';
 
 const source = {
   beginDrag(props) {
-    props.setDraggingState(true);
+    props.setDraggingState(true, props.catalogCourse);
+    props.setDraggingFulfilledStatus(props.catalogCourse.id);
     return {
       userCourse: props.course,
       catalogCourse: props.catalogCourse,
@@ -16,7 +17,7 @@ const source = {
     };
   },
   endDrag(props, monitor) {
-    props.setDraggingState(false);
+    props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
       props.removeCourseFromTerm();
@@ -50,17 +51,17 @@ const showCourseInfoDialog = (props) => {
 class UserCourse extends Component {
   constructor(props) {
     super(props);
+    console.log(props.catalogCourse.name, props.course.fulfilledStatus);
     this.catalogCourse = props.catalogCourse;
   }
 
 
   render() {
-    // console.log(`Prereq check? ${this.props.course.fulfilled} for ${this.props.catalogCourse.name}`);
     return this.props.connectDragSource(
       <div className="popover" onClick={() => showCourseInfoDialog(this.props)} role="button" tabIndex="0">
         <CourseElement
           size={this.props.size}
-          error={this.props.course.fulfilled}
+          error={this.props.course.fulfilledStatus}
           course={this.catalogCourse}
         />
       </div>,

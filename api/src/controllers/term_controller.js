@@ -29,13 +29,14 @@ const removeCompleted = (userID, courseID) => {
     });
 };
 
-const createTerm = async (term, planID) => {
+const createTerm = async (term, planID, index) => {
     const newTerm = await Term.create({
         plan_id: planID,
         year: term.year,
         quarter: term.quarter,
         off_term: term.off_term,
         courses: term.courses.map((course) => { return course.id; }),
+        index,
     });
 
     return newTerm.save();
@@ -76,7 +77,7 @@ const addCourseToTerm = (req, res) => {
                             })
                             .then(() => {
                                 // addCompleted(req.user.id, req.body.course.id); let's not do this because we don't want a universal completed list
-                                return setTermsPrevCourses(req.body.planID, user.placement_courses);
+                                return setTermsPrevCourses(req.body.planID, req.user.id);
                             })
                             .then(() => {
                                 res.send(term);
@@ -128,11 +129,8 @@ const removeCourseFromTerm = (req, res) => {
                 .then(() => {
                     return UserCourseController.deleteUserCourse(userCourseID);
                 })
-                .then(() => {
-                    return User.findById(userID);
-                })
                 .then((user) => {
-                    return setTermsPrevCourses(planID, user.placement_courses);
+                    return setTermsPrevCourses(planID, userID);
                 })
                 .then(() => {
                     res.json(term);

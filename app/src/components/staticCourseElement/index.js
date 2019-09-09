@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
@@ -18,11 +19,18 @@ class CourseElement extends Component {
     super(props);
 
     this.state = {};
+    console.log(this.props);
   }
 
   render() {
     return (
-      <div className={`course ${this.props.size} ${this.props.error}`}>
+      <div className={classNames({
+        course: true,
+        [this.props.size]: true,
+        [this.props.error]: true,
+        [this.props.error]: true,
+      })}
+      >
         <div className="title-box">
           <div className="course-left">
             {`${this.props.course.department} ${this.props.course.number}`}

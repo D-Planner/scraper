@@ -119,13 +119,7 @@ $term-margin: 0 15px 15px 0;
             display: flex;
             align-items: center;
 
-            .phantom-course {
-                background: $gray-2;
-                border-radius: $course-border-radius;
-                width: $course-width-large;
-                height: $course-height;
-                animation: pulse 0.5s infinite;
-            }
+
         
             .hourSelector {
                 select {
@@ -134,7 +128,6 @@ $term-margin: 0 15px 15px 0;
             }
         
         }
-
 
         &.no-content {
             &.on {

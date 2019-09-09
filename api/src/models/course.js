@@ -13,13 +13,6 @@ const LetterToScore = { // Need to also consider 'A / A-' ones, how should we ma
     D: 1,
 };
 
-const TermToString = {
-    F: 'Fall',
-    W: 'Winter',
-    S: 'Spring',
-    X: 'Summer',
-};
-
 const CourseSchema = new Schema({
     layup_url: String,
     layup_id: Number,
@@ -93,30 +86,105 @@ CourseSchema.virtual('avg_median').get(function () {
 // For terms most likely to be offered, I'm thinking we take the average of times offered in each term (F,W,S,X), \
 // and whichever term has recurrence greater than the average, we display those as likely_terms?
 
-// Working!
+CourseSchema.virtual('yearlyOccurences')
+    .get(function () {
+        return (this.terms_offered) ? this.terms_offered
+            .reduce((acc, cur, i) => {
+                const [year, term] = cur.split(/(?!\d)/g);
+                if (acc[year]) acc[year].push(term);
+                else acc[year] = [term];
+                return acc;
+            }, {}) : {};
+    });
+
+// Format ["F", "W", "S", "X"]
 CourseSchema.virtual('likely_terms').get(function () {
     try {
-        const occurrences = this.terms_offered
-            .map((t) => {
-                return t.replace(/\d/g, '');
-            })
-            .reduce((acc, cur, i) => {
-                if (!acc[cur]) acc[cur] = 1;
-                else acc[cur] += 1;
-                return acc;
-            }, {});
-        const avg = Object.values(occurrences).reduce((acc, curr) => {
-            acc += curr / Object.values(occurrences).length;
-            return acc;
-        }, 0);
-        Object.keys(occurrences).forEach((k) => {
-            if (occurrences[k] < avg) delete occurrences[k];
-        });
-        return Object.keys(occurrences);
+        const indexFromEndYearlyOccurences = (i) => {
+            const values = Object.values(this.yearlyOccurences);
+            return values[values.length - i];
+        };
+        const patternSeach = (yOccurences) => {
+            // This is a dictionary of pattern types as keys and functions as values that test the key pattern type.
+            // Each function returns
+            const patternTypes = {
+                consistency: (occ) => {
+                    const annualRepititions = Object.entries(occ)
+                        .reduce((acc, [k, v]) => {
+                            if (acc.some((e) => {
+                                return e.every((i, j) => {
+                                    return i === v[j];
+                                });
+                            })) return acc;
+                            if (Object.values(occ)
+                                .reduce((n, x) => {
+                                    return (n + (x.every((e, i) => {
+                                        return e === v[i];
+                                    })));
+                                }, 0) > Object.values(occ).length - 3) acc.push(v);
+                            return acc;
+                        }, []);
+                    if (annualRepititions.length === 1) return Object.values(occ)[Object.values(occ).length - 2];
+                    return null;
+                },
+                // biennial: (occ) => {
+                //     const evenYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 === 0);
+                //         });
+                //     const oddYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 !== 0);
+                //         });
+                //     console.log('Even Years,', evenYears);
+                //     console.log('Odd Years,', oddYears);
+                // },
+            };
+            return Object.entries(patternTypes)
+                .map(([k, fn]) => { return fn(yOccurences); })
+                .filter((e) => { return e !== null; });
+        };
+
+        const foundPatterns = patternSeach(this.yearlyOccurences);
+        if (foundPatterns.length === 1) return foundPatterns[0];
+        // If we didn't find a single patter (If we have multiple, or none), just return what happened last year
+        return indexFromEndYearlyOccurences(2);
     } catch (e) {
+        console.log(e);
         return e;
     }
 });
+
+
+// Need to think of a better way to do this.
+CourseSchema.virtual('likely_years')
+    .get(function () {
+        const years = Object.entries(this.yearlyOccurences)
+            .map(([k, v]) => {
+                return parseInt(k);
+            });
+        const currYear = new Date().getFullYear - 2000;
+        let [evens, odds] = [0, 0];
+        let i = years.length - 1;
+        while (i > -1) {
+            if (years[i] % 2 === 0) evens += 1;
+            else odds += 1;
+            i -= 1;
+        }
+        // If curr year is even
+        if (currYear % 2 === 0) {
+            // And we have no odds, it should be offered in even years, so this year, and in two years.
+            if (!odds.length) return [currYear, currYear + 2];
+            // And we have no evens, then it should be offered next year and in 3 years
+            else if (!evens.length) return [currYear + 1, currYear + 3];
+        } else if (currYear % 2 !== 0) { // If curr year is odd
+            // And we have no odds, then it should be offered next year and in 3 years
+            if (!odds.length) return [currYear + 1, currYear + 3];
+            // And we have no evens, it should be offered in even years, so this year, and in two years.
+            else if (!evens.length) return [currYear, currYear + 2];
+        }
+        return [];
+    });
 //
 // // I'm not sure how we should do this, becuase the spider doesn't provide us with \
 // // max-enrollment for courses, just the amount enrolled in each individual course.

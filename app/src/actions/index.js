@@ -28,9 +28,39 @@ export const ActionTypes = {
   FETCH_TIME: 'FETCH_TIME',
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
+  DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
 };
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner-dartmouth.herokuapp.com';
+
+export function getFulfilledStatus(planID, termID, courseID) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return axios.get(`${ROOT_URL}/courses/fulfilled/${courseID}/${termID}/${planID}`, { headers }).then((response) => {
+    return response.data;
+  }).catch((error) => {
+    console.log(error);
+    return error;
+  });
+}
+
+export function setDraggingFulfilledStatus(planID, courseID) {
+  console.log('olah!');
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/courses/fulfilled/${courseID}/${planID}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.DRAG_FULFILLED_STATUS, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
 
 export function getTimes() {
   return dispatch => new Promise(((resolve, reject) => {
@@ -64,11 +94,11 @@ export function createCourses() {
  * An action creator to dispatch whether the user is currently dragging a course around.
  * @param {Boolean} isDragging
  */
-export function setDraggingState(isDragging) {
+export function setDraggingState(isDragging, course) {
   if (isDragging) {
     return {
       type: ActionTypes.BEGIN_DRAG,
-      payload: true,
+      payload: course,
     };
   } else {
     return {
@@ -115,16 +145,18 @@ export function clearError() {
  */
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
-      // do something with response.data  (some json)
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
+      resolve();
     }).catch((error) => {
+      console.log(error);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      reject();
     });
-  };
+  }));
 }
 
 /**
@@ -138,15 +170,18 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
   const fields = {
     email, password, firstName, lastName, college, grad,
   };
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-      dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
+      dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
+      resolve();
     }).catch((error) => {
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      console.log(error);
+      dispatch(authError(`Sign Up Failed: ${error.response.data}`));
+      reject();
     });
-  };
+  }));
 }
 
 /**
@@ -524,7 +559,7 @@ export function getRandomCourse() {
  * @returns an action creator to add a new course to the given term
  */
 export function addCourseToTerm(course, term, planID) {
-  // console.log('[ACTION.js] We got the resquest to add course to term');
+  console.log('[ACTION.js] We got the resquest to add course to term');
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/terms/${term.id}/course`, { course, planID }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -547,7 +582,6 @@ export function addCourseToTerm(course, term, planID) {
  * @returns an action creator to remove a course from the given term
  */
 export function removeCourseFromTerm(course, term, planID) {
-  console.log(planID);
   const termID = (typeof term === 'object') ? term.id : term;
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}/${planID}`, {
