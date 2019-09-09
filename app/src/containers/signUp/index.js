@@ -22,6 +22,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
 
   const signup = () => {
     props.signupUser(email, password, firstName, lastName, college, grad, props.history);
+    props.checkAuth('That email is already associated to an account');
   };
 
   // const signin = () => {
