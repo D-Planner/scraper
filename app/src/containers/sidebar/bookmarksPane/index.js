@@ -46,7 +46,6 @@ const component = (props) => {
                 <>
                   <div className="paneCourse">
                     <DraggableCourse key={course.id} course={course} />
-                    <LikelyTerms terms={course.likely_terms} />
                   </div>
                   <div id="course-spacer-large" />
                 </>

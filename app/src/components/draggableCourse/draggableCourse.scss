@@ -2,6 +2,7 @@
 
 $course-border-radius: 5px;
 $course-height: 30px;
+$course-width-xlarge: 250px; // This needs a more precise number, need Zirui to look
 $course-width-large: 203px;
 $course-width-small: 181px;
 
@@ -21,6 +22,9 @@ $course-width-small: 181px;
     overflow: hidden;
     height: $course-height;
 
+    &.xl{
+      width:$course-width-xlarge;
+    }
     &.bg {
       width: $course-width-large;
     }

@@ -68,7 +68,7 @@ class Course extends React.Component {
         tabIndex="0"
       >
         <CourseElement
-          size="bg"
+          size="xl"
           course={this.props.course}
           beingHovered={this.state.beingHovered}
         />
