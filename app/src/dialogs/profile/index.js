@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, signoutUser,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import remove from '../../style/close.svg';
@@ -45,7 +45,6 @@ class ProfileDialog extends Component {
             {this.renderPlacements()}
           </div>
         </div>
-        {/* <button type="button" className="signout-button" onClick={this.props.signoutUser(this.props.history)}>Sign out</button> */}
       </div>
     );
   }
@@ -115,5 +114,5 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, signoutUser,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan,
 })(ProfileDialog));
