@@ -11,8 +11,9 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
 
 
   const signin = () => {
-    props.signinUser({ email, password }, props.history);
-    props.checkAuth('Your email and password do not match');
+    props.signinUser({ email, password }, props.history).catch(() => {
+      props.checkAuth('Your email and password do not match');
+    });
   };
 
   // const signup = () => {
