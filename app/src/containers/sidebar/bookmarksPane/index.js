@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { DropTarget as BookmarksPane } from 'react-dnd';
 import { ItemTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
-import LikelyTerms from '../../../components/likelyTerms';
 
 import './bookmarksPane.scss';
 

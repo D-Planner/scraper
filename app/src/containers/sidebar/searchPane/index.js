@@ -6,7 +6,6 @@ import arrowDropDown from '../../../style/arrowDropDown.svg';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
-import LikelyTerms from '../../../components/likelyTerms';
 
 import { GenEds } from '../../../constants';
 
