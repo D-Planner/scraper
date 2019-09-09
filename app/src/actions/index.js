@@ -145,16 +145,18 @@ export function clearError() {
  */
 export function signinUser({ email, password }, history) {
   const fields = { email, password };
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
-      // do something with response.data  (some json)
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
+      resolve();
     }).catch((error) => {
+      console.log(error);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      reject();
     });
-  };
+  }));
 }
 
 /**
@@ -168,15 +170,18 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
   const fields = {
     email, password, firstName, lastName, college, grad,
   };
-  return (dispatch) => {
+  return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-      dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
+      dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
+      resolve();
     }).catch((error) => {
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      console.log(error);
+      dispatch(authError(`Sign Up Failed: ${error.response.data}`));
+      reject();
     });
-  };
+  }));
 }
 
 /**
