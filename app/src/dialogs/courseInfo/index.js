@@ -295,7 +295,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="content">
         <div id="top">
-          <div id="major">Engineering Department: Prerequisite</div>
+          <div id="major">Major features coming soon!</div>
           { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
         </div>
         <hr className="horizontal-divider" />
