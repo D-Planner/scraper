@@ -11,6 +11,7 @@ const createUserCourse = (userID, catalogCourseID, termID) => {
             distrib: null,
             wc: null,
             timeslot: r.preiods && r.periods.length === 1 ? r.periods[0] : null,
+            fulfilledStatus: '',
         });
         return newCourse.save();
     });

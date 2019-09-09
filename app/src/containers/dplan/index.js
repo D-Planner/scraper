@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -59,12 +59,12 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
-    // console.log('[DPLAN.js] We got request to add course to term');
+    console.log('[DPLAN.js] We got request to add course to term');
     this.props.addCourseToTerm(course, term, this.props.plan.id).then(() => {
-      // console.log(`[DPLAN.js] The course \n${course.name} has been added to term \n${term.id}`);
+      console.log(`[DPLAN.js] The course \n${course.name} has been added to term \n${term.id}`);
       return this.props.fetchPlan(this.props.plan.id);
     }).then(() => {
-      // console.log('[DPLAN.js] fetched plan');
+      console.log('[DPLAN.js] fetched plan');
       resolve();
     }).catch((err) => {
       console.log(err);
@@ -74,16 +74,25 @@ class DPlan extends Component {
 
   removeCourseFromTerm = (course, term) => new Promise((resolve, reject) => {
     this.props.removeCourseFromTerm(course, term, this.props.plan.id).then(() => {
-      // console.log(`[DPLAN.js] The course \n${course.name} has been removed from term \n${term.id}`);
+      console.log(`[DPLAN.js] The course \n${course.name} has been removed from term \n${term.id}`);
       return this.props.fetchPlan(this.props.plan.id);
     }).then(() => {
-      // console.log('[DPLAN.js] fetched plan');
+      console.log('[DPLAN.js] fetched plan');
       resolve();
     }).catch((err) => {
       console.log(err);
       reject();
     });
   })
+
+  setDraggingFulfilledStatus = courseID => new Promise((resolve, reject) => {
+    this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
+      resolve();
+    }).catch((e) => {
+      console.log(e);
+      reject();
+    });
+  });
 
   showDialog() {
     const opts = {
@@ -159,7 +168,7 @@ class DPlan extends Component {
                   <img src={settingsButton} alt="" />
                 </button>
               </div>
-              <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} />
+              <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} setDraggingFulfilledStatus={this.setDraggingFulfilledStatus} />
             </div>
             <div className="plan-grid">
               {this.props.plan.terms.map((year) => {
@@ -174,6 +183,7 @@ class DPlan extends Component {
                           key={term.id}
                           addCourseToTerm={this.addCourseToTerm}
                           removeCourseFromTerm={this.removeCourseFromTerm}
+                          setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                         />
                       );
                     })}
@@ -196,5 +206,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 })(DPlan));

@@ -11,6 +11,8 @@ import { GenEds } from '../../../constants';
 
 
 export const LikelyTerms = (props) => {
+  if (!props.terms) return <></>;
+
   const terms = ['F', 'W', 'S', 'X'];
   return (
     <>
@@ -57,7 +59,6 @@ const SearchPane = (props) => {
       props.search(queryParsed);
     }
   }, [searchText, wcs, distribs]);
-
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
@@ -137,7 +138,7 @@ const SearchPane = (props) => {
                   return (
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
-                        <DraggableCourse key={course.id} course={course} />
+                        <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
                         <LikelyTerms terms={course.likely_terms} />
                       </div>
                       <div id="course-spacer-large" />

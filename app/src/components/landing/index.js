@@ -2,6 +2,9 @@
 import React from 'react';
 import './landing.scss';
 import { Link, Element } from 'react-scroll';
+import { connect } from 'react-redux';
+import { showDialog } from '../../actions';
+import { DialogTypes } from '../../constants';
 import SignInForm from '../../containers/signIn';
 import SignUpForm from '../../containers/signUp';
 import pine from '../../style/pine_name.png';
@@ -57,6 +60,17 @@ class Landing extends React.Component {
     };
   }
 
+  checkAuth = (warning) => {
+    if (!this.props.authError) {
+      const opt = {
+        title: 'Error Signing In/Up',
+        warning,
+        okText: 'Try Again',
+      };
+      this.props.showDialog(DialogTypes.ERROR, opt);
+    }
+  }
+
   render() {
     return (
       <>
@@ -84,8 +98,8 @@ class Landing extends React.Component {
           </div>
           <div className="right">
             {this.state.signIn
-              ? <SignInForm switchToSignUp={() => this.setState({ signIn: false })} />
-              : <SignUpForm switchToSignIn={() => this.setState({ signIn: true })} />
+              ? <SignInForm checkAuth={this.checkAuth} switchToSignUp={() => this.setState({ signIn: false })} />
+              : <SignUpForm checkAuth={this.checkAuth} switchToSignIn={() => this.setState({ signIn: true })} />
             }
             <Link to="philosophy" spy smooth duration={750}>
               <div className="scroller">
@@ -192,7 +206,7 @@ class Landing extends React.Component {
             </div>
           </div>
           <div className="right">
-            <SignInForm />
+            <SignInForm checkAuth={this.checkAuth} />
           </div>
         </div>
       </>
@@ -200,4 +214,8 @@ class Landing extends React.Component {
   }
 }
 
-export default Landing;
+const mapStateToProps = state => ({
+  authError: state.auth.authenticated,
+});
+
+export default connect(mapStateToProps, { showDialog })(Landing);

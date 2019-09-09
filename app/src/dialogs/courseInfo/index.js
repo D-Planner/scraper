@@ -270,10 +270,10 @@ class CourseInfoDialog extends Component {
           onClick={
             placement
               ? () => this.props.removePlacement(this.props.data.id)
-                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(this.props.data.id)
-                .then(() => { return this.props.fetchPlan(this.props.plan.id); })
+                .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
           }
         />
@@ -287,6 +287,7 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
+    console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
         <div id="top">

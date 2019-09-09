@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import DraggableUserCourse from '../../components/draggableUserCourse';
+import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
 import {
@@ -110,6 +111,12 @@ class Term extends Component {
     }
   }
 
+  isCurrTerm = () => {
+    const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
+    if (year === this.props.time.currTerm.year && term === this.props.time.currTerm.term) return true;
+    return false;
+  }
+
   isNextTerm = () => {
     const [year, term] = [Number(this.props.term.name.match(/\d{2}/)[0]), this.props.term.quarter];
     if (year === this.props.time.nextTerm.year && term === this.props.time.nextTerm.term) return true;
@@ -132,14 +139,20 @@ class Term extends Component {
   }
 
   renderIfDragging = () => {
-    if (this.props.isDragging && this.props.term.courses.length < 4) {
+    if (this.props.drag.isDragging && this.props.term.courses.length < 4) {
+      const { dragCourse } = this.props.drag;
+      const likelyTerm = (dragCourse.likely_terms && dragCourse.likely_terms.length) ? dragCourse.likely_terms.includes(this.props.term.quarter) : false;
+      const dragStatus = this.props.drag.fulfilledStatus[this.props.term.index];
+      const currentTermOfferedError = !dragCourse.offered && this.isCurrTerm();
+      // const likelyYear = (dragCourse.likely_years && dragCourse.likely_years.length) ? dragCourse.likely_years.includes(this.props.term.year - 2000) : false;
+      const likelyYear = true;
       return (
         <div className="course-row">
-          <div className="phantom-course" />
+          <PhantomCourse likelyTerm={likelyTerm} likelyYear={likelyYear} dragStatus={dragStatus} currentTermOfferedError={currentTermOfferedError} />
         </div>
       );
     } else {
-      return null;
+      return <></>;
     }
   }
 
@@ -180,7 +193,7 @@ class Term extends Component {
             <div className="course-row-with-space" key={course.id}>
               <div className="course-row">
                 <DraggableUserCourse
-                  size={(this.isNextTerm() ? 'sm' : 'bg')}
+                  size={(this.isCurrTerm() ? 'sm' : 'bg')}
                   key={course.id}
                   catalogCourse={course.course}
                   course={course}
@@ -188,9 +201,10 @@ class Term extends Component {
                   removeCourseFromTerm={() => {
                     this.props.removeCourseFromTerm(course, this.props.term);
                   }}
+                  setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
                 />
                 {
-                  this.isNextTerm()
+                  this.isCurrTerm()
                     ? (
                       <div>
                         <HourSelector
@@ -233,7 +247,7 @@ class Term extends Component {
           })}
           >
             {/* Add a warning if two courses occupy the same timeslot */}
-            {this.props.term.name}
+            {this.props.term.name} {/* this.props.term.index */}
           </div>
           <div className="toggle-buttons">
             {this.renderToggleButton()}
@@ -248,7 +262,7 @@ class Term extends Component {
 }
 
 const mapStateToProps = state => ({
-  isDragging: state.dragStatus.isDragging,
+  drag: state.dragStatus,
 });
 
 // export default withRouter(connect(mapStateToProps, {

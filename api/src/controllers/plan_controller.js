@@ -1,8 +1,8 @@
 import Plan from '../models/plan';
-import User from '../models/user';
+import Term from '../models/term';
 import UserCourse from '../models/user_course';
-import Course from '../models/course';
 import TermController from '../controllers/term_controller';
+import CoursesController from '../controllers/courses_controller';
 import { PopulateTerm } from './populators';
 
 const getPlansByUserId = (req, res, next) => {
@@ -24,9 +24,10 @@ const createPlanForUser = async (plan, userId) => {
         });
 
         const { id } = await newPlan.save();
+
         // iterate through each term and create a term in the database for each one
-        const promises = plan.terms.map((term) => {
-            return TermController.createTerm(term, id);
+        const promises = plan.terms.map((term, i) => {
+            return TermController.createTerm(term, id, i);
         });
 
         // resolve that big promise array to get a terms array with ids that reference the Terms model
@@ -76,64 +77,78 @@ const sortPlan = (plan) => {
     return plan;
 };
 
-export const setTermsPrevCourses = (planID, placements) => {
-    placements = placements.map((p) => {
-        return Course.findById(p)
-            .then((c) => {
-                return c.xlist;
-            });
-    }).flat();
+export const setTermsPrevCourses = (planID, userID) => {
     return new Promise(((resolve, reject) => {
-        Promise.resolve(Plan.findById(planID).populate({
-            path: 'terms',
-            populate: PopulateTerm,
-        })).then((plan) => {
-            plan.terms.reduce((acc, curr) => {
-            // Get the last courses
-                let next = curr.courses.map((course) => {
-                    return UserCourse.findById(course._id)
-                        .populate('course', '_id xlist')
-                        .then((c) => {
-                            return c.course.xlist ? c.course.xlist.concat(c.course._id) : [c.course._id];
+        Plan.findById(planID)
+            .populate({
+                path: 'terms',
+                populate: PopulateTerm,
+            })
+            .then((plan) => {
+                const previousByTerm = plan.terms.map((term) => {
+                    const prevCourses = [...new Set(plan.terms
+                        .sort((t1, t2) => {
+                            return t1.index - t2.index;
                         })
-                        .catch((e) => {
-                            console.log(e);
-                        });
-                }).map((promise) => {
-                    return promise.then((r) => {
+                        .filter((t) => {
+                            return t.index < term.index;
+                        })
+                        .map((t) => {
+                            return t.courses;
+                        })
+                        .flat()
+                        .filter((c) => {
+                            return c.fulfilledStatus === '';
+                        })
+                        .map((c) => {
+                            return (c.course.xlist.length) ? [...c.course.xlist, c.course.id] : c.course.id;
+                        })
+                        .flat())];
+                    return { [term._id]: prevCourses };
+                });
+                Promise.all(previousByTerm.map((t) => {
+                    return Promise.all(Object.entries(t).map(([term, previousCourses]) => {
+                        return Term.findByIdAndUpdate(term, { previousCourses })
+                            .then(() => {
+                                return Term.findById(term)
+                                    .populate(PopulateTerm);
+                            }).then((trueTerm) => {
+                                return Promise.all(trueTerm.courses.map((course) => {
+                                    return Promise.resolve(CoursesController.getFulfilledStatus(planID, trueTerm._id, course.course.id, userID))
+                                        .then((status) => {
+                                            // console.log(`Updating ${course.course.title} to ${status}`);
+                                            return UserCourse.update({ _id: course.id }, { fulfilledStatus: status }, { upsert: true });
+                                        });
+                                // .then(() => {
+                                //     UserCourse.findById(course.id).populate('course').then((c) => { console.log('SET', c.course.title, c.fulfilledStatus); });
+                                // });
+                                }));
+                            });
+                    })).then((r) => {
+                        // console.log('{1}', r);
                         return r;
                     });
+                })).then((r) => {
+                    // console.log('{2}', r);
+                    resolve();
                 });
-                if (!next) next = [];
-
-                Promise.all(acc).then((ac) => {
-                    curr.courses.forEach((course) => {
-                    // console.log('Server', course.course.number, 'Previous Coursecourse', ac.flat());
-                        UserCourse.update({ _id: course._id }, { previousCourses: ac.flat() }).then((r) => { return r; }).catch((e) => { return e; });
-                    // UserCourse.findById(course._id).then((r) => { console.log(r); }).catch((e) => { return e; });
-                    });
-                });
-
-                acc = acc.concat(next);
-
-                return acc;
-            }, placements);
-            resolve();
-        }).catch((e) => {
-            console.log(e);
-            reject();
-        });
+            }).catch((e) => {
+                console.log(e);
+                reject();
+            });
     }));
 };
 
 const getPlanByID = (req, res) => {
     const planID = req.params.id;
-    const userID = req.user.id;
-    User.findById(userID)
-        .then((user) => {
-            return setTermsPrevCourses(planID, user.placement_courses);
+    const userID = req.user._id;
+    // console.log(`[GETPLANBYID] ${userID}`);
+    setTermsPrevCourses(planID, userID)
+        .then(() => {
+            return setTermsPrevCourses(planID, userID);
         })
         .then(() => {
+            // console.log('DONE!');
             return Plan.findById(planID);
         })
         .then((plan) => {
@@ -146,33 +161,15 @@ const getPlanByID = (req, res) => {
             }).execPopulate();
         })
         .then((populated) => {
+            // console.log(sortPlan(populated.toJSON()).terms.map((t) => {
+            //     return t;
+            // }));
             res.json(sortPlan(populated.toJSON()));
         })
         .catch((error) => {
             console.log('Error', error);
             res.status(400).send({ error });
         });
-    //   try {
-    //       const plan = await Plan.findById(planID);
-    //
-    //       if (!plan) {
-    //           throw new Error('This plan does not exist for this user');
-    //       }
-    //       const populated = await plan.populate({
-    //           path: 'terms',
-    //           populate: PopulateTerm,
-    //       }).execPopulate();
-    //
-    //       populated.terms.forEach((term) => {
-    //           term.courses.forEach((course) => {
-    //               // console.log(course.course.department, course.course.number, 'Previous Coursecourse', course.previousCourses);
-    //           });
-    //       });
-    //       return sortPlan(populated.toJSON());
-    //   } catch (e) {
-    //       throw e;
-    //   }
-    // });
 };
 
 // delete a plan by id

@@ -5,8 +5,6 @@ import {
 import { DragDropContext } from 'react-dnd';
 
 import HTML5Backend from 'react-dnd-html5-backend';
-import signUp from '../containers/signUp';
-import signIn from '../containers/signIn';
 import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
 import requireAuth from '../containers/requireAuth';
@@ -26,11 +24,9 @@ const App = (props) => {
             <Switch>
               <Route exact path="/" component={requireAuth(Landing, DPlan)} />
               <Route exact path="/courses" component={requireAuth(Courses)} />
-              <Route path="/signup" component={signUp} />
-              <Route path="/signin" component={signIn} />
+              {/* <Route path="/signup" component={signUp} />
+              <Route path="/signin" component={signIn} /> */}
               {/* <Route path="/plan/:id" component={DPlan} /> */}
-              <Route path="/signup" component={signUp} />
-              <Route path="/signin" component={signIn} />
               {/* This Was Discoer */}
               <Route path="/discover" component={Cytoscape} />
               <Route path="/plan/:id" component={DPlan} />
