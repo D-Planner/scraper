@@ -44,7 +44,7 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    if (query.department && query.number) {
+    if (query.department || query.number) {
         Course.find(query)
             .populate(PopulateCourse)
             .then((result) => {
