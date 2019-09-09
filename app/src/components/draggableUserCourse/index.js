@@ -53,6 +53,7 @@ class UserCourse extends Component {
       title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',
       data: this.props.catalogCourse,
+      previousCourses: this.props.previousCourses,
       showOk: false,
     };
     this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);

@@ -202,6 +202,7 @@ class Term extends Component {
                     this.props.removeCourseFromTerm(course, this.props.term);
                   }}
                   setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+                  previousCourses={this.props.term.previousCourses}
                 />
                 {
                   this.isCurrTerm()

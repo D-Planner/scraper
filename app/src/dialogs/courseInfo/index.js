@@ -183,11 +183,10 @@ class CourseInfoDialog extends Component {
   }
 
   renderPrerequisites = (course) => {
+    console.log(this.props.previousCourses);
     const { prerequisites } = course;
 
     const renderPrereqByType = (o, dependencyType) => {
-      console.log(dependencyType);
-      console.log(o);
       if (dependencyType === 'range') {
         return (
           <div>
@@ -237,7 +236,7 @@ class CourseInfoDialog extends Component {
             switch (dependencyType) {
               case 'req':
                 return (o[dependencyType].some((c) => {
-                  return (this.props.previousCourses) ? this.props.previousCourses.map(p => p._id).includes(c._id) : false;
+                  return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
                 })) ? <img src={checkedBox} alt="fulfilled" /> : render;
               case 'range':
                 return (this.props.previousCourses.some((c) => {
