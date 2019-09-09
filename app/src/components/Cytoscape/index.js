@@ -112,7 +112,8 @@ class Graph extends Component {
             />
           </div>
           <div className="majors">
-            Major for {departmentsWithFullName[this.selectedDept]}
+            {this.selectedDept ? `Major for ${departmentsWithFullName[this.selectedDept]}` : 'Pick a major'}<br />
+            Feature arriving soon!
           </div>
 
         </div>
