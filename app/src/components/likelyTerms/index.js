@@ -1,8 +1,16 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import './LikelyTerms.scss';
+
 const LikelyTerms = (props) => {
-  if (!props.terms) return <></>;
+  if (!props.terms) {
+    return (
+      <>
+        <div className="likely-terms">No offering data</div>
+      </>
+    );
+  }
 
   const terms = ['F', 'W', 'S', 'X'];
   return (

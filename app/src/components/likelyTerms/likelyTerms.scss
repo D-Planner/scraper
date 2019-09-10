@@ -1,1 +1,20 @@
-// for styling, please implement at the parent element
+
+@import '../../style/variables.scss';
+
+.likely-terms {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: $gray-6;
+    font-size: 14px;
+    margin-right: 10px;
+    margin-left: 5px;
+    
+    .single-term {
+        margin-right: 3px;
+    }
+    .likely {
+        color: $text-accent;
+        font-weight: 800;
+    }
+}

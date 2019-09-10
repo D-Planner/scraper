@@ -32,14 +32,14 @@ class CourseElement extends Component {
           <div className="distribs">
             {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
               return (
-                <img className="icon" src={GenEds[distrib].icon} alt={`${GenEds[distrib].name} icon`} />
+                <img key={distrib} className="icon" src={GenEds[distrib].icon} alt={`${GenEds[distrib].name} icon`} />
               );
             }) : null}
           </div>
           <div className="wcs">
             {this.props.course.wcs ? this.props.course.wcs.map((wc) => {
               return (
-                <img className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
+                <img key={wc} className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
               );
             }) : null}
           </div>

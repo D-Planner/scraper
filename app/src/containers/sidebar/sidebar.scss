@@ -49,21 +49,6 @@ $inactive-height: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            .likely-terms {
-                margin-left: 5px;
-                display: flex;
-                align-items: center;
-                color: $gray-6;
-                font-size: 14px;
-                .single-term {
-                    margin-right: 3px;
-                }    
-                .likely {
-                    color: $text-accent;
-                    font-weight: 800;
-                }
-            }
         }
     }
 }

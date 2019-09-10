@@ -32,23 +32,7 @@
         margin-right: 5px;
       }
   }
-  .likely-terms {
-    .likely-terms {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      color: $gray-6;
-      font-size: 14px;
-      margin-right: 10px;
-      .single-term {
-        margin-right: 3px;
-      }
-      .likely {
-          color: $text-accent;
-          font-weight: 800;
-      }
-    }
-  }
+
   .genEds {
     display: flex;
     align-items: center;
