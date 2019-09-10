@@ -116,4 +116,6 @@ authRouter.get('/', requireAuth, UserController.getUser);
  */
 authRouter.get('/:id', requireAuth, UserController.getUser);
 
+authRouter.post('/update', requireAuth, UserController.updateUser);
+
 export default authRouter;

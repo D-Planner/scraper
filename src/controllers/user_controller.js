@@ -1,5 +1,6 @@
 import jwt from 'jwt-simple';
 import User from '../models/user';
+import Plan from '../models/plan';
 import { PopulateCourse } from './populators';
 
 export const signin = (req, res, next) => {
@@ -66,6 +67,33 @@ export const getUser = (req, res) => {
         .populate('completed_courses', 'department name number id')
         .exec()
         .then((user) => {
+            const json = user.toJSON();
+            delete json.password;
+            res.json(json);
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(500).json({ error });
+        });
+};
+
+export const updateUser = async (req, res) => {
+    User.findById(req.user.id)
+        .populate({
+            path: 'favorite_courses',
+            populate: PopulateCourse,
+        })
+        .populate('placement_courses', 'department name number id')
+        .populate('completed_courses', 'department name number id')
+        .exec()
+        .then((user) => {
+            if (user.graduationYear !== req.body.change.graduationYear) {
+                Plan.find({ user_id: user._id }).remove().exec();
+            }
+            user.full_name = req.body.change.full_name;
+            user.email = req.body.change.email;
+            user.graduationYear = req.body.change.graduationYear;
+            user.save();
             const json = user.toJSON();
             delete json.password;
             res.json(json);
