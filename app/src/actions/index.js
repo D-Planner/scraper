@@ -76,6 +76,22 @@ export function getTimes() {
   }));
 }
 
+export function updateUser(change) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/auth/update`, { change }, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error });
+      reject();
+    });
+  }));
+}
+
 export function createCourses() {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
