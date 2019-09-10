@@ -6,7 +6,6 @@ import arrowDropDown from '../../../style/arrowDropDown.svg';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
-import LikelyTerms from '../../../components/likelyTerms';
 
 import { GenEds } from '../../../constants';
 
@@ -21,7 +20,7 @@ const SearchPane = (props) => {
     active: props.active,
   });
 
-  const [searchText, setSearchText] = useState('');
+  // const [searchText, setSearchText] = useState('');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
 
@@ -29,17 +28,18 @@ const SearchPane = (props) => {
 
   // Clears the search input when the component updates to go inactive
   useEffect(() => {
-    if (searchText.length !== 0) {
+    if (props.searchQuery.length !== 0) {
       const queryParsed = {
-        title: searchText,
-        department: searchText.split(' ')[0].toUpperCase(),
-        number: searchText.split(' ')[1],
+        title: props.searchQuery,
+        department: props.searchQuery.split(' ')[0].toUpperCase(),
+        number: props.searchQuery.split(' ')[1],
         distribs,
         wcs,
       };
       props.search(queryParsed);
     }
-  }, [searchText, wcs, distribs]);
+  }, [props.searchQuery, wcs, distribs]);
+
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
@@ -48,10 +48,10 @@ const SearchPane = (props) => {
         </button>
         <input type="text"
           className="search-input"
-          placeholder="Search"
-          value={searchText}
+          placeholder="Search for courses"
+          value={props.searchQuery}
           onChange={(e) => {
-            setSearchText(e.target.value);
+            props.setSearchQuery(e.target.value);
           }}
         />
         <button type="button" className="search-config-button">
@@ -120,7 +120,6 @@ const SearchPane = (props) => {
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
                         <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
-                        <LikelyTerms terms={course.likely_terms} />
                       </div>
                       <div id="course-spacer-large" />
                     </div>

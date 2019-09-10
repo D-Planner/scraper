@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import classNames from 'classnames';
-
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
@@ -22,7 +20,6 @@ class CourseElement extends Component {
     super(props);
 
     this.state = {};
-    console.log(this.props);
   }
 
   renderCourseSupplementaryInfo = () => {
@@ -33,18 +30,18 @@ class CourseElement extends Component {
         </div>
         <div className="genEds">
           <div className="distribs">
-            {this.props.course.distribs.map((distrib) => {
+            {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
               return (
                 <img className="icon" src={GenEds[distrib].icon} alt={`${GenEds[distrib].name} icon`} />
               );
-            })}
+            }) : null}
           </div>
           <div className="wcs">
-            {this.props.course.wcs.map((wc) => {
+            {this.props.course.wcs ? this.props.course.wcs.map((wc) => {
               return (
                 <img className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
               );
-            })}
+            }) : null}
           </div>
         </div>
       </>

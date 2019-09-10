@@ -8,6 +8,7 @@ export const ActionTypes = {
   FETCH_PLAN: 'FETCH_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_USER: 'FETCH_USER',
+  FETCH_COURSE: 'FETCH_COURSE',
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   FETCH_MAJORS: 'FETCH_MAJORS',
@@ -335,24 +336,43 @@ export function fetchCourses() {
 }
 
 /**
- * @private
- * Fetches a specific courses from the database (corresponding to the most recent ORC crawl)
- * NOTE: not set up in reducer yet because it's not used
- * @returns an action creator to gather a course and store it in the redux store
+ * Fetches a singular course (corresponding to the most recent ORC crawl)
+ * @export
+ * @returns an action creator to gather all courses and store them in the redux store
  */
 export function fetchCourse(id) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return (dispatch) => {
+  return new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
+      resolve(response.data);
     }).catch((error) => {
       console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
     });
-  };
+  }));
 }
+
+// /**
+//  * @private
+//  * Fetches a specific courses from the database (corresponding to the most recent ORC crawl)
+//  * NOTE: not set up in reducer yet because it's not used
+//  * @returns an action creator to gather a course and store it in the redux store
+//  */
+// export function fetchCourse(id) {
+//   const headers = {
+//     Authorization: `Bearer ${localStorage.getItem('token')}`,
+//   };
+//   return (dispatch) => {
+//     axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
+//       dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
+//     }).catch((error) => {
+//       console.log(error);
+//       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+//     });
+//   };
+// }
 
 /**
  * Fetches a list of all courses that a user has marked as a favorite (i.e. that are in their bookmarks)

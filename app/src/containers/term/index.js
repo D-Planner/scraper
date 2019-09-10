@@ -144,11 +144,12 @@ class Term extends Component {
       const likelyTerm = (dragCourse.likely_terms && dragCourse.likely_terms.length) ? dragCourse.likely_terms.includes(this.props.term.quarter) : false;
       const dragStatus = this.props.drag.fulfilledStatus[this.props.term.index];
       const currentTermOfferedError = !dragCourse.offered && this.isCurrTerm();
+      const certainOffered = dragCourse.offered && this.isCurrTerm();
       // const likelyYear = (dragCourse.likely_years && dragCourse.likely_years.length) ? dragCourse.likely_years.includes(this.props.term.year - 2000) : false;
       const likelyYear = true;
       return (
         <div className="course-row">
-          <PhantomCourse likelyTerm={likelyTerm} likelyYear={likelyYear} dragStatus={dragStatus} currentTermOfferedError={currentTermOfferedError} />
+          <PhantomCourse likelyTerm={likelyTerm} likelyYear={likelyYear} dragStatus={dragStatus} currentTermOfferedError={currentTermOfferedError} certainOffered={certainOffered} />
         </div>
       );
     } else {
@@ -202,6 +203,7 @@ class Term extends Component {
                     this.props.removeCourseFromTerm(course, this.props.term);
                   }}
                   setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+                  previousCourses={this.props.term.previousCourses}
                 />
                 {
                   this.isCurrTerm()

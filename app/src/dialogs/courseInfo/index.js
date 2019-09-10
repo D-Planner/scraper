@@ -10,7 +10,7 @@ import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
-import CourseElement from '../../components/staticCourseElement';
+import NonDraggableCourse from '../../components/nondraggableCourse';
 
 import './courseInfo.scss';
 
@@ -31,7 +31,7 @@ class CourseInfoDialog extends Component {
     // const distribTypesNames = distribTypes.map(distrib => distrib.name);
     const distribs = [];
     const wcs = [];
-    if (course.distribs !== null) {
+    if (course.distribs && course.distribs.length) {
       course.distribs.forEach((distrib) => {
         if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
           wcs.push(distribTypes.find(ref => ref.name === distrib));
@@ -44,15 +44,15 @@ class CourseInfoDialog extends Component {
       <div id="distribs">
         <div className="section-header">Distributives</div>
         <div id="bubbles">
-          {distribs.map((distrib) => {
+          {distribs.map((distrib, i) => {
             return (
-              <img key={distrib.name} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
+              <img key={i.toString()} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
             );
           })}
           {(wcs.length === 0 || distribs.length === 0) ? null : <div className="vertical-divider" />}
-          {wcs.map((wc) => {
+          {wcs.map((wc, i) => {
             return (
-              <img key={wc.name} className="wc-icon" src={wc.icon} alt={wc.name} />
+              <img key={i.toString()} className="wc-icon" src={wc.icon} alt={wc.name} />
             );
           })}
         </div>
@@ -121,7 +121,7 @@ class CourseInfoDialog extends Component {
    * @param {String} description
    */
   renderDescription = (description, orc_url) => {
-    if (description.length > 600) {
+    if (description && description.length > 600) {
       return (
         <div id="description">
           <div className="section-header">Description</div>
@@ -170,7 +170,7 @@ class CourseInfoDialog extends Component {
         <div className="section-header">Professors</div>
         {professors.slice(0, 5).map((p) => {
           return (
-            <div className="professor">{p.name}</div>
+            <div key={p.name} className="professor">{p.name}</div>
           );
         })}
       </div>
@@ -181,8 +181,6 @@ class CourseInfoDialog extends Component {
     const { prerequisites } = course;
 
     const renderPrereqByType = (o, dependencyType) => {
-      console.log(dependencyType);
-      console.log(o);
       if (dependencyType === 'range') {
         return (
           <div>
@@ -198,14 +196,9 @@ class CourseInfoDialog extends Component {
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
           return (
-            <CourseElement
+            <NonDraggableCourse
+              key={c.id.toString()}
               course={c}
-              size="bg"
-              action={{
-                type: 'bookmark',
-                svg: bookmark,
-                method: this.props.addCourseToFavorites,
-              }}
             />
           );
         });
@@ -216,14 +209,14 @@ class CourseInfoDialog extends Component {
       <div id="dependenciesContainer">
         <div className="section-header">Prerequisites</div>
         <div id="dependencies">
-          {prerequisites.map((o) => {
+          {prerequisites.map((o, i) => {
             let dependencyType = Object.keys(o).find((key) => {
               return (o[key].length > 0 && key !== '_id');
             });
             if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
             const render = (
-              <div className="dependency">
+              <div key={i.toString()} className="dependency">
                 <div className="section-header">{Dependencies[dependencyType]}</div>
                 {renderPrereqByType(o, dependencyType)}
               </div>
@@ -232,12 +225,12 @@ class CourseInfoDialog extends Component {
             switch (dependencyType) {
               case 'req':
                 return (o[dependencyType].some((c) => {
-                  return (this.props.previousCourses) ? this.props.previousCourses.map(p => p._id).includes(c._id) : false;
-                })) ? <img src={checkedBox} alt="fulfilled" /> : render;
+                  return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
+                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
               case 'range':
                 return (this.props.previousCourses.some((c) => {
                   return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
-                })) ? <img src={checkedBox} alt="fulfilled" /> : render;
+                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
               default:
                 return render;
             }
@@ -291,7 +284,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="content">
         <div id="top">
-          <div id="major">Engineering Department: Prerequisite</div>
+          <div id="major">Major features coming soon!</div>
           { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
         </div>
         <hr className="horizontal-divider" />
@@ -312,7 +305,6 @@ class CourseInfoDialog extends Component {
   }
 
   render() {
-    console.log(this.props.data.xlist);
     return (
       <DialogWrapper {...this.props}>
         {this.courseInfo(this.props.data, this.props.nextTerm)}

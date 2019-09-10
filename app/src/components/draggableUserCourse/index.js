@@ -36,7 +36,6 @@ const collect = (connectDrag, monitor) => {
 class UserCourse extends Component {
   constructor(props) {
     super(props);
-    console.log(props.catalogCourse.name, props.course.fulfilledStatus);
     this.catalogCourse = props.catalogCourse;
     this.state = {
       beingHovered: false,
@@ -50,9 +49,10 @@ class UserCourse extends Component {
    */
   showCourseInfoDialog = () => {
     const dialogOptions = {
-      title: `${this.props.course.department} ${this.props.course.number}: ${this.props.course.name}`,
+      title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',
-      data: this.props.course,
+      data: this.props.catalogCourse,
+      previousCourses: this.props.previousCourses,
       showOk: false,
     };
     this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);

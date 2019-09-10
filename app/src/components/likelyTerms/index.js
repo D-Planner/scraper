@@ -10,7 +10,7 @@ const LikelyTerms = (props) => {
       {
         terms.map((term) => {
           return (
-            <div className={classNames({ likely: (props.terms.length && props.terms.includes(term)), 'single-term': true })} key={term}>{term}</div>
+            <div className={classNames({ likely: (props.terms && props.terms.length && props.terms.includes(term)), 'single-term': true })} key={term}>{term}</div>
           );
         })
       }
