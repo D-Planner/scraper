@@ -1,6 +1,10 @@
 {
   "name": "app",
   "version": "0.1.0",
+  "engines": {
+    "npm": "6.9.0",
+    "node": "12.6.0"
+  },
   "license": "MIT",
   "main": "src/index.js",
   "dependencies": {
