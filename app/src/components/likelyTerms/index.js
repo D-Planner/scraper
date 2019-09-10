@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import './LikelyTerms.scss';
+
 const LikelyTerms = (props) => {
   if (!props.terms) return <></>;
 
