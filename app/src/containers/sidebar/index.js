@@ -21,6 +21,7 @@ const paneTypes = {
  */
 const Sidebar = (props) => {
   const [activePane, setActivePane] = useState(paneTypes.REQUIREMENTS);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     props.fetchUser();
@@ -41,18 +42,30 @@ const Sidebar = (props) => {
     };
     props.showDialog(DialogTypes.DECLARE_MAJOR, opts);
   };
+
+  const handlePaneSwitch = (type) => {
+    if (type !== paneTypes.SEARCH) {
+      setSearchQuery('');
+      setActivePane(type);
+    } else {
+      setActivePane(type);
+    }
+  };
+
   return (
     <div className="sidebar">
       <SearchPane
         active={activePane === paneTypes.SEARCH}
-        activate={() => setActivePane(paneTypes.SEARCH)}
+        activate={() => handlePaneSwitch(paneTypes.SEARCH)}
+        setSearchQuery={setSearchQuery}
+        searchQuery={searchQuery}
         search={props.courseSearch}
         results={props.searchResults}
         setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
       />
       <RequirementsPane
         active={activePane === paneTypes.REQUIREMENTS}
-        activate={() => setActivePane(paneTypes.REQUIREMENTS)}
+        activate={() => handlePaneSwitch(paneTypes.REQUIREMENTS)}
         majors={props.user.majors}
         showDeclareDialog={showDeclareDialog}
         // distribs={props.planCourses.map(c => c.course.distrib)}
@@ -61,7 +74,7 @@ const Sidebar = (props) => {
       />
       <BookmarksPane
         active={activePane === paneTypes.BOOKMARKS}
-        activate={() => setActivePane(paneTypes.BOOKMARKS)}
+        activate={() => handlePaneSwitch(paneTypes.BOOKMARKS)}
         bookmarks={props.user.favorite_courses}
         addToBookmarks={addToBookmarks}
       />

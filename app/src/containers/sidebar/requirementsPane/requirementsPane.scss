@@ -51,7 +51,8 @@
             width: 100%;
             margin-bottom: 10px;
             .checkbox {
-                width: 20px;
+                // width: 20px;
+                color: $gray-6;
             }
             .genEd-name {
                 text-align: left;
@@ -59,7 +60,7 @@
                 width: 60%;
             }
             .icon {
-                width: 36px;
+                // width: 36px; // old width
             }
 
 

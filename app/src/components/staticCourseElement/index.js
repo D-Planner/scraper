@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
-
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
+import LikelyTerms from '../likelyTerms';
+
+import { GenEds } from '../../constants';
 
 // Props:
 // course (Shortened Course Data)
@@ -19,41 +20,67 @@ class CourseElement extends Component {
     super(props);
 
     this.state = {};
-    console.log(this.props);
+  }
+
+  renderCourseSupplementaryInfo = () => {
+    return (
+      <>
+        <div className="likely-terms">
+          <LikelyTerms terms={this.props.course.likely_terms} />
+        </div>
+        <div className="genEds">
+          <div className="distribs">
+            {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
+              return (
+                <img className="icon" src={GenEds[distrib].icon} alt={`${GenEds[distrib].name} icon`} />
+              );
+            }) : null}
+          </div>
+          <div className="wcs">
+            {this.props.course.wcs ? this.props.course.wcs.map((wc) => {
+              return (
+                <img className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
+              );
+            }) : null}
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  renderCourseIdentifyingInfo = () => {
+    return (
+      <>
+        <div className="course-left">
+          {`${this.props.course.department} ${this.props.course.number}`}
+        </div>
+        <div className="spacer" />
+        <div className="course-right">
+          <div className="name">
+            {this.props.course.name}
+          </div>
+          {(this.props.action)
+            ? (
+              <div className="check-box">
+                <img className={this.props.action.type}
+                  src={this.props.action.svg}
+                  alt={this.props.action.type}
+                  onClick={() => this.props.action.method(this.props.course.id)}
+                />
+              </div>
+            )
+            : <div />
+        }
+        </div>
+      </>
+    );
   }
 
   render() {
     return (
-      <div className={classNames({
-        course: true,
-        [this.props.size]: true,
-        [this.props.error]: true,
-        [this.props.error]: true,
-      })}
-      >
+      <div className={`course ${this.props.size} ${this.props.error}`}>
         <div className="title-box">
-          <div className="course-left">
-            {`${this.props.course.department} ${this.props.course.number}`}
-          </div>
-          <div className="spacer" />
-          <div className="course-right">
-            <div className="name">
-              {this.props.course.name}
-            </div>
-            {(this.props.action)
-              ? (
-                <div className="check-box">
-                  <img className={this.props.action.type}
-                    src={this.props.action.svg}
-                    alt={this.props.action.type}
-                    onClick={() => this.props.action.method(this.props.course.id)} // need to add the .then() here, or in the actions
-                  />
-                </div>
-              )
-              : <div />
-            }
-
-          </div>
+          {this.props.beingHovered ? this.renderCourseSupplementaryInfo() : this.renderCourseIdentifyingInfo()}
         </div>
       </div>
     );
