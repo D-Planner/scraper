@@ -32,7 +32,7 @@ export const ActionTypes = {
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
 };
 
-const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://dplanner.herokuapp.com';
+const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://d-planner-api.herokuapp.com';
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
