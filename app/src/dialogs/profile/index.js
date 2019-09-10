@@ -4,8 +4,7 @@ import {
   removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
-import remove from '../../style/close.svg';
-import CourseElement from '../../components/staticCourseElement';
+import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './profile.scss';
 
@@ -78,21 +77,9 @@ class ProfileDialog extends Component {
     return (
       this.props.user.placement_courses.map((c, i) => {
         return (
-          <CourseElement
-            size="bg"
+          <NonDraggableCourse
+            key={i.toString()}
             course={c}
-            action={{
-              type: 'remove',
-              svg: remove,
-              method: () => {
-                this.props.removePlacement(c.id).then((r) => {
-                  this.props.fetchUser();
-                  this.props.fetchPlan(this.props.plan.id);
-                }).catch((e) => {
-                  console.log(e);
-                });
-              },
-            }}
           />
         );
       })
