@@ -53,7 +53,7 @@ const updateTerm = (req, res) => {
         .then((result) => {
             User.findById(req.user.id)
                 .then((user) => {
-                    return setTermsPrevCourses(req.body.plan_id, user.placement_courses);
+                    return setTermsPrevCourses(req.body.plan_id, req.user.id);
                 }).then(() => {
                     res.send(result);
                 });
