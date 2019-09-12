@@ -345,7 +345,7 @@ class CourseInfoDialog extends Component {
               ? () => this.props.removeCourseFromFavorites(this.props.data.id)
               : () => this.props.addCourseToFavorites(this.props.data.id)
           }
-          data-tip
+          data-tip="what"
         />
         <ReactTooltip place="bottom" type="dark" effect="float">
           {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
@@ -364,7 +364,11 @@ class CourseInfoDialog extends Component {
                 .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
           }
+          data-tip="when"
         />
+        <ReactTooltip place="top" type="dark" effect="float">
+          {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
+        </ReactTooltip>
       </div>
     );
   }
