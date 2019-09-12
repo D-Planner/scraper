@@ -9,7 +9,7 @@ import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse, PopulateTerm } from './populators';
 
 
-const trim = (res) => {
+export const trim = (res) => {
     try {
         return res.map((course) => {
             course.reviews.splice(20);
@@ -337,7 +337,7 @@ const addFavorite = (req, res) => {
     User.findByIdAndUpdate(req.user.id, {
         $addToSet: { favorite_courses: req.params.id },
     }, { new: true }).then((result) => {
-        res.json(result);
+        res.json(trim(result));
     }).catch((error) => {
         res.status(500).json({ error });
     });
