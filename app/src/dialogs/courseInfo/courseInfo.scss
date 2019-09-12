@@ -13,13 +13,41 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    width: 100%;
     overflow-y: scroll;
+
+    width: 100%;
+
+    .horizontal-divider {
+      border: 0.5px solid $gray-5;
+    }
+
+    .section-header {
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 600;
+      color: $text-accent;
+      margin-bottom: 10px;
+    }
+
+    .sad {
+      font-size: 14px;
+      font-style: italic;
+      color: $gray-6;
+    }
 
     #top {
       display: flex;
       flex-direction: row;
-      align-items: center;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin: 10px 0 10px 0;
+
+      #major {
+        font-style: italic;
+        font-weight: 300;
+        font-size: 16px;
+        color: $gray-6;
+      }
 
       #user-actions {
         align-self: flex-end;
@@ -30,182 +58,199 @@
 
         .action {
           width: 20px;
-          margin:5px;
+          margin: 5px;
+          cursor: pointer;
+
         }
       }
+    }
 
-      #major {
-          flex:1;
-          font-style: italic;
-          font-weight: 300;
-          font-size: 16px;
-          color: $gray-6;
-          margin-bottom: 10px;
+    #scrollable {
+      overflow-y: scroll;
+      padding-top: 20px;
+      width: 100%;
+
+      #first {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          padding: 0 20px 0 20px;
+          #next-term {
+              display: flex;
+              flex-direction: column;
+              margin-right: 10%;
+              #offerings {
+                  display: flex;
+                  flex-direction: column;
+                  span {
+                      font-size: 16px;
+                      font-weight: 700;
+                      text-align: center;
+                      border: 1px solid $gray-5;
+                      padding: 2px;
+                      width: fit-content;
+                      margin-bottom: 4px;
+                  }
+              }
+          }
+          #description {
+              text-overflow: ellipsis;
+              font-weight: 300;
+              font-size: 14px;
+              color: $text-accent;
+              line-height: 20px;
+          }
       }
 
-    }
+      #metrics {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          padding: 0 20px 0 20px;
 
-    .horizontal-divider {
-        border: 0.5px solid $gray-6;
-        margin-bottom: 10px;
-        display: none;
-    }
-    .section-header {
-        white-space: nowrap;
-        font-style: $poppins;
-        font-size: 16px;
-        font-weight: 600;
-        color: $text-accent;
-        margin-bottom: 10px;
-    }
-    #first {
+          #distribs {
+              display: flex;
+              flex-direction: column;
+              max-width: 30%;
+
+              #bubbles {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+
+                  .distrib-icon {
+                      width: 40px;
+                      margin-right: 10px;
+                  }
+
+                  .vertical-divider {
+                      width: 1px;
+                      background: $gray-5;
+                      height: 26px;
+                  }
+
+                  .wc-icon {
+                      width: 36px;
+                      margin-left: 10px;
+                  }
+              }
+          }
+          #medians {
+              max-width: 30%;
+              overflow-x: hidden;
+              display: flex;
+              flex-direction: column;
+              // ::-webkit-scrollbar {
+              //     display: none;
+              // }
+              #bubbles {
+                  display: flex;
+                  .median-bubble {
+                      display: flex;
+                      flex-direction: column;
+                      margin-right: 7px;
+                      .median-bubble-grade {
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          background: $blue-primary;
+                          color: $white;
+                          border-radius: 6px;
+                          font-size: 12px;
+                          font-weight: 700;
+                          width: 36px;
+                          height: 36px;
+                      }
+                      .median-bubble-term {
+                          font-size: 12px;
+                          font-weight: 200;
+                          color: $gray-6;
+                          text-align: center;
+                      }
+                  }
+              }
+          }
+          #scores {
+              display: flex;
+              flex-direction: column;
+              max-width: 30%;
+              color: $text-accent;
+              font-size: 14px;
+              div {
+                  display: flex;
+                  flex-direction: column;
+              }
+          }
+      }
+
+      #last {
         display: flex;
+        align-content: flex-start;
         justify-content: space-between;
-        margin-bottom: 10px;
-        #next-term {
-            display: flex;
-            flex-direction: column;
-            margin-right: 10%;
-            #offerings {
-                display: flex;
-                flex-direction: column;
-                span {
-                    font-size: 16px;
-                    font-weight: 700;
-                    text-align: center;
-                    border: 1px solid $gray-5;
-                    padding: 2px;
-                    width: fit-content;
-                    margin-bottom: 4px;
-                }
-            }
-        }
-        #description {
-            text-overflow: ellipsis;
-            font-weight: 200;
-            font-size: 14px;
-            color: $text-accent;
-            line-height: 20px;
-        }
-    }
+        padding: 0 20px 0 20px;
 
-    #metrics {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        #distribs {
-            display: flex;
-            flex-direction: column;
-            #bubbles {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                .distrib-icon {
-                    width: 40px;
-                    margin-right: 10px;
-                }
-                .vertical-divider {
-                    width: 1px;
-                    background: $gray-5;
-                    height: 26px;
-                }
-                .wc-icon {
-                    width: 36px;
-                    margin-left: 10px;
-                }
-            }
-        }
-        #medians {
-            max-width: 30%;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            // ::-webkit-scrollbar {
-            //     display: none;
-            // }
-            #bubbles {
-                display: flex;
-                .median-bubble {
-                    display: flex;
-                    flex-direction: column;
-                    margin-right: 7px;
-                    .median-bubble-grade {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        background: $blue-primary;
-                        color: $white;
-                        border-radius: 6px;
-                        font-size: 12px;
-                        font-weight: 700;
-                        width: 36px;
-                        height: 36px;
-                    }
-                    .median-bubble-term {
-                        font-size: 12px;
-                        font-weight: 200;
-                        color: $gray-6;
-                        text-align: center;
-                    }
-                }
-            }
-        }
-        #scores {
-            display: flex;
-            flex-direction: column;
-            max-width: 30%;
-            div {
-                display: flex;
-                flex-direction: column;
-            }
-        }
-    }
-
-    #last {
-      flex:1;
-      display: flex;
-      flex-direction: row;
-      align-content: flex-start;
-      justify-content: space-between;
-      width:100%;
-      max-height: 100%;
-
-      #dependenciesContainer {
-        flex:1;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        align-items: flex-start;
-        max-height: 100%;
-
-        #dependencies{
-          width:100%;
-          flex:1;
-          overflow-y: scroll;
+        #dependenciesContainer {
+          display: flex;
           flex-wrap: wrap;
+          flex-direction: column;
+          align-items: flex-start;
+          max-height: 100%;
+
+          #dependencies {
+            width:100%;
+            flex: 1;
+            overflow-y: scroll;
+            flex-wrap: wrap;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .dependency {
+              flex:1;
+              padding:5px;
+            }
+          }
+        }
+
+        #offerings {
+          display: flex;
+          flex-direction: column;
+          
+          .offering-row {
+            display: flex;
+            font-size: 14px;
+            font-weight: 600;
+            color: $text-accent;
+            margin-bottom: 5px;
+            .the-term {
+              display: flex;
+              width: 20px;
+            }
+          }
+          .the-offerings {
+            .offering-row {
+              .an-offering {
+                width: 5px;
+                height: 5px;
+                background: $text-accent;
+                margin-right: 15px;
+              }
+            }
+          }
+        }
+
+        #professors {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          overflow-y: scroll;
 
-          .dependency {
-            flex:1;
-            padding:5px;
+          .professor {
+            color: $text-accent;
+            font-size: 14px;
           }
         }
       }
 
-      #professors {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        overflow-y: scroll;
-
-        .professor {
-          flex: 1;
-
-        }
-      }
-    }
-
+}
 }
