@@ -122,7 +122,7 @@ const SearchPane = (props) => {
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
                         <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
-                        <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ 'margin-left': '5px' }} />
+                        <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} />
                       </div>
                       <div id="course-spacer-large" />
                     </div>
