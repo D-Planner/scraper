@@ -81,6 +81,7 @@ const Sidebar = (props) => {
         activate={() => handlePaneSwitch(paneTypes.BOOKMARKS)}
         bookmarks={props.user.favorite_courses}
         addToBookmarks={addToBookmarks}
+        setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
         currTerm={props.currTerm}
       />
     </div>

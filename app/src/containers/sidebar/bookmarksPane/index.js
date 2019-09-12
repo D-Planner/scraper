@@ -41,7 +41,6 @@ const component = (props) => {
         ? (
           <div className="bookmarked-courses-list">
             {props.bookmarks.map((course, index) => {
-              // console.log(course);
               return (
                 <div key={course.id}>
                   <div className="paneCourse">
