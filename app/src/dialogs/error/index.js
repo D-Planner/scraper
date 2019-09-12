@@ -6,7 +6,7 @@ const errorDialog = (props) => {
   return (
     <DialogWrapper {...props}>
       <div className="new-plan-content">
-        <div className="description">There was an error signing you in/up.</div>
+        <div className="description">There was an error.</div>
         <div className="warning">{props.warning}</div>
       </div>
     </DialogWrapper>

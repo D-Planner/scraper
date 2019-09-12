@@ -18,18 +18,27 @@
     flex-direction: row;
     justify-content: space-between;
     margin: 10px;
+    background:none;
 
     .label {
       display: flex;
       flex: 1;
-      justify-content: flex-end;
-      margin-right: 5px;
+      text-align: right;
+      flex-direction: column;
+      margin-right: 20px;
+
+      .sub_label {
+        font-size:10px;
+        &.warning{
+          color:red;
+        }
+      }
     }
 
     .data {
       display: flex;
       flex-direction: column;
-      align-self: flex-end;
+      align-self: center;
       flex: 1;
     }
   }
