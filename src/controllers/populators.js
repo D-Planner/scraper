@@ -1,19 +1,13 @@
-const CourseReferenceSelect = ['department', 'number', 'name', 'id'];
-
 export const PopulateCourse = [{
     path: 'xlist',
-    select: CourseReferenceSelect,
 }, {
     path: 'professors',
 }, {
     path: 'prerequisites.req',
-    select: CourseReferenceSelect,
 }, {
     path: 'prerequisites.grade',
-    select: CourseReferenceSelect,
 }, {
     path: 'prerequisites.rec',
-    select: CourseReferenceSelect,
 }];
 
 export const PopulateTerm = [{
@@ -32,8 +26,6 @@ export const PopulateTerm = [{
 
 export const PopulateUser = [{
     path: 'favorite_courses',
-    populate: CourseReferenceSelect,
 }, {
     path: 'placement_courses',
-    select: CourseReferenceSelect,
 }];
