@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import ReactTooltip from 'react-tooltip';
 import { DropTarget as BookmarksPane } from 'react-dnd';
 import { ItemTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
@@ -45,6 +46,10 @@ const component = (props) => {
                 <>
                   <div className="paneCourse">
                     <DraggableCourse key={course.id} course={course} />
+                    <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ 'margin-left': '5px' }} data-tip />
+                    <ReactTooltip place="right" type="dark" effect="float">
+                      {course.offered ? 'Offered this term' : 'Not offered this term'}
+                    </ReactTooltip>
                   </div>
                   <div id="course-spacer-large" />
                 </>
