@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { DropTarget as TermTarget } from 'react-dnd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
 import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import DraggableUserCourse from '../../components/draggableUserCourse';
@@ -251,8 +252,11 @@ class Term extends Component {
             {/* Add a warning if two courses occupy the same timeslot */}
             {this.props.term.name} {/* this.props.term.index */}
           </div>
-          <div className="toggle-buttons">
+          <div className="toggle-buttons" data-tip>
             {this.renderToggleButton()}
+            <ReactTooltip delayShow={100} place="right" type="dark" effect="float">
+              {this.props.term.off_term ? 'Make this an on-term' : 'Make this an off-term'}
+            </ReactTooltip>
           </div>
         </div>
         {this.renderContent()}
