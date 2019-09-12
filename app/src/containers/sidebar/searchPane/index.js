@@ -38,7 +38,9 @@ const SearchPane = (props) => {
         distribs,
         wcs,
       };
-      props.search(queryParsed);
+      // console.log(props.resultStamp);
+      props.stampIncrement((props.resultStamp + 1));
+      props.search(queryParsed, props.resultStamp);
     }
   }, [props.searchQuery, wcs, distribs]);
 
@@ -122,7 +124,7 @@ const SearchPane = (props) => {
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
                         <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
-                        <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ 'margin-left': '5px' }} data-tip />
+                        <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip />
                         <ReactTooltip place="right" type="dark" effect="float">
                           {course.offered ? 'Offered this term' : 'Not offered this term'}
                         </ReactTooltip>

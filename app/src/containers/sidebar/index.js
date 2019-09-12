@@ -6,7 +6,7 @@ import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
 import { DialogTypes } from '../../constants';
 import {
-  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
 } from '../../actions';
 
 const paneTypes = {
@@ -61,6 +61,8 @@ const Sidebar = (props) => {
         searchQuery={searchQuery}
         search={props.courseSearch}
         results={props.searchResults}
+        resultStamp={props.resultStamp}
+        stampIncrement={props.stampIncrement}
         setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
       />
       <RequirementsPane
@@ -87,8 +89,9 @@ const mapStateToProps = state => ({
   bookmarks: state.courses.bookmarks,
   searchResults: state.courses.results,
   user: state.user.current,
+  resultStamp: state.courses.resultStamp,
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
 })(Sidebar);
