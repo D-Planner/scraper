@@ -10,6 +10,7 @@ import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
+import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
@@ -106,7 +107,7 @@ class CourseInfoDialog extends Component {
   renderScores = (course) => {
     return (
       <div id="scores">
-        <div className="section-header">Scores</div>
+        <div className="section-header" id="layup-header"><a href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-list</a><img src={open} alt="open in new tab" /></div>
         <div>
           Layup-list Score: {course.layup_score}
         </div>
