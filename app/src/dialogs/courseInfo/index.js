@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
-// import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import {
   addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser,
 } from '../../actions';
@@ -207,13 +206,10 @@ class CourseInfoDialog extends Component {
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
           return (
-            <>
-              <NonDraggableCourse
-                key={c.id.toString()}
-                course={c}
-              />
+            <div key={c.id.toString()}>
+              <NonDraggableCourse course={c} />
               <div id="course-spacer-large" />
-            </>
+            </div>
           );
         });
       }
