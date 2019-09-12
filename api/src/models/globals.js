@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const GlobalSchema = new Schema({
+    name: String,
     currentTerm: {
         year: Number,
         term: String,
