@@ -153,7 +153,7 @@ class CourseInfoDialog extends Component {
       return (
         <div id="next-term">
           <div className="section-header">{`${this.props.nextTerm.year.toString()}${this.props.currTerm.term}`}</div>
-          <div id="offerings">
+          <div id="periods">
             {course.periods.map((period) => {
               return (
                 <div className="a-period" key={period}>
@@ -292,6 +292,7 @@ class CourseInfoDialog extends Component {
       <div id="offerings">
         <div className="section-header">Offerings</div>
         <div className="the-terms offering-row">
+          <div className="offering-label">Term:</div>
           <div className="the-term" id="F">F</div>
           <div className="the-term">W</div>
           <div className="the-term">S</div>
@@ -313,6 +314,7 @@ class CourseInfoDialog extends Component {
   renderOfferings = (year) => {
     return (
       <>
+        <div className="offering-label">{`20${year.yearInt.toString()}:`}</div>
         {year.terms.includes('F') ? <div className="an-offering" /> : null}
         {year.terms.includes('W') ? <div className="an-offering" /> : null}
         {year.terms.includes('S') ? <div className="an-offering" /> : null}
