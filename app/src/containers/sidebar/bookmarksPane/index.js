@@ -46,8 +46,8 @@ const component = (props) => {
                 <div key={course.id}>
                   <div className="paneCourse">
                     <DraggableCourse course={course} />
-                    <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip />
-                    <ReactTooltip place="right" type="dark" effect="float">
+                    <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip data-for={course.id} />
+                    <ReactTooltip id={course.id} place="right" type="dark" effect="float">
                       {course.offered ? `Offered ${props.currTerm.year.toString() + props.currTerm.term}` : `Not offered ${props.currTerm.year.toString() + props.currTerm.term}`}
                     </ReactTooltip>
                   </div>

@@ -156,9 +156,9 @@ class CourseInfoDialog extends Component {
             {course.periods.map((period) => {
               return (
                 <div className="a-period" key={period}>
-                  <span data-tip>{period}</span>
-                  <ReactTooltip place="right" type="dark" effect="float">
-                    {`Offered period ${period.toString()}`}
+                  <span data-tip data-for={period}>{period}</span>
+                  <ReactTooltip id={period} place="right" type="dark" effect="float">
+                    {`Offered period ${period.toString()} for ${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}
                   </ReactTooltip>
                 </div>
               );
@@ -345,9 +345,10 @@ class CourseInfoDialog extends Component {
               ? () => this.props.removeCourseFromFavorites(this.props.data.id)
               : () => this.props.addCourseToFavorites(this.props.data.id)
           }
-          data-tip="what"
+          data-tip
+          data-for="bookmark"
         />
-        <ReactTooltip place="bottom" type="dark" effect="float">
+        <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
           {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
         </ReactTooltip>
         <div className="spacer" />
@@ -364,9 +365,10 @@ class CourseInfoDialog extends Component {
                 .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
           }
-          data-tip="when"
+          data-tip
+          data-for="plus"
         />
-        <ReactTooltip place="top" type="dark" effect="float">
+        <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
           {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
         </ReactTooltip>
       </div>
@@ -415,7 +417,7 @@ class CourseInfoDialog extends Component {
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
-  currTerm: state.time.nextTerm,
+  currTerm: state.time.currTerm,
   plan: state.plans.current,
   user: state.user.current,
 });
