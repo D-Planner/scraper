@@ -121,7 +121,7 @@
           #distribs {
               display: flex;
               flex-direction: column;
-              max-width: 30%;
+              // max-width: 150px; //CSS-DEF: this is based on a guess of how wide this can get if a course has 2 distribs and 2 wcs
 
               #bubbles {
                   display: flex;
@@ -129,8 +129,11 @@
                   align-items: center;
 
                   .distrib-icon {
-                      width: 40px;
+                      width: 46px;
                       margin-right: 10px;
+                      &:hover {
+                        animation: jump 0.1s ease-in-out;
+                      }
                   }
 
                   .vertical-divider {
@@ -140,19 +143,20 @@
                   }
 
                   .wc-icon {
-                      width: 36px;
+                      width: 32px;
                       margin-left: 10px;
+                      &:hover {
+                        animation: jump 0.1s ease-in-out;
+                      }
                   }
               }
           }
           #medians {
-              max-width: 30%;
+              // max-width: 30%;
               overflow-x: hidden;
               display: flex;
               flex-direction: column;
-              // ::-webkit-scrollbar {
-              //     display: none;
-              // }
+
               #bubbles {
                   display: flex;
                   .median-bubble {
@@ -183,7 +187,7 @@
           #scores {
               display: flex;
               flex-direction: column;
-              max-width: 30%;
+              // max-width: 30%;
               color: $text-accent;
               font-size: 14px;
               text-overflow: ellipsis;
