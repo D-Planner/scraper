@@ -3,6 +3,7 @@ import { ActionTypes } from '../actions';
 const initialState = {
   all: [],
   results: [],
+  resultStamp: 0,
   bookmarks: [],
 };
 
@@ -11,7 +12,10 @@ const coursesReducer = (state = initialState, action) => {
     case ActionTypes.FETCH_COURSES:
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.COURSE_SEARCH:
-      return Object.assign({}, state, { results: action.payload });
+      if ((action.stamp - state.resultStamp) > -1) return state;
+      else return Object.assign({}, state, { results: action.payload });
+    case ActionTypes.STAMP_INCREMENT:
+      return Object.assign({}, state, { resultStamp: action.payload });
     case ActionTypes.FETCH_BOOKMARKS:
       return Object.assign({}, state, { bookmarks: action.payload });
     case ActionTypes.RANDOM_COURSE:

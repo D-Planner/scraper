@@ -16,6 +16,7 @@ export const ActionTypes = {
   FETCH_PROFESSOR: 'FETCH_PROFESSOR',
   FETCH_PREV_COURSES: 'FETCH_PREV_COURSES',
   COURSE_SEARCH: 'COURSE_SEARCH',
+  STAMP_INCREMENT: 'STAMP_INCREMENT',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
   ERROR_SET: 'ERROR_SET',
@@ -490,18 +491,31 @@ export function removePlacement(courseID) {
 }
 
 /**
+ * Increments the stamp order of the search results by 1.
+ * @export
+ * @param {Integer} stamp the new stamp
+ * @returns an object with the type and message to dispatch to redux
+ */
+export function stampIncrement(stamp) {
+  return {
+    type: ActionTypes.STAMP_INCREMENT,
+    payload: stamp,
+  };
+}
+
+/**
  * Sends two axios requests, direct and indirect search, and checks which response makes sense for the user, then dispatches that response.
  * @param {*} query
  * @param {String} type
  */
-export function courseSearch(query) {
+export function courseSearch(query, stamp) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/search`, {
       params: query,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
-      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
+      dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data, stamp });
       resolve();
     }).catch((error) => {
       console.log(error);

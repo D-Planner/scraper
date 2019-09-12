@@ -36,7 +36,9 @@ const SearchPane = (props) => {
         distribs,
         wcs,
       };
-      props.search(queryParsed);
+      // console.log(props.resultStamp);
+      props.stampIncrement((props.resultStamp + 1));
+      props.search(queryParsed, props.resultStamp);
     }
   }, [props.searchQuery, wcs, distribs]);
 
