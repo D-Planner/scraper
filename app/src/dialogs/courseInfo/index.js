@@ -35,13 +35,15 @@ class CourseInfoDialog extends Component {
     const wcs = [];
     if (course.distribs && course.distribs.length) {
       course.distribs.forEach((distrib) => {
-        if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
-          wcs.push(GenEds[distrib]);
-        } else {
-          distribs.push(GenEds[distrib]);
-        }
+        distribs.push(GenEds[distrib]);
       });
     }
+    if (course.wcs && course.wcs.length) {
+      course.wcs.forEach((wc) => {
+        wcs.push(GenEds[wc]);
+      });
+    }
+
     return (
       <div id="distribs">
         <div className="section-header">Distributives</div>
@@ -298,7 +300,6 @@ class CourseInfoDialog extends Component {
   }
 
   renderOfferings = (year) => {
-    console.log(year.terms);
     return (
       <>
         {year.terms.includes('F') ? <div className="an-offering" /> : null}
@@ -310,12 +311,6 @@ class CourseInfoDialog extends Component {
   }
 
   renderOfferingsYearFinder = (element, desiredYear) => {
-    return (element.yearInt === desiredYear);
-  }
-
-  fuck = (element, desiredYear) => {
-    console.log(`\tit is ${element.yearInt.toString()}`);
-    console.log(`\tlooking for ${desiredYear.toString()}`);
     return (element.yearInt === desiredYear);
   }
 
