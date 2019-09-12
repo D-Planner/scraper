@@ -4,6 +4,7 @@ import UserCourse from '../models/user_course';
 import UserCourseController from '../controllers/user_course_controller';
 import { setTermsPrevCourses } from '../controllers/plan_controller';
 import { PopulateTerm } from './populators';
+import { trim } from './courses_controller';
 
 // Helpers
 const addCompleted = (userID, courseID) => {
@@ -69,8 +70,8 @@ const addCourseToTerm = (req, res) => {
         .then((term) => {
             User.findById(req.user.id)
                 .then((user) => {
-                    if (user.completed_courses.filter((c) => { return c.id === req.body.course.id; }).length === 0) {
-                        UserCourseController.createUserCourse(req.user.id, req.body.course.id, termID)
+                    if (user.completed_courses.filter((c) => { return c.id === req.body.courseID; }).length === 0) {
+                        UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
                             .then((userCourse) => {
                                 term.courses.push(userCourse);
                                 return term.save();
