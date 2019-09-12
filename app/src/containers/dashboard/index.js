@@ -7,6 +7,7 @@ import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
 import searchIcon from '../../style/searchSimple.svg';
+import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
@@ -133,6 +134,18 @@ class Dashboard extends React.Component {
                   </>
                 )
                 : <img className="search-icon" src={searchIcon} alt="search" />
+            }
+            </div>
+            <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={feedbackIcon} alt="search" />
+                    <div className="space" />
+                    <p>Feedback</p>
+                  </>
+                )
+                : <img className="search-icon" src={feedbackIcon} alt="search" />
             }
             </div>
             <div role="presentation"
