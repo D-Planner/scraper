@@ -90,8 +90,8 @@ class CourseInfoDialog extends Component {
       return (
         <div id="medians">
           <div className="section-header">Medians</div>
-          <div>
-          No medians available.
+          <div className="sad">
+            No medians available.
           </div>
         </div>
       );
@@ -240,6 +240,91 @@ class CourseInfoDialog extends Component {
     );
   }
 
+  renderOfferingsWrapper = (course) => {
+    if (!course.terms_offered) {
+      return (
+        <div id="offerings">
+          <div className="section-header">Offerings</div>
+          <div className="sad">No historical offering data.</div>
+        </div>
+      );
+    }
+    const years = [];
+    let earliestYear = 20; // TO-DO: need to make this lively updated from the server for the current term
+
+    course.terms_offered.forEach((termOffered) => {
+      const term = termOffered.substring(termOffered.length - 1);
+      const yearInt = parseInt(termOffered.substring(0, termOffered.length - 1), 10);
+
+      if (yearInt < earliestYear) {
+        earliestYear = yearInt;
+      }
+
+      const yearToModifyIndex = years.findIndex((element) => { return this.renderOfferingsYearFinder(element, yearInt); });
+
+      if (yearToModifyIndex !== -1) {
+        years[yearToModifyIndex].terms.push(term);
+      } else {
+        years.push({
+          yearInt,
+          terms: [term],
+        });
+      }
+    });
+
+    years.sort(this.renderOfferingsSorter);
+    return (
+      <div id="offerings">
+        <div className="section-header">Offerings</div>
+        <div className="the-terms offering-row">
+          <div className="the-term" id="F">F</div>
+          <div className="the-term">W</div>
+          <div className="the-term">S</div>
+          <div className="the-term" id="X">X</div>
+        </div>
+        <div className="the-offerings">
+          {years.map((year) => {
+            return (
+              <div className="offering-row" key={year.yearInt}>
+                {this.renderOfferings(year)}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  renderOfferings = (year) => {
+    console.log(year.terms);
+    return (
+      <>
+        {year.terms.includes('F') ? <div className="an-offering" /> : null}
+        {year.terms.includes('W') ? <div className="an-offering" /> : null}
+        {year.terms.includes('S') ? <div className="an-offering" /> : null}
+        {year.terms.includes('X') ? <div className="an-offering" /> : null}
+      </>
+    );
+  }
+
+  renderOfferingsYearFinder = (element, desiredYear) => {
+    return (element.yearInt === desiredYear);
+  }
+
+  fuck = (element, desiredYear) => {
+    console.log(`\tit is ${element.yearInt.toString()}`);
+    console.log(`\tlooking for ${desiredYear.toString()}`);
+    return (element.yearInt === desiredYear);
+  }
+
+  renderOfferingsSorter = (year1, year2) => {
+    if (year1.yearInt > year2.yearInt) {
+      return -1;
+    } else {
+      return 1;
+    }
+  }
+
   courseUserOptions(courseID) {
     const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
     const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
@@ -280,7 +365,7 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
-    console.log('Likely Terms: ', course.likely_terms);
+    // console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
         <div id="top">
@@ -288,17 +373,18 @@ class CourseInfoDialog extends Component {
           { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
         </div>
         <hr className="horizontal-divider" />
-        <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
-        <hr className="horizontal-divider" />
-        <div id="metrics">
-          {this.renderDistribs(course)}
-          {this.renderMedians(course.medians)}
-          {this.renderScores(course)}
-        </div>
-        <hr className="horizontal-divider" />
-        <div id="last">
-          {this.renderPrerequisites(course)}
-          {this.renderProfessors(course.professors)}
+        <div id="scrollable">
+          <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
+          <div id="metrics">
+            {this.renderDistribs(course)}
+            {this.renderMedians(course.medians)}
+            {this.renderScores(course)}
+          </div>
+          <div id="last">
+            {this.renderPrerequisites(course)}
+            {this.renderOfferingsWrapper(course)}
+            {this.renderProfessors(course.professors)}
+          </div>
         </div>
       </div>
     );
