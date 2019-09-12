@@ -12,7 +12,7 @@ const coursesReducer = (state = initialState, action) => {
     case ActionTypes.FETCH_COURSES:
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.COURSE_SEARCH:
-      if ((action.stamp - state.resultStamp) > -1) return state;
+      if ((action.stamp - state.resultStamp) < -1) return state;
       else return Object.assign({}, state, { results: action.payload });
     case ActionTypes.STAMP_INCREMENT:
       return Object.assign({}, state, { resultStamp: action.payload });
