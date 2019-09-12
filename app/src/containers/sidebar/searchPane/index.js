@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import ReactTooltip from 'react-tooltip';
 import filterIcon from '../../../style/filter.svg';
 import arrowDropDown from '../../../style/arrowDropDown.svg';
 
@@ -8,6 +9,7 @@ import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
 
 import { GenEds } from '../../../constants';
+
 
 /**
  * @name SearchPane
@@ -120,7 +122,10 @@ const SearchPane = (props) => {
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
                         <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
-                        <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ 'margin-left': '5px' }} />
+                        <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ 'margin-left': '5px' }} data-tip />
+                        <ReactTooltip place="right" type="dark" effect="float">
+                          {course.offered ? 'Offered this term' : 'Not offered this term'}
+                        </ReactTooltip>
                       </div>
                       <div id="course-spacer-large" />
                     </div>
