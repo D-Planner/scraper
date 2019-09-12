@@ -255,7 +255,7 @@ class CourseInfoDialog extends Component {
     if (!course.terms_offered) {
       return (
         <div id="offerings">
-          <div className="section-header">Offerings</div>
+          <div className="section-header">Past Offerings</div>
           <div className="sad">No historical offering data.</div>
         </div>
       );
@@ -286,7 +286,7 @@ class CourseInfoDialog extends Component {
     years.sort(this.renderOfferingsSorter);
     return (
       <div id="offerings">
-        <div className="section-header">Offerings</div>
+        <div className="section-header">Past Offerings</div>
         <div className="the-terms offering-row">
           <div className="offering-label">Term:</div>
           <div className="the-term" id="F">F</div>
