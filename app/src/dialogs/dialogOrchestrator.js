@@ -10,6 +10,7 @@ import CourseInfoDialog from './courseInfo';
 import TurnOffTermDialog from './turnOffTerm';
 import ProfileDialog from './profile';
 import ErrorDialog from './error';
+import FilterDialog from './filter';
 
 // Top-level orchestrator for all dialogs in the application
 // Should accept all types enumerated in DialogTypes and provide a dialog component for each one
@@ -32,6 +33,8 @@ const DialogOrchestrator = (props) => {
       return (<ProfileDialog {...props.options} hideDialog={props.hideDialog} />);
     case DialogTypes.ERROR:
       return (<ErrorDialog {...props.options} hideDialog={props.hideDialog} />);
+    case DialogTypes.FILTER:
+      return (<FilterDialog {...props.options} hideDialog={props.hideDialog} />);
     default:
       return null;
   }

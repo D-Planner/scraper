@@ -4,11 +4,10 @@ import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
 import filterIcon from '../../../style/filter.svg';
 import arrowDropDown from '../../../style/arrowDropDown.svg';
+import { DialogTypes, GenEds } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
-
-import { GenEds } from '../../../constants';
 
 
 /**
@@ -44,6 +43,21 @@ const SearchPane = (props) => {
     }
   }, [props.searchQuery, wcs, distribs]);
 
+  const setFilters = (wc, distrib) => {
+    setWC(wc);
+    setDistrib(distrib);
+  };
+
+  const showFilterDialog = () => {
+    const dialogOptions = {
+      title: 'Search filters',
+      size: 'md',
+      okText: 'Save',
+      onOk: setFilters,
+    };
+    props.showDialog(DialogTypes.FILTER, dialogOptions);
+  };
+
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
@@ -58,25 +72,8 @@ const SearchPane = (props) => {
             props.setSearchQuery(e.target.value);
           }}
         />
-        <button type="button" className="search-config-button">
+        <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
-          <div className="option-menu">
-
-            <div className="option-menu-option">
-              option 1
-            </div>
-            <div className="option-menu-option">
-              option 2
-            </div>
-            <div className="option-menu">
-              <div className="option-menu-option">
-                sub option 1
-              </div>
-              <div className="option-menu-option">
-                sub option 2
-              </div>
-            </div>
-          </div>
         </button>
       </div>
       {props.active

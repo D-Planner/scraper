@@ -65,6 +65,7 @@ const Sidebar = (props) => {
         stampIncrement={props.stampIncrement}
         setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
         currTerm={props.currTerm}
+        showDialog={props.showDialog}
       />
       <RequirementsPane
         active={activePane === paneTypes.REQUIREMENTS}
