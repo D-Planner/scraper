@@ -151,7 +151,7 @@ class CourseInfoDialog extends Component {
     if (course.offered) {
       return (
         <div id="next-term">
-          <div className="section-header">{`${this.props.nextTerm.year.toString()}${this.props.currTerm.term}`}</div>
+          <div className="section-header">{`${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}</div>
           <div id="periods">
             {course.periods.map((period) => {
               return (
