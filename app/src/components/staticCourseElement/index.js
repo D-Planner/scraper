@@ -16,12 +16,6 @@ import { GenEds } from '../../constants';
 //
 
 class CourseElement extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
   renderCourseSupplementaryInfo = () => {
     return (
       <>

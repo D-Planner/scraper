@@ -69,3 +69,16 @@ code {
         }                   
     }
 }
+
+.dot {
+  border-radius: 100%;
+  width:10px;
+  height:10px;
+
+  &.error {
+    background: $red;
+  }
+  &.success {
+    background:$success;
+  }
+}
