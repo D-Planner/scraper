@@ -64,6 +64,7 @@ const Sidebar = (props) => {
         resultStamp={props.resultStamp}
         stampIncrement={props.stampIncrement}
         setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
+        currTerm={props.currTerm}
       />
       <RequirementsPane
         active={activePane === paneTypes.REQUIREMENTS}
@@ -79,6 +80,7 @@ const Sidebar = (props) => {
         activate={() => handlePaneSwitch(paneTypes.BOOKMARKS)}
         bookmarks={props.user.favorite_courses}
         addToBookmarks={addToBookmarks}
+        currTerm={props.currTerm}
       />
     </div>
   );
@@ -88,8 +90,9 @@ const Sidebar = (props) => {
 const mapStateToProps = state => ({
   bookmarks: state.courses.bookmarks,
   searchResults: state.courses.results,
-  user: state.user.current,
   resultStamp: state.courses.resultStamp,
+  user: state.user.current,
+  currTerm: state.time.currTerm,
 });
 
 export default connect(mapStateToProps, {
