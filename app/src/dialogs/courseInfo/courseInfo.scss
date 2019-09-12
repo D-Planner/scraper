@@ -22,11 +22,21 @@
     }
 
     .section-header {
-      white-space: nowrap;
       font-size: 18px;
       font-weight: 600;
       color: $text-accent;
       margin-bottom: 10px;
+    }
+
+    #layup-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      img {
+        align-self: center;
+        margin-left: 4px;
+        width: 16px;
+      }
     }
 
     .sad {
@@ -176,10 +186,7 @@
               max-width: 30%;
               color: $text-accent;
               font-size: 14px;
-              div {
-                  display: flex;
-                  flex-direction: column;
-              }
+              text-overflow: ellipsis;
           }
       }
 
