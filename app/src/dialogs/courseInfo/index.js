@@ -10,7 +10,7 @@ import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
-import NonDraggableCourse from '../../components/nondraggableCourse';
+import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
 
