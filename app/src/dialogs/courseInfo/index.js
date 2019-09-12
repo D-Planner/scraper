@@ -345,7 +345,11 @@ class CourseInfoDialog extends Component {
               ? () => this.props.removeCourseFromFavorites(this.props.data.id)
               : () => this.props.addCourseToFavorites(this.props.data.id)
           }
+          data-tip
         />
+        <ReactTooltip place="bottom" type="dark" effect="float">
+          {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
+        </ReactTooltip>
         <div className="spacer" />
         <img
           className="action"
