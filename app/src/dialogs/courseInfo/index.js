@@ -144,19 +144,16 @@ class CourseInfoDialog extends Component {
 
   /**
    * Handles rendering of information for next term, if offered.
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON HAVING A UNIVERSAL TERM ON OUR API SERVER
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON FIXING THE [timeslot] PROPERTY.
+   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON GETTING THE PROFESSORS FOR EACH TIMESLOT
    * @param {*} course
-   * @param {String} nextTerm
    */
-  renderNextTerm = (course, nextTerm) => {
-    if (nextTerm === course.term) {
+  renderNextTerm = (course) => {
+    if (course.offered) {
       return (
         <div id="next-term">
-          <div className="section-header">Offered Next Term</div>
+          <div className="section-header">{`${this.props.nextTerm.year.toString()}${this.props.currTerm.term}`}</div>
           <div id="offerings">
-            <span>{course.timeslot} - hour</span>
-            <span>2A - hour</span>
+            <span>{course.periods}</span>
           </div>
         </div>
       );
@@ -187,23 +184,26 @@ class CourseInfoDialog extends Component {
     const renderPrereqByType = (o, dependencyType) => {
       if (dependencyType === 'range') {
         return (
-          <div>
+          <div className="rule">
             One from {course.department} {o[dependencyType][0]} {(o[dependencyType][1] === 300) ? '+' : ` - ${o[dependencyType][1]}`}
           </div>
         );
       } else if (dependencyType === 'abroad') {
         return (
-          <div>
-            This course requires having been abroad.
+          <div className="rule">
+            Study abroad needed.
           </div>
         );
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
           return (
-            <NonDraggableCourse
-              key={c.id.toString()}
-              course={c}
-            />
+            <>
+              <NonDraggableCourse
+                key={c.id.toString()}
+                course={c}
+              />
+              <div id="course-spacer-large" />
+            </>
           );
         });
       }
@@ -221,7 +221,8 @@ class CourseInfoDialog extends Component {
 
             const render = (
               <div key={i.toString()} className="dependency">
-                <div className="section-header">{Dependencies[dependencyType]}</div>
+                <div className="rule-header">{Dependencies[dependencyType]}</div>
+                <div id="course-spacer-large" />
                 {renderPrereqByType(o, dependencyType)}
               </div>
             );
@@ -398,6 +399,7 @@ class CourseInfoDialog extends Component {
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
+  currTerm: state.time.nextTerm,
   plan: state.plans.current,
   user: state.user.current,
 });

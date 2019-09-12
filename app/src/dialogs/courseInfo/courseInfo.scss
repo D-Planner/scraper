@@ -88,24 +88,22 @@
           #next-term {
               display: flex;
               flex-direction: column;
-              margin-right: 10%;
+              margin-right: 5%;
               #offerings {
                   display: flex;
                   flex-direction: column;
                   span {
-                      font-size: 16px;
-                      font-weight: 700;
+                      font-size: 14px;
+                      color: $gray-6;
                       text-align: center;
                       border: 1px solid $gray-5;
                       padding: 2px;
-                      width: fit-content;
                       margin-bottom: 4px;
                   }
               }
           }
           #description {
               text-overflow: ellipsis;
-              font-weight: 300;
               font-size: 14px;
               color: $text-accent;
               line-height: 20px;
@@ -208,17 +206,23 @@
           max-height: 100%;
 
           #dependencies {
-            width:100%;
+            width: 100%;
             flex: 1;
             overflow-y: scroll;
             flex-wrap: wrap;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            overflow: visible;
+
+            .rule-header {
+              font-size: 14px;
+              color: $text-accent;
+            }
 
             .dependency {
-              flex:1;
-              padding:5px;
+              flex: 1;
+              margin-bottom: 10px;
             }
           }
         }
