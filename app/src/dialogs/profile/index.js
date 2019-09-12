@@ -6,64 +6,106 @@ import {
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
+import edit from '../../style/edit.svg';
 import './profile.scss';
 
 class ProfileDialog extends Component {
   constructor(props) {
     super(props);
-
-
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      year: 0,
+      editing: false,
+    };
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = (e) => {
+  handleChange = (e, type) => {
     if (e.target.name === 'graduationYear') {
       // Render Error Message here
     }
     this.newUser[e.target.name] = e.target.value;
+    switch (type) {
+      case 'firstName':
+        this.setState({ firstName: e.target.value });
+        break;
+      case 'lastName':
+        this.setState({ lastName: e.target.value });
+        break;
+      case 'email':
+        this.setState({ email: e.target.value });
+        break;
+      case 'year':
+        this.setState({ year: parseInt(e.target.value, 10) });
+        break;
+      default:
+        break;
+    }
+    console.log(this.state);
+  }
+
+  handleToggleEdit = () => {
+    this.setState(prevState => ({
+      editing: !prevState.editing,
+    }));
   }
 
   renderUserInfo = () => {
     return (
       <div className="user">
-        <div className="info">
-          <div className="label">Name</div>
-          <div className="data">
-            <input type="text" defaultValue={this.newUser.full_name} name="full_name" onChange={this.handleChange} />
+        <div className="profile-left">
+          <div className="info">
+            <div className="label">First name:</div>
+            <div className="data">
+              <input type="text" defaultValue={this.newUser.first_name} name="firstName" onChange={e => this.handleChange(e, 'firstName')} />
+            </div>
+            <img src={edit} alt="edit" />
           </div>
-        </div>
-        <div className="info">
-          <div className="label">Email</div>
-          <div className="data">
-            <input type="email" defaultValue={this.newUser.email} name="email" onChange={this.handleChange} />
+          <div className="info">
+            <div className="label">Last name:</div>
+            <div className="data">
+              <input type="text" defaultValue={this.newUser.last_name} name="firstName" onChange={e => this.handleChange(e, 'lastName')} />
+            </div>
+            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
-        </div>
-        <div className="info">
-          <div className="label">
-            Graduation Year
-            <div className="sub_label warning">Changing your graduation year will delete your plans</div>
+          <div className="info">
+            <div className="label">Email:</div>
+            <div className="data">
+              <input type="email" defaultValue={this.newUser.email} name="email" onChange={e => this.handleChange(e, 'email')} />
+            </div>
           </div>
-          <div className="data">
-            <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={this.handleChange} />
+          <div className="info">
+            <div className="label">
+              Graduation Year:
+              <div className="sub_label warning">Changing your graduation year will delete your plans</div>
+            </div>
+            <div className="data">
+              <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={e => this.handleChange(e, 'year')} />
+            </div>
           </div>
-        </div>
-        <div className="info">
-          <div className="label">Placement Courses</div>
-          <div className="data">
-            {this.renderPlacements()}
-          </div>
-        </div>
-        <input type="button"
-          value="Update"
-          onClick={() => {
-            this.props.updateUser(this.newUser).then(() => {
-              this.props.fetchPlans().then(() => {
-                window.location.reload();
+          <input type="button"
+            value="Update"
+            onClick={() => {
+              this.props.updateUser(this.newUser).then(() => {
+                this.props.fetchPlans().then(() => {
+                  window.location.reload();
+                });
               });
-            });
-          }}
-        />
+            }}
+          />
+        </div>
+        <div className="profile-right">
+          <div className="placements">
+            <div className="placements-label">Placement Courses</div>
+            <div className="placements-data">
+              {this.renderPlacements()}
+            </div>
+          </div>
+        </div>
+
       </div>
     );
   }
