@@ -13,6 +13,7 @@ import minus from '../../style/minus.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
+import { GenEds } from '../../constants';
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -34,9 +35,9 @@ class CourseInfoDialog extends Component {
     if (course.distribs && course.distribs.length) {
       course.distribs.forEach((distrib) => {
         if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
-          wcs.push(distribTypes.find(ref => ref.name === distrib));
+          wcs.push(GenEds[distrib]);
         } else {
-          distribs.push(distribTypes.find(ref => ref.name === distrib));
+          distribs.push(GenEds[distrib]);
         }
       });
     }
@@ -398,105 +399,6 @@ class CourseInfoDialog extends Component {
     );
   }
 }
-
-// import all svgs in from require.context, found later
-const importSVGs = (r) => {
-  const icons = {};
-  r.keys().forEach((item) => {
-    // strip extension and ./ at beginning of file
-    const itemName = item.replace('./', '').replace('.svg', '');
-
-    // require the icon and insert its reference into the icons dictionary
-    icons[itemName] = r(item);
-  });
-  return icons;
-};
-
-// import all svg files in the ../style/distrib_icons directory
-const icons = importSVGs(require.context('../../style/distrib_icons', false, /\.svg$/));
-
-const distribTypes = [
-  {
-    fullName: 'Arts',
-    name: 'ART',
-    icon: icons.art,
-    fulfills: false,
-  },
-  {
-    fullName: 'Literature',
-    name: 'LIT',
-
-    icon: icons.lit,
-    fulfills: false,
-  },
-  {
-    fullName: 'Thought, Meaning, and Value',
-    name: 'TMV',
-    icon: icons.tmv,
-    fulfills: false,
-  },
-  {
-    fullName: 'International or Comparative Study',
-    name: 'INT',
-    icon: icons.int,
-    fulfills: false,
-  },
-  {
-    fullName: 'Social Analysis',
-    name: 'SOC',
-    icon: icons.soc,
-    fulfills: false,
-  },
-  {
-    fullName: 'Quantitative and Deductive Science',
-    name: 'QDS',
-    icon: icons.qds,
-    fulfills: false,
-  },
-  {
-    fullName: 'Natural and Physical Science (LAB)',
-    name: 'SLA',
-    icon: icons.sla,
-    fulfills: false,
-  },
-  {
-    fullName: 'Natural and Physical Science',
-    name: 'SCI',
-    icon: icons.sci,
-    fulfills: false,
-  },
-  {
-    fullName: 'Technology and Applied Science (LAB)',
-    name: 'TLA',
-    icon: icons.tla,
-    fulfills: false,
-  },
-  {
-    fullName: 'Technology and Applied Science',
-    name: 'TAS',
-    icon: icons.tas,
-    fulfills: false,
-  },
-  {
-    fullName: 'Western Cultures',
-    name: 'W',
-    icon: icons.wc_w,
-    fulfills: false,
-  },
-  {
-    fullName: 'Non-Western Cultures',
-    name: 'NW',
-    icon: icons.wc_nw,
-    fulfills: false,
-  },
-  {
-    fullName: 'Culture and Identity',
-    name: 'CI',
-    icon: icons.wc_ci,
-    fulfills: false,
-  },
-];
-
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
