@@ -9,7 +9,7 @@ import { emptyPlan } from '../../services/empty_plan';
 import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
 // import noPlan from '../../style/no-plan.png';
-import settingsButton from '../../style/settings.svg';
+import trash from '../../style/trash.svg';
 import Term from '../term';
 import './dplan.scss';
 
@@ -165,7 +165,7 @@ class DPlan extends Component {
               <div className="plan-header">
                 <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
                 <button type="button" className="settings-button" onClick={this.showDialog}>
-                  <img src={settingsButton} alt="" />
+                  <img src={trash} alt="" />
                 </button>
               </div>
               <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} setDraggingFulfilledStatus={this.setDraggingFulfilledStatus} />

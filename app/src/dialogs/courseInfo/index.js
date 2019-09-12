@@ -197,6 +197,7 @@ class CourseInfoDialog extends Component {
         );
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
+          console.log('Prereq', c);
           return (
             <NonDraggableCourse
               key={c.id.toString()}

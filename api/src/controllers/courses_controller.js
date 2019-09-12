@@ -45,8 +45,12 @@ const searchCourses = (req, res) => {
             return acc;
         }, {});
     if (query.department || query.number) {
-        Course.find(query)
+        Course.find({
+            department: query.department,
+            number: query.number ? { $gte: query.number, $lt: parseInt(query.number) + 1 } : { $gte: 0 },
+        })
             .populate(PopulateCourse)
+            .sort({ number: 1 })
             .then((result) => {
                 res.json(trim(result));
             })
