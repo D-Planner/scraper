@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
 // import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import {
@@ -153,7 +154,16 @@ class CourseInfoDialog extends Component {
         <div id="next-term">
           <div className="section-header">{`${this.props.nextTerm.year.toString()}${this.props.currTerm.term}`}</div>
           <div id="offerings">
-            <span>{course.periods}</span>
+            {course.periods.map((period) => {
+              return (
+                <div className="a-period" key={period}>
+                  <span data-tip>{period}</span>
+                  <ReactTooltip place="right" type="dark" effect="float">
+                    {`Offered period ${period.toString()}`}
+                  </ReactTooltip>
+                </div>
+              );
+            })}
           </div>
         </div>
       );

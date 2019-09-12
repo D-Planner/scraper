@@ -92,7 +92,7 @@
               #offerings {
                   display: flex;
                   flex-direction: column;
-                  span {
+                  .a-period {
                       font-size: 14px;
                       color: $gray-6;
                       text-align: center;
