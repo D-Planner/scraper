@@ -37,14 +37,13 @@ const searchCourses = (req, res) => {
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
             if (k === 'department' && !departments.includes(v)) return false;
-            if (k === 'number' && v.match(/\D+/)[0] !== '.') return false;
+            if (k === 'number' && v.match(/\D+/) && v.match(/\D+/)[0] !== '.') return false;
             return v.length > 0 && k !== 'title';
         })
         .reduce((acc, [k, v]) => {
             acc[k] = v;
             return acc;
         }, {});
-    console.log(query);
     if (query.department || query.number) {
         Course.find(query)
             .populate(PopulateCourse)
