@@ -2,6 +2,7 @@ export const PopulateCourse = [{
     path: 'xlist',
 }, {
     path: 'professors',
+    select: 'name',
 }, {
     path: 'prerequisites.req',
 }, {
