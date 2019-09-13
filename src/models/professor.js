@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const ProfessorSchema = new Schema({
     name: { type: String },
-    nameLowCase: { type: String },
+    nameLowCase: { type: String, unique: true },
     reviews: [{
         course: String,
         term: String,

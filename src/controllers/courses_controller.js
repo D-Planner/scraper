@@ -199,7 +199,6 @@ const filledValues = (course) => {
                 return r._id;
             });
         });
-        professors = new Set(professors);
     }
     let prerequisites = [];
     if (prerequisitesJSON[course.title]) {
@@ -287,6 +286,8 @@ const createCourse = (req, res) => {
                 distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
             }
             const [xlist, prerequisites, professors] = r;
+            const profUnique = Array.from(new Set(professors.map((p) => { return p.toString(); })));
+            // if (course.name === 'Problem Solving via Object-Oriented Programming') console.log(profUnique);
             return Course.findOneAndUpdate(
                 { title: course.title },
                 {
@@ -309,7 +310,7 @@ const createCourse = (req, res) => {
                     orc_url: course.orc_url,
                     medians: course.medians,
                     terms_offered: course.terms_offered,
-                    professors,
+                    professors: profUnique,
                     prerequisites,
                 },
                 { upsert: true },
