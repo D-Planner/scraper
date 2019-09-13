@@ -8,7 +8,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
 import requireAuth from '../containers/requireAuth';
-import tooSmall from './tooSmall';
+import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
@@ -28,6 +28,7 @@ const App = (props) => {
               <Route path="/signin" component={signIn} /> */}
               {/* <Route path="/plan/:id" component={DPlan} /> */}
               {/* This Was Discoer */}
+              <Route path="/professors/:id" component={Professor} />
               <Route path="/discover" component={Cytoscape} />
               <Route path="/plan/:id" component={DPlan} />
               <Route component={FallBack} />
