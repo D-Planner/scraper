@@ -88,3 +88,6 @@ app/build
 *.DS_Store
 .vs
 *.code-workspace
+app/surge.crt
+app/surge.key
+app/surge.pem
