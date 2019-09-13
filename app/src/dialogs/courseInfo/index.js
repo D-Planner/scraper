@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
 // import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import {
-  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchProfessor, showDialog,
+  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -14,7 +15,7 @@ import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
-import { GenEds, DialogTypes } from '../../constants';
+import { GenEds, APP_URL } from '../../constants';
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -161,18 +162,16 @@ class CourseInfoDialog extends Component {
     } else return null;
   }
 
-  showProfesssorInfoDialog = (professor) => {
-    console.log('hi');
-    console.log(professor._id);
-    fetchProfessor(professor._id).then((prof) => {
-      const dialogOptions = {
-        data: prof,
-        size: 'lg',
-        showOk: false,
-      };
-      this.props.showDialog(DialogTypes.PROFESSOR_INFO, dialogOptions);
-    });
-  }
+  // showProfesssorInfoDialog = (professor) => {
+  //   fetchCourseProfessors(professor._id).then((prof) => {
+  //     const dialogOptions = {
+  //       data: prof,
+  //       size: 'lg',
+  //       showOk: false,
+  //     };
+  //     this.props.showDialog(DialogTypes.PROFESSOR_INFO, dialogOptions);
+  //   });
+  // }
 
   /**
    * Test for Professors
@@ -182,11 +181,16 @@ class CourseInfoDialog extends Component {
   renderProfessors = (professors) => {
     return (
       <div id="professors">
-        <div className="section-header">Professors</div>
+        <div className="section-header">Professor Reviews</div>
         {professors.slice(0, 5).map((p) => {
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            <div key={p.name} className="professor" onClick={() => this.showProfesssorInfoDialog(p)}>{p.name}</div>
+            <div key={p.name} className="professor">
+              <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
+              <ReactTooltip id={p.id} place="right" type="dark" effect="float">
+                {p.reviews.length} reviews
+              </ReactTooltip>
+            </div>
           );
         })}
       </div>
@@ -422,5 +426,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement, showDialog,
+  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement, showDialog, fetchCourseProfessors,
 })(CourseInfoDialog);
