@@ -11,7 +11,7 @@ class ProfessorInfoDialog extends Component {
           professor.reviews.reduce((review, acc) => {
             acc[review.term].push(review.review);
             return acc;
-          }, {});
+          }, {})
         }
       </div>
     );
