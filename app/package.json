@@ -33,7 +33,7 @@
     "start": "NODE_ENV=development webpack-serve ./webpack.config.js",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",
-    "deploy": "yarn build; surge -p dist -d d-planner.com; yarn clean",
+    "deploy": "yarn build; surge -p dist -d d-planner.com; surge -p dist -d d-planner.surge.sh; surge -p dist -d dplanner-dartmouth.surge.sh; yarn clean",
     "seed": "node src/seed.js"
   },
   "devDependencies": {
