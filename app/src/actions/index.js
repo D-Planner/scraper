@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ROOT_URL } from '../constants';
 
 export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
@@ -33,8 +34,6 @@ export const ActionTypes = {
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
 };
-
-const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'http://api.d-planner.com';
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
@@ -416,7 +415,7 @@ export function fetchBookmarks() {
  * @export
  * @returns an action creator to gather all bookmarked courses and store them in the redux store
  */
-export function fetchProfessor(id) {
+export function fetchCourseProfessors(id) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
