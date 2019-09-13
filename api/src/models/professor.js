@@ -2,12 +2,18 @@ import mongoose, { Schema } from 'mongoose';
 
 const ProfessorSchema = new Schema({
     name: { type: String },
+    nameLowCase: { type: String },
+    reviews: [{
+        course: String,
+        term: String,
+        review: String,
+    }],
+    // For Future Scraping
     // department: String,
     // pic_url: String,
     // bio: String,
     // email: String,
     // website: String,
-    // courses: [{}],         For future scraping?
     // office: String,
 }, {
     toJSON: {

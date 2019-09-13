@@ -176,17 +176,30 @@ const getCourseByNumber = (req, res) => {
 const filledValues = (course) => {
     let professors = [];
     if (course.professors) {
-        professors = course.professors.map((name) => {
-            const query = { name };
-            const update = { name };
-            const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+        professors = course.professors.map((profName) => {
+            let reviews = course.reviews ? course.reviews.filter((review) => {
+                return review.includes(profName);
+            }) : [];
+            reviews = reviews.length ? reviews
+                .map((review) => {
+                    const term = review.match(/\d{2}['X'|'F'|'W'|'S']/)[0];
+                    review = review.substring(review.indexOf(':') + 2).toString();
+                    return { course: course.name, term, review };
+                }) : [];
 
-            // Find the document
-            const res = Professor.findOneAndUpdate(query, update, options);
-            return res.exec().then((r) => {
+            // Find and Update the document
+            return Professor.findOneAndUpdate(
+                { nameLowCase: profName.toLowerCase() },
+                {
+                    name: profName,
+                    $addToSet: { reviews: { $each: reviews } },
+                },
+                { upsert: true, new: true },
+            ).then((r) => {
                 return r._id;
             });
         });
+        professors = new Set(professors);
     }
     let prerequisites = [];
     if (prerequisitesJSON[course.title]) {
@@ -242,7 +255,8 @@ const filledValues = (course) => {
                                     Course.findByIdAndUpdate(
                                         linkedCourse._id,
                                         { $addToSet: { xlist: origCourse._id } },
-                                    ).then((r) => { return console.log(r); }).catch((e) => { return console.log(e); });
+                                    );
+                                    // .then((r) => { return console.log(r); }).catch((e) => { return console.log(e); });
                                     // console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
                                 }
                             });

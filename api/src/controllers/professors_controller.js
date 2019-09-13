@@ -9,7 +9,7 @@ const getProfessors = (req, res) => {
 };
 
 const getProfessorById = (req, res) => {
-    Professor.find({ id: req.query.id }, 'name')
+    Professor.findById(req.params.id)
         .then((r) => {
             res.json(r);
         }).catch((e) => {

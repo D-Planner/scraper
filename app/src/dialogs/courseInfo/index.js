@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import DialogWrapper from '../dialogWrapper';
 // import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import {
-  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser,
+  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchProfessor, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -14,7 +14,7 @@ import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
-import { GenEds } from '../../constants';
+import { GenEds, DialogTypes } from '../../constants';
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -161,6 +161,19 @@ class CourseInfoDialog extends Component {
     } else return null;
   }
 
+  showProfesssorInfoDialog = (professor) => {
+    console.log('hi');
+    console.log(professor._id);
+    fetchProfessor(professor._id).then((prof) => {
+      const dialogOptions = {
+        data: prof,
+        size: 'lg',
+        showOk: false,
+      };
+      this.props.showDialog(DialogTypes.PROFESSOR_INFO, dialogOptions);
+    });
+  }
+
   /**
    * Test for Professors
    *
@@ -172,7 +185,8 @@ class CourseInfoDialog extends Component {
         <div className="section-header">Professors</div>
         {professors.slice(0, 5).map((p) => {
           return (
-            <div key={p.name} className="professor">{p.name}</div>
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            <div key={p.name} className="professor" onClick={() => this.showProfesssorInfoDialog(p)}>{p.name}</div>
           );
         })}
       </div>
@@ -197,7 +211,6 @@ class CourseInfoDialog extends Component {
         );
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
-          console.log('Prereq', c);
           return (
             <NonDraggableCourse
               key={c.id.toString()}
@@ -409,5 +422,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement,
+  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement, showDialog,
 })(CourseInfoDialog);

@@ -13,6 +13,7 @@ export const ActionTypes = {
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   FETCH_MAJORS: 'FETCH_MAJORS',
   UPDATE_USERCOURSE: 'UPDATE_USERCOURSE',
+  FETCH_PROFESSORS: 'FETCH_PROFESSORS',
   FETCH_PROFESSOR: 'FETCH_PROFESSOR',
   FETCH_PREV_COURSES: 'FETCH_PREV_COURSES',
   COURSE_SEARCH: 'COURSE_SEARCH',
@@ -415,15 +416,20 @@ export function fetchBookmarks() {
  * @export
  * @returns an action creator to gather all bookmarked courses and store them in the redux store
  */
-export function fetchProfessors(id) {
+export function fetchProfessor(id) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  axios.get(`${ROOT_URL}/professors/${id}`, { headers }).then((r) => {
-    console.log(r);
-  }).catch((e) => {
-    console.log(e);
-  });
+  return new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/professors/${id}`, { headers }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve(response.data);
+    }).catch((error) => {
+      console.log(error);
+      reject(error);
+    });
+  }));
 }
 
 /**
