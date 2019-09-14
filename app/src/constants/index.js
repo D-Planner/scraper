@@ -13,6 +13,8 @@ export const DialogTypes = {
   OFF_TERM: 'OFF_TERM',
   PROFILE: 'PROFILE',
   ERROR: 'ERROR',
+  FILTER: 'FILTER',
+  NOTICE: 'NOTICE',
 };
 
 export const Departments = [
