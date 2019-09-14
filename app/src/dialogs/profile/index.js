@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
+import { DialogTypes } from '../../constants';
 import edit from '../../style/edit.svg';
 import './profile.scss';
 
@@ -14,26 +15,45 @@ class ProfileDialog extends Component {
     super(props);
     this.state = {
       editing: false,
+      oldGradYear: this.props.user.graduationYear,
     };
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = (e, type) => {
-    if (e.target.name === 'graduationYear') {
-
-      // Render Error Message here
-    }
     this.newUser[e.target.name] = e.target.value;
   }
 
   handleToggleEdit = () => {
+    let shouldUpdate = false;
     if (this.state.editing) {
-      this.props.updateUser(this.newUser).then(() => {
-        this.props.fetchPlans().then(() => {
-          window.location.reload();
+      if (this.state.oldGradYear !== this.newUser.graduationYear) {
+        const dialogOptions = {
+          title: 'Warning',
+          message: 'If you change your grad year, all your plans will reset.',
+          size: 'sm',
+          okText: 'Continue',
+          noText: 'Abort',
+          showNo: true,
+          onOk: () => {
+            shouldUpdate = true;
+          },
+          onNo: () => {
+            console.log('user declined to update profile, change nothing');
+          },
+        };
+        this.props.showDialog(DialogTypes.NOTICE, dialogOptions);
+      } else {
+        shouldUpdate = true;
+      }
+      if (shouldUpdate) {
+        this.props.updateUser(this.newUser).then(() => {
+          this.props.fetchPlans().then(() => {
+            // window.location.reload();
+          });
         });
-      });
+      }
     }
 
     this.setState(prevState => ({
@@ -73,7 +93,6 @@ class ProfileDialog extends Component {
           <div className="info">
             <div className="label">
               Graduation Year:
-              <div className="sub_label warning">Changing your graduation year will delete your plans</div>
             </div>
             <div className="data">
               {!this.state.editing ? `${this.newUser.graduationYear}`
@@ -148,5 +167,5 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
 })(ProfileDialog));
