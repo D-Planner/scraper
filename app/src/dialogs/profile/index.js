@@ -13,10 +13,6 @@ class ProfileDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      year: 0,
       editing: false,
     };
     this.newUser = this.props.user;
@@ -25,29 +21,21 @@ class ProfileDialog extends Component {
 
   handleChange = (e, type) => {
     if (e.target.name === 'graduationYear') {
+
       // Render Error Message here
     }
     this.newUser[e.target.name] = e.target.value;
-    switch (type) {
-      case 'firstName':
-        this.setState({ firstName: e.target.value });
-        break;
-      case 'lastName':
-        this.setState({ lastName: e.target.value });
-        break;
-      case 'email':
-        this.setState({ email: e.target.value });
-        break;
-      case 'year':
-        this.setState({ year: parseInt(e.target.value, 10) });
-        break;
-      default:
-        break;
-    }
-    console.log(this.state);
   }
 
   handleToggleEdit = () => {
+    if (this.state.editing) {
+      this.props.updateUser(this.newUser).then(() => {
+        this.props.fetchPlans().then(() => {
+          window.location.reload();
+        });
+      });
+    }
+
     this.setState(prevState => ({
       editing: !prevState.editing,
     }));
@@ -60,22 +48,27 @@ class ProfileDialog extends Component {
           <div className="info">
             <div className="label">First name:</div>
             <div className="data">
-              <input type="text" defaultValue={this.newUser.first_name} name="firstName" onChange={e => this.handleChange(e, 'firstName')} />
+              {!this.state.editing ? `${this.newUser.first_name}`
+                : <input type="text" defaultValue={this.newUser.first_name} name="first_name" onChange={this.handleChange} />}
             </div>
-            <img src={edit} alt="edit" />
+            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+              : <img src={edit} alt="edit" onClick={this.handleToggleEdit} />}
           </div>
           <div className="info">
             <div className="label">Last name:</div>
             <div className="data">
-              <input type="text" defaultValue={this.newUser.last_name} name="firstName" onChange={e => this.handleChange(e, 'lastName')} />
+              {!this.state.editing ? `${this.newUser.last_name}`
+                : <input type="text" defaultValue={this.newUser.last_name} name="firs_name" onChange={this.handleChange} />}
             </div>
             <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
           <div className="info">
             <div className="label">Email:</div>
             <div className="data">
-              <input type="email" defaultValue={this.newUser.email} name="email" onChange={e => this.handleChange(e, 'email')} />
+              {!this.state.editing ? `${this.newUser.email}`
+                : <input type="email" defaultValue={this.newUser.email} name="email" onChange={this.handleChange} />}
             </div>
+            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
           <div className="info">
             <div className="label">
@@ -83,19 +76,11 @@ class ProfileDialog extends Component {
               <div className="sub_label warning">Changing your graduation year will delete your plans</div>
             </div>
             <div className="data">
-              <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={e => this.handleChange(e, 'year')} />
+              {!this.state.editing ? `${this.newUser.graduationYear}`
+                : <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={this.handleChange} />}
             </div>
+            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
-          <input type="button"
-            value="Update"
-            onClick={() => {
-              this.props.updateUser(this.newUser).then(() => {
-                this.props.fetchPlans().then(() => {
-                  window.location.reload();
-                });
-              });
-            }}
-          />
         </div>
         <div className="profile-right">
           <div className="placements">

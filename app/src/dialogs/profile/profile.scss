@@ -43,11 +43,18 @@
         display: flex;
         flex-direction: column;
         align-self: center;
-      }
+        min-width: 50px;
+        overflow: visible;
 
-      input {
-        background: none;
-        font-size: 18px;
+        input {
+          background: none;
+          font-size: 18px;
+          border-bottom: 1px solid $text-accent !important;
+
+
+          &:focus {
+          }
+        }
       }
 
       img {
