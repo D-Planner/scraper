@@ -1,0 +1,46 @@
+@import '../../style/variables.scss';
+
+.app-container {
+    display: flex !important;
+    justify-content: center !important;
+    .professor {
+        display: flex;
+        flex-direction: column;
+        width: 900px;
+        align-self: center;
+        margin-top: 30px;
+    
+        .professor-name {
+            font-size: 32px;
+            font-weight: 700;
+            color: $text-accent;
+        }
+
+        .professor-name-sub {
+            font-size: 14px;
+            color: $gray-6;
+            margin-bottom: 30px;
+
+        }
+
+        .professor-reviews {
+            display: flex;
+            flex-direction: column;
+    
+            .professor-review {
+                margin-bottom: 30px;
+    
+                .review-header {
+                    color: $gray-6;
+                    font-size: 18px;
+                }
+    
+                .review-body {
+                    font-size: 14px;
+                    color: $text-accent;
+                    line-height: 24px;
+                }
+            }
+        }
+    }
+}

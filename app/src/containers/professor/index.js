@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { ROOT_URL } from '../../constants';
 
+import './professor.scss';
+
 class Professor extends React.Component {
   constructor(props) {
     super(props);
@@ -29,36 +31,30 @@ class Professor extends React.Component {
     });
   }
 
-  renderProfessor = () => {
-    console.log(this.state.professor.reviews);
-    return (
-      <>
-        <div className="professor-name">
-          {this.state.professor.name}
-        </div>
-        <div className="professor-reviews">
-          {this.state.professor.reviews.map((review) => {
-            return (
-              <div className="professor-review">
-                <div className="review-header">
-                  {review.course} during {review.term}
-                </div>
-                <div className="review-body">
-                  {review.review}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </>
-    );
-  }
-
   render() {
     if (this.state.professor) {
       return (
-        <div>
-          {this.renderProfessor()}
+        <div className="professor">
+          <div className="professor-name">
+            {this.state.professor.name}
+          </div>
+          <div className="professor-name-sub">
+            All course reviews for this professor. Supplied by Layup-list, curated by D-Planner.
+          </div>
+          <div className="professor-reviews">
+            {this.state.professor.reviews.map((review) => {
+              return (
+                <div className="professor-review">
+                  <div className="review-header">
+                    {review.course} [{review.term}]
+                  </div>
+                  <div className="review-body">
+                    {review.review}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       );
     } else {
