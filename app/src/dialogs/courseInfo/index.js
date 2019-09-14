@@ -183,12 +183,13 @@ class CourseInfoDialog extends Component {
       <div id="professors">
         <div className="section-header">Professor Reviews</div>
         {professors.slice(0, 5).map((p) => {
+          console.log(p);
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
               <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
               <ReactTooltip id={p.id} place="right" type="dark" effect="float">
-                {p.reviews.length} reviews
+                See all reviews
               </ReactTooltip>
             </div>
           );
@@ -272,6 +273,7 @@ class CourseInfoDialog extends Component {
     const years = [];
     let earliestYear = 20; // TO-DO: need to make this lively updated from the server for the current term
 
+    console.log(course.terms_offered);
     course.terms_offered.forEach((termOffered) => {
       const term = termOffered.substring(termOffered.length - 1);
       const yearInt = parseInt(termOffered.substring(0, termOffered.length - 1), 10);
@@ -293,6 +295,7 @@ class CourseInfoDialog extends Component {
     });
 
     years.sort(this.renderOfferingsSorter);
+
     return (
       <div id="offerings">
         <div className="section-header">Offerings</div>
@@ -319,10 +322,10 @@ class CourseInfoDialog extends Component {
     console.log(year.terms);
     return (
       <>
-        {year.terms.includes('F') ? <div className="an-offering" /> : null}
-        {year.terms.includes('W') ? <div className="an-offering" /> : null}
-        {year.terms.includes('S') ? <div className="an-offering" /> : null}
-        {year.terms.includes('X') ? <div className="an-offering" /> : null}
+        {year.terms.includes('F') ? <div className="an-offering filled" /> : <div className="an-offering" />}
+        {year.terms.includes('W') ? <div className="an-offering filled" /> : <div className="an-offering" />}
+        {year.terms.includes('S') ? <div className="an-offering filled" /> : <div className="an-offering" />}
+        {year.terms.includes('X') ? <div className="an-offering filled" /> : <div className="an-offering" />}
       </>
     );
   }
@@ -385,6 +388,7 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
+    console.log(course);
     // console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
