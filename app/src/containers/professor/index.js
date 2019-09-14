@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 import { ROOT_URL } from '../../constants';
 
 import './professor.scss';
@@ -35,6 +36,9 @@ class Professor extends React.Component {
     if (this.state.professor) {
       return (
         <div className="professor">
+          <Helmet>
+            <title>{this.state.professor.name}</title>
+          </Helmet>
           <div className="professor-name">
             {this.state.professor.name}
           </div>
