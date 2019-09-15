@@ -8,7 +8,6 @@ import DeletePlanDialog from './deletePlan';
 import DeclareMajorDialog from './declareMajor';
 import CourseInfoDialog from './courseInfo';
 import TurnOffTermDialog from './turnOffTerm';
-import ProfessorInfoDialog from './professorInfo';
 import ProfileDialog from './profile';
 import ErrorDialog from './error';
 import FilterDialog from './filter';
