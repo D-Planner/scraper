@@ -259,6 +259,7 @@ class CourseInfoDialog extends Component {
   }
 
   renderOfferingsWrapper = (course) => {
+    console.log(course.yearlyOccurences);
     if (!course.terms_offered) {
       return (
         <div id="offerings">
@@ -267,31 +268,36 @@ class CourseInfoDialog extends Component {
         </div>
       );
     }
-    const years = [];
-    let earliestYear = 20; // TO-DO: need to make this lively updated from the server for the current term
+    // const years = [];
+    // let earliestYear = 20; // TO-DO: need to make this lively updated from the server for the current term
 
-    console.log(course.terms_offered);
-    course.terms_offered.forEach((termOffered) => {
-      const term = termOffered.substring(termOffered.length - 1);
-      const yearInt = parseInt(termOffered.substring(0, termOffered.length - 1), 10);
+    // console.log(course.terms_offered);
+    // course.terms_offered.forEach((termOffered) => {
+    //   const term = termOffered.substring(termOffered.length - 1);
+    //   const yearInt = parseInt(termOffered.substring(0, termOffered.length - 1), 10);
 
-      if (yearInt < earliestYear) {
-        earliestYear = yearInt;
-      }
+    //   if (yearInt < earliestYear) {
+    //     earliestYear = yearInt;
+    //   }
 
-      const yearToModifyIndex = years.findIndex((element) => { return this.renderOfferingsYearFinder(element, yearInt); });
+    //   const yearToModifyIndex = years.findIndex((element) => { return this.renderOfferingsYearFinder(element, yearInt); });
 
-      if (yearToModifyIndex !== -1) {
-        years[yearToModifyIndex].terms.push(term);
-      } else {
-        years.push({
-          yearInt,
-          terms: [term],
-        });
-      }
+    //   if (yearToModifyIndex !== -1) {
+    //     years[yearToModifyIndex].terms.push(term);
+    //   } else {
+    //     years.push({
+    //       yearInt,
+    //       terms: [term],
+    //     });
+    //   }
+    // });
+
+    // years.sort(this.renderOfferingsSorter);
+
+    const years = Object.entries(course.yearlyOccurences).sort((e1, e2) => {
+      return e1[0] - e2[0];
     });
-
-    years.sort(this.renderOfferingsSorter);
+    console.log(years);
 
     return (
       <div id="offerings">
@@ -304,10 +310,10 @@ class CourseInfoDialog extends Component {
           <div className="the-term" id="X">X</div>
         </div>
         <div className="the-offerings">
-          {years.map((year) => {
+          {years.map(([year, terms]) => {
             return (
-              <div className="offering-row" key={year.yearInt}>
-                {this.renderOfferings(year)}
+              <div className="offering-row" key={year}>
+                {this.renderOfferings(year, terms)}
               </div>
             );
           })}
@@ -316,14 +322,15 @@ class CourseInfoDialog extends Component {
     );
   }
 
-  renderOfferings = (year) => {
+  renderOfferings = (year, terms) => {
     return (
       <>
-        <div className="offering-label">{`20${year.yearInt.toString()}:`}</div>
-        {year.terms.includes('F') ? <div className="an-offering" /> : null}
-        {year.terms.includes('W') ? <div className="an-offering" /> : null}
-        {year.terms.includes('S') ? <div className="an-offering" /> : null}
-        {year.terms.includes('X') ? <div className="an-offering" /> : null}
+        <div className="offering-label">{`20${year.toString()}:`}</div>
+        {
+          ['F', 'W', 'S', 'X'].map((term) => {
+            return <div className={`an-offering ${terms.includes(term) ? 'filled' : ''}`} />;
+          })
+        }
       </>
     );
   }
