@@ -60,36 +60,51 @@
             }
         }
 
-        .ok-button {
-            background: $text-accent;
-            padding: 5px 20px;
+        .dialog-message {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 12px;
-            cursor: pointer;
+            padding: 30px;
+            width: 100%;
+            color: $text-accent;
+            
+        }
 
-            .button-text {
-                font-family: $poppins;
-                font-weight: 500;
-                font-size: 14px;
-                color: $purple-light;
-                // background: linear-gradient(to right, #5797FD, #8901FB);
-                background-clip: text;
-                // text-transform: uppercase;
-            }
-
-            &:hover {
-                filter: brightness(150%); 
-            }
-            &:active {
-                background: $purple-light;
-                border: 1px $text-accent solid;
+        .dialog-actions {
+            display: flex;
+            .ok-button {
+                background: $text-accent;
+                padding: 5px 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 12px;
+                cursor: pointer;
+    
                 .button-text {
-                    color: $text-accent;
+                    font-family: $poppins;
+                    font-weight: 500;
+                    font-size: 14px;
+                    color: $purple-light;
+                    // background: linear-gradient(to right, #5797FD, #8901FB);
+                    background-clip: text;
+                    // text-transform: uppercase;
+                }
+    
+                &:hover {
+                    filter: brightness(150%); 
+                }
+                &:active {
+                    background: $purple-light;
+                    border: 1px $text-accent solid;
+                    .button-text {
+                        color: $text-accent;
+                    }
                 }
             }
-
+            .dialog-button-spacer {
+                width: 20px;
+            }
         }
+
+
     }
 }

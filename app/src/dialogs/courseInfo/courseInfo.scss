@@ -88,24 +88,22 @@
           #next-term {
               display: flex;
               flex-direction: column;
-              margin-right: 10%;
-              #offerings {
+              margin-right: 5%;
+              #periods {
                   display: flex;
                   flex-direction: column;
-                  span {
-                      font-size: 16px;
-                      font-weight: 700;
+                  .a-period {
+                      font-size: 14px;
+                      color: $gray-6;
                       text-align: center;
                       border: 1px solid $gray-5;
                       padding: 2px;
-                      width: fit-content;
                       margin-bottom: 4px;
                   }
               }
           }
           #description {
               text-overflow: ellipsis;
-              font-weight: 300;
               font-size: 14px;
               color: $text-accent;
               line-height: 20px;
@@ -121,7 +119,7 @@
           #distribs {
               display: flex;
               flex-direction: column;
-              max-width: 30%;
+              // max-width: 150px; //CSS-DEF: this is based on a guess of how wide this can get if a course has 2 distribs and 2 wcs
 
               #bubbles {
                   display: flex;
@@ -129,8 +127,11 @@
                   align-items: center;
 
                   .distrib-icon {
-                      width: 40px;
+                      width: 46px;
                       margin-right: 10px;
+                      &:hover {
+                        animation: jump 0.1s ease-in-out;
+                      }
                   }
 
                   .vertical-divider {
@@ -140,19 +141,20 @@
                   }
 
                   .wc-icon {
-                      width: 36px;
+                      width: 32px;
                       margin-left: 10px;
+                      &:hover {
+                        animation: jump 0.1s ease-in-out;
+                      }
                   }
               }
           }
           #medians {
-              max-width: 30%;
+              // max-width: 30%;
               overflow-x: hidden;
               display: flex;
               flex-direction: column;
-              // ::-webkit-scrollbar {
-              //     display: none;
-              // }
+
               #bubbles {
                   display: flex;
                   .median-bubble {
@@ -183,7 +185,7 @@
           #scores {
               display: flex;
               flex-direction: column;
-              max-width: 30%;
+              // max-width: 30%;
               color: $text-accent;
               font-size: 14px;
               text-overflow: ellipsis;
@@ -204,17 +206,23 @@
           max-height: 100%;
 
           #dependencies {
-            width:100%;
+            width: 100%;
             flex: 1;
             overflow-y: scroll;
             flex-wrap: wrap;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            overflow: visible;
+
+            .rule-header {
+              font-size: 14px;
+              color: $text-accent;
+            }
 
             .dependency {
-              flex:1;
-              padding:5px;
+              flex: 1;
+              margin-bottom: 10px;
             }
           }
         }
@@ -222,6 +230,12 @@
         #offerings {
           display: flex;
           flex-direction: column;
+          .offering-label {
+            font-size: 14px;
+            color: $text-accent;
+            min-width: 38.5px; //CSS-DEF this is calculated from the width of the letters "Term:" at 14px font.
+            margin-right: 15px;
+          }
           
           .offering-row {
             display: flex;
@@ -231,13 +245,13 @@
             margin-bottom: 5px;
             .the-term {
               display: flex;
-              width: 20px;
+              min-width: 20px;
             }
           }
           .the-offerings {
             .offering-row {
               .an-offering {
-                width: 5px;
+                min-width: 5px;
                 height: 5px;
                 margin-right: 15px;
                 &.filled {

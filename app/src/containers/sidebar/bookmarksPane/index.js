@@ -42,16 +42,16 @@ const component = (props) => {
           <div className="bookmarked-courses-list">
             {props.bookmarks.map((course, index) => {
               return (
-                <>
+                <div key={course.id}>
                   <div className="paneCourse">
-                    <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
-                    <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip />
-                    <ReactTooltip place="right" type="dark" effect="float">
+                    <DraggableCourse course={course} />
+                    <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip data-for={course.id} />
+                    <ReactTooltip id={course.id} place="right" type="dark" effect="float">
                       {course.offered ? `Offered ${props.currTerm.year.toString() + props.currTerm.term}` : `Not offered ${props.currTerm.year.toString() + props.currTerm.term}`}
                     </ReactTooltip>
                   </div>
                   <div id="course-spacer-large" />
-                </>
+                </div>
               );
             })}
           </div>

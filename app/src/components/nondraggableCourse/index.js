@@ -13,7 +13,7 @@ import '../draggableCourse/draggableCourse.scss';
 class NonDraggableCOurse extends React.Component {
   constructor(props) {
     super(props);
-    console.log('COURSE', props);
+    // console.log('COURSE', props);
     this.state = {
       beingHovered: false,
     };

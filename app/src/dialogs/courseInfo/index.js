@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
-// import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import {
   addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
@@ -36,13 +35,15 @@ class CourseInfoDialog extends Component {
     const wcs = [];
     if (course.distribs && course.distribs.length) {
       course.distribs.forEach((distrib) => {
-        if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
-          wcs.push(GenEds[distrib]);
-        } else {
-          distribs.push(GenEds[distrib]);
-        }
+        distribs.push(GenEds[distrib]);
       });
     }
+    if (course.wcs && course.wcs.length) {
+      course.wcs.forEach((wc) => {
+        wcs.push(GenEds[wc]);
+      });
+    }
+
     return (
       <div id="distribs">
         <div className="section-header">Distributives</div>
@@ -143,19 +144,25 @@ class CourseInfoDialog extends Component {
 
   /**
    * Handles rendering of information for next term, if offered.
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON HAVING A UNIVERSAL TERM ON OUR API SERVER
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON FIXING THE [timeslot] PROPERTY.
+   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON GETTING THE PROFESSORS FOR EACH TIMESLOT
    * @param {*} course
-   * @param {String} nextTerm
    */
-  renderNextTerm = (course, nextTerm) => {
-    if (nextTerm === course.term) {
+  renderNextTerm = (course) => {
+    if (course.offered) {
       return (
         <div id="next-term">
-          <div className="section-header">Offered Next Term</div>
-          <div id="offerings">
-            <span>{course.timeslot} - hour</span>
-            <span>2A - hour</span>
+          <div className="section-header">{`${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}</div>
+          <div id="periods">
+            {course.periods.map((period) => {
+              return (
+                <div className="a-period" key={period}>
+                  <span data-tip data-for={period}>{period}</span>
+                  <ReactTooltip id={period} place="right" type="dark" effect="float">
+                    {`Offered period ${period.toString()} for ${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}
+                  </ReactTooltip>
+                </div>
+              );
+            })}
           </div>
         </div>
       );
@@ -193,23 +200,23 @@ class CourseInfoDialog extends Component {
     const renderPrereqByType = (o, dependencyType) => {
       if (dependencyType === 'range') {
         return (
-          <div>
+          <div className="rule">
             One from {course.department} {o[dependencyType][0]} {(o[dependencyType][1] === 300) ? '+' : ` - ${o[dependencyType][1]}`}
           </div>
         );
       } else if (dependencyType === 'abroad') {
         return (
-          <div>
-            This course requires having been abroad.
+          <div className="rule">
+            Study abroad needed.
           </div>
         );
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
           return (
-            <NonDraggableCourse
-              key={c.id.toString()}
-              course={c}
-            />
+            <div key={c.id.toString()}>
+              <NonDraggableCourse course={c} />
+              <div id="course-spacer-large" />
+            </div>
           );
         });
       }
@@ -227,7 +234,8 @@ class CourseInfoDialog extends Component {
 
             const render = (
               <div key={i.toString()} className="dependency">
-                <div className="section-header">{Dependencies[dependencyType]}</div>
+                <div className="rule-header">{Dependencies[dependencyType]}</div>
+                <div id="course-spacer-large" />
                 {renderPrereqByType(o, dependencyType)}
               </div>
             );
@@ -254,7 +262,7 @@ class CourseInfoDialog extends Component {
     if (!course.terms_offered) {
       return (
         <div id="offerings">
-          <div className="section-header">Offerings</div>
+          <div className="section-header">Past Offerings</div>
           <div className="sad">No historical offering data.</div>
         </div>
       );
@@ -287,8 +295,9 @@ class CourseInfoDialog extends Component {
 
     return (
       <div id="offerings">
-        <div className="section-header">Offerings</div>
+        <div className="section-header">Past Offerings</div>
         <div className="the-terms offering-row">
+          <div className="offering-label">Term:</div>
           <div className="the-term" id="F">F</div>
           <div className="the-term">W</div>
           <div className="the-term">S</div>
@@ -308,24 +317,18 @@ class CourseInfoDialog extends Component {
   }
 
   renderOfferings = (year) => {
-    console.log(year.terms);
     return (
       <>
-        {year.terms.includes('F') ? <div className="an-offering filled" /> : <div className="an-offering" />}
-        {year.terms.includes('W') ? <div className="an-offering filled" /> : <div className="an-offering" />}
-        {year.terms.includes('S') ? <div className="an-offering filled" /> : <div className="an-offering" />}
-        {year.terms.includes('X') ? <div className="an-offering filled" /> : <div className="an-offering" />}
+        <div className="offering-label">{`20${year.yearInt.toString()}:`}</div>
+        {year.terms.includes('F') ? <div className="an-offering" /> : null}
+        {year.terms.includes('W') ? <div className="an-offering" /> : null}
+        {year.terms.includes('S') ? <div className="an-offering" /> : null}
+        {year.terms.includes('X') ? <div className="an-offering" /> : null}
       </>
     );
   }
 
   renderOfferingsYearFinder = (element, desiredYear) => {
-    return (element.yearInt === desiredYear);
-  }
-
-  fuck = (element, desiredYear) => {
-    console.log(`\tit is ${element.yearInt.toString()}`);
-    console.log(`\tlooking for ${desiredYear.toString()}`);
     return (element.yearInt === desiredYear);
   }
 
@@ -351,7 +354,12 @@ class CourseInfoDialog extends Component {
               ? () => this.props.removeCourseFromFavorites(this.props.data.id)
               : () => this.props.addCourseToFavorites(this.props.data.id)
           }
+          data-tip
+          data-for="bookmark"
         />
+        <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
+          {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
+        </ReactTooltip>
         <div className="spacer" />
         <img
           className="action"
@@ -366,7 +374,12 @@ class CourseInfoDialog extends Component {
                 .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
           }
+          data-tip
+          data-for="plus"
         />
+        <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
+          {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
+        </ReactTooltip>
       </div>
     );
   }
@@ -382,7 +395,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="content">
         <div id="top">
-          <div id="major">Major features coming soon!</div>
+          <div id="major">{`Department: ${course.department}`}</div>
           { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
         </div>
         <hr className="horizontal-divider" />
@@ -414,6 +427,7 @@ class CourseInfoDialog extends Component {
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
+  currTerm: state.time.currTerm,
   plan: state.plans.current,
   user: state.user.current,
 });
