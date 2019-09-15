@@ -268,34 +268,9 @@ class CourseInfoDialog extends Component {
         </div>
       );
     }
-    // const years = [];
-    // let earliestYear = 20; // TO-DO: need to make this lively updated from the server for the current term
-
-    // console.log(course.terms_offered);
-    // course.terms_offered.forEach((termOffered) => {
-    //   const term = termOffered.substring(termOffered.length - 1);
-    //   const yearInt = parseInt(termOffered.substring(0, termOffered.length - 1), 10);
-
-    //   if (yearInt < earliestYear) {
-    //     earliestYear = yearInt;
-    //   }
-
-    //   const yearToModifyIndex = years.findIndex((element) => { return this.renderOfferingsYearFinder(element, yearInt); });
-
-    //   if (yearToModifyIndex !== -1) {
-    //     years[yearToModifyIndex].terms.push(term);
-    //   } else {
-    //     years.push({
-    //       yearInt,
-    //       terms: [term],
-    //     });
-    //   }
-    // });
-
-    // years.sort(this.renderOfferingsSorter);
 
     const years = Object.entries(course.yearlyOccurences).sort((e1, e2) => {
-      return e1[0] - e2[0];
+      return e2[0] - e1[0];
     });
     console.log(years);
 
