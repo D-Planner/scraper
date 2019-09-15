@@ -20,6 +20,19 @@
             font-size: 14px;
             color: $gray-6;
             margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+
+            .professor-course {
+                margin:5px;
+                padding:5px;
+                cursor: pointer;
+                border-bottom:1px solid $purple-primary;
+
+                &:hover{
+                    color:black;
+                }
+            }
 
         }
 

@@ -62,8 +62,9 @@ class Professor extends React.Component {
               Object.keys(this.state.professor.reviews).map((course, i) => {
                 return (
                   <>
-                    <Link to={course} spy smooth duration={500}>{course}</Link>
-                    {(i !== Object.keys(this.state.professor.reviews).length) ? ' I ' : ''}
+                    <Link to={course} spy smooth duration={500}>
+                      <div className="professor-course">{course}</div>
+                    </Link>
                   </>
                 );
               })
