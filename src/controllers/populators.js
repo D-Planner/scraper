@@ -15,7 +15,6 @@ export const PopulateTerm = [{
     path: 'courses',
     populate: [{
         path: 'course',
-        select: '-reviews',
         populate: PopulateCourse,
     }, {
         path: 'previousCourses',
@@ -29,4 +28,5 @@ export const PopulateUser = [{
     path: 'favorite_courses',
 }, {
     path: 'placement_courses',
+    populate: PopulateCourse,
 }];
