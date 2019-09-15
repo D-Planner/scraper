@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 // import async from 'async';
 import classNames from 'classnames';
+import ReactTooltip from 'react-tooltip';
 import Majors from '../../majors';
 // import checkedIcon from '../../../style/checkboxChecked.svg';
 // import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
@@ -134,7 +135,8 @@ const RequirementsPane = (props) => {
         {Object.values(GenEds).map((genEd) => {
           return (
             <div key={genEd.name} className="genEd-row">
-              <img className="icon" src={genEd.icon} alt={`${genEd.name} icon`} />
+              <img className="icon" src={genEd.icon} alt={`${genEd.name} icon`} data-tip data-for={genEd.name} />
+              <ReactTooltip id={genEd.name} place="right" type="dark" effect="float">{genEd.fullName}</ReactTooltip>
               {/* <div className="genEd-name">{genEd.fullName}</div> */}
               <div className="checkbox complete">{genEd.fulfilled ? 'Complete' : 'Incomplete'}</div>
               {/* <img className="checkbox" src={genEd.fulfilled ? checkedIcon : uncheckedIcon} alt="checkbox" /> */}

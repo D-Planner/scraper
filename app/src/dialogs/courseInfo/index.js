@@ -25,6 +25,11 @@ const Dependencies = {
 
 /** displays information on a course -- displayed when a draggable course is clicked without dragging */
 class CourseInfoDialog extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
+
   /**
    * Handles rendering of distributive bubbles.
    * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
@@ -179,7 +184,6 @@ class CourseInfoDialog extends Component {
       <div id="professors">
         <div className="section-header">Professor Reviews</div>
         {professors.map((p) => {
-          console.log(p);
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
@@ -259,7 +263,6 @@ class CourseInfoDialog extends Component {
   }
 
   renderOfferingsWrapper = (course) => {
-    console.log(course.yearlyOccurences);
     if (!course.terms_offered) {
       return (
         <div id="offerings">
@@ -272,7 +275,6 @@ class CourseInfoDialog extends Component {
     const years = Object.entries(course.yearlyOccurences).sort((e1, e2) => {
       return e2[0] - e1[0];
     });
-    console.log(years);
 
     return (
       <div id="offerings">
