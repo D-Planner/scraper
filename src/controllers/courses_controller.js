@@ -252,9 +252,9 @@ const filledValues = (course) => {
                                     Course.findByIdAndUpdate(
                                         linkedCourse._id,
                                         { $addToSet: { xlist: origCourse._id } },
-                                    );
-                                    // .then((r) => { return console.log(r); }).catch((e) => { return console.log(e); });
-                                    // console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
+                                    )
+                                        .then((r) => { return r; }).catch((e) => { console.log(e); });
+                                    console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
                                 }
                             });
                         // Return the linked course to set the xlisted for the original course
@@ -310,11 +310,10 @@ const createCourse = (req, res) => {
                     terms_offered: course.terms_offered,
                     professors: profUnique,
                     prerequisites,
+                    $addToSet: { xlist: { $each: xlist.flat() } },
                 },
                 { upsert: true },
             ).then((res) => {
-                return Course.findByIdAndUpdate(res._id, { $addToSet: { xlist: { $each: xlist.flat() } } });
-            }).then((res) => {
                 return res;
             }).catch((error) => {
                 return error;
