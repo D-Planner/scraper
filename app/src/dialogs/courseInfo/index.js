@@ -162,17 +162,6 @@ class CourseInfoDialog extends Component {
     } else return null;
   }
 
-  // showProfesssorInfoDialog = (professor) => {
-  //   fetchCourseProfessors(professor._id).then((prof) => {
-  //     const dialogOptions = {
-  //       data: prof,
-  //       size: 'lg',
-  //       showOk: false,
-  //     };
-  //     this.props.showDialog(DialogTypes.PROFESSOR_INFO, dialogOptions);
-  //   });
-  // }
-
   /**
    * Test for Professors
    *
