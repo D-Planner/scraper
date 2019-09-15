@@ -180,16 +180,14 @@ const filledValues = (course) => {
             let reviews = course.reviews ? course.reviews.filter((review) => {
                 return review.includes(profName);
             }) : [];
-            reviews = reviews.length ? reviews
-                .map((review) => {
-                    const term = review.match(/\d{2}['X'|'F'|'W'|'S']/)[0];
-                    review = review.substring(review.indexOf(':') + 2).toString();
-                    return { course: course.name, term, review };
-                }) : [];
-
+            reviews = reviews.map((review) => {
+                return `${course.name}:${review}`;
+            });
             // Find and Update the document
             return Professor.findOneAndUpdate(
-                { nameLowCase: profName.toLowerCase() },
+                {
+                    nameLowCase: profName.toLowerCase(),
+                },
                 {
                     name: profName,
                     $addToSet: { reviews: { $each: reviews } },
@@ -305,7 +303,7 @@ const createCourse = (req, res) => {
                     number: course.number,
                     periods: course.periods,
                     description: course.description,
-                    reviews: course.reviews,
+                    // reviews: course.reviews,
                     similar_courses: course.similar_courses,
                     orc_url: course.orc_url,
                     medians: course.medians,
