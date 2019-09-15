@@ -182,7 +182,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="professors">
         <div className="section-header">Professor Reviews</div>
-        {professors.slice(0, 5).map((p) => {
+        {professors.map((p) => {
           console.log(p);
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
