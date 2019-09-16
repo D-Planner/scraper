@@ -176,14 +176,24 @@ const getCourseByNumber = (req, res) => {
 const filledValues = (course) => {
     let professors = [];
     if (course.professors) {
-        professors = course.professors.map((name) => {
-            const query = { name };
-            const update = { name };
-            const options = { upsert: true, new: true, setDefaultsOnInsert: true };
-
-            // Find the document
-            const res = Professor.findOneAndUpdate(query, update, options);
-            return res.exec().then((r) => {
+        professors = course.professors.map((profName) => {
+            let reviews = course.reviews ? course.reviews.filter((review) => {
+                return review.includes(profName);
+            }) : [];
+            reviews = reviews.map((review) => {
+                return `${course.name}:${review}`;
+            });
+            // Find and Update the document
+            return Professor.findOneAndUpdate(
+                {
+                    nameLowCase: profName.toLowerCase(),
+                },
+                {
+                    name: profName,
+                    $addToSet: { reviews: { $each: reviews } },
+                },
+                { upsert: true, new: true },
+            ).then((r) => {
                 return r._id;
             });
         });
@@ -242,8 +252,9 @@ const filledValues = (course) => {
                                     Course.findByIdAndUpdate(
                                         linkedCourse._id,
                                         { $addToSet: { xlist: origCourse._id } },
-                                    ).then((r) => { return console.log(r); }).catch((e) => { return console.log(e); });
-                                    // console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
+                                    )
+                                        .then((r) => { return r; }).catch((e) => { console.log(e); });
+                                    console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
                                 }
                             });
                         // Return the linked course to set the xlisted for the original course
@@ -273,6 +284,8 @@ const createCourse = (req, res) => {
                 distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
             }
             const [xlist, prerequisites, professors] = r;
+            const profUnique = Array.from(new Set(professors.map((p) => { return p.toString(); })));
+            // if (course.name === 'Problem Solving via Object-Oriented Programming') console.log(profUnique);
             return Course.findOneAndUpdate(
                 { title: course.title },
                 {
@@ -290,18 +303,17 @@ const createCourse = (req, res) => {
                     number: course.number,
                     periods: course.periods,
                     description: course.description,
-                    reviews: course.reviews,
+                    // reviews: course.reviews,
                     similar_courses: course.similar_courses,
                     orc_url: course.orc_url,
                     medians: course.medians,
                     terms_offered: course.terms_offered,
-                    professors,
+                    professors: profUnique,
                     prerequisites,
+                    $addToSet: { xlist: { $each: xlist.flat() } },
                 },
                 { upsert: true },
             ).then((res) => {
-                return Course.findByIdAndUpdate(res._id, { $addToSet: { xlist: { $each: xlist.flat() } } });
-            }).then((res) => {
                 return res;
             }).catch((error) => {
                 return error;

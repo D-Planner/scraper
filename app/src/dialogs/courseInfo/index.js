@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
-// import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import {
-  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser,
+  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -14,7 +14,7 @@ import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
-import { GenEds } from '../../constants';
+import { GenEds, APP_URL } from '../../constants';
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -25,6 +25,11 @@ const Dependencies = {
 
 /** displays information on a course -- displayed when a draggable course is clicked without dragging */
 class CourseInfoDialog extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
+
   /**
    * Handles rendering of distributive bubbles.
    * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
@@ -35,13 +40,15 @@ class CourseInfoDialog extends Component {
     const wcs = [];
     if (course.distribs && course.distribs.length) {
       course.distribs.forEach((distrib) => {
-        if (distrib === 'W' || distrib === 'NW' || distrib === 'CI') {
-          wcs.push(GenEds[distrib]);
-        } else {
-          distribs.push(GenEds[distrib]);
-        }
+        distribs.push(GenEds[distrib]);
       });
     }
+    if (course.wcs && course.wcs.length) {
+      course.wcs.forEach((wc) => {
+        wcs.push(GenEds[wc]);
+      });
+    }
+
     return (
       <div id="distribs">
         <div className="section-header">Distributives</div>
@@ -142,19 +149,25 @@ class CourseInfoDialog extends Component {
 
   /**
    * Handles rendering of information for next term, if offered.
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON HAVING A UNIVERSAL TERM ON OUR API SERVER
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON FIXING THE [timeslot] PROPERTY.
+   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON GETTING THE PROFESSORS FOR EACH TIMESLOT
    * @param {*} course
-   * @param {String} nextTerm
    */
-  renderNextTerm = (course, nextTerm) => {
-    if (nextTerm === course.term) {
+  renderNextTerm = (course) => {
+    if (course.offered) {
       return (
         <div id="next-term">
-          <div className="section-header">Offered Next Term</div>
-          <div id="offerings">
-            <span>{course.timeslot} - hour</span>
-            <span>2A - hour</span>
+          <div className="section-header">{`${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}</div>
+          <div id="periods">
+            {course.periods.map((period) => {
+              return (
+                <div className="a-period" key={period}>
+                  <span data-tip data-for={period}>{period}</span>
+                  <ReactTooltip id={period} place="right" type="dark" effect="float">
+                    {`Offered period ${period.toString()} for ${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}
+                  </ReactTooltip>
+                </div>
+              );
+            })}
           </div>
         </div>
       );
@@ -169,10 +182,16 @@ class CourseInfoDialog extends Component {
   renderProfessors = (professors) => {
     return (
       <div id="professors">
-        <div className="section-header">Professors</div>
-        {professors.slice(0, 5).map((p) => {
+        <div className="section-header">Professor Reviews</div>
+        {professors.map((p) => {
           return (
-            <div key={p.name} className="professor">{p.name}</div>
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            <div key={p.name} className="professor">
+              <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
+              <ReactTooltip id={p.id} place="right" type="dark" effect="float">
+                See all reviews
+              </ReactTooltip>
+            </div>
           );
         })}
       </div>
@@ -185,24 +204,23 @@ class CourseInfoDialog extends Component {
     const renderPrereqByType = (o, dependencyType) => {
       if (dependencyType === 'range') {
         return (
-          <div>
+          <div className="rule">
             One from {course.department} {o[dependencyType][0]} {(o[dependencyType][1] === 300) ? '+' : ` - ${o[dependencyType][1]}`}
           </div>
         );
       } else if (dependencyType === 'abroad') {
         return (
-          <div>
-            This course requires having been abroad.
+          <div className="rule">
+            Study abroad needed.
           </div>
         );
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
-          console.log('Prereq', c);
           return (
-            <NonDraggableCourse
-              key={c.id.toString()}
-              course={c}
-            />
+            <div key={c.id.toString()}>
+              <NonDraggableCourse course={c} currTerm={this.props.currTerm} />
+              <div id="course-spacer-large" />
+            </div>
           );
         });
       }
@@ -220,7 +238,8 @@ class CourseInfoDialog extends Component {
 
             const render = (
               <div key={i.toString()} className="dependency">
-                <div className="section-header">{Dependencies[dependencyType]}</div>
+                <div className="rule-header">{Dependencies[dependencyType]}</div>
+                <div id="course-spacer-large" />
                 {renderPrereqByType(o, dependencyType)}
               </div>
             );
@@ -247,49 +266,31 @@ class CourseInfoDialog extends Component {
     if (!course.terms_offered) {
       return (
         <div id="offerings">
-          <div className="section-header">Offerings</div>
+          <div className="section-header">Past Offerings</div>
           <div className="sad">No historical offering data.</div>
         </div>
       );
     }
-    const years = [];
-    let earliestYear = 20; // TO-DO: need to make this lively updated from the server for the current term
 
-    course.terms_offered.forEach((termOffered) => {
-      const term = termOffered.substring(termOffered.length - 1);
-      const yearInt = parseInt(termOffered.substring(0, termOffered.length - 1), 10);
-
-      if (yearInt < earliestYear) {
-        earliestYear = yearInt;
-      }
-
-      const yearToModifyIndex = years.findIndex((element) => { return this.renderOfferingsYearFinder(element, yearInt); });
-
-      if (yearToModifyIndex !== -1) {
-        years[yearToModifyIndex].terms.push(term);
-      } else {
-        years.push({
-          yearInt,
-          terms: [term],
-        });
-      }
+    const years = Object.entries(course.yearlyOccurences).sort((e1, e2) => {
+      return e2[0] - e1[0];
     });
 
-    years.sort(this.renderOfferingsSorter);
     return (
       <div id="offerings">
-        <div className="section-header">Offerings</div>
+        <div className="section-header">Past Offerings</div>
         <div className="the-terms offering-row">
+          <div className="offering-label">Term:</div>
           <div className="the-term" id="F">F</div>
           <div className="the-term">W</div>
           <div className="the-term">S</div>
           <div className="the-term" id="X">X</div>
         </div>
         <div className="the-offerings">
-          {years.map((year) => {
+          {years.map(([year, terms]) => {
             return (
-              <div className="offering-row" key={year.yearInt}>
-                {this.renderOfferings(year)}
+              <div className="offering-row" key={year}>
+                {this.renderOfferings(year, terms)}
               </div>
             );
           })}
@@ -298,25 +299,20 @@ class CourseInfoDialog extends Component {
     );
   }
 
-  renderOfferings = (year) => {
-    console.log(year.terms);
+  renderOfferings = (year, terms) => {
     return (
       <>
-        {year.terms.includes('F') ? <div className="an-offering" /> : null}
-        {year.terms.includes('W') ? <div className="an-offering" /> : null}
-        {year.terms.includes('S') ? <div className="an-offering" /> : null}
-        {year.terms.includes('X') ? <div className="an-offering" /> : null}
+        <div className="offering-label">{`20${year.toString()}:`}</div>
+        {
+          ['F', 'W', 'S', 'X'].map((term) => {
+            return <div className={`an-offering ${terms.includes(term) ? 'filled' : ''}`} />;
+          })
+        }
       </>
     );
   }
 
   renderOfferingsYearFinder = (element, desiredYear) => {
-    return (element.yearInt === desiredYear);
-  }
-
-  fuck = (element, desiredYear) => {
-    console.log(`\tit is ${element.yearInt.toString()}`);
-    console.log(`\tlooking for ${desiredYear.toString()}`);
     return (element.yearInt === desiredYear);
   }
 
@@ -342,7 +338,12 @@ class CourseInfoDialog extends Component {
               ? () => this.props.removeCourseFromFavorites(this.props.data.id)
               : () => this.props.addCourseToFavorites(this.props.data.id)
           }
+          data-tip
+          data-for="bookmark"
         />
+        <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
+          {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
+        </ReactTooltip>
         <div className="spacer" />
         <img
           className="action"
@@ -357,7 +358,12 @@ class CourseInfoDialog extends Component {
                 .then(() => this.props.fetchPlan(this.props.plan.id))
                 .then(() => this.props.fetchUser())
           }
+          data-tip
+          data-for="plus"
         />
+        <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
+          {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
+        </ReactTooltip>
       </div>
     );
   }
@@ -368,11 +374,12 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
+    console.log(course);
     // console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
         <div id="top">
-          <div id="major">Major features coming soon!</div>
+          <div id="major">{`Department: ${course.department}`}</div>
           { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
         </div>
         <hr className="horizontal-divider" />
@@ -404,10 +411,11 @@ class CourseInfoDialog extends Component {
 
 const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
+  currTerm: state.time.currTerm,
   plan: state.plans.current,
   user: state.user.current,
 });
 
 export default connect(mapStateToProps, {
-  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement,
+  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement, showDialog, fetchCourseProfessors,
 })(CourseInfoDialog);

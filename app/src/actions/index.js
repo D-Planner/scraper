@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ROOT_URL } from '../constants';
 
 export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
@@ -13,6 +14,7 @@ export const ActionTypes = {
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   FETCH_MAJORS: 'FETCH_MAJORS',
   UPDATE_USERCOURSE: 'UPDATE_USERCOURSE',
+  FETCH_PROFESSORS: 'FETCH_PROFESSORS',
   FETCH_PROFESSOR: 'FETCH_PROFESSOR',
   FETCH_PREV_COURSES: 'FETCH_PREV_COURSES',
   COURSE_SEARCH: 'COURSE_SEARCH',
@@ -32,8 +34,6 @@ export const ActionTypes = {
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
 };
-
-const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'http://api.d-planner.com';
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
@@ -415,15 +415,20 @@ export function fetchBookmarks() {
  * @export
  * @returns an action creator to gather all bookmarked courses and store them in the redux store
  */
-export function fetchProfessors(id) {
+export function fetchCourseProfessors(id) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  axios.get(`${ROOT_URL}/professors/${id}`, { headers }).then((r) => {
-    console.log(r);
-  }).catch((e) => {
-    console.log(e);
-  });
+  return new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/professors/${id}`, { headers }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve(response.data);
+    }).catch((error) => {
+      console.log(error);
+      reject(error);
+    });
+  }));
 }
 
 /**
