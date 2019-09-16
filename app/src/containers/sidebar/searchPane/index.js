@@ -1,7 +1,6 @@
 /* eslint-disable no-case-declarations */
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import ReactTooltip from 'react-tooltip';
 import filterIcon from '../../../style/filter.svg';
 import arrowDropDown from '../../../style/arrowDropDown.svg';
 import { DialogTypes, GenEds } from '../../../constants';
@@ -120,11 +119,7 @@ const SearchPane = (props) => {
                   return (
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
-                        <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
-                        <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip />
-                        <ReactTooltip place="right" type="dark" effect="float">
-                          {course.offered ? `Offered ${props.currTerm.year.toString() + props.currTerm.term}` : `Not offered ${props.currTerm.year.toString() + props.currTerm.term}`}
-                        </ReactTooltip>
+                        <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} />
                       </div>
                       <div id="course-spacer-large" />
                     </div>

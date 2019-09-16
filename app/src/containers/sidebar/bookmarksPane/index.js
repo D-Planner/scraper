@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import ReactTooltip from 'react-tooltip';
 import { DropTarget as BookmarksPane } from 'react-dnd';
 import { ItemTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
@@ -44,11 +43,7 @@ const component = (props) => {
               return (
                 <div key={course.id}>
                   <div className="paneCourse">
-                    <DraggableCourse course={course} />
-                    <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip data-for={course.id} />
-                    <ReactTooltip id={course.id} place="right" type="dark" effect="float">
-                      {course.offered ? `Offered ${props.currTerm.year.toString() + props.currTerm.term}` : `Not offered ${props.currTerm.year.toString() + props.currTerm.term}`}
-                    </ReactTooltip>
+                    <DraggableCourse course={course} currTerm={props.currTerm} />
                   </div>
                   <div id="course-spacer-large" />
                 </div>

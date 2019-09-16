@@ -147,6 +147,7 @@ class ProfileDialog extends Component {
           <NonDraggableCourse
             key={i.toString()}
             course={c}
+            currTerm={this.props.currTerm}
           />
         );
       })
@@ -165,6 +166,7 @@ class ProfileDialog extends Component {
 const mapStateToProps = state => ({
   user: state.user.current,
   plan: state.plans.current,
+  currTerm: state.time.currTerm,
 });
 
 export default (connect(mapStateToProps, {

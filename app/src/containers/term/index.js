@@ -195,7 +195,7 @@ class Term extends Component {
             <div className="course-row-with-space" key={course.id}>
               <div className="course-row">
                 <DraggableUserCourse
-                  size={(this.isCurrTerm() ? 'sm' : 'bg')}
+                  size={(this.isCurrTerm() ? 'sm' : 'lg')}
                   key={course.id}
                   catalogCourse={course.course}
                   course={course}
