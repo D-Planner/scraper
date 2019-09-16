@@ -6,8 +6,13 @@ $course-width-xlarge: 240px; // This needs a more precise number, need Zirui to 
 $course-width-large: 203px;
 $course-width-small: 181px;
 
+.popover{
+  display:flex;
+  align-items: center;
+}
 
 .course {
+  flex:1;
     background-color: $white;
     padding: 0 6px 0 6px;
     color: $text-accent;
@@ -25,7 +30,7 @@ $course-width-small: 181px;
     &.xl{
       width:$course-width-xlarge;
     }
-    &.bg {
+    &.lg {
       width: $course-width-large;
     }
     &.sm {
