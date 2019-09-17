@@ -7,7 +7,7 @@ const LikelyTerms = (props) => {
   if (!props.terms) {
     return (
       <>
-        <div className="likely-terms">No offering data</div>
+        <div className="likely-terms">No data</div>
       </>
     );
   }
