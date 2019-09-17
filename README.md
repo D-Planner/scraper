@@ -146,7 +146,7 @@ Finally add, commit, and push your changes to Heroku. Note that the `git push` c
 ```
 git add .
 git commit -m "all the code"
-git subtree push --prefix api heroku master
+git subtree push --prefix api origin heroku
 ```
 
 ## Authors
