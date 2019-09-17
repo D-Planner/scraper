@@ -38,6 +38,11 @@ code {
     width: 5px;
   }
 
+  .scroll-bar {
+    width: 0px;
+    display: none;
+  }
+
   /* Track */
   ::-webkit-scrollbar-track {
     display: none;
