@@ -254,7 +254,7 @@ const filledValues = (course) => {
                                         { $addToSet: { xlist: origCourse._id } },
                                     )
                                         .then((r) => { return r; }).catch((e) => { console.log(e); });
-                                    console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
+                                    // console.log('Adding', origCourse.name, 'as an xlisted course for', linkedCourse.name);
                                 }
                             });
                         // Return the linked course to set the xlisted for the original course
