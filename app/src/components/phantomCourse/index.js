@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import './PhantomCourse.scss';
 
 const renderLikelyTermInfo = (props, certainNot) => {
-  if (props.certainOffered) return <div className="good">Likely offered</div>;
+  if (props.certainOffered) return <div className="good">Offered</div>;
   if (!props.likelyTerm || !props.likelyYear) {
     return certainNot ? <div className="error">Not offered!</div> : <div className="warning">Unlikely to be offered</div>;
   } else if (props.likelyTerm && props.likelyYear) {
