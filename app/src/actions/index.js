@@ -65,8 +65,12 @@ export function setDraggingFulfilledStatus(planID, courseID) {
 }
 
 export function getTimes() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
   return dispatch => new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/globals/`).then((response) => {
+    axios.get(`${ROOT_URL}/globals/`, { headers }).then((response) => {
+      console.log(response);
       dispatch({ type: ActionTypes.FETCH_TIME, payload: response.data });
       resolve();
     }).catch((error) => {
