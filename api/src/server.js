@@ -76,7 +76,7 @@ app.use('/plans', requireAuth, plansRouter);
 app.use('/courses', requireAuth, coursesRouter);
 app.use('/terms', requireAuth, termsRouter);
 app.use('/majors', requireAuth, majorsRouter);
-app.use('/professors', requireAuth, professorsRouter);
+app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
 
 
