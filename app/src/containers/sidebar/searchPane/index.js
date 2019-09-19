@@ -68,6 +68,7 @@ const SearchPane = (props) => {
           placeholder="Search for courses"
           value={props.searchQuery}
           onChange={(e) => {
+            alert(e.target.value);
             props.setSearchQuery(e.target.value);
           }}
         />

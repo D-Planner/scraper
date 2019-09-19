@@ -1,0 +1,31 @@
+// @import "../../style/variables.scss"
+
+$content-height: calc(100vh);
+$content-dividw: 100px;
+$content-padding-top: 25vh;
+
+//TODO: Add styling to thingy
+.colContainer {
+    width: 100%;
+    height: $content-height;
+    display: flex;
+    flex-direction: column;
+
+    .skip {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+}
+
+.rowContainer {
+  width: 100%;
+  height: $content-height;
+  display: flex;
+  flex-direction: row;
+}

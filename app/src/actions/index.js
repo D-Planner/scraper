@@ -534,6 +534,7 @@ export function stampIncrement(stamp) {
  * @param {String} type
  */
 export function courseSearch(query, stamp) {
+  console.log(query);
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/search`, {
       params: query,
