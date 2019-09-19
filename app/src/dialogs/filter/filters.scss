@@ -1,0 +1,21 @@
+@import '../../style/variables.scss';
+
+.filter-content {
+    display: flex;
+    flex-direction: row;
+
+    .choice {
+        display: flex;
+        justify-content: space-between;
+        width: 60px;
+    }
+
+    .filter-distribs {
+        display: flex;
+        flex-direction: column;
+    }
+    .filter-wcs {
+        display: flex;
+        flex-direction: column;
+    }
+}
