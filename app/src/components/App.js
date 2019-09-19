@@ -32,7 +32,7 @@ const App = (props) => {
               <Route path="/professors/:id" component={Professor} />
               <Route path="/discover" component={Cytoscape} />
               <Route path="/plan/:id" component={DPlan} />
-              <Route path="/tutorial" component={Tutorial} />
+              <Route path="/tutorial" component={requireAuth(Landing, Tutorial)} />
               <Route component={FallBack} />
             </Switch>
           </div>

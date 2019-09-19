@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Term from '../../containers/term';
 import Courses from '../../containers/courses';
 import SearchPane from '../../containers/sidebar/searchPane';
+import RequirementsPane from '../../containers/sidebar/requirementsPane';
 
 import {
   addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
@@ -11,10 +13,7 @@ import {
 import './tutorial.scss';
 
 // Testing
-import feature1 from '../../style/feature1.svg';
-
-// Need to check authentication before allowing entry
-// Allow for different components to be inserted into the tutorial
+import feature1 from '../../style/dplanner-19.png';
 
 const tutorialData = [
   {
@@ -30,16 +29,34 @@ const tutorialData = [
     text: '1',
   },
   {
-    title: 'The  Basics.',
+    title: 'Course Items.',
     isInteractable: true,
-    graphic: 'term',
+    graphic: 'course',
     text: '2',
   },
   {
-    title: 'Advanced Topics.',
+    title: 'Course Items.',
+    isInteractable: true,
+    graphic: 'course',
+    text: '3',
+  },
+  {
+    title: 'Term Modules.',
+    isInteractable: true,
+    graphic: 'term',
+    text: '4',
+  },
+  {
+    title: 'Finding Classes.',
     isInteractable: true,
     graphic: 'search',
-    text: '3',
+    text: '5',
+  },
+  {
+    title: 'Your Degree.',
+    isInteractable: true,
+    graphic: 'degree',
+    text: '6',
   },
 ];
 
@@ -75,38 +92,48 @@ class Tutorial extends React.Component {
   }
 
   renderComponent = (component) => {
-    switch (component) {
-      case 'term':
-        return null;
-        // return (<Term />);
+    if (component.isInteractable) {
+      switch (component.graphic) {
+        case 'term':
+          return (<div>Term graphic</div>);
+          // return (<Term />);
 
-      case 'course':
-        return (<Courses />);
+        case 'course':
+          // TODO: Add props
+          return (<div>Course graphic</div>);
+          // return (<Courses />);
 
-      case 'search':
-        return (
-          <SearchPane
-            active
-            activate={() => {}}
-            setSearchQuery={quiery => this.setState({ searchQuery: quiery })}
-            searchQuery={this.state.searchQuery}
-            search={this.props.courseSearch}
-            results={this.props.searchResults}
-            resultStamp={this.props.resultStamp}
-            stampIncrement={this.props.stampIncrement}
-            setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
-            currTerm={this.props.currTerm}
-            showDialog={this.props.showDialog}
-          />
-        );
+        case 'search':
+          return (<div>Search graphic</div>);
+          // return (
+          //   <SearchPane
+          //     active
+          //     activate={() => {}}
+          //     setSearchQuery={quiery => this.setState({ searchQuery: quiery })}
+          //     searchQuery={this.state.searchQuery}
+          //     search={this.props.courseSearch}
+          //     results={this.props.searchResults}
+          //     resultStamp={this.props.resultStamp}
+          //     stampIncrement={this.props.stampIncrement}
+          //     setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+          //     currTerm={this.props.currTerm}
+          //     showDialog={this.props.showDialog}
+          //   />
+          // );
 
-      default:
-        break;
+        case 'degree':
+          // TODO: Add props
+          return (<div>Degree graphic</div>);
+          // return (<RequirementsPane />);
+
+        default:
+          return <div>You should never see this!</div>;
+      }
+    } else {
+      return (<img src={component.graphic} alt="tutorial-graphic" />);
     }
-    return <div>You should never see this!</div>;
   }
 
-  // This is a very large security workaround, need to incorporate authentication
   endTutorial = () => {
     this.props.history.push('/');
   }
@@ -118,7 +145,7 @@ class Tutorial extends React.Component {
         {/* <div>This is the tutorial! On page: {this.state.tutorialPage}</div> */}
         <div className="title">{tutorialData[this.state.tutorialPage].title}</div>
         <div className="rowContainer">
-          <div>{this.renderComponent(tutorialData[this.state.tutorialPage].graphic)}</div>
+          <div>{this.renderComponent(tutorialData[this.state.tutorialPage])}</div>
           {/* <img src={tutorialData[this.state.tutorialPage].image} alt="feature-icon" /> */}
           <div className="paragraph">{tutorialData[this.state.tutorialPage].text}</div>
         </div>
