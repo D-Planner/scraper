@@ -33,6 +33,8 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  SET_FILTER: 'SET_FILTER',
+  CLEAR_FILTER: 'CLEAR_FILTER',
 };
 
 export function getFulfilledStatus(planID, termID, courseID) {
@@ -128,6 +130,20 @@ export function setDraggingState(isDragging, course) {
       payload: false,
     };
   }
+}
+
+// ----- Filter Setting ----- //
+export function setFilters(filters) {
+  return {
+    type: ActionTypes.SET_FILTER,
+    payload: filters,
+  };
+}
+export function clearFilters() {
+  return {
+    type: ActionTypes.CLEAR_FILTER,
+    payload: null,
+  };
 }
 
 // ----- Error Handling ----- //
