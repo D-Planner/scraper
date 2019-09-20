@@ -45,6 +45,9 @@ $box-shadow-default: 0px 4px 12px rgba(0, 0, 0, 0.15);
 $box-shadow-button: 0px 6px 12px rgba(153, 153, 153, 0.25);
 $tablet-box-shadow: -3px 5px 20px rgba(0, 0, 0, 0.15);
 
+// default transition property duration
+$transition-duration: .3s;
+
 // animations
 @keyframes shake {
     0% { transform: translate(0.3px, 0.3px) rotate(0deg); }
