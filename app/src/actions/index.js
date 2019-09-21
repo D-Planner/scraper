@@ -33,8 +33,8 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
-  SET_FILTER: 'SET_FILTER',
-  CLEAR_FILTER: 'CLEAR_FILTER',
+  SET_FILTERS: 'SET_FILTERS',
+  CLEAR_FILTERS: 'CLEAR_FILTERS',
 };
 
 export function getFulfilledStatus(planID, termID, courseID) {
@@ -135,13 +135,13 @@ export function setDraggingState(isDragging, course) {
 // ----- Filter Setting ----- //
 export function setFilters(filters) {
   return {
-    type: ActionTypes.SET_FILTER,
+    type: ActionTypes.SET_FILTERS,
     payload: filters,
   };
 }
 export function clearFilters() {
   return {
-    type: ActionTypes.CLEAR_FILTER,
+    type: ActionTypes.CLEAR_FILTERS,
     payload: null,
   };
 }

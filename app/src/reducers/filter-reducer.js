@@ -13,7 +13,11 @@ const filterReducer = (state = initialState, action) => {
     case ActionTypes.SET_FILTERS:
       return action.payload;
     case ActionTypes.CLEAR_FILTERS:
-      return initialState;
+      return {
+        distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e) => { return { name: e.name, checked: false }; }),
+        wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e) => { return { name: e.name, checked: false }; }),
+        offeredNextTerm: false,
+      };
     default:
       return state;
   }
