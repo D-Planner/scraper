@@ -1,8 +1,13 @@
+
+// Fix this
+
 import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
 import { DragDropContext } from 'react-dnd';
+import ReactGA from 'react-ga';
+import { createBrowserHistory } from 'history';
 
 import HTML5Backend from 'react-dnd-html5-backend';
 import Courses from '../containers/courses';
@@ -14,12 +19,25 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 // import FlowChart from './flowchart';
 
+// https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
+const trackingID = 'UA-137867566-1';
+ReactGA.initialize(trackingID);
+ReactGA.set({
+  // Add any data that we want to track here
+});
+
+const history = createBrowserHistory();
+history.listen((location) => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
+
 
 const App = (props) => {
   if (window.innerWidth >= 500) {
     return (
       <div>
-        <Router>
+        <Router history={history}>
           <div className="app-container">
             <Switch>
               <Route exact path="/" component={requireAuth(Landing, DPlan)} />
