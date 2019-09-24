@@ -15,9 +15,7 @@ import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
 
-
 import './dashboard.scss';
-import tutorial from '../../components/tutorial';
 
 /** Homepage of the application once authenticated - displays plans */
 class Dashboard extends React.Component {
