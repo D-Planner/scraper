@@ -6,7 +6,8 @@ import classNames from 'classnames';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
-import searchIcon from '../../style/searchSimple.svg';
+// import searchIcon from '../../style/searchSimple.svg';
+import tutorialIcon from '../../style/tutorial.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import { emptyPlan } from '../../services/empty_plan';
@@ -16,6 +17,7 @@ import ErrorMessage from '../ErrorMessage';
 
 
 import './dashboard.scss';
+import tutorial from '../../components/tutorial';
 
 /** Homepage of the application once authenticated - displays plans */
 class Dashboard extends React.Component {
@@ -125,17 +127,19 @@ class Dashboard extends React.Component {
             <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
-            <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
+
+            <div role="presentation" onClick={() => this.props.history.push('/tutorial')} className="option-button">
               {this.state.active
                 ? (
                   <>
-                    <img className="search-icon" src={searchIcon} alt="search" />
+                    <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
                     <div className="space" />
-                    <p>Discover</p>
+                    <p>Tutorial</p>
                   </>
                 )
-                : <img className="search-icon" src={searchIcon} alt="search" />
+                : <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
             }
+
             </div>
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
