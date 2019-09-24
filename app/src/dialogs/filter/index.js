@@ -32,10 +32,18 @@ class FilterDialog extends React.Component {
       this.setState({
         distribs: temp,
       });
+    } else if (this.state.offeredNextTerm) {
+      this.setState({
+        offeredNextTerm: false,
+      });
     } else {
-      this.setState(prevState => ({
-        offeredNextTerm: !prevState.offeredNextTerm,
-      }));
+      this.setState({
+        offeredNextTerm: true,
+      });
+      this.setState({
+        offeredNextTerm: true,
+      });
+      console.log(this.state.offeredNextTerm); // why is this happening
     }
   }
 

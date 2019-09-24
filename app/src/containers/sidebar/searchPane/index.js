@@ -45,11 +45,10 @@ const SearchPane = (props) => {
     }
   }, [props.searchQuery, wcs, distribs]);
 
-  const useFilters = (filters) => {
-    props.setFilters(filters);
-    setWC(filters.wcs.filter(e => e.checked).map(e => e.name));
-    setDistrib(filters.distribs.filter(e => e.checked).map(e => e.name));
-    setOfferedNextTerm(filters.offeredNextTerm);
+  const useFilters = () => {
+    setWC(props.wcs.filter(e => e.checked).map(e => e.name));
+    setDistrib(props.distribs.filter(e => e.checked).map(e => e.name));
+    setOfferedNextTerm(props.offeredNextTerm);
     console.log(offeredNextTerm);
   };
 
@@ -143,5 +142,11 @@ const SearchPane = (props) => {
   );
 };
 
+const mapStateToProps = state => ({
+  distribs: state.filters.distribs,
+  wcs: state.filters.wcs,
+  offeredNextTerm: state.filters.offeredNextTerm,
+});
 
-export default connect(null, { setFilters, clearFilters })(SearchPane);
+
+export default connect(mapStateToProps, { setFilters, clearFilters })(SearchPane);
