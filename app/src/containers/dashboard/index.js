@@ -128,7 +128,7 @@ class Dashboard extends React.Component {
           </div>
           <div className="nav-container">
 
-            <div role="presentation" onClick={() => this.props.history.push('/tutorial')} className="option-button">
+            <div role="presentation" onClick={() => this.props.history.push('/tutorial/0')} className="option-button">
               {this.state.active
                 ? (
                   <>

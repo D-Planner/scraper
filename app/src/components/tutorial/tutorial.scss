@@ -1,31 +1,145 @@
-// @import "../../style/variables.scss"
+@import "../../style/variables.scss";
 
 $content-height: calc(100vh);
-$content-dividw: 100px;
+$content-divide: 100px;
 $content-padding-top: 25vh;
 
 //TODO: Add styling to thingy
 .colContainer {
-    width: 100%;
-    height: $content-height;
+  // width: 100%;
+  height: 97vh;
+  display: flex;
+  flex-direction: column;
+
+  .skip-tutorial {
+    width: 8vw;
+    height: 2vw;
+
+    margin-bottom: 1.5vw;
+    margin-top: 1vw;
+
+    position: relative;
+    left: 90.5vw;
+    top: 0;
+
+    background: none;
+    color: $gray-5;
+
+    transition: color $transition-duration;
+  }
+
+  .skip-tutorial:hover {
+    color: $blue-primary;
+    transition: color $transition-duration;
+  }
+
+  .title {
+    text-align: left;
+    position: relative;
+    left: 18vw;
+
+    margin-right: auto;
+  
+    font-size: 5.4em;
+    text-align: left;
+  
+    color: $text-accent;
+    font-style: italic;
+  }
+  
+  .rowContainer {
+    width: 60vw;
+    height: 48vh;
+    display: flex;
+    flex-direction: row;
+    // justify-content: center;
+  
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1vh;
+  
+    .graphic {
+      width: 29vw;
+      margin-right: 1vw;
+      max-height: 100%;
+
+      position: relative;
+      object-fit: contain;
+    }
+  
+    .paragraph {
+      width: 29vw;
+      margin-left: 1vw;
+      text-align: left;
+      position: relative;
+      font-size: 18px;
+  
+      top: 0vh;
+    }
+  }
+
+  .button-container {
+    margin-top: 2vh;
     display: flex;
     flex-direction: column;
 
-    .skip {
-        background-color: #4CAF50; /* Green */
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
-}
+    .previous {
+      width: 32vw;
+      height: 5vh;
 
-.rowContainer {
-  width: 100%;
-  height: $content-height;
-  display: flex;
-  flex-direction: row;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 2vh;
+
+      background-color: #FFFFFF;
+      /* blue-drop-shadow */
+      box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
+      border-radius: 32px;
+
+      font-size: 18px;
+      font-style: bold;
+      color: $gray-6;
+
+      transition: background-color $transition-duration, color $transition-duration;
+
+      // Fix this here
+      color: linear-gradient(236.64deg, #8901FB 37.26%, rgba(255, 255, 255, 0) 81.22%), #3A84FF;
+    }
+
+    .previous:hover {
+      background-color: $gray-5;
+      color: white;
+      transition: background-color $transition-duration, color $transition-duration;
+    }
+
+    .next {
+      width: 32vw;
+      height: 5vh;
+
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2vh;
+      margin-bottom: 2vh;
+
+      background-color: #FFFFFF;
+      /* blue-drop-shadow */
+      box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
+      border-radius: 32px;
+
+      font-size: 18px;
+      font-style: bold;
+      color: $blue-primary;
+
+      transition: background-color $transition-duration, color $transition-duration;
+
+      // Fix this here
+      color: linear-gradient(236.64deg, #8901FB 37.26%, rgba(255, 255, 255, 0) 81.22%), #3A84FF;
+    }
+
+    .next:hover {
+      background-color: $blue-primary;
+      color: white;
+      transition: background-color $transition-duration, color $transition-duration;
+    }
+  }
 }
