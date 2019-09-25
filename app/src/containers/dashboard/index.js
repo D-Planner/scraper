@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import ReactGA from 'react-ga';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
@@ -53,6 +54,11 @@ class Dashboard extends React.Component {
   }
 
   createNewPlan(name) {
+    ReactGA.event({
+      category: 'User',
+      action: 'Test Action',
+    });
+
     const terms = ['F', 'W', 'S', 'X'];
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
