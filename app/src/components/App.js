@@ -23,7 +23,10 @@ import DPlan from '../containers/dplan';
 const trackingID = 'UA-137867566-1';
 ReactGA.initialize(trackingID);
 ReactGA.set({
+  userId: 123, // Change this accordingly
   // Add any data that we want to track here
+  // Add trackers on all pages
+  // https://github.com/react-ga/react-ga/issues/122
 });
 
 const history = createBrowserHistory();
