@@ -5,6 +5,7 @@ import {
 import { DragDropContext } from 'react-dnd';
 import { createBrowserHistory } from 'history';
 import ReactGA from 'react-ga';
+import { Helmet } from 'react-helmet';
 
 import HTML5Backend from 'react-dnd-html5-backend';
 import Courses from '../containers/courses';
@@ -15,6 +16,8 @@ import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import withTracker from '../containers/withTracker';
+// import favicon from '../style/d-planner.ico';
+// import favicon from '../style/favicon.ico';
 // import FlowChart from './flowchart';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
@@ -39,13 +42,20 @@ const App = (props) => {
       <div>
         <Router history={history}>
           <div className="app-container">
+            <Helmet>
+              <meta name="copyright" content="Copyright of D-Planner Project, 2019" />
+              <meta name="description" content="" />
+              <meta name="keywords" content="" />
+              <link rel="icon" href="favicon.ico" type="image/x-icon" />
+              <title>D-Planner - The Future of Academic Planning</title>
+            </Helmet>
             <Switch>
               <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
               <Route exact path="/courses" component={withTracker(requireAuth(Courses))} />
               {/* <Route path="/signup" component={signUp} />
               <Route path="/signin" component={signIn} /> */}
               {/* <Route path="/plan/:id" component={DPlan} /> */}
-              {/* This Was Discoer */}
+              {/* This Was Discover */}
               <Route path="/professors/:id" component={Professor} />
               <Route path="/discover" component={withTracker(Cytoscape)} />
               <Route path="/plan/:id" component={withTracker(DPlan)} />

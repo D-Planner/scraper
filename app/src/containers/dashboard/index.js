@@ -54,11 +54,6 @@ class Dashboard extends React.Component {
   }
 
   createNewPlan(name) {
-    ReactGA.event({
-      category: 'User',
-      action: 'Test Action',
-    });
-
     const terms = ['F', 'W', 'S', 'X'];
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
@@ -79,6 +74,11 @@ class Dashboard extends React.Component {
   goToPlan(id) {
     this.props.setCurrentPlan(id);
     // this.props.history.push(`/plan/${id}`);
+    ReactGA.event({
+      category: 'Plan',
+      action: 'Open',
+      value: id,
+    });
   }
 
   showDialog() {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import { DialogTypes } from '../../constants';
 import { getRandomCourse, showDialog } from '../../actions';
@@ -31,8 +32,13 @@ class FallBack extends Component {
 
   render() {
     return (
-      <div>
-        Unknown Path
+      <div className="container">
+        <Helmet>
+          <title>404, That’s an error! : D-Planner - The Future of Academic Planning</title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+        </Helmet>
+        <div>Unknown Path</div>
       </div>
     );
   }

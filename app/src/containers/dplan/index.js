@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
@@ -149,6 +150,11 @@ class DPlan extends Component {
     if (!this.props.plan || this.state.noPlan) {
       return (
         <div className="dashboard">
+          <Helmet>
+            <title>Dashboard : D-Planner - The Future of Academic Planning</title>
+            <meta name="description" content="" />
+            <meta name="keywords" content="" />
+          </Helmet>
           <Dashboard setCurrentPlan={this.setCurrentPlan} />
           <div className="welcome-text">
             <div className="welcome-title">Welcome to D-Planner!</div>
@@ -159,6 +165,11 @@ class DPlan extends Component {
     } else {
       return (
         <div className="dashboard">
+          <Helmet>
+            <title>{this.props.plan.name} : D-Planner - The Future of Academic Planning</title>
+            <meta name="description" content="" />
+            <meta name="keywords" content="" />
+          </Helmet>
           <Dashboard setCurrentPlan={this.setCurrentPlan} />
           <div className="plan-content">
             <div className="plan-side">

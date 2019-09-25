@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import React from 'react';
+import Helmet from 'react-helmet';
 import './landing.scss';
 import { Link, Element } from 'react-scroll';
 import { connect } from 'react-redux';
@@ -75,6 +76,11 @@ class Landing extends React.Component {
     return (
       <>
         <div className="container">
+          <Helmet>
+            <title>D-Planner - The Future of Academic Planning</title>
+            <meta name="description" content="" />
+            <meta name="keywords" content="" />
+          </Helmet>
           <div className="left">
             <div className="intro">
               <span className="line1">Welcome to D-Planner.</span>
