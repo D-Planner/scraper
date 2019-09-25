@@ -1,13 +1,10 @@
-
-// Fix this
-
 import React from 'react';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
 import { DragDropContext } from 'react-dnd';
-import ReactGA from 'react-ga';
 import { createBrowserHistory } from 'history';
+import ReactGA from 'react-ga';
 
 import HTML5Backend from 'react-dnd-html5-backend';
 import Courses from '../containers/courses';
@@ -17,6 +14,7 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
+import withTracker from '../containers/withTracker';
 // import FlowChart from './flowchart';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
@@ -27,7 +25,6 @@ ReactGA.set({
   userId: 123, // Change this accordingly
   // Add any data that we want to track here
   // Add trackers on all pages
-  // https://github.com/react-ga/react-ga/issues/122
 });
 
 const history = createBrowserHistory();
@@ -43,15 +40,15 @@ const App = (props) => {
         <Router history={history}>
           <div className="app-container">
             <Switch>
-              <Route exact path="/" component={requireAuth(Landing, DPlan)} />
-              <Route exact path="/courses" component={requireAuth(Courses)} />
+              <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
+              <Route exact path="/courses" component={withTracker(requireAuth(Courses))} />
               {/* <Route path="/signup" component={signUp} />
               <Route path="/signin" component={signIn} /> */}
               {/* <Route path="/plan/:id" component={DPlan} /> */}
               {/* This Was Discoer */}
               <Route path="/professors/:id" component={Professor} />
-              <Route path="/discover" component={Cytoscape} />
-              <Route path="/plan/:id" component={DPlan} />
+              <Route path="/discover" component={withTracker(Cytoscape)} />
+              <Route path="/plan/:id" component={withTracker(DPlan)} />
               <Route component={FallBack} />
             </Switch>
           </div>
