@@ -22,19 +22,20 @@ import withTracker from '../containers/withTracker';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
 // https://medium.com/google-cloud/tracking-site-visits-on-react-app-hosted-in-google-cloud-using-google-analytics-f49c2411d398
+// https://support.google.com/analytics/answer/3123662?hl=en
 const trackingID = 'UA-137867566-1';
 ReactGA.initialize(trackingID);
-ReactGA.set({
-  userId: 123, // Change this accordingly
-  // Add any data that we want to track here
-  // Add trackers on all pages
-});
+
+// Update id on non-login auth
 
 const history = createBrowserHistory();
 history.listen((location) => {
   ReactGA.set({ page: location.pathname }); // Update the user's current page
   ReactGA.pageview(location.pathname); // Record a pageview for the given page
 });
+
+// DO THIS
+// https://support.google.com/analytics/answer/3123666
 
 const App = (props) => {
   if (window.innerWidth >= 500) {

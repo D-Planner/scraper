@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import tinygradient from 'tinygradient';
 import ForceGraph2D from 'react-force-graph-2d';
@@ -78,6 +79,11 @@ class Graph extends Component {
   render() {
     return (
       <div className="graphContainer">
+        <Helmet>
+          <title>Discover : D-Planner - The Future of Academic Planning</title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+        </Helmet>
         <div className="selector">
           <select default=""
             onChange={(e) => {

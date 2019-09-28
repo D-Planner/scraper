@@ -37,6 +37,14 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
+    this.props.fetchUser().then((user) => {
+      console.log(user.id);
+      ReactGA.set({
+        userId: user.id,
+      });
+      console.log(this.props.location);
+      ReactGA.pageview(this.props.location);
+    });
     this.props.fetchPlans();
   }
 
@@ -159,6 +167,7 @@ class Dashboard extends React.Component {
               className="option-button"
               onClick={() => {
                 this.props.fetchUser().then((r) => {
+                  r.data.id;
                   this.showProfileDialog(this.props);
                 }).catch((e) => {
                   console.log(e);
@@ -192,6 +201,7 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   currentPlan: state.plans.current,
   errorMessage: state.plans.errorMessage,
+  authenticated: state.authenticated,
 });
 
 export default withRouter(connect(mapStateToProps, {
