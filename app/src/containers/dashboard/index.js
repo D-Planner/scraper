@@ -167,7 +167,6 @@ class Dashboard extends React.Component {
               className="option-button"
               onClick={() => {
                 this.props.fetchUser().then((r) => {
-                  r.data.id;
                   this.showProfileDialog(this.props);
                 }).catch((e) => {
                   console.log(e);
