@@ -7,6 +7,7 @@ export const ActionTypes = {
   AUTH_ERROR: 'AUTH_ERROR',
   FETCH_PLANS: 'FETCH_PLANS',
   FETCH_PLAN: 'FETCH_PLAN',
+  UPDATE_PLAN: 'UPDATE_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_USER: 'FETCH_USER',
   FETCH_COURSE: 'FETCH_COURSE',
@@ -324,6 +325,27 @@ export function fetchPlan(planID) {
         dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
         reject();
       });
+  }));
+}
+
+/**
+ * Updates a specific plan from the database
+ * @export
+ * @param {String} planID a string representing a Mongoose ObjectID for the plan to update
+ * @returns
+ */
+export function updatePlan(planUpdate, planID) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.put(`${ROOT_URL}/plans/${planID}`, { planUpdate }, { headers }).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.UPDATE_PLAN, payload: planID });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   }));
 }
 
