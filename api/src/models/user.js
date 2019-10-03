@@ -13,6 +13,7 @@ const UserSchema = new Schema({
     completed_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }], // this should be only for courses we KNOW the user has actually taken in real life, we'll make an interface for them to add this
     placement_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     majors: [{ type: Schema.Types.ObjectId, ref: 'Major' }],
+    interest_profile: [{ }], // {name:""}
     settings: {},
 }, {
     toObject: {

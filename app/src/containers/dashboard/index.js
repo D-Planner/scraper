@@ -24,6 +24,7 @@ class Dashboard extends React.Component {
     this.state = {
       active: false,
     };
+    this.showUserData = this.showUserData.bind(this);
     this.showProfileDialog = this.showProfileDialog.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -111,6 +112,16 @@ class Dashboard extends React.Component {
     this.props.showDialog(DialogTypes.PROFILE, dialogOptions);
   }
 
+  showUserData(props) {
+    const dialogOptions = {
+      title: 'Your Interests',
+      size: 'lg',
+      okText: 'Done',
+      // onOk: /* Send user data to backend */,
+    };
+    this.props.showDialog(DialogTypes.INTEREST_PROFILE, dialogOptions);
+  }
+
   render() {
     return (
       <>
@@ -125,6 +136,21 @@ class Dashboard extends React.Component {
             <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
+            <div role="presentation"
+              onClick={this.showUserData}
+              className="option-button"
+            >
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={searchIcon} alt="search" />
+                    <div className="space" />
+                    <p>Test</p>
+                  </>
+                )
+                : <img className="search-icon" src={searchIcon} alt="search" />
+              }
+            </div>
             <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
               {this.state.active
                 ? (

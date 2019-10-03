@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  deletePlan, fetchPlan, fetchUser, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -29,6 +29,10 @@ class DPlan extends Component {
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
+  }
+
+  componentWillMount() {
+    this.props.fetchUser();
   }
 
   componentDidMount() {
@@ -206,5 +210,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  fetchPlan, deletePlan, fetchUser, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 })(DPlan));
