@@ -72,7 +72,7 @@ class CourseElement extends Component {
 
   render() {
     return (
-      <div className={`course ${this.props.size} ${this.props.error}`}>
+      <div className={`course ${this.props.active ? 'active_course' : 'inactive_course'} ${this.props.size} ${this.props.error}`}>
         <div className="title-box">
           {this.props.beingHovered ? this.renderCourseSupplementaryInfo() : this.renderCourseIdentifyingInfo()}
         </div>

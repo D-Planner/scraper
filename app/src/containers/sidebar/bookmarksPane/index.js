@@ -1,6 +1,9 @@
+/* eslint-disable new-cap */
 import React from 'react';
 import classNames from 'classnames';
 import { DropTarget as BookmarksPane } from 'react-dnd';
+import { connect } from 'react-redux';
+import { fetchPlan } from '../../../actions';
 import { ItemTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
 
@@ -14,9 +17,9 @@ const target = {
   },
 };
 
-const collect = (connect, monitor) => {
+const collect = (conn, monitor) => {
   return {
-    connectDropTarget: connect.dropTarget(),
+    connectDropTarget: conn.dropTarget(),
   };
 };
 
@@ -31,6 +34,10 @@ const component = (props) => {
     active: props.active,
   });
 
+  // const courseInPlan = () => {
+  //   // TODO
+  // };
+
   return props.connectDropTarget(
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
@@ -40,10 +47,33 @@ const component = (props) => {
         ? (
           <div className="bookmarked-courses-list">
             {props.bookmarks.map((course, index) => {
+              props.fetchPlan();
+              let setActive = true;
+
+              for (let y = 0; y < props.plan.terms.length; y += 1) {
+                // console.log('year');
+                // console.log(y);
+                for (let t = 0; t < props.plan.terms[y].length; t += 1) {
+                  // console.log('term');
+                  // console.log(t);
+                  for (let c = 0; c < props.plan.terms[y][t].courses.length; c += 1) {
+                    // console.log('course');
+                    // console.log(props.plan.terms[y][t].courses[c].course);
+                    // console.log('id');
+                    if (course.id === props.plan.terms[y][t].courses[c].course.id) {
+                      console.log(course.id);
+                      console.log(props.plan.terms[y][t].courses[c].course.id);
+                      console.log('identical courses');
+                      setActive = false;
+                    }
+                  }
+                }
+              }
+
               return (
                 <div key={course.id}>
                   <div className="paneCourse">
-                    <DraggableCourse course={course} currTerm={props.currTerm} />
+                    <DraggableCourse active={setActive} course={course} currTerm={props.currTerm} />
                   </div>
                   <div id="course-spacer-large" />
                 </div>
@@ -56,5 +86,11 @@ const component = (props) => {
   );
 };
 
+const mapStateToProps = state => ({
+  plan: state.plans.current,
+});
+
 // eslint-disable-next-line new-cap
-export default BookmarksPane(ItemTypes.COURSE, target, collect)(component);
+export default connect(mapStateToProps, {
+  fetchPlan,
+})(BookmarksPane(ItemTypes.COURSE, target, collect)(component));

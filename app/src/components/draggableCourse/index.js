@@ -40,7 +40,14 @@ class Course extends React.Component {
     super(props);
     this.state = {
       beingHovered: false,
+      active: true,
     };
+  }
+
+  componentWillMount() {
+    if (this.props.active === false) {
+      this.setState({ active: false });
+    }
   }
 
   /**
@@ -63,7 +70,7 @@ class Course extends React.Component {
     return (
       <>
         { this.props.connectDragSource(
-          <div className="popover"
+          <div className="popover" // {this.state.active ? 'active_course' : 'inactive_course'}
             onMouseEnter={() => this.setState({ beingHovered: true })}
             onMouseLeave={() => this.setState({ beingHovered: false })}
             onClick={() => this.showCourseInfoDialog(this.props)}
@@ -71,6 +78,7 @@ class Course extends React.Component {
             tabIndex="0"
           >
             <CourseElement
+              active={this.state.active}
               size="xl"
               course={course}
               beingHovered={this.state.beingHovered}
