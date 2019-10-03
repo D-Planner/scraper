@@ -6,7 +6,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import { requireAuth } from './authentication/init';
-import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
+import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter, interestsRouter } from './routes';
 
 require('dotenv').config();
 
@@ -78,6 +78,7 @@ app.use('/terms', requireAuth, termsRouter);
 app.use('/majors', requireAuth, majorsRouter);
 app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
+app.use('/interests', requireAuth, interestsRouter);
 
 
 // These cannot be used in production, or will need our own special Authorization
