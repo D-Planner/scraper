@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
+import creditsIcon from '../../style/heart.svg';
 import searchIcon from '../../style/searchSimple.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
@@ -147,6 +148,18 @@ class Dashboard extends React.Component {
                   </>
                 )
                 : <img className="search-icon" src={feedbackIcon} alt="search" />
+            }
+            </div>
+            <div role="presentation" onClick={() => this.props.history.push('/credits')} className="option-button">
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={creditsIcon} alt="search" />
+                    <div className="space" />
+                    <p>Credits</p>
+                  </>
+                )
+                : <img className="search-icon" src={creditsIcon} alt="search" />
             }
             </div>
             <div role="presentation"
