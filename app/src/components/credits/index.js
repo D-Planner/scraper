@@ -31,7 +31,7 @@ class Credits extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="credits-container">
         <div className={`section ${this.props.embedded ? 'embedded' : ''}`}>
           {!this.props.embedded
             ? (
