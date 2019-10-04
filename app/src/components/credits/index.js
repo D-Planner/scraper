@@ -5,20 +5,18 @@ import './credits.scss';
 
 const credits = [
   {
-    'Founding Members': ['Adam McQuilkin', 'Zirui Hao'],
-    'Founding Location': ['Dartmouth College', 'Hanover, New Hampshire', 'Founded Fall 2018'],
+    'Founding Members': ['Adam McQuilkin', 'Ziray Hao', 'Benjamin Cape'],
+    'Project Mentors': ['Tim Tregubov', 'Peter Robbie', 'Erica Lobel', 'Natalie Svoboda', 'Annie Ren'],
   },
   {
-    'Initial Ideation': ['Bryton Moeller', 'Claire Collins', 'Vivian Zhai'],
-    'Project Mentors': ['Peter Robbie', 'Erica Lobel', 'Natalie Svoboda', 'Annie Ren'],
   },
   {
-    'Project Developers': ['Adam Rinehouse', 'Raul Rodriguez', 'Madeline Hess', 'Benjamin Cape'],
-    'Project Designers': ['Regina Yan', 'Christina Bae', 'Emma Staiger', 'Angeline Janumala ', 'Kiera Jackson'],
+    'Project Developers': ['Adam Rinehouse', 'Raul Rodriguez', 'Gillian Yue', 'Madeline Hess', 'Benjamin Cape', 'Ziray Hao'],
+    'Project Designers': ['Regina Yan', 'Christina Bae', 'Adam McQuilkin', 'Ziray Hao', 'Emma Staiger', 'Angeline Janumala ', 'Kiera Jackson'],
   },
   {
-    'Supporting Organizations': ['Dartmouth Applied Learning and Innovation (DALI) Lab', 'Magnuson Family Center for Entrepreneurship at Dartmouth', 'Information and Technologies Consulting at Dartmouth', 'Thayer School of Engineering at Dartmouth'],
-    'Additional Thanks': ['Geoffrey Parker', 'Gillian Yue', 'Lorie Loeb', 'Sarah Morgan', 'Jamie Coughlin', 'Philip Hanlon'],
+    'Additional Thanks': ['Bryton Moeller', 'Claire Collins', 'Vivian Zhai'],
+    'Supporting Organizations': ['DALI Lab', 'Magnuson Family Center for Entrepreneurship', 'Information and Technologies Consulting', 'Thayer School of Engineering'],
   },
 ];
 
@@ -39,7 +37,7 @@ class Credits extends Component {
               <div className="headerContainer">
                 {/* <img alt="logo" className="logo" src={logo} />
                 <div className="spacer" /> */}
-                <div className="mainTitle">Thank You</div>
+                <div className="mainTitle">Who are we?</div>
               </div>
             )
             : null}
