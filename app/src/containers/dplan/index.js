@@ -20,6 +20,7 @@ class DPlan extends Component {
     super(props);
     this.state = {
       noPlan: true,
+      announcementActive: true,
     };
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
@@ -147,24 +148,24 @@ class DPlan extends Component {
   };
 
   renderAnnouncement = () => {
+    console.log(this.props.currentAnnouncement);
     return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={this.state.currAnnounceIdx != null ? 'announcements' : 'announcements closed'}
+      <div className={this.state.announcementActive != null ? 'announcements' : 'announcements closed'}
         onClick={() => {
           this.props.history.push(this.props.currentAnnouncement.link);
           console.log('Announcement click!');
         }}
       >
-        <div className="announcement-text">{this.state.currAnnounceIdx != null ? this.props.currentAnnouncement.text : ''}</div>
+        <div className="announcement-text">{this.state.announcementActive != null ? this.props.currentAnnouncement.text : ''}</div>
         <img src={close}
           alt="close"
           className="close"
           onClick={(e) => {
-            this.setState((prevState) => { return ({ currAnnounceIdx: null }); });
+            this.setState((prevState) => { return ({ announcementActive: false }); });
             e.stopPropagation();
             console.log('Closed dialog!');
-          }
-          }
+          }}
         />
       </div>
     );

@@ -2,11 +2,11 @@ import { ActionTypes } from '../actions';
 
 const initialState = {
   announcements: [{
-    text: '----',
+    text: 'loading announcements...',
     link: '/',
   }],
   currentAnnouncement: {
-    text: '----',
+    text: 'loading announcements...',
     link: '/',
   },
 };
