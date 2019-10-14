@@ -5,13 +5,70 @@ $plan-header-margin: 36px;
 $bottom-margin: 20px;
 $sidebar-margin-left: 30px;
 
+.announcements {
+  background-color: $blue-primary;
+  color: $white;
+  height: 5vh;
+  
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-content: center;
+  vertical-align: middle;
+
+  box-shadow: $box-shadow-button;
+  transition: height .3s;
+
+  .announcement-text {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-content: center;
+
+    text-align: center;
+    vertical-align: middle;
+  
+    font-size: 15px;
+    font-weight: normal;
+
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .close {
+    margin-left: 1%;
+    margin-right: 1%;
+  }
+
+  &.closed {
+    height: 0vh;
+  }
+}
+
 .dashboard {
     display: flex;
-    width: 100vw;
+    width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
     align-items: stretch;
     height: 100vh;
+
+    transition: height .3s;
+
+    &.announce {
+      height: 95vh;
+    }
+
+    // .announcements {
+    //   background-color: $blue-primary;
+    //   color: $white;
+
+    //   position: absolute;
+    //   width: 100vw;
+    //   height: 4vw;
+    //   vertical-align: middle;
+    //   text-align: center;
+    // }
 
     .welcome-text {
         flex-grow: 1;

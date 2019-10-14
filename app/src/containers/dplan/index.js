@@ -4,12 +4,13 @@ import { withRouter } from 'react-router-dom';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
-import { DialogTypes } from '../../constants';
+import { DialogTypes, Announcements } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
 import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
 // import noPlan from '../../style/no-plan.png';
 import trash from '../../style/trash.svg';
+import close from '../../style/close-white.svg';
 import Term from '../term';
 import './dplan.scss';
 
@@ -20,6 +21,7 @@ class DPlan extends Component {
     super(props);
     this.state = {
       noPlan: true,
+      currAnnounceIdx: 0,
     };
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
@@ -145,51 +147,86 @@ class DPlan extends Component {
     }
   };
 
+  renderAnnouncement = () => {
+    // if (Announcements[this.state.currAnnounceIdx]) {
+    return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+      <div className={this.state.currAnnounceIdx != null ? 'announcements' : 'announcements closed'}
+        onClick={() => {
+          this.props.history.push(Announcements[this.state.currAnnounceIdx].link);
+          console.log('Announcement click!');
+        }}
+      >
+        <div className="announcement-text">{this.state.currAnnounceIdx != null ? Announcements[this.state.currAnnounceIdx].text : ''}</div>
+        <img src={close}
+          alt="close"
+          className="close"
+          onClick={(e) => {
+            // { prevState.currAnnounceIdx + 1 }
+            this.setState((prevState) => { return ({ currAnnounceIdx: null }); });
+            e.stopPropagation();
+            console.log('Closed dialog!');
+          }
+          }
+        />
+      </div>
+    );
+    // } else {
+    //   return (null);
+    // }
+  }
+
   render() {
     if (!this.props.plan || this.state.noPlan) {
       return (
-        <div className="dashboard">
-          <Dashboard setCurrentPlan={this.setCurrentPlan} />
-          <div className="welcome-text">
-            <div className="welcome-title">Welcome to D-Planner!</div>
-            <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+        <div className="announcement-container">
+          {this.renderAnnouncement()}
+          <div className={this.state.currAnnounceIdx != null ? 'dashboard announce' : 'dashboard'}>
+            <Dashboard setCurrentPlan={this.setCurrentPlan} />
+            <div className="welcome-text">
+              <div className="welcome-title">Welcome to D-Planner!</div>
+              <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+            </div>
           </div>
         </div>
       );
     } else {
       return (
-        <div className="dashboard">
-          <Dashboard setCurrentPlan={this.setCurrentPlan} />
-          <div className="plan-content">
-            <div className="plan-side">
-              <div className="plan-header">
-                <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
-                <button type="button" className="settings-button" onClick={this.showDialog}>
-                  <img src={trash} alt="" />
-                </button>
+        <div className="announcement-container">
+          {this.renderAnnouncement()}
+          <div className="dashboard">
+            <Dashboard setCurrentPlan={this.setCurrentPlan} />
+            <div className="plan-content">
+              <div className="plan-side">
+                <div className="plan-header">
+                  <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
+                  <button type="button" className="settings-button" onClick={this.showDialog}>
+                    <img src={trash} alt="" />
+                  </button>
+                </div>
+                <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} setDraggingFulfilledStatus={this.setDraggingFulfilledStatus} />
               </div>
-              <Sidebar className="sidebar" planCourses={this.getFlattenedCourses()} setDraggingFulfilledStatus={this.setDraggingFulfilledStatus} />
-            </div>
-            <div className="plan-grid">
-              {this.props.plan.terms.map((year) => {
-                return (
-                  <div className="plan-row" key={year[0].id}>
-                    {year.map((term) => {
-                      return (
-                        <Term
-                          plan={this.props.plan}
-                          time={this.props.time}
-                          term={term}
-                          key={term.id}
-                          addCourseToTerm={this.addCourseToTerm}
-                          removeCourseFromTerm={this.removeCourseFromTerm}
-                          setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                        />
-                      );
-                    })}
-                  </div>
-                );
-              })}
+              <div className="plan-grid">
+                {this.props.plan.terms.map((year) => {
+                  return (
+                    <div className="plan-row" key={year[0].id}>
+                      {year.map((term) => {
+                        return (
+                          <Term
+                            plan={this.props.plan}
+                            time={this.props.time}
+                            term={term}
+                            key={term.id}
+                            addCourseToTerm={this.addCourseToTerm}
+                            removeCourseFromTerm={this.removeCourseFromTerm}
+                            setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                          />
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

@@ -2,6 +2,13 @@
 export const APP_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://d-planner.com';
 export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'http://api.d-planner.com';
 
+export const Announcements = [
+  {
+    text: 'Welcome to D-Planner! Click here to see our thank-you page!',
+    link: '/credits',
+  },
+];
+
 // Item type definition for ReactDND
 // Lists types of possible draggable items
 export const ItemTypes = {
