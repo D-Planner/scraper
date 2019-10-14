@@ -151,13 +151,13 @@ class DPlan extends Component {
     console.log(this.props.currentAnnouncement);
     return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={this.state.announcementActive != null ? 'announcements' : 'announcements closed'}
+      <div className={this.state.announcementActive === true ? 'announcements' : 'announcements closed'}
         onClick={() => {
           this.props.history.push(this.props.currentAnnouncement.link);
           console.log('Announcement click!');
         }}
       >
-        <div className="announcement-text">{this.state.announcementActive != null ? this.props.currentAnnouncement.text : ''}</div>
+        <div className="announcement-text">{this.state.announcementActive === true ? this.props.currentAnnouncement.text : ''}</div>
         <img src={close}
           alt="close"
           className="close"
