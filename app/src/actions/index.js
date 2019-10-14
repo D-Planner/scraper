@@ -33,7 +33,25 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  FETCH_ANNOUNCEMENTS: 'FETCH_ANNOUNCEMENTS',
 };
+
+export function getAnnouncements() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/announcements/`, { headers }).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENTS, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {

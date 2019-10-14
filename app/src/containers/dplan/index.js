@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, getAnnouncements,
 } from '../../actions';
-import { DialogTypes, Announcements } from '../../constants';
+import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
 import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
@@ -13,7 +13,6 @@ import trash from '../../style/trash.svg';
 import close from '../../style/close-white.svg';
 import Term from '../term';
 import './dplan.scss';
-
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
@@ -31,6 +30,7 @@ class DPlan extends Component {
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
+    this.props.getAnnouncements();
   }
 
   componentDidMount() {
@@ -41,6 +41,9 @@ class DPlan extends Component {
     // } else {
     //   this.props.fetchPlan(this.props.match.params.id);
     // }
+
+    // const announcements = this.props.getAnnouncements();
+    // console.log(announcements);
   }
 
   setCurrentPlan(planID) {
@@ -153,11 +156,11 @@ class DPlan extends Component {
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div className={this.state.currAnnounceIdx != null ? 'announcements' : 'announcements closed'}
         onClick={() => {
-          this.props.history.push(Announcements[this.state.currAnnounceIdx].link);
+          this.props.history.push(this.props.announcements[this.state.currAnnounceIdx].link);
           console.log('Announcement click!');
         }}
       >
-        <div className="announcement-text">{this.state.currAnnounceIdx != null ? Announcements[this.state.currAnnounceIdx].text : ''}</div>
+        <div className="announcement-text">{this.state.currAnnounceIdx != null ? this.props.announcements[this.state.currAnnounceIdx].text : ''}</div>
         <img src={close}
           alt="close"
           className="close"
@@ -236,12 +239,17 @@ class DPlan extends Component {
 }
 
 
-const mapStateToProps = state => ({
-  plans: state.plans.all,
-  plan: state.plans.current,
-  time: state.time,
-});
+const mapStateToProps = (state) => {
+  console.log('getting state...');
+  console.log(state);
+  return ({
+    plans: state.plans.all,
+    plan: state.plans.current,
+    time: state.time,
+    announcements: state.announcements.announcements,
+  });
+};
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, getAnnouncements,
 })(DPlan));
