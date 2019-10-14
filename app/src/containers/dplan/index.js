@@ -20,7 +20,6 @@ class DPlan extends Component {
     super(props);
     this.state = {
       noPlan: true,
-      currAnnounceIdx: 0,
     };
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
@@ -41,9 +40,6 @@ class DPlan extends Component {
     // } else {
     //   this.props.fetchPlan(this.props.match.params.id);
     // }
-
-    // const announcements = this.props.getAnnouncements();
-    // console.log(announcements);
   }
 
   setCurrentPlan(planID) {
@@ -151,21 +147,19 @@ class DPlan extends Component {
   };
 
   renderAnnouncement = () => {
-    // if (Announcements[this.state.currAnnounceIdx]) {
     return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div className={this.state.currAnnounceIdx != null ? 'announcements' : 'announcements closed'}
         onClick={() => {
-          this.props.history.push(this.props.announcements[this.state.currAnnounceIdx].link);
+          this.props.history.push(this.props.currentAnnouncement.link);
           console.log('Announcement click!');
         }}
       >
-        <div className="announcement-text">{this.state.currAnnounceIdx != null ? this.props.announcements[this.state.currAnnounceIdx].text : ''}</div>
+        <div className="announcement-text">{this.state.currAnnounceIdx != null ? this.props.currentAnnouncement.text : ''}</div>
         <img src={close}
           alt="close"
           className="close"
           onClick={(e) => {
-            // { prevState.currAnnounceIdx + 1 }
             this.setState((prevState) => { return ({ currAnnounceIdx: null }); });
             e.stopPropagation();
             console.log('Closed dialog!');
@@ -174,9 +168,6 @@ class DPlan extends Component {
         />
       </div>
     );
-    // } else {
-    //   return (null);
-    // }
   }
 
   render() {
@@ -239,16 +230,12 @@ class DPlan extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-  console.log('getting state...');
-  console.log(state);
-  return ({
-    plans: state.plans.all,
-    plan: state.plans.current,
-    time: state.time,
-    announcements: state.announcements.announcements,
-  });
-};
+const mapStateToProps = state => ({
+  plans: state.plans.all,
+  plan: state.plans.current,
+  time: state.time,
+  currentAnnouncement: state.announcements.currentAnnouncement,
+});
 
 export default withRouter(connect(mapStateToProps, {
   fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, getAnnouncements,
