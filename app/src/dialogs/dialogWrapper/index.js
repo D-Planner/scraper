@@ -8,64 +8,77 @@ import './dialogWrapper.scss';
 // A wrapper for all dialogs in the application
 // Should be used by all other dialogs
 // Allowable/required prop types defined at the bottom of this file
-const DialogWrapper = (props) => {
-  const handleBackgroundClick = (e) => {
-    if (e.target === e.currentTarget) {
-      props.hideDialog();
-    }
-  };
-
-  const onOk = () => {
-    props.onOk();
-    props.hideDialog();
-  };
-
-  const onNo = () => {
-    props.onNo();
-    props.hideDialog();
-  };
-
-  const okButton = props.showOk
+class DialogWrapper extends React.Component {
+  okButton = this.props.showOk
     ? (
-      <button type="button" className="ok-button" onClick={onOk} disabled={props.okDisabled}>
-        <div className="button-text">{props.okText}</div>
+      <button type="button" className="ok-button" onClick={this.onOk} disabled={this.props.okDisabled}>
+        <div className="button-text">{this.props.okText}</div>
       </button>
     ) : null;
 
-  const noButton = props.showNo
+  noButton = this.props.showNo
     ? (
-      <button type="button" className="ok-button" onClick={onNo} disabled={props.noDisabled}>
-        <div className="button-text">{props.noText}</div>
+      <button type="button" className="ok-button" onClick={this.onNo} disabled={this.props.noDisabled}>
+        <div className="button-text">{this.props.noText}</div>
       </button>
     ) : null;
 
-  const size = classNames({
-    'sz-small': props.size === 'sm',
-    'sz-medium': props.size === 'md',
-    'sz-large': props.size === 'lg',
+  size = classNames({
+    'sz-small': this.props.size === 'sm',
+    'sz-medium': this.props.size === 'md',
+    'sz-large': this.props.size === 'lg',
     'dialog-container': true,
   });
 
-  return (
-    <div onClick={handleBackgroundClick} className="dialog-background" role="presentation">
-      <div className={size}>
-        <div className="dialog-header">
-          <h1 className="dialog-title">{props.title}</h1>
-          <button type="button" onClick={props.hideDialog} className="close-button">
-            <img src={closeButton} alt="close" />
-          </button>
-        </div>
-        {props.message ? <div className="dialog-message">{props.message}</div> : null}
-        {props.children}
-        <div className="dialog-actions">
-          {noButton}
-          {props.showNo ? <div className="dialog-button-spacer" /> : null}
-          {okButton}
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  _handleKeyDown = (e) => {
+    console.log(e);
+  };
+
+  handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      this.props.hideDialog();
+    }
+  };
+
+  onOk = () => {
+    this.props.onOk();
+    this.props.hideDialog();
+  };
+
+  onNo = () => {
+    this.props.onNo();
+    this.props.hideDialog();
+  };
+
+  render = () => {
+    return (
+      <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
+        <div className={this.size}>
+          <div className="dialog-header">
+            <h1 className="dialog-title">{this.props.title}</h1>
+            <button type="button" onClick={this.props.hideDialog} className="close-button">
+              <img src={closeButton} alt="close" />
+            </button>
+          </div>
+          {this.props.message ? <div className="dialog-message">{this.props.message}</div> : null}
+          {this.props.children}
+          <div className="dialog-actions">
+            {this.noButton}
+            {this.props.showNo ? <div className="dialog-button-spacer" /> : null}
+            {this.okButton}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 DialogWrapper.propTypes = {
   // props
