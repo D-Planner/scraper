@@ -12,6 +12,7 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
+import Credits from './credits';
 // import FlowChart from './flowchart';
 
 
@@ -31,6 +32,7 @@ const App = (props) => {
               <Route path="/professors/:id" component={Professor} />
               <Route path="/discover" component={Cytoscape} />
               <Route path="/plan/:id" component={DPlan} />
+              <Route path="/credits" component={Credits} />
               <Route component={FallBack} />
             </Switch>
           </div>
