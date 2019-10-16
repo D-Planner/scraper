@@ -33,7 +33,23 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  SET_PRESSED_KEY: 'SET_PRESSED_KEY',
+  REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
 };
+
+export function setPressedKey(key) {
+  return {
+    type: ActionTypes.SET_PRESSED_KEY,
+    payload: key,
+  };
+}
+
+export function removePressedKey(key) {
+  return {
+    type: ActionTypes.REMOVE_PRESSED_KEY,
+    payload: key,
+  };
+}
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
