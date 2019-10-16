@@ -17,6 +17,8 @@ const NewPlan = (props) => {
           placeholder="Untitled plan"
           className="new-plan-name"
           onChange={(e) => { setText(e.target.value); }}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
         />
       </div>
     </DialogWrapper>

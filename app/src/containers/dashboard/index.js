@@ -19,6 +19,8 @@ import './dashboard.scss';
 
 /** Homepage of the application once authenticated - displays plans */
 class Dashboard extends React.Component {
+  keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +39,29 @@ class Dashboard extends React.Component {
 
   componentWillMount() {
     this.props.fetchPlans();
+  }
+
+  componentDidUpdate = () => {
+    if (this.props.pressedModifier === 'Control') {
+      console.log('Pressed Control in Dashboard');
+      for (let i = 0; i < this.props.plans.length; i += 1) {
+        if (this.keys[i] === this.props.pressedKey) {
+          if (this.props.plans[i].id !== (this.props.currentPlan ? this.props.currentPlan.id : 0)) {
+            console.log(`Switching to plan ${this.props.plans[i].id}`);
+            this.goToPlan(this.props.plans[i].id);
+          }
+        }
+      }
+
+      // console.log(this.props.plans[0]._id);
+      switch (this.props.pressedKey) {
+        case 'n':
+          this.showDialog();
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   displayIfError = () => {
@@ -186,6 +211,8 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   currentPlan: state.plans.current,
   errorMessage: state.plans.errorMessage,
+  pressedKey: state.keyEvent.pressedKey,
+  pressedModifier: state.keyEvent.pressedModifier,
 });
 
 export default withRouter(connect(mapStateToProps, {

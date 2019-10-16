@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import closeButton from '../../style/close.svg';
 
 import './dialogWrapper.scss';
@@ -11,14 +12,14 @@ import './dialogWrapper.scss';
 class DialogWrapper extends React.Component {
   okButton = this.props.showOk
     ? (
-      <button type="button" className="ok-button" onClick={this.onOk} disabled={this.props.okDisabled}>
+      <button type="button" className="ok-button" onClick={() => this.onOk()} disabled={this.props.okDisabled}>
         <div className="button-text">{this.props.okText}</div>
       </button>
     ) : null;
 
   noButton = this.props.showNo
     ? (
-      <button type="button" className="ok-button" onClick={this.onNo} disabled={this.props.noDisabled}>
+      <button type="button" className="ok-button" onClick={() => this.onNo()} disabled={this.props.noDisabled}>
         <div className="button-text">{this.props.noText}</div>
       </button>
     ) : null;
@@ -32,20 +33,10 @@ class DialogWrapper extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
 
-    };
+    this.onOk = this.onOk.bind(this);
+    this.onNo = this.onNo.bind(this);
   }
-
-  _handleKeyDown = (e) => {
-    console.log(e);
-  };
-
-  handleBackgroundClick = (e) => {
-    if (e.target === e.currentTarget) {
-      this.props.hideDialog();
-    }
-  };
 
   onOk = () => {
     this.props.onOk();
@@ -55,6 +46,25 @@ class DialogWrapper extends React.Component {
   onNo = () => {
     this.props.onNo();
     this.props.hideDialog();
+  };
+
+  componentDidUpdate = () => {
+    switch (this.props.pressedKey) {
+      case 'Escape':
+        this.props.hideDialog();
+        break;
+      case 'Enter':
+        this.onOk();
+        break;
+      default:
+        break;
+    }
+  }
+
+  handleBackgroundClick = (e) => {
+    if (e.target === e.currentTarget) {
+      this.props.hideDialog();
+    }
   };
 
   render = () => {
@@ -124,4 +134,8 @@ DialogWrapper.defaultProps = {
   onNo: () => {},
 };
 
-export default DialogWrapper;
+const mapStateToProps = state => ({
+  pressedKey: state.keyEvent.pressedKey,
+});
+
+export default connect(mapStateToProps)(DialogWrapper);
