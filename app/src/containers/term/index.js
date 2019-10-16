@@ -26,7 +26,7 @@ const termTarget = {
       } else if (item.sourceTerm) {
         // console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
-        props.removeCourseFromTerm(item.userCourse, item.sourceTerm).then(() => {
+        props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then(() => {
           // console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
           return props.addCourseToTerm(item.catalogCourse, props.term);
         }).then(() => {
@@ -63,7 +63,7 @@ class Term extends Component {
           // console.log(`Because you are turning off this term, deleting: ${course}`);
           this.props.removeCourseFromFavorites(course.course.id);
           // Not sure if this needs to be made into a Promise.all() ??
-          this.props.removeCourseFromTerm(course, this.props.term);
+          this.props.removeCourseFromTerm(course._id, this.props.term);
         });
         this.props.term.off_term = true;
         this.props.term.courses = [];
@@ -200,9 +200,7 @@ class Term extends Component {
                   catalogCourse={course.course}
                   course={course}
                   sourceTerm={this.props.term.id}
-                  removeCourseFromTerm={() => {
-                    this.props.removeCourseFromTerm(course, this.props.term);
-                  }}
+                  removeCourseFromTerm={this.props.removeCourseFromTerm}
                   setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
                   previousCourses={this.props.term.previousCourses}
                 />

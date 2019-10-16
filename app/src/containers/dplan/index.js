@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import uuid from 'uuid';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
@@ -13,6 +14,7 @@ import trash from '../../style/trash.svg';
 import Term from '../term';
 import './dplan.scss';
 
+const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
@@ -21,6 +23,7 @@ class DPlan extends Component {
     this.state = {
       noPlan: true,
     };
+
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
@@ -42,6 +45,7 @@ class DPlan extends Component {
   }
 
   setCurrentPlan(planID) {
+    console.log('Setting Current Plan');
     this.props.fetchPlan(planID);
     this.setState({
       noPlan: false,
@@ -58,40 +62,227 @@ class DPlan extends Component {
     return courses;
   }
 
+  getFlattenedTerms() {
+    const terms = [];
+    this.props.plan.terms.forEach((y) => {
+      y.forEach((term) => {
+        terms.push(term);
+      });
+    });
+    return terms;
+  }
+
+  // This still isn't working
+  setAllFulfilledStatus = (termID, courseID) => {
+    console.log('GETFULFILLEDSTATUS', termID, courseID);
+    try {
+      this.getFlattenedTerms().forEach((term) => {
+        if (term._id === termID) {
+          const previousCourses = this.getFlattenedTerms().filter((t) => {
+            return t.index <= term.index;
+          }).map((t) => {
+            return t.previousCourses;
+          }).flat()
+            .map((t) => { return t.toString(); });
+          const prevCourses = [...new Set((this.props.user.placement_courses.length)
+            ? this.props.user.placement_courses.map((c) => { return c.toString(); }).concat(previousCourses)
+            : previousCourses)];
+
+          this.getFlattenedCourses().forEach((userCourse) => {
+            if (userCourse.id === courseID) {
+              const getValue = (uCourse) => {
+                const { course } = uCourse;
+                let prereqs = course.prerequisites ? course.prerequisites : [];
+                if (!prereqs || prereqs.length === 0) {
+                  return CLEAR;
+                }
+                prereqs = prereqs.map((o) => {
+                  let dependencyType = Object.keys(o).find((key) => {
+                    return (o[key].length > 0 && key !== '_id');
+                  });
+                  if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
+
+                  const prevCoursesIncludes = () => {
+                    return o[dependencyType].map((c) => { return c.id.toString(); })
+                      .some((id) => {
+                        return (prevCourses.length) ? prevCourses.includes(id) : false;
+                      });
+                  };
+
+                  switch (dependencyType) {
+                    case 'abroad':
+                      return WARNING;
+                    case 'req':
+                      return prevCoursesIncludes() ? CLEAR : ERROR;
+                    case 'range':
+                      return (prevCourses.some((c) => {
+                        return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
+                      })) ? CLEAR : ERROR;
+                    case 'grade':
+                      return prevCoursesIncludes() ? WARNING : ERROR;
+                    case 'rec':
+                      return prevCoursesIncludes() ? WARNING : ERROR;
+                    default:
+                      return CLEAR;
+                  }
+                });
+
+                if (prereqs.includes(ERROR)) {
+                  return ERROR;
+                }
+                if (prereqs.includes(WARNING)) {
+                  return WARNING;
+                }
+
+                return CLEAR;
+              };
+              userCourse.fulfilledStatus = getValue(userCourse);
+            }
+          });
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  setPreviousCourses = () => {
+    console.log('[setPreviousCourses Dplan.js]');
+    const previousByTerm = this.getFlattenedTerms().map((term) => {
+      const prevCourses = [...new Set(this.getFlattenedTerms()
+        .sort((t1, t2) => {
+          return t1.index - t2.index;
+        })
+        .filter((t) => {
+          return t.index < term.index;
+        })
+        .map((t) => {
+          return t.courses;
+        })
+        .flat()
+        .filter((c) => {
+          return c.fulfilledStatus === '';
+        })
+        .map((c) => {
+          return (c.course.xlist.length) ? [...c.course.xlist, c.course.id] : c.course.id;
+        })
+        .flat())];
+      return { [term._id]: prevCourses };
+    });
+    previousByTerm.forEach((t) => {
+      Object.entries(t).forEach(([term, previousCourses]) => {
+        this.getFlattenedTerms()
+          .forEach((x) => {
+            if (x._id === String(term)) {
+              x.previousCourses = previousCourses;
+              x.courses.forEach((course) => {
+                this.setAllFulfilledStatus(x._id, course.id);
+              });
+            }
+          });
+      });
+    });
+  // Promise.all(previousByTerm.map((t) => {
+  //     return Promise.all(Object.entries(t).map(([term, previousCourses]) => {
+  //         return Term.findByIdAndUpdate(term, { previousCourses })
+  //             .then(() => {
+  //                 return Term.findById(term)
+  //                     .populate(PopulateTerm);
+  //             }).then((trueTerm) => {
+  //                 return Promise.all(trueTerm.courses.map((course) => {
+  //                     return Promise.resolve(CoursesController.getFulfilledStatus(planID, trueTerm._id, course.course.id, userID))
+  //                         .then((status) => {
+  //                             // console.log(`Updating ${course.course.title} to ${status}`);
+  //                             return UserCourse.update({ _id: course.id }, { fulfilledStatus: status }, { upsert: true });
+  //                         });
+  //                 // .then(() => {
+  //                 //     UserCourse.findById(course.id).populate('course').then((c) => { console.log('SET', c.course.title, c.fulfilledStatus); });
+  //                 // });
+  //                 }));
+  //             });
+  //     })).then((r) => {
+  //         // console.log('{1}', r);
+  //         return r;
+  //     });
+  // })).then((r) => {
+  //     // console.log('{2}', r);
+  //     resolve();
+  // });
+  }
+
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
     console.log('[DPLAN.js] We got request to add course to term');
-    this.props.addCourseToTerm(course, term, this.props.plan.id).then(() => {
-      console.log(`[DPLAN.js] The course \n${course.name} has been added to term \n${term.id}`);
-      return this.props.fetchPlan(this.props.plan.id);
-    }).then(() => {
-      console.log('[DPLAN.js] fetched plan');
+    try {
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === term._id) {
+            // Might need to make an API call here just to create a userCourse.
+            const id = uuid.v4();
+            const userCourse = {
+              user: this.props.user.id,
+              course,
+              term: t._id,
+              major: null,
+              distrib: null,
+              wc: null,
+              timeslot: course.preiods && course.periods.length === 1 ? course.periods[0] : null,
+              fulfilledStatus: '',
+              _id: id,
+              id,
+            };
+            t.courses.push(userCourse);
+          }
+        });
+      });
+      this.setPreviousCourses();
       resolve();
-    }).catch((err) => {
-      console.log(err);
-      reject();
-    });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+    // this.props.addCourseToTerm(course, term, this.props.plan.id).then(() => {
+    //   console.log(`[DPLAN.js] The course \n${course.name} has been added to term \n${term.id}`);
+    //   return this.props.fetchPlan(this.props.plan.id);
+    // }).then(() => {
+    //   console.log('[DPLAN.js] fetched plan');
+    //   resolve();
+    // }).catch((err) => {
+    //   console.log(err);
+    //   reject();
+    // });
   })
 
-  removeCourseFromTerm = (course, term) => new Promise((resolve, reject) => {
-    this.props.removeCourseFromTerm(course, term, this.props.plan.id).then(() => {
-      console.log(`[DPLAN.js] The course \n${course.name} has been removed from term \n${term.id}`);
-      return this.props.fetchPlan(this.props.plan.id);
-    }).then(() => {
-      console.log('[DPLAN.js] fetched plan');
+  removeCourseFromTerm = (userCourseID, termID) => new Promise((resolve, reject) => {
+    console.log('[DPLAN.js] We got request to remove course from term');
+    console.log(userCourseID, termID);
+    try {
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === termID) {
+            t.courses = t.courses.filter((c) => {
+              // Might need to make API Call here to remove UserCourse
+              return c.id.toString() !== userCourseID.toString();
+            });
+          }
+        });
+      });
+      // Set Previous Courses for Each Term here
+      this.setPreviousCourses();
       resolve();
-    }).catch((err) => {
-      console.log(err);
-      reject();
-    });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
   })
 
   setDraggingFulfilledStatus = courseID => new Promise((resolve, reject) => {
-    this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
-      resolve();
-    }).catch((e) => {
-      console.log(e);
-      reject();
-    });
+    console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
+    // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
+    //   resolve();
+    // }).catch((e) => {
+    //   console.log(e);
+    //   reject();
+    // });
   });
 
   showDialog() {
@@ -203,6 +394,7 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   plan: state.plans.current,
   time: state.time,
+  user: state.user.current,
 });
 
 export default withRouter(connect(mapStateToProps, {
