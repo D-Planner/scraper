@@ -60,15 +60,21 @@ const searchCourses = (req, res) => {
             });
     } else {
         const search = (searchText.includes(' ')) ? `"${searchText}"` : searchText;
-        Course.find({ $text: { $search: search } })
-            .populate(PopulateCourse)
-            .then((result) => {
-                res.json(trim(result));
-            })
-            .catch((error) => {
-                console.log(error);
-                res.status(500).json({ error });
-            });
+        Professor.find({
+            $text: { $search: search },
+        }).then((r) => {
+            Course.find({
+                $text: { $search: search },
+                // { professor: { $in: r.map((p) => { return p._id; }) } },
+            }).populate(PopulateCourse)
+                .then((result) => {
+                    res.json(trim(result));
+                })
+                .catch((error) => {
+                    console.log(error);
+                    res.status(500).json({ error });
+                });
+        });
     }
 };
 
