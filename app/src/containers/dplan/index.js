@@ -1,6 +1,8 @@
+/* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { HotKeys, configure } from 'react-hotkeys';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
@@ -16,11 +18,55 @@ import './dplan.scss';
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
+  // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values for more
+  keyMap = {
+    PLAN_ONE: 'Control+1',
+    PLAN_TWO: 'Control+2',
+    PLAN_THREE: 'Control+3',
+    PLAN_FOUR: 'Control+4',
+    PLAN_FIVE: 'Control+5',
+    PLAN_SIX: 'Control+6',
+    PLAN_SEVEN: 'Control+7',
+    PLAN_EIGHT: 'Control+8',
+    PLAN_NINE: 'Control+9',
+    PLAN_TEN: 'Control+0',
+    // OK: 'Enter',
+    CLOSE: 'Escape', // Close all plans
+    SAVE: 'Control+s',
+    OPEN_NEW_PLAN: 'Control+p',
+    OPEN_DELETE_PLAN: 'Control+d',
+    OPEN_SEARCH_PANE: 'Control+q',
+    OPEN_REQUIREMENTS_PANE: 'Control+r',
+    OPEN_BOOKMARKS_PANE: 'Control+b',
+  };
+
+  handlers = {
+    PLAN_ONE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[0].id), event),
+    PLAN_TWO: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[1].id), event),
+    PLAN_THREE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[2].id), event),
+    PLAN_FOUR: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[3].id), event),
+    PLAN_FIVE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[4].id), event),
+    PLAN_SIX: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[5].id), event),
+    PLAN_SEVEN: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[6].id), event),
+    PLAN_EIGHT: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[7].id), event),
+    PLAN_NINE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[8].id), event),
+    PLAN_TEN: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[9].id), event),
+    // OK: this.test,
+    CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
+    SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event),
+    OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
+    OPEN_DELETE_PLAN: event => this.keyCommandWrapper(this.props.plan === null ? console.log('no plan') : this.props.showDialog()),
+    OPEN_SEARCH_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.SEARCH }), event),
+    OPEN_REQUIREMENTS_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.REQUIREMENTS }), event),
+    OPEN_BOOKMARKS_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.BOOKMARKS }), event),
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       noPlan: true,
       switchPanel: null,
+      openPane: paneTypes.REQUIREMENTS,
     };
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
@@ -30,6 +76,20 @@ class DPlan extends Component {
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
+  }
+
+  keyCommandWrapper(fn, event = null) {
+    event.preventDefault();
+    try {
+      fn();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  test(event) {
+    event.preventDefault();
+    console.log('test function');
   }
 
   componentDidMount() {
@@ -43,45 +103,50 @@ class DPlan extends Component {
   }
 
   componentDidUpdate() {
-    console.log(`Updating dplan with pm:${this.props.pressedModifier} pk:${this.props.pressedKey}`);
-    if (this.props.pressedModifier === 'Control' && this.props.pressedKey !== '' && this.props.pressedModifier !== '') {
-      // Need to make the order that these are pressed irrelevant
-      switch (this.props.pressedKey) {
-        case 'd':
-          console.log('Opened \'Delete Plan\' dialog');
-          this.showDialog();
-          break;
-        case 'q': // Search
-          console.log('Search pane');
-          // this.setState({ switchPanel: paneTypes.SEARCH });
-          break;
-        case 'r': // Requirements (distribs)
-          console.log('Requirements pane');
-          // this.showDialog();
-          // this.setState({ switchPanel: paneTypes.REQUIREMENTS });
-          break;
-          // case 'm':  // Majors
-          //   this.showDialog();
-          //   break;
-        case 'b': // Bookmarks
-          console.log('Bookmarks pane');
-          // this.setState({ switchPanel: paneTypes.BOOKMARKS });
-          break;
-          // case 's':  // Save popup
-          //   this.showDialog();
-          //   break;
-        default:
-          break;
-      }
-    }
+    // console.log(`Updating dplan with pm:${this.props.pressedModifier} pk:${this.props.pressedKey}`);
+    // if (this.props.pressedModifier === 'Control' && this.props.pressedKey !== '' && this.props.pressedModifier !== '') {
+    //   // Need to make the order that these are pressed irrelevant
+    //   switch (this.props.pressedKey) {
+    //     case 'd':
+    //       console.log('Opened \'Delete Plan\' dialog');
+    //       this.showDialog();
+    //       break;
+    //     case 'q': // Search
+    //       console.log('Search pane');
+    //       // this.setState({ switchPanel: paneTypes.SEARCH });
+    //       break;
+    //     case 'r': // Requirements (distribs)
+    //       console.log('Requirements pane');
+    //       // this.showDialog();
+    //       // this.setState({ switchPanel: paneTypes.REQUIREMENTS });
+    //       break;
+    //       // case 'm':  // Majors
+    //       //   this.showDialog();
+    //       //   break;
+    //     case 'b': // Bookmarks
+    //       console.log('Bookmarks pane');
+    //       // this.setState({ switchPanel: paneTypes.BOOKMARKS });
+    //       break;
+    //       // case 's':  // Save popup
+    //       //   this.showDialog();
+    //       //   break;
+    //     default:
+    //       break;
+    //   }
+    // }
   }
 
   setCurrentPlan(planID) {
-    console.log(`setting plan to ${planID}`);
-    this.props.fetchPlan(planID);
-    this.setState({
-      noPlan: false,
-    });
+    if (planID !== null) {
+      console.log(`setting plan to ${planID}`);
+      this.props.fetchPlan(planID);
+      this.setState({
+        noPlan: false,
+      });
+    } else {
+      console.log('resetting to no plan');
+      this.setState({ noPlan: true });
+    }
   }
 
   getFlattenedCourses() {
@@ -141,6 +206,17 @@ class DPlan extends Component {
     this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
   }
 
+  showDialog() {
+    const dialogOptions = {
+      title: 'New plan',
+      okText: 'Create',
+      onOk: (name, gradYear) => {
+        this.createNewPlan(name, gradYear);
+      },
+    };
+    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
+  }
+
   showNewPlanDialog() {
     const dialogOptions = {
       title: 'Name your plan',
@@ -184,59 +260,64 @@ class DPlan extends Component {
   render() {
     if (!this.props.plan || this.state.noPlan) {
       return (
-        <div className="dashboard">
-          <Dashboard setCurrentPlan={this.setCurrentPlan} />
-          <div className="welcome-text">
-            <div className="welcome-title">Welcome to D-Planner!</div>
-            <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+        <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+          <div className="dashboard">
+            <Dashboard setCurrentPlan={this.setCurrentPlan} />
+            <div className="welcome-text">
+              <div className="welcome-title">Welcome to D-Planner!</div>
+              <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+            </div>
           </div>
-        </div>
+        </HotKeys>
       );
     } else {
       return (
-        <div className="dashboard">
-          <Dashboard setCurrentPlan={this.setCurrentPlan} />
-          <div className="plan-content">
-            <div className="plan-side">
-              <div className="plan-header">
-                <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
-                <button type="button" className="settings-button" onClick={this.showDialog}>
-                  <img src={trash} alt="delete" />
-                </button>
+        <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+          <div className="dashboard">
+            <Dashboard setCurrentPlan={this.setCurrentPlan} />
+            <div className="plan-content">
+              <div className="plan-side">
+                <div className="plan-header">
+                  <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
+                  <button type="button" className="settings-button" onClick={this.showDialog}>
+                    <img src={trash} alt="delete" />
+                  </button>
+                </div>
+                <Sidebar className="sidebar"
+                  openPane={this.state.openPane}
+                  planCourses={this.getFlattenedCourses()}
+                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                  openPanel={(prevState) => {
+                    console.log(this.state.switchPanel);
+                    this.setState({ switchPanel: null });
+                    return (prevState.switchPanel);
+                  }}
+                />
               </div>
-              <Sidebar className="sidebar"
-                planCourses={this.getFlattenedCourses()}
-                setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                openPanel={(prevState) => {
-                  console.log(this.state.switchPanel);
-                  this.setState({ switchPanel: null });
-                  return (prevState.switchPanel);
-                }}
-              />
-            </div>
-            <div className="plan-grid">
-              {this.props.plan.terms.map((year) => {
-                return (
-                  <div className="plan-row" key={year[0].id}>
-                    {year.map((term) => {
-                      return (
-                        <Term
-                          plan={this.props.plan}
-                          time={this.props.time}
-                          term={term}
-                          key={term.id}
-                          addCourseToTerm={this.addCourseToTerm}
-                          removeCourseFromTerm={this.removeCourseFromTerm}
-                          setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                        />
-                      );
-                    })}
-                  </div>
-                );
-              })}
+              <div className="plan-grid">
+                {this.props.plan.terms.map((year) => {
+                  return (
+                    <div className="plan-row" key={year[0].id}>
+                      {year.map((term) => {
+                        return (
+                          <Term
+                            plan={this.props.plan}
+                            time={this.props.time}
+                            term={term}
+                            key={term.id}
+                            addCourseToTerm={this.addCourseToTerm}
+                            removeCourseFromTerm={this.removeCourseFromTerm}
+                            setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                          />
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
-        </div>
+        </HotKeys>
       );
     }
   }

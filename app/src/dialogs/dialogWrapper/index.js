@@ -2,9 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import { HotKeys } from 'react-hotkeys';
 import closeButton from '../../style/close.svg';
 
 import './dialogWrapper.scss';
+
+/*
+ * TODO: Fix focusing issues with input vs ok button and render order
+ * TODO: Add enter key functionality such that enter in a given input will close the window
+ * TODO: Add functionality so the wrapper knows which panes have inputs and where the focus should go
+*/
 
 // A wrapper for all dialogs in the application
 // Should be used by all other dialogs
@@ -12,6 +19,8 @@ import './dialogWrapper.scss';
 class DialogWrapper extends React.Component {
   okButton = this.props.showOk
     ? (
+      // eslint-disable-next-line jsx-a11y/no-autofocus
+      // autofocus
       <button type="button" className="ok-button" onClick={() => this.onOk()} disabled={this.props.okDisabled}>
         <div className="button-text">{this.props.okText}</div>
       </button>
@@ -31,6 +40,16 @@ class DialogWrapper extends React.Component {
     'dialog-container': true,
   });
 
+  keyMap = {
+    OK: 'Enter',
+    CLOSE: 'Escape',
+  };
+
+  handlers = {
+    OK: () => this.onOk(),
+    CLOSE: () => this.props.hideDialog(),
+  };
+
   constructor(props) {
     super(props);
 
@@ -39,26 +58,28 @@ class DialogWrapper extends React.Component {
   }
 
   onOk = () => {
+    console.log('onOk');
     this.props.onOk();
     this.props.hideDialog();
   };
 
   onNo = () => {
+    console.log('onNo');
     this.props.onNo();
     this.props.hideDialog();
   };
 
   componentDidUpdate = () => {
-    switch (this.props.pressedKey) {
-      case 'Escape':
-        this.props.hideDialog();
-        break;
-      case 'Enter':
-        this.onOk();
-        break;
-      default:
-        break;
-    }
+    // switch (this.props.pressedKey) {
+    //   case 'Escape':
+    //     this.props.hideDialog();
+    //     break;
+    //   case 'Enter':
+    //     this.onOk();
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
   handleBackgroundClick = (e) => {
@@ -69,23 +90,25 @@ class DialogWrapper extends React.Component {
 
   render = () => {
     return (
-      <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
-        <div className={this.size}>
-          <div className="dialog-header">
-            <h1 className="dialog-title">{this.props.title}</h1>
-            <button type="button" onClick={this.props.hideDialog} className="close-button">
-              <img src={closeButton} alt="close" />
-            </button>
-          </div>
-          {this.props.message ? <div className="dialog-message">{this.props.message}</div> : null}
-          {this.props.children}
-          <div className="dialog-actions">
-            {this.noButton}
-            {this.props.showNo ? <div className="dialog-button-spacer" /> : null}
-            {this.okButton}
+      <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+        <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
+          <div className={this.size}>
+            <div className="dialog-header">
+              <h1 className="dialog-title">{this.props.title}</h1>
+              <button type="button" onClick={this.props.hideDialog} className="close-button">
+                <img src={closeButton} alt="close" />
+              </button>
+            </div>
+            {this.props.message ? <div className="dialog-message">{this.props.message}</div> : null}
+            {this.props.children}
+            <div className="dialog-actions">
+              {this.noButton}
+              {this.props.showNo ? <div className="dialog-button-spacer" /> : null}
+              {this.okButton}
+            </div>
           </div>
         </div>
-      </div>
+      </HotKeys>
     );
   }
 }

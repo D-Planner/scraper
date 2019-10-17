@@ -7,7 +7,6 @@ import './newPlan.scss';
 const NewPlan = (props) => {
   const [text, setText] = useState('');
 
-
   return (
     <DialogWrapper {...props} onOk={() => { props.onOk(text); }}>
       <div className="new-plan-content">

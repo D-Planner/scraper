@@ -270,6 +270,9 @@ export function createPlan(plan, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
+  console.log('plan + planSetter');
+  console.log(plan);
+  console.log(planSetter);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
       planSetter(response.data.id);
