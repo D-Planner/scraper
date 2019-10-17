@@ -187,8 +187,6 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   currentPlan: state.plans.current,
   errorMessage: state.plans.errorMessage,
-  pressedKey: state.keyEvent.pressedKey,
-  pressedModifier: state.keyEvent.pressedModifier,
 });
 
 export default withRouter(connect(mapStateToProps, {

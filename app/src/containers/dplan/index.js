@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { HotKeys, configure } from 'react-hotkeys';
+import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -33,7 +33,7 @@ class DPlan extends Component {
     // OK: 'Enter',
     CLOSE: 'Escape', // Close all plans
     SAVE: 'Control+s',
-    // OPEN_NEW_PLAN: 'Control+p',  // TODO
+    OPEN_NEW_PLAN: 'Control+p', // TODO
     OPEN_DELETE_PLAN: 'Control+d',
     OPEN_SEARCH_PANE: 'Control+q',
     OPEN_REQUIREMENTS_PANE: 'Control+r',
@@ -66,7 +66,7 @@ class DPlan extends Component {
     super(props);
     this.state = {
       noPlan: true,
-      switchPanel: null,
+      // switchPanel: null,
       openPane: paneTypes.REQUIREMENTS,
     };
 
@@ -78,17 +78,6 @@ class DPlan extends Component {
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
-  }
-
-  deletePlanKeyPress(plan) {
-    if (this.props.plan !== null) {
-      console.log('deletePlanKeyPress');
-      if (plan === null) {
-        console.log('plan is null');
-      } else {
-        this.showDialog();
-      }
-    }
   }
 
   setCurrentPlan(planID) {
@@ -150,6 +139,17 @@ class DPlan extends Component {
     });
   });
 
+  deletePlanKeyPress(plan) {
+    if (this.props.plan !== null) {
+      console.log('deletePlanKeyPress');
+      if (plan === null) {
+        console.log('plan is null');
+      } else {
+        this.showDialog();
+      }
+    }
+  }
+
   keyCommandWrapper(fn, event = null) {
     event.preventDefault();
     try {
@@ -185,20 +185,37 @@ class DPlan extends Component {
     this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
   }
 
-  createNewPlan(name, gradYear) {
-    const terms = ['F', 'W', 'S', 'X'];
-    let currYear = gradYear - 4;
-    let currQuarter = -1;
-    this.props.createPlan({
-      terms: emptyPlan.terms.map((term) => {
-        if (currQuarter === 3) currYear += 1;
-        currQuarter = (currQuarter + 1) % 4;
-        return { ...term, year: currYear, quarter: terms[currQuarter] };
-      }),
-      name,
-    }, this.setCurrentPlan);
-  }
+  // createNewPlan(name, gradYear) {
+  //   const terms = ['F', 'W', 'S', 'X'];
+  //   let currYear = gradYear - 4;
+  //   let currQuarter = -1;
+  //   this.props.createPlan({
+  //     terms: emptyPlan.terms.map((term) => {
+  //       if (currQuarter === 3) currYear += 1;
+  //       currQuarter = (currQuarter + 1) % 4;
+  //       return { ...term, year: currYear, quarter: terms[currQuarter] };
+  //     }),
+  //     name,
+  //   }, this.setCurrentPlan);
+  // }
 
+  createNewPlan(name) {
+    const terms = ['F', 'W', 'S', 'X'];
+    this.props.fetchUser().then(() => { // grabs most recent user data first
+      let currYear = this.props.user.graduationYear - 4;
+      let currQuarter = -1;
+      this.props.createPlan({
+        terms: emptyPlan.terms.map((term) => {
+          if (currQuarter === 3) currYear += 1;
+          currQuarter = (currQuarter + 1) % 4;
+          return { ...term, year: currYear, quarter: terms[currQuarter] };
+        }),
+        name,
+      }, this.setCurrentPlan).then(() => {
+        this.props.fetchPlans();
+      });
+    });
+  }
 
   renderNewPlanButton = (fn) => {
     return (
@@ -244,11 +261,6 @@ class DPlan extends Component {
                   openPane={this.state.openPane}
                   planCourses={this.getFlattenedCourses()}
                   setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                  openPanel={(prevState) => {
-                    console.log(this.state.switchPanel);
-                    this.setState({ switchPanel: null });
-                    return (prevState.switchPanel);
-                  }}
                 />
               </div>
               <div className="plan-grid">
@@ -285,10 +297,9 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   plan: state.plans.current,
   time: state.time,
-  pressedKey: state.keyEvent.pressedKey,
-  pressedModifier: state.keyEvent.pressedModifier,
+  user: state.user.current,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans,
 })(DPlan));
