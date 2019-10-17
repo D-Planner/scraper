@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, { Fragment } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
@@ -20,50 +20,6 @@ import './dashboard.scss';
 
 /** Homepage of the application once authenticated - displays plans */
 class Dashboard extends React.Component {
-  keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
-
-  // keyMap = {
-  //   PLAN_ONE: 'Control+1',
-  //   PLAN_TWO: 'Control+2',
-  //   PLAN_THREE: 'Control+3',
-  //   PLAN_FOUR: 'Control+4',
-  //   PLAN_FIVE: 'Control+5',
-  //   PLAN_SIX: 'Control+6',
-  //   PLAN_SEVEN: 'Control+7',
-  //   PLAN_EIGHT: 'Control+8',
-  //   PLAN_NINE: 'Control+9',
-  //   PLAN_TEN: 'Control+0',
-  //   // OK: 'Enter',
-  //   // CLOSE: 'Escape',
-  //   SAVE: 'Control+s',
-  //   OPEN_NEW_PLAN: 'Control+y',
-  //   // OPEN_DELETE_PLAN: 'Control+d',
-  //   // OPEN_SEARCH_PANE: 'Control+q',
-  //   // OPEN_REQUIREMENTS_PANE: 'Control+r',
-  //   // OPEN_BOOKMARKS_PANE: 'Control+b',
-  // };
-
-  // handlers = {
-  //   PLAN_ONE: event => this.test(event),
-  //   PLAN_TWO: event => this.test(event),
-  //   PLAN_THREE: null,
-  //   PLAN_FOUR: null,
-  //   PLAN_FIVE: null,
-  //   PLAN_SIX: null,
-  //   PLAN_SEVEN: null,
-  //   PLAN_EIGHT: null,
-  //   PLAN_NINE: null,
-  //   PLAN_TEN: null,
-  //   // OK: this.test,
-  //   // CLOSE: null,
-  //   SAVE: event => this.test(event),
-  //   OPEN_NEW_PLAN: event => this.test(event),
-  //   // OPEN_DELETE_PLAN: null,
-  //   // OPEN_SEARCH_PANE: event => console.log('search pane test'),
-  //   // OPEN_REQUIREMENTS_PANE: null,
-  //   // OPEN_BOOKMARKS_PANE: null,
-  // };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -80,37 +36,8 @@ class Dashboard extends React.Component {
     this.displayIfError = this.displayIfError.bind(this);
   }
 
-  // test(event) {
-  //   event.preventDefault();
-  //   console.log('test function');
-  //   this.props.goToPlan(this.props.plans[1].id);
-  // }
-
   componentWillMount() {
     this.props.fetchPlans();
-  }
-
-  componentDidUpdate = () => {
-    // if (this.props.pressedModifier === 'Control') {
-    //   console.log('Pressed Control in Dashboard');
-    //   for (let i = 0; i < this.props.plans.length; i += 1) {
-    //     if (this.keys[i] === this.props.pressedKey) {
-    //       if (this.props.plans[i].id !== (this.props.currentPlan ? this.props.currentPlan.id : 0)) {
-    //         console.log(`Switching to plan ${this.props.plans[i].id}`);
-    //         this.goToPlan(this.props.plans[i].id);
-    //       }
-    //     }
-    //   }
-
-    //   // console.log(this.props.plans[0]._id);
-    //   switch (this.props.pressedKey) {
-    //     case 'n':
-    //       this.showDialog();
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
   }
 
   displayIfError = () => {
@@ -146,7 +73,6 @@ class Dashboard extends React.Component {
 
   goToPlan(id) {
     this.props.setCurrentPlan(id);
-    // this.props.history.push(`/plan/${id}`);
   }
 
   showDialog() {
@@ -187,7 +113,6 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-    // <Fragment>
       <HotKeys keyMap={this.keyMap} handlers={this.handlers} className="key-container">
         <div className="dashboard-container">
           <div className={classNames({
@@ -246,7 +171,6 @@ class Dashboard extends React.Component {
                   : <img className="search-icon" src={personIcon} alt="search" />
             }
               </div>
-              {/* <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink> */}
             </div>
           </div>
           <div id="error-container">
@@ -254,7 +178,6 @@ class Dashboard extends React.Component {
           </div>
         </div>
       </HotKeys>
-    // </Fragment>
     );
   }
 }

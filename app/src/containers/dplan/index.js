@@ -33,7 +33,7 @@ class DPlan extends Component {
     // OK: 'Enter',
     CLOSE: 'Escape', // Close all plans
     SAVE: 'Control+s',
-    OPEN_NEW_PLAN: 'Control+p',
+    // OPEN_NEW_PLAN: 'Control+p',  // TODO
     OPEN_DELETE_PLAN: 'Control+d',
     OPEN_SEARCH_PANE: 'Control+q',
     OPEN_REQUIREMENTS_PANE: 'Control+r',
@@ -55,7 +55,8 @@ class DPlan extends Component {
     CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
     SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event),
     OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
-    OPEN_DELETE_PLAN: event => this.keyCommandWrapper(this.props.plan === null ? console.log('no plan') : this.props.showDialog()),
+    // OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => { if (this.props.plan === null) { console.log('no plan'); } else { this.props.showDialog(); } }),
+    OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => this.deletePlanKeyPress(this.props.plan), event),
     OPEN_SEARCH_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.SEARCH }), event),
     OPEN_REQUIREMENTS_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.REQUIREMENTS }), event),
     OPEN_BOOKMARKS_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.BOOKMARKS }), event),
@@ -68,6 +69,7 @@ class DPlan extends Component {
       switchPanel: null,
       openPane: paneTypes.REQUIREMENTS,
     };
+
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
@@ -78,62 +80,15 @@ class DPlan extends Component {
     this.props.getTimes();
   }
 
-  keyCommandWrapper(fn, event = null) {
-    event.preventDefault();
-    try {
-      fn();
-    } catch (e) {
-      console.error(e);
+  deletePlanKeyPress(plan) {
+    if (this.props.plan !== null) {
+      console.log('deletePlanKeyPress');
+      if (plan === null) {
+        console.log('plan is null');
+      } else {
+        this.showDialog();
+      }
     }
-  }
-
-  test(event) {
-    event.preventDefault();
-    console.log('test function');
-  }
-
-  componentDidMount() {
-    // if (typeof this.props.match.params.id === 'undefined') {
-    //   this.setState({
-    //     noPlan: true,
-    //   });
-    // } else {
-    //   this.props.fetchPlan(this.props.match.params.id);
-    // }
-  }
-
-  componentDidUpdate() {
-    // console.log(`Updating dplan with pm:${this.props.pressedModifier} pk:${this.props.pressedKey}`);
-    // if (this.props.pressedModifier === 'Control' && this.props.pressedKey !== '' && this.props.pressedModifier !== '') {
-    //   // Need to make the order that these are pressed irrelevant
-    //   switch (this.props.pressedKey) {
-    //     case 'd':
-    //       console.log('Opened \'Delete Plan\' dialog');
-    //       this.showDialog();
-    //       break;
-    //     case 'q': // Search
-    //       console.log('Search pane');
-    //       // this.setState({ switchPanel: paneTypes.SEARCH });
-    //       break;
-    //     case 'r': // Requirements (distribs)
-    //       console.log('Requirements pane');
-    //       // this.showDialog();
-    //       // this.setState({ switchPanel: paneTypes.REQUIREMENTS });
-    //       break;
-    //       // case 'm':  // Majors
-    //       //   this.showDialog();
-    //       //   break;
-    //     case 'b': // Bookmarks
-    //       console.log('Bookmarks pane');
-    //       // this.setState({ switchPanel: paneTypes.BOOKMARKS });
-    //       break;
-    //       // case 's':  // Save popup
-    //       //   this.showDialog();
-    //       //   break;
-    //     default:
-    //       break;
-    //   }
-    // }
   }
 
   setCurrentPlan(planID) {
@@ -195,28 +150,30 @@ class DPlan extends Component {
     });
   });
 
+  keyCommandWrapper(fn, event = null) {
+    event.preventDefault();
+    try {
+      fn();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   showDialog() {
     const opts = {
       title: 'Delete plan',
       okText: 'Delete',
       onOk: () => {
+        // for (let i = 0; i < this.props.plans.length; i += 1) {
+        //   this.props.deletePlan(this.props.plans[i].id, this.props.history);
+        // }
         this.props.deletePlan(this.props.plan.id, this.props.history);
       },
     };
     this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
   }
 
-  showDialog() {
-    const dialogOptions = {
-      title: 'New plan',
-      okText: 'Create',
-      onOk: (name, gradYear) => {
-        this.createNewPlan(name, gradYear);
-      },
-    };
-    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
-  }
-
+  // Of interest
   showNewPlanDialog() {
     const dialogOptions = {
       title: 'Name your plan',
