@@ -3,7 +3,6 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { HotKeys } from 'react-hotkeys';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
@@ -113,71 +112,69 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <HotKeys keyMap={this.keyMap} handlers={this.handlers} className="key-container">
-        <div className="dashboard-container">
-          <div className={classNames({
-            menu: true,
-            active: this.state.active,
-          })}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
-          >
-            <div className="plans-container">
-              <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
-            </div>
-            <div className="nav-container">
-              <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
-                {this.state.active
-                  ? (
-                    <>
-                      <img className="search-icon" src={searchIcon} alt="search" />
-                      <div className="space" />
-                      <p>Discover</p>
-                    </>
-                  )
-                  : <img className="search-icon" src={searchIcon} alt="search" />
-            }
-              </div>
-              <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
-                {this.state.active
-                  ? (
-                    <>
-                      <img className="search-icon" src={feedbackIcon} alt="search" />
-                      <div className="space" />
-                      <p>Feedback</p>
-                    </>
-                  )
-                  : <img className="search-icon" src={feedbackIcon} alt="search" />
-            }
-              </div>
-              <div role="presentation"
-                className="option-button"
-                onClick={() => {
-                  this.props.fetchUser().then((r) => {
-                    this.showProfileDialog(this.props);
-                  }).catch((e) => {
-                    console.log(e);
-                  });
-                }}
-              >
-                {this.state.active
-                  ? (
-                    <>
-                      <img className="search-icon" src={personIcon} alt="search" />
-                      <div className="space" />
-                      <p>Your Profile</p>
-                    </>
-                  )
-                  : <img className="search-icon" src={personIcon} alt="search" />
-            }
-              </div>
-            </div>
+      <div className="dashboard-container">
+        <div className={classNames({
+          menu: true,
+          active: this.state.active,
+        })}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        >
+          <div className="plans-container">
+            <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
-          <div id="error-container">
-            {this.displayIfError()}
+          <div className="nav-container">
+            <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={searchIcon} alt="search" />
+                    <div className="space" />
+                    <p>Discover</p>
+                  </>
+                )
+                : <img className="search-icon" src={searchIcon} alt="search" />
+            }
+            </div>
+            <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={feedbackIcon} alt="search" />
+                    <div className="space" />
+                    <p>Feedback</p>
+                  </>
+                )
+                : <img className="search-icon" src={feedbackIcon} alt="search" />
+            }
+            </div>
+            <div role="presentation"
+              className="option-button"
+              onClick={() => {
+                this.props.fetchUser().then((r) => {
+                  this.showProfileDialog(this.props);
+                }).catch((e) => {
+                  console.log(e);
+                });
+              }}
+            >
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={personIcon} alt="search" />
+                    <div className="space" />
+                    <p>Your Profile</p>
+                  </>
+                )
+                : <img className="search-icon" src={personIcon} alt="search" />
+            }
+            </div>
           </div>
         </div>
-      </HotKeys>
+        <div id="error-container">
+          {this.displayIfError()}
+        </div>
+      </div>
     );
   }
 }

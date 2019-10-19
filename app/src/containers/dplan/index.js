@@ -68,6 +68,8 @@ class DPlan extends Component {
       openPane: paneTypes.REQUIREMENTS,
     };
 
+    this.dplanRef = React.createRef();
+
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
@@ -76,6 +78,10 @@ class DPlan extends Component {
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
+  }
+
+  componentDidUpdate() {
+    this.dplanRef.current.focus();
   }
 
   setCurrentPlan(planID) {
@@ -228,10 +234,11 @@ class DPlan extends Component {
   };
 
   render() {
+    console.log(document.activeElement);
     if (!this.props.plan || this.state.noPlan) {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-          <div className="dashboard">
+          <div className="dashboard" tabIndex={-1} ref={this.dplanRef}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="welcome-text">
               <div className="welcome-title">Welcome to D-Planner!</div>
@@ -243,7 +250,7 @@ class DPlan extends Component {
     } else {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-          <div className="dashboard">
+          <div className="dashboard" ref={this.dplanRef}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="plan-content">
               <div className="plan-side">
