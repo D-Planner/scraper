@@ -55,7 +55,6 @@ class DPlan extends Component {
     CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
     SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event),
     OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
-    // OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => { if (this.props.plan === null) { console.log('no plan'); } else { this.props.showDialog(); } }),
     OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => this.deletePlanKeyPress(this.props.plan), event),
     OPEN_SEARCH_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.SEARCH }), event),
     OPEN_REQUIREMENTS_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.REQUIREMENTS }), event),
@@ -66,7 +65,6 @@ class DPlan extends Component {
     super(props);
     this.state = {
       noPlan: true,
-      // switchPanel: null,
       openPane: paneTypes.REQUIREMENTS,
     };
 
@@ -164,9 +162,6 @@ class DPlan extends Component {
       title: 'Delete plan',
       okText: 'Delete',
       onOk: () => {
-        // for (let i = 0; i < this.props.plans.length; i += 1) {
-        //   this.props.deletePlan(this.props.plans[i].id, this.props.history);
-        // }
         this.props.deletePlan(this.props.plan.id, this.props.history);
       },
     };
@@ -178,8 +173,8 @@ class DPlan extends Component {
     const dialogOptions = {
       title: 'Name your plan',
       okText: 'Create',
-      onOk: (name, gradYear) => {
-        this.createNewPlan(name, gradYear);
+      onOk: (name) => {
+        this.createNewPlan(name);
       },
     };
     this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
@@ -204,6 +199,7 @@ class DPlan extends Component {
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
       let currQuarter = -1;
+      console.log(`creating new plan with name ${name}`);
       this.props.createPlan({
         terms: emptyPlan.terms.map((term) => {
           if (currQuarter === 3) currYear += 1;
@@ -258,6 +254,7 @@ class DPlan extends Component {
                   </button>
                 </div>
                 <Sidebar className="sidebar"
+                  setOpenPane={pane => this.setState({ openPane: pane })}
                   openPane={this.state.openPane}
                   planCourses={this.getFlattenedCourses()}
                   setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}

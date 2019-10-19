@@ -18,6 +18,7 @@ const NewPlan = (props) => {
           onChange={(e) => { setText(e.target.value); }}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
+          // onKeyDown={(e) => { if (e.keyCode === 13) { console.log(e.target.value); props.onOk(); } }}
         />
       </div>
     </DialogWrapper>

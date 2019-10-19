@@ -69,19 +69,6 @@ class DialogWrapper extends React.Component {
     this.props.hideDialog();
   };
 
-  componentDidUpdate = () => {
-    // switch (this.props.pressedKey) {
-    //   case 'Escape':
-    //     this.props.hideDialog();
-    //     break;
-    //   case 'Enter':
-    //     this.onOk();
-    //     break;
-    //   default:
-    //     break;
-    // }
-  }
-
   handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       this.props.hideDialog();
@@ -157,8 +144,4 @@ DialogWrapper.defaultProps = {
   onNo: () => {},
 };
 
-const mapStateToProps = state => ({
-  pressedKey: state.keyEvent.pressedKey,
-});
-
-export default connect(mapStateToProps)(DialogWrapper);
+export default connect(null)(DialogWrapper);

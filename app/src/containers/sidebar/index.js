@@ -29,11 +29,6 @@ class Sidebar extends Component {
 
   componentDidMount() {
     this.props.fetchUser();
-    console.log(this.props.openPane ? this.props.openPane : paneTypes.REQUIREMENTS);
-  }
-
-  componentDidUpdate() {
-    console.log(this.props);
   }
 
   addToBookmarks = (courseId) => {
@@ -56,9 +51,9 @@ class Sidebar extends Component {
     console.log(type);
     if (type !== paneTypes.SEARCH) {
       this.setSearchQuery('');
-      this.setActivePane(type);
+      this.props.setOpenPane(type);
     } else {
-      this.setActivePane(type);
+      this.props.setOpenPane(type);
     }
   }
 
