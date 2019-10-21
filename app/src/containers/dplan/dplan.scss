@@ -13,10 +13,6 @@ $sidebar-margin-left: 30px;
     align-items: stretch;
     height: 100vh;
 
-    &:focus {
-      background-color: red;
-    }
-
     .welcome-text {
         flex-grow: 1;
         display: flex;
