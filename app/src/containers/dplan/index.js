@@ -29,10 +29,9 @@ class DPlan extends Component {
     PLAN_EIGHT: 'Control+8',
     PLAN_NINE: 'Control+9',
     PLAN_TEN: 'Control+0',
-    // OK: 'Enter',
     CLOSE: 'Escape', // Close all plans
     SAVE: 'Control+s',
-    OPEN_NEW_PLAN: 'Control+p', // TODO
+    OPEN_NEW_PLAN: 'Control+p',
     OPEN_DELETE_PLAN: 'Control+d',
     OPEN_SEARCH_PANE: 'Control+q',
     OPEN_REQUIREMENTS_PANE: 'Control+r',
@@ -50,9 +49,8 @@ class DPlan extends Component {
     PLAN_EIGHT: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[7].id), event),
     PLAN_NINE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[8].id), event),
     PLAN_TEN: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[9].id), event),
-    // OK: this.test,
     CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
-    SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event),
+    SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event), // TODO: Add to announcement bar
     OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
     OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => this.deletePlanKeyPress(this.props.plan), event),
     OPEN_SEARCH_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.SEARCH }), event),
@@ -82,13 +80,6 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.dplanref.current.focus();
-  }
-
-  componentDidUpdate() {
-    // if (this.props.focusElement) {
-    //   console.log('focusing from componentdidmount');
-    //   this.props.focusElement.current.focus();
-    // }
   }
 
   setCurrentPlan(planID) {
@@ -183,7 +174,6 @@ class DPlan extends Component {
     }
   }
 
-  // Of interest
   showNewPlanDialog() {
     if (!this.props.openDialog) {
       const dialogOptions = {
@@ -196,20 +186,6 @@ class DPlan extends Component {
       this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
     }
   }
-
-  // createNewPlan(name, gradYear) {
-  //   const terms = ['F', 'W', 'S', 'X'];
-  //   let currYear = gradYear - 4;
-  //   let currQuarter = -1;
-  //   this.props.createPlan({
-  //     terms: emptyPlan.terms.map((term) => {
-  //       if (currQuarter === 3) currYear += 1;
-  //       currQuarter = (currQuarter + 1) % 4;
-  //       return { ...term, year: currYear, quarter: terms[currQuarter] };
-  //     }),
-  //     name,
-  //   }, this.setCurrentPlan);
-  // }
 
   createNewPlan(name) {
     const terms = ['F', 'W', 'S', 'X'];

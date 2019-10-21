@@ -7,20 +7,12 @@ import closeButton from '../../style/close.svg';
 
 import './dialogWrapper.scss';
 
-/*
- * TODO: Fix focusing issues with input vs ok button and render order
- * TODO: Add enter key functionality such that enter in a given input will close the window
- * TODO: Add functionality so the wrapper knows which panes have inputs and where the focus should go
-*/
-
 // A wrapper for all dialogs in the application
 // Should be used by all other dialogs
 // Allowable/required prop types defined at the bottom of this file
 class DialogWrapper extends React.Component {
   okButton = this.props.showOk
     ? (
-      // eslint-disable-next-line jsx-a11y/no-autofocus
-      // autofocus
       <button type="button" className="ok-button" onClick={() => this.onOk()} disabled={this.props.okDisabled}>
         <div className="button-text">{this.props.okText}</div>
       </button>

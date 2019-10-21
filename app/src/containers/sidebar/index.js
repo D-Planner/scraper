@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SearchPane from './searchPane';
 import RequirementsPane from './requirementsPane';
@@ -68,17 +68,7 @@ class Sidebar extends Component {
       <div className="sidebar">
         <SearchPane
           active={this.props.openPane === paneTypes.SEARCH}
-          activate={() => {
-            if (this.props.openPane !== paneTypes.SEARCH) {
-              console.log('switching pane');
-              this.handlePaneSwitch(paneTypes.SEARCH);
-            }
-          }}
-          // activate={new Promise(((resolve, reject) => {
-          //   this.handlePaneSwitch(paneTypes.SEARCH);
-          // })).then(() => {
-          //   console.log('test promise');
-          // })}
+          activate={() => { if (this.props.openPane !== paneTypes.SEARCH) this.handlePaneSwitch(paneTypes.SEARCH); }}
           setSearchQuery={this.setSearchQuery}
           searchQuery={this.state.searchQuery}
           search={this.props.courseSearch}
@@ -94,8 +84,6 @@ class Sidebar extends Component {
           activate={() => this.handlePaneSwitch(paneTypes.REQUIREMENTS)}
           majors={this.props.user.majors}
           showDeclareDialog={this.showDeclareDialog}
-          // distribs={props.planCourses.map(c => c.course.distrib)}
-          // wcs={props.planCourses.map(c => c.course.wc)}
           userCourses={this.props.planCourses}
         />
         <BookmarksPane

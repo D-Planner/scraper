@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import filterIcon from '../../../style/filter.svg';
 import arrowDropDown from '../../../style/arrowDropDown.svg';
@@ -12,151 +12,14 @@ import DraggableCourse from '../../../components/draggableCourse';
 /**
  * @name SearchPane
  * @description allows a user to search specific courses right in the sidebar
+ * @param ref UNUSED, for focus selecting
  */
-
-// class SearchPane extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       search: true,
-//       pane: true,
-//       active: props.active,
-//       wcs: '',
-//       distrib: '',
-//     };
-//   }
-
-//   // const paneClass = classNames({
-//   //   search: true,
-//   //   pane: true,
-//   //   active: props.active,
-//   // });
-
-//   // const [searchText, setSearchText] = useState('');
-//   const [wcs, setWC] = useState('');
-//   const [distribs, setDistrib] = useState('');
-
-//   // Allows a user to search by the query entered in the search input
-
-//   // Clears the search input when the component updates to go inactive
-//   useEffect(() => {
-//     if (props.searchQuery.length !== 0) {
-//       const queryParsed = {
-//         title: props.searchQuery,
-//         department: props.searchQuery.split(' ')[0].toUpperCase(),
-//         number: props.searchQuery.split(' ')[1],
-//         distribs,
-//         wcs,
-//       };
-//       // console.log(props.resultStamp);
-//       props.stampIncrement((props.resultStamp + 1));
-//       props.search(queryParsed, props.resultStamp);
-//     }
-//   }, [props.searchQuery, wcs, distribs]);
-
-//   const setFilters = (wc, distrib) => {
-//     setWC(wc);
-//     setDistrib(distrib);
-//   };
-
-//   const showFilterDialog = () => {
-//     const dialogOptions = {
-//       title: 'Search filters',
-//       size: 'md',
-//       okText: 'Save',
-//       onOk: setFilters,
-//     };
-//     props.showDialog(DialogTypes.FILTER, dialogOptions);
-//   };
-
-//   render() {
-//     return (
-//     <div className={paneClass} onClick={props.activate} role="presentation">
-//       <div className="pane-header">
-//         <button type="button" className="search-config-button">
-//           <img className="search-config-icon" src={arrowDropDown} alt="filter" />
-//         </button>
-//         <input type="text"
-//           className="search-input"
-//           placeholder="Search for courses"
-//           value={props.searchQuery}
-//           tabIndex={-1}
-//           onChange={(e) => {
-//             props.setSearchQuery(e.target.value);
-//           }}
-//         />
-//         <button type="button" className="search-config-button" onClick={showFilterDialog}>
-//           <img className="search-config-icon" src={filterIcon} alt="filter" />
-//         </button>
-//       </div>
-//       {props.active
-//         ? (
-//           <div className="pane-content">
-
-//             <div className="filters">
-//               <select className="gened-picker"
-//                 onChange={(e) => {
-//                   setWC(e.target.value);
-//                 }}
-//               >
-//                 <option value="">None</option>
-//                 {
-//                   Object.keys(GenEds).filter((g) => {
-//                     return g.length <= 2;
-//                   }).map((g) => {
-//                     return (
-//                       <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-//                     );
-//                   })
-//                 }
-//               </select>
-//               <select className="gened-picker"
-//                 onChange={(e) => {
-//                   setDistrib(e.target.value);
-//                 }}
-//               >
-//                 <option value="">None</option>
-//                 {
-//                   Object.keys(GenEds).filter((g) => {
-//                     return g.length > 2;
-//                   }).map((g) => {
-//                     return (
-//                       <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-//                     );
-//                   })
-//                 }
-//               </select>
-//             </div>
-//             <div className="search-results">
-//               {props.results.length
-//                 ? props.results.map((course) => {
-//                   return (
-//                     <div className="result-row" key={course.id}>
-//                       <div className="paneCourse">
-//                         <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} />
-//                       </div>
-//                       <div id="course-spacer-large" />
-//                     </div>
-//                   );
-//                 })
-//                 : (<div className="no-search">Search for courses!</div>)}
-//             </div>
-//           </div>
-//         ) : null
-//           }
-//     </div>
-//   );
-//   }
-// }
-
 const SearchPane = React.forwardRef((props, ref) => {
   const paneClass = classNames({
     search: true,
     pane: true,
     active: props.active,
   });
-
-  // const searchEntryRef = React.createRef();
 
   // const [searchText, setSearchText] = useState('');
   const [wcs, setWC] = useState('');
@@ -194,16 +57,6 @@ const SearchPane = React.forwardRef((props, ref) => {
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
   };
-
-  if (ref) {
-    console.log('ref');
-  }
-
-  // console.log(searchEntryRef);
-  // if (props.active === true && searchEntryRef !== null) {
-  //   searchEntryRef.current.focus();
-  //   console.log('active');
-  // }
 
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
