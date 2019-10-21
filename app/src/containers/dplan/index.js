@@ -81,15 +81,14 @@ class DPlan extends Component {
   }
 
   componentDidMount() {
-    if (this.props.focusElement) {
-      this.props.focusElement.current.focus();
-    }
+    this.dplanref.current.focus();
   }
 
   componentDidUpdate() {
-    if (this.props.focusElement) {
-      this.props.focusElement.current.focus();
-    }
+    // if (this.props.focusElement) {
+    //   console.log('focusing from componentdidmount');
+    //   this.props.focusElement.current.focus();
+    // }
   }
 
   setCurrentPlan(planID) {
@@ -172,26 +171,30 @@ class DPlan extends Component {
   }
 
   showDialog() {
-    const opts = {
-      title: `Delete ${this.props.plan.name === '' ? 'Plan' : ` '${this.props.plan.name.length > 10 ? (`${this.props.plan.name.substring(0, 7)}...`) : this.props.plan.name}'`}?`,
-      okText: 'Delete',
-      onOk: () => {
-        this.props.deletePlan(this.props.plan.id, this.props.history);
-      },
-    };
-    this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
+    if (!this.props.openDialog) {
+      const opts = {
+        title: `Delete ${this.props.plan.name === '' ? 'Plan' : ` '${this.props.plan.name.length > 10 ? (`${this.props.plan.name.substring(0, 7)}...`) : this.props.plan.name}'`}?`,
+        okText: 'Delete',
+        onOk: () => {
+          this.props.deletePlan(this.props.plan.id, this.props.history);
+        },
+      };
+      this.props.showDialog(DialogTypes.DELETE_PLAN, opts);
+    }
   }
 
   // Of interest
   showNewPlanDialog() {
-    const dialogOptions = {
-      title: 'Name your plan',
-      okText: 'Create',
-      onOk: (name) => {
-        this.createNewPlan(name);
-      },
-    };
-    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
+    if (!this.props.openDialog) {
+      const dialogOptions = {
+        title: 'Name your plan',
+        okText: 'Create',
+        onOk: (name) => {
+          this.createNewPlan(name);
+        },
+      };
+      this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
+    }
   }
 
   // createNewPlan(name, gradYear) {
@@ -310,6 +313,7 @@ const mapStateToProps = state => ({
   time: state.time,
   user: state.user.current,
   focusElement: state.dialog.focusOnClose,
+  openDialog: state.dialog.type,
 });
 
 export default withRouter(connect(mapStateToProps, {

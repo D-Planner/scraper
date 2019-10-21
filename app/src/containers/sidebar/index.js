@@ -25,6 +25,8 @@ class Sidebar extends Component {
     this.state = {
       searchQuery: '',
     };
+
+    this.searchRef = React.createRef();
   }
 
   componentDidMount() {
@@ -66,7 +68,17 @@ class Sidebar extends Component {
       <div className="sidebar">
         <SearchPane
           active={this.props.openPane === paneTypes.SEARCH}
-          activate={() => this.handlePaneSwitch(paneTypes.SEARCH)}
+          activate={() => {
+            if (this.props.openPane !== paneTypes.SEARCH) {
+              console.log('switching pane');
+              this.handlePaneSwitch(paneTypes.SEARCH);
+            }
+          }}
+          // activate={new Promise(((resolve, reject) => {
+          //   this.handlePaneSwitch(paneTypes.SEARCH);
+          // })).then(() => {
+          //   console.log('test promise');
+          // })}
           setSearchQuery={this.setSearchQuery}
           searchQuery={this.state.searchQuery}
           search={this.props.courseSearch}
