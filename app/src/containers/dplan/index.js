@@ -148,7 +148,6 @@ class DPlan extends Component {
   };
 
   renderAnnouncement = () => {
-    console.log(this.props.currentAnnouncement);
     return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div className={this.state.announcementActive === true ? 'announcements' : 'announcements closed'}
@@ -164,7 +163,6 @@ class DPlan extends Component {
           onClick={(e) => {
             this.setState((prevState) => { return ({ announcementActive: false }); });
             e.stopPropagation();
-            console.log('Closed dialog!');
           }}
         />
       </div>
