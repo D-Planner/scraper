@@ -35,6 +35,7 @@ export const ActionTypes = {
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
   SET_PRESSED_KEY: 'SET_PRESSED_KEY',
   REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
+  UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
 };
 
 export function setPressedKey(key) {
@@ -834,5 +835,15 @@ export function showDialog(type, options) {
 export function hideDialog() {
   return (dispatch) => {
     dispatch({ type: ActionTypes.HIDE_DIALOG });
+  };
+}
+
+/**
+ * Updates where the window will focus once a dialog box closes
+ * @param {*} ref
+ */
+export function updateCloseFocus(ref) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.UPDATE_CLOSE_FOCUS, payload: { focusOnClose: ref } });
   };
 }

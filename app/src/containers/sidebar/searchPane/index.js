@@ -67,6 +67,7 @@ const SearchPane = (props) => {
           className="search-input"
           placeholder="Search for courses"
           value={props.searchQuery}
+          tabIndex={-1}
           onChange={(e) => {
             props.setSearchQuery(e.target.value);
           }}

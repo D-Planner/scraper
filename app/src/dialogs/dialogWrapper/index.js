@@ -47,7 +47,10 @@ class DialogWrapper extends React.Component {
 
   handlers = {
     OK: () => this.onOk(),
-    CLOSE: () => this.props.hideDialog(),
+    CLOSE: () => {
+      console.log('closing...');
+      this.props.hideDialog();
+    },
   };
 
   constructor(props) {
@@ -55,6 +58,13 @@ class DialogWrapper extends React.Component {
 
     this.onOk = this.onOk.bind(this);
     this.onNo = this.onNo.bind(this);
+
+    this.popupRef = React.createRef();
+    this.okPopupRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.popupRef.current.focus();
   }
 
   onOk = () => {
@@ -71,15 +81,16 @@ class DialogWrapper extends React.Component {
 
   handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      this.props.hideDialog();
+      console.log('handleBackgroundClick');
+      console.log(this.props.hideDialog());
     }
   };
 
   render = () => {
     return (
-      <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-        <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
-          <div className={this.size}>
+      <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
+        <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+          <div className={this.size} ref={this.popupRef} tabIndex={-1}>
             <div className="dialog-header">
               <h1 className="dialog-title">{this.props.title}</h1>
               <button type="button" onClick={this.props.hideDialog} className="close-button">
@@ -94,8 +105,8 @@ class DialogWrapper extends React.Component {
               {this.okButton}
             </div>
           </div>
-        </div>
-      </HotKeys>
+        </HotKeys>
+      </div>
     );
   }
 }
@@ -144,4 +155,8 @@ DialogWrapper.defaultProps = {
   onNo: () => {},
 };
 
-export default connect(null)(DialogWrapper);
+const mapStateToProps = state => ({
+  focusOnClose: state.dialog.focusOnClose,
+});
+
+export default connect(mapStateToProps)(DialogWrapper);

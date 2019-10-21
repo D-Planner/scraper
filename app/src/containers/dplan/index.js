@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -14,7 +14,6 @@ import Dashboard from '../dashboard';
 import trash from '../../style/trash.svg';
 import Term from '../term';
 import './dplan.scss';
-
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
@@ -68,8 +67,6 @@ class DPlan extends Component {
       openPane: paneTypes.REQUIREMENTS,
     };
 
-    this.dplanRef = React.createRef();
-
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
@@ -78,10 +75,21 @@ class DPlan extends Component {
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
+
+    this.dplanref = React.createRef();
+    this.props.updateCloseFocus(this.dplanref);
+  }
+
+  componentDidMount() {
+    if (this.props.focusElement) {
+      this.props.focusElement.current.focus();
+    }
   }
 
   componentDidUpdate() {
-    this.dplanRef.current.focus();
+    if (this.props.focusElement) {
+      this.props.focusElement.current.focus();
+    }
   }
 
   setCurrentPlan(planID) {
@@ -165,7 +173,7 @@ class DPlan extends Component {
 
   showDialog() {
     const opts = {
-      title: 'Delete plan',
+      title: `Delete ${this.props.plan.name === '' ? 'Plan' : ` '${this.props.plan.name.length > 10 ? (`${this.props.plan.name.substring(0, 7)}...`) : this.props.plan.name}'`}?`,
       okText: 'Delete',
       onOk: () => {
         this.props.deletePlan(this.props.plan.id, this.props.history);
@@ -234,11 +242,10 @@ class DPlan extends Component {
   };
 
   render() {
-    console.log(document.activeElement);
     if (!this.props.plan || this.state.noPlan) {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-          <div className="dashboard" tabIndex={-1} ref={this.dplanRef}>
+          <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="welcome-text">
               <div className="welcome-title">Welcome to D-Planner!</div>
@@ -250,7 +257,7 @@ class DPlan extends Component {
     } else {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-          <div className="dashboard" ref={this.dplanRef}>
+          <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="plan-content">
               <div className="plan-side">
@@ -302,8 +309,9 @@ const mapStateToProps = state => ({
   plan: state.plans.current,
   time: state.time,
   user: state.user.current,
+  focusElement: state.dialog.focusOnClose,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus,
 })(DPlan));

@@ -31,10 +31,15 @@ class App extends Component {
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
+    window.addEventListener('focus', (e) => {
+      console.log('focus changed - APP');
+      console.log(e.target);
+    }, true);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('focus', e => console.log(e));
   }
 
   updateWindowDimensions() {
