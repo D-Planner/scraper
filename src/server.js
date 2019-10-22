@@ -78,7 +78,7 @@ app.use('/terms', requireAuth, termsRouter);
 app.use('/majors', requireAuth, majorsRouter);
 app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
-app.use('/announcements', requireAuth, announcementsRouter);
+app.use('/announcements', announcementsRouter); // RequireAuth
 
 
 // These cannot be used in production, or will need our own special Authorization
@@ -86,6 +86,7 @@ app.get('/reset', (req, res) => {
     resetDB();
     res.send('database reset');
 });
+
 // custom middleware for 404 errors
 app.use((req, res, next) => {
     res.status(404).send('The route you\'ve requested does not exist');
