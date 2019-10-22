@@ -28,7 +28,8 @@ const getAnnouncements = (req, res) => {
                 console.log('res');
                 console.log(updateResult);
 
-                res.json({ result, updateResult });
+                // result,
+                res.json({ updateResult });
                 console.log('after update');
             });
         }).catch((error) => {
@@ -55,7 +56,8 @@ const updateAnnouncement = (req, res) => {
                 console.log('res');
                 console.log(updateResult);
 
-                res.json({ message: `🎉 Announcement ${req.body.id} updated`, result, updateResult });
+                // result,
+                res.json({ message: `🎉 Announcement ${req.body.id} updated`, updateResult });
                 // console.log('after update');
                 // res.json({ message: `🎉 Announcement ${req.body.id} updated`, result });
             });
@@ -81,7 +83,8 @@ const newAnnouncement = (req, res) => {
                 console.log('res');
                 console.log(updateResult);
 
-                res.json({ message: `🎉 Announcement ${result._id} added`, result, updateResult });
+                // result,
+                res.json({ message: `🎉 Announcement ${result._id} added`, updateResult });
                 console.log('after update');
             });
             // res.json({ message: `🎉 Announcement ${result._id} added`, result });
@@ -101,7 +104,8 @@ const deleteAnnouncement = (req, res) => {
                 console.log('res');
                 console.log(updateResult);
 
-                res.json({ message: `🎉 Announcement ${result._id} deleted`, result, updateResult });
+                // result,
+                res.json({ message: `🎉 Announcement ${result._id} deleted`, updateResult });
                 console.log('after update');
             });
             // res.json({ message: `🎉 Announcement ${result._id} deleted`, result });
