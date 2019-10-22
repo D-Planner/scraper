@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';

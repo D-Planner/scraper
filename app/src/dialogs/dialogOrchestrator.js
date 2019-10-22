@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { hideDialog, fetchMajors } from '../actions';
 import { DialogTypes } from '../constants';
