@@ -1,13 +1,36 @@
 import Announcement from '../models/announcement';
 
+const updateCurrentAnnouncement = () => {
+    return new Promise((resolve, reject) => {
+        Announcement.find({})
+            .then((result) => {
+                for (let a = result.length - 1; a >= 0; a -= 1) {
+                    if (result[a].enabled) {
+                        console.log(`Using announcement ${result[a]}`);
+                        resolve({ currentAnnouncement: result[a], announcementActive: true });
+                    }
+                }
+                resolve({ currentAnnouncement: -1, announcementActive: false });
+            }).catch((error) => {
+                console.log('error');
+                console.log(error);
+                reject(error);
+            });
+    });
+};
+
 const getAnnouncements = (req, res) => {
     Announcement.find({})
         .then((result) => {
             console.log('get announcements');
-            // result.forEach((r) => {
-            //     console.log(r);
-            // });
-            res.json({ result });
+
+            updateCurrentAnnouncement().then((updateResult) => {
+                console.log('res');
+                console.log(updateResult);
+
+                res.json({ result, updateResult });
+                console.log('after update');
+            });
         }).catch((error) => {
             res.status(500).json(error);
         });
@@ -17,7 +40,7 @@ const getAnnouncement = (req, res) => {
     Announcement.findById(req.params.id)
         .then((result) => {
             console.log(result);
-            res.json(result);
+            res.json({ result });
         }).catch((error) => {
             res.status(500).json(error);
         });
@@ -26,9 +49,16 @@ const getAnnouncement = (req, res) => {
 const updateAnnouncement = (req, res) => {
     console.log(`update announcement with id ${req.body.id}`);
 
-    Announcement.findById(req.body.id).update(req.body.update)
+    Announcement.updateOne({ _id: req.body.id }, { $set: req.body.update }) // Announcement.findById(req.body.id).update(req.body.update)
         .then((result) => {
-            res.json({ message: `🎉 Announcement ${result._id} updated` });
+            updateCurrentAnnouncement().then((updateResult) => {
+                console.log('res');
+                console.log(updateResult);
+
+                res.json({ message: `🎉 Announcement ${req.body.id} updated`, result, updateResult });
+                // console.log('after update');
+                // res.json({ message: `🎉 Announcement ${req.body.id} updated`, result });
+            });
         }).catch((error) => {
             res.status(500).json({ error });
         });
@@ -36,7 +66,6 @@ const updateAnnouncement = (req, res) => {
 
 const newAnnouncement = (req, res) => {
     console.log('new announcement');
-    console.log(req.body.fields);
 
     const announcement = new Announcement({
         text: req.body.fields.text,
@@ -48,7 +77,14 @@ const newAnnouncement = (req, res) => {
 
     announcement.save()
         .then((result) => {
-            res.json({ message: `🎉 Announcement ${result._id} added`, result });
+            updateCurrentAnnouncement().then((updateResult) => {
+                console.log('res');
+                console.log(updateResult);
+
+                res.json({ message: `🎉 Announcement ${result._id} added`, result, updateResult });
+                console.log('after update');
+            });
+            // res.json({ message: `🎉 Announcement ${result._id} added`, result });
         }).catch((error) => {
             res.status(500).json({ error });
         });
@@ -61,7 +97,14 @@ const deleteAnnouncement = (req, res) => {
     Announcement.findByIdAndDelete(req.params.id)
         .then((result) => {
             console.log(result);
-            res.json({ message: `🎉 Announcement ${result._id} deleted` });
+            updateCurrentAnnouncement().then((updateResult) => {
+                console.log('res');
+                console.log(updateResult);
+
+                res.json({ message: `🎉 Announcement ${result._id} deleted`, result, updateResult });
+                console.log('after update');
+            });
+            // res.json({ message: `🎉 Announcement ${result._id} deleted`, result });
         }).catch((error) => {
             res.status(500).json(error);
         });

@@ -39,8 +39,6 @@ export const ActionTypes = {
   NEW_ANNOUNCEMENT: 'NEW_ANNOUNCEMENT',
   DELETE_ANNOUNCEMENT: 'DELETE_ANNOUNCEMENT',
   DELETE_ALL_ANNOUNCEMENTS: 'DELETE_ALL_ANNOUNCEMENTS',
-  // INCREASE_ANNOUNCEMENT_COUNT: 'INCREASE_ANNOUNCEMENT_COUNT',
-  // DISABLE_ANNOUNCEMENT: 'DISABLE_ANNOUNCEMENT',
 };
 
 export function getFulfilledStatus(planID, termID, courseID) {
@@ -845,7 +843,7 @@ export function getAnnouncements() {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/announcements/`, headers).then((response) => {
       console.log(response);
-      dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENTS, payload: response.data.result }); // Make response.data
+      dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENTS, payload: response.data }); // Make response.data
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -899,7 +897,6 @@ export function newAnnouncement(text, link) {
     axios.post(`${ROOT_URL}/announcements/`, { headers, fields }).then((response) => {
       console.log('new announcement response');
       console.log(response);
-      getAnnouncements();
       dispatch({ type: ActionTypes.NEW_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -912,10 +909,11 @@ export function newAnnouncement(text, link) {
 
 export function updateAnnouncement(id, update) {
   console.log('update action');
+  console.log(id, update);
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/announcements/${id}`, { id, update }).then((response) => {
       console.log(response);
-      dispatch({ type: ActionTypes.UPDATE_ANNOUNCEMENT, payload: response.data.result });
+      dispatch({ type: ActionTypes.UPDATE_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
       console.log(error);

@@ -21,7 +21,7 @@ class DPlan extends Component {
     super(props);
     this.state = {
       noPlan: true,
-      announcementActive: true,
+      // announcementActive: true,
     };
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
@@ -33,12 +33,13 @@ class DPlan extends Component {
 
     this.props.getTimes();
     this.props.getAnnouncements();
-  }
-
-  componentDidMount() {
-    if (this.props.announcements.length <= 0) {
-      this.setState({ announcementActive: false });
-    }
+    // new Promise((resolve, reject) => {
+    //   this.props.getAnnouncements();
+    //   resolve();
+    // }).then(() => {
+    //   console.log('initial update component');
+    //   this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_shown: this.props.currentAnnouncement.times_shown + 1 });
+    // });
   }
 
   componentDidUpdate() {
@@ -152,23 +153,30 @@ class DPlan extends Component {
 
   renderAnnouncement = () => {
     return (
+    // this.props.announcements.length > 0
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={this.props.announcements.length > 0 && this.state.announcementActive === true ? 'announcements' : 'announcements closed'}
-        onClick={(prevState) => {
-          if (this.props.announcements.length > 0) {
-            console.log(prevState);
+      <div className={true && this.props.announcementActive === true ? 'announcements' : 'announcements closed'}
+        onClick={(e) => {
+          // this.props.announcements.length > 0
+          if (this.props.currentAnnouncement) {
             this.props.history.push(this.props.currentAnnouncement.link);
-            this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: 1 });
+            console.log('current announcement');
+            console.log(this.props.currentAnnouncement);
+            this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
           }
           console.log('Announcement click!');
         }}
       >
-        <div className="announcement-text">{(this.props.announcements.length > 0 && this.state.announcementActive === true) ? this.props.currentAnnouncement.text : ''}</div>
+        {/* this.props.announcements.length > 0 */}
+        <div className="announcement-text">{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}</div>
         <img src={close}
           alt="close"
           className="close"
           onClick={(e) => {
-            this.setState((prevState) => { return ({ announcementActive: false }); });
+            this.setState((prevState) => { return ({ announcementActive: false }); }); // Shouldn't be necessary
+            console.log('current announcement');
+            console.log(this.props.currentAnnouncement);
+            this.props.updateAnnouncement(this.props.currentAnnouncement._id, { enabled: false });
             e.stopPropagation();
           }}
         />
@@ -181,7 +189,8 @@ class DPlan extends Component {
       return (
         <div className="announcement-container">
           {this.renderAnnouncement()}
-          <div className={(this.props.announcements.length > 0 && this.state.announcementActive === true) ? 'dashboard announce' : 'dashboard'}>
+          {/* this.props.announcements.length > 0 */}
+          <div className={(this.props.currentAnnouncement && this.props.announcementActive === true) ? 'dashboard announce' : 'dashboard'}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="welcome-text">
               <div className="welcome-title">Welcome to D-Planner!</div>
@@ -194,7 +203,7 @@ class DPlan extends Component {
       return (
         <div className="announcement-container">
           {this.renderAnnouncement()}
-          <div className={this.state.announcementActive === true ? 'dashboard announce' : 'dashboard'}>
+          <div className={this.props.announcementActive === true ? 'dashboard announce' : 'dashboard'}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="plan-content">
               <div className="plan-side">
@@ -240,9 +249,9 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   plan: state.plans.current,
   time: state.time,
-  currentAnnouncement: state.announcements.currentAnnouncement,
-  announcements: state.announcements.announcements,
-  test: state.announcements.test,
+  currentAnnouncement: state.announcements.currentAnnouncement, // fetchAnnouncement(id)
+  // announcements: state.announcements.announcements,
+  announcementActive: state.announcements.announcementActive,
 });
 
 export default withRouter(connect(mapStateToProps, {
