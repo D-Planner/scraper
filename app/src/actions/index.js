@@ -34,24 +34,14 @@ export const ActionTypes = {
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
   FETCH_ANNOUNCEMENTS: 'FETCH_ANNOUNCEMENTS',
+  FETCH_ANNOUNCEMENT: 'FETCH_ANNOUNCEMENT',
+  UPDATE_ANNOUNCEMENT: 'UPDATE_ANNOUNCEMENT',
+  NEW_ANNOUNCEMENT: 'NEW_ANNOUNCEMENT',
+  DELETE_ANNOUNCEMENT: 'DELETE_ANNOUNCEMENT',
+  DELETE_ALL_ANNOUNCEMENTS: 'DELETE_ALL_ANNOUNCEMENTS',
+  // INCREASE_ANNOUNCEMENT_COUNT: 'INCREASE_ANNOUNCEMENT_COUNT',
+  // DISABLE_ANNOUNCEMENT: 'DISABLE_ANNOUNCEMENT',
 };
-
-export function getAnnouncements() {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  };
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/announcements/`, { headers }).then((response) => {
-      console.log(response);
-      dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENTS, payload: response.data });
-      resolve();
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-      reject();
-    });
-  }));
-}
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
@@ -829,4 +819,108 @@ export function hideDialog() {
   return (dispatch) => {
     dispatch({ type: ActionTypes.HIDE_DIALOG });
   };
+}
+
+export function getAnnouncement(id) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/announcements/${id}`, { headers, id }).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENT, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function getAnnouncements() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/announcements/`, headers).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENTS, payload: response.data.result }); // Make response.data
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function deleteAnnouncement(id) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/announcements/${id}`, { headers, id }).then((response) => { // Fix auth
+      console.log(response);
+      dispatch({ type: ActionTypes.DELETE_ANNOUNCEMENT, payload: response.data.result });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function deleteAllAnnouncements() {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/announcements/`, { headers }).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.DELETE_ALL_ANNOUNCEMENTS, payload: response.data.result });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function newAnnouncement(text, link) {
+  console.log('new announcement action');
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  const fields = { text, link };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/announcements/`, { headers, fields }).then((response) => {
+      console.log('new announcement response');
+      console.log(response);
+      getAnnouncements();
+      dispatch({ type: ActionTypes.NEW_ANNOUNCEMENT, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET });
+      reject();
+    });
+  }));
+}
+
+export function updateAnnouncement(id, update) {
+  console.log('update action');
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/announcements/${id}`, { id, update }).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.UPDATE_ANNOUNCEMENT, payload: response.data.result });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
 }

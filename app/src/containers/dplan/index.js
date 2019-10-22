@@ -1,8 +1,9 @@
+/* eslint-disable max-len */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, getAnnouncements,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, getAnnouncements, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -29,18 +30,20 @@ class DPlan extends Component {
     this.getFlattenedCourses = this.getFlattenedCourses.bind(this);
     this.addCourseToTerm = this.addCourseToTerm.bind(this);
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
+
     this.props.getTimes();
     this.props.getAnnouncements();
   }
 
   componentDidMount() {
-    // if (typeof this.props.match.params.id === 'undefined') {
-    //   this.setState({
-    //     noPlan: true,
-    //   });
-    // } else {
-    //   this.props.fetchPlan(this.props.match.params.id);
-    // }
+    if (this.props.announcements.length <= 0) {
+      this.setState({ announcementActive: false });
+    }
+  }
+
+  componentDidUpdate() {
+    console.log('dplan props');
+    console.log(this.props);
   }
 
   setCurrentPlan(planID) {
@@ -150,13 +153,17 @@ class DPlan extends Component {
   renderAnnouncement = () => {
     return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={this.state.announcementActive === true ? 'announcements' : 'announcements closed'}
-        onClick={() => {
-          this.props.history.push(this.props.currentAnnouncement.link);
+      <div className={this.props.announcements.length > 0 && this.state.announcementActive === true ? 'announcements' : 'announcements closed'}
+        onClick={(prevState) => {
+          if (this.props.announcements.length > 0) {
+            console.log(prevState);
+            this.props.history.push(this.props.currentAnnouncement.link);
+            this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: 1 });
+          }
           console.log('Announcement click!');
         }}
       >
-        <div className="announcement-text">{this.state.announcementActive === true ? this.props.currentAnnouncement.text : ''}</div>
+        <div className="announcement-text">{(this.props.announcements.length > 0 && this.state.announcementActive === true) ? this.props.currentAnnouncement.text : ''}</div>
         <img src={close}
           alt="close"
           className="close"
@@ -174,7 +181,7 @@ class DPlan extends Component {
       return (
         <div className="announcement-container">
           {this.renderAnnouncement()}
-          <div className={this.state.currAnnounceIdx != null ? 'dashboard announce' : 'dashboard'}>
+          <div className={(this.props.announcements.length > 0 && this.state.announcementActive === true) ? 'dashboard announce' : 'dashboard'}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="welcome-text">
               <div className="welcome-title">Welcome to D-Planner!</div>
@@ -187,7 +194,7 @@ class DPlan extends Component {
       return (
         <div className="announcement-container">
           {this.renderAnnouncement()}
-          <div className="dashboard">
+          <div className={this.state.announcementActive === true ? 'dashboard announce' : 'dashboard'}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="plan-content">
               <div className="plan-side">
@@ -234,8 +241,10 @@ const mapStateToProps = state => ({
   plan: state.plans.current,
   time: state.time,
   currentAnnouncement: state.announcements.currentAnnouncement,
+  announcements: state.announcements.announcements,
+  test: state.announcements.test,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, getAnnouncements,
+  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, getAnnouncements, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements,
 })(DPlan));

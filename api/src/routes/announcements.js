@@ -3,6 +3,13 @@ import AnnouncementsController from '../controllers/announcements_controller';
 
 const announcementsRouter = Router();
 
-announcementsRouter.get('/', AnnouncementsController.getAnnouncements);
+announcementsRouter.route('/')
+    .get(AnnouncementsController.getAnnouncements)
+    .post(AnnouncementsController.newAnnouncement)
+    .delete(AnnouncementsController.deleteAllAnnouncements);
+announcementsRouter.route('/:id')
+    .get(AnnouncementsController.getAnnouncement)
+    .post(AnnouncementsController.updateAnnouncement)
+    .delete(AnnouncementsController.deleteAnnouncement);
 
 export default announcementsRouter;
