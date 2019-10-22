@@ -34,9 +34,26 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  SET_PRESSED_KEY: 'SET_PRESSED_KEY',
+  REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
+  UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
   SET_FILTERS: 'SET_FILTERS',
   CLEAR_FILTERS: 'CLEAR_FILTERS',
 };
+
+export function setPressedKey(key) {
+  return {
+    type: ActionTypes.SET_PRESSED_KEY,
+    payload: key,
+  };
+}
+
+export function removePressedKey(key) {
+  return {
+    type: ActionTypes.REMOVE_PRESSED_KEY,
+    payload: key,
+  };
+}
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
@@ -271,12 +288,17 @@ export function createPlan(plan, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
+  console.log(`plan: ${plan}, planSetter: ${planSetter}`);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
+      console.log('create plan error');
+      console.log(response.data);
       planSetter(response.data.id);
       resolve();
     }).catch((error) => {
+      console.log('create plan error');
       console.log(error);
+      console.log(error.response.data === undefined);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -294,9 +316,12 @@ export function fetchPlans() {
   };
   return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
+      console.log('fetch plans response');
+      console.log(response);
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
       resolve();
     }).catch((error) => {
+      console.log('fetch plans error');
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
@@ -848,5 +873,15 @@ export function showDialog(type, options) {
 export function hideDialog() {
   return (dispatch) => {
     dispatch({ type: ActionTypes.HIDE_DIALOG });
+  };
+}
+
+/**
+ * Updates where the window will focus once a dialog box closes
+ * @param {*} ref
+ */
+export function updateCloseFocus(ref) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.UPDATE_CLOSE_FOCUS, payload: { focusOnClose: ref } });
   };
 }

@@ -43,7 +43,7 @@ const component = (props) => {
               return (
                 <div key={course.id}>
                   <div className="paneCourse">
-                    <DraggableCourse course={course} currTerm={props.currTerm} />
+                    <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
                   </div>
                   <div id="course-spacer-large" />
                 </div>

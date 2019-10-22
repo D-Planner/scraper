@@ -14,8 +14,9 @@ import { setFilters, clearFilters } from '../../../actions';
 /**
  * @name SearchPane
  * @description allows a user to search specific courses right in the sidebar
+ * @param ref UNUSED, for focus selecting
  */
-const SearchPane = (props) => {
+const SearchPane = React.forwardRef((props, ref) => {
   const paneClass = classNames({
     search: true,
     pane: true,
@@ -75,9 +76,11 @@ const SearchPane = (props) => {
           className="search-input"
           placeholder="Search for courses"
           value={props.searchQuery}
+          tabIndex={-1}
           onChange={(e) => {
             props.setSearchQuery(e.target.value);
           }}
+          ref={ref}
         />
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
@@ -140,7 +143,7 @@ const SearchPane = (props) => {
           }
     </div>
   );
-};
+});
 
 const mapStateToProps = state => ({
   distribs: state.filters.distribs,

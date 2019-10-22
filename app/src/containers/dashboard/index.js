@@ -73,7 +73,6 @@ class Dashboard extends React.Component {
 
   goToPlan(id) {
     this.props.setCurrentPlan(id);
-    // this.props.history.push(`/plan/${id}`);
   }
 
   showDialog() {
@@ -114,7 +113,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="dashboard-container">
         <div className={classNames({
           menu: true,
           active: this.state.active,
@@ -183,13 +182,12 @@ class Dashboard extends React.Component {
                 : <img className="search-icon" src={personIcon} alt="search" />
             }
             </div>
-            {/* <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink> */}
           </div>
         </div>
         <div id="error-container">
           {this.displayIfError()}
         </div>
-      </>
+      </div>
     );
   }
 }

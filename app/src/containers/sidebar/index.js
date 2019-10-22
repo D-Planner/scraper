@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SearchPane from './searchPane';
 import RequirementsPane from './requirementsPane';
@@ -9,7 +9,7 @@ import {
   addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
 } from '../../actions';
 
-const paneTypes = {
+export const paneTypes = {
   SEARCH: 'SEARCH',
   REQUIREMENTS: 'REQUIREMENTS',
   BOOKMARKS: 'BOOKMARKS',
@@ -19,75 +19,85 @@ const paneTypes = {
  * @name Sidebar
  * @description displays important information in panes on the side of the dplan component
  */
-const Sidebar = (props) => {
-  const [activePane, setActivePane] = useState(paneTypes.REQUIREMENTS);
-  const [searchQuery, setSearchQuery] = useState('');
+class Sidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchQuery: '',
+    };
 
-  useEffect(() => {
-    props.fetchUser();
-  }, []);
+    this.searchRef = React.createRef();
+  }
 
-  const addToBookmarks = (courseId) => {
-    props.addCourseToFavorites(courseId);
-  };
+  componentDidMount() {
+    this.props.fetchUser();
+  }
 
-  const showDeclareDialog = () => {
+  addToBookmarks = (courseId) => {
+    this.props.addCourseToFavorites(courseId);
+  }
+
+  showDeclareDialog = () => {
     const opts = {
       title: 'Declare New Major',
       okText: 'Enroll',
       onOk: (majorID) => {
-        props.declareMajor(majorID);
-        setTimeout(() => props.fetchUser(), 100);
+        this.props.declareMajor(majorID);
+        setTimeout(() => this.props.fetchUser(), 100);
       },
     };
-    props.showDialog(DialogTypes.DECLARE_MAJOR, opts);
-  };
+    this.props.showDialog(DialogTypes.DECLARE_MAJOR, opts);
+  }
 
-  const handlePaneSwitch = (type) => {
+  handlePaneSwitch = (type) => {
+    console.log(type);
     if (type !== paneTypes.SEARCH) {
-      setSearchQuery('');
-      setActivePane(type);
+      this.setSearchQuery('');
+      this.props.setOpenPane(type);
     } else {
-      setActivePane(type);
+      this.props.setOpenPane(type);
     }
-  };
+  }
 
-  return (
-    <div className="sidebar">
-      <SearchPane
-        active={activePane === paneTypes.SEARCH}
-        activate={() => handlePaneSwitch(paneTypes.SEARCH)}
-        setSearchQuery={setSearchQuery}
-        searchQuery={searchQuery}
-        search={props.courseSearch}
-        results={props.searchResults}
-        resultStamp={props.resultStamp}
-        stampIncrement={props.stampIncrement}
-        setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
-        currTerm={props.currTerm}
-        showDialog={props.showDialog}
-      />
-      <RequirementsPane
-        active={activePane === paneTypes.REQUIREMENTS}
-        activate={() => handlePaneSwitch(paneTypes.REQUIREMENTS)}
-        majors={props.user.majors}
-        showDeclareDialog={showDeclareDialog}
-        // distribs={props.planCourses.map(c => c.course.distrib)}
-        // wcs={props.planCourses.map(c => c.course.wc)}
-        userCourses={props.planCourses}
-      />
-      <BookmarksPane
-        active={activePane === paneTypes.BOOKMARKS}
-        activate={() => handlePaneSwitch(paneTypes.BOOKMARKS)}
-        bookmarks={props.user.favorite_courses}
-        addToBookmarks={addToBookmarks}
-        setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
-        currTerm={props.currTerm}
-      />
-    </div>
-  );
-};
+  setSearchQuery = (quiery) => {
+    this.setState({ searchQuery: quiery });
+  }
 
+  render() {
+    return (
+      <div className="sidebar">
+        <SearchPane
+          active={this.props.openPane === paneTypes.SEARCH}
+          activate={() => { if (this.props.openPane !== paneTypes.SEARCH) this.handlePaneSwitch(paneTypes.SEARCH); }}
+          setSearchQuery={this.setSearchQuery}
+          searchQuery={this.state.searchQuery}
+          search={this.props.courseSearch}
+          results={this.props.searchResults}
+          resultStamp={this.props.resultStamp}
+          stampIncrement={this.props.stampIncrement}
+          setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+          currTerm={this.props.currTerm}
+          showDialog={this.props.showDialog}
+        />
+        <RequirementsPane
+          active={this.props.openPane === paneTypes.REQUIREMENTS}
+          activate={() => this.handlePaneSwitch(paneTypes.REQUIREMENTS)}
+          majors={this.props.user.majors}
+          showDeclareDialog={this.showDeclareDialog}
+          userCourses={this.props.planCourses}
+        />
+        <BookmarksPane
+          active={this.props.openPane === paneTypes.BOOKMARKS}
+          activate={() => this.handlePaneSwitch(paneTypes.BOOKMARKS)}
+          bookmarks={this.props.user.favorite_courses}
+          addToBookmarks={this.addToBookmarks}
+          setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+          currTerm={this.props.currTerm}
+        />
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => ({
   bookmarks: state.courses.bookmarks,

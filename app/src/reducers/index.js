@@ -9,6 +9,7 @@ import majorReducer from './majors-reducer';
 import timeReducer from './time-reducer';
 import dragReducer from './drag-reducer';
 import professorReducer from './professors-reducer';
+import keyEventReducer from './keyEvent-reducer';
 import filterReducer from './filter-reducer';
 
 const rootReducer = combineReducers({
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   time: timeReducer,
   dragStatus: dragReducer,
   professors: professorReducer,
+  keyEvent: keyEventReducer,
   filters: filterReducer,
 });
 
