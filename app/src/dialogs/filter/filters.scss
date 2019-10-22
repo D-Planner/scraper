@@ -1,0 +1,24 @@
+@import '../../style/variables.scss';
+
+.filter-content {
+    padding: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .choice {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 60px;
+        &.choice-next-term {
+            width: 120px !important;
+        }
+    }
+
+    .filter-list {
+        display: flex;
+        flex-direction: column;
+    }
+}

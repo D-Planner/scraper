@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  deletePlan, fetchPlan, updatePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -10,6 +10,7 @@ import Sidebar from '../sidebar';
 import Dashboard from '../dashboard';
 // import noPlan from '../../style/no-plan.png';
 import trash from '../../style/trash.svg';
+import check from '../../style/check.svg';
 import Term from '../term';
 import './dplan.scss';
 
@@ -20,6 +21,8 @@ class DPlan extends Component {
     super(props);
     this.state = {
       noPlan: true,
+      isEditing: false,
+      tempPlanName: '',
     };
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
     this.showDialog = this.showDialog.bind(this);
@@ -32,6 +35,7 @@ class DPlan extends Component {
   }
 
   componentDidMount() {
+
     // if (typeof this.props.match.params.id === 'undefined') {
     //   this.setState({
     //     noPlan: true,
@@ -42,9 +46,13 @@ class DPlan extends Component {
   }
 
   setCurrentPlan(planID) {
-    this.props.fetchPlan(planID);
-    this.setState({
-      noPlan: false,
+    this.props.fetchPlan(planID).then(() => {
+      this.setState({
+        noPlan: false,
+      });
+      this.setState({
+        tempPlanName: this.props.plan.name,
+      });
     });
   }
 
@@ -56,6 +64,11 @@ class DPlan extends Component {
       });
     });
     return courses;
+  }
+
+  handleChangePlanName = (e) => {
+    this.setState({ isEditing: false });
+    this.props.updatePlan({ name: this.state.tempPlanName }, this.props.plan.id).then(() => this.props.fetchPlan().then(() => this.setState({ tempPlanName: this.props.plan.name })));
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
@@ -130,7 +143,6 @@ class DPlan extends Component {
     }, this.setCurrentPlan);
   }
 
-
   renderNewPlanButton = (fn) => {
     return (
       <button type="button" className="newPlanButton" id="newPlanButton" onClick={fn}>New Plan</button>
@@ -163,7 +175,14 @@ class DPlan extends Component {
           <div className="plan-content">
             <div className="plan-side">
               <div className="plan-header">
-                <h1 className="plan-name">{this.renderPlanName(this.props.plan.name)}</h1>
+                {this.state.isEditing
+                  ? (
+                    <>
+                      <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
+                      <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
+                    </>
+                  )
+                  : <div className="plan-name" role="button" tabIndex="0" onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
                 <button type="button" className="settings-button" onClick={this.showDialog}>
                   <img src={trash} alt="" />
                 </button>
@@ -206,5 +225,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan, deletePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
+  fetchPlan, deletePlan, updatePlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus,
 })(DPlan));

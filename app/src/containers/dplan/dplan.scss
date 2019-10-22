@@ -64,12 +64,13 @@ $sidebar-margin-left: 30px;
             .plan-header {
                 display: flex;
                 flex-direction: row;
-                justify-content: space-between;
+                // justify-content: space-between;
                 align-items: center;
                 width: 100%;
                 position: relative; // CSS-DEF this is to position the .accent bar, since that is position: absolute
                 flex-shrink: 0;
                 .plan-name {
+                    background: none;
                     font-family: $poppins;
                     font-style: normal;
                     font-weight: bold;
@@ -77,10 +78,31 @@ $sidebar-margin-left: 30px;
                     font-size: 24px;
                     color: $text-accent;
                     margin: 18px 0 18px 0;
+                    cursor: pointer;
+
+                    &:hover {
+                        filter: brightness(150%);
+                    }
+
+                    &.plan-name-editing {
+                        flex: 0;
+                        cursor: text;
+                        border-bottom: $text-accent 1px solid;
+                        display: flex;
+                        max-width: 170px;
+                        margin-right: 10px;
+                    }
                 }
+
+                .plan-name-check {
+                    cursor: pointer;
+                }
+
                 .settings-button {
                     background: $background;
                     width: 16px;
+                    position: absolute;
+                    right: 0;
                     cursor: pointer;
                 }               
             }
