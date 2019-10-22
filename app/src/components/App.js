@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
@@ -8,6 +8,8 @@ import ReactGA from 'react-ga';
 import { Helmet } from 'react-helmet';
 
 import HTML5Backend from 'react-dnd-html5-backend';
+import { connect } from 'react-redux';
+import { setPressedKey, removePressedKey } from '../actions';
 import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
 import requireAuth from '../containers/requireAuth';
@@ -18,6 +20,8 @@ import DPlan from '../containers/dplan';
 import withTracker from '../containers/withTracker';
 // import favicon from '../style/d-planner.ico';
 // import favicon from '../style/favicon.ico';
+import TooSmall from './tooSmall';
+import Credits from './credits';
 // import FlowChart from './flowchart';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
@@ -37,41 +41,73 @@ history.listen((location) => {
 // DO THIS
 // https://support.google.com/analytics/answer/3123666
 
-const App = (props) => {
-  if (window.innerWidth >= 500) {
-    return (
-      <div>
-        <Router history={history}>
-          <div className="app-container">
-            <Helmet>
-              <meta name="copyright" content="Copyright of D-Planner Project, 2019" />
-              <meta name="description" content="" />
-              <meta name="keywords" content="" />
-              <link rel="icon" href="favicon.ico" type="image/x-icon" />
-              <title>D-Planner - The Future of Academic Planning</title>
-            </Helmet>
-            <Switch>
-              <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
-              <Route exact path="/courses" component={withTracker(requireAuth(Courses))} />
-              {/* <Route path="/signup" component={signUp} />
-              <Route path="/signin" component={signIn} /> */}
-              {/* <Route path="/plan/:id" component={DPlan} /> */}
-              {/* This Was Discover */}
-              <Route path="/professors/:id" component={Professor} />
-              <Route path="/discover" component={withTracker(Cytoscape)} />
-              <Route path="/plan/:id" component={withTracker(DPlan)} />
-              <Route component={FallBack} />
-            </Switch>
-          </div>
-        </Router>
-      </div>
-    );
-  } else {
-    return (
-      <tooSmall />
-    );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      width: 0,
+      height: 0,
+    };
+
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
-};
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+    window.addEventListener('focus', (e) => {
+      console.log('focus changed - APP');
+      console.log(e.target);
+    }, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener('focus', e => console.log(e));
+  }
+
+  updateWindowDimensions() {
+    console.log(`Detected window resize to w:${window.innerWidth} h:${window.innerHeight}`);
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
+  render() {
+    if (this.state.width >= 500 && this.state.height >= 700) {
+      return (
+        <div>
+          <Router history={history}>
+            <div className="app-container">
+              <Helmet>
+                <meta name="copyright" content="Copyright of D-Planner Project, 2019" />
+                <meta name="description" content="" />
+                <meta name="keywords" content="" />
+                <link rel="icon" href="favicon.ico" type="image/x-icon" />
+                <title>D-Planner - The Future of Academic Planning</title>
+              </Helmet>
+              <Switch>
+                <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
+                <Route exact path="/courses" component={withTracker(requireAuth(Courses))} />
+                {/* <Route path="/signup" component={signUp} />
+              <Route path="/signin" component={signIn} /> */}
+                {/* <Route path="/plan/:id" component={DPlan} /> */}
+                {/* This Was Discover */}
+                <Route path="/professors/:id" component={Professor} />
+                <Route path="/discover" component={withTracker(Cytoscape)} />
+                <Route path="/plan/:id" component={withTracker(DPlan)} />
+                <Route path="/credits" component={Credits} />
+                <Route component={FallBack} />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    } else {
+      return (
+        <TooSmall />
+      );
+    }
+  }
+}
 
 // eslint-disable-next-line new-cap
-export default DragDropContext(HTML5Backend)(App);
+export default connect(null, { setPressedKey, removePressedKey })(DragDropContext(HTML5Backend)(App));

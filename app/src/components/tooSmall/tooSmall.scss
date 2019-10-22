@@ -1,0 +1,23 @@
+@import '../../style/variables.scss';
+
+#screen-too-small {
+  margin: 20px;
+
+  .title {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 480;
+    color: $text-accent;
+  }
+  // .text {
+    
+  // }
+
+  .error-disclaimer {
+    margin-top: 10px;
+    text-align: left;
+    // font-size: 10px;
+    // // font-weight: 120;
+    // color: $gray-6;
+  }
+}

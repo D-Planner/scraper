@@ -8,6 +8,7 @@ import { showDialog } from '../../actions';
 import { DialogTypes } from '../../constants';
 import SignInForm from '../../containers/signIn';
 import SignUpForm from '../../containers/signUp';
+import Credits from '../credits';
 import pine from '../../style/pine_name.png';
 import dplanner from '../../style/dplanner-19.png';
 import dplannerTransparent from '../../style/d-planner_transparent.png';
@@ -32,24 +33,6 @@ const features = [
   {
     'Automatic Prerequisite Checking': 'We\'ve listened to you, and you\'ve told us that making sure you have all of your prerequisites are fulfilled in the correct is order is hard. Thanks to our novel live prerequisite-checking algorithms, you will never again be trying to register for a class only to find out that you aren\'t eligible. Our prerequisite checking also functions with major and minor planning, allowing you to plan quickly and effectively!',
     'Advanced Class Search': 'Besides our basic plan search, we also offer an advanced search for finding the perfect class schedule for sophomore summer (or any other term!). Advanced search includes filters ranging from broad department selection to specific distributive requirements, historical term offerings, and more! For when out basic search just isn\'t enough, advanced search is sure to kick your plan to the next level!',
-  },
-];
-
-const credits = [
-  {
-    'Founding Members': ['Adam McQuilkin', 'Zirui Hao'],
-  },
-  {
-    'Supporting Organizations': ['Dartmouth Applied Learning and Innovation (DALI) Lab', 'Magnuson Family Center for Entrepreneurship at Dartmouth', 'Information and Technologies Consulting at Dartmouth', 'Thayer School of Engineering at Dartmouth'],
-    'Project Mentors': ['Peter Robbie', 'Erica Lobel', 'Natalie Svoboda', 'Annie Ren'],
-  },
-  {
-    'Project Developers': ['Adam Rinehouse', 'Raul Rodriguez', 'Madeline Hess', 'Benjamin Cape'],
-    'Project Designers': ['Regina Yan', 'Christina Bae', 'Emma Staiger', 'Angeline Janumala ', 'Kiera Jackson'],
-  },
-  {
-    'Initial Ideation': ['Bryton Moeller', 'Claire Collins', 'Vivian Zhai'],
-    'Additional thanks to...': ['Geoffrey Parker', 'Gillian Yue', 'Lorie Loeb', 'Sarah Morgan', 'Jamie Coughlin', 'Philip Hanlon'],
   },
 ];
 
@@ -168,40 +151,7 @@ class Landing extends React.Component {
               })
               }
           </div>
-          <div className="section">
-            <div className="title">
-              Credits
-            </div>
-            <div className="creditTitle">
-            The D-Planner Project wouldn’t be where it is today without the dedication and support of many talented members of the Dartmouth community. We would like to extend a heartfelt thank-you to the following individuals and organizations
-            </div>
-            {
-              credits.map((row) => {
-                return (
-                  <div className="row">
-                    {
-                      Object.entries(row).map(([k, v]) => {
-                        return (
-                          <div className="text allLeft">
-                            <div className="textHeader">
-                              {k}
-                            </div>
-                            <div className="body">
-                              {
-                                v.map((c) => {
-                                  return <>{c}<br /></>;
-                                })
-                              }
-                            </div>
-                          </div>
-                        );
-                      })
-                    }
-                  </div>
-                );
-              })
-              }
-          </div>
+          <Credits embedded />
         </div>
         <div className="footer">
           <div className="left">

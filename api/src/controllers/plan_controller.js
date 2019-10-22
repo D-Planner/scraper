@@ -172,6 +172,10 @@ const getPlanByID = (req, res) => {
         });
 };
 
+const updatePlanById = async (planUpdate, planId) => {
+    return Plan.findByIdAndUpdate(planId, planUpdate);
+};
+
 // delete a plan by id
 const deletePlanById = async (planId) => {
     try {
@@ -186,6 +190,7 @@ const PlanController = {
     createPlanForUser,
     sortPlan,
     getPlanByID,
+    updatePlanById,
     deletePlanById,
 };
 
