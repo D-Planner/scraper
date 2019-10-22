@@ -75,7 +75,7 @@ class Course extends React.Component {
             onMouseLeave={() => this.setState({ beingHovered: false })}
             onClick={() => this.showCourseInfoDialog(this.props)}
             role="button"
-            tabIndex="0"
+            tabIndex="-1" // 0
           >
             <CourseElement
               active={this.state.active}

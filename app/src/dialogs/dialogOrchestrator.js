@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { hideDialog, fetchMajors } from '../actions';
 import { DialogTypes } from '../constants';
@@ -16,9 +16,9 @@ import NoticeDialog from './notice';
 // Top-level orchestrator for all dialogs in the application
 // Should accept all types enumerated in DialogTypes and provide a dialog component for each one
 const DialogOrchestrator = (props) => {
-  useEffect(() => {
-    props.fetchMajors();
-  }, []);
+  // useEffect(() => {
+  //   props.fetchMajors();
+  // }, []);
   switch (props.type) {
     case DialogTypes.NEW_PLAN:
       return (<NewPlanDialog {...props.options} hideDialog={props.hideDialog} />);
