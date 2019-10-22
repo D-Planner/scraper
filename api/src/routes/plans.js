@@ -139,6 +139,32 @@ plansRouter.post('/', (req, res, next) => {
 });
 
 /**
+ * @api {put} /plans/:id Update plan by id
+ * @apiName UpdatePlan
+ * @apiGroup Plans
+ *
+ * @apiParam {String} id the id of the plan to be updated
+ * @apiParam {Object} any changes to the plan
+ *
+ * @apiSuccess {String} OK a 200 OK response
+ *
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ */
+plansRouter.put('/:id', (req, res, next) => {
+    console.log('got request to change plan');
+    PlanController.updatePlanById(req.body.planUpdate, req.params.id).then((result) => {
+        res.sendStatus(200);
+    }).catch((err) => {
+        if (err.name === 'CastError') {
+            res.status(400).send({ message: 'Sorry! We couldn\'t find that plan. Please try again later.' }); // The requested id was not valid.
+        } else {
+            next(err);
+        }
+    });
+});
+
+/**
  * @api {delete} /plans/:id Delete plan by id
  * @apiName DeletePlan
  * @apiGroup Plans
