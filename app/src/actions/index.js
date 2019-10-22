@@ -7,6 +7,7 @@ export const ActionTypes = {
   AUTH_ERROR: 'AUTH_ERROR',
   FETCH_PLANS: 'FETCH_PLANS',
   FETCH_PLAN: 'FETCH_PLAN',
+  UPDATE_PLAN: 'UPDATE_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_USER: 'FETCH_USER',
   FETCH_COURSE: 'FETCH_COURSE',
@@ -36,6 +37,8 @@ export const ActionTypes = {
   SET_PRESSED_KEY: 'SET_PRESSED_KEY',
   REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
+  SET_FILTERS: 'SET_FILTERS',
+  CLEAR_FILTERS: 'CLEAR_FILTERS',
 };
 
 export function setPressedKey(key) {
@@ -145,6 +148,20 @@ export function setDraggingState(isDragging, course) {
       payload: false,
     };
   }
+}
+
+// ----- Filter Setting ----- //
+export function setFilters(filters) {
+  return {
+    type: ActionTypes.SET_FILTERS,
+    payload: filters,
+  };
+}
+export function clearFilters() {
+  return {
+    type: ActionTypes.CLEAR_FILTERS,
+    payload: null,
+  };
 }
 
 // ----- Error Handling ----- //
@@ -333,6 +350,27 @@ export function fetchPlan(planID) {
         dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
         reject();
       });
+  }));
+}
+
+/**
+ * Updates a specific plan from the database
+ * @export
+ * @param {String} planID a string representing a Mongoose ObjectID for the plan to update
+ * @returns
+ */
+export function updatePlan(planUpdate, planID) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.put(`${ROOT_URL}/plans/${planID}`, { planUpdate }, { headers }).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.UPDATE_PLAN, payload: planID });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   }));
 }
 

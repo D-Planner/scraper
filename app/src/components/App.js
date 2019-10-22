@@ -14,6 +14,7 @@ import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall from './tooSmall';
+import Credits from './credits';
 // import FlowChart from './flowchart';
 
 
@@ -64,6 +65,7 @@ class App extends Component {
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />
+                  <Route path="/credits" component={Credits} />
                   <Route component={FallBack} />
                 </Switch>
               </div>

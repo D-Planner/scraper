@@ -25,11 +25,6 @@ const Dependencies = {
 
 /** displays information on a course -- displayed when a draggable course is clicked without dragging */
 class CourseInfoDialog extends Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
-  }
-
   /**
    * Handles rendering of distributive bubbles.
    * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
@@ -374,7 +369,6 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
-    console.log(course);
     // console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
