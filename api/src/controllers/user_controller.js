@@ -81,6 +81,9 @@ export const updateUser = async (req, res) => {
             user.full_name = req.body.change.full_name;
             user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
+            console.log('req body');
+            console.log(req.body);
+            user.viewed_announcements = req.body.change.viewed_announcements;
             user.save();
             const json = user.toJSON();
             delete json.password;
