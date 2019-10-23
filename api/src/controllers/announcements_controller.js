@@ -6,8 +6,9 @@ const updateCurrentAnnouncement = () => {
             .then((result) => {
                 for (let a = result.length - 1; a >= 0; a -= 1) {
                     if (result[a].enabled) {
-                        console.log(`Using announcement ${result[a]}`);
+                        console.log(`Using announcement ${result[a]._id}`);
                         resolve({ currentAnnouncement: result[a], announcementActive: true });
+                        break;
                     }
                 }
                 resolve({ currentAnnouncement: -1, announcementActive: false });
@@ -19,18 +20,18 @@ const updateCurrentAnnouncement = () => {
     });
 };
 
-const getAnnouncements = (req, res) => {
+const getCurrentAnnouncement = (req, res) => {
     Announcement.find({})
         .then((result) => {
             console.log('get announcements');
 
             updateCurrentAnnouncement().then((updateResult) => {
-                console.log('res');
-                console.log(updateResult);
+                // console.log('res');
+                // console.log(updateResult);
 
                 // result,
                 res.json({ updateResult });
-                console.log('after update');
+                // console.log('after update');
             });
         }).catch((error) => {
             res.status(500).json(error);
@@ -40,7 +41,7 @@ const getAnnouncements = (req, res) => {
 const getAnnouncement = (req, res) => {
     Announcement.findById(req.params.id)
         .then((result) => {
-            console.log(result);
+            // console.log(result);
             res.json({ result });
         }).catch((error) => {
             res.status(500).json(error);
@@ -53,8 +54,8 @@ const updateAnnouncement = (req, res) => {
     Announcement.updateOne({ _id: req.body.id }, { $set: req.body.update }) // Announcement.findById(req.body.id).update(req.body.update)
         .then((result) => {
             updateCurrentAnnouncement().then((updateResult) => {
-                console.log('res');
-                console.log(updateResult);
+                // console.log('res');
+                // console.log(updateResult);
 
                 // result,
                 res.json({ message: `🎉 Announcement ${req.body.id} updated`, updateResult });
@@ -68,6 +69,7 @@ const updateAnnouncement = (req, res) => {
 
 const newAnnouncement = (req, res) => {
     console.log('new announcement');
+    // console.log(req.body);
 
     const announcement = new Announcement({
         text: req.body.fields.text,
@@ -80,12 +82,12 @@ const newAnnouncement = (req, res) => {
     announcement.save()
         .then((result) => {
             updateCurrentAnnouncement().then((updateResult) => {
-                console.log('res');
-                console.log(updateResult);
+                // console.log('res');
+                // console.log(updateResult);
 
                 // result,
                 res.json({ message: `🎉 Announcement ${result._id} added`, updateResult });
-                console.log('after update');
+                // console.log('after update');
             });
             // res.json({ message: `🎉 Announcement ${result._id} added`, result });
         }).catch((error) => {
@@ -95,18 +97,18 @@ const newAnnouncement = (req, res) => {
 
 const deleteAnnouncement = (req, res) => {
     console.log('delete announcement');
-    console.log(req.params.id);
+    // console.log(req.params.id);
 
     Announcement.findByIdAndDelete(req.params.id)
         .then((result) => {
-            console.log(result);
+            // console.log(result);
             updateCurrentAnnouncement().then((updateResult) => {
-                console.log('res');
-                console.log(updateResult);
+                // console.log('res');
+                // console.log(updateResult);
 
                 // result,
                 res.json({ message: `🎉 Announcement ${result._id} deleted`, updateResult });
-                console.log('after update');
+                // console.log('after update');
             });
             // res.json({ message: `🎉 Announcement ${result._id} deleted`, result });
         }).catch((error) => {
@@ -124,7 +126,7 @@ const deleteAllAnnouncements = (req, res) => {
 };
 
 const announcementsController = {
-    getAnnouncements, updateAnnouncement, newAnnouncement, getAnnouncement, deleteAnnouncement, deleteAllAnnouncements,
+    getCurrentAnnouncement, updateAnnouncement, newAnnouncement, getAnnouncement, deleteAnnouncement, deleteAllAnnouncements,
 };
 
 export default announcementsController;

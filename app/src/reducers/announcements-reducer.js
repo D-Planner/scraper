@@ -18,8 +18,8 @@ const announcementsReducer = (state = initialState, action) => {
   console.log('action');
   console.log(action);
   switch (action.type) {
-    case ActionTypes.FETCH_ANNOUNCEMENTS:
-      console.log('fetch announcements');
+    case ActionTypes.FETCH_CURRENT_ANNOUNCEMENT:
+      console.log('fetch current announcement');
       return Object.assign({}, state, { currentAnnouncement: action.payload.updateResult.currentAnnouncement, announcementActive: action.payload.updateResult.announcementActive });
     case ActionTypes.FETCH_ANNOUNCEMENT:
       console.log('fetch announcement');
