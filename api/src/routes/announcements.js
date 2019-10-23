@@ -7,6 +7,8 @@ announcementsRouter.route('/')
     .get(AnnouncementsController.getCurrentAnnouncement)
     .post(AnnouncementsController.newAnnouncement)
     .delete(AnnouncementsController.deleteAllAnnouncements);
+announcementsRouter.route('/all')
+    .get(AnnouncementsController.getAllAnnouncements);
 announcementsRouter.route('/:id')
     .get(AnnouncementsController.getAnnouncement)
     .post(AnnouncementsController.updateAnnouncement)
