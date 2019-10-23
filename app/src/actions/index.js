@@ -822,12 +822,10 @@ export function hideDialog() {
 // ----------------------- Announcements ----------------------- //
 
 export function getAnnouncement(id) {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  };
   return dispatch => new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/announcements/${id}`, { headers }).then((response) => {
-      console.log(response);
+    axios.get(`${ROOT_URL}/announcements/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -843,7 +841,6 @@ export function getCurrentAnnouncement() {
     axios.get(`${ROOT_URL}/announcements/`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(response);
       dispatch({ type: ActionTypes.FETCH_CURRENT_ANNOUNCEMENT, payload: response.data }); // Make response.data
       resolve();
     }).catch((error) => {
@@ -858,8 +855,7 @@ export function deleteAnnouncement(id) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/announcements/${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => { // Fix auth
-      console.log(response);
+    }).then((response) => {
       dispatch({ type: ActionTypes.DELETE_ANNOUNCEMENT, payload: response.data.result });
       resolve();
     }).catch((error) => {
@@ -875,7 +871,6 @@ export function deleteAllAnnouncements() {
     axios.delete(`${ROOT_URL}/announcements/`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(response);
       dispatch({ type: ActionTypes.DELETE_ALL_ANNOUNCEMENTS, payload: response.data.result });
       resolve();
     }).catch((error) => {
@@ -887,14 +882,11 @@ export function deleteAllAnnouncements() {
 }
 
 export function newAnnouncement(text, link) {
-  console.log('new announcement action');
   const fields = { text, link };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/announcements/`, { fields }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log('new announcement response');
-      console.log(response);
       dispatch({ type: ActionTypes.NEW_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -906,13 +898,10 @@ export function newAnnouncement(text, link) {
 }
 
 export function updateAnnouncement(id, update) {
-  console.log('update action');
-  // console.log(id, update);
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/announcements/${id}`, { id, update }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log(response);
       dispatch({ type: ActionTypes.UPDATE_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -922,7 +911,3 @@ export function updateAnnouncement(id, update) {
     });
   }));
 }
-
-// axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id, planID }, {
-//   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-// }
