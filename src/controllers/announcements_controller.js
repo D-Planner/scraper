@@ -21,13 +21,21 @@ const updateCurrentAnnouncement = () => {
 };
 
 const getCurrentAnnouncement = (req, res) => {
+    console.log('get current announcement');
+
+    updateCurrentAnnouncement().then((updateResult) => {
+        res.json({ updateResult });
+    }).catch((error) => {
+        res.status(500).json(error);
+    });
+};
+
+const getAllAnnouncements = (req, res) => {
+    console.log('get all announcements');
+
     Announcement.find({})
         .then((result) => {
-            console.log('get announcements');
-
-            updateCurrentAnnouncement().then((updateResult) => {
-                res.json({ updateResult });
-            });
+            res.json({ result });
         }).catch((error) => {
             res.status(500).json(error);
         });
@@ -99,7 +107,7 @@ const deleteAllAnnouncements = (req, res) => {
 };
 
 const announcementsController = {
-    getCurrentAnnouncement, updateAnnouncement, newAnnouncement, getAnnouncement, deleteAnnouncement, deleteAllAnnouncements,
+    getCurrentAnnouncement, updateAnnouncement, newAnnouncement, getAnnouncement, deleteAnnouncement, deleteAllAnnouncements, getAllAnnouncements,
 };
 
 export default announcementsController;
