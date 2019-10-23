@@ -78,7 +78,7 @@ app.use('/terms', requireAuth, termsRouter);
 app.use('/majors', requireAuth, majorsRouter);
 app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
-app.use('/announcements', announcementsRouter); // RequireAuth
+app.use('/announcements', requireAuth, announcementsRouter); // RequireAuth
 
 
 // These cannot be used in production, or will need our own special Authorization
