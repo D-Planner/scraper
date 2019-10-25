@@ -39,6 +39,7 @@ export const ActionTypes = {
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
   SET_FILTERS: 'SET_FILTERS',
   CLEAR_FILTERS: 'CLEAR_FILTERS',
+  SET_LOADING: 'SET_LOADING',
 };
 
 export function setPressedKey(key) {
@@ -883,5 +884,11 @@ export function hideDialog() {
 export function updateCloseFocus(ref) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.UPDATE_CLOSE_FOCUS, payload: { focusOnClose: ref } });
+  };
+}
+
+export function setLoading(location, value) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_LOADING, payload: { location, loading: value } });
   };
 }

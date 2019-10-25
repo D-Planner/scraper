@@ -91,12 +91,14 @@ class Dashboard extends React.Component {
     this.setState({
       active: true,
     });
+    // this.props.checkHovered(true);
   }
 
   handleMouseLeave() {
     this.setState({
       active: false,
     });
+    // this.props.checkHovered(false);
   }
 
   showProfileDialog(props) {

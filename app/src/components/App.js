@@ -15,6 +15,7 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall from './tooSmall';
 import Credits from './credits';
+import Loading from './loading/loading';
 // import FlowChart from './flowchart';
 
 
@@ -56,7 +57,8 @@ class App extends Component {
             <div>
               <div className="app-container">
                 <Switch>
-                  <Route exact path="/" component={requireAuth(Landing, DPlan)} />
+                  {/* DPlan */}
+                  <Route exact path="/" component={requireAuth(Landing, Loading)} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}

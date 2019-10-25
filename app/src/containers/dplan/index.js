@@ -1,11 +1,11 @@
 /* eslint-disable no-alert */
 /* eslint-disable class-methods-use-this */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -14,6 +14,7 @@ import Dashboard from '../dashboard';
 // import noPlan from '../../style/no-plan.png';
 import trash from '../../style/trash.svg';
 import check from '../../style/check.svg';
+import logo from '../../style/logo.svg';
 import Term from '../term';
 import './dplan.scss';
 
@@ -66,7 +67,9 @@ class DPlan extends Component {
       noPlan: true,
       openPane: paneTypes.REQUIREMENTS,
       isEditing: false,
+      loadingPlan: false,
       tempPlanName: '',
+      hovering: false,
     };
 
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
@@ -84,15 +87,27 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.dplanref.current.focus();
+    this.props.setLoading(false);
+    console.log('dplan loaded');
   }
 
+  // componentDidUpdate() {
+  //   console.log(this.props);
+  // }
+
   setCurrentPlan(planID) {
+    console.log('plan loading');
+    // this.forceUpdate();
+
     if (planID !== null) {
       console.log(`setting plan to ${planID}`);
+      this.setState({ loadingPlan: true });
       this.props.fetchPlan(planID).then(() => {
         this.setState({
           noPlan: false,
+          loadingPlan: false,
         });
+        console.log('plan loaded');
         this.setState({
           tempPlanName: this.props.plan.name,
         });
@@ -153,6 +168,11 @@ class DPlan extends Component {
       reject();
     });
   });
+
+  checkHovered(hover) {
+    this.setState({ hovering: hover });
+    console.log(`Hovering: ${hover}`);
+  }
 
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
@@ -250,51 +270,62 @@ class DPlan extends Component {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
-            <Dashboard setCurrentPlan={this.setCurrentPlan} />
-            <div className="plan-content">
-              <div className="plan-side">
-                <div className="plan-header">
-                  {this.state.isEditing
-                    ? (
-                      <>
-                        <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
-                        <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
-                      </>
-                    )
-                    : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
-                  <button type="button" className="settings-button" onClick={this.showDialog}>
-                    <img src={trash} alt="" />
-                  </button>
+            <Dashboard setCurrentPlan={this.setCurrentPlan} checkHovered={this.checkHovered} />
+            {this.state.loadingPlan === true
+              ? (
+                <div className="loader">
+                  <img className="loader-image" src={logo} alt="logo" />
                 </div>
-                <Sidebar className="sidebar"
-                  setOpenPane={pane => this.setState({ openPane: pane })}
-                  openPane={this.state.openPane}
-                  planCourses={this.getFlattenedCourses()}
-                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                />
-              </div>
-              <div className="plan-grid">
-                {this.props.plan.terms.map((year) => {
-                  return (
-                    <div className="plan-row" key={year[0].id}>
-                      {year.map((term) => {
+              )
+              : (
+                <Fragment>
+                  <div className="plan-content">
+                    <div className="plan-side">
+                      <div className="plan-header">
+                        {this.state.isEditing
+                          ? (
+                            <>
+                              <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
+                              <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
+                            </>
+                          )
+                          : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
+                        <button type="button" className="settings-button" onClick={this.showDialog}>
+                          <img src={trash} alt="" />
+                        </button>
+                      </div>
+                      <Sidebar className="sidebar"
+                        setOpenPane={pane => this.setState({ openPane: pane })}
+                        openPane={this.state.openPane}
+                        planCourses={this.getFlattenedCourses()}
+                        setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                      />
+                    </div>
+                    <div className="plan-grid">
+                      {this.props.plan.terms.map((year) => {
                         return (
-                          <Term
-                            plan={this.props.plan}
-                            time={this.props.time}
-                            term={term}
-                            key={term.id}
-                            addCourseToTerm={this.addCourseToTerm}
-                            removeCourseFromTerm={this.removeCourseFromTerm}
-                            setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                          />
+                          <div className="plan-row" key={year[0].id}>
+                            {year.map((term) => {
+                              return (
+                                <Term
+                                  plan={this.props.plan}
+                                  time={this.props.time}
+                                  term={term}
+                                  key={term.id}
+                                  addCourseToTerm={this.addCourseToTerm}
+                                  removeCourseFromTerm={this.removeCourseFromTerm}
+                                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                                />
+                              );
+                            })}
+                          </div>
                         );
                       })}
                     </div>
-                  );
-                })}
-              </div>
-            </div>
+                  </div>
+                </Fragment>
+              )
+            }
           </div>
         </HotKeys>
       );
@@ -310,6 +341,7 @@ const mapStateToProps = state => ({
   user: state.user.current,
   focusElement: state.dialog.focusOnClose,
   openDialog: state.dialog.type,
+  loading: state.loading.loading,
 });
 
 export default withRouter(connect(mapStateToProps, {
@@ -325,4 +357,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchPlans,
   updateCloseFocus,
   updatePlan,
+  setLoading,
 })(DPlan));
