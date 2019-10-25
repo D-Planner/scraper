@@ -45,12 +45,12 @@ $sidebar-margin-left: 30px;
 
       .loader-image {
         width: 120px;
-        
-        -webkit-animation:spin 2s ease infinite;
-        -moz-animation:spin 2s ease infinite;
-        animation:spin 2s ease infinite;
+
+        -webkit-animation:spin-ease 2s ease infinite;
+        -moz-animation:spin-ease 2s ease infinite;
+        animation:spin-ease 2s ease infinite;
       }
-      @keyframes spin { 
+      @keyframes spin-ease { 
         0% { -moz-transform: rotate(0); -webkit-transform: rotate(0); transform:rotate(0); }
         15% { -moz-transform: rotate(60); -webkit-transform: rotate(60); transform:rotate(60); }
         50% { -moz-transform: rotate(180); -webkit-transform: rotate(180); transform:rotate(180); }

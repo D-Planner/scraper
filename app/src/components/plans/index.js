@@ -6,29 +6,43 @@ import './plans.scss';
  * @param {*} param0
  */
 const Plans = ({
-  plans, currentPlan, showDialog, goToPlan, active,
+  plans, currentPlan, showDialog, goToPlan, active, loading,
 }) => {
   const maxedPlans = (plans.length >= 10);
-  return (
-    <div className="plans">
-      {plans.map((plan) => {
-        if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
-          return (
-            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan current">
-              <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
+  if (loading === false) {
+    return (
+      <div className="plans">
+        {loading ? plans.map((plan) => {
+          if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
+            return (
+              <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan current">
+                <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
+              </div>
+            );
+          } else {
+            return (
+              <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
+                <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
+              </div>
+            );
+          }
+        })
+          : (
+            <div role="presentation" className="plan">
+              <p className="plan-letter">{renderLoading(active)}</p>
             </div>
-          );
-        } else {
-          return (
-            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
-              <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
-            </div>
-          );
+          )
         }
-      })}
-      {renderNewPlanButton(showDialog, active, maxedPlans)}
-    </div>
-  );
+        {renderNewPlanButton(showDialog, active, maxedPlans)}
+      </div>
+    );
+  } else {
+    return (
+      <div className="plans">
+        {renderLoading(active)}
+      </div>
+    );
+  }
 };
 
 /**
@@ -80,6 +94,28 @@ const renderNewPlanButton = (showDialog, whetherActive, maxedPlans) => {
       </button>
     );
   }
+};
+
+const renderLoading = (whetherActive) => {
+  // if (whetherActive) {
+  return (
+    // className="loading-plan-container"
+    <div role="presentation">
+      <div className="loading-spinner" />
+      {whetherActive
+        ? null
+        // ? <div>Test</div>
+        : null
+      }
+    </div>
+  );
+  // } else {
+  //   return (
+  //     <div className="loading-plan-container text">
+  //       <div className="loading-spinner" />
+  //     </div>
+  //   );
+  // }
 };
 
 export default Plans;

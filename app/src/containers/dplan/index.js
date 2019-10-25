@@ -69,7 +69,6 @@ class DPlan extends Component {
       isEditing: false,
       loadingPlan: false,
       tempPlanName: '',
-      hovering: false,
     };
 
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
@@ -162,11 +161,6 @@ class DPlan extends Component {
       reject();
     });
   });
-
-  checkHovered(hover) {
-    this.setState({ hovering: hover });
-    console.log(`Hovering: ${hover}`);
-  }
 
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
@@ -264,7 +258,7 @@ class DPlan extends Component {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
-            <Dashboard setCurrentPlan={this.setCurrentPlan} checkHovered={this.checkHovered} />
+            <Dashboard setCurrentPlan={this.setCurrentPlan} />
             {this.state.loadingPlan === true
               ? (
                 <div className="loader">

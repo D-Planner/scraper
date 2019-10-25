@@ -24,6 +24,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       active: false,
+      loadingPlans: true,
     };
     this.showProfileDialog = this.showProfileDialog.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
@@ -37,7 +38,10 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchPlans();
+    this.props.fetchPlans().then(() => {
+      this.setState({ loadingPlans: false });
+    });
+    console.log(this.state);
   }
 
   displayIfError = () => {
@@ -91,14 +95,12 @@ class Dashboard extends React.Component {
     this.setState({
       active: true,
     });
-    // this.props.checkHovered(true);
   }
 
   handleMouseLeave() {
     this.setState({
       active: false,
     });
-    // this.props.checkHovered(false);
   }
 
   showProfileDialog(props) {
@@ -123,8 +125,9 @@ class Dashboard extends React.Component {
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         >
+          {/* ={this.state.loading} */}
           <div className="plans-container">
-            <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
+            <Plans loading plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
             <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
