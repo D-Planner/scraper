@@ -87,7 +87,7 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.dplanref.current.focus();
-    // this.props.setLoading(false);
+    this.props.setLoading(false);
   }
 
   setCurrentPlan(planID) {

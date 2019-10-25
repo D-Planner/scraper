@@ -15,7 +15,7 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall from './tooSmall';
 import Credits from './credits';
-import Loading from './loading/loading';
+import Loading from './loading';
 // import FlowChart from './flowchart';
 
 

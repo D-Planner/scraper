@@ -3,8 +3,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import logo from '../../style/logo.svg';
 import DPlan from '../../containers/dplan';
+import logo from '../../style/logo.svg';
 
 import '../../style/variables.scss';
 import './loading.scss';
