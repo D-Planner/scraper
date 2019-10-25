@@ -340,18 +340,24 @@ export function fetchPlan(planID) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
-      .then((response) => {
-        // console.log('[ACTION.js] fetched plan');
-        dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
-        resolve(response);
-      }).catch((error) => {
-        console.log(error);
-        dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-        reject();
-      });
-  }));
+  if (planID !== null) {
+    return dispatch => new Promise(((resolve, reject) => {
+      axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
+        .then((response) => {
+          // console.log('[ACTION.js] fetched plan');
+          dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
+          resolve(response);
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+          reject();
+        });
+    }));
+  } else {
+    return (dispatch) => {
+      dispatch({ type: ActionTypes.FETCH_PLAN, payload: null });
+    };
+  }
 }
 
 /**

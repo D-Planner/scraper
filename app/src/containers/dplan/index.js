@@ -108,6 +108,7 @@ class DPlan extends Component {
     } else {
       console.log('resetting to no plan');
       this.setState({ noPlan: true });
+      this.props.fetchPlan(null);
     }
   }
 
