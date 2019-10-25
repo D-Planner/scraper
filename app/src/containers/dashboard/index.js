@@ -41,7 +41,6 @@ class Dashboard extends React.Component {
     this.props.fetchPlans().then(() => {
       this.setState({ loadingPlans: false });
     });
-    console.log(this.state);
   }
 
   displayIfError = () => {
@@ -127,7 +126,7 @@ class Dashboard extends React.Component {
         >
           {/* ={this.state.loading} */}
           <div className="plans-container">
-            <Plans loading plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
+            <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
             <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">

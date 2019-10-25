@@ -9,40 +9,32 @@ const Plans = ({
   plans, currentPlan, showDialog, goToPlan, active, loading,
 }) => {
   const maxedPlans = (plans.length >= 10);
-  if (loading === false) {
-    return (
-      <div className="plans">
-        {loading ? plans.map((plan) => {
-          if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
-            return (
-              <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan current">
-                <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
-              </div>
-            );
-          } else {
-            return (
-              <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
-                <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
-              </div>
-            );
-          }
-        })
-          : (
-            <div role="presentation" className="plan">
-              <p className="plan-letter">{renderLoading(active)}</p>
+  return (
+    <div className="plans">
+      {loading === false ? plans.map((plan) => {
+        if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
+          return (
+            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan current">
+              <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
             </div>
-          )
+          );
+        } else {
+          return (
+            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
+              <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
+            </div>
+          );
         }
-        {renderNewPlanButton(showDialog, active, maxedPlans)}
-      </div>
-    );
-  } else {
-    return (
-      <div className="plans">
-        {renderLoading(active)}
-      </div>
-    );
-  }
+      })
+        : (
+          <div role="presentation" className="plan">
+            {renderLoading(active)}
+          </div>
+        )
+      }
+      {renderNewPlanButton(showDialog, active, maxedPlans)}
+    </div>
+  );
 };
 
 /**
