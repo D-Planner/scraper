@@ -143,10 +143,6 @@ $content-padding-top: 25vh;
             justify-content:center;
             margin-bottom:50px;
 
-            .landing-features-spacer {
-              width: 120px;
-            }
-
             .text{
                 width:600px;
                 color: #574966;
@@ -157,6 +153,7 @@ $content-padding-top: 25vh;
 
                 &:first-child{
                     text-align:right;
+                    margin-right: $landing-center;
                 }
 
                 &.allLeft{
