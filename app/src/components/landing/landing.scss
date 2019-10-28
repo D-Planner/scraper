@@ -140,8 +140,12 @@ $content-padding-top: 25vh;
         .row {
             flex:1;
             display: flex;
-            justify-content:space-between;
-            margin-bottom:50px;;
+            justify-content:center;
+            margin-bottom:50px;
+
+            .landing-features-spacer {
+              width: 120px;
+            }
 
             .text{
                 width:600px;

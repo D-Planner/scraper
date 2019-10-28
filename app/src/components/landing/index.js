@@ -126,7 +126,27 @@ class Landing extends React.Component {
               features.map((row) => {
                 return (
                   <div className="row">
-                    {
+                    <div className="text">
+                      <div className="textHeader">
+                        {Object.keys(row)[0]}
+                      </div>
+                      <div className="body">
+                        {Object.values(row)[0]}
+                      </div>
+                    </div>
+
+                    <div className="landing-features-spacer" />
+
+                    <div className="text">
+                      <div className="textHeader">
+                        {Object.keys(row)[1]}
+                      </div>
+                      <div className="body">
+                        {Object.values(row)[1]}
+                      </div>
+                    </div>
+
+                    {/* {
                       Object.entries(row).map(([k, v]) => {
                         return (
                           <div className="text">
@@ -139,7 +159,7 @@ class Landing extends React.Component {
                           </div>
                         );
                       })
-                    }
+                    } */}
                   </div>
                 );
               })

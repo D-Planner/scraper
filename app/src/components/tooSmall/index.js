@@ -1,8 +1,8 @@
 import React from 'react';
 import './tooSmall.scss';
 
-export const minWidth = 1200;
-export const minHeight = 600;
+export const minWidth = 900;
+export const minHeight = 500;
 export const contactEmail = 'info@d-planner.com';
 
 const tooSmall = (props) => {
