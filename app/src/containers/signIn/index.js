@@ -42,7 +42,7 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
         </button>
         <div className="spacer" />
-        <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button>
+        {props.disableSignUp ? null : <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button>}
       </form>
     </div>
   );

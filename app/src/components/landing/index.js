@@ -43,6 +43,10 @@ class Landing extends React.Component {
     };
   }
 
+
+  // FIX THIS THING THIS WINDOW WON'T CLOSE
+
+
   checkAuth = (warning) => {
     if (!this.props.authError) {
       const opt = {
@@ -53,6 +57,10 @@ class Landing extends React.Component {
       this.props.showDialog(DialogTypes.ERROR, opt);
     }
   }
+
+
+  // THE ONE ABOVE
+
 
   render() {
     return (
@@ -93,8 +101,9 @@ class Landing extends React.Component {
         </div>
         <div className="info">
           <div className="section">
-            <div className="title">
-              <Element name="philosophy">Our Philosophy</Element>
+            <div className="title" id="philosophy-title">
+              {/* <Element name="philosophy">Our Philosophy</Element> */}
+              Our Philosophy
             </div>
             <div className="content">
               <img className="img" src={dplanner} alt="" width="615px" height="auto" />
@@ -156,7 +165,7 @@ class Landing extends React.Component {
             </div>
           </div>
           <div className="right">
-            <SignInForm checkAuth={this.checkAuth} />
+            <SignInForm disableSignUp checkAuth={this.checkAuth} />
           </div>
         </div>
       </>
