@@ -3,7 +3,7 @@ import User from '../models/user';
 import UserCourse from '../models/user_course';
 import UserCourseController from '../controllers/user_course_controller';
 import { setTermsPrevCourses } from '../controllers/plan_controller';
-import { PopulateTerm } from './populators';
+import { PopulateTerm, PopulateCourse } from './populators';
 import { trim } from './courses_controller';
 
 // Helpers
@@ -75,7 +75,12 @@ const addCourseToTerm = (req, res) => {
                             .then((userCourse) => {
                                 term.courses.push(userCourse);
                                 term.save().then(() => {
-                                    res.send(userCourse);
+                                    userCourse.populate({
+                                        path: 'course',
+                                        populate: PopulateCourse,
+                                    }).execPopulate().then((populated) => {
+                                        res.send(populated);
+                                    });
                                 });
                             })
                             .catch((e) => {
