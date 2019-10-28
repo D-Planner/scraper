@@ -278,9 +278,9 @@ class DPlan extends Component {
           if (t._id === term._id) {
             axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            }).then((userCourse) => {
-              t.courses.push(userCourse);
-              this.setPreviousCourses();
+            }).then((response) => {
+              this.props.addCourseToTerm(response.data, term._id);
+              // this.setPreviousCourses();
               resolve();
             });
           }
@@ -289,16 +289,6 @@ class DPlan extends Component {
     } catch (e) {
       reject(e);
     }
-    // this.props.addCourseToTerm(course, term, this.props.plan.id).then(() => {
-    //   console.log(`[DPLAN.js] The course \n${course.name} has been added to term \n${term.id}`);
-    //   return this.props.fetchPlan(this.props.plan.id);
-    // }).then(() => {
-    //   console.log('[DPLAN.js] fetched plan');
-    //   resolve();
-    // }).catch((err) => {
-    //   console.log(err);
-    //   reject();
-    // });
   })
 
   removeCourseFromTerm = (userCourseID, termID) => new Promise((resolve, reject) => {
@@ -481,7 +471,6 @@ class DPlan extends Component {
     }
   }
 }
-
 
 const mapStateToProps = state => ({
   plans: state.plans.all,
