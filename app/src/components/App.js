@@ -13,10 +13,9 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
-import TooSmall from './tooSmall';
+import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
 // import FlowChart from './flowchart';
-
 
 class App extends Component {
   constructor(props) {
@@ -49,7 +48,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.width >= 500 && this.state.height >= 700) {
+    if (this.state.width >= minWidth && this.state.height >= minHeight) {
       return (
         <div>
           <Router>
