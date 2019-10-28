@@ -74,14 +74,9 @@ const addCourseToTerm = (req, res) => {
                         UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
                             .then((userCourse) => {
                                 term.courses.push(userCourse);
-                                return term.save();
-                            })
-                            .then(() => {
-                                // addCompleted(req.user.id, req.body.course.id); let's not do this because we don't want a universal completed list
-                                return setTermsPrevCourses(req.body.planID, req.user.id);
-                            })
-                            .then(() => {
-                                res.send(term);
+                                term.save().then(() => {
+                                    res.send(userCourse);
+                                });
                             })
                             .catch((e) => {
                                 console.log(e);
