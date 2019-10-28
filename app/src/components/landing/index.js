@@ -43,10 +43,6 @@ class Landing extends React.Component {
     };
   }
 
-
-  // FIX THIS THING THIS WINDOW WON'T CLOSE
-
-
   checkAuth = (warning) => {
     if (!this.props.authError) {
       const opt = {
@@ -57,10 +53,6 @@ class Landing extends React.Component {
       this.props.showDialog(DialogTypes.ERROR, opt);
     }
   }
-
-
-  // THE ONE ABOVE
-
 
   render() {
     return (
@@ -102,8 +94,7 @@ class Landing extends React.Component {
         <div className="info">
           <div className="section">
             <div className="title" id="philosophy-title">
-              {/* <Element name="philosophy">Our Philosophy</Element> */}
-              Our Philosophy
+              <Element name="philosophy">Our Philosophy</Element>
             </div>
             <div className="content">
               <img className="img" src={dplanner} alt="" width="615px" height="auto" />
@@ -113,15 +104,15 @@ class Landing extends React.Component {
                       For Students
                   </div>
                   <div className="body">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
+                    We want every Dartmouth student to create their ideal academic path. Our team at D-Planner is building a digital course planner for all Dartmouth students to plan out their four years, term-by-term. On our platform, you can discover courses that fit your own personalized needs. Instead of looking exhaustively through the giant course catalog, you can leverage D-Planner’s advanced search mechanics to find courses that suit your specific needs.
                   </div>
                 </div>
                 <div className="text">
                   <div className="textHeader">
-                      By Students
+                    By Students
                   </div>
                   <div className="body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
+                    D-Planner provides a powerful and flexible planning feature to help you visually map your academic trajectory. You can drag your desired courses into one of twelve D-Plan terms, and D-Planner will automatically alert you about any scheduling conflicts and inform you of your progress towards critical degree requirements.
                   </div>
                 </div>
               </div>
