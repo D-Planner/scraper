@@ -21,6 +21,23 @@ const plansReducer = (state = initialState, action) => {
       return Object.assign({}, state, { errorMessage: action.payload });
     case ActionTypes.ERROR_CLEAR:
       return Object.assign({}, state, { errorMessage: action.payload });
+    case ActionTypes.ADD_COURSE_TO_PLAN:
+      // eslint-disable-next-line no-case-declarations
+      let found = false;
+      console.log(state);
+      state.current.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === action.payload.termID) {
+            t.courses.push(action.payload.userCourse);
+            console.log(t);
+            found = true;
+          }
+        });
+      });
+      if (found) {
+        console.log(state);
+        return state;
+      } else return null;
     case ActionTypes.FETCH_PREV_COURSES:
       return Object.assign({}, state, { prevCourses: action.payload });
     default:

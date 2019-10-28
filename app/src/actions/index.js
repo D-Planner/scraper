@@ -39,6 +39,7 @@ export const ActionTypes = {
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
   SET_FILTERS: 'SET_FILTERS',
   CLEAR_FILTERS: 'CLEAR_FILTERS',
+  ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
 };
 
 export function setPressedKey(key) {
@@ -676,24 +677,15 @@ export function getRandomCourse() {
 /**
  * Adds a new UserCourse object to a specific term
  * @export
- * @param {*} course the course to add to the term (will be converted to a UserCourse object)
- * @param {*} term the term object to which this course should be added
+ * @param {*} userCourse the user course to add to the term
+ * @param {*} termID the term object to which this course should be added
  * @returns an action creator to add a new course to the given term
  */
-export function addCourseToTerm(course, term, planID) {
-  console.log('[ACTION.js] We got the resquest to add course to term');
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id, planID }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then(() => {
-      // console.log(`[ACTION.js] The course \n${course.name} has been added to term \n${term.id}`);
-      resolve();
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-      reject();
-    });
-  }));
+export function addCourseToTerm(userCourse, termID) {
+  return {
+    type: ActionTypes.ADD_COURSE_TO_PLAN,
+    payload: { userCourse, termID },
+  };
 }
 
 /**
