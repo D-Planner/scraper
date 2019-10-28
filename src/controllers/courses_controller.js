@@ -428,102 +428,102 @@ const getCompleted = (req, res) => {
 
 const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
-const getFulfilledStatus = (planID, termID, courseID, userID) => {
-    // console.log('GETFULFILLEDSTATUS', userID);
-    return User.findById(userID)
-        .select('placement_courses')
-        .then((user) => {
-            if (!user) throw new Error('bad userID');
-            return Plan.findById(planID)
-                .populate({
-                    path: 'terms',
-                    populate: PopulateTerm,
-                })
-                .then((plan) => {
-                    return Term.findById(termID).then((term) => {
-                        const previousCourses = plan.terms.filter((t) => {
-                            return t.index <= term.index;
-                        }).map((t) => {
-                            return t.previousCourses;
-                        }).flat()
-                            .map((t) => { return t.toString(); });
-                        const prevCourses = [...new Set((user.placement_courses.length)
-                            ? user.placement_courses.map((c) => { return c.toString(); }).concat(previousCourses)
-                            : previousCourses)];
+// const getFulfilledStatus = (planID, termID, courseID, userID) => {
+//     // console.log('GETFULFILLEDSTATUS', userID);
+//     return User.findById(userID)
+//         .select('placement_courses')
+//         .then((user) => {
+//             if (!user) throw new Error('bad userID');
+//             return Plan.findById(planID)
+//                 .populate({
+//                     path: 'terms',
+//                     populate: PopulateTerm,
+//                 })
+//                 .then((plan) => {
+//                     return Term.findById(termID).then((term) => {
+//                         const previousCourses = plan.terms.filter((t) => {
+//                             return t.index <= term.index;
+//                         }).map((t) => {
+//                             return t.previousCourses;
+//                         }).flat()
+//                             .map((t) => { return t.toString(); });
+//                         const prevCourses = [...new Set((user.placement_courses.length)
+//                             ? user.placement_courses.map((c) => { return c.toString(); }).concat(previousCourses)
+//                             : previousCourses)];
 
-                        return Course.findById(courseID).populate(PopulateCourse)
-                            .then((course) => {
-                                // console.log(`Previous Courses for ${course.title}: ${prevCourses}`);
-                                let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
-                                if (!prereqs || prereqs.length === 0) {
-                                    return CLEAR;
-                                }
-                                prereqs = prereqs.map((o) => {
-                                    let dependencyType = Object.keys(o).find((key) => {
-                                        return (o[key].length > 0 && key !== '_id');
-                                    });
-                                    if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
+//                         return Course.findById(courseID).populate(PopulateCourse)
+//                             .then((course) => {
+//                                 // console.log(`Previous Courses for ${course.title}: ${prevCourses}`);
+//                                 let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
+//                                 if (!prereqs || prereqs.length === 0) {
+//                                     return CLEAR;
+//                                 }
+//                                 prereqs = prereqs.map((o) => {
+//                                     let dependencyType = Object.keys(o).find((key) => {
+//                                         return (o[key].length > 0 && key !== '_id');
+//                                     });
+//                                     if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
-                                    const prevCoursesIncludes = () => {
-                                        return o[dependencyType].map((c) => { return c.id.toString(); })
-                                            .some((id) => {
-                                                return (prevCourses.length) ? prevCourses.includes(id) : false;
-                                            });
-                                    };
+//                                     const prevCoursesIncludes = () => {
+//                                         return o[dependencyType].map((c) => { return c.id.toString(); })
+//                                             .some((id) => {
+//                                                 return (prevCourses.length) ? prevCourses.includes(id) : false;
+//                                             });
+//                                     };
 
-                                    switch (dependencyType) {
-                                    case 'abroad':
-                                        return WARNING;
-                                    case 'req':
-                                        return prevCoursesIncludes() ? CLEAR : ERROR;
-                                    case 'range':
-                                        return (prevCourses.some((c) => {
-                                            return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
-                                        })) ? CLEAR : ERROR;
-                                    case 'grade':
-                                        return prevCoursesIncludes() ? WARNING : ERROR;
-                                    case 'rec':
-                                        return prevCoursesIncludes() ? WARNING : ERROR;
-                                    default:
-                                        return CLEAR;
-                                    }
-                                });
-                                if (prereqs.includes(ERROR)) {
-                                    return ERROR;
-                                }
-                                if (prereqs.includes(WARNING)) {
-                                    return WARNING;
-                                }
-                                return CLEAR;
-                            });
-                    });
-                }).catch((error) => {
-                    return { error };
-                });
-        });
-};
+//                                     switch (dependencyType) {
+//                                     case 'abroad':
+//                                         return WARNING;
+//                                     case 'req':
+//                                         return prevCoursesIncludes() ? CLEAR : ERROR;
+//                                     case 'range':
+//                                         return (prevCourses.some((c) => {
+//                                             return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
+//                                         })) ? CLEAR : ERROR;
+//                                     case 'grade':
+//                                         return prevCoursesIncludes() ? WARNING : ERROR;
+//                                     case 'rec':
+//                                         return prevCoursesIncludes() ? WARNING : ERROR;
+//                                     default:
+//                                         return CLEAR;
+//                                     }
+//                                 });
+//                                 if (prereqs.includes(ERROR)) {
+//                                     return ERROR;
+//                                 }
+//                                 if (prereqs.includes(WARNING)) {
+//                                     return WARNING;
+//                                 }
+//                                 return CLEAR;
+//                             });
+//                     });
+//                 }).catch((error) => {
+//                     return { error };
+//                 });
+//         });
+// };
 
-const getFulfilledStatusTerm = (req, res) => {
-    const { planID, termID, courseID } = req.params;
-    Promise.resolve(getFulfilledStatus(planID, termID, courseID, req.user._id)).then((r) => {
-        if ([ERROR, WARNING, CLEAR].includes(r)) {
-            res.status(200).json(r);
-        } else res.status(500).json(r);
-    });
-};
+// const getFulfilledStatusTerm = (req, res) => {
+//     const { planID, termID, courseID } = req.params;
+//     Promise.resolve(getFulfilledStatus(planID, termID, courseID, req.user._id)).then((r) => {
+//         if ([ERROR, WARNING, CLEAR].includes(r)) {
+//             res.status(200).json(r);
+//         } else res.status(500).json(r);
+//     });
+// };
 
-const getFulfilledStatusPlan = (req, res) => {
-    const { planID, courseID } = req.params;
-    Plan.findById(planID)
-        .then((plan) => {
-            Promise.all(plan.terms.map((term) => {
-                return Promise.resolve(getFulfilledStatus(planID, term._id, courseID, req.user._id));
-            }))
-                .then((r) => {
-                    res.json(r);
-                });
-        });
-};
+// const getFulfilledStatusPlan = (req, res) => {
+//     const { planID, courseID } = req.params;
+//     Plan.findById(planID)
+//         .then((plan) => {
+//             Promise.all(plan.terms.map((term) => {
+//                 return Promise.resolve(getFulfilledStatus(planID, term._id, courseID, req.user._id));
+//             }))
+//                 .then((r) => {
+//                     res.json(r);
+//                 });
+//         });
+// };
 
 const CoursesController = {
     searchCourses,
@@ -544,9 +544,6 @@ const CoursesController = {
     addCompleted,
     removeCompleted,
     getCompleted,
-    getFulfilledStatus,
-    getFulfilledStatusTerm,
-    getFulfilledStatusPlan,
 };
 
 export default CoursesController;
