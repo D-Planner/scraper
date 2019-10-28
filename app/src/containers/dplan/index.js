@@ -3,12 +3,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import uuid from 'uuid';
+import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan,
 } from '../../actions';
-import { DialogTypes } from '../../constants';
+import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
@@ -17,6 +17,7 @@ import trash from '../../style/trash.svg';
 import check from '../../style/check.svg';
 import Term from '../term';
 import './dplan.scss';
+
 
 const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
@@ -270,33 +271,22 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to add course to term');
+    // console.log('[DPLAN.js] We got request to add course to term');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
           if (t._id === term._id) {
-            // Might need to make an API call here just to create a userCourse.
-            const id = uuid.v4();
-            const userCourse = {
-              user: this.props.user.id,
-              course,
-              term: t._id,
-              major: null,
-              distrib: null,
-              wc: null,
-              timeslot: course.preiods && course.periods.length === 1 ? course.periods[0] : null,
-              fulfilledStatus: '',
-              _id: id,
-              id,
-            };
-            t.courses.push(userCourse);
+            axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id }, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then((userCourse) => {
+              t.courses.push(userCourse);
+              this.setPreviousCourses();
+              resolve();
+            });
           }
         });
       });
-      this.setPreviousCourses();
-      resolve();
     } catch (e) {
-      console.log(e);
       reject(e);
     }
     // this.props.addCourseToTerm(course, term, this.props.plan.id).then(() => {
