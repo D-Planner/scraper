@@ -6,9 +6,10 @@ import Term from '../../containers/term';
 import Courses from '../../containers/courses';
 import SearchPane from '../../containers/sidebar/searchPane';
 import RequirementsPane from '../../containers/sidebar/requirementsPane';
+import DraggableCourse from '../draggableCourse';
 
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan,
 } from '../../actions';
 
 import './tutorial.scss';
@@ -69,7 +70,17 @@ class Tutorial extends React.Component {
       prevButtonLabel: 'Previous',
       nextButtonLabel: 'Next',
       searchQuery: 'COSC 98',
+      courseLocation: {
+        termOne: {},
+        termTwo: {},
+      },
     };
+
+    this.test = this.test.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.getRandomCourse();
   }
 
   // Add check for loading directly into final page
@@ -81,6 +92,23 @@ class Tutorial extends React.Component {
         this.setState({ nextButtonLabel: endTutorialText });
       }
     });
+
+    // this.setState({
+    //   courseLocation: {
+    //     termOne: [this.props.randomCourse],
+    //     termTwo: [{}],
+    //   },
+    // });
+  }
+
+  componentDidUpdate() {
+    console.log(this.state);
+    // this.setState({
+    //   courseLocation: {
+    //     termOne: [this.props.randomCourse],
+    //     termTwo: [{}],
+    //   },
+    // });
   }
 
   prev = () => {
@@ -110,41 +138,104 @@ class Tutorial extends React.Component {
     this.props.history.push('/');
   }
 
+  test = (action) => {
+    if (action === 'to19F') {
+      console.log('moving course to 19F');
+      this.setState({
+        courseLocation: {
+          '19F': [this.props.randomCourse],
+          '20W': [],
+        },
+      });
+    } else {
+      console.log('moving course to 20W');
+      this.setState({
+        courseLocation: {
+          '19F': [],
+          '20W': [this.props.randomCourse],
+        },
+      });
+    }
+    return new Promise((resolve, reject) => {
+      console.log('test function');
+    });
+  }
+
   renderComponent = (component) => {
-    if (component != null) {
+    if (component != null && this.props.randomCourse !== undefined) {
       if (component.isInteractable) {
+        console.log(component.graphic);
         switch (component.graphic) {
           case 'term':
-            return (<div className="graphic">Term graphic</div>);
-            // return (<Term className="graphic" />);
+            // return (<div className="graphic">Term graphic</div>);
+            console.log('term contents');
+            console.log(this.state.courseLocation.termOne, this.state.courseLocation.termTwo);
+            return (
+              <>
+                <Term
+                  plan={{}}
+                  time={{ currTerm: '19F' }}
+                  term={{ name: '19F', courses: [{ course: this.state.courseLocation.termOne }] }}
+                  key="19F"
+                  addCourseToTerm={() => this.test('to19F')}
+                  removeCourseFromTerm={() => this.test('to20W')}
+                  setDraggingFulfilledStatus={() => console.log('setting dragging fulfilled status placeholder')}
+                />
+                <Term
+                  plan={{}}
+                  time={{ currTerm: '20W' }}
+                  term={{ name: '20W', courses: [{ course: this.state.courseLocation.termTwo }] }}
+                  key="20W"
+                  addCourseToTerm={() => this.test('to20W')}
+                  removeCourseFromTerm={() => this.test('to19F')}
+                  setDraggingFulfilledStatus={() => console.log('setting dragging fulfilled status placeholder')}
+                />
+              </>
+            );
 
           case 'course':
             // TODO: Add props
-            return (<div className="graphic">Course graphic</div>);
+            console.log('showing draggable course');
+            return (
+              <DraggableCourse
+                size="lg"
+                key={this.props.randomCourse.id}
+                catalogCourse={this.props.randomCourse}
+                course={this.props.randomCourse}
+                currTerm={{ year: 2019 }}
+                removeCourseFromTerm={() => console.log('remove course from term placeholder')}
+                setDraggingFulfilledStatus={() => console.log('setting dragging fulfilled status placeholder')}
+              />
+            );
+            // return (<div className="graphic">Course graphic</div>);
             // return (<Courses className="graphic" />);
 
           case 'search':
-            return (<div className="graphic">Search graphic</div>);
-            // return (
-            //   <SearchPane className="graphic"
-            //     active
-            //     activate={() => {}}
-            //     setSearchQuery={quiery => this.setState({ searchQuery: quiery })}
-            //     searchQuery={this.state.searchQuery}
-            //     search={this.props.courseSearch}
-            //     results={this.props.searchResults}
-            //     resultStamp={this.props.resultStamp}
-            //     stampIncrement={this.props.stampIncrement}
-            //     setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
-            //     currTerm={this.props.currTerm}
-            //     showDialog={this.props.showDialog}
-            //   />
-            // );
+            // return (<div className="graphic">Search graphic</div>);
+            return (
+              <div id="test-pane">
+                <SearchPane
+                  active
+                  activate={() => {}}
+                  setSearchQuery={quiery => this.setState({ searchQuery: quiery })}
+                  searchQuery={this.state.searchQuery}
+                  search={this.props.courseSearch}
+                  results={this.props.searchResults}
+                  resultStamp={this.props.resultStamp}
+                  stampIncrement={this.props.stampIncrement}
+                  setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+                  currTerm={{ year: 2019 }}
+                  showDialog={this.props.showDialog}
+                  // style={{ 'box-shadow': '-3px 5px 20px rgba(0, 0, 0, 0.15) !important' }}
+                  // style={{ 'background-color': 'red' }}
+                />
+              </div>
+            );
 
           case 'degree':
             // TODO: Add props
-            return (<div className="graphic">Degree graphic</div>);
-            // return (<RequirementsPane className="graphic" />);
+            // return (<div className="graphic">Degree graphic</div>);
+            return (<div id="test-pane"><RequirementsPane className="graphic" /></div>);
 
           default:
             return <div className="graphic">You should never see this!</div>;
@@ -178,9 +269,10 @@ class Tutorial extends React.Component {
 const mapStateToProps = state => ({
   searchResults: state.courses.results,
   resultStamp: state.courses.resultStamp,
-  currTerm: state.time.currTerm,
+  // currTerm: state.time.currTerm,
+  randomCourse: state.courses.random_course,
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan,
 })(Tutorial);

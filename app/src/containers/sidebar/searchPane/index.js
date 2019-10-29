@@ -68,7 +68,6 @@ const SearchPane = (props) => {
           placeholder="Search for courses"
           value={props.searchQuery}
           onChange={(e) => {
-            alert(e.target.value);
             props.setSearchQuery(e.target.value);
           }}
         />
@@ -117,6 +116,7 @@ const SearchPane = (props) => {
             <div className="search-results">
               {props.results.length
                 ? props.results.map((course) => {
+                  console.log(course.id);
                   return (
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">

@@ -59,12 +59,25 @@ $content-padding-top: 25vh;
     margin-top: 1vh;
   
     .graphic {
+      display: flex;
       width: 29vw;
       margin-right: 1vw;
       max-height: 100%;
 
       position: relative;
       object-fit: contain;
+
+      justify-content: right;
+      align-items: flex-start;
+
+      #test-pane {
+        box-shadow: $tablet-box-shadow;
+        height: 500px;
+        display: flex;
+        width: $sidebar-width;
+
+        overflow: scroll;
+      }
     }
   
     .paragraph {
