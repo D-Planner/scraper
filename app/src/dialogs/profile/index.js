@@ -11,6 +11,13 @@ import edit from '../../style/edit.svg';
 import check from '../../style/check.svg';
 import './profile.scss';
 
+const editOptions = {
+  'First Name': 'firstName',
+  'Last Name': 'lastName',
+  Email: 'email',
+  'Graduation Year': 'graduationYear',
+};
+
 class ProfileDialog extends Component {
   constructor(props) {
     super(props);
@@ -25,8 +32,8 @@ class ProfileDialog extends Component {
   handleChange = (e, type) => {
     this.newUser[e.target.name] = e.target.value;
 
-    if (e.target.name === 'first_name' || e.target.name === 'last_name') {
-      this.newUser.full_name = `${this.newUser.first_name} ${this.newUser.last_name}`;
+    if (e.target.name === 'firstName' || e.target.name === 'lastName') {
+      this.newUser.full_name = `${this.newUser.firstName} ${this.newUser.lastName}`;
     }
   }
 
@@ -67,48 +74,27 @@ class ProfileDialog extends Component {
     }));
   }
 
+  displayEditOption = (text, inputName) => {
+    return (
+      <div className="info">
+        <div className="label">{text}:</div>
+        <div className="data">
+          {!this.state.editing ? `${this.newUser[inputName]}`
+            : <input type="text" defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
+        </div>
+        {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+          : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
+      </div>
+    );
+  }
+
   renderUserInfo = () => {
     return (
       <div className="user">
         <div className="profile-left">
-          <div className="info">
-            <div className="label">First name:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.first_name}`
-                : <input type="text" defaultValue={this.newUser.first_name} name="first_name" onChange={this.handleChange} />}
-            </div>
-            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
-          </div>
-          <div className="info">
-            <div className="label">Last name:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.last_name}`
-                : <input type="text" defaultValue={this.newUser.last_name} name="last_name" onChange={this.handleChange} />}
-            </div>
-            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
-          </div>
-          <div className="info">
-            <div className="label">Email:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.email}`
-                : <input type="email" defaultValue={this.newUser.email} name="email" onChange={this.handleChange} />}
-            </div>
-            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
-          </div>
-          <div className="info">
-            <div className="label">
-              Graduation Year:
-            </div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.graduationYear}`
-                : <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={this.handleChange} />}
-            </div>
-            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
-          </div>
+          {Object.entries(editOptions).map(([k, v]) => {
+            return (this.displayEditOption(k, v));
+          })}
         </div>
         <div className="profile-right">
           <div className="placements">
