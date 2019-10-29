@@ -17,6 +17,8 @@ import TooSmall from './tooSmall';
 import Credits from './credits';
 // import FlowChart from './flowchart';
 
+import PrivacyPolicy from './policies/privacy';
+
 
 class App extends Component {
   constructor(props) {
@@ -56,7 +58,7 @@ class App extends Component {
             <div>
               <div className="app-container">
                 <Switch>
-                  <Route exact path="/" component={requireAuth(Landing, DPlan)} />
+                  <Route exact path="/" component={requireAuth(Landing, PrivacyPolicy)} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}

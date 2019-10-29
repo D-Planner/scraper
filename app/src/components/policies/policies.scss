@@ -1,0 +1,28 @@
+@import "../../style/variables.scss";
+
+.policy-container {
+  font-family: Poppins;
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 900px;
+  margin: 20px auto 60px auto;
+
+  h1 {
+    font-weight: bold;
+    font-size: 48px;
+    text-align: center;
+    color:$text-accent !important;
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    margin-top: 36px;
+    color: $text-accent;
+  }
+
+  h3 {
+    color: $text-accent;
+  }
+}
