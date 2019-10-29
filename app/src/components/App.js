@@ -69,6 +69,8 @@ class App extends Component {
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />
                   <Route path="/credits" component={Credits} />
+                  <Route path="/policies/termsandconditions" component={TermsAndConditions} />
+                  <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                   <Route component={FallBack} />
                 </Switch>
               </div>

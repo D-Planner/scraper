@@ -60,6 +60,17 @@
     input {
       max-width: 200px;
     }
+
+    .policy-profile {
+      margin: 10px;
+      color: $text-accent;
+      text-decoration: underline;
+      cursor: default;
+      
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   .profile-right {
