@@ -22,7 +22,6 @@ class ProfileDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editing: false,
       oldGradYear: this.props.user.graduationYear,
       editingFirstName: false,
       editingLastName: false,
@@ -50,7 +49,7 @@ class ProfileDialog extends Component {
 
   handleToggleEdit = (v) => {
     let shouldUpdate = false;
-    if (this.state.editing) {
+    if (this.state[v]) {
       if (this.state.oldGradYear !== this.newUser.graduationYear) {
         const dialogOptions = {
           title: 'Warning',
