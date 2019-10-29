@@ -72,6 +72,8 @@ export const getUser = (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
+    console.log('new user');
+    console.log(req.body.change);
     User.findById(req.user.id)
         .populate(PopulateUser)
         .then((user) => {
@@ -79,9 +81,13 @@ export const updateUser = async (req, res) => {
                 Plan.find({ user_id: user._id }).remove().exec();
             }
             user.full_name = req.body.change.full_name;
+            user.first_name = req.body.change.first_name;
+            user.last_name = req.body.change.last_name;
             user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
             user.save();
+            console.log('user');
+            console.log(user);
             const json = user.toJSON();
             delete json.password;
             res.json(json);

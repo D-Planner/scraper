@@ -22,8 +22,19 @@ class ProfileDialog extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidUpdate() {
+    console.log('user props');
+    console.log(this.props.user);
+  }
+
   handleChange = (e, type) => {
+    console.log('handle change');
+    console.log(e.target.name, e.target.value);
     this.newUser[e.target.name] = e.target.value;
+
+    if (e.target.name === 'first_name' || e.target.name === 'last_name') {
+      this.newUser.full_name = `${this.newUser.first_name} ${this.newUser.last_name}`;
+    }
   }
 
   handleToggleEdit = () => {
@@ -49,6 +60,8 @@ class ProfileDialog extends Component {
         shouldUpdate = true;
       }
       if (shouldUpdate) {
+        console.log('new user');
+        console.log(this.newUser);
         this.props.updateUser(this.newUser).then(() => {
           this.props.fetchPlans().then(() => {
             // window.location.reload();
@@ -79,7 +92,7 @@ class ProfileDialog extends Component {
             <div className="label">Last name:</div>
             <div className="data">
               {!this.state.editing ? `${this.newUser.last_name}`
-                : <input type="text" defaultValue={this.newUser.last_name} name="firs_name" onChange={this.handleChange} />}
+                : <input type="text" defaultValue={this.newUser.last_name} name="last_name" onChange={this.handleChange} />}
             </div>
             <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
