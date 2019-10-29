@@ -8,11 +8,11 @@ import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import { DialogTypes } from '../../constants';
 import edit from '../../style/edit.svg';
+import check from '../../style/check.svg';
 import './profile.scss';
 
 class ProfileDialog extends Component {
   constructor(props) {
-    console.log(props);
     super(props);
     this.state = {
       editing: false,
@@ -23,7 +23,6 @@ class ProfileDialog extends Component {
   }
 
   handleChange = (e, type) => {
-    console.log(e);
     this.newUser[e.target.name] = e.target.value;
 
     if (e.target.name === 'first_name' || e.target.name === 'last_name') {
@@ -79,7 +78,7 @@ class ProfileDialog extends Component {
                 : <input type="text" defaultValue={this.newUser.first_name} name="first_name" onChange={this.handleChange} />}
             </div>
             {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-              : <img src={edit} alt="edit" onClick={this.handleToggleEdit} />}
+              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
           </div>
           <div className="info">
             <div className="label">Last name:</div>
@@ -87,7 +86,8 @@ class ProfileDialog extends Component {
               {!this.state.editing ? `${this.newUser.last_name}`
                 : <input type="text" defaultValue={this.newUser.last_name} name="last_name" onChange={this.handleChange} />}
             </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
           </div>
           <div className="info">
             <div className="label">Email:</div>
@@ -95,7 +95,8 @@ class ProfileDialog extends Component {
               {!this.state.editing ? `${this.newUser.email}`
                 : <input type="email" defaultValue={this.newUser.email} name="email" onChange={this.handleChange} />}
             </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
           </div>
           <div className="info">
             <div className="label">
@@ -105,7 +106,8 @@ class ProfileDialog extends Component {
               {!this.state.editing ? `${this.newUser.graduationYear}`
                 : <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={this.handleChange} />}
             </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
+              : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
           </div>
         </div>
         <div className="profile-right">

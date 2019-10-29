@@ -105,8 +105,6 @@ export function updateUser(change) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  console.log('update user action');
-  console.log(change);
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/update`, { change }, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
