@@ -26,8 +26,8 @@ export const signup = (req, res, next) => {
         const newUser = new User({
             email,
             password,
-            first_name: firstName,
-            last_name: lastName,
+            firstName,
+            lastName,
             university: college,
             graduationYear: grad,
         });
@@ -80,8 +80,8 @@ export const updateUser = async (req, res) => {
                 Plan.find({ user_id: user._id }).remove().exec();
             }
             user.full_name = req.body.change.full_name;
-            user.first_name = req.body.change.first_name;
-            user.last_name = req.body.change.last_name;
+            user.firstName = req.body.change.firstName;
+            user.lastName = req.body.change.lastName;
             user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
             user.save();
