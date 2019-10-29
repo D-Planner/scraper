@@ -18,6 +18,7 @@ import Credits from './credits';
 // import FlowChart from './flowchart';
 
 import PrivacyPolicy from './policies/privacy';
+import TermsAndConditions from './policies/terms_conditions';
 
 
 class App extends Component {
@@ -58,7 +59,7 @@ class App extends Component {
             <div>
               <div className="app-container">
                 <Switch>
-                  <Route exact path="/" component={requireAuth(Landing, PrivacyPolicy)} />
+                  <Route exact path="/" component={requireAuth(Landing, DPlan)} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}

@@ -55,7 +55,8 @@ const PrivacyPolicy = () => {
         <p />
 
         <h2>Credit &amp; Contact Information</h2>
-        <p>This privacy policy was created at <a href="https://termsandconditionstemplate.com/privacy-policy-generator/" title="Privacy policy template generator">termsandconditionstemplate.com</a>. If you have any questions about this Privacy Policy, please contact us via <a href="mailto:info@d-planner.com">email</a> or <a href="tel:6038651931">phone</a>.</p>
+        {/* This privacy policy was created at <a href="https://termsandconditionstemplate.com/privacy-policy-generator/" title="Privacy policy template generator">termsandconditionstemplate.com</a>.  */}
+        <p>If you have any questions about this Privacy Policy, please contact us via <a href="mailto:info@d-planner.com">email</a> or <a href="tel:6038651931">phone</a>.</p>
 
       </>
     </div>
