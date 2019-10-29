@@ -23,10 +23,6 @@ class ProfileDialog extends Component {
     super(props);
     this.state = {
       oldGradYear: this.props.user.graduationYear,
-      editingFirstName: false,
-      editingLastName: false,
-      editingEmail: false,
-      editingGraduationYear: false,
     };
 
     this.newUser = this.props.user;
