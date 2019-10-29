@@ -24,9 +24,20 @@ class ProfileDialog extends Component {
     this.state = {
       editing: false,
       oldGradYear: this.props.user.graduationYear,
+      editingFirstName: false,
+      editingLastName: false,
+      editingEmail: false,
+      editingGraduationYear: false,
     };
+
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    Object.entries(editOptions).map(([k, v]) => {
+      this.setState({ [v]: false }); return null;
+    });
   }
 
   handleChange = (e, type) => {
@@ -37,7 +48,7 @@ class ProfileDialog extends Component {
     }
   }
 
-  handleToggleEdit = () => {
+  handleToggleEdit = (v) => {
     let shouldUpdate = false;
     if (this.state.editing) {
       if (this.state.oldGradYear !== this.newUser.graduationYear) {
@@ -70,20 +81,20 @@ class ProfileDialog extends Component {
     }
 
     this.setState(prevState => ({
-      editing: !prevState.editing,
+      [v]: !prevState[v],
     }));
   }
 
-  displayEditOption = (text, inputName) => {
+  displayEditOption = (text, inputName, editing) => {
     return (
       <div className="info">
         <div className="label">{text}:</div>
         <div className="data">
-          {!this.state.editing ? `${this.newUser[inputName]}`
+          {!editing ? `${this.newUser[inputName]}`
             : <input type="text" defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
         </div>
-        {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-          : <img src={check} alt="edit" onClick={this.handleToggleEdit} />}
+        {!editing ? <img src={edit} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />
+          : <img src={check} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />}
       </div>
     );
   }
@@ -93,7 +104,7 @@ class ProfileDialog extends Component {
       <div className="user">
         <div className="profile-left">
           {Object.entries(editOptions).map(([k, v]) => {
-            return (this.displayEditOption(k, v));
+            return (this.displayEditOption(k, v, this.state[v]));
           })}
         </div>
         <div className="profile-right">
