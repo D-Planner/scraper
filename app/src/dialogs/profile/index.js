@@ -22,14 +22,8 @@ class ProfileDialog extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidUpdate() {
-    console.log('user props');
-    console.log(this.props.user);
-  }
-
   handleChange = (e, type) => {
-    console.log('handle change');
-    console.log(e.target.name, e.target.value);
+    console.log(e);
     this.newUser[e.target.name] = e.target.value;
 
     if (e.target.name === 'first_name' || e.target.name === 'last_name') {
@@ -49,7 +43,12 @@ class ProfileDialog extends Component {
           noText: 'Abort',
           showNo: true,
           onOk: () => {
-            shouldUpdate = true;
+            this.props.updateUser(this.newUser).then(() => {
+              this.props.fetchPlans().then(() => {
+                window.location.reload();
+              });
+            });
+            console.log('deleting all plans...');
           },
           onNo: () => {
             console.log('user declined to update profile, change nothing');
@@ -60,13 +59,7 @@ class ProfileDialog extends Component {
         shouldUpdate = true;
       }
       if (shouldUpdate) {
-        console.log('new user');
-        console.log(this.newUser);
-        this.props.updateUser(this.newUser).then(() => {
-          this.props.fetchPlans().then(() => {
-            // window.location.reload();
-          });
-        });
+        this.props.updateUser(this.newUser);
       }
     }
 
