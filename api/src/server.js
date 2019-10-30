@@ -5,6 +5,8 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
+import nodemailer from 'nodemailer';
+import { sendEmail } from './email';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
 
@@ -43,6 +45,15 @@ const port = process.env.PORT || 9090;
 app.listen(port);
 console.log(`listening on: ${port}`);
 
+export const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_ADDR,
+        pass: process.env.GMAIL_PASS,
+    },
+});
+
+// sendEmail('adam.j.mcquilkin.22@dartmouth.edu', 'Hello from D-Planner - but better!', '<p>This was sent from the D-Planner backend!</p>');
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
