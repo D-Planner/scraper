@@ -1,4 +1,5 @@
 import User from '../models/user';
+import { removeVerificationKey } from '../email/templates/verification';
 
 const verifyEmail = (req, res) => {
     console.log('verify email');
@@ -6,6 +7,7 @@ const verifyEmail = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         if (user.verificationKey === req.body.key && user.verificationKeyTimeout - Date.now() >= 0) {
             console.log('email verified!');
+            removeVerificationKey(user._id);
             res.send({ emailVerified: true });
         } else {
             console.log('not verified');

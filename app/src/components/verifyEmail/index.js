@@ -34,7 +34,7 @@ class VerifyEmail extends Component {
 
   render() {
     if (this.state.verified !== undefined) {
-      if (!this.state.verified) {
+      if (this.state.verified) {
         return (
           <div className="verify-email">
             <img alt="logo" className="logo" src={logo} />
