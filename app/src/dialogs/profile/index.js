@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, verifyEmail,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -17,6 +17,7 @@ class ProfileDialog extends Component {
     this.state = {
       editing: false,
       oldGradYear: this.props.user.graduationYear,
+      verifying: false,
     };
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
@@ -101,6 +102,13 @@ class ProfileDialog extends Component {
             </div>
             <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
+          {this.props.user.emailVerified === false ? <button type="button" className={this.state.verifying ? "verify-button sent" : "verify-button"} onClick={() => {
+            this.props.fetchUser().then(() => this.props.verifyEmail(this.props.user._id));
+            this.setState({ verifying: true });
+            }}>
+            <div className={this.state.verifying ? "button-text sent" : "button-text"}>{this.state.verifying ? 'Verification sent!' : 'Verify your email!'}</div>
+          </button>
+          : null}
         </div>
         <div className="profile-right">
           <div className="placements">
@@ -170,5 +178,5 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, verifyEmail,
 })(ProfileDialog));

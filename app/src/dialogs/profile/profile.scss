@@ -60,6 +60,52 @@
     input {
       max-width: 200px;
     }
+
+    .verify-button {
+      margin-top: 10px;
+      background: none;
+
+      border: solid;
+      border-color: $text-accent;
+      border-width: 2px;
+      height: 2.4em;
+
+      padding: 5px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      cursor: pointer;
+
+      &.sent {
+        border-color: $blue-primary;
+      }
+
+      .button-text {
+          font-family: $poppins;
+          font-weight: 500;
+          font-size: 14px;
+          color: $text-accent;
+          // background: linear-gradient(to right, #5797FD, #8901FB);
+          background-clip: text;
+          // text-transform: uppercase;
+
+          &.sent {
+            color: $blue-primary;
+          }
+      }
+
+      &:hover {
+          filter: brightness(150%); 
+      }
+      &:active {
+          background: $purple-light;
+          border: 1px $text-accent solid;
+          .button-text {
+              color: $text-accent;
+          }
+      }
+    }
   }
 
   .profile-right {
