@@ -17,6 +17,8 @@ import TooSmall from './tooSmall';
 import Credits from './credits';
 // import FlowChart from './flowchart';
 
+import VerifyEmail from './verifyEmail';
+
 
 class App extends Component {
   constructor(props) {
@@ -66,6 +68,7 @@ class App extends Component {
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />
                   <Route path="/credits" component={Credits} />
+                  <Route path="/email/:key" component={VerifyEmail} />
                   <Route component={FallBack} />
                 </Switch>
               </div>

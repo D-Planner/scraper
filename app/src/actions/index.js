@@ -39,6 +39,7 @@ export const ActionTypes = {
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
   SET_FILTERS: 'SET_FILTERS',
   CLEAR_FILTERS: 'CLEAR_FILTERS',
+  VERIFY_EMAIL: 'VERIFY_EMAIL',
 };
 
 export function setPressedKey(key) {
@@ -884,4 +885,22 @@ export function updateCloseFocus(ref) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.UPDATE_CLOSE_FOCUS, payload: { focusOnClose: ref } });
   };
+}
+
+export function verifyEmail(userID, key) {
+  return (dispatch) => {
+    console.log('actions verify');
+    console.log(userID, key);
+    axios.post(`${ROOT_URL}/auth/verify/email/`, { userID, key }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      console.log('action response');
+      console.log(response.data.emailVerified);
+      dispatch({ type: ActionTypes.VERIFY_EMAIL, payload: response.data });
+    }).catch((error) => {
+      console.log('action error');
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  }; // TODO: FIX THIS
 }

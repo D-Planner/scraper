@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as UserController from '../controllers/user_controller';
 import { requireSignin, requireAuth } from '../authentication/init';
+import VerifyController from '../controllers/verify_controller';
 
 const authRouter = Router();
 
@@ -117,5 +118,7 @@ authRouter.get('/', requireAuth, UserController.getUser);
 authRouter.get('/:id', requireAuth, UserController.getUser);
 
 authRouter.post('/update', requireAuth, UserController.updateUser);
+
+authRouter.post('/verify/email', requireAuth, VerifyController.verifyEmail);
 
 export default authRouter;
