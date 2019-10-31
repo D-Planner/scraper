@@ -30,6 +30,7 @@ export const signup = (req, res, next) => {
             last_name: lastName,
             university: college,
             graduationYear: grad,
+            emailVerified: false,
         });
 
         return newUser.save().then((savedUser) => {
