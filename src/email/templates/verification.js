@@ -30,8 +30,6 @@ export function generateVerificationEmail(userID) {
 
 export function setVerificationKey(userID) {
     User.findById(userID).then((user) => {
-        console.log('user found!');
-        // console.log(user);
         user.verificationKey = Math.floor((Math.random() * 1000000000000000) + Math.floor(Math.random() * 100000000)); // TODO: Improve this line
         user.verificationKeyTimeout = Date.now() + 7200000; // Two hours in the future
         user.save();
@@ -43,16 +41,14 @@ export function setVerificationKey(userID) {
 
 export function removeVerificationKey(userID) {
     User.findById(userID).then((user) => {
-        console.log('user found!');
         user.verificationKey = -1;
         user.verificationKeyTimeout = -1;
         user.save();
-        console.log(user);
-        console.log(createVerificationURL(user.verificationKey));
+        console.log('verification removed');
     });
 }
 
-// For generating random link in the format '{HOST}/verify?id={KEY}'
+// For generating random link in the format '{HOST}/email/{KEY}' for FRONTEND use (in email)
 export function createVerificationURL(key) {
-    return (`${host}/auth/email?id=${key}`);
+    return (`${host}/email/${key}`);
 }
