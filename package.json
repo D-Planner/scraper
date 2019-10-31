@@ -34,6 +34,7 @@
     "express": "^4.16.3",
     "express-fileupload": "^1.1.4",
     "express-session": "^1.15.6",
+    "generate-key": "^0.0.6",
     "jwt-simple": "^0.5.5",
     "mongo": "^0.1.0",
     "mongoose": "^5.4.2",

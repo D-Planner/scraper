@@ -1257,6 +1257,11 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
+coffee-script@1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.6.2.tgz#fd9c88369c1e41e3307a0a160d713f22513c93b3"
+  integrity sha1-/ZyINpweQeMwegoWDXE/IlE8k7M=
+
 collection-visit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/collection-visit/-/collection-visit-1.0.0.tgz#4bc0373c164bc3291b4d368c829cf1a80a59dca0"
@@ -2293,6 +2298,13 @@ gauge@~2.7.3:
     string-width "^1.0.1"
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
+
+generate-key@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/generate-key/-/generate-key-0.0.6.tgz#d58aa2e0774bcea3059caa3b39bc2a08b4dbfa0e"
+  integrity sha1-1Yqi4HdLzqMFnKo7ObwqCLTb+g4=
+  dependencies:
+    coffee-script "1.6.2"
 
 get-func-name@^2.0.0:
   version "2.0.0"
