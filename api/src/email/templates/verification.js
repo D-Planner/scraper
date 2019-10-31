@@ -1,4 +1,5 @@
 import User from '../../models/user';
+import rand from 'generate-key';
 
 require('dotenv').config();
 
@@ -10,10 +11,18 @@ export function generateVerificationEmail(userID) {
         User.findById(userID).then((user) => {
             console.log('user');
             console.log(user);
-            resolve(`<div><div>This is text, with a number! ${user.verificationKeyTimeout}</div><table width="100%" cellspacing="0" cellpadding="0">
-                <tr><td><table cellspacing="0" cellpadding="0"><tr><td style="border-radius: 2px;" bgcolor="#ED2939">
-                    <a href="${frontendHost}/email/${user.verificationKey}" target="_blank" style="padding: 8px 12px; border: 1px solid #ED2939;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;">Click</a>
-                </td></tr></table></td></tr></table></div>`);
+            // resolve(`<div><div>This is text, with a number! ${user.verificationKeyTimeout}</div><table width="100%" cellspacing="0" cellpadding="0">
+            //     <tr><td><table cellspacing="0" cellpadding="0"><tr><td style="border-radius: 2px;" bgcolor="#ED2939">
+            //         <a href="${frontendHost}/email/${user.verificationKey}" target="_blank" style="padding: 8px 12px; border: 1px solid #ED2939;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;">Click</a>
+            //     </td></tr></table></td></tr></table></div>`);
+            resolve(`<div>
+            <div class="title">Verify your email!</div>
+            <div class="subtitle">D-Planner, the future of course election</div>
+            <p>If you did’t request a password reset, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!</p>
+            <p>Verify your email here!</p>
+            <a href="${frontendHost}/email/${user.verificationKey}" target="_blank" style="padding: 8px 12px; border: 1px solid #ED2939;border-radius: 2px;font-family: Helvetica, Arial, sans-serif;font-size: 14px; color: #ffffff;text-decoration: none;font-weight:bold;display: inline-block;">Click</a>
+          <p>D-Planner, ©2019</p>
+        </div>`);
         }).catch((error) => {
             console.error(error);
             reject(error);
@@ -21,7 +30,7 @@ export function generateVerificationEmail(userID) {
     }));
     // return (
     //     null
-    //   `<div>
+    // `<div>
     //     <div class="title">Verify your email!</div>
     //     <div class="subtitle">D-Planner, the future of course election</div>
     //     <p>If you did’t request a password reset, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!</p>
@@ -31,14 +40,15 @@ export function generateVerificationEmail(userID) {
     //     <!-- <div class="button-cover"><div class="button-text">Sign In</div></div> -->
     //   </button>
     //   <p>D-Planner, ©2019</p>
-    // </div>`
+    // </div>`;
     // );
 }
 
 export function setVerificationKey(userID) {
     return new Promise((resolve, reject) => {
         User.findById(userID).then((user) => {
-            user.verificationKey = Math.floor((Math.random() * 1000000000000000) + Math.floor(Math.random() * 100000000)); // TODO: Improve this line
+            user.verificationKey = rand.generateKey(40);
+            // user.verificationKey = Math.floor((Math.random() * 1000000000000000) + Math.floor(Math.random() * 100000000)); // TODO: Improve this line
             user.verificationKeyTimeout = Date.now() + 7200000; // Two hours in the future
             console.log('save');
             user.save().then(() => {
