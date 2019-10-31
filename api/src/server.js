@@ -54,9 +54,9 @@ export const transporter = nodemailer.createTransport({
     },
 });
 
-// setVerificationKey('5dba26226f0d4e1cdc00ff51');
-// generateVerificationEmail('5dba26226f0d4e1cdc00ff51');
-// removeVerificationKey('5dba26226f0d4e1cdc00ff51');
+// setVerificationKey('5dba502ea94c3057dce7d5a3');
+// generateVerificationEmail('5dba502ea94c3057dce7d5a3');
+// removeVerificationKey('5dba502ea94c3057dce7d5a3');
 // sendEmail('adam.j.mcquilkin.22@dartmouth.edu', 'Hello from D-Planner - but better!', generateVerificationEmail('Adam')); // '<p>This was sent from the D-Planner backend!</p>'
 
 // DB Setup

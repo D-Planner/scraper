@@ -15,20 +15,20 @@ class VerifyEmail extends Component {
   }
 
   componentWillMount() {
-    // this.props.fetchUser();
     this.props.fetchUser().then(() => {
-      console.log('verfying email');
-      // this.props.verifyEmail(this.props.user._id, '985207728361654');
+      console.log(this.props);
+      if (this.props.user.verificationKey === '-1' || this.props.user.emailVerified) {
+        console.log('alreacy verified');
+        return (this.props.history.push('/'));
+      }
       axios.post(`${ROOT_URL}/auth/verify/email/`, { userID: this.props.user._id, key: this.props.match.params.key }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }).then((response) => {
-        console.log('action response');
-        console.log(response.data.emailVerified);
         this.setState({ verified: response.data.emailVerified });
       }).catch((error) => {
-        console.log('action error');
-        console.log(error);
+        console.error(error);
       });
+      return null;
     });
   }
 
@@ -51,7 +51,7 @@ class VerifyEmail extends Component {
           <div className="verify-email">
             <img alt="logo" className="logo" src={logo} />
             <div className="message-verify">
-              Uh oh, it looks like there&apos;s been an error in your verification...
+              Uh oh, we couldn&apos;t verify your email!
             </div>
             <div className="error-message-verify">
               {`If you believe this is an error, please reach out to us at ${'info@d-planner.com'}`} {/* Add standard email address here */}

@@ -292,14 +292,10 @@ export function createPlan(plan, planSetter) {
   console.log(`plan: ${plan}, planSetter: ${planSetter}`);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
-      console.log('create plan error');
-      console.log(response.data);
       planSetter(response.data.id);
       resolve();
     }).catch((error) => {
-      console.log('create plan error');
       console.log(error);
-      console.log(error.response.data === undefined);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -317,12 +313,9 @@ export function fetchPlans() {
   };
   return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
-      console.log('fetch plans response');
-      console.log(response);
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log('fetch plans error');
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
