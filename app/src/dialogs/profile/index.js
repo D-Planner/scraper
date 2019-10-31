@@ -23,6 +23,13 @@ class ProfileDialog extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  // Check if an email has been sent before loading of component
+  componentDidMount() {
+    if (this.props.user && this.props.user.verificationKey !== undefined && this.props.user.verificationKey !== -1) {
+      this.setState({ verifying: true });
+    }
+  }
+
   handleChange = (e, type) => {
     this.newUser[e.target.name] = e.target.value;
   }
@@ -102,13 +109,18 @@ class ProfileDialog extends Component {
             </div>
             <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
-          {this.props.user.emailVerified === false ? <button type="button" className={this.state.verifying ? "verify-button sent" : "verify-button"} onClick={() => {
-            this.props.fetchUser().then(() => this.props.verifyEmail(this.props.user._id));
-            this.setState({ verifying: true });
-            }}>
-            <div className={this.state.verifying ? "button-text sent" : "button-text"}>{this.state.verifying ? 'Verification sent!' : 'Verify your email!'}</div>
-          </button>
-          : null}
+          {this.props.user.emailVerified === false ? (
+            <button type="button"
+              className={this.state.verifying ? 'verify-button sent' : 'verify-button'}
+              onClick={() => {
+                this.props.fetchUser().then(() => this.props.verifyEmail(this.props.user._id));
+                this.setState({ verifying: true });
+              }}
+            >
+              <div className={this.state.verifying ? 'button-text sent' : 'button-text'}>{this.state.verifying ? 'Verification sent!' : 'Verify your email!'}</div>
+            </button>
+          )
+            : null}
         </div>
         <div className="profile-right">
           <div className="placements">
