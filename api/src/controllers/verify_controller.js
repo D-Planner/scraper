@@ -1,5 +1,6 @@
 import User from '../models/user';
-import { removeVerificationKey } from '../email/templates/verification';
+import { generateVerificationEmail, setVerificationKey, removeVerificationKey } from '../email/templates/verification';
+import { sendEmail } from '../email';
 
 const verifyEmail = (req, res) => {
     User.findById(req.body.userID).then((user) => {
@@ -20,12 +21,38 @@ const verifyEmail = (req, res) => {
     });
 };
 
+const sendVerifyEmail = (req, res) => {
+    User.findById(req.body.userID).then((user) => {
+        if (user.emailVerified === false && (user.verificationKey === -1 || user.verificationKey === undefined)) {
+            console.log('setting verification key');
+            setVerificationKey(req.body.userID).then((key) => {
+                console.log('key', key);
+                console.log('send verify email');
+                generateVerificationEmail(req.body.userID).then((html) => {
+                    sendEmail('adam.j.mcquilkin.22@dartmouth.edu', 'D-Planner says hi - with a button!', html);
+                });
+            }).catch((error) => {
+                console.error(error);
+            });
+        } else {
+            console.log('not setting verification key');
+            console.log('send verify email');
+            generateVerificationEmail(req.body.userID).then((html) => {
+                sendEmail('adam.j.mcquilkin.22@dartmouth.edu', 'D-Planner says hi - with a button!', html);
+            });
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+};
+
 const resetPassword = (req, res) => {
 
 };
 
 const VerifyController = {
     verifyEmail,
+    sendVerifyEmail,
     resetPassword,
 };
 

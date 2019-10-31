@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, verifyEmail,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -242,6 +242,7 @@ class DPlan extends Component {
             <div className="welcome-text">
               <div className="welcome-title">Welcome to D-Planner!</div>
               <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+              <div onClick={() => this.props.fetchUser().then(() => this.props.verifyEmail(this.props.user._id))}>Click me!</div>
             </div>
           </div>
         </HotKeys>
@@ -325,4 +326,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchPlans,
   updateCloseFocus,
   updatePlan,
+  verifyEmail,
 })(DPlan));

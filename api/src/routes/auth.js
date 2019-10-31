@@ -120,5 +120,6 @@ authRouter.get('/:id', requireAuth, UserController.getUser);
 authRouter.post('/update', requireAuth, UserController.updateUser);
 
 authRouter.post('/verify/email', requireAuth, VerifyController.verifyEmail);
+authRouter.post('/verify/email/send', VerifyController.sendVerifyEmail);
 
 export default authRouter;

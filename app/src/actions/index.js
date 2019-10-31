@@ -880,11 +880,15 @@ export function updateCloseFocus(ref) {
   };
 }
 
-export function verifyEmail(userID, key) {
+/**
+ * Tells the server to send an email to the given userID with a verification link
+ * @param {*} userID
+ */
+export function verifyEmail(userID) {
   return (dispatch) => {
-    console.log('actions verify');
-    console.log(userID, key);
-    axios.post(`${ROOT_URL}/auth/verify/email/`, { userID, key }, {
+    console.log('actions send email');
+    console.log(userID);
+    axios.post(`${ROOT_URL}/auth/verify/email/send`, { userID }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       console.log('action response');
@@ -895,5 +899,5 @@ export function verifyEmail(userID, key) {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
-  }; // TODO: FIX THIS
+  };
 }
