@@ -6,8 +6,6 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import nodemailer from 'nodemailer';
-import { sendEmail } from './email';
-import { setVerificationKey, generateVerificationEmail, removeVerificationKey } from './email/templates/verification';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
 
@@ -53,11 +51,6 @@ export const transporter = nodemailer.createTransport({
         pass: process.env.GMAIL_PASS,
     },
 });
-
-// setVerificationKey('5dba502ea94c3057dce7d5a3');
-// generateVerificationEmail('5dba502ea94c3057dce7d5a3');
-// removeVerificationKey('5dba502ea94c3057dce7d5a3');
-// sendEmail('adam.j.mcquilkin.22@dartmouth.edu', 'Hello from D-Planner - but better!', generateVerificationEmail('Adam')); // '<p>This was sent from the D-Planner backend!</p>'
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';

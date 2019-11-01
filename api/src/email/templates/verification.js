@@ -1,5 +1,5 @@
-import User from '../../models/user';
 import rand from 'generate-key';
+import User from '../../models/user';
 
 require('dotenv').config();
 

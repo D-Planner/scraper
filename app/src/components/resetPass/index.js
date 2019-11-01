@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import SignIn from '../../containers/signIn';
 import logo from '../../style/logo.svg';
-// import ResetPassForm from './resetPassForm';
+import { updateUser, fetchUser } from '../../actions';
 import './resetPass.scss';
 
 class ResetPass extends Component {
@@ -15,6 +15,12 @@ class ResetPass extends Component {
       newPasswordDuplicate: '',
       errorMessage: null,
     };
+
+    this.props.fetchUser().then(() => {
+      this.newUser = this.props.user;
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
   render() {
@@ -58,16 +64,23 @@ class ResetPass extends Component {
                 className="reset-pass-action-button big"
                 onClick={() => {
                   if (this.state.newPassword === this.state.newPasswordDuplicate) {
-                    console.log('passwords match!');
                     // TODO: save new password
                     if (this.state.newPassword.length < 8 || this.state.newPasswordDuplicate.length < 8) {
                       this.setState({ errorMessage: 'Your password needs to have more than 8 characters!' });
                     } else {
                       this.setState({ errorMessage: null });
+                      this.newUser.password = this.state.newPassword;
+                      console.log('new user');
+                      console.log(this.newUser);
+                      this.props.updateUser(this.newUser).then(() => {
+                        this.props.fetchUser().then(() => {
+                          console.log('new user');
+                          console.log(this.props.user);
+                        });
+                        // this.props.history.push('/');
+                      });
                     }
                   } else {
-                    console.log('passwords do not match');
-                    // TODO: throw error message
                     this.setState({ errorMessage: 'The passwords you entered don\'t match!' });
                   }
                   // this.props.history.push('/');
@@ -141,4 +154,6 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
 });
 
-export default connect(mapStateToProps, {})(ResetPass);
+export default connect(mapStateToProps, {
+  updateUser, fetchUser,
+})(ResetPass);
