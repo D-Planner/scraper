@@ -77,13 +77,12 @@ class ResetPass extends Component {
                           console.log('new user');
                           console.log(this.props.user);
                         });
-                        // this.props.history.push('/');
+                        this.props.history.push('/');
                       });
                     }
                   } else {
                     this.setState({ errorMessage: 'The passwords you entered don\'t match!' });
                   }
-                  // this.props.history.push('/');
                 }}
               >
                 <div className="button-cover"><div className="button-text">Reset Password</div></div>
