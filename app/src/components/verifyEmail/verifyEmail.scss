@@ -13,6 +13,7 @@
   }
 
   .message-verify {
+    text-align: center;
     color: $text-accent;
     font-size:36px;
     font-weight: 480;
@@ -20,6 +21,7 @@
   }
 
   .error-message-verify {
+    text-align: center;
     color: $black;
     font-size:18px;
     font-weight: 300;
@@ -55,6 +57,10 @@
 
     margin: auto;
 
+    &.big {
+      width: 144px;
+    }
+
     .button-cover {
       display: flex;
       justify-content: center;
@@ -62,4 +68,11 @@
       margin: auto;
     }
   }
+}
+
+.verify-signin-container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  margin: 20px auto;
 }

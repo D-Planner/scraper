@@ -242,7 +242,6 @@ class DPlan extends Component {
             <div className="welcome-text">
               <div className="welcome-title">Welcome to D-Planner!</div>
               <div className="welcome-subtitle">Get started by creating a new Plan.</div>
-              {/* <div onClick={() => this.props.fetchUser().then(() => this.props.verifyEmail(this.props.user._id))}>Click me!</div> */}
             </div>
           </div>
         </HotKeys>

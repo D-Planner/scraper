@@ -25,9 +25,11 @@ class ProfileDialog extends Component {
 
   // Check if an email has been sent before loading of component
   componentDidMount() {
-    if (this.props.user && this.props.user.verificationKey !== undefined && this.props.user.verificationKey !== -1) {
-      this.setState({ verifying: true });
-    }
+    this.props.fetchUser().then(() => {
+      if (this.props.user && this.props.user.verificationKey !== undefined && this.props.user.verificationKey !== -1) {
+        this.setState({ verifying: true });
+      }
+    });
   }
 
   handleChange = (e, type) => {

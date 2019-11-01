@@ -18,6 +18,7 @@ import Credits from './credits';
 // import FlowChart from './flowchart';
 
 import VerifyEmail from './verifyEmail';
+import SignIn from '../containers/signIn';
 
 
 class App extends Component {
