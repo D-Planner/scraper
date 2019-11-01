@@ -17,6 +17,9 @@ import TooSmall from './tooSmall';
 import Credits from './credits';
 // import FlowChart from './flowchart';
 
+import PrivacyPolicy from './policies/privacy';
+import TermsAndConditions from './policies/terms_conditions';
+
 
 class App extends Component {
   constructor(props) {
@@ -66,6 +69,8 @@ class App extends Component {
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />
                   <Route path="/credits" component={Credits} />
+                  <Route path="/policies/termsandconditions" component={TermsAndConditions} />
+                  <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                   <Route component={FallBack} />
                 </Switch>
               </div>
