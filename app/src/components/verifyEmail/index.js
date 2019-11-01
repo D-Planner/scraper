@@ -36,8 +36,8 @@ class VerifyEmail extends Component {
 
   render() {
     if (this.props.authenticated) {
-      if (this.state.verified !== undefined) { // Verified
-        if (this.state.verified) {
+      if (this.state.verified !== undefined) {
+        if (this.state.verified) { // Verified
           return (
             <div className="verify-email">
               <img alt="logo" className="logo" src={logo} />
@@ -94,7 +94,7 @@ class VerifyEmail extends Component {
       return (
         <>
           <div className="verify-email">
-            <div className="message-verify">To finsih verifying your email, sign in here!</div>
+            <div className="message-verify">To finish verifying your email, sign in here!</div>
           </div>
           <div className="verify-signin-container">
             <SignIn callback={() => { // Push back to same URL for re-authentication

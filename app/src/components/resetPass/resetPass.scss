@@ -1,6 +1,6 @@
 @import "../../style/variables.scss";
 
-.verify-email {
+.reset-pass-email {
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
     height: 6em;
   }
 
-  .message-verify {
+  .message-reset-pass {
     text-align: center;
     color: $text-accent;
     font-size:36px;
@@ -20,13 +20,48 @@
     margin: 10px;
   }
 
-  .error-message-verify {
+  .error-message-reset-pass {
     text-align: center;
-    color: $black;
+    color: $error;
     font-size:18px;
     font-weight: 300;
-    margin-top: -10px;
-    margin-bottom: 10px;
+    margin: 10px auto;
+  }
+
+  .reset-pass-form {
+    width: 500px;
+  
+    form {
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  
+      * {
+          font-size: 18px;
+      }
+  
+      input {
+        padding: 10px;
+        background: $white;
+        border: 1px solid $gray-5;
+        border-radius: 12px;
+  
+        &:focus {
+            border: 1.5px solid $blue-primary;
+        }
+      }
+  
+      .row {
+        display: flex;
+        flex-direction: row;
+        max-width: 100%;
+        * {
+            margin: 5px;
+            flex: 1;
+        }
+      }
+    }
   }
 
   button {
@@ -39,7 +74,7 @@
   $button-width: 120px;
   $button-border-radius: 12px;
     
-  .verify-action-button {
+  .reset-pass-action-button {
     width: $button-width;
     display: flex;
     background: $white;
@@ -55,10 +90,10 @@
     justify-content: center;
     align-content: center !important;
 
-    margin: auto;
+    margin: 10px auto;
 
     &.big {
-      width: 144px;
+      width: 200px;
     }
 
     .button-cover {
@@ -70,8 +105,7 @@
   }
 }
 
-.verify-signin-container {
-  width: 500px;
+.reset-pass-signin-container {
   display: flex;
   align-content: center;
   justify-content: center;

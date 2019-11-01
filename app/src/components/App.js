@@ -18,7 +18,7 @@ import Credits from './credits';
 // import FlowChart from './flowchart';
 
 import VerifyEmail from './verifyEmail';
-import SignIn from '../containers/signIn';
+import ResetPassword from './resetPass';
 
 
 class App extends Component {
@@ -70,6 +70,7 @@ class App extends Component {
                   <Route path="/plan/:id" component={DPlan} />
                   <Route path="/credits" component={Credits} />
                   <Route path="/email/:key" component={VerifyEmail} />
+                  <Route path="/pass/:key" component={ResetPassword} />
                   <Route component={FallBack} />
                 </Switch>
               </div>
