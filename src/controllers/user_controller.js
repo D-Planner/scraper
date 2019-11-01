@@ -79,11 +79,19 @@ export const updateUser = async (req, res) => {
             if (user.graduationYear !== req.body.change.graduationYear) {
                 Plan.find({ user_id: user._id }).remove().exec();
             }
+            console.log(req.body.change);
             user.full_name = req.body.change.full_name;
             user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
             user.emailVerified = req.body.change.emailVerified;
-            user.save();
+            if (req.body.change.password) { user.password = req.body.change.password; }
+            console.log('updating user');
+            user.save().then(() => {
+                console.log('password reset');
+                console.log(user.password);
+            }).catch((error) => {
+                console.error(error);
+            });
             const json = user.toJSON();
             delete json.password;
             res.json(json);
