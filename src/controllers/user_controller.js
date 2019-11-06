@@ -72,6 +72,12 @@ export const getUser = (req, res) => {
         });
 };
 
+/**
+ * 🚀 TODO:
+ * Check if there are security vulnerabilities created by sending user key to
+ * frontend for validation, add as backend functionality
+ */
+
 export const updateUser = async (req, res) => {
     User.findById(req.user.id)
         .populate(PopulateUser)
@@ -79,19 +85,21 @@ export const updateUser = async (req, res) => {
             if (user.graduationYear !== req.body.change.graduationYear) {
                 Plan.find({ user_id: user._id }).remove().exec();
             }
-            console.log(req.body.change);
             user.full_name = req.body.change.full_name;
-            user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
             user.emailVerified = req.body.change.emailVerified;
+
+            // Force user to re-verify on email change
+            if (req.body.change.email && req.body.change.email !== user.email) {
+                console.log('unverifying email');
+                user.emailVerified = false;
+            }
+            user.email = req.body.change.email; // Keep this after email update check
+
+            // Don't reset password if none in request
             if (req.body.change.password) { user.password = req.body.change.password; }
-            console.log('updating user');
-            user.save().then(() => {
-                console.log('password reset');
-                console.log(user.password);
-            }).catch((error) => {
-                console.error(error);
-            });
+
+            user.save();
             const json = user.toJSON();
             delete json.password;
             res.json(json);

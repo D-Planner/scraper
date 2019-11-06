@@ -13,8 +13,10 @@ export function sendEmail(to, subject, html) {
             html,
         }, (err, info) => {
             if (err) {
+                console.log('email sending error');
                 reject(err);
             } else {
+                console.log('no error sending email');
                 resolve(info);
             }
         });
