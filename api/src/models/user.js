@@ -15,8 +15,10 @@ const UserSchema = new Schema({
     majors: [{ type: Schema.Types.ObjectId, ref: 'Major' }],
     settings: {},
     emailVerified: Boolean,
-    verificationKey: String,
-    verificationKeyTimeout: Number,
+    emailVerificationKey: String,
+    emailVerificationKeyTimeout: Number,
+    passwordVerificationKey: String,
+    passwordVerificationKeyTimeout: Number,
 }, {
     toObject: {
         virtuals: true,

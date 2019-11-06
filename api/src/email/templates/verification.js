@@ -6,6 +6,8 @@ require('dotenv').config();
 const host = process.env.host || 'localhost:9090';
 const frontendHost = process.env.host || 'http://localhost:8080';
 
+export const timeoutDuration = 7200000;
+
 export function generateVerificationEmail(userID) {
     return (new Promise((resolve, reject) => {
         User.findById(userID).then((user) => {
@@ -29,8 +31,8 @@ export function generateVerificationEmail(userID) {
               <div>
                 <div class="title">Verify your email!</div>
                 <div class="subtitle">D-Planner, the future of course election</div>
-                <p>If you didn’t request a password reset, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!</p>
-                <a href="${frontendHost}/email/${user.verificationKey}" target="_blank" id="verify">Click</a>
+                <p>If you didn’t request to verify your email, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!</p>
+                <a href="${frontendHost}/email/${user.emailVerificationKey}" target="_blank" id="verify">Click</a>
                 <p>D-Planner, ©2019</p>
               </div>
             
@@ -95,51 +97,142 @@ export function generateVerificationEmail(userID) {
             reject(error);
         });
     }));
-    // return (
-    //     null
-    // `<div>
-    //     <div class="title">Verify your email!</div>
-    //     <div class="subtitle">D-Planner, the future of course election</div>
-    //     <p>If you did’t request a password reset, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!</p>
-    //     <button type="button" id="verify">
-    //     Verify your email here!
-    //     <!-- <div>Test Color</div> -->
-    //     <!-- <div class="button-cover"><div class="button-text">Sign In</div></div> -->
-    //   </button>
-    //   <p>D-Planner, ©2019</p>
-    // </div>`;
-    // );
 }
 
-export function setVerificationKey(userID) {
+export function generateResetPassEmail(userID) {
+    return (new Promise((resolve, reject) => {
+        User.findById(userID).then((user) => {
+            resolve(`<html>
+              <div>
+                <div class="title">Reset your password!</div>
+                <div class="subtitle">D-Planner, the future of course election</div>
+                <p>If you didn’t request a password reset, please delete this email and nothing will happen. Otherwise, click the link below to create a new password!</p>
+                <a href="${frontendHost}/pass/${user.passwordVerificationKey}" target="_blank" id="verify">Click</a>
+                <p>D-Planner, ©2019</p>
+              </div>
+            
+              <script type="text/javascript">
+                document.getElementById("verify").onclick = function () {
+                  location.href = "http://www.d-planner.com";
+                };
+              </script>
+            
+              <style>
+                @import url('https://fonts.googleapis.com/css?family=Poppins|Roboto');
+            
+                html {
+                  font-family: 'Poppins', sans-serif;
+                  width: 900px;
+                  margin: 16px auto;
+                  display: flex;
+                  flex-direction: column;
+                }
+            
+                .title {
+                  font-style: normal;
+                  font-weight: bold;
+                  font-size: 48px;
+                  color:#574966;
+                }
+            
+                .subtitle {
+                  font-style: normal;
+                  font-weight: bold;
+                  font-size: 30px;
+                  color:#574966;
+                }
+            
+                #verify {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+            
+                  border-radius: 20px;
+                  margin: 2px;
+                  color: red;
+            
+                  width: 40%;
+                  height: 36px;
+            
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+            
+                  background: none;
+                  -webkit-text-fill-color: transparent;
+            
+                  font-weight: bold;
+                  font-size: 16px;
+                  text-transform: uppercase;
+                }
+              </style>
+            </html>`);
+        }).catch((error) => {
+            console.error(error);
+            reject(error);
+        });
+    }));
+}
+
+/**
+ * Sets a random string for email/pass verification key, gives timeout of two hours
+ * @param {*} userID
+ * @param {*} type
+ */
+export function setVerificationKey(userID, type) {
     return new Promise((resolve, reject) => {
         User.findById(userID).then((user) => {
-            user.verificationKey = rand.generateKey(40);
-            // user.verificationKey = Math.floor((Math.random() * 1000000000000000) + Math.floor(Math.random() * 100000000)); // TODO: Improve this line
-            user.verificationKeyTimeout = Date.now() + 7200000; // Two hours in the future
-            console.log('save');
-            user.save().then(() => {
-                console.log('verification key', user.verificationKey);
-                console.log('verification timeout', user.verificationKeyTimeout);
+            if (type === 'e') {
+                console.log('type \'e\'');
+                user.emailVerificationKey = rand.generateKey(40);
+                // UPDATED FOR TESTING
+                user.emailVerificationKeyTimeout = Date.now() + timeoutDuration;
+                user.save().then(() => {
+                    console.log('verification key', user.emailVerificationKey);
+                    console.log('verification timeout', user.emailVerificationKeyTimeout);
 
-                resolve(user.verificationKey);
-            });
+                    resolve(user.emailVerificationKey);
+                });
+            } else if (type === 'p') {
+                console.log('type \'p\'');
+                user.passwordVerificationKey = rand.generateKey(40);
+                // UPDATED FOR TESTING
+                user.passwordVerificationKeyTimeout = Date.now() + timeoutDuration;
+                user.save().then(() => {
+                    console.log('verification key', user.passwordVerificationKey);
+                    console.log('verification timeout', user.passwordVerificationKeyTimeout);
+
+                    resolve(user.emailVerificationKey);
+                });
+            } else {
+                console.log('type not supported');
+                reject(new Error('Incorrect \'type\' parameter entered:', type));
+            }
         }).catch((error) => {
             reject(error);
         });
     });
 }
 
-export function removeVerificationKey(userID) {
-    User.findById(userID).then((user) => {
-        user.verificationKey = -1;
-        user.verificationKeyTimeout = -1;
-        user.save();
-        console.log('verification removed');
-    });
-}
-
-// For generating random link in the format '{HOST}/email/{KEY}' for FRONTEND use (in email)
-export function createVerificationURL(key) {
-    return (`${host}/email/${key}`);
-}
+/**
+ * Removes verification key and timeout from email/password
+ * @param {*} userID
+ * @param {*} type
+ */
+// export function removeVerificationKey(userID, type) {
+//     User.findById(userID).then((user) => {
+//         if (type === 'e') {
+//             user.emailVerificationKey = -1;
+//             user.emailVerificationKeyTimeout = -1;
+//             user.save();
+//             console.log('verification removed');
+//         } else if (type === 'p') {
+//             user.passwordVerificationKey = -1;
+//             user.passwordVerificationKeyTimeout = -1;
+//             user.save();
+//             console.log('verification removed');
+//         } else {
+//             console.log('Incorrect \'type\' parameter entered', type);
+//         }
+//     });
+// }

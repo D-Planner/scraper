@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, verifyEmail,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -17,7 +17,8 @@ class ProfileDialog extends Component {
     this.state = {
       editing: false,
       oldGradYear: this.props.user.graduationYear,
-      verifying: false,
+      verifyingEmail: false,
+      verifyingPassword: false,
     };
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
@@ -26,8 +27,11 @@ class ProfileDialog extends Component {
   // Check if an email has been sent before loading of component
   componentDidMount() {
     this.props.fetchUser().then(() => {
-      if (this.props.user && this.props.user.verificationKey !== undefined && this.props.user.verificationKey !== -1) {
-        this.setState({ verifying: true });
+      if (this.props.user && this.props.user.emailVerificationKey !== undefined && this.props.user.emailVerificationKey !== '-1') {
+        this.setState({ verifyingEmail: true });
+      }
+      if (this.props.user && this.props.user.passwordVerificationKey !== undefined && this.props.user.passwordVerificationKey !== '-1') {
+        this.setState({ verifyingPassword: true });
       }
     });
   }
@@ -111,18 +115,31 @@ class ProfileDialog extends Component {
             </div>
             <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
+          {/* Verify Email */}
           {this.props.user.emailVerified === false ? (
             <button type="button"
-              className={this.state.verifying ? 'verify-button sent' : 'verify-button'}
+              className={this.state.verifyingEmail ? 'verify-button sent' : 'verify-button'}
               onClick={() => {
-                this.props.fetchUser().then(() => this.props.verifyEmail(this.props.user._id));
-                this.setState({ verifying: true });
+                console.log('sending reset email email');
+                this.props.fetchUser().then(() => this.props.sendVerifyEmail(this.props.user._id));
+                this.setState({ verifyingEmail: true });
               }}
             >
-              <div className={this.state.verifying ? 'button-text sent' : 'button-text'}>{this.state.verifying ? 'Verification sent!' : 'Verify your email!'}</div>
+              <div className={this.state.verifyingEmail ? 'button-text sent' : 'button-text'}>{this.state.verifyingEmail ? 'Verification sent!' : 'Verify email'}</div>
             </button>
           )
             : null}
+          {/* Reset Password */}
+          <button type="button"
+            className={this.state.verifyingPassword ? 'verify-button sent' : 'verify-button'}
+            onClick={() => {
+              console.log('sending reset password email');
+              this.props.fetchUser().then(() => this.props.sendResetPass(this.props.user._id));
+              this.setState({ verifyingPassword: true });
+            }}
+          >
+            <div className={this.state.verifyingPassword ? 'button-text sent' : 'button-text'}>{this.state.verifyingPassword ? 'Password reset sent!' : 'Reset password'}</div>
+          </button>
         </div>
         <div className="profile-right">
           <div className="placements">
@@ -177,6 +194,14 @@ class ProfileDialog extends Component {
   }
 
   render() {
+    // if (this.state.verifyingEmail && (!this.props.user || this.props.user.emailVerificationKey === undefined || this.props.user.emailVerificationKey === '-1')) {
+    //   this.setState({ verifyingEmail: false });
+    // }
+    // if (this.state.verifyingPassword && (!this.props.user || this.props.user.passwordVerificationKey === undefined || this.props.user.passwordVerificationKey === '-1')) {
+    //   this.setState({ verifyingPassword: false });
+    // }
+    // console.log('verifyingEmail', this.state.verifyingEmail);
+    // console.log('verifyingPassword', this.state.verifyingPassword);
     return (
       <DialogWrapper {...this.props}>
         {this.renderUserInfo()}
@@ -192,5 +217,5 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, verifyEmail,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass,
 })(ProfileDialog));

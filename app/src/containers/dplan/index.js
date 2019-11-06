@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, verifyEmail,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail,
 } from '../../actions';
 import { DialogTypes } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -325,5 +325,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchPlans,
   updateCloseFocus,
   updatePlan,
-  verifyEmail,
+  sendVerifyEmail,
 })(DPlan));
