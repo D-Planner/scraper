@@ -7,8 +7,6 @@ import logo from '../../style/logo.svg';
 import { updateUser, fetchUser, sendResetPass } from '../../actions';
 import './resetPass.scss';
 
-// TODO: Improve security in saving a new user in the frontend with plain text password
-
 class ResetPass extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +26,6 @@ class ResetPass extends Component {
     this.sendPasswordReset = this.sendPasswordReset.bind(this);
   }
 
-  // FIX THIS ONE UP
   componentWillMount() {
     this.props.fetchUser().then(() => {
       if (this.props.user.passwordVerificationKey === '-1') {

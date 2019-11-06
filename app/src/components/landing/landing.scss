@@ -67,7 +67,16 @@ $content-padding-top: 25vh;
         align-items: center;
         padding-top: $content-padding-top;
 
-        // justify-content: center;
+        .homepage-pass-reset {
+          margin: 20px;
+          color: $gray-5;
+          text-decoration: none;
+          transition: color .075s;
+
+          &:hover {
+            color: $text-accent;
+          }
+        }
 
         .scroller {
             border-radius: 100%;

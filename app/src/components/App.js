@@ -15,6 +15,7 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall from './tooSmall';
 import Credits from './credits';
+import ForgotPassword from './forgotPassword';
 // import FlowChart from './flowchart';
 
 import VerifyEmail from './verifyEmail';
@@ -71,6 +72,7 @@ class App extends Component {
                   <Route path="/credits" component={Credits} />
                   <Route path="/email/:key" component={VerifyEmail} />
                   <Route path="/pass/:key" component={ResetPassword} />
+                  <Route path="/reset/pass" component={ForgotPassword} />
                   <Route component={FallBack} />
                 </Switch>
               </div>
