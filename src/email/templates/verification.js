@@ -7,6 +7,7 @@ const host = process.env.host || 'localhost:9090';
 const frontendHost = process.env.host || 'http://localhost:8080';
 
 export const timeoutDuration = 7200000;
+const keyLength = 120;
 
 export function generateVerificationEmail(userID) {
     return (new Promise((resolve, reject) => {
@@ -184,7 +185,7 @@ export function setVerificationKey(userID, type) {
         User.findById(userID).then((user) => {
             if (type === 'e') {
                 console.log('type \'e\'');
-                user.emailVerificationKey = rand.generateKey(40);
+                user.emailVerificationKey = rand.generateKey(keyLength);
                 // UPDATED FOR TESTING
                 user.emailVerificationKeyTimeout = Date.now() + timeoutDuration;
                 user.save().then(() => {
@@ -195,7 +196,7 @@ export function setVerificationKey(userID, type) {
                 });
             } else if (type === 'p') {
                 console.log('type \'p\'');
-                user.passwordVerificationKey = rand.generateKey(40);
+                user.passwordVerificationKey = rand.generateKey(keyLength);
                 // UPDATED FOR TESTING
                 user.passwordVerificationKeyTimeout = Date.now() + timeoutDuration;
                 user.save().then(() => {

@@ -152,12 +152,60 @@ const sendResetPass = (req, res) => {
     });
 };
 
+/**
+ * Allows user to send password reset email to entered email
+ * @param {*} req
+ * @param {*} res
+ */
+const resetPassByEmail = (req, res) => {
+    User.find({ email: req.body.email }).then((users) => {
+        if (users.length === 1) {
+            const userID = users[0]._id;
+            sendResetPass({
+                body: {
+                    userID,
+                },
+            }, res);
+        }
+    });
+
+    // .then((users) => {
+    //     if (users.length === 1) {
+    //         console.log('found user');
+    //         console.log(users[0]);
+    //         const user = users[0];
+    //         // sendEmail(user);
+
+    //         console.log('sending email from email entered');
+    //         generateResetPassEmail(user._id).then((html) => {
+    //             sendEmail(user.email, 'D-Planner - Reset your password', html)
+    //                 .then((info) => {
+    //                     console.log('info', info);
+    //                     res.send({ sentEmail: true });
+    //                     // res.send({ info });
+    //                 }).catch((error) => {
+    //                     console.log('before error?');
+    //                     res.send({ error });
+    //                 });
+    //         }).catch((error) => {
+    //             console.log(error);
+    //             res.status(500);
+    //         });
+    //     } else {
+    //         console.log('found too many emails...');
+    //     }
+    // }).catch((error) => {
+    //     res.json({ error });
+    // });
+};
+
 const VerifyController = {
     verifyEmail,
     sendVerifyEmail,
     authResetPass,
     sendResetPass,
     resetPass,
+    resetPassByEmail,
 };
 
 export default VerifyController;

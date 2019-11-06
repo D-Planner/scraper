@@ -122,6 +122,9 @@ authRouter.post('/update', requireAuth, UserController.updateUser);
 authRouter.post('/verify/email', requireAuth, VerifyController.verifyEmail);
 authRouter.post('/verify/email/send', VerifyController.sendVerifyEmail);
 
+// Forgot pasword call, checks for email and sends reset message
+authRouter.post('/verify/pass/byemail', VerifyController.resetPassByEmail);
+
 authRouter.post('/verify/pass', requireAuth, VerifyController.authResetPass);
 authRouter.post('/verify/pass/reset', requireAuth, VerifyController.resetPass);
 authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
