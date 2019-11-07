@@ -7,7 +7,6 @@ const verifyEmail = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         if (user.emailVerificationKey === req.body.key && user.emailVerificationKeyTimeout - Date.now() >= 0) {
             console.log('email verified!');
-
             user.emailVerified = true;
             user.emailVerificationKey = '-1';
             user.emailVerificationKeyTimeout = -1;
@@ -87,7 +86,6 @@ const authResetPass = (req, res) => {
 const resetPass = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         if (req.body.key === user.passwordVerificationKey) {
-            console.log('password reset keys equal');
             user.password = req.body.pass;
             user.passwordVerificationKey = '-1';
             user.passwordVerificationKeyTimeout = -1;
@@ -101,6 +99,7 @@ const resetPass = (req, res) => {
             });
         } else {
             console.log('password reset keys not equal');
+            console.log(user.passwordVerificationKey, req.body.key);
         }
     }).catch((error) => {
         res.json({ error });
@@ -166,7 +165,6 @@ const resetPassByEmail = (req, res) => {
  * @param {*} res
  */
 const getUserByKey = (req, res) => {
-    // console.log(req.query);
     User.find({ passwordVerificationKey: req.query.key }).then((users) => {
         console.log(users);
         if (users.length === 1) {
@@ -177,7 +175,6 @@ const getUserByKey = (req, res) => {
         }
     }).catch((error) => {
         console.log(error);
-        // res.send(error);
     });
 };
 
