@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { ROOT_URL } from '../../constants';
-import SignIn from '../../containers/signIn';
+import LoadingWheel from '../loadingWheel';
 import logo from '../../style/logo.svg';
 import {
   updateUser, fetchUser, sendResetPass, signinUser,
@@ -91,6 +91,20 @@ class ResetPass extends Component {
     }
   }
 
+  handleKeyDown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+      try {
+        this.sendPasswordReset();
+      } catch (err) {
+        console.error(err);
+      }
+    } else if (e.key === 'Escape') {
+      this.props.history.push('/');
+    }
+  }
+
   render() {
     if (this.state.fetchedUser && this.state.verified !== null) {
       if (this.state.verified !== null && this.state.fetchedUser.passwordVerificationKeyTimeout - Date.now() >= 0) { // Verified
@@ -110,6 +124,9 @@ class ResetPass extends Component {
                     onChange={(e) => {
                       this.setState({ newPassword: e.target.value });
                     }}
+                    onKeyDown={(e) => {
+                      this.handleKeyDown(e);
+                    }}
                   />
                 </div>
                 <div className="row">
@@ -119,6 +136,9 @@ class ResetPass extends Component {
                     placeholder="New Password"
                     onChange={(e) => {
                       this.setState({ newPasswordDuplicate: e.target.value });
+                    }}
+                    onKeyDown={(e) => {
+                      this.handleKeyDown(e);
                     }}
                   />
                 </div>
@@ -158,7 +178,6 @@ class ResetPass extends Component {
         );
       }
     } else {
-      // ADD LOADING COMPONENT
       return (
         <div className="reset-pass-email">
           <img alt="logo" className="logo" src={logo} />

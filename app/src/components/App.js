@@ -65,7 +65,7 @@ class App extends Component {
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}
                   {/* <Route path="/plan/:id" component={DPlan} /> */}
-                  {/* This Was Discoer */}
+                  {/* This Was Discover */}
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />

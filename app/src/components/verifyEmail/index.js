@@ -39,7 +39,6 @@ class VerifyEmail extends Component {
   render() {
     if (this.props.authenticated) {
       if (this.state.verified) { // Verified
-        console.log('loading');
         return (
           <div className="verify-email">
             <img alt="logo" className="logo" src={logo} />
