@@ -36,12 +36,9 @@ class ForgotPassword extends Component {
   }
 
   sendPasswordReset() {
-    console.log('sending password info to backend');
     this.setState({ errorMessage: null });
-
     axios.post(`${ROOT_URL}/auth/verify/pass/byemail`, { email: this.state.enteredEmail })
       .then((response) => {
-        console.log('response', response.data.info.accepted[0]);
         if (response.data.info.accepted[0] === this.state.enteredEmail) {
           this.setState({ message: 'A password reset link has been sent to the specified email', sentEmail: response.data.sentEmail, loading: false });
         } else {

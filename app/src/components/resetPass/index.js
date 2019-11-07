@@ -12,10 +12,9 @@ import './resetPass.scss';
 function getUserByKey(key) {
   return new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth/verify/pass/bykey?key=${key}`).then((response) => {
-      console.log('response', response.data);
       resolve(response.data);
     }).catch((error) => {
-      console.log(error);
+      console.error(error);
       reject(error);
     });
   });
@@ -36,27 +35,21 @@ class ResetPass extends Component {
   }
 
   componentDidMount() {
-    console.log('urlparam', this.props.match.params.key);
     getUserByKey(this.props.match.params.key)
       .then((user) => {
         this.setState({ fetchedUser: user });
 
         if (user.passwordVerificationKey === '-1') {
-          console.log('already verified');
           return (this.props.history.push('/'));
         }
-        console.log('user._id', user._id);
-        console.log('key', this.props.match.params.key);
         axios.post(`${ROOT_URL}/auth/verify/pass/`, { userID: user._id, key: this.props.match.params.key })
           .then((response) => {
             this.setState({ verified: response.data.passResetAuthorized });
-            console.log('verified: ', response.data.passResetAuthorized);
           }).catch((error) => {
             console.error(error);
           });
         return null;
       }).catch((error) => {
-        console.log('error getting user');
         console.error(error);
       });
   }

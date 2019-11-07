@@ -17,16 +17,13 @@ class VerifyEmail extends Component {
 
   componentWillMount() {
     this.props.fetchUser().then(() => {
-      console.log('loading verifyEmail');
       if (this.props.user.emailVerified) {
-        console.log('already verified');
         return (this.props.history.push('/'));
       }
       axios.post(`${ROOT_URL}/auth/verify/email/`, { userID: this.props.user._id, key: this.props.match.params.key }, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }).then((response) => {
         this.props.fetchUser().then(() => {
-          console.log('verified:', response.data.emailVerified);
           this.setState({ verified: response.data.emailVerified });
         });
       }).catch((error) => {
