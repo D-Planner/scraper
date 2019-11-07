@@ -50,7 +50,6 @@ class ForgotPassword extends Component {
             </div>
           </form>
         </div>
-        {/* adam.j.mcquilkin.22@dartmouth.edu */}
         <div className={`error-message-reset-pass${this.state.message ? ' generic' : ''}`}>
           {this.state.errorMessage}
           {this.state.errorMessage ? null : this.state.message}

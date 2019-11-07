@@ -75,20 +75,14 @@ class ResetPass extends Component {
       if (this.state.newPassword.length < 8 || this.state.newPasswordDuplicate.length < 8) {
         this.setState({ errorMessage: 'Your password needs to have more than 8 characters' });
       } else {
-        console.log('sending password info to backend');
         this.setState({ errorMessage: null });
 
         axios.post(`${ROOT_URL}/auth/verify/pass/reset`, { userID: this.state.fetchedUser._id, key: this.props.match.params.key, pass: this.state.newPassword })
           .then((response) => {
-            console.log('response', response);
-            console.log('resetting password in backend');
-
             this.props.signinUser({ email: this.state.fetchedUser.email, password: this.state.newPassword }, this.props.history).then(() => {
-              console.log('pushing to \'/\'');
               this.props.history.push('/');
             });
           }).catch((error) => {
-            console.log('catching error');
             console.error(error);
           });
       }
@@ -100,7 +94,6 @@ class ResetPass extends Component {
   render() {
     if (this.state.fetchedUser && this.state.verified !== null) {
       if (this.state.verified !== null && this.state.fetchedUser.passwordVerificationKeyTimeout - Date.now() >= 0) { // Verified
-        console.log('verified');
         return (
           <div className="reset-pass-email">
             <img alt="logo" className="logo" src={logo} />
@@ -142,8 +135,7 @@ class ResetPass extends Component {
             </button>
           </div>
         );
-      } else { // if (this.state.fetchedUser.passwordVerificationKeyTimeout - Date.now() < 0) { // Key timeout
-        console.log('key timeout');
+      } else {
         return (
           <div className="reset-pass-email">
             <img alt="logo" className="logo" src={logo} />
@@ -167,7 +159,6 @@ class ResetPass extends Component {
       }
     } else {
       // ADD LOADING COMPONENT
-      console.log('not verified');
       return (
         <div className="reset-pass-email">
           <img alt="logo" className="logo" src={logo} />
@@ -193,8 +184,7 @@ class ResetPass extends Component {
 }
 
 const mapStateToProps = state => ({
-  // user: state.user.current,
-  // authenticated: state.auth.authenticated,
+
 });
 
 export default connect(mapStateToProps, {

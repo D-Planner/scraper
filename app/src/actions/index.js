@@ -889,15 +889,11 @@ export function updateCloseFocus(ref) {
  */
 export function sendVerifyEmail(userID) {
   return (dispatch) => {
-    console.log(userID);
     axios.post(`${ROOT_URL}/auth/verify/email/send`, { userID }, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log('action response');
-      console.log(response.data.emailVerified);
       dispatch({ type: ActionTypes.VERIFY_EMAIL, payload: response.data });
     }).catch((error) => {
-      console.log('action error');
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
