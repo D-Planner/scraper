@@ -124,9 +124,10 @@ authRouter.post('/verify/email/send', VerifyController.sendVerifyEmail);
 
 // Forgot pasword call, checks for email and sends reset message
 authRouter.post('/verify/pass/byemail', VerifyController.resetPassByEmail);
+authRouter.get('/verify/pass/bykey', VerifyController.getUserByKey);
 
-authRouter.post('/verify/pass', requireAuth, VerifyController.authResetPass);
-authRouter.post('/verify/pass/reset', requireAuth, VerifyController.resetPass);
+authRouter.post('/verify/pass', VerifyController.authResetPass);
+authRouter.post('/verify/pass/reset', VerifyController.resetPass);
 authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
 
 export default authRouter;

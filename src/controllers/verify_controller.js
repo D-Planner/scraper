@@ -168,35 +168,28 @@ const resetPassByEmail = (req, res) => {
             }, res);
         }
     });
+};
 
-    // .then((users) => {
-    //     if (users.length === 1) {
-    //         console.log('found user');
-    //         console.log(users[0]);
-    //         const user = users[0];
-    //         // sendEmail(user);
-
-    //         console.log('sending email from email entered');
-    //         generateResetPassEmail(user._id).then((html) => {
-    //             sendEmail(user.email, 'D-Planner - Reset your password', html)
-    //                 .then((info) => {
-    //                     console.log('info', info);
-    //                     res.send({ sentEmail: true });
-    //                     // res.send({ info });
-    //                 }).catch((error) => {
-    //                     console.log('before error?');
-    //                     res.send({ error });
-    //                 });
-    //         }).catch((error) => {
-    //             console.log(error);
-    //             res.status(500);
-    //         });
-    //     } else {
-    //         console.log('found too many emails...');
-    //     }
-    // }).catch((error) => {
-    //     res.json({ error });
-    // });
+/**
+ * Gets the specified user based on a URL parameter
+ * @param {*} req
+ * @param {*} res
+ */
+const getUserByKey = (req, res) => {
+    // console.log(req.query);
+    User.find({ passwordVerificationKey: req.query.key }).then((users) => {
+        console.log(users);
+        if (users.length === 1) {
+            // console.log(users);
+            res.send(users[0]);
+        } else {
+            console.log('couldn\'t find user');
+            res.status(500);
+        }
+    }).catch((error) => {
+        console.log(error);
+        // res.send(error);
+    });
 };
 
 const VerifyController = {
@@ -206,6 +199,7 @@ const VerifyController = {
     sendResetPass,
     resetPass,
     resetPassByEmail,
+    getUserByKey,
 };
 
 export default VerifyController;
