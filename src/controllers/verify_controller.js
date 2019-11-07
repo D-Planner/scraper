@@ -66,7 +66,7 @@ const sendVerifyEmail = (req, res) => {
 const authResetPass = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         if (user.passwordVerificationKey === req.body.key && user.passwordVerificationKeyTimeout - Date.now() >= 0) {
-            console.log(`password reset authenticated with key ${user.passwordVerificationKey}!`);
+            console.log(`password reset authenticated with key ${user.passwordVerificationKey}`);
             res.send({ passResetAuthorized: true });
         } else {
             console.log('not verified');
@@ -89,12 +89,9 @@ const resetPass = (req, res) => {
         if (req.body.key === user.passwordVerificationKey) {
             console.log('password reset keys equal');
             user.password = req.body.pass;
-
             user.passwordVerificationKey = '-1';
             user.passwordVerificationKeyTimeout = -1;
             user.save().then(() => {
-                console.log('password reset');
-                console.log(user);
                 const json = user.toJSON();
                 delete json.password;
                 res.json(json);
@@ -104,8 +101,6 @@ const resetPass = (req, res) => {
             });
         } else {
             console.log('password reset keys not equal');
-            console.log('received key:', req.body.key);
-            console.log('user key:', user.passwordVerificationKey);
         }
     }).catch((error) => {
         res.json({ error });
@@ -123,10 +118,8 @@ const sendResetPass = (req, res) => {
             generateResetPassEmail(req.body.userID).then((html) => {
                 sendEmail(user.email, 'D-Planner - Reset your password', html)
                     .then((info) => {
-                        console.log('info', info);
                         res.send({ info });
                     }).catch((error) => {
-                        console.log('before error?');
                         res.send({ error });
                     });
             }).catch((error) => {
@@ -136,15 +129,12 @@ const sendResetPass = (req, res) => {
         };
 
         if (user.passwordVerificationKey === -1 || user.passwordVerificationKey === undefined || user.passwordVerificationKeyTimeout - Date.now() < 0) {
-            console.log('setting user pass reset key...');
             setVerificationKey(req.body.userID, 'p').then((key) => {
-                console.log('key', key);
                 sendEmailWrapper();
             }).catch((error) => {
                 console.error(error);
             });
         } else {
-            console.log('sending email...');
             sendEmailWrapper();
         }
     }).catch((error) => {
@@ -180,7 +170,6 @@ const getUserByKey = (req, res) => {
     User.find({ passwordVerificationKey: req.query.key }).then((users) => {
         console.log(users);
         if (users.length === 1) {
-            // console.log(users);
             res.send(users[0]);
         } else {
             console.log('couldn\'t find user');
