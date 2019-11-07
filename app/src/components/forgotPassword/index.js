@@ -12,8 +12,6 @@ class ForgotPassword extends Component {
     };
   }
 
-  // TODO: ADD NO EMAIL FOUND ERROR
-
   sendPasswordReset() {
     console.log('sending password info to backend');
     this.setState({ errorMessage: null });
@@ -22,7 +20,7 @@ class ForgotPassword extends Component {
       .then((response) => {
         console.log('response', response.data.info.accepted[0]);
         if (response.data.info.accepted[0] === this.state.enteredEmail) {
-          this.setState({ message: 'A password reset link has been sent to the specified email!', sentEmail: response.data.sentEmail });
+          this.setState({ message: 'A password reset link has been sent to the specified email', sentEmail: response.data.sentEmail });
         } else {
           this.setState({ errorMessage: 'Could not find an account associated with that email address' });
         }
@@ -36,7 +34,7 @@ class ForgotPassword extends Component {
       <div className="reset-pass-email">
         <img alt="logo" className="logo" src={logo} />
         <div className="message-reset-pass">
-          Enter your account email address!
+          Enter your account email address
         </div>
         <div className="reset-pass-form">
           <form>
