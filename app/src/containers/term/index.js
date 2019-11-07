@@ -27,10 +27,10 @@ const termTarget = {
         // console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then(() => {
-          // console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
-          return props.addCourseToTerm(item.catalogCourse, props.term);
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          props.addCourseToTerm(item.catalogCourse, props.term);
         }).then(() => {
-          // console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         });
       } else {
         // console.log('[TERM.js] We think this is a search-to-term drag');
@@ -54,6 +54,10 @@ const collect = (connect, monitor) => {
 };
 
 class Term extends Component {
+  componentDidUpdate() {
+    console.log('[TERM.js] Component Did Update');
+  }
+
   turnOffTerm = () => {
     const opts = {
       title: 'Turn term off',
