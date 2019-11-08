@@ -34,6 +34,7 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  SET_FULFILLED_STATUS: 'SET_FULFILLED_STATUS',
   SET_PRESSED_KEY: 'SET_PRESSED_KEY',
   REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
@@ -190,6 +191,7 @@ export function clearError() {
     payload: null,
   };
 }
+
 
 // ----- Authorization Actions ----- //
 
@@ -538,6 +540,14 @@ export function removeCourseFromFavorites(courseID) {
       reject();
     });
   }));
+}
+
+export function setFulfilledStatus(id, value) {
+  console.log(id, value);
+  return dispatch => dispatch({
+    type: ActionTypes.SET_FULFILLED_STATUS,
+    payload: { id, value },
+  });
 }
 
 /**

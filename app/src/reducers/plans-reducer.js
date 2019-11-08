@@ -58,6 +58,29 @@ const plansReducer = (state = initialState, action) => {
       return Object.assign({}, state, { current });
     case ActionTypes.FETCH_PREV_COURSES:
       return Object.assign({}, state, { prevCourses: action.payload });
+    case ActionTypes.SET_FULFILLED_STATUS:
+      // Fill this in
+      current.terms = state.current.terms.map((y) => {
+        return y.map((t) => {
+          t.courses = t.courses.map((c) => {
+            if (c.id === action.payload.id) return { ...c, fulfilledStatus: action.payload.value };
+            return c;
+          });
+          return t;
+        });
+      });
+      all = state.all.map((p) => {
+        p.terms = p.terms.map((t) => {
+          t.courses = t.courses.map((c) => {
+            if (c.id === action.payload.id) return { ...c, fulfilledStatus: action.payload.value };
+            return c;
+          });
+          return t;
+        });
+        return p;
+      });
+      console.log(current);
+      return Object.assign({}, state, { current, all });
     default:
       return state;
   }

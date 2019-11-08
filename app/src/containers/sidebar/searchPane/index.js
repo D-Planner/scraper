@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
 import arrowDropDown from '../../../style/arrowDropDown.svg';
-import { DialogTypes, GenEds } from '../../../constants';
+import { DialogTypes } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
@@ -53,6 +53,13 @@ const SearchPane = React.forwardRef((props, ref) => {
     console.log(offeredNextTerm);
   };
 
+  const clearCurFilters = () => {
+    setWC([]);
+    setDistrib([]);
+    setOfferedNextTerm(false);
+    console.log(offeredNextTerm);
+  };
+
   const showFilterDialog = () => {
     const dialogOptions = {
       title: 'Search filters',
@@ -61,7 +68,7 @@ const SearchPane = React.forwardRef((props, ref) => {
       okText: 'Apply',
       noText: 'Clear',
       onOk: useFilters,
-      onNo: props.clearFilters,
+      onNo: clearCurFilters,
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
   };
@@ -89,41 +96,6 @@ const SearchPane = React.forwardRef((props, ref) => {
       {props.active
         ? (
           <div className="pane-content">
-
-            <div className="filters">
-              <select className="gened-picker"
-                onChange={(e) => {
-                  setWC(e.target.value);
-                }}
-              >
-                <option value="">None</option>
-                {
-                  Object.keys(GenEds).filter((g) => {
-                    return g.length <= 2;
-                  }).map((g) => {
-                    return (
-                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-                    );
-                  })
-                }
-              </select>
-              <select className="gened-picker"
-                onChange={(e) => {
-                  setDistrib(e.target.value);
-                }}
-              >
-                <option value="">None</option>
-                {
-                  Object.keys(GenEds).filter((g) => {
-                    return g.length > 2;
-                  }).map((g) => {
-                    return (
-                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-                    );
-                  })
-                }
-              </select>
-            </div>
             <div className="search-results">
               {props.results.length
                 ? props.results.map((course) => {

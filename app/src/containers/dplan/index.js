@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setFulfilledStatus,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -88,9 +88,6 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.dplanref.current.focus();
-  }
-
-  componentWillUpdate() {
     if (this.props.plan) this.setPreviousCourses();
   }
 
@@ -131,8 +128,7 @@ class DPlan extends Component {
   }
 
   // This still isn't working
-  setAllFulfilledStatus = (termID, courseID) => {
-    console.log('GETFULFILLEDSTATUS', termID, courseID);
+  setAllFulfilledStatus = (termID, userCourseID) => {
     try {
       this.getFlattenedTerms().forEach((term) => {
         if (term._id === termID) {
@@ -147,7 +143,7 @@ class DPlan extends Component {
             : previousCourses)];
 
           this.getFlattenedCourses().forEach((userCourse) => {
-            if (userCourse.id === courseID) {
+            if (userCourse.id === userCourseID) {
               const getValue = (uCourse) => {
                 const { course } = uCourse;
                 let prereqs = course.prerequisites ? course.prerequisites : [];
@@ -194,7 +190,7 @@ class DPlan extends Component {
 
                 return CLEAR;
               };
-              userCourse.fulfilledStatus = getValue(userCourse);
+              this.props.setFulfilledStatus(userCourse.id, getValue(userCourse));
             }
           });
         }
@@ -235,6 +231,7 @@ class DPlan extends Component {
             if (x._id === String(term)) {
               x.previousCourses = previousCourses;
               x.courses.forEach((course) => {
+                console.log('SETFULFILLEDSTATUS', course.course.name);
                 this.setAllFulfilledStatus(x._id, course.id);
               });
             }
@@ -258,6 +255,7 @@ class DPlan extends Component {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then((response) => {
               this.props.addCourseToTerm(response.data, term._id).then(() => {
+                this.setPreviousCourses();
                 resolve();
               });
             });
@@ -281,6 +279,7 @@ class DPlan extends Component {
             }).then(() => {
               this.props.removeCourseFromTerm(userCourseID).then(() => {
                 console.log('[DPLAN.js]', this.props.plan.terms);
+                this.setPreviousCourses();
                 // Set Previous Courses for Each Term here
                 resolve();
               });
@@ -474,4 +473,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchPlans,
   updateCloseFocus,
   updatePlan,
+  setFulfilledStatus,
 })(DPlan));
