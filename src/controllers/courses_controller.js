@@ -21,6 +21,7 @@ export const trim = (res) => {
 };
 
 const searchCourses = (req, res) => {
+    console.log(req.query);
     if (!req.query.title) {
         Course.find({})
             .populate(PopulateCourse)
@@ -44,11 +45,14 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    if (query.department || query.number) {
-        Course.find({
+    if (query.department || query.number || query.distribs || query.wcs) {
+        const courseQuery = {
             department: query.department,
             number: query.number ? { $gte: query.number, $lt: parseInt(query.number) + 1 } : { $gte: 0 },
-        })
+        };
+        if (query.distribs) courseQuery.distribs = { $all: query.distribs };
+        if (query.wcs) courseQuery.wcs = { $all: query.wcs };
+        Course.find(courseQuery)
             .populate(PopulateCourse)
             .sort({ number: 1 })
             .then((result) => {
