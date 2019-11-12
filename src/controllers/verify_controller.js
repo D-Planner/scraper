@@ -5,6 +5,11 @@ import { sendEmail } from '../email';
 
 const frontendHost = process.env.host || 'http://localhost:8080';
 
+/**
+ * Check sent key against user key, send back boolean for whether email is verified
+ * @param {*} req
+ * @param {*} res
+ */
 const verifyEmail = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         if (user.emailVerificationKey === req.body.key && user.emailVerificationKeyTimeout - Date.now() >= 0) {

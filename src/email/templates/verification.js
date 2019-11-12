@@ -15,7 +15,6 @@ export function setVerificationKey(userID, type) {
             if (type === 'e') {
                 console.log('type \'e\'');
                 user.emailVerificationKey = rand.generateKey(keyLength);
-                // UPDATED FOR TESTING
                 user.emailVerificationKeyTimeout = Date.now() + timeoutDuration;
                 user.save().then(() => {
                     console.log('verification key', user.emailVerificationKey);
@@ -26,7 +25,6 @@ export function setVerificationKey(userID, type) {
             } else if (type === 'p') {
                 console.log('type \'p\'');
                 user.passwordVerificationKey = rand.generateKey(keyLength);
-                // UPDATED FOR TESTING
                 user.passwordVerificationKeyTimeout = Date.now() + timeoutDuration;
                 user.save().then(() => {
                     console.log('verification key', user.passwordVerificationKey);
@@ -43,26 +41,3 @@ export function setVerificationKey(userID, type) {
         });
     });
 }
-
-/**
- * Removes verification key and timeout from email/password
- * @param {*} userID
- * @param {*} type
- */
-// export function removeVerificationKey(userID, type) {
-//     User.findById(userID).then((user) => {
-//         if (type === 'e') {
-//             user.emailVerificationKey = -1;
-//             user.emailVerificationKeyTimeout = -1;
-//             user.save();
-//             console.log('verification removed');
-//         } else if (type === 'p') {
-//             user.passwordVerificationKey = -1;
-//             user.passwordVerificationKeyTimeout = -1;
-//             user.save();
-//             console.log('verification removed');
-//         } else {
-//             console.log('Incorrect \'type\' parameter entered', type);
-//         }
-//     });
-// }
