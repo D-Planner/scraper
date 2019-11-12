@@ -1,7 +1,9 @@
 import User from '../models/user';
-import { generateVerificationEmail, generateResetPassEmail, setVerificationKey } from '../email/templates/verification';
+import { setVerificationKey } from '../email/templates/verification';
+import createEmail from '../email/templates/';
 import { sendEmail } from '../email';
 
+const frontendHost = process.env.host || 'http://localhost:8080';
 
 const verifyEmail = (req, res) => {
     User.findById(req.body.userID).then((user) => {
@@ -33,13 +35,15 @@ const sendVerifyEmail = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         if (user.emailVerified === false) {
             const sendEmailWrapper = () => {
-                generateVerificationEmail(req.body.userID).then((html) => {
-                    sendEmail(user.email, 'D-Planner - Verify your email', html).then((info) => {
-                        res.json({ info });
-                    }).catch((error) => {
-                        res.status(500).json(error);
+                createEmail({ link: `${frontendHost}/email/${user.emailVerificationKey}` }, 'verify')
+                    .then((html) => {
+                        console.log('html', html);
+                        sendEmail(user.email, 'D-Planner - Verify your email', html).then((info) => {
+                            res.json({ info });
+                        }).catch((error) => {
+                            res.status(500).json(error);
+                        });
                     });
-                });
             };
 
             if (user.emailVerificationKey === -1 || user.emailVerificationKey === undefined || user.emailVerificationKeyTimeout - Date.now() < 0 || user.emailVerificationKeyTimeout === -1) {
@@ -114,17 +118,15 @@ const resetPass = (req, res) => {
 const sendResetPass = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         const sendEmailWrapper = () => {
-            generateResetPassEmail(req.body.userID).then((html) => {
-                sendEmail(user.email, 'D-Planner - Reset your password', html)
-                    .then((info) => {
-                        res.send({ info });
-                    }).catch((error) => {
-                        res.send({ error });
-                    });
-            }).catch((error) => {
-                console.log(error);
-                res.json({ error });
-            });
+            createEmail({ link: `${frontendHost}/pass/${user.passwordVerificationKey}` }, 'reset')
+                .then((html) => {
+                    sendEmail(user.email, 'D-Planner - Reset your password', html)
+                        .then((info) => {
+                            res.send({ info });
+                        }).catch((error) => {
+                            res.send({ error });
+                        });
+                });
         };
 
         if (user.passwordVerificationKey === -1 || user.passwordVerificationKey === undefined || user.passwordVerificationKeyTimeout - Date.now() < 0) {
