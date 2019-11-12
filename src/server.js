@@ -12,8 +12,15 @@ import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, prof
 // TEST
 
 import createEmail from './email/templates/resetPasswordEmail/resetPasswordEmail';
+import fs from 'fs';
 
-createEmail({});
+createEmail({ link: 'http://gmail.com' }, './resetPasswordEmail.html', './resetPasswordEmail.css').then((html) => {
+    fs.writeFile('test.html', html, (err) => {
+        if (err) throw err;
+        console.log('file saved!');
+    });
+});
+
 // END TEST
 
 require('dotenv').config();
