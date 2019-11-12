@@ -8,6 +8,9 @@ import Path from 'path';
 import resetPasswordEmail from './resetPasswordEmail/layout';
 import verifyEmailEmail from './verifyEmailEmail/layout';
 
+/**
+ * Tells locations of email files based on query
+ */
 const emailLookup = {
     resetPasswordEmail: {
         htmlFile: './resetPasswordEmail/resetPasswordEmail.html',
@@ -24,6 +27,10 @@ const emailLookup = {
 const STYLE_TAG = '%STYLE%';
 const CONTENT_TAG = '%CONTENT%';
 
+/**
+ * Gets a file based on relative location
+ * @param {*} relativePath
+ */
 function getFile(relativePath) {
     return new Promise((resolve, reject) => {
         const path = Path.join(__dirname, relativePath);
@@ -34,6 +41,11 @@ function getFile(relativePath) {
     });
 }
 
+/**
+ * Grabs html, css files, creates HTML string with js file based on type of email
+ * @param {*} data
+ * @param {*} name
+ */
 function createEmail(data, name) {
     let htmlFile;
     let cssFile;

@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Uses React to create a password reset HTML string
+ * @param {*} data
+ */
 function resetPasswordEmail(data) {
     console.log('data', data);
     return (
@@ -14,7 +18,7 @@ function resetPasswordEmail(data) {
             // Description
             React.createElement('div', { className: 'body' }, 'If you didn\'t request a password reset, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!'),
 
-            // Button
+            // Link
             React.createElement('a', { className: 'click-link', href: data.link }, 'Reset Password!'),
 
             // Copyright

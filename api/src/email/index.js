@@ -3,6 +3,12 @@ import { transporter } from '../server';
 
 dotenv.config({ silent: true });
 
+/**
+ * Sends an email to the specified address with specified parameters
+ * @param {*} to
+ * @param {*} subject
+ * @param {*} html
+ */
 export function sendEmail(to, subject, html) {
     // console.log(`sending email to '${to}' with subject '${subject}' and html '${html}'`);
     return new Promise((resolve, reject) => {
