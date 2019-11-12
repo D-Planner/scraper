@@ -1,6 +1,6 @@
 import React from 'react';
 
-function resetPasswordEmail(data) {
+function verifyEmailEmail(data) {
     console.log('data', data);
     return (
         React.createElement(
@@ -8,14 +8,14 @@ function resetPasswordEmail(data) {
             { className: 'email-container', data },
 
             // Title and subtitle
-            React.createElement('div', { className: 'title' }, 'Reset your password!'),
+            React.createElement('div', { className: 'title' }, 'Verify your email!'),
             React.createElement('div', { className: 'subtitle' }, 'D-Planner, the future of course election'),
 
             // Description
-            React.createElement('div', { className: 'body' }, 'If you didn\'t request a password reset, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!'),
+            React.createElement('div', { className: 'body' }, 'If you didn’t request to verify your email, please delete this email and nothing will happen. Otherwise, click the link below to verify that you own this email address!'),
 
             // Button
-            React.createElement('a', { className: 'click-link', href: data.link }, 'Reset Password!'),
+            React.createElement('a', { className: 'click-link', href: data.link }, 'Verify Email!'),
 
             // Copyright
             React.createElement('div', { className: 'copyright' }, 'D-Planner, ©2019'),
@@ -23,4 +23,4 @@ function resetPasswordEmail(data) {
     );
 }
 
-export default resetPasswordEmail;
+export default verifyEmailEmail;

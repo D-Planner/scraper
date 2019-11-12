@@ -9,20 +9,6 @@ import nodemailer from 'nodemailer';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
 
-// TEST
-
-import createEmail from './email/templates/resetPasswordEmail/resetPasswordEmail';
-import fs from 'fs';
-
-createEmail({ link: 'http://gmail.com' }, './resetPasswordEmail.html', './resetPasswordEmail.css').then((html) => {
-    fs.writeFile('test.html', html, (err) => {
-        if (err) throw err;
-        console.log('file saved!');
-    });
-});
-
-// END TEST
-
 require('dotenv').config();
 
 // initialize
