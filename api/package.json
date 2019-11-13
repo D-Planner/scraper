@@ -27,6 +27,7 @@
     "babel-preset-env": "^1.6.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "cas-authentication": "^0.0.8",
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.4",
     "dotenv": "^6.2.0",
