@@ -49,7 +49,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           <input id="grad" type="number" value={grad} placeholder="2023" onChange={e => setGrad(e.target.value)} />
         </div>
         <div className="row">
-          <input id="email" value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
+          <input id="email" type="email" value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="row">
           <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
