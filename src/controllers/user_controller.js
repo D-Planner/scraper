@@ -20,7 +20,13 @@ export const signup = (req, res, next) => {
 
     return User.findOne({ email }).then((user) => {
         if (user) {
+            console.log('duplicate email');
             return res.status(409).send('User with this email already exists');
+        }
+
+        if (!email || !password) {
+            console.log('!email or !password');
+            return res.status(409).send('Please fill all required fields (*)');
         }
 
         const newUser = new User({
