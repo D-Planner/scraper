@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { HotKeys } from 'react-hotkeys';
 import { signupUser } from '../../actions';
 import './signUp.scss';
 
@@ -14,17 +13,27 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   const [password, setPassword] = useState('');
 
   const [permitted, setPermitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    if (email && grad && password) {
+    if (email !== '' && grad !== '' && password !== '') {
+      setErrorMessage(null);
       setPermitted(true);
-    } else setPermitted(false);
+    } else {
+      setPermitted(false);
+    }
   }, [email, password, grad]);
 
   const signup = () => {
-    props.signupUser(email, password, firstName, lastName, college, grad, props.history).catch(() => {
-      props.checkAuth('That email is already associated to an account');
-    });
+    console.log('signup');
+    if (email === '' || grad === '' || password === '') {
+      console.log('test');
+      setErrorMessage('Please fill all required fields! (*)');
+    } else {
+      props.signupUser(email, password, firstName, lastName, college, grad, props.history).catch(() => {
+        props.checkAuth('That email is already associated to an account');
+      });
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -37,6 +46,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   //   window.location.href = '/signin';
   // };
 
+  console.log('permitted', permitted);
   return (
     <div className="formContainer">
 
@@ -44,7 +54,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
         <div className="greeting">Join D-Planner today.</div>
         <div className="spacer" />
         <div className="row">
-          <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
+          <input id="firstName" value={firstName} placeholder="First name*" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
         </div>
         <div className="row">
           <input id="lastName" value={lastName} placeholder="Last name" onKeyPress={e => handleKeyPress(e)} onChange={e => setLastName(e.target.value)} />
@@ -53,15 +63,15 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           <input id="college" value={college} placeholder="College" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
         </div>
         <div className="row">
-          <input id="grad" type="number" value={grad} placeholder="2023" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
+          <input id="grad" type="number" value={grad} placeholder="2023*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
         </div>
         <div className="row">
-          <input id="email" type="email" value={email} placeholder="Email" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
+          <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="row">
-          <input id="password" type="password" value={password} placeholder="Password" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
+          <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
         </div>
-        <div className="spacer" />
+        <div className="spacer">{errorMessage}</div>
         <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button>
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={props.switchToSignIn}>
