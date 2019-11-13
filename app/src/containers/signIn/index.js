@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { HotKeys } from 'react-hotkeys';
 import { signinUser } from '../../actions';
 
 const SignInForm = withRouter(connect(null, { signinUser })((props) => {
@@ -14,6 +15,12 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
     props.signinUser({ email, password }, props.history).catch(() => {
       props.checkAuth('Your email and password do not match');
     });
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      signin();
+    }
   };
 
   // const signup = () => {
@@ -32,10 +39,10 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
         <div className="greeting">Welcome back.</div>
         <div className="spacer" />
         <div className="row">
-          <input id="email" value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
+          <input id="email" type="email" value={email} placeholder="Email" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="row">
-          <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
+          <input id="password" type="password" value={password} placeholder="Password" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={signin}>

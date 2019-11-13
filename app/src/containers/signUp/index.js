@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { HotKeys } from 'react-hotkeys';
 import { signupUser } from '../../actions';
 import './signUp.scss';
 
@@ -26,6 +27,12 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
     });
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      signup();
+    }
+  };
+
   // const signin = () => {
   //   window.location.href = '/signin';
   // };
@@ -37,22 +44,22 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
         <div className="greeting">Join D-Planner today.</div>
         <div className="spacer" />
         <div className="row">
-          <input id="firstName" value={firstName} placeholder="First name" onChange={e => setFirstName(e.target.value)} />
+          <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
         </div>
         <div className="row">
-          <input id="lastName" value={lastName} placeholder="Last name" onChange={e => setLastName(e.target.value)} />
+          <input id="lastName" value={lastName} placeholder="Last name" onKeyPress={e => handleKeyPress(e)} onChange={e => setLastName(e.target.value)} />
         </div>
         <div className="row">
-          <input id="college" value={college} placeholder="College" onChange={e => setCollege(e.target.value)} />
+          <input id="college" value={college} placeholder="College" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
         </div>
         <div className="row">
-          <input id="grad" type="number" value={grad} placeholder="2023" onChange={e => setGrad(e.target.value)} />
+          <input id="grad" type="number" value={grad} placeholder="2023" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
         </div>
         <div className="row">
-          <input id="email" type="email" value={email} placeholder="Email" onChange={e => setEmail(e.target.value)} />
+          <input id="email" type="email" value={email} placeholder="Email" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="row">
-          <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
+          <input id="password" type="password" value={password} placeholder="Password" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
         <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button>
