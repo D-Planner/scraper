@@ -5,10 +5,10 @@
   flex-wrap: wrap;
   width: 100%;
   justify-content: center;
-  overflow: scroll;
 
   margin-top: 6px;
-  margin-bottom: 6px;
+  margin-bottom: 12px;
+  overflow: auto;
 
   .tile_inactive {
     background: $white;

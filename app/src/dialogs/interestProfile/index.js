@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {
@@ -14,30 +14,57 @@ class InterestProfile extends Component {
     super(props);
     this.state = {
       interests: [],
-      tempUserInterests: this.props.user.interest_profile,
+      tempUserInterests: [],
     };
     this.getInterests = this.getInterests.bind(this);
+    this.updateUserInterest = this.updateUserInterest.bind(this);
     this.updateUserInterests = this.updateUserInterests.bind(this);
 
-    this.getInterests();
-    this.props.fetchUser();
+    this.getInterests().then(() => {
+    // console.log('interests', this.state.interests);
+      this.props.fetchUser();
+    });
   }
 
   getInterests() {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    };
-    axios.get(`${ROOT_URL}/interests/`, { headers }).then((r) => {
-      this.setState({ interests: r.data.interests });
+    return new Promise((resolve, reject) => {
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      };
+      axios.get(`${ROOT_URL}/interests/`, { headers }).then((response) => {
+        console.log('interests', response.data);
+        this.setState({ interests: response.data }, resolve());
+      });
     });
   }
 
   // eslint-disable-next-line class-methods-use-this
+  updateUserInterest(interestID, userID, active) {
+    console.log(`updating user interest with id ${interestID}`);
+    this.props.updateUser({ interest_profile: interestID }).then(user => console.log(user));
+
+  // return new Promise((resolve, reject) => {
+  //   const headers = {
+  //     Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //   };
+  //   axios.post(`${ROOT_URL}/interests/update`, { interestID, userID, active }, { headers })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       resolve(response.data);
+  //     });
+  // });
+  }
+
   updateUserInterests(interestString) {
+  // this.props.fetchUser().then(() => {
+  //   this.setState({ tempUserInterests: this.props.user.interest_profile }, () => {
+
+    //   });
+    // });
+
     this.props.fetchUser().then(() => {
       if (this.state.tempUserInterests) {
         console.log('fetched user');
-        console.log(this.props.user);
         console.log('user interest profile');
         console.log(this.state.tempUserInterests);
         let toRemove = false;
@@ -62,7 +89,7 @@ class InterestProfile extends Component {
               return ({ tempUserInterests: prevState.tempUserInterests });
             });
             console.log('remove');
-            console.log(console.log(interestString));
+            console.log(interestString);
             console.log('to inactive');
 
             console.log(this.state.tempUserInterests);
@@ -94,26 +121,27 @@ class InterestProfile extends Component {
   }
 
   renderUserInterests = () => {
-    if (this.state.interests) {
+    console.log('this.state.interests', this.state.interests);
+    if (this.props.user) {
       return (
         <div className="container">
           {this.state.interests.map((interest) => {
             // console.log(i.name);
             // console.log(interest.name);
 
-            if (this.state.tempUserInterests.findIndex(e => e.name === interest.name) !== -1) {
-              console.log('active');
+            if (this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
+              console.log('active', interest.name);
               return (
               // TODO: ADD KEYPRESS
               // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                <InterestTile active interest={interest.name} updateUserInterests={this.updateUserInterests} />
+                <InterestTile active user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
               );
             } else {
-              console.log('inactive');
+              // console.log('inactive', interest.name);
               return (
               // TODO: ADD KEYPRESS
               // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                <InterestTile active={false} interest={interest.name} updateUserInterests={this.updateUserInterests} />
+                <InterestTile active={false} user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
               );
             }
           })}

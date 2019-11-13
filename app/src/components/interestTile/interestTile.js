@@ -10,6 +10,7 @@ class InterestTile extends Component {
       interest: this.props.interest,
     };
     this.toggle = this.toggle.bind(this);
+    console.log(this.props.interest);
   }
 
   componentWillMount() {
@@ -19,19 +20,22 @@ class InterestTile extends Component {
   }
 
   toggle() {
-    if (this.state.active) {
-      this.setState({ className: 'tile_inactive', active: false });
-    } else {
-      this.setState({ className: 'tile_active', active: true });
-    }
-    this.props.updateUserInterests(this.state.interest);
+    new Promise((resolve, reject) => {
+      if (this.state.active) {
+        this.setState({ className: 'tile_inactive', active: false }, () => resolve(false));
+      } else {
+        this.setState({ className: 'tile_active', active: true }, () => resolve(true));
+      }
+    }).then((active) => {
+      this.props.updateUserInterests(this.state.interest._id, this.props.user._id, active);
+    });
   }
 
   render() {
     return (
       // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-      <div className={this.state.className} key={this.state.interest} role="button" onClick={() => { this.toggle(); }}>
-        {this.state.interest}
+      <div className={this.state.className} key={this.state.interest.name} role="button" onClick={() => { this.toggle(); }}>
+        {this.state.interest.name}
       </div>
     );
   }
