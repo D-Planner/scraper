@@ -279,8 +279,8 @@ class DPlan extends Component {
             }).then(() => {
               this.props.removeCourseFromTerm(userCourseID).then(() => {
                 console.log('[DPLAN.js]', this.props.plan.terms);
-                this.setPreviousCourses();
                 // Set Previous Courses for Each Term here
+                this.setPreviousCourses();
                 resolve();
               });
             });
