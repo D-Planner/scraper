@@ -1,196 +1,194 @@
-{
-  "interests": [
-    {
-      "name": "Technology",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Cinema",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Health",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Food",
-      "departments":[],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Biology",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Physics",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Chemistry",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Music",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Books",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Business",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Psychology",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "History",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Cooking",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Photography",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Athletics",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Design",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Fashion",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Writing",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Economics",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Mathematics",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Philosophy",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Politics",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Finance",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Marketing",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Fine Art",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Literature",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Education",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Journalism",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Engineering",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Religion",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Foreign Language",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    },
-    {
-      "name": "Government",
-      "departments": [],
-      "campus_resources": [],
-      "sub-interests": []
-    }
-  ]
-}
+[
+  {
+    "name": "Technology",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Cinema",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Health",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Food",
+    "departments":[],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Biology",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Physics",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Chemistry",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Music",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Books",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Business",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Psychology",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "History",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Cooking",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Photography",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Athletics",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Design",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Fashion",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Writing",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Economics",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Mathematics",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Philosophy",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Politics",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Finance",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Marketing",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Fine Art",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Literature",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Education",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Journalism",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Engineering",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Religion",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Foreign Language",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  },
+  {
+    "name": "Government",
+    "departments": [],
+    "campus_resources": [],
+    "sub_interests": []
+  }
+]

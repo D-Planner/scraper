@@ -79,13 +79,22 @@ export const updateUser = async (req, res) => {
                 Plan.find({ user_id: user._id }).remove().exec();
             }
             user.full_name = req.body.change.full_name;
-            user.email = req.body.change.email;
+            if (req.body.change.email) { user.email = req.body.change.email; }
             user.graduationYear = req.body.change.graduationYear;
-            user.interest_profile = req.body.change.interest_profile;
-            user.save();
-            const json = user.toJSON();
-            delete json.password;
-            res.json(json);
+
+            // For managing adding and removing elements from interest profile
+            if (user.interest_profile.indexOf(req.body.change.interest_profile) !== -1) {
+                user.interest_profile.pull(req.body.change.interest_profile);
+            } else {
+                user.interest_profile.addToSet(req.body.change.interest_profile);
+            }
+
+            user.save().then(() => {
+                console.log('interest_profile', user.interest_profile);
+                const json = user.toJSON();
+                delete json.password;
+                res.json(json);
+            });
         })
         .catch((error) => {
             console.log(error);
