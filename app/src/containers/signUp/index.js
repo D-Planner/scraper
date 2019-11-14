@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
+import { ROOT_URL } from '../../constants';
 import './signUp.scss';
 
 const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
@@ -21,9 +22,14 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   }, [email, password, grad]);
 
   const signup = () => {
-    props.signupUser(email, password, firstName, lastName, college, grad, props.history).catch(() => {
-      props.checkAuth('That email is already associated to an account');
-    });
+    props.signupUser(email, password, firstName, lastName, college, grad, props.history)
+      .then(() => {
+        console.log('pushing to new address');
+        props.history.push(`${ROOT_URL}/auth/cas`);
+      })
+      .catch(() => {
+        props.checkAuth('That email is already associated to an account');
+      });
   };
 
   // const signin = () => {
