@@ -39,7 +39,8 @@
                         background: $white;
                         box-shadow: $tablet-box-shadow;
                         display: flex;
-                        flex-direction: column;                    }
+                        flex-direction: column;                    
+                    }
                 }
             }
         }
@@ -74,7 +75,6 @@
                 border-bottom: 1px solid $blue-primary;
             }
         }
-
     }
 
     .pane-content {
@@ -86,25 +86,17 @@
         width: 100%;
         overflow: visible;
 
-        .filters {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
+        .sort-picker {
+            font-size: 12px;
+            color: $gray-6;;
             margin-bottom: 10px;
 
-            .gened-picker {
-                width: 50px;
-                font-size: 12px;
-                color: $gray-6;;
-                margin-bottom: 5px;
-
-                &:hover {
-                    background: rgba(0,0,0,0.10);
-                    transition: 0.3s;
-                }
+            &:hover {
+                background: rgba(0,0,0,0.10);
+                transition: 0.3s;
             }
         }
+
         .search-results {
             width: 100%;
             overflow: visible;

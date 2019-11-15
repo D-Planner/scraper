@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {
   removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
 } from '../../actions';
@@ -12,6 +13,7 @@ import './profile.scss';
 
 class ProfileDialog extends Component {
   constructor(props) {
+    console.log('props');
     console.log(props);
     super(props);
     this.state = {
@@ -101,6 +103,10 @@ class ProfileDialog extends Component {
             </div>
             <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
+          <div className="policy-profile">
+            <a href="/policies/privacypolicy">Privacy Policy<br /></a>
+            <a href="/policies/termsandconditions">Terms and Conditions</a>
+          </div>
         </div>
         <div className="profile-right">
           <div className="placements">
@@ -169,6 +175,6 @@ const mapStateToProps = state => ({
   currTerm: state.time.currTerm,
 });
 
-export default (connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
-})(ProfileDialog));
+})(ProfileDialog);
