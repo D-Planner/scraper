@@ -9,6 +9,7 @@ import CASAuthentication from 'cas-authentication';
 
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
+import { signup } from './controllers/user_controller';
 
 require('dotenv').config();
 
@@ -80,16 +81,30 @@ const cas = new CASAuthentication({
     session_info: true,
 });
 
+// app.post('/authorize', cas.bounce_redirect, (req, res) => {
+//     console.log(req.body);
+//     res.redirect(cas.cas_url);
+// });
+
 // Unauthenticated clients will be redirected to the CAS login and then back to this route once authenticated.
 app.get('/auth/cas', cas.bounce, (req, res) => {
     console.log(req.session.true.affil, req.session.true.netid, req.session.true.name);
-    // TODO: Log in user and redirect
-    res.send('<meta http-equiv="Refresh" content="0; url=http://localhost:8080" />'); // Send auto-redirecting page
+    // console.log(req.session);
+
+    signup(`${req.session.true.netid}@dartmouth.edu`, req.session.true.name, req.session.true.affil, req.session.true.netID)
+        .then((result) => {
+            console.log('token', result.token); // .cookie('token', result.token, { maxAge: 900000, httpOnly: false })
+            // res.send('<meta http-equiv="Refresh" content="0; url=http://localhost:8080/token" />'); // Send auto-redirecting page
+            res.redirect(`http://localhost:8080/token/${result.token.split('.').join('||')}`); // Send auto-redirecting page
+        }).catch((error) => {
+            console.error('error', error);
+            res.redirect('http://localhost:8080'); // Send auto-redirecting page
+        });
 });
 
 // This route will de-authenticate the client with the Express server and then redirect the client to the CAS logout page.
 app.get('/auth/logout', cas.logout, (req, res) => {
-    res.send('<meta http-equiv="Refresh" content="0; url=http://localhost:8080" />'); // Send auto-redirecting page
+    res.redirect('http://localhost:8080'); // Send auto-redirecting page
 });
 
 // default index route

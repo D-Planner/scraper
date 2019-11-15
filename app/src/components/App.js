@@ -9,6 +9,7 @@ import { setPressedKey, removePressedKey } from '../actions';
 import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
 import requireAuth from '../containers/requireAuth';
+import setAuth from '../containers/setAuth';
 import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
@@ -61,6 +62,7 @@ class App extends Component {
                 <Switch>
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
+                  <Route path="/token/:id" component={setAuth('/')} />
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}
                   {/* <Route path="/plan/:id" component={DPlan} /> */}

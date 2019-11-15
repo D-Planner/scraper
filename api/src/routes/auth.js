@@ -33,6 +33,7 @@ const authRouter = Router();
  *          }
  */
 authRouter.post('/signin', requireSignin, UserController.signin);
+authRouter.post('/signinheadless', UserController.signinheadless);
 
 /**
  * @api {post} /auth/signup Sign Up

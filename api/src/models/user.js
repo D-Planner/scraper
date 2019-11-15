@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     first_name: String,
     last_name: String,
     university: String,
+    netID: String,
     graduationYear: Number,
     favorite_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     completed_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }], // this should be only for courses we KNOW the user has actually taken in real life, we'll make an interface for them to add this

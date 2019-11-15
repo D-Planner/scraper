@@ -22,6 +22,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   }, [email, password, grad]);
 
   const signup = () => {
+    console.log('signup');
     props.signupUser(email, password, firstName, lastName, college, grad, props.history)
       .then(() => {
         console.log('pushing to new address');
@@ -61,7 +62,16 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
-        <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button>
+
+        {/* <button type="button" className="sign-up" onClick={() => signup()}>
+          <div className="button-cover" disabled={!permitted}><div className="button-text">Sign Up</div></div>
+        </button> */}
+
+        <button type="button" className="sign-up" onClick={() => { document.location.href = 'http://localhost:9090/auth/cas'; }}>
+          <div className="button-cover" disabled={!permitted}><div className="button-text">Sign Up</div></div>
+        </button>
+
+        {/* <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button> */}
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={props.switchToSignIn}>
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>

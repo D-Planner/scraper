@@ -215,6 +215,28 @@ export function signinUser({ email, password }, history) {
   }));
 }
 
+// TEST
+export function headlessSignIn(user, history) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  console.log('signinheadless action');
+  return dispatch => new Promise((resolve, reject) => {
+    console.log('user', user);
+    axios.post(`${ROOT_URL}/auth/signinheadless`, { user }, { headers })
+      .then((response) => {
+        console.log('response', response);
+        localStorage.setItem('token', response.data.token);
+        dispatch({ type: ActionTypes.AUTH_USER });
+        history.push('/');
+        resolve();
+      }).catch((error) => {
+        console.log('signinheadless error', error);
+        reject(error);
+      });
+  });
+}
+
 /**
  * Sends a sign-up request to the API and authorizes them with the redux store
  * @export
@@ -222,12 +244,13 @@ export function signinUser({ email, password }, history) {
  * @param {*} history the React-Router history object passed to props when using withRouter()
  * @returns a callback function that sends a signup request to the API and then dispatches an AUTH_USER action on success
  */
+
 export function signupUser(email, password, firstName, lastName, college, grad, history) {
   const fields = {
     email, password, firstName, lastName, college, grad,
   };
   return dispatch => new Promise(((resolve, reject) => {
-    axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
+    axios.post(`${ROOT_URL}/authorize`, fields).then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
@@ -239,6 +262,24 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
     });
   }));
 }
+
+// export function signupUser(email, password, firstName, lastName, college, grad, history) {
+//   const fields = {
+//     email, password, firstName, lastName, college, grad,
+//   };
+//   return dispatch => new Promise(((resolve, reject) => {
+//     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
+//       localStorage.setItem('token', response.data.token);
+//       dispatch({ type: ActionTypes.AUTH_USER });
+//       history.push('/');
+//       resolve();
+//     }).catch((error) => {
+//       console.log(error);
+//       dispatch(authError(`Sign Up Failed: ${error.response.data}`));
+//       reject();
+//     });
+//   }));
+// }
 
 /**
  * Sends a sign-out request to the API and deauthenticates them with the redux store
