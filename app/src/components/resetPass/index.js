@@ -43,7 +43,7 @@ class ResetPass extends Component {
         }
         axios.post(`${ROOT_URL}/auth/verify/pass/`, { userID: user._id, key: this.props.match.params.key })
           .then((response) => {
-            this.setState({ verified: response.data.passResetAuthorized }, console.log('passresetAuthorized:', this.state.verified));
+            this.setState({ verified: response.data.passResetAuthorized });
           }).catch((error) => {
             console.error(error);
           });

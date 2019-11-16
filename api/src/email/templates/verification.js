@@ -25,7 +25,6 @@ export function setVerificationKey(userID, type) {
                 user.passwordVerificationKey = rand.generateKey(keyLength);
                 user.passwordVerificationKeyTimeout = Date.now() + timeoutDuration;
                 user.save().then(() => {
-                    console.log('user', user);
                     console.log('verification key', user.passwordVerificationKey);
                     console.log('verification timeout', user.passwordVerificationKeyTimeout);
 

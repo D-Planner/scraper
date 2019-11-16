@@ -136,7 +136,6 @@ const sendResetPass = (req, res) => {
 
         if (user.passwordVerificationKey === -1 || user.passwordVerificationKey === undefined || user.passwordVerificationKeyTimeout - Date.now() < 0) {
             setVerificationKey(req.body.userID, 'p').then((key) => {
-                console.log('key', key);
                 sendEmailWrapper(key);
             }).catch((error) => {
                 console.error(error);
@@ -174,7 +173,6 @@ const resetPassByEmail = (req, res) => {
  */
 const getUserByKey = (req, res) => {
     User.find({ passwordVerificationKey: req.query.key }).then((users) => {
-        console.log(users);
         if (users.length === 1) {
             res.send(users[0]);
         } else {
