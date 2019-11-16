@@ -20,6 +20,8 @@ import ForgotPassword from './forgotPassword';
 
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
+import PrivacyPolicy from './policies/privacy';
+import TermsAndConditions from './policies/terms_conditions';
 
 
 class App extends Component {
@@ -38,7 +40,7 @@ class App extends Component {
     window.addEventListener('resize', this.updateWindowDimensions);
     window.addEventListener('focus', (e) => {
       console.log('focus changed - APP');
-      console.log(e.target);
+      // console.log(e.target);
     }, true);
   }
 
@@ -73,6 +75,8 @@ class App extends Component {
                   <Route path="/email/:key" component={VerifyEmail} />
                   <Route path="/pass/:key" component={ResetPassword} />
                   <Route path="/reset/pass" component={ForgotPassword} />
+                  <Route path="/policies/termsandconditions" component={TermsAndConditions} />
+                  <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                   <Route component={FallBack} />
                 </Switch>
               </div>

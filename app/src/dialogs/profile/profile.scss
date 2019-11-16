@@ -104,6 +104,14 @@
           .button-text {
               color: $text-accent;
           }
+    .policy-profile {
+      margin: 10px;
+      color: $text-accent;
+      text-decoration: underline;
+      cursor: default;
+      
+      &:hover {
+        cursor: pointer;
       }
     }
   }
@@ -140,6 +148,8 @@
 
     &:hover {
       filter: brightness(140%);
+    }
+  }
     }
   }
 }

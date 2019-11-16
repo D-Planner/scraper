@@ -12,6 +12,7 @@ import './profile.scss';
 
 class ProfileDialog extends Component {
   constructor(props) {
+    console.log('props');
     console.log(props);
     super(props);
     this.state = {
@@ -140,6 +141,10 @@ class ProfileDialog extends Component {
           >
             <div className={this.state.verifyingPassword ? 'button-text sent' : 'button-text'}>{this.state.verifyingPassword ? 'Password reset sent!' : 'Reset password'}</div>
           </button>
+          <div className="policy-profile">
+            <a href="/policies/privacypolicy">Privacy Policy<br /></a>
+            <a href="/policies/termsandconditions">Terms and Conditions</a>
+          </div>
         </div>
         <div className="profile-right">
           <div className="placements">

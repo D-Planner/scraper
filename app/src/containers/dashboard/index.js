@@ -7,7 +7,6 @@ import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
 import creditsIcon from '../../style/heart.svg';
-import searchIcon from '../../style/searchSimple.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import { emptyPlan } from '../../services/empty_plan';
@@ -125,7 +124,7 @@ class Dashboard extends React.Component {
             <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
-            <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
+            {/* <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
               {this.state.active
                 ? (
                   <>
@@ -136,7 +135,7 @@ class Dashboard extends React.Component {
                 )
                 : <img className="search-icon" src={searchIcon} alt="search" />
             }
-            </div>
+            </div> */}
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
                 ? (
