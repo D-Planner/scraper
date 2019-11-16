@@ -37,7 +37,7 @@ class App extends Component {
     window.addEventListener('resize', this.updateWindowDimensions);
     window.addEventListener('focus', (e) => {
       console.log('focus changed - APP');
-      console.log(e.target);
+      // console.log(e.target);
     }, true);
   }
 
