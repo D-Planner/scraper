@@ -13,7 +13,6 @@ export function setVerificationKey(userID, type) {
     return new Promise((resolve, reject) => {
         User.findById(userID).then((user) => {
             if (type === 'e') {
-                console.log('type \'e\'');
                 user.emailVerificationKey = rand.generateKey(keyLength);
                 user.emailVerificationKeyTimeout = Date.now() + timeoutDuration;
                 user.save().then(() => {
@@ -23,17 +22,16 @@ export function setVerificationKey(userID, type) {
                     resolve(user.emailVerificationKey);
                 });
             } else if (type === 'p') {
-                console.log('type \'p\'');
                 user.passwordVerificationKey = rand.generateKey(keyLength);
                 user.passwordVerificationKeyTimeout = Date.now() + timeoutDuration;
                 user.save().then(() => {
+                    console.log('user', user);
                     console.log('verification key', user.passwordVerificationKey);
                     console.log('verification timeout', user.passwordVerificationKeyTimeout);
 
-                    resolve(user.emailVerificationKey);
+                    resolve(user.passwordVerificationKey);
                 });
             } else {
-                console.log('type not supported');
                 reject(new Error('Incorrect \'type\' parameter entered:', type));
             }
         }).catch((error) => {
