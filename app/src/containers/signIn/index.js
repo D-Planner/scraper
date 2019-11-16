@@ -11,7 +11,9 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
 
 
   const signin = () => {
-    props.signinUser({ email, password }, props.history).catch(() => {
+    props.signinUser({ email, password }, props.history).then(() => {
+      if (props.callback) { props.callback(); }
+    }).catch(() => {
       props.checkAuth('Your email and password do not match');
     });
   };
@@ -38,7 +40,12 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
           <input id="password" type="password" value={password} placeholder="Password" onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer" />
-        <button type="button" className="sign-in" onClick={signin}>
+        <button type="button"
+          className="sign-in"
+          onClick={() => {
+            signin();
+          }}
+        >
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
         </button>
         <div className="spacer" />

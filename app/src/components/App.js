@@ -15,8 +15,11 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall from './tooSmall';
 import Credits from './credits';
+import ForgotPassword from './forgotPassword';
 // import FlowChart from './flowchart';
 
+import VerifyEmail from './verifyEmail';
+import ResetPassword from './resetPass';
 import PrivacyPolicy from './policies/privacy';
 import TermsAndConditions from './policies/terms_conditions';
 
@@ -64,11 +67,14 @@ class App extends Component {
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}
                   {/* <Route path="/plan/:id" component={DPlan} /> */}
-                  {/* This Was Discoer */}
+                  {/* This Was Discover */}
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />
                   <Route path="/credits" component={Credits} />
+                  <Route path="/email/:key" component={VerifyEmail} />
+                  <Route path="/pass/:key" component={ResetPassword} />
+                  <Route path="/reset/pass" component={ForgotPassword} />
                   <Route path="/policies/termsandconditions" component={TermsAndConditions} />
                   <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                   <Route component={FallBack} />

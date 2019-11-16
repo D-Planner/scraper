@@ -40,6 +40,8 @@ export const ActionTypes = {
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
   SET_FILTERS: 'SET_FILTERS',
   CLEAR_FILTERS: 'CLEAR_FILTERS',
+  VERIFY_EMAIL: 'VERIFY_EMAIL',
+  RESET_PASS: 'RESET_PASS',
   ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
   REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
 };
@@ -107,6 +109,8 @@ export function updateUser(change) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
+  console.log('change');
+  console.log(change);
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/update`, { change }, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
@@ -294,14 +298,10 @@ export function createPlan(plan, planSetter) {
   console.log(`plan: ${plan}, planSetter: ${planSetter}`);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
-      console.log('create plan error');
-      console.log(response.data);
       planSetter(response.data.id);
       resolve();
     }).catch((error) => {
-      console.log('create plan error');
       console.log(error);
-      console.log(error.response.data === undefined);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -319,12 +319,9 @@ export function fetchPlans() {
   };
   return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/plans`, { headers }).then((response) => {
-      console.log('fetch plans response');
-      console.log(response);
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log('fetch plans error');
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
@@ -882,5 +879,39 @@ export function hideDialog() {
 export function updateCloseFocus(ref) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.UPDATE_CLOSE_FOCUS, payload: { focusOnClose: ref } });
+  };
+}
+
+/**
+ * Tells the server to send an email to the given userID with a verification link
+ * @param {*} userID
+ */
+export function sendVerifyEmail(userID) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/verify/email/send`, { userID }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.VERIFY_EMAIL, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+/**
+ * Tells the server to send an email to the given userID with a verification link
+ * @param {*} userID
+ */
+export function sendResetPass(userID) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/verify/pass/send`, { userID }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.RESET_PASS, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   };
 }

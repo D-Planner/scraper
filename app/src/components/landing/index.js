@@ -84,6 +84,7 @@ class Landing extends React.Component {
               ? <SignInForm checkAuth={this.checkAuth} switchToSignUp={() => this.setState({ signIn: false })} />
               : <SignUpForm checkAuth={this.checkAuth} switchToSignIn={() => this.setState({ signIn: true })} />
             }
+            <a className="homepage-pass-reset" href="/reset/pass">Forgot password?</a>
             <Link to="philosophy" spy smooth duration={750}>
               <div className="scroller">
                 <img src={arrowDown} alt="" />
