@@ -39,8 +39,8 @@ const verifyEmail = (req, res) => {
 const sendVerifyEmail = (req, res) => {
     User.findById(req.body.userID).then((user) => {
         if (user.emailVerified === false) {
-            const sendEmailWrapper = () => {
-                createEmail({ link: `${frontendHost}/email/${user.emailVerificationKey}` }, 'verify')
+            const sendEmailWrapper = (key) => {
+                createEmail({ link: `${frontendHost}/email/${key}` }, 'verify')
                     .then((html) => {
                         sendEmail(user.email, 'D-Planner - Verify your email', html).then((info) => {
                             res.json({ info });
@@ -52,12 +52,12 @@ const sendVerifyEmail = (req, res) => {
 
             if (user.emailVerificationKey === -1 || user.emailVerificationKey === undefined || user.emailVerificationKeyTimeout - Date.now() < 0 || user.emailVerificationKeyTimeout === -1) {
                 setVerificationKey(req.body.userID, 'e').then((key) => {
-                    sendEmailWrapper();
+                    sendEmailWrapper(key);
                 }).catch((error) => {
                     console.error(error);
                 });
             } else {
-                sendEmailWrapper();
+                sendEmailWrapper(user.emailVerificationKey);
             }
         }
     }).catch((error) => {
@@ -121,9 +121,10 @@ const resetPass = (req, res) => {
  */
 const sendResetPass = (req, res) => {
     User.findById(req.body.userID).then((user) => {
-        const sendEmailWrapper = () => {
-            createEmail({ link: `${frontendHost}/pass/${user.passwordVerificationKey}` }, 'reset')
+        const sendEmailWrapper = (key) => {
+            createEmail({ link: `${frontendHost}/pass/${key}` }, 'reset')
                 .then((html) => {
+                    console.log('sendemailwrapper user', user);
                     sendEmail(user.email, 'D-Planner - Reset your password', html)
                         .then((info) => {
                             res.send({ info });
@@ -135,12 +136,12 @@ const sendResetPass = (req, res) => {
 
         if (user.passwordVerificationKey === -1 || user.passwordVerificationKey === undefined || user.passwordVerificationKeyTimeout - Date.now() < 0) {
             setVerificationKey(req.body.userID, 'p').then((key) => {
-                sendEmailWrapper();
+                sendEmailWrapper(key);
             }).catch((error) => {
                 console.error(error);
             });
         } else {
-            sendEmailWrapper();
+            sendEmailWrapper(user.passwordVerificationKey);
         }
     }).catch((error) => {
         console.error(error);
@@ -172,7 +173,6 @@ const resetPassByEmail = (req, res) => {
  */
 const getUserByKey = (req, res) => {
     User.find({ passwordVerificationKey: req.query.key }).then((users) => {
-        console.log(users);
         if (users.length === 1) {
             res.send(users[0]);
         } else {
