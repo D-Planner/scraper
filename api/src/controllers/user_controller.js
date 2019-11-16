@@ -9,23 +9,14 @@ export const signin = (req, res, next) => {
     res.send({ token: tokenForUser(req.user), user: json });
 };
 
+// Send token to user
 export const signinheadless = (req, res, next) => {
-    // const json = req.user.toJSON();
-    // delete json.password;
-    console.log(req.body);
-
-    // TODO: Get user in frontend, send
     res.send({ token: tokenForUser(req.body.user) });
 };
 
 export const signup = (email, fullName, college, netid) => {
     return new Promise((resolve, reject) => {
         User.findOne({ email }).then((user) => {
-        // Figure this out
-            // if (user) {
-            //     reject(new Error('User with this email already exists'));
-            // }
-
             const newUser = new User({
                 email,
                 netID: netid,
@@ -41,8 +32,6 @@ export const signup = (email, fullName, college, netid) => {
                 delete json.password;
                 resolve({ token: tokenForUser(user), user: json });
             }
-
-            console.log('new user', newUser);
 
             newUser.save().then((savedUser) => {
                 const json = savedUser.toJSON();
@@ -99,7 +88,6 @@ export const signup = (email, fullName, college, netid) => {
 };
 
 export const getUser = (req, res) => {
-    console.log('getuser');
     let userID;
     if (req.params.id) {
         userID = req.params.id;
@@ -109,7 +97,6 @@ export const getUser = (req, res) => {
     User.findById(userID)
         .populate(PopulateUser)
         .then((user) => {
-            console.log('fetchUser', user);
             const json = user.toJSON();
             delete json.password;
             res.json(json);

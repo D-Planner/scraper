@@ -3,31 +3,33 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { headlessSignIn, fetchUser } from '../actions';
 
+/**
+ * A function to log in a user with a token logged to a URL parameter
+ * @param {*} url
+ */
+
+// TODO: FIGURE OUT HOW TO REMOVE THIS FROM THE URL
 export default function (url) {
-  console.log('setAuth');
-
   const setAuth = (props) => {
-    console.log('props', props);
-
+    // Get token from URL parameter
     const token = props.match.params.id.split('||').join('.');
-    console.log('token', token);
-
     localStorage.setItem('token', token);
-    console.log('localstorage', localStorage);
 
+    // Get user with token
     props.fetchUser().then(() => {
-      console.log(props.user);
       if (props.user) {
+        // Sign in with only sending token and user
         props.headlessSignIn(props.user, props.history).then(() => {
+          // Redirect to appropriate location
           props.history.push(url);
           return <div>Authorizing...</div>;
         }).catch((error) => {
-          console.log('headlesssignin error', error);
+          console.error(error);
           return <div>Auth error...</div>;
         });
       }
     }).catch((error) => {
-      console.error('fetchUser error', error);
+      console.error(error);
     });
     return null;
   };
