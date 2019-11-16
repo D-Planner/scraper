@@ -26,8 +26,8 @@ export const signup = (req, res, next) => {
         const newUser = new User({
             email,
             password,
-            first_name: firstName,
-            last_name: lastName,
+            firstName,
+            lastName,
             university: college,
             graduationYear: grad,
             emailVerified: false,
@@ -83,9 +83,13 @@ export const updateUser = async (req, res) => {
         .populate(PopulateUser)
         .then((user) => {
             if (user.graduationYear !== req.body.change.graduationYear) {
+                console.log('deleting all plans...');
                 Plan.find({ user_id: user._id }).remove().exec();
             }
             user.full_name = req.body.change.full_name;
+            user.firstName = req.body.change.firstName;
+            user.lastName = req.body.change.lastName;
+            user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
             user.emailVerified = req.body.change.emailVerified;
 

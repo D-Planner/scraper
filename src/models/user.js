@@ -5,8 +5,8 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     username: { type: String },
-    first_name: String,
-    last_name: String,
+    firstName: String,
+    lastName: String,
     university: String,
     graduationYear: Number,
     favorite_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
@@ -65,7 +65,7 @@ UserSchema.methods.comparePassword = function (password, callback) {
 
 UserSchema.virtual('full_name')
     .get(function () {
-        return `${this.first_name} ${this.last_name}`;
+        return `${this.firstName} ${this.lastName}`;
     });
 
 // create model class
