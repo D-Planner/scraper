@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setFulfilledStatus,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -88,7 +88,9 @@ class DPlan extends Component {
 
   componentDidMount() {
     this.dplanref.current.focus();
+    if (this.props.plan) this.setPreviousCourses();
   }
+
 
   setCurrentPlan(planID) {
     if (planID !== null) {
@@ -96,8 +98,6 @@ class DPlan extends Component {
       this.props.fetchPlan(planID).then(() => {
         this.setState({
           noPlan: false,
-        });
-        this.setState({
           tempPlanName: this.props.plan.name,
         });
       });
@@ -128,8 +128,7 @@ class DPlan extends Component {
   }
 
   // This still isn't working
-  setAllFulfilledStatus = (termID, courseID) => {
-    console.log('GETFULFILLEDSTATUS', termID, courseID);
+  setAllFulfilledStatus = (termID, userCourseID) => {
     try {
       this.getFlattenedTerms().forEach((term) => {
         if (term._id === termID) {
@@ -139,12 +138,12 @@ class DPlan extends Component {
             return t.previousCourses;
           }).flat()
             .map((t) => { return t.toString(); });
-          const prevCourses = [...new Set((this.props.user.placement_courses.length)
-            ? this.props.user.placement_courses.map((c) => { return c.toString(); }).concat(previousCourses)
+          const prevCourses = [...new Set((this.props.user.placement_courses && this.props.user.placement_courses.length)
+            ? this.props.user.placement_courses.map((c) => { return c._id.toString(); }).concat(previousCourses)
             : previousCourses)];
 
           this.getFlattenedCourses().forEach((userCourse) => {
-            if (userCourse.id === courseID) {
+            if (userCourse.id === userCourseID) {
               const getValue = (uCourse) => {
                 const { course } = uCourse;
                 let prereqs = course.prerequisites ? course.prerequisites : [];
@@ -191,7 +190,7 @@ class DPlan extends Component {
 
                 return CLEAR;
               };
-              userCourse.fulfilledStatus = getValue(userCourse);
+              this.props.setFulfilledStatus(userCourse.id, getValue(userCourse));
             }
           });
         }
@@ -219,9 +218,10 @@ class DPlan extends Component {
           return c.fulfilledStatus === '';
         })
         .map((c) => {
-          return (c.course.xlist.length) ? [...c.course.xlist, c.course.id] : c.course.id;
+          return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
         })
         .flat())];
+      console.log(prevCourses);
       return { [term._id]: prevCourses };
     });
     previousByTerm.forEach((t) => {
@@ -231,38 +231,13 @@ class DPlan extends Component {
             if (x._id === String(term)) {
               x.previousCourses = previousCourses;
               x.courses.forEach((course) => {
+                console.log('SETFULFILLEDSTATUS', course.course.name);
                 this.setAllFulfilledStatus(x._id, course.id);
               });
             }
           });
       });
     });
-  // Promise.all(previousByTerm.map((t) => {
-  //     return Promise.all(Object.entries(t).map(([term, previousCourses]) => {
-  //         return Term.findByIdAndUpdate(term, { previousCourses })
-  //             .then(() => {
-  //                 return Term.findById(term)
-  //                     .populate(PopulateTerm);
-  //             }).then((trueTerm) => {
-  //                 return Promise.all(trueTerm.courses.map((course) => {
-  //                     return Promise.resolve(CoursesController.getFulfilledStatus(planID, trueTerm._id, course.course.id, userID))
-  //                         .then((status) => {
-  //                             // console.log(`Updating ${course.course.title} to ${status}`);
-  //                             return UserCourse.update({ _id: course.id }, { fulfilledStatus: status }, { upsert: true });
-  //                         });
-  //                 // .then(() => {
-  //                 //     UserCourse.findById(course.id).populate('course').then((c) => { console.log('SET', c.course.title, c.fulfilledStatus); });
-  //                 // });
-  //                 }));
-  //             });
-  //     })).then((r) => {
-  //         // console.log('{1}', r);
-  //         return r;
-  //     });
-  // })).then((r) => {
-  //     // console.log('{2}', r);
-  //     resolve();
-  // });
   }
 
   handleChangePlanName = (e) => {
@@ -271,7 +246,7 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
-    // console.log('[DPLAN.js] We got request to add course to term');
+    console.log('[DPLAN.js] We got request to add course to term');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -279,9 +254,10 @@ class DPlan extends Component {
             axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then((response) => {
-              this.props.addCourseToTerm(response.data, term._id);
-              // this.setPreviousCourses();
-              resolve();
+              this.props.addCourseToTerm(response.data, term._id).then(() => {
+                this.setPreviousCourses();
+                resolve();
+              });
             });
           }
         });
@@ -298,16 +274,19 @@ class DPlan extends Component {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
           if (t._id === termID) {
-            t.courses = t.courses.filter((c) => {
-              // Might need to make API Call here to remove UserCourse
-              return c.id.toString() !== userCourseID.toString();
+            axios.delete(`${ROOT_URL}/terms/${termID}/course/${userCourseID}`, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then(() => {
+              this.props.removeCourseFromTerm(userCourseID).then(() => {
+                console.log('[DPLAN.js]', this.props.plan.terms);
+                // Set Previous Courses for Each Term here
+                this.setPreviousCourses();
+                resolve();
+              });
             });
           }
         });
       });
-      // Set Previous Courses for Each Term here
-      this.setPreviousCourses();
-      resolve();
     } catch (e) {
       console.log(e);
       reject(e);
@@ -494,4 +473,5 @@ export default withRouter(connect(mapStateToProps, {
   fetchPlans,
   updateCloseFocus,
   updatePlan,
+  setFulfilledStatus,
 })(DPlan));

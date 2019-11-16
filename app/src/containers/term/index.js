@@ -26,16 +26,18 @@ const termTarget = {
       } else if (item.sourceTerm) {
         // console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
-        props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then(() => {
-          // console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
-          return props.addCourseToTerm(item.catalogCourse, props.term);
-        }).then(() => {
-          // console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+        props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then((next) => {
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          props.addCourseToTerm(item.catalogCourse, props.term);
+        }).then((next) => {
+          next();
+          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         });
       } else {
         // console.log('[TERM.js] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
-        props.addCourseToTerm(item.course, props.term).then(() => {
+        props.addCourseToTerm(item.course, props.term).then((next) => {
+          next();
           // console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
         });
       }
@@ -54,6 +56,10 @@ const collect = (connect, monitor) => {
 };
 
 class Term extends Component {
+  componentDidUpdate() {
+    console.log('[TERM.js] Component Did Update');
+  }
+
   turnOffTerm = () => {
     const opts = {
       title: 'Turn term off',
@@ -63,7 +69,9 @@ class Term extends Component {
           // console.log(`Because you are turning off this term, deleting: ${course}`);
           this.props.removeCourseFromFavorites(course.course.id);
           // Not sure if this needs to be made into a Promise.all() ??
-          this.props.removeCourseFromTerm(course._id, this.props.term);
+          this.props.removeCourseFromTerm(course._id, this.props.term).then((next) => {
+            next();
+          });
         });
         this.props.term.off_term = true;
         this.props.term.courses = [];

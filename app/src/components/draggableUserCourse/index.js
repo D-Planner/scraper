@@ -21,7 +21,8 @@ const source = {
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
       console.log(props.course);
-      props.removeCourseFromTerm(props.course.id, props.sourceTerm).then(() => {
+      props.removeCourseFromTerm(props.course.id, props.sourceTerm).then((next) => {
+        next();
         console.log('removed');
       });
     }

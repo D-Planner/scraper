@@ -14,6 +14,7 @@ const initialState = {
 const timeReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_TIME:
+      console.log('[TIME REDUCER]', action.payload);
       return Object.assign({}, state, action.payload);
     default:
       return state;

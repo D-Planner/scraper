@@ -34,12 +34,14 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  SET_FULFILLED_STATUS: 'SET_FULFILLED_STATUS',
   SET_PRESSED_KEY: 'SET_PRESSED_KEY',
   REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
   SET_FILTERS: 'SET_FILTERS',
   CLEAR_FILTERS: 'CLEAR_FILTERS',
   ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
+  REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
 };
 
 export function setPressedKey(key) {
@@ -91,7 +93,6 @@ export function getTimes() {
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/globals/`, { headers }).then((response) => {
-      console.log(response);
       dispatch({ type: ActionTypes.FETCH_TIME, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -190,6 +191,7 @@ export function clearError() {
     payload: null,
   };
 }
+
 
 // ----- Authorization Actions ----- //
 
@@ -540,6 +542,14 @@ export function removeCourseFromFavorites(courseID) {
   }));
 }
 
+export function setFulfilledStatus(id, value) {
+  console.log(id, value);
+  return dispatch => dispatch({
+    type: ActionTypes.SET_FULFILLED_STATUS,
+    payload: { id, value },
+  });
+}
+
 /**
  * Adds a course to a user's placement courses
  * @export
@@ -682,10 +692,12 @@ export function getRandomCourse() {
  * @returns an action creator to add a new course to the given term
  */
 export function addCourseToTerm(userCourse, termID) {
-  return {
-    type: ActionTypes.ADD_COURSE_TO_PLAN,
-    payload: { userCourse, termID },
-  };
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.ADD_COURSE_TO_PLAN,
+      payload: { userCourse, termID },
+    });
+  });
 }
 
 /**
@@ -695,19 +707,14 @@ export function addCourseToTerm(userCourse, termID) {
  * @param {*} term the term object from which this course should be removed
  * @returns an action creator to remove a course from the given term
  */
-export function removeCourseFromTerm(course, term, planID) {
-  const termID = (typeof term === 'object') ? term.id : term;
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}/${planID}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then(() => {
-      resolve();
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-      reject();
+export function removeCourseFromTerm(userCourse) {
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.REMOVE_COURSE_FROM_PLAN,
+      payload: { userCourse },
     });
-  }));
+    resolve();
+  });
 }
 
 export function updateTerm(term) {

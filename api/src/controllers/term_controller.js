@@ -113,8 +113,8 @@ const addCourseToTerm = (req, res) => {
 };
 
 const removeCourseFromTerm = (req, res) => {
-    const { userCourseID, termID, planID } = req.params;
-    const userID = req.user.id;
+    const { userCourseID, termID } = req.params;
+    // const userID = req.user.id;
     Term.findById(termID)
         .then((term) => {
             term.courses.filter((c) => {
@@ -130,9 +130,9 @@ const removeCourseFromTerm = (req, res) => {
                 .then(() => {
                     return UserCourseController.deleteUserCourse(userCourseID);
                 })
-                .then((user) => {
-                    return setTermsPrevCourses(planID, userID);
-                })
+                // .then((user) => {
+                //     return setTermsPrevCourses(planID, userID);
+                // })
                 .then(() => {
                     res.json(term);
                 });
