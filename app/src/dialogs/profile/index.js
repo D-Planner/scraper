@@ -111,41 +111,11 @@ class ProfileDialog extends Component {
     return (
       <div className="user">
         <div className="profile-left">
-          <div className="info">
-            <div className="label">First name:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.first_name}`
-                : <input type="text" defaultValue={this.newUser.first_name} name="first_name" onChange={this.handleChange} />}
-            </div>
-            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-              : <img src={edit} alt="edit" onClick={this.handleToggleEdit} />}
-          </div>
-          <div className="info">
-            <div className="label">Last name:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.last_name}`
-                : <input type="text" defaultValue={this.newUser.last_name} name="firs_name" onChange={this.handleChange} />}
-            </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-          </div>
-          <div className="info">
-            <div className="label">Email:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.email}`
-                : <input type="email" defaultValue={this.newUser.email} name="email" onChange={this.handleChange} />}
-            </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-          </div>
-          <div className="info">
-            <div className="label">
-              Graduation Year:
-            </div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.graduationYear}`
-                : <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={this.handleChange} />}
-            </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-          </div>
+          {/* Editable Fields */}
+          {Object.entries(editOptions).map(([k, v]) => {
+            return (this.displayEditOption(k, v, this.state[v]));
+          })}
+
           {/* Verify Email */}
           {this.props.user.emailVerified === false ? (
             <button type="button"
@@ -160,6 +130,7 @@ class ProfileDialog extends Component {
             </button>
           )
             : null}
+
           {/* Reset Password */}
           <button type="button"
             className={this.state.verifyingPassword ? 'verify-button sent' : 'verify-button'}
@@ -171,13 +142,13 @@ class ProfileDialog extends Component {
           >
             <div className={this.state.verifyingPassword ? 'button-text sent' : 'button-text'}>{this.state.verifyingPassword ? 'Password reset sent!' : 'Reset password'}</div>
           </button>
+
+          {/* Policies */}
           <div className="policy-profile">
-            <a href="/policies/privacypolicy">Privacy Policy<br /></a>
-            <a href="/policies/termsandconditions">Terms and Conditions</a>
+            <a className="policy-link" href="/policies/termsandconditions">Terms and Conditions</a>
+            <p className="policy-spacer" />
+            <a className="policy-link" href="/policies/privacypolicy">Privacy Policy</a>
           </div>
-          {Object.entries(editOptions).map(([k, v]) => {
-            return (this.displayEditOption(k, v, this.state[v]));
-          })}
         </div>
         <div className="profile-right">
           <div className="placements">
