@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { ROOT_URL } from '../../constants';
-import LoadingWheel from '../loadingWheel';
 import logo from '../../style/logo.svg';
 import {
   updateUser, fetchUser, sendResetPass, signinUser,
