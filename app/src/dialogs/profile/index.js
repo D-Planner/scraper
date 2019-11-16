@@ -8,7 +8,15 @@ import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import { DialogTypes } from '../../constants';
 import edit from '../../style/edit.svg';
+import check from '../../style/check.svg';
 import './profile.scss';
+
+const editOptions = {
+  'First Name': 'firstName',
+  'Last Name': 'lastName',
+  Email: 'email',
+  'Graduation Year': 'graduationYear',
+};
 
 class ProfileDialog extends Component {
   constructor(props) {
@@ -16,11 +24,11 @@ class ProfileDialog extends Component {
     console.log(props);
     super(props);
     this.state = {
-      editing: false,
       oldGradYear: this.props.user.graduationYear,
       verifyingEmail: false,
       verifyingPassword: false,
     };
+
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
   }
@@ -35,15 +43,22 @@ class ProfileDialog extends Component {
         this.setState({ verifyingPassword: true });
       }
     });
+    Object.entries(editOptions).map(([k, v]) => {
+      this.setState({ [v]: false }); return null;
+    });
   }
 
   handleChange = (e, type) => {
     this.newUser[e.target.name] = e.target.value;
+
+    if (e.target.name === 'firstName' || e.target.name === 'lastName') {
+      this.newUser.full_name = `${this.newUser.firstName} ${this.newUser.lastName}`;
+    }
   }
 
-  handleToggleEdit = () => {
+  handleToggleEdit = (v) => {
     let shouldUpdate = false;
-    if (this.state.editing) {
+    if (this.state[v]) {
       if (this.state.oldGradYear !== this.newUser.graduationYear) {
         const dialogOptions = {
           title: 'Warning',
@@ -53,7 +68,12 @@ class ProfileDialog extends Component {
           noText: 'Abort',
           showNo: true,
           onOk: () => {
-            shouldUpdate = true;
+            this.props.updateUser(this.newUser).then(() => {
+              this.props.fetchPlans().then(() => {
+                window.location.reload();
+              });
+            });
+            console.log('deleting all plans...');
           },
           onNo: () => {
             console.log('user declined to update profile, change nothing');
@@ -64,17 +84,27 @@ class ProfileDialog extends Component {
         shouldUpdate = true;
       }
       if (shouldUpdate) {
-        this.props.updateUser(this.newUser).then(() => {
-          this.props.fetchPlans().then(() => {
-            // window.location.reload();
-          });
-        });
+        this.props.updateUser(this.newUser);
       }
     }
 
     this.setState(prevState => ({
-      editing: !prevState.editing,
+      [v]: !prevState[v],
     }));
+  }
+
+  displayEditOption = (text, inputName, editing) => {
+    return (
+      <div className="info">
+        <div className="label">{text}:</div>
+        <div className="data">
+          {!editing ? `${this.newUser[inputName]}`
+            : <input type="text" defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
+        </div>
+        {!editing ? <img src={edit} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />
+          : <img src={check} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />}
+      </div>
+    );
   }
 
   renderUserInfo = () => {
@@ -145,6 +175,9 @@ class ProfileDialog extends Component {
             <a href="/policies/privacypolicy">Privacy Policy<br /></a>
             <a href="/policies/termsandconditions">Terms and Conditions</a>
           </div>
+          {Object.entries(editOptions).map(([k, v]) => {
+            return (this.displayEditOption(k, v, this.state[v]));
+          })}
         </div>
         <div className="profile-right">
           <div className="placements">

@@ -16,6 +16,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    width: 57%;
 
     .info {
       width:100%;
@@ -39,8 +40,10 @@
 
         input {
           background: none;
-          font-size: 18px;
+          font-size: 16px;
           border-bottom: 1px solid $text-accent !important;
+          text-align: right;
+          max-width: 200px;
         }
       }
 
@@ -120,6 +123,7 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+    width: 36%;
     .placements {
       display: flex;
       flex-direction: column;
