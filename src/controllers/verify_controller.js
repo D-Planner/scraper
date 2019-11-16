@@ -42,7 +42,6 @@ const sendVerifyEmail = (req, res) => {
             const sendEmailWrapper = () => {
                 createEmail({ link: `${frontendHost}/email/${user.emailVerificationKey}` }, 'verify')
                     .then((html) => {
-                        console.log('html', html);
                         sendEmail(user.email, 'D-Planner - Verify your email', html).then((info) => {
                             res.json({ info });
                         }).catch((error) => {

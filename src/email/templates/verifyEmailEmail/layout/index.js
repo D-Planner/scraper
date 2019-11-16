@@ -5,7 +5,6 @@ import React from 'react';
  * @param {*} data
  */
 function verifyEmailEmail(data) {
-    console.log('data', data);
     return (
         React.createElement(
             'div',
