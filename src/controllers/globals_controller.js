@@ -35,6 +35,7 @@ const setGlobals = (req, res) => {
         term = monthToTerm[(monthToTerm.indexOf(term) + 1) % 4];
         return [date, term];
     });
+    console.log(week6);
     const today = new Date();
     let term = 'X';
     let year = currYear - 2000;
@@ -42,13 +43,13 @@ const setGlobals = (req, res) => {
     while (i < week6.length) {
         if (today > week6[i][0]) {
             term = week6[i][1];
-            year = week6[i][0].getFullYear() - 2000;
+            year = week6[i][0].getFullYear() + 1 - 2000;
         }
         i += 1;
     }
     const globals = {
         name: 'global',
-        currentTerm: { year, term },
+        currTerm: { year, term },
         nextTerm: {
             year: (term === 'F') ? year + 1 : year,
             term: monthToTerm[(monthToTerm.indexOf(term) + 1) % 4],
@@ -57,13 +58,14 @@ const setGlobals = (req, res) => {
     console.log(globals);
     Globals.findOneAndUpdate({ name: 'global' }, globals, { new: true, upsert: true }).then((g) => {
         console.log(g);
-        res.status(200).send();
+        res.status(200).send({ globals });
     });
 };
 
 const getGlobals = (req, res) => {
     Globals.findOne({ name: 'global' })
         .then((globals) => {
+            console.log(globals);
             res.status(200).send(globals);
         }).catch((e) => {
             console.log(e);
