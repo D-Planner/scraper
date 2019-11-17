@@ -2,9 +2,10 @@
 
 #screen-too-small {
   margin: 20px;
+  text-align: center;
 
   .title {
-    text-align: center;
+    // text-align: center;
     font-size: 48px;
     font-weight: 480;
     color: $text-accent;
@@ -15,7 +16,7 @@
 
   .error-disclaimer {
     margin-top: 10px;
-    text-align: left;
+    // text-align: center;
     // font-size: 10px;
     // // font-weight: 120;
     // color: $gray-6;

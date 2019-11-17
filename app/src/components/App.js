@@ -13,11 +13,9 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
-import TooSmall from './tooSmall';
+import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
 import ForgotPassword from './forgotPassword';
-// import FlowChart from './flowchart';
-
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
 import PrivacyPolicy from './policies/privacy';
@@ -39,7 +37,7 @@ class App extends Component {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
     window.addEventListener('focus', (e) => {
-      console.log('focus changed - APP');
+      // console.log('focus changed - APP');
       // console.log(e.target);
     }, true);
   }
@@ -55,7 +53,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.width >= 500 && this.state.height >= 700) {
+    if (this.state.width >= minWidth && this.state.height >= minHeight) {
       return (
         <div>
           <Router>
