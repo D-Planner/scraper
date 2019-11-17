@@ -1,9 +1,9 @@
-@import '../../style/variables.scss';
+@import "../../style/variables.scss";
 
 .remove {
-  display:flex;
-  width:9px;
-  height:10px;
+  display: flex;
+  width: 9px;
+  height: 10px;
 }
 
 .user {
@@ -16,20 +16,21 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    width: 57%;
 
     .info {
-      width:100%;
+      width: 100%;
       display: flex;
       flex-direction: row;
       margin: 10px;
       background: none;
 
       .label {
-        flex:1;
+        flex: 1;
         color: $text-accent;
         font-size: 18px;
       }
-  
+
       .data {
         display: flex;
         margin: 0 20px 0 20px;
@@ -39,8 +40,10 @@
 
         input {
           background: none;
-          font-size: 18px;
+          font-size: 16px;
           border-bottom: 1px solid $text-accent !important;
+          text-align: right;
+          max-width: 200px;
         }
       }
 
@@ -60,12 +63,84 @@
     input {
       max-width: 200px;
     }
+
+    .verify-button {
+      margin-top: 10px;
+      background: none;
+
+      border: solid;
+      border-color: $text-accent;
+      border-width: 2px;
+      height: 2.4em;
+
+      padding: 5px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 12px;
+      cursor: pointer;
+
+      &.sent {
+        border-color: $blue-primary;
+      }
+
+      .button-text {
+        font-family: $poppins;
+        font-weight: 500;
+        font-size: 14px;
+        color: $text-accent;
+        // background: linear-gradient(to right, #5797FD, #8901FB);
+        background-clip: text;
+        // text-transform: uppercase;
+
+        &.sent {
+          color: $blue-primary;
+        }
+      }
+
+      &:hover {
+        filter: brightness(150%);
+      }
+      &:active {
+        background: $purple-light;
+        border: 1px $text-accent solid;
+
+        .button-text {
+          color: $text-accent;
+        }
+      }
+    }
+
+    .policy-profile {
+      margin-top: 15px;
+      margin-left: 5px;
+      text-align: center;
+
+      .policy-spacer {
+        width: 10px;
+      }
+
+      .policy-link {
+        color: $gray-5;
+        cursor: default;
+
+        &:link {
+          text-decoration: none;
+        }
+
+        &:hover {
+          cursor: pointer;
+          color: $text-accent;
+        }
+      }
+    }
   }
 
   .profile-right {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+    width: 36%;
     .placements {
       display: flex;
       flex-direction: column;
