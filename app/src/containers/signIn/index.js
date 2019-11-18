@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signinUser } from '../../actions';
+import { emailCheckRegex } from '../../constants';
 
 const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   const [email, setEmail] = useState('');
@@ -14,6 +15,8 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   const signin = () => {
     if (email === '' || password === '') {
       setErrorMessage('Please fill all required fields! (*)');
+    } else if (!emailCheckRegex.test(email)) {
+      setErrorMessage('Invalid email address');
     } else {
       props.signinUser({ email, password }, props.history).catch((error) => {
         if (error.response.data === 'Unauthorized') {

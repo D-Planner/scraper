@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
+import { emailCheckRegex } from '../../constants';
 import './signUp.scss';
 
 const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
@@ -16,6 +17,8 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   const signup = () => {
     if (email === '' || grad === '' || password === '') {
       setErrorMessage('Please fill all required fields! (*)');
+    } else if (!emailCheckRegex.test(email)) {
+      setErrorMessage('Invalid email address');
     } else {
       props.signupUser(email, password, firstName, lastName, college, grad, props.history).catch((error) => {
         setErrorMessage(error.response.data);
