@@ -210,7 +210,7 @@ export function signinUser({ email, password }, history) {
     }).catch((error) => {
       console.log(error);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-      reject();
+      reject(error);
     });
   }));
 }
@@ -235,7 +235,7 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
     }).catch((error) => {
       console.log(error);
       dispatch(authError(`Sign Up Failed: ${error.response.data}`));
-      reject();
+      reject(error);
     });
   }));
 }

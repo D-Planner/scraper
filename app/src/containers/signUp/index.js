@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
@@ -11,27 +11,14 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   const [grad, setGrad] = useState(2023);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [permitted, setPermitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  useEffect(() => {
-    if (email !== '' && grad !== '' && password !== '') {
-      setErrorMessage(null);
-      setPermitted(true);
-    } else {
-      setPermitted(false);
-    }
-  }, [email, password, grad]);
-
   const signup = () => {
-    console.log('signup');
     if (email === '' || grad === '' || password === '') {
-      console.log('test');
       setErrorMessage('Please fill all required fields! (*)');
     } else {
-      props.signupUser(email, password, firstName, lastName, college, grad, props.history).catch(() => {
-        props.checkAuth('That email is already associated to an account');
+      props.signupUser(email, password, firstName, lastName, college, grad, props.history).catch((error) => {
+        setErrorMessage(error.response.data);
       });
     }
   };
@@ -42,14 +29,8 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
     }
   };
 
-  // const signin = () => {
-  //   window.location.href = '/signin';
-  // };
-
-  console.log('permitted', permitted);
   return (
     <div className="formContainer">
-
       <form>
         <div className="greeting">Join D-Planner today.</div>
         <div className="spacer" />
@@ -72,10 +53,10 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="spacer">{errorMessage}</div>
-        <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button>
+        <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={props.switchToSignIn}>
-          <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
+          <div className="button-cover"><div className="button-text">Sign In</div></div>
         </button>
       </form>
     </div>

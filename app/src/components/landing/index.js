@@ -81,7 +81,7 @@ class Landing extends React.Component {
           </div>
           <div className="right">
             {this.state.signIn
-              ? <SignInForm checkAuth={this.checkAuth} switchToSignUp={() => this.setState({ signIn: false })} />
+              ? <SignInForm checkAuth={this.checkAuth} showSignUp switchToSignUp={() => this.setState({ signIn: false })} />
               : <SignUpForm checkAuth={this.checkAuth} switchToSignIn={() => this.setState({ signIn: true })} />
             }
             <Link to="philosophy" spy smooth duration={750}>

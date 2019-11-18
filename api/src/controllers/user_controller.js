@@ -14,18 +14,16 @@ export const signup = (req, res, next) => {
         email, password, firstName, lastName, college, grad,
     } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).send('You must provide both an email and a password');
-    }
+    // if (!email || !password) {
+    //     return res.status(400).send('You must provide both an email and a password');
+    // }
 
     return User.findOne({ email }).then((user) => {
         if (user) {
-            console.log('duplicate email');
-            return res.status(409).send('User with this email already exists');
+            return res.status(409).send('Email already registered to a user');
         }
 
         if (!email || !password) {
-            console.log('!email or !password');
             return res.status(409).send('Please fill all required fields (*)');
         }
 

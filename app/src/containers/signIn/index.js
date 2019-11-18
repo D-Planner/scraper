@@ -15,8 +15,12 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
     if (email === '' || password === '') {
       setErrorMessage('Please fill all required fields! (*)');
     } else {
-      props.signinUser({ email, password }, props.history).catch(() => {
-        props.checkAuth('Your email and password do not match');
+      props.signinUser({ email, password }, props.history).catch((error) => {
+        if (error.response.data === 'Unauthorized') {
+          setErrorMessage('Email and password don\'t match');
+        } else {
+          setErrorMessage(error.response.data);
+        }
       });
     }
   };
@@ -26,10 +30,6 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
       signin();
     }
   };
-
-  // const signup = () => {
-  //   window.location.href = '/signup';
-  // };
 
   useEffect(() => {
     if (email && password) {
@@ -57,7 +57,7 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
         </button>
         <div className="spacer" />
-        <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button>
+        {props.showSignUp ? <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button> : null}
       </form>
     </div>
   );
