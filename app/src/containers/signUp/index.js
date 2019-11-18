@@ -16,7 +16,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const signup = () => {
-    if (email === '' || grad === '' || password === '') {
+    if (email === '' || grad === '' || password === '' || college === '') {
       setErrorMessage('Please fill all required fields! (*)');
     } else if (!emailCheckRegex.test(email)) {
       setErrorMessage('Invalid email address');
@@ -39,13 +39,13 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
         <div className="greeting">Join D-Planner today.</div>
         <div className="spacer" />
         <div className="row">
-          <input id="firstName" value={firstName} placeholder="First name*" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
+          <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
         </div>
         <div className="row">
           <input id="lastName" value={lastName} placeholder="Last name" onKeyPress={e => handleKeyPress(e)} onChange={e => setLastName(e.target.value)} />
         </div>
         <div className="row">
-          <input id="college" value={college} placeholder="College" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
+          <input id="college" value={college} placeholder="College*" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
         </div>
         <div className="row">
           <input id="grad" type="number" value={grad} placeholder="2023*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
