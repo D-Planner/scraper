@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as UserController from '../controllers/user_controller';
 import { requireSignin, requireAuth } from '../authentication/init';
+import VerifyController from '../controllers/verify_controller';
 
 const authRouter = Router();
 
@@ -117,5 +118,24 @@ authRouter.get('/', requireAuth, UserController.getUser);
 authRouter.get('/:id', requireAuth, UserController.getUser);
 
 authRouter.post('/update', requireAuth, UserController.updateUser);
+
+// For verifying email against key and for sending verification email, respectively
+authRouter.post('/verify/email', requireAuth, VerifyController.verifyEmail);
+authRouter.post('/verify/email/send', VerifyController.sendVerifyEmail);
+
+// Forgot pasword call, checks for email and sends reset message
+authRouter.post('/verify/pass/byemail', VerifyController.resetPassByEmail);
+
+// Gets user based on URL key
+authRouter.get('/verify/pass/bykey', VerifyController.getUserByKey);
+
+// Is the password reset authorized (are the user and URL keys the same)?
+authRouter.post('/verify/pass', VerifyController.authResetPass);
+
+// Take new password and update User schema
+authRouter.post('/verify/pass/reset', VerifyController.resetPass);
+
+// Send password reset email
+authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
 
 export default authRouter;

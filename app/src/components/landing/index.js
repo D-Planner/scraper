@@ -26,11 +26,11 @@ const features = [
     'Major/Minor Planning': 'There are no viable solutions for undergraduates looking to plan out their majors and minors before actually declaring sophomore year, that is until now! D-Planner offers major and minor planning features such as required classes and prerequisites. We\'ve done the hard work for you, now all that\'s left is to dream big!',
   },
   {
-    'Keyword-based Course Search': 'Instead of needing to search for courses based on a specific and arbitrary course name (who here knows what ENGS 30 is by name?), D-Planner is equipped with a powerful and easy to use search engine that allows students to search for all of the courses in the ORC by keywords, name, term, and any other information the college maintains. Enjoy discovering your next favorite course!',
+    'Intelligent Course Search': 'Instead of needing to search for courses based on a specific and arbitrary course name (who here knows what ENGS 30 is by name?), D-Planner is equipped with a powerful and easy to use search engine that allows students to search for all of the courses in the ORC by keywords, name, term, and any other information the college maintains. Enjoy discovering your next favorite course!',
     'Excel/Sheets Plan Import': 'We understand that students you may have created personal course plans before the advent of D-Planner, but don\'t worry! D-Planner accepts Excel and Sheets-based .csv files and allows you to import these past documents to a D-Planner plan! We have created a spreadsheet import specification that allows you to quickly and painlessly transfer your hard work to the D-Planner system!',
   },
   {
-    'Automatic Prerequisite Checking': 'We\'ve listened to you, and you\'ve told us that making sure you have all of your prerequisites are fulfilled in the correct is order is hard. Thanks to our novel live prerequisite-checking algorithms, you will never again be trying to register for a class only to find out that you aren\'t eligible. Our prerequisite checking also functions with major and minor planning, allowing you to plan quickly and effectively!',
+    'Automatic Plan Verification': 'We\'ve listened to you, and you\'ve told us that making sure you have all of your prerequisites are fulfilled in the correct is order is hard. Thanks to our novel live prerequisite-checking algorithms, you will never again be trying to register for a class only to find out that you aren\'t eligible. Our prerequisite checking also functions with major and minor planning, allowing you to plan quickly and effectively!',
     'Advanced Class Search': 'Besides our basic plan search, we also offer an advanced search for finding the perfect class schedule for sophomore summer (or any other term!). Advanced search includes filters ranging from broad department selection to specific distributive requirements, historical term offerings, and more! For when out basic search just isn\'t enough, advanced search is sure to kick your plan to the next level!',
   },
 ];
@@ -84,6 +84,7 @@ class Landing extends React.Component {
               ? <SignInForm checkAuth={this.checkAuth} showSignUp switchToSignUp={() => this.setState({ signIn: false })} />
               : <SignUpForm checkAuth={this.checkAuth} switchToSignIn={() => this.setState({ signIn: true })} />
             }
+            <a className="homepage-pass-reset" href="/reset/pass">Forgot password?</a>
             <Link to="philosophy" spy smooth duration={750}>
               <div className="scroller">
                 <img src={arrowDown} alt="" />
@@ -93,7 +94,7 @@ class Landing extends React.Component {
         </div>
         <div className="info">
           <div className="section">
-            <div className="title">
+            <div className="title" id="philosophy-title">
               <Element name="philosophy">Our Philosophy</Element>
             </div>
             <div className="content">
@@ -104,15 +105,15 @@ class Landing extends React.Component {
                       For Students
                   </div>
                   <div className="body">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
+                    We want every Dartmouth student to create their ideal academic path. Our team at D-Planner is building a digital course planner for all Dartmouth students to plan out their four years, term-by-term. On our platform, you can discover courses that fit your own personalized needs. Instead of looking exhaustively through the giant course catalog, you can leverage D-Planner’s advanced search mechanics to find courses that suit your specific needs.
                   </div>
                 </div>
                 <div className="text">
                   <div className="textHeader">
-                      By Students
+                    By Students
                   </div>
                   <div className="body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo ultricies lorem, id cursus odio. Sed sollicitudin congue mi ac posuere. Quisque enim leo, elementum ut lacinia nec, volutpat vitae nisl. Proin sed suscipit justo. Nullam vehicula lobortis justo a condimentum. Etiam id justo at odio bibendum dignissim id id urna. Nullam tincidunt, nisi nec cursus dapibus, lorem magna placerat mi, eget rhoncus tortor mauris sit amet felis. Suspendisse scelerisque nisi et mi laoreet, in fermentum nisl cursus.
+                    D-Planner provides a powerful and flexible planning feature to help you visually map your academic trajectory. You can drag your desired courses into one of twelve D-Plan terms, and D-Planner will automatically alert you about any scheduling conflicts and inform you of your progress towards critical degree requirements.
                   </div>
                 </div>
               </div>
@@ -156,7 +157,7 @@ class Landing extends React.Component {
             </div>
           </div>
           <div className="right">
-            <SignInForm checkAuth={this.checkAuth} />
+            <SignInForm disableSignUp checkAuth={this.checkAuth} />
           </div>
         </div>
       </>

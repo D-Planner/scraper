@@ -30,10 +30,11 @@ export const signup = (req, res, next) => {
         const newUser = new User({
             email,
             password,
-            first_name: firstName,
-            last_name: lastName,
+            firstName,
+            lastName,
             university: college,
             graduationYear: grad,
+            emailVerified: false,
         });
 
         return newUser.save().then((savedUser) => {
@@ -75,16 +76,37 @@ export const getUser = (req, res) => {
         });
 };
 
+/**
+ * 🚀 TODO:
+ * Check if there are security vulnerabilities created by sending user key to
+ * frontend for validation, add as backend functionality
+ */
+
 export const updateUser = async (req, res) => {
     User.findById(req.user.id)
         .populate(PopulateUser)
         .then((user) => {
             if (user.graduationYear !== req.body.change.graduationYear) {
+                console.log('deleting all plans...');
                 Plan.find({ user_id: user._id }).remove().exec();
             }
-            user.full_name = req.body.change.full_name;
+            user.fullName = req.body.change.fullName;
+            user.firstName = req.body.change.firstName;
+            user.lastName = req.body.change.lastName;
             user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
+            user.emailVerified = req.body.change.emailVerified;
+
+            // Force user to re-verify on email change
+            if (req.body.change.email && req.body.change.email !== user.email) {
+                console.log('unverifying email');
+                user.emailVerified = false;
+            }
+            user.email = req.body.change.email; // Keep this after email update check
+
+            // Don't reset password if none in request
+            if (req.body.change.password) { user.password = req.body.change.password; }
+
             user.save();
             const json = user.toJSON();
             delete json.password;

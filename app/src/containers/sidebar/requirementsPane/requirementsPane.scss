@@ -52,7 +52,11 @@
             margin-bottom: 10px;
             .checkbox {
                 // width: 20px;
-                color: $gray-6;
+                color: $red;
+
+                &.complete {
+                  color: $gray-6;
+                }
             }
             .genEd-name {
                 text-align: left;

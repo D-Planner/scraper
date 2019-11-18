@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -9,20 +9,46 @@ import NonDraggableCourse from '../../components/nonDraggableCourse';
 import { DialogTypes, emailCheckRegex } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
 import edit from '../../style/edit.svg';
+import check from '../../style/check.svg';
 import './profile.scss';
+
+const editOptions = {
+  'First Name': 'firstName',
+  'Last Name': 'lastName',
+  Email: 'email',
+  'Graduation Year': 'graduationYear',
+};
 
 class ProfileDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editing: false,
       oldGradYear: this.props.user.graduationYear,
       errorMessage: null,
+      verifyingEmail: false,
+      verifyingPassword: false,
     };
+
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
   }
 
+  // Check if an email has been sent before loading of component
+  componentDidMount() {
+    this.props.fetchUser().then(() => {
+      if (this.props.user && this.props.user.emailVerificationKey !== undefined && this.props.user.emailVerificationKey !== '-1') {
+        this.setState({ verifyingEmail: true });
+      }
+      if (this.props.user && this.props.user.passwordVerificationKey !== undefined && this.props.user.passwordVerificationKey !== '-1') {
+        this.setState({ verifyingPassword: true });
+      }
+    });
+    Object.entries(editOptions).map(([k, v]) => {
+      this.setState({ [v]: false }); return null;
+    });
+  }
+
+  // Handle new input to field
   handleChange = (e, type) => {
     if (e.target.name === 'email') {
       if (!emailCheckRegex.test(e.target.value)) {
@@ -33,12 +59,15 @@ class ProfileDialog extends Component {
       }
     } else {
       this.newUser[e.target.name] = e.target.value;
+      if (e.target.name === 'firstName' || e.target.name === 'lastName') {
+        this.newUser.fullName = `${this.newUser.firstName} ${this.newUser.lastName}`;
+      }
     }
   }
 
-  handleToggleEdit = () => {
-    let shouldUpdate = false;
-    if (this.state.editing) {
+  // Open or close editing, and save on close
+  handleToggleEdit = (v) => {
+    if (this.state[v]) {
       if (this.state.oldGradYear !== this.newUser.graduationYear) {
         const dialogOptions = {
           title: 'Warning',
@@ -48,7 +77,12 @@ class ProfileDialog extends Component {
           noText: 'Abort',
           showNo: true,
           onOk: () => {
-            shouldUpdate = true;
+            this.props.updateUser(this.newUser).then(() => {
+              this.props.fetchPlans().then(() => {
+                window.location.reload();
+              });
+            });
+            console.log('deleting all plans...');
           },
           onNo: () => {
             // console.log('user declined to update profile, change nothing');
@@ -56,74 +90,90 @@ class ProfileDialog extends Component {
         };
         this.props.showDialog(DialogTypes.NOTICE, dialogOptions);
       } else {
-        shouldUpdate = true;
-      }
-      if (shouldUpdate) {
-        this.props.updateUser(this.newUser).then(() => {
-          this.props.fetchPlans().then(() => {
-            // window.location.reload();
-          });
-        });
+        this.props.updateUser(this.newUser);
       }
     }
 
-    if (this.state.editing) {
+    if (this.state[v]) {
       this.setState({ errorMessage: null });
     }
     this.setState(prevState => ({
-      editing: !prevState.editing,
+      [v]: !prevState[v],
     }));
+  }
+
+  // For allowing enter functionality
+  keypressHandler = (e, inputName, handleToggleEdit) => {
+    if (e.key === 'Enter') {
+      handleToggleEdit(inputName);
+    }
+  }
+
+  // Toggles editing for a given inputName and saves the result on close or 'Enter'
+  displayEditOption = (text, inputName, editing) => {
+    return (
+      <div className="info">
+        <div className="label">{text}:</div>
+        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+        <div className="data" role="textbox" onClick={editing ? null : () => this.handleToggleEdit(inputName)}>
+          {!editing ? `${this.newUser[inputName]}`
+            : <input type="text" onKeyPress={e => this.keypressHandler(e, inputName, this.handleToggleEdit)} defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
+        </div>
+        {!editing ? <img src={edit} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />
+          : <img src={check} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />}
+      </div>
+    );
   }
 
   renderUserInfo = () => {
     return (
       <div className="user">
         <div className="profile-left">
-          <div className="info">
-            <div className="label">First name:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.first_name}`
-                : <input type="text" defaultValue={this.newUser.first_name} name="first_name" onChange={this.handleChange} />}
-            </div>
-            {!this.state.editing ? <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-              : <img src={edit} alt="edit" onClick={this.handleToggleEdit} />}
-          </div>
-          <div className="info">
-            <div className="label">Last name:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.last_name}`
-                : <input type="text" defaultValue={this.newUser.last_name} name="firs_name" onChange={this.handleChange} />}
-            </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-          </div>
-          <div className="info">
-            <div className="label">Email:</div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.email}`
-                : <input type="email" defaultValue={this.newUser.email} name="email" onChange={this.handleChange} />}
-            </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-          </div>
-          <div className="info">
-            <div className="label">
-              Graduation Year:
-            </div>
-            <div className="data">
-              {!this.state.editing ? `${this.newUser.graduationYear}`
-                : <input id="grad" type="number" defaultValue={this.newUser.graduationYear} name="graduationYear" onChange={this.handleChange} />}
-            </div>
-            <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
-          </div>
+          {/* Editable Fields */}
+          {Object.entries(editOptions).map(([k, v]) => {
+            return (this.displayEditOption(k, v, this.state[v]));
+          })}
+
           <ErrorMessageSpacer errorMessage={this.state.errorMessage} />
 
+          {/* Verify Email */}
+          {this.props.user.emailVerified === false ? (
+            <button type="button"
+              className={this.state.verifyingEmail ? 'verify-button sent' : 'verify-button'}
+              onClick={() => {
+                console.log('sending verify email email');
+                this.props.fetchUser().then(() => this.props.sendVerifyEmail(this.props.user._id));
+                this.setState({ verifyingEmail: true });
+              }}
+            >
+              <div className={this.state.verifyingEmail ? 'button-text sent' : 'button-text'}>{this.state.verifyingEmail ? 'Verification sent!' : 'Verify email'}</div>
+            </button>
+          )
+            : null}
+
+          {/* Reset Password */}
+          <button type="button"
+            className={this.state.verifyingPassword ? 'verify-button sent' : 'verify-button'}
+            onClick={() => {
+              console.log('sending reset password email');
+              this.props.fetchUser().then(() => this.props.sendResetPass(this.props.user._id));
+              this.setState({ verifyingPassword: true });
+            }}
+          >
+            <div className={this.state.verifyingPassword ? 'button-text sent' : 'button-text'}>{this.state.verifyingPassword ? 'Password reset sent!' : 'Reset password'}</div>
+          </button>
+
+          {/* Policies */}
           <div className="policy-profile">
-            <a href="/policies/privacypolicy">Privacy Policy<br /></a>
-            <a href="/policies/termsandconditions">Terms and Conditions</a>
+            <a className="policy-link" href="/policies/termsandconditions">Terms and Conditions</a>
+            <p className="policy-spacer" />
+            <a className="policy-link" href="/policies/privacypolicy">Privacy Policy</a>
           </div>
         </div>
+        <div className="divider-profile" />
         <div className="profile-right">
           <div className="placements">
-            <div className="placements-label">Placement Courses</div>
+            <div className="placements-label">Placement Courses:</div>
             <div className="placements-data">
               {this.renderPlacements()}
             </div>
@@ -188,6 +238,6 @@ const mapStateToProps = state => ({
   currTerm: state.time.currTerm,
 });
 
-export default connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
-})(ProfileDialog);
+export default (connect(mapStateToProps, {
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass,
+})(ProfileDialog));

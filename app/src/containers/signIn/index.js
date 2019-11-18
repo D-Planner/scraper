@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signinUser } from '../../actions';
@@ -8,8 +8,6 @@ import ErrorMessageSpacer from '../../components/errorMessageSpacer';
 const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [permitted, setPermitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
 
@@ -35,16 +33,6 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
     }
   };
 
-  useEffect(() => {
-    if (email && password) {
-      setErrorMessage(null);
-      setPermitted(true);
-    } else {
-      setPermitted(false);
-    }
-  }, [email, password]);
-
-
   return (
     <div className="formContainer">
       <form>
@@ -58,7 +46,7 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
         </div>
         <ErrorMessageSpacer errorMessage={errorMessage} />
         <button type="button" className="sign-in" onClick={signin}>
-          <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
+          <div className="button-cover"><div className="button-text">Sign In</div></div>
         </button>
         <div className="spacer" />
         {props.showSignUp ? <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button> : null}
