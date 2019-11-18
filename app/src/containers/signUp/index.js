@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
 import { emailCheckRegex } from '../../constants';
+import ErrorMessageSpacer from '../../components/errorMessageSpacer';
 import './signUp.scss';
 
 const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
@@ -55,7 +56,8 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
         <div className="row">
           <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
         </div>
-        <div className="spacer">{errorMessage}</div>
+        {/* <div className="spacer">{errorMessage}</div> */}
+        <ErrorMessageSpacer errorMessage={errorMessage} />
         <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={props.switchToSignIn}>

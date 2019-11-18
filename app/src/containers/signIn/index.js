@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signinUser } from '../../actions';
 import { emailCheckRegex } from '../../constants';
+import ErrorMessageSpacer from '../../components/errorMessageSpacer';
 
 const SignInForm = withRouter(connect(null, { signinUser })((props) => {
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
     } else {
       props.signinUser({ email, password }, props.history).catch((error) => {
         if (error.response.data === 'Unauthorized') {
-          setErrorMessage('Email and password don\'t match');
+          setErrorMessage('Email and password combination not recognized');
         } else {
           setErrorMessage(error.response.data);
         }
@@ -55,7 +56,7 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
         <div className="row">
           <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} required />
         </div>
-        <div className="spacer">{errorMessage}</div>
+        <ErrorMessageSpacer errorMessage={errorMessage} />
         <button type="button" className="sign-in" onClick={signin}>
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign In</div></div>
         </button>

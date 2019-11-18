@@ -1,31 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import {
   removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
-import { DialogTypes } from '../../constants';
+import { DialogTypes, emailCheckRegex } from '../../constants';
+import ErrorMessageSpacer from '../../components/errorMessageSpacer';
 import edit from '../../style/edit.svg';
 import './profile.scss';
 
 class ProfileDialog extends Component {
   constructor(props) {
-    console.log('props');
-    console.log(props);
     super(props);
     this.state = {
       editing: false,
       oldGradYear: this.props.user.graduationYear,
+      errorMessage: null,
     };
     this.newUser = this.props.user;
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = (e, type) => {
-    this.newUser[e.target.name] = e.target.value;
+    if (e.target.name === 'email') {
+      if (!emailCheckRegex.test(e.target.value)) {
+        this.setState({ errorMessage: 'Invalid Email Address' });
+      } else {
+        this.setState({ errorMessage: null });
+        this.newUser.email = e.target.value;
+      }
+    } else {
+      this.newUser[e.target.name] = e.target.value;
+    }
   }
 
   handleToggleEdit = () => {
@@ -43,7 +51,7 @@ class ProfileDialog extends Component {
             shouldUpdate = true;
           },
           onNo: () => {
-            console.log('user declined to update profile, change nothing');
+            // console.log('user declined to update profile, change nothing');
           },
         };
         this.props.showDialog(DialogTypes.NOTICE, dialogOptions);
@@ -59,6 +67,9 @@ class ProfileDialog extends Component {
       }
     }
 
+    if (this.state.editing) {
+      this.setState({ errorMessage: null });
+    }
     this.setState(prevState => ({
       editing: !prevState.editing,
     }));
@@ -103,6 +114,8 @@ class ProfileDialog extends Component {
             </div>
             <img src={edit} alt="edit" onClick={this.handleToggleEdit} />
           </div>
+          <ErrorMessageSpacer errorMessage={this.state.errorMessage} />
+
           <div className="policy-profile">
             <a href="/policies/privacypolicy">Privacy Policy<br /></a>
             <a href="/policies/termsandconditions">Terms and Conditions</a>
