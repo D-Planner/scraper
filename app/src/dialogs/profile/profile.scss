@@ -122,6 +122,20 @@
         width: 10px;
       }
 
+      .delete-account {
+        color: $gray-5;
+        cursor: default;
+
+        &:link {
+          text-decoration: none;
+        }
+
+        &:hover {
+          cursor: pointer;
+          color: $red;
+        }
+      }
+
       .policy-link {
         color: $gray-5;
         cursor: default;
