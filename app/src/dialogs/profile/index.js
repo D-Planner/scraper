@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -46,6 +46,29 @@ class ProfileDialog extends Component {
     Object.entries(editOptions).map(([k, v]) => {
       this.setState({ [v]: false }); return null;
     });
+  }
+
+  deleteAccount = () => {
+    // TODO: ADD 'ARE YOU SURE' DIALOG
+    const dialogOptions = {
+      title: 'Delete Account?',
+      message: 'Warning: Deleting your account cannot be undone!',
+      size: 'sm',
+      okText: 'Abort',
+      noText: 'Continue',
+      showNo: true,
+      onNo: () => {
+        this.props.fetchUser().then(() => {
+          this.props.hideDialog();
+          this.props.deleteUser(this.props.user._id).then(() => {
+            this.props.signoutUser(null);
+            document.location.reload();
+          }).catch(error => console.error(error));
+        });
+      },
+      onOk: () => {},
+    };
+    this.props.showDialog(DialogTypes.NOTICE, dialogOptions);
   }
 
   // Handle new input to field
@@ -168,6 +191,13 @@ class ProfileDialog extends Component {
             <a className="policy-link" href="/policies/termsandconditions">Terms and Conditions</a>
             <p className="policy-spacer" />
             <a className="policy-link" href="/policies/privacypolicy">Privacy Policy</a>
+            <p className="policy-spacer" />
+            {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+            <div className="delete-account"
+              role="button"
+              onClick={this.deleteAccount}
+            >Delete Account
+            </div>
           </div>
         </div>
         <div className="divider-profile" />
@@ -239,5 +269,5 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
 })(ProfileDialog));

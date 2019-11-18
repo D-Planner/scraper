@@ -10,6 +10,7 @@ export const ActionTypes = {
   UPDATE_PLAN: 'UPDATE_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_USER: 'FETCH_USER',
+  DELETE_USER: 'DELETE_USER',
   FETCH_COURSE: 'FETCH_COURSE',
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
@@ -119,6 +120,22 @@ export function updateUser(change) {
       reject();
     });
   }));
+}
+
+export function deleteUser(id) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/auth/`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.DELETE_USER, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error });
+      reject();
+    });
+  });
 }
 
 export function createCourses() {

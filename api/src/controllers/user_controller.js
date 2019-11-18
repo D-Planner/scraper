@@ -118,6 +118,19 @@ export const updateUser = async (req, res) => {
         });
 };
 
+// Deletes user from DB
+export const deleteUser = (req, res) => {
+    User.findById(req.user.id)
+        .remove(() => { return console.log(`removed user with id ${req.user.id}`); })
+        .then(() => {
+            res.send('User removed 🚀');
+        })
+        .catch((error) => {
+            console.error(error);
+            res.send(error);
+        });
+};
+
 
 // encodes a new token for a user object
 function tokenForUser(user) {

@@ -90,6 +90,9 @@ authRouter.post('/signup', UserController.signup);
  */
 authRouter.get('/', requireAuth, UserController.getUser);
 
+// Delete account
+authRouter.delete('/', requireAuth, UserController.deleteUser);
+
 /**
  * @api {get} /auth/:id Get a user by id
  * @apiName GetUserById
