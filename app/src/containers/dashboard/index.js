@@ -100,7 +100,7 @@ class Dashboard extends React.Component {
 
   showProfileDialog(props) {
     const dialogOptions = {
-      title: `Hello, ${props.user.firstName}`,
+      title: `Hello${props.user.firstName ? `, ${props.user.firstName}!` : '!'}`,
       size: 'lg',
       okText: 'Sign out',
       onOk: () => {

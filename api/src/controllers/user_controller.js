@@ -14,13 +14,17 @@ export const signup = (req, res, next) => {
         email, password, firstName, lastName, college, grad,
     } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).send('You must provide both an email and a password');
-    }
+    // if (!email || !password) {
+    //     return res.status(400).send('You must provide both an email and a password');
+    // }
 
     return User.findOne({ email }).then((user) => {
         if (user) {
-            return res.status(409).send('User with this email already exists');
+            return res.status(409).send('Email already registered to a user');
+        }
+
+        if (!email || !password) {
+            return res.status(409).send('Please fill all required fields (*)');
         }
 
         const newUser = new User({
@@ -86,7 +90,7 @@ export const updateUser = async (req, res) => {
                 console.log('deleting all plans...');
                 Plan.find({ user_id: user._id }).remove().exec();
             }
-            user.full_name = req.body.change.full_name;
+            user.fullName = req.body.change.fullName;
             user.firstName = req.body.change.firstName;
             user.lastName = req.body.change.lastName;
             user.email = req.body.change.email;

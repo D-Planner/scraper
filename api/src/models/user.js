@@ -63,7 +63,7 @@ UserSchema.methods.comparePassword = function (password, callback) {
     });
 };
 
-UserSchema.virtual('full_name')
+UserSchema.virtual('fullName')
     .get(function () {
         return `${this.firstName} ${this.lastName}`;
     });

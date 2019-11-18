@@ -36,7 +36,8 @@
         margin: 0 20px 0 20px;
         flex-direction: column;
         align-self: center;
-        overflow: visible;
+        overflow: auto;
+        max-width: 300px;
 
         input {
           background: none;
@@ -44,6 +45,7 @@
           border-bottom: 1px solid $text-accent !important;
           text-align: right;
           max-width: 200px;
+          overflow: hidden;
         }
       }
 
@@ -61,7 +63,7 @@
     }
 
     input {
-      max-width: 200px;
+      max-width: 300px;
     }
 
     .verify-button {
@@ -136,6 +138,13 @@
     }
   }
 
+  .divider-profile {
+    display: flex;
+    width: 1px;
+    margin: 0 5px;
+    background-color: $text-accent;
+  }
+
   .profile-right {
     display: flex;
     justify-content: flex-start;
@@ -149,7 +158,10 @@
         display: flex;
         flex: 1;
         flex-direction: column;
-        margin-right: 20px;
+
+        margin: 10px 10px 6px 0;
+
+        font-size: 18px;
         color: $text-accent;
         text-align: left;
       }

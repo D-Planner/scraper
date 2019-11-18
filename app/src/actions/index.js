@@ -109,8 +109,6 @@ export function updateUser(change) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  console.log('change');
-  console.log(change);
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/update`, { change }, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
@@ -217,7 +215,7 @@ export function signinUser({ email, password }, history) {
     }).catch((error) => {
       console.log(error);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-      reject();
+      reject(error);
     });
   }));
 }
@@ -242,7 +240,7 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
     }).catch((error) => {
       console.log(error);
       dispatch(authError(`Sign Up Failed: ${error.response.data}`));
-      reject();
+      reject(error);
     });
   }));
 }
