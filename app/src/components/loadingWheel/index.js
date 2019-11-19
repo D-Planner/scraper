@@ -2,9 +2,13 @@ import React from 'react';
 import './loadingWheel.scss';
 
 const LoadingWheel = (props) => {
-  return (
-    <div className="loading-spinner" />
-  );
+  if (props.loading) {
+    return (
+      <div className="loading-spinner" />
+    );
+  } else {
+    return null;
+  }
 };
 
 export default LoadingWheel;
