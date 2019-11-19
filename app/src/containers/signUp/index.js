@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
 import { ROOT_URL, emailCheckRegex } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
+import LoadingWheel from '../../components/loadingWheel';
 import './signUp.scss';
 
 const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
@@ -15,22 +16,28 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const [netID, setnetID] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const [NetID, setNetID] = useState('');
 
   const signup = () => {
     // if (email === '' || grad === '' || password === '' || college === '') {
-    if (grad === '' || password === '' || netID === '') {
+    if (grad === '' || password === '' || NetID === '') {
       setErrorMessage('Please fill all required fields! (*)');
     // } else if (!emailCheckRegex.test(email)) {
     //   setErrorMessage('Invalid email address');
     } else {
-      props.signupUser(email, password, firstName, lastName, college, grad, props.history)
+      // props.signupUser(email, password, firstName, lastName, college, grad, props.history)
+      setLoading(true);
+      props.signupUser(NetID, password, grad, props.history)
         .then(() => {
+          setLoading(false);
           // console.log('pushing to new address');
           // props.history.push(`${ROOT_URL}/auth/cas`);
         }).catch((error) => {
-          console.log(error);
-          setErrorMessage(error.response.data);
+          setLoading(false);
+          console.log('signup error', error);
+          setErrorMessage(error);
         });
 
       // console.log('signup');
@@ -67,7 +74,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
         </div> */}
 
         <div className="row">
-          <input id="netid" value={netID} placeholder="NetID*" onKeyPress={e => handleKeyPress(e)} onChange={e => setnetID(e.target.value)} />
+          <input id="netid" value={NetID} placeholder="NetID*" onKeyPress={e => handleKeyPress(e)} onChange={e => setNetID(e.target.value)} />
         </div>
         {/* <div className="row">
           <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
@@ -79,7 +86,8 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
         <div className="row">
           <input id="grad" type="number" value={grad} placeholder="Graduation Year*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
         </div>
-        <div className="spacer" />
+        <LoadingWheel loading={loading} />
+        {/* <div className="spacer" /> */}
 
         {/* <button type="button" className="sign-up" onClick={() => signup()}>
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign Up</div></div>

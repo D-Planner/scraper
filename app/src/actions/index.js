@@ -221,10 +221,26 @@ export function clearError() {
  * @param {*} history the React-Router history object passed to props when using withRouter()
  * @returns a callback function that sends a signin request to the API and then dispatches an AUTH_USER action on success
  */
-export function signinUser({ email, password }, history) {
-  const fields = { email, password };
+// export function signinUser({ email, password }, history) {
+//   const fields = { email, password };
+//   return dispatch => new Promise(((resolve, reject) => {
+//     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
+//       localStorage.setItem('token', response.data.token);
+//       dispatch({ type: ActionTypes.AUTH_USER });
+//       history.push('/');
+//       resolve();
+//     }).catch((error) => {
+//       console.log(error);
+//       dispatch(authError(`Sign In Failed: ${error.response.data}`));
+//       reject(error);
+//     });
+//   }));
+// }
+
+export function signinUser(NetID, password, history) {
+  const fields = { NetID, password };
   return dispatch => new Promise(((resolve, reject) => {
-    axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
+    axios.post(`${ROOT_URL}/auth/signin`, fields, { headers: { 'Content-Type': 'application/json' } }).then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
@@ -244,7 +260,6 @@ export function headlessSignIn(user, history) {
   };
   console.log('signinheadless action');
   return dispatch => new Promise((resolve, reject) => {
-    console.log('user', user);
     axios.post(`${ROOT_URL}/auth/signinheadless`, { user }, { headers })
       .then((response) => {
         console.log('response', response);
@@ -267,21 +282,24 @@ export function headlessSignIn(user, history) {
  * @returns a callback function that sends a signup request to the API and then dispatches an AUTH_USER action on success
  */
 
-export function signupUser(email, password, firstName, lastName, college, grad, history) {
+export function signupUser(NetID, password, grad, history) {
   const fields = {
-    email, password, firstName, lastName, college, grad,
+    NetID, password, grad,
   };
+  console.log(NetID, password, grad);
   return dispatch => new Promise(((resolve, reject) => {
     // axios.post(`${ROOT_URL}/authorize`, fields).then((response) => {
     axios.post(`${ROOT_URL}/auth/cas`, fields).then((response) => {
+      console.log(response.data);
       localStorage.setItem('token', response.data.token);
+      console.log(localStorage.getItem('token'));
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
       resolve();
     }).catch((error) => {
-      console.log(error);
-      dispatch(authError(`Sign Up Failed: ${error.response.data}`));
-      reject(error);
+      console.log('signup action error', error.response.data);
+      // dispatch(authError(`Sign Up Failed: ${error.response.data}`));
+      reject(error.response.data);
     });
   }));
 }

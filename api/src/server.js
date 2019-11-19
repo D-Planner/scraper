@@ -99,14 +99,15 @@ app.post('/auth/cas', (req, res) => { // cas.bounce,
     // console.log(req.session.true.affil, req.session.true.netid, req.session.true.name);
 
     // signup(`${req.session.true.netid}@dartmouth.edu`, req.session.true.name, req.session.true.affil, req.session.true.netID)
-    signup('f003dqv', '', 2022)
+    signup(req.body.NetID, req.body.password, req.body.grad)
         .then((result) => {
             console.log('token', result.token); // .cookie('token', result.token, { maxAge: 900000, httpOnly: false })
             // res.send('<meta http-equiv="Refresh" content="0; url=http://localhost:8080/token" />'); // Send auto-redirecting page
-            res.redirect(`http://localhost:8080/token/${result.token.split('.').join('||')}`); // Send auto-redirecting page
+            // res.redirect(`http://localhost:8080/token/${result.token.split('.').join('||')}`); // Send auto-redirecting page
+            res.send(result);
         }).catch((error) => {
-            console.error('error', error);
-            res.redirect('http://localhost:8080'); // Send auto-redirecting page
+            console.log(error);
+            res.status(403).send(error.message); // .redirect('http://localhost:8080'); // Send auto-redirecting page
         });
 });
 

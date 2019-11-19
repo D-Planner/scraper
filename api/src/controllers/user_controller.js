@@ -1,9 +1,9 @@
+import JWT from 'jwt-simple';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import User from '../models/user';
 import Plan from '../models/plan';
 import { PopulateUser } from './populators';
-import { verify } from 'crypto';
 
 dotenv.config({ silent: true });
 
@@ -47,39 +47,88 @@ export const signup = (netid, password, gradYear) => {
     return new Promise((resolve, reject) => {
         // TODO: Generate email, college, fullname
 
+        let verifedNetID;
+
         verifyUserCAS(netid)
             .then((response) => {
-                console.log(response);
+                verifedNetID = response;
+                console.log('verifiedNetID', verifedNetID);
+
+                User.findOne({ netID: verifedNetID }).then((user) => {
+                    console.log('user', user);
+                    if (user) {
+                        console.log('rejecting, duplicate user');
+                        reject(new Error(`NetID '${verifedNetID}' already associated with user`));
+                    } else {
+                        const newUser = new User({
+                            email: `${verifedNetID}@dartmouth.edu`,
+                            password,
+                            netID: verifedNetID,
+
+                            // TODO: COnnect these to CAS
+
+                            // university: college,
+                            // first_name: fullName.split(' ')[0],
+                            // last_name: fullName.split(' ')[2],
+                            graduationYear: gradYear,
+                        });
+
+                        // if (user) {
+                        //     const json = user.toJSON();
+                        //     delete json.password;
+                        //     resolve({ token: tokenForUser(user), user: json });
+                        // }
+
+                        newUser.save().then((savedUser) => {
+                            const json = savedUser.toJSON();
+                            delete json.password;
+                            resolve({ token: tokenForUser(savedUser), user: json });
+                        }).catch((error) => {
+                            console.log('1', error);
+                            reject(error);
+                        });
+                    }
+                }).catch((error) => {
+                    console.log('2', error);
+                    reject(error);
+                });
             }).catch((error) => {
-                console.error(error);
+                console.error('3', error);
+                reject(error);
             });
 
-        // User.findOne({ email }).then((user) => {
+        // User.findOne({ verifedNetID }).then((user) => {
+        //     if (user) {
+        //         reject(new Error(`NetID '${verifedNetID}' already associated with user`));
+        //     }
         //     const newUser = new User({
-        //         email,
+        //         email: `${verifedNetID}@dartmouth.edu`,
         //         password,
-        //         netID: netid,
-        //         university: college,
-        //         first_name: fullName.split(' ')[0],
-        //         last_name: fullName.split(' ')[2],
+        //         netID: verifedNetID,
+
+        //         // TODO: COnnect these to CAS
+
+        //         // university: college,
+        //         // first_name: fullName.split(' ')[0],
+        //         // last_name: fullName.split(' ')[2],
         //         graduationYear: gradYear,
         //     });
 
-        //     if (user) {
-        //         const json = user.toJSON();
-        //         delete json.password;
-        //         resolve({ token: tokenForUser(user), user: json });
-        //     }
+        //     // if (user) {
+        //     //     const json = user.toJSON();
+        //     //     delete json.password;
+        //     //     resolve({ token: tokenForUser(user), user: json });
+        //     // }
 
         //     newUser.save().then((savedUser) => {
         //         const json = savedUser.toJSON();
         //         delete json.password;
         //         resolve({ token: tokenForUser(savedUser), user: json });
-        //     }).catch((err) => {
-        //         reject(err);
+        //     }).catch((error) => {
+        //         reject(error);
         //     });
-        // }).catch((err) => {
-        //     reject(err);
+        // }).catch((error) => {
+        //     reject(error);
         // });
     });
 
@@ -245,5 +294,5 @@ export const deleteUser = (req, res) => {
 function tokenForUser(user) {
     console.log('user token', user);
     const timestamp = new Date().getTime();
-    return jwt.encode({ sub: user.id, iat: timestamp }, process.env.AUTH_SECRET);
+    return JWT.encode({ sub: user.id, iat: timestamp }, process.env.AUTH_SECRET);
 }

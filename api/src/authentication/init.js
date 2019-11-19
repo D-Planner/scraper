@@ -7,7 +7,7 @@ import User from '../models/user';
 
 // options for local strategy, we'll use email AS the username
 // not have separate ones
-const localOptions = { usernameField: 'email' };
+const localOptions = { usernameField: 'NetID' };
 
 dotenv.config({ silent: true });
 
@@ -17,15 +17,18 @@ const jwtOptions = {
 };
 
 // username + password authentication strategy
-const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-    if (!email || !password) {
+const localLogin = new LocalStrategy(localOptions, (netID, password, done) => {
+    if (!netID || !password) {
         return done(new Error('You must provide an email and password'));
     }
     // should find user by email and check password
     // Verify this email and password, call done with the user
     // if it is the correct email and password
     // otherwise, call done with false
-    return User.findOne({ email }, (err, user) => {
+
+
+    // return User.findOne({ email }, (err, user) => {
+    return User.findOne({ netID }, (err, user) => {
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
 

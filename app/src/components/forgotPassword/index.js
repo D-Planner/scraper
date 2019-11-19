@@ -93,7 +93,7 @@ class ForgotPassword extends Component {
           <div className={`error-message-reset-pass${this.state.message ? ' generic' : ''}`}>
             {this.state.errorMessage}
             {this.state.errorMessage ? null : this.state.message}
-            {this.state.loading ? <LoadingWheel /> : null}
+            <LoadingWheel loading={this.state.loading} />
           </div>
           <button type="button"
             className="reset-pass-action-button big"

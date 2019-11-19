@@ -33,7 +33,7 @@ const authRouter = Router();
  *              }
  *          }
  */
-authRouter.post('/signin', requireSignin, UserController.signin);
+authRouter.post('/signin', requireSignin, UserController.signin); // requireSignin,
 authRouter.post('/signinheadless', UserController.signinheadless);
 
 /**

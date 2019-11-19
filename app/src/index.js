@@ -16,6 +16,7 @@ export const store = createStore(reducers, {}, compose(
 ));
 
 const token = localStorage.getItem('token');
+// localStorage.removeItem('token'); // For removing stubborn tokens
 if (token) {
   store.dispatch({ type: ActionTypes.AUTH_USER });
 }
