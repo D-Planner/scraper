@@ -286,18 +286,15 @@ export function signupUser(NetID, password, grad, history) {
   const fields = {
     NetID, password, grad,
   };
-  console.log(NetID, password, grad);
   return dispatch => new Promise(((resolve, reject) => {
     // axios.post(`${ROOT_URL}/authorize`, fields).then((response) => {
     axios.post(`${ROOT_URL}/auth/cas`, fields).then((response) => {
-      console.log(response.data);
       localStorage.setItem('token', response.data.token);
       console.log(localStorage.getItem('token'));
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
       resolve();
     }).catch((error) => {
-      console.log('signup action error', error.response.data);
       // dispatch(authError(`Sign Up Failed: ${error.response.data}`));
       reject(error.response.data);
     });

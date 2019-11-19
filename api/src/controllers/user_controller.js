@@ -52,12 +52,9 @@ export const signup = (netid, password, gradYear) => {
         verifyUserCAS(netid)
             .then((response) => {
                 verifedNetID = response;
-                console.log('verifiedNetID', verifedNetID);
 
                 User.findOne({ netID: verifedNetID }).then((user) => {
-                    console.log('user', user);
                     if (user) {
-                        console.log('rejecting, duplicate user');
                         reject(new Error(`NetID '${verifedNetID}' already associated with user`));
                     } else {
                         const newUser = new User({
@@ -84,16 +81,13 @@ export const signup = (netid, password, gradYear) => {
                             delete json.password;
                             resolve({ token: tokenForUser(savedUser), user: json });
                         }).catch((error) => {
-                            console.log('1', error);
                             reject(error);
                         });
                     }
                 }).catch((error) => {
-                    console.log('2', error);
                     reject(error);
                 });
             }).catch((error) => {
-                console.error('3', error);
                 reject(error);
             });
 

@@ -36,7 +36,6 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           // props.history.push(`${ROOT_URL}/auth/cas`);
         }).catch((error) => {
           setLoading(false);
-          console.log('signup error', error);
           setErrorMessage(error);
         });
 
