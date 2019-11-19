@@ -15,17 +15,21 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const [netID, setnetID] = useState('');
+
   const signup = () => {
-    if (email === '' || grad === '' || password === '' || college === '') {
+    // if (email === '' || grad === '' || password === '' || college === '') {
+    if (grad === '' || password === '' || netID === '') {
       setErrorMessage('Please fill all required fields! (*)');
-    } else if (!emailCheckRegex.test(email)) {
-      setErrorMessage('Invalid email address');
+    // } else if (!emailCheckRegex.test(email)) {
+    //   setErrorMessage('Invalid email address');
     } else {
       props.signupUser(email, password, firstName, lastName, college, grad, props.history)
         .then(() => {
           // console.log('pushing to new address');
           // props.history.push(`${ROOT_URL}/auth/cas`);
         }).catch((error) => {
+          console.log(error);
           setErrorMessage(error.response.data);
         });
 
@@ -52,23 +56,28 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
       <form>
         <div className="greeting">Join D-Planner today.</div>
         <div className="spacer" />
-        <div className="row">
+        {/* <div className="row">
           <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
         </div>
         <div className="row">
           <input id="lastName" value={lastName} placeholder="Last name" onKeyPress={e => handleKeyPress(e)} onChange={e => setLastName(e.target.value)} />
-        </div>
-        <div className="row">
+        </div> */}
+        {/* <div className="row">
           <input id="college" value={college} placeholder="College*" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
-        </div>
+        </div> */}
+
         <div className="row">
-          <input id="grad" type="number" value={grad} placeholder="2023*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
+          <input id="netid" value={netID} placeholder="NetID*" onKeyPress={e => handleKeyPress(e)} onChange={e => setnetID(e.target.value)} />
         </div>
-        <div className="row">
+        {/* <div className="row">
           <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
-        </div>
+        </div> */}
         <div className="row">
           <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
+        </div>
+
+        <div className="row">
+          <input id="grad" type="number" value={grad} placeholder="Graduation Year*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
         </div>
         <div className="spacer" />
 
@@ -76,9 +85,9 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           <div className="button-cover" disabled={!permitted}><div className="button-text">Sign Up</div></div>
         </button> */}
 
-        <button type="button" className="sign-up" onClick={() => { document.location.href = 'http://localhost:9090/auth/cas'; }}>
+        {/* <button type="button" className="sign-up" onClick={() => { document.location.href = 'http://localhost:9090/auth/cas'; }}>
           <div className="button-cover"><div className="button-text">Use Duo</div></div>
-        </button>
+        </button> */}
 
         {/* <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button> */}
         {/* <div className="spacer">{errorMessage}</div> */}

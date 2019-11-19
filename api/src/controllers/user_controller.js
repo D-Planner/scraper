@@ -1,7 +1,11 @@
-import jwt from 'jwt-simple';
+import axios from 'axios';
+import dotenv from 'dotenv';
 import User from '../models/user';
 import Plan from '../models/plan';
 import { PopulateUser } from './populators';
+import { verify } from 'crypto';
+
+dotenv.config({ silent: true });
 
 export const signin = (req, res, next) => {
     const json = req.user.toJSON();
@@ -14,35 +18,69 @@ export const signinheadless = (req, res, next) => {
     res.send({ token: tokenForUser(req.body.user) });
 };
 
-export const signup = (email, fullName, college, netid) => {
+// Verify netID with Dartmouth
+const verifyUserCAS = (netID) => {
+// Get JWT key form Dartmouth API
     return new Promise((resolve, reject) => {
-        User.findOne({ email }).then((user) => {
-            const newUser = new User({
-                email,
-                netID: netid,
-                password: 'dplanner',
-                university: college,
-                first_name: fullName.split(' ')[0],
-                last_name: fullName.split(' ')[2],
-                graduationYear: 2023,
+        axios.post('https://api.dartmouth.edu/api/jwt?scope=urn', {}, { headers: { Authorization: process.env.DARTMOUTH_API_KEY } })
+            .then((response) => {
+            // Check netID against Dartmouth server
+                axios.get(`https://api.dartmouth.edu/api/students/${netID}`, { headers: { Authorization: `Bearer ${response.data.jwt}` } })
+                    .then((r) => {
+                        if (r.data.netid === netID) {
+                            resolve(netID);
+                        } else {
+                            reject(new Error('NetID not verified!'));
+                        }
+                    }).catch((error) => {
+                        // console.error(error.response.status);
+                        reject(error);
+                    });
+            }).catch((error) => {
+                // console.error(error.response.status);
+                reject(error);
+            });
+    });
+};
+
+export const signup = (netid, password, gradYear) => {
+    return new Promise((resolve, reject) => {
+        // TODO: Generate email, college, fullname
+
+        verifyUserCAS(netid)
+            .then((response) => {
+                console.log(response);
+            }).catch((error) => {
+                console.error(error);
             });
 
-            if (user) {
-                const json = user.toJSON();
-                delete json.password;
-                resolve({ token: tokenForUser(user), user: json });
-            }
+        // User.findOne({ email }).then((user) => {
+        //     const newUser = new User({
+        //         email,
+        //         password,
+        //         netID: netid,
+        //         university: college,
+        //         first_name: fullName.split(' ')[0],
+        //         last_name: fullName.split(' ')[2],
+        //         graduationYear: gradYear,
+        //     });
 
-            newUser.save().then((savedUser) => {
-                const json = savedUser.toJSON();
-                delete json.password;
-                resolve({ token: tokenForUser(savedUser), user: json });
-            }).catch((err) => {
-                reject(err);
-            });
-        }).catch((err) => {
-            reject(err);
-        });
+        //     if (user) {
+        //         const json = user.toJSON();
+        //         delete json.password;
+        //         resolve({ token: tokenForUser(user), user: json });
+        //     }
+
+        //     newUser.save().then((savedUser) => {
+        //         const json = savedUser.toJSON();
+        //         delete json.password;
+        //         resolve({ token: tokenForUser(savedUser), user: json });
+        //     }).catch((err) => {
+        //         reject(err);
+        //     });
+        // }).catch((err) => {
+        //     reject(err);
+        // });
     });
 
 // export const signup = (req, res, next) => {
@@ -63,7 +101,7 @@ export const signup = (email, fullName, college, netid) => {
 //             return res.status(409).send('Please fill all required fields (*)');
 //         }
 
-//         const newUser = new User({
+//   const newUser = new User({
 //             email,
 //             password,
 //             firstName,

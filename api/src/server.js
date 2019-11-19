@@ -95,11 +95,11 @@ const cas = new CASAuthentication({
 // });
 
 // Unauthenticated clients will be redirected to the CAS login and then back to this route once authenticated.
-app.get('/auth/cas', cas.bounce, (req, res) => {
-    console.log(req.session.true.affil, req.session.true.netid, req.session.true.name);
-    // console.log(req.session);
+app.post('/auth/cas', (req, res) => { // cas.bounce,
+    // console.log(req.session.true.affil, req.session.true.netid, req.session.true.name);
 
-    signup(`${req.session.true.netid}@dartmouth.edu`, req.session.true.name, req.session.true.affil, req.session.true.netID)
+    // signup(`${req.session.true.netid}@dartmouth.edu`, req.session.true.name, req.session.true.affil, req.session.true.netID)
+    signup('f003dqv', '', 2022)
         .then((result) => {
             console.log('token', result.token); // .cookie('token', result.token, { maxAge: 900000, httpOnly: false })
             // res.send('<meta http-equiv="Refresh" content="0; url=http://localhost:8080/token" />'); // Send auto-redirecting page

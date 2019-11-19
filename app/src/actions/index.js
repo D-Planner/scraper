@@ -272,7 +272,8 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
     email, password, firstName, lastName, college, grad,
   };
   return dispatch => new Promise(((resolve, reject) => {
-    axios.post(`${ROOT_URL}/authorize`, fields).then((response) => {
+    // axios.post(`${ROOT_URL}/authorize`, fields).then((response) => {
+    axios.post(`${ROOT_URL}/auth/cas`, fields).then((response) => {
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
