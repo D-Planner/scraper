@@ -1,3 +1,4 @@
 {
-    "tslint.alwaysShowRuleFailuresAsWarnings": false
+    "tslint.alwaysShowRuleFailuresAsWarnings": false,
+    "eslint.autoFixOnSave": true,
 }

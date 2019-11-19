@@ -55,6 +55,13 @@ const SearchPane = React.forwardRef((props, ref) => {
     console.log(offeredNextTerm);
   };
 
+  const clearCurFilters = () => {
+    setWC([]);
+    setDistrib([]);
+    setOfferedNextTerm(false);
+    console.log(offeredNextTerm);
+  };
+
   const showFilterDialog = () => {
     const dialogOptions = {
       title: 'Search filters',
@@ -63,7 +70,7 @@ const SearchPane = React.forwardRef((props, ref) => {
       okText: 'Apply',
       noText: 'Clear',
       onOk: useFilters,
-      onNo: props.clearFilters,
+      onNo: clearCurFilters,
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
   };

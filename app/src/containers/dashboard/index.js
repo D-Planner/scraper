@@ -7,7 +7,6 @@ import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
 import creditsIcon from '../../style/heart.svg';
-import searchIcon from '../../style/searchSimple.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import { emptyPlan } from '../../services/empty_plan';
@@ -101,7 +100,7 @@ class Dashboard extends React.Component {
 
   showProfileDialog(props) {
     const dialogOptions = {
-      title: `Hello, ${props.user.first_name}`,
+      title: `Hello${props.user.firstName ? `, ${props.user.firstName}!` : '!'}`,
       size: 'lg',
       okText: 'Sign out',
       onOk: () => {

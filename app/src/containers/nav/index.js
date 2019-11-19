@@ -21,7 +21,9 @@ const showProfileDialog = (props) => {
 class Nav extends Component {
   constructor(props) {
     super(props);
-    this.props.getTimes();
+    this.props.getTimes().then(() => {
+      console.log(this.props.time);
+    });
     this.state = {
     };
   }

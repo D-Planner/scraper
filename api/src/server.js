@@ -6,7 +6,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import CASAuthentication from 'cas-authentication';
-
+import nodemailer from 'nodemailer';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
 import { signup } from './controllers/user_controller';
@@ -45,6 +45,14 @@ app.use(fileUpload());
 const port = process.env.PORT || 9090;
 app.listen(port);
 console.log(`listening on: ${port}`);
+
+export const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_ADDR,
+        pass: process.env.GMAIL_PASS,
+    },
+});
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';

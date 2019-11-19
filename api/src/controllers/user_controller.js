@@ -50,6 +50,46 @@ export const signup = (email, fullName, college, netid) => {
 //         email, password, firstName, lastName, college, grad,
 //     } = req.body;
 
+//     // if (!email || !password) {
+//     //     return res.status(400).send('You must provide both an email and a password');
+//     // }
+
+//     return User.findOne({ email }).then((user) => {
+//         if (user) {
+//             return res.status(409).send('Email already registered to a user');
+//         }
+
+//         if (!email || !password) {
+//             return res.status(409).send('Please fill all required fields (*)');
+//         }
+
+//         const newUser = new User({
+//             email,
+//             password,
+//             firstName,
+//             lastName,
+//             university: college,
+//             graduationYear: grad,
+//             emailVerified: false,
+//         });
+
+//             newUser.save().then((savedUser) => {
+//                 const json = savedUser.toJSON();
+//                 delete json.password;
+//                 resolve({ token: tokenForUser(savedUser), user: json });
+//             }).catch((err) => {
+//                 reject(err);
+//             });
+//         }).catch((err) => {
+//             reject(err);
+//         });
+//     });
+
+// export const signup = (req, res, next) => {
+//     const {
+//         email, password, firstName, lastName, college, grad,
+//     } = req.body;
+
 //     if (!email || !password) {
 //         return res.status(400).send('You must provide both an email and a password');
 //     }
@@ -107,16 +147,37 @@ export const getUser = (req, res) => {
         });
 };
 
+/**
+ * 🚀 TODO:
+ * Check if there are security vulnerabilities created by sending user key to
+ * frontend for validation, add as backend functionality
+ */
+
 export const updateUser = async (req, res) => {
     User.findById(req.user.id)
         .populate(PopulateUser)
         .then((user) => {
             if (user.graduationYear !== req.body.change.graduationYear) {
+                console.log('deleting all plans...');
                 Plan.find({ user_id: user._id }).remove().exec();
             }
-            user.full_name = req.body.change.full_name;
+            user.fullName = req.body.change.fullName;
+            user.firstName = req.body.change.firstName;
+            user.lastName = req.body.change.lastName;
             user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
+            user.emailVerified = req.body.change.emailVerified;
+
+            // Force user to re-verify on email change
+            if (req.body.change.email && req.body.change.email !== user.email) {
+                console.log('unverifying email');
+                user.emailVerified = false;
+            }
+            user.email = req.body.change.email; // Keep this after email update check
+
+            // Don't reset password if none in request
+            if (req.body.change.password) { user.password = req.body.change.password; }
+
             user.save();
             const json = user.toJSON();
             delete json.password;
@@ -125,6 +186,19 @@ export const updateUser = async (req, res) => {
         .catch((error) => {
             console.log(error);
             res.status(500).json({ error });
+        });
+};
+
+// Deletes user from DB
+export const deleteUser = (req, res) => {
+    User.findById(req.user.id)
+        .remove(() => { return console.log(`removed user with id ${req.user.id}`); })
+        .then(() => {
+            res.send('User removed 🚀');
+        })
+        .catch((error) => {
+            console.error(error);
+            res.send(error);
         });
 };
 
