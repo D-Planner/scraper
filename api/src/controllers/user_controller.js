@@ -47,20 +47,16 @@ export const signup = (netid, password, gradYear) => {
     return new Promise((resolve, reject) => {
         // TODO: Generate email, college, fullname
 
-        let verifedNetID;
-
         verifyUserCAS(netid)
             .then((response) => {
-                verifedNetID = response;
-
-                User.findOne({ netID: verifedNetID }).then((user) => {
+                User.findOne({ netID: response }).then((user) => {
                     if (user) {
-                        reject(new Error(`NetID '${verifedNetID}' already associated with user`));
+                        reject(new Error(`NetID '${response}' already associated with user`));
                     } else {
                         const newUser = new User({
-                            email: `${verifedNetID}@dartmouth.edu`,
+                            email: `${response}@dartmouth.edu`,
                             password,
-                            netID: verifedNetID,
+                            netID: response,
 
                             // TODO: COnnect these to CAS
 
@@ -85,120 +81,18 @@ export const signup = (netid, password, gradYear) => {
                         });
                     }
                 }).catch((error) => {
+                    if (error.response.status === 404) {
+                        reject(new Error(`NetID '${netid}' not verified: '${error.response.data.message}'`));
+                    }
                     reject(error);
                 });
             }).catch((error) => {
+                if (error.response.status === 404) {
+                    reject(new Error(`NetID '${netid}' not verified: '${error.response.data.message}'`));
+                }
                 reject(error);
             });
-
-        // User.findOne({ verifedNetID }).then((user) => {
-        //     if (user) {
-        //         reject(new Error(`NetID '${verifedNetID}' already associated with user`));
-        //     }
-        //     const newUser = new User({
-        //         email: `${verifedNetID}@dartmouth.edu`,
-        //         password,
-        //         netID: verifedNetID,
-
-        //         // TODO: COnnect these to CAS
-
-        //         // university: college,
-        //         // first_name: fullName.split(' ')[0],
-        //         // last_name: fullName.split(' ')[2],
-        //         graduationYear: gradYear,
-        //     });
-
-        //     // if (user) {
-        //     //     const json = user.toJSON();
-        //     //     delete json.password;
-        //     //     resolve({ token: tokenForUser(user), user: json });
-        //     // }
-
-        //     newUser.save().then((savedUser) => {
-        //         const json = savedUser.toJSON();
-        //         delete json.password;
-        //         resolve({ token: tokenForUser(savedUser), user: json });
-        //     }).catch((error) => {
-        //         reject(error);
-        //     });
-        // }).catch((error) => {
-        //     reject(error);
-        // });
     });
-
-// export const signup = (req, res, next) => {
-//     const {
-//         email, password, firstName, lastName, college, grad,
-//     } = req.body;
-
-//     // if (!email || !password) {
-//     //     return res.status(400).send('You must provide both an email and a password');
-//     // }
-
-//     return User.findOne({ email }).then((user) => {
-//         if (user) {
-//             return res.status(409).send('Email already registered to a user');
-//         }
-
-//         if (!email || !password) {
-//             return res.status(409).send('Please fill all required fields (*)');
-//         }
-
-//   const newUser = new User({
-//             email,
-//             password,
-//             firstName,
-//             lastName,
-//             university: college,
-//             graduationYear: grad,
-//             emailVerified: false,
-//         });
-
-//             newUser.save().then((savedUser) => {
-//                 const json = savedUser.toJSON();
-//                 delete json.password;
-//                 resolve({ token: tokenForUser(savedUser), user: json });
-//             }).catch((err) => {
-//                 reject(err);
-//             });
-//         }).catch((err) => {
-//             reject(err);
-//         });
-//     });
-
-// export const signup = (req, res, next) => {
-//     const {
-//         email, password, firstName, lastName, college, grad,
-//     } = req.body;
-
-//     if (!email || !password) {
-//         return res.status(400).send('You must provide both an email and a password');
-//     }
-
-//     return User.findOne({ email }).then((user) => {
-//         if (user) {
-//             return res.status(409).send('User with this email already exists');
-//         }
-
-//         const newUser = new User({
-//             email,
-//             password,
-//             first_name: firstName,
-//             last_name: lastName,
-//             university: college,
-//             graduationYear: grad,
-//         });
-
-//         return newUser.save().then((savedUser) => {
-//             const json = savedUser.toJSON();
-//             delete json.password;
-//             res.send({ token: tokenForUser(savedUser), user: json });
-//         }).catch((err) => {
-//             next(err);
-//         });
-//     }).catch((err) => {
-//         next(err);
-//     });
 
 // 🚀 TODO:
 // here you should do a mongo query to find if a user already exists with this email.

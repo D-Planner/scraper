@@ -106,7 +106,7 @@ app.post('/auth/cas', (req, res) => { // cas.bounce,
             // res.redirect(`http://localhost:8080/token/${result.token.split('.').join('||')}`); // Send auto-redirecting page
             res.send(result);
         }).catch((error) => {
-            console.log(error);
+            // console.log(error);
             res.status(403).send(error.message); // .redirect('http://localhost:8080'); // Send auto-redirecting page
         });
 });

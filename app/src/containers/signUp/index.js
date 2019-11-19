@@ -29,6 +29,7 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
     } else {
       // props.signupUser(email, password, firstName, lastName, college, grad, props.history)
       setLoading(true);
+      setErrorMessage(null);
       props.signupUser(NetID, password, grad, props.history)
         .then(() => {
           setLoading(false);
