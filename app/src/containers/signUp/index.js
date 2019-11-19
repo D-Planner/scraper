@@ -2,32 +2,23 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signupUser } from '../../actions';
-import { ROOT_URL, emailCheckRegex } from '../../constants';
+import { ROOT_URL } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
 import LoadingWheel from '../../components/loadingWheel';
 import './signUp.scss';
 
 const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [college, setCollege] = useState('');
-  const [grad, setGrad] = useState(2023);
-  const [email, setEmail] = useState('');
+  const [NetID, setNetID] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [grad, setGrad] = useState(2023);
 
+  const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [NetID, setNetID] = useState('');
-
   const signup = () => {
-    // if (email === '' || grad === '' || password === '' || college === '') {
     if (grad === '' || password === '' || NetID === '') {
       setErrorMessage('Please fill all required fields! (*)');
-    // } else if (!emailCheckRegex.test(email)) {
-    //   setErrorMessage('Invalid email address');
     } else {
-      // props.signupUser(email, password, firstName, lastName, college, grad, props.history)
       setLoading(true);
       setErrorMessage(null);
       props.signupUser(NetID, password, grad, props.history)
@@ -39,16 +30,6 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
           setLoading(false);
           setErrorMessage(error);
         });
-
-      // console.log('signup');
-      // props.signupUser(email, password, firstName, lastName, college, grad, props.history)
-      //   .then(() => {
-      //     console.log('pushing to new address');
-      //     props.history.push(`${ROOT_URL}/auth/cas`);
-      //   })
-      //   .catch(() => {
-      //     props.checkAuth('That email is already associated to an account');
-      //   });
     }
   };
 
@@ -63,43 +44,19 @@ const SignUpForm = withRouter(connect(null, { signupUser })((props) => {
       <form>
         <div className="greeting">Join D-Planner today.</div>
         <div className="spacer" />
-        {/* <div className="row">
-          <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
-        </div>
-        <div className="row">
-          <input id="lastName" value={lastName} placeholder="Last name" onKeyPress={e => handleKeyPress(e)} onChange={e => setLastName(e.target.value)} />
-        </div> */}
-        {/* <div className="row">
-          <input id="college" value={college} placeholder="College*" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
-        </div> */}
-
         <div className="row">
           <input id="netid" value={NetID} placeholder="NetID*" onKeyPress={e => handleKeyPress(e)} onChange={e => setNetID(e.target.value)} />
         </div>
-        {/* <div className="row">
-          <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
-        </div> */}
         <div className="row">
           <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
         </div>
-
         <div className="row">
           <input id="grad" type="number" value={grad} placeholder="Graduation Year*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
         </div>
+
         <LoadingWheel loading={loading} />
-        {/* <div className="spacer" /> */}
-
-        {/* <button type="button" className="sign-up" onClick={() => signup()}>
-          <div className="button-cover" disabled={!permitted}><div className="button-text">Sign Up</div></div>
-        </button> */}
-
-        {/* <button type="button" className="sign-up" onClick={() => { document.location.href = 'http://localhost:9090/auth/cas'; }}>
-          <div className="button-cover"><div className="button-text">Use Duo</div></div>
-        </button> */}
-
-        {/* <button type="button" disabled={!permitted} className="sign-up" onClick={signup}>Sign Up</button> */}
-        {/* <div className="spacer">{errorMessage}</div> */}
         <ErrorMessageSpacer errorMessage={errorMessage} />
+
         <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={props.switchToSignIn}>

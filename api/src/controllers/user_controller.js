@@ -33,11 +33,9 @@ const verifyUserCAS = (netID) => {
                             reject(new Error('NetID not verified!'));
                         }
                     }).catch((error) => {
-                        // console.error(error.response.status);
                         reject(error);
                     });
             }).catch((error) => {
-                // console.error(error.response.status);
                 reject(error);
             });
     });
@@ -82,13 +80,13 @@ export const signup = (netid, password, gradYear) => {
                     }
                 }).catch((error) => {
                     if (error.response.status === 404) {
-                        reject(new Error(`NetID '${netid}' not verified: '${error.response.data.message}'`));
+                        reject(new Error(`Could not verify NetID '${netid}'`));
                     }
                     reject(error);
                 });
             }).catch((error) => {
                 if (error.response.status === 404) {
-                    reject(new Error(`NetID '${netid}' not verified: '${error.response.data.message}'`));
+                    reject(new Error(`Could not verify NetID '${netid}'`));
                 }
                 reject(error);
             });

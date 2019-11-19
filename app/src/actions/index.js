@@ -301,24 +301,6 @@ export function signupUser(NetID, password, grad, history) {
   }));
 }
 
-// export function signupUser(email, password, firstName, lastName, college, grad, history) {
-//   const fields = {
-//     email, password, firstName, lastName, college, grad,
-//   };
-//   return dispatch => new Promise(((resolve, reject) => {
-//     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-//       localStorage.setItem('token', response.data.token);
-//       dispatch({ type: ActionTypes.AUTH_USER });
-//       history.push('/');
-//       resolve();
-//     }).catch((error) => {
-//       console.log(error);
-//       dispatch(authError(`Sign Up Failed: ${error.response.data}`));
-//       reject();
-//     });
-//   }));
-// }
-
 /**
  * Sends a sign-out request to the API and deauthenticates them with the redux store
  * @export
