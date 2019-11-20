@@ -1,10 +1,10 @@
 import mongoose, { Schema } from 'mongoose';
 
 const AuthSchema = new Schema({
-    code: String,
-    timeout: Number,
-    name: String,
-    email: String,
+    code: { type: String, required: true },
+    timeout: { type: Number, required: true },
+    name: { type: String, required: true },
+    email: { type: String, required: true },
 });
 
 const AuthModel = mongoose.model('Auth', AuthSchema);

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { signupUser, validateAccessCode } from '../../actions';
+import { signupUser, validateAccessCode, checkUserByEmail } from '../../actions';
 import { emailCheckRegex } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
 import './signUp.scss';
 
-const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode })((props) => {
+const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, checkUserByEmail })((props) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [college, setCollege] = useState('');
