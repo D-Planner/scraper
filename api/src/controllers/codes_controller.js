@@ -52,7 +52,7 @@ const verifyAccessCode = (req, res) => {
                         res.send({ token: tokenForUser(user) });
                     });
                 } else {
-                    res.status(400).send('Code has no associated email: please contact code provider');
+                    res.status(400).send('Couldn\t verify email with code: please contact code provider');
                 }
             }).catch((error) => {
                 console.log(error);

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { signinUser, validateAccessCode } from '../../actions';
 import { emailCheckRegex } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
+import { advancedTesterFormLink } from '../signUp';
 
 const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })((props) => {
   const [email, setEmail] = useState('');
@@ -18,6 +19,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
     } else if (!emailCheckRegex.test(email)) {
       setErrorMessage('Invalid email address');
     } else {
+      setErrorMessage(null);
       props.signinUser({ email, password }, props.history).catch((error) => {
         if (error.response.data === 'Unauthorized') {
           setErrorMessage('Email and password combination not recognized');
@@ -34,6 +36,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
     if (accessCode === '') {
       setErrorMessage('Please fill all required fields! (*)');
     } else {
+      setErrorMessage(null);
       props.validateAccessCode(accessCode, props.history).catch((error) => {
         setErrorMessage(error.response.data);
       });
@@ -50,7 +53,9 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
     return (
       <div className="formContainer">
         <div className="greeting">Join D-Planner today.</div>
-        <div className="spacer">Thank you for signing up! D-Planner has not been released yet, but fear not release is coming! If you have an access code, you can enter it here.</div>
+        <div className="spacer">Thank you for signing up! You have been placed on the waitlist for early access, and we will notify you when we go live.</div>
+        <div className="spacer"> If you are a D-Planner advanced tester and have been given an access code, please enter it in the form below.</div>
+        <div className="spacer"> If you would like to apply to become a D-Planner advanced tester, <a href={advancedTesterFormLink}>follow this link.</a></div>
         <div className="row" />
         <div className="row">
           <input id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
@@ -70,7 +75,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
       <div className="formContainer">
         <form>
           <div className="greeting">Welcome back.</div>
-          <div className="spacer" />
+          <div className="spacer">We are in pre-release, you will be able to access the D-Planner platform soon!</div>
           <div className="row">
             <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} required />
           </div>
