@@ -46,7 +46,6 @@ const verifyAccessCode = (req, res) => {
             }
             User.findOne({ email: code.email }).then((user) => {
                 if (user) {
-                    console.log(user);
                     user.accessGranted = true;
                     user.save().then((savedUser) => {
                         code.remove();
