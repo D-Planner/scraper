@@ -15,6 +15,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode })(
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
   const [accessCode, setAccessCode] = useState('');
+  const [signedIn, setSignedIn] = useState(false);
 
   const signup = () => {
     if (email === '' || grad === '' || password === '' || college === '') {
@@ -22,7 +23,9 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode })(
     } else if (!emailCheckRegex.test(email)) {
       setErrorMessage('Invalid email address');
     } else {
-      props.signupUser(email, password, firstName, lastName, college, grad, props.history).catch((error) => {
+      props.signupUser(email, password, firstName, lastName, college, grad, props.history).then(() => {
+        setSignedIn(true);
+      }).catch((error) => {
         setErrorMessage(error.response.data);
       });
     }
@@ -44,7 +47,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode })(
     }
   };
 
-  if (true) {
+  if (signedIn) {
     return (
       <div className="formContainer">
         <div className="greeting">Join D-Planner today.</div>
