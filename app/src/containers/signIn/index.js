@@ -44,6 +44,7 @@ const SignInForm = withRouter(connect(null, { signinUser })((props) => {
         <div className="row">
           <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} required />
         </div>
+        <a className="homepage-pass-reset" href="/reset/pass">Forgot password?</a>
         <ErrorMessageSpacer errorMessage={errorMessage} />
         <button type="button" className="sign-in" onClick={signin}>
           <div className="button-cover"><div className="button-text">Sign In</div></div>

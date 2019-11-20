@@ -40,12 +40,12 @@ const verifyAccessCode = (req, res) => {
         if (code) {
             if (code.timeout - Date.now() < 0) {
                 code.remove();
-                res.status(403).send({ authenticated: false, message: 'Code timed out' });
+                res.status(403).send('Code timed out');
             }
             code.remove();
-            res.send({ authenticated: true, message: 'Code authenticated' });
+            res.send('Code authenticated');
         } else {
-            res.status(401).send({ authenticated: false, message: 'Invalid code' });
+            res.status(401).send('Invalid code');
         }
     }).catch((error) => {
         res.json({ error });
