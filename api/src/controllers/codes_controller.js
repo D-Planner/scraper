@@ -1,5 +1,5 @@
 import rand from 'generate-key';
-import { tokenForUser } from '../controllers/user_controller';
+import { tokenForUser } from './user_controller';
 import Auth from '../models/auth';
 import User from '../models/user';
 

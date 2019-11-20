@@ -2,19 +2,19 @@ import { Router } from 'express';
 import * as UserController from '../controllers/user_controller';
 import { requireSignin, requireAuth } from '../authentication/init';
 import VerifyController from '../controllers/verify_controller';
-import AuthController from '../controllers/auth_controller';
+import CodesController from '../controllers/codes_controller';
 
 const authRouter = Router();
 
 // Work with auth codes
 authRouter.route('/code/all')
-    .get(AuthController.getAccessCodes)
-    .delete(AuthController.removeAccessCodes);
+    .get(CodesController.getAccessCodes)
+    .delete(CodesController.removeAccessCodes);
 
 authRouter.route('/code')
-    .get(AuthController.verifyAccessCode)
-    .post(AuthController.generateAccessCode)
-    .delete(AuthController.removeAccessCode);
+    .get(CodesController.verifyAccessCode)
+    .post(CodesController.generateAccessCode)
+    .delete(CodesController.removeAccessCode);
 
 /**
  * @api {post} /auth/signin Sign In
