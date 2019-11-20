@@ -90,7 +90,6 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
           <div className="row">
             <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
           </div>
-          {/* <div className="spacer">{errorMessage}</div> */}
           <ErrorMessageSpacer errorMessage={errorMessage} />
           <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
           <div className="spacer" />

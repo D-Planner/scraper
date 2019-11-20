@@ -19,7 +19,6 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
       setErrorMessage('Invalid email address');
     } else {
       props.signinUser({ email, password }, props.history).catch((error) => {
-        console.log(error.response.data);
         if (error.response.data === 'Unauthorized') {
           setErrorMessage('Email and password combination not recognized');
         } else if (error.response.status === 403) {
@@ -32,7 +31,6 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
   };
 
   const sendAccessCode = () => {
-    console.log('sending code');
     if (accessCode === '') {
       setErrorMessage('Please fill all required fields! (*)');
     } else {

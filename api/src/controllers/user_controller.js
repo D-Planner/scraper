@@ -17,10 +17,9 @@ export const checkUserByEmail = (req, res) => {
 };
 
 export const signin = (req, res, next) => {
-    console.log(req.user);
     if (req.user.accessGranted === false) {
         // Pre-release signup
-        res.status(403).send('Account not yet authorized');
+        res.status(403).send('Account not yet authorized: pre-release sign up');
     } else {
         // Authorized user
         const json = req.user.toJSON();
