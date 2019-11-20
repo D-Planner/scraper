@@ -51,7 +51,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
     return (
       <div className="formContainer">
         <div className="greeting">Join D-Planner today.</div>
-        <div className="spacer" />
+        <div className="spacer">Thank you for signing up! D-Planner has not been released yet, but fear not release is coming! If you have an access code, you can enter it here.</div>
         <div className="row" />
         <div className="row">
           <input id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
