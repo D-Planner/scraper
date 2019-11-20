@@ -43,7 +43,8 @@ $white: #FFFFFF;
         border: 1px solid $gray-5;
         border-radius: 12px;
     
-        &:focus {
+        &:hover {
+            cursor: pointer;
             border: 1.5px solid $blue-primary;
         }
     }
@@ -52,6 +53,15 @@ $white: #FFFFFF;
         margin: 10px 0px;
         text-align: center;
         border: none;
+
+        a {
+          color: $blue-primary;
+          text-decoration: underline;
+
+          &:hover {
+            color: lighten($color: $blue-primary, $amount: 15%)
+          }
+        }
     }
 
     
