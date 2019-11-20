@@ -1,5 +1,7 @@
 import rand from 'generate-key';
+import { tokenForUser } from '../controllers/user_controller';
 import Auth from '../models/auth';
+import User from '../models/user';
 
 const accessCodeKey = 'E193D58E186DD1E567E4BEE6BFE32';
 const accessCodeLength = 8;
@@ -42,10 +44,23 @@ const verifyAccessCode = (req, res) => {
                 code.remove();
                 res.status(403).send('Code timed out');
             }
-            code.remove();
-            res.send('Code authenticated');
+            User.findOne({ email: code.email }).then((user) => {
+                if (user) {
+                    console.log(user);
+                    user.accessGranted = true;
+                    user.save().then((savedUser) => {
+                        code.remove();
+                        res.send({ token: tokenForUser(user) });
+                    });
+                } else {
+                    res.status(400).send('Code has no associated email: please contact code provider');
+                }
+            }).catch((error) => {
+                console.log(error);
+                res.status(500).json('Could not authenticate user');
+            });
         } else {
-            res.status(401).send('Invalid code');
+            res.status(401).send('Invalid authentication code');
         }
     }).catch((error) => {
         res.json({ error });
