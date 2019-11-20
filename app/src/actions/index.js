@@ -288,7 +288,7 @@ export function signupUser(NetID, password, grad, history) {
   };
   return dispatch => new Promise(((resolve, reject) => {
     // axios.post(`${ROOT_URL}/authorize`, fields).then((response) => {
-    axios.post(`${ROOT_URL}/auth/cas`, fields).then((response) => {
+    axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
       localStorage.setItem('token', response.data.token);
       console.log(localStorage.getItem('token'));
       dispatch({ type: ActionTypes.AUTH_USER });

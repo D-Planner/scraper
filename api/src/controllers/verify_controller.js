@@ -184,6 +184,15 @@ const getUserByKey = (req, res) => {
     });
 };
 
+/**
+ * Sends token to user from frontend
+ * @param {*} req
+ * @param {*} res
+ */
+const getToken = (req, res) => {
+    res.send('test message');
+};
+
 const VerifyController = {
     verifyEmail,
     sendVerifyEmail,
@@ -192,6 +201,7 @@ const VerifyController = {
     resetPass,
     resetPassByEmail,
     getUserByKey,
+    getToken,
 };
 
 export default VerifyController;

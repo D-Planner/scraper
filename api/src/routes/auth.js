@@ -142,4 +142,7 @@ authRouter.post('/verify/pass/reset', VerifyController.resetPass);
 // Send password reset email
 authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
 
+// Send user token to frontend
+authRouter.get('/verify/token', VerifyController.getToken);
+
 export default authRouter;

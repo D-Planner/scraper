@@ -20,7 +20,7 @@ export const signinheadless = (req, res, next) => {
 
 // Verify netID with Dartmouth
 const verifyUserCAS = (netID) => {
-// Get JWT key form Dartmouth API
+    // Get JWT key form Dartmouth API
     return new Promise((resolve, reject) => {
         axios.post('https://api.dartmouth.edu/api/jwt?scope=urn', {}, { headers: { Authorization: process.env.DARTMOUTH_API_KEY } })
             .then((response) => {
@@ -41,56 +41,47 @@ const verifyUserCAS = (netID) => {
     });
 };
 
-export const signup = (netid, password, gradYear) => {
-    return new Promise((resolve, reject) => {
-        // TODO: Generate email, college, fullname
+export const signup = (req, res) => {
+    // TODO: Generate email, college, fullname from DUO
+    verifyUserCAS(req.body.NetID)
+        .then((response) => {
+            User.findOne({ netID: response }).then((user) => {
+                if (user) {
+                    res.status(403).send(`NetID '${response}' already associated with user`);
+                } else {
+                    const newUser = new User({
+                        email: `${response}@dartmouth.edu`,
+                        password: req.body.password,
+                        netID: response,
 
-        verifyUserCAS(netid)
-            .then((response) => {
-                User.findOne({ netID: response }).then((user) => {
-                    if (user) {
-                        reject(new Error(`NetID '${response}' already associated with user`));
-                    } else {
-                        const newUser = new User({
-                            email: `${response}@dartmouth.edu`,
-                            password,
-                            netID: response,
+                        // TODO: Connect these to CAS
 
-                            // TODO: COnnect these to CAS
+                        // university: college,
+                        // first_name: fullName.split(' ')[0],
+                        // last_name: fullName.split(' ')[2],
+                        graduationYear: req.body.grad,
+                    });
 
-                            // university: college,
-                            // first_name: fullName.split(' ')[0],
-                            // last_name: fullName.split(' ')[2],
-                            graduationYear: gradYear,
-                        });
-
-                        // if (user) {
-                        //     const json = user.toJSON();
-                        //     delete json.password;
-                        //     resolve({ token: tokenForUser(user), user: json });
-                        // }
-
-                        newUser.save().then((savedUser) => {
-                            const json = savedUser.toJSON();
-                            delete json.password;
-                            resolve({ token: tokenForUser(savedUser), user: json });
-                        }).catch((error) => {
-                            reject(error);
-                        });
-                    }
-                }).catch((error) => {
-                    if (error.response.status === 404) {
-                        reject(new Error(`Could not verify NetID '${netid}'`));
-                    }
-                    reject(error);
-                });
+                    newUser.save().then((savedUser) => {
+                        const json = savedUser.toJSON();
+                        delete json.password;
+                        res.send({ token: tokenForUser(savedUser), user: json });
+                    }).catch((error) => {
+                        res.send(error.message);
+                    });
+                }
             }).catch((error) => {
                 if (error.response.status === 404) {
-                    reject(new Error(`Could not verify NetID '${netid}'`));
+                    res.status(403).send(`Could not verify NetID '${req.body.NetID}'`);
                 }
-                reject(error);
+                res.send(error.message);
             });
-    });
+        }).catch((error) => {
+            if (error.response.status === 404) {
+                res.status(403).send(`Could not verify NetID '${req.body.NetID}'`);
+            }
+            res.send(error.message);
+        });
 
 // 🚀 TODO:
 // here you should do a mongo query to find if a user already exists with this email.
@@ -171,7 +162,7 @@ export const deleteUser = (req, res) => {
         })
         .catch((error) => {
             console.error(error);
-            res.send(error);
+            res.send(error.message);
         });
 };
 

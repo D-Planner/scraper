@@ -63,11 +63,7 @@ class App extends Component {
                 <Switch>
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
-                  <Route path="/token/:id" component={setAuth('/')} />
-                  {/* <Route path="/signup" component={signUp} />
-                <Route path="/signin" component={signIn} /> */}
-                  {/* <Route path="/plan/:id" component={DPlan} /> */}
-                  {/* This Was Discover */}
+                  <Route path="/token" component={setAuth('/')} />
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />
