@@ -1,11 +1,11 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/593",
-			"layup_id": 593,
-			"title": "COGS011.02: Representation and the Brain",
+			"layup_url": "https://www.layuplist.com/course/598",
+			"layup_id": 598,
+			"title": "COGS087: Honors Thesis",
 			"department": "COGS",
-			"offered": false,
+			"offered": true,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -23,9 +23,46 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/598",
-			"layup_id": 598,
-			"title": "COGS087: Honors Thesis",
+			"layup_url": "https://www.layuplist.com/course/3143",
+			"layup_id": 3143,
+			"title": "COGS021: Introduction to Computational Neuroscience",
+			"department": "COGS",
+			"offered": false,
+			"distribs": [
+				"SCI"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/592",
+			"layup_id": 592,
+			"title": "COGS011.01: Philosophy and Cognitive Science",
+			"department": "COGS",
+			"offered": false,
+			"distribs": [
+				"TAS"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/596",
+			"layup_id": 596,
+			"title": "COGS085: Independent Study and Research",
+			"department": "COGS",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/593",
+			"layup_id": 593,
+			"title": "COGS011.02: Representation and the Brain",
 			"department": "COGS",
 			"offered": false,
 			"distribs": null,
@@ -41,42 +78,31 @@
 			"offered": false,
 			"distribs": null,
 			"total_reviews": 2,
-			"quality_score": 1,
-			"layup_score": -4
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4349",
-			"layup_id": 4349,
-			"title": "COGS050.01: Philosophy and Neuroscience of Animal Minds",
-			"department": "COGS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
+			"quality_score": 2,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3143",
-			"layup_id": 3143,
-			"title": "COGS021: Introduction to Computational Neuroscience",
+			"layup_url": "https://www.layuplist.com/course/4540",
+			"layup_id": 4540,
+			"title": "COGS025: Philosophy of Cognitive Science",
 			"department": "COGS",
 			"offered": true,
 			"distribs": [
-				"SCI"
+				"TAS"
 			],
 			"total_reviews": 0,
-			"quality_score": 1,
+			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3301",
-			"layup_id": 3301,
-			"title": "COGS050: Topics in Cognitive Science",
+			"layup_url": "https://www.layuplist.com/course/3302",
+			"layup_id": 3302,
+			"title": "COGS080: Major Seminar in Cognitive Science",
 			"department": "COGS",
 			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
-			"quality_score": 0,
+			"quality_score": 1,
 			"layup_score": 0
 		},
 		{
@@ -84,34 +110,10 @@
 			"layup_id": 594,
 			"title": "COGS026: Philosophy and Computers",
 			"department": "COGS",
-			"offered": true,
-			"distribs": [
-				"TAS"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/592",
-			"layup_id": 592,
-			"title": "COGS011.01: Philosophy and Cognitive Science",
-			"department": "COGS",
 			"offered": false,
 			"distribs": [
 				"TAS"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/596",
-			"layup_id": 596,
-			"title": "COGS085: Independent Study and Research",
-			"department": "COGS",
-			"offered": false,
-			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -130,25 +132,23 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3302",
-			"layup_id": 3302,
-			"title": "COGS080: Major Seminar in Cognitive Science",
+			"layup_url": "https://www.layuplist.com/course/5056",
+			"layup_id": 5056,
+			"title": "COGS050.02: The Philosophy and Cognitive Science of Consciousness",
 			"department": "COGS",
-			"offered": true,
+			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4540",
-			"layup_id": 4540,
-			"title": "COGS025: Philosophy of Cognitive Science",
+			"layup_url": "https://www.layuplist.com/course/5057",
+			"layup_id": 5057,
+			"title": "COGS050.04: Theories of Consciousness",
 			"department": "COGS",
 			"offered": false,
-			"distribs": [
-				"TAS"
-			],
+			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -163,8 +163,30 @@
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4349",
+			"layup_id": 4349,
+			"title": "COGS050.01: Philosophy and Neuroscience of Animal Minds",
+			"department": "COGS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3301",
+			"layup_id": 3301,
+			"title": "COGS050: Topics in Cognitive Science",
+			"department": "COGS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 22:56:52",
-	"total": 14
+	"updated": "2019-11-20 20:48:04",
+	"total": 16
 }
