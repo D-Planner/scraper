@@ -57,6 +57,7 @@ class Dashboard extends React.Component {
 
   createNewPlan(name) {
     const terms = ['F', 'W', 'S', 'X'];
+    this.setState({ loadingPlans: true });
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
       let currQuarter = -1;
@@ -68,7 +69,9 @@ class Dashboard extends React.Component {
         }),
         name,
       }, this.props.setCurrentPlan).then(() => {
-        this.props.fetchPlans();
+        this.props.fetchPlans().then(() => {
+          this.setState({ loadingPlans: false });
+        });
       });
     });
   }

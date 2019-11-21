@@ -11,7 +11,7 @@ const Plans = ({
   const maxedPlans = (plans.length >= 10);
   return (
     <div className="plans">
-      {loading === false ? plans.map((plan) => {
+      {plans.map((plan) => {
         if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
           return (
             <div role="presentation" onClick={() => checkGoToPlan(plan, currentPlan, goToPlan)} key={plan.id} className="plan current">
@@ -25,13 +25,8 @@ const Plans = ({
             </div>
           );
         }
-      })
-        : (
-          <div role="presentation" className="plan">
-            {renderLoading(active)}
-          </div>
-        )
-      }
+      })}
+      {loading === true ? <div role="presentation" className="plan">{renderLoading(active)}</div> : null}
       {renderNewPlanButton(showDialog, active, maxedPlans)}
     </div>
   );
