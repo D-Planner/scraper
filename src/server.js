@@ -112,11 +112,15 @@ app.use('/globals', requireAuth, globalRouter);
 
 // These cannot be used in production, or will need our own special Authorization
 app.get('/reset', (req, res) => {
-    resetDB().then(() => {
-        res.send('database reset');
-    }).catch((error) => {
-        res.status(500).send({ error });
-    });
+    if (req.headers.key === 'planthed') {
+        resetDB().then(() => {
+            res.send('database reset');
+        }).catch((error) => {
+            res.status(500).send({ error });
+        });
+    } else {
+        res.status(403).send('not authorized');
+    }
 });
 
 // custom middleware for 404 errors
