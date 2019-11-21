@@ -13,10 +13,15 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
-import TooSmall from './tooSmall';
+import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
 import Loading from './loading';
 // import FlowChart from './flowchart';
+import ForgotPassword from './forgotPassword';
+import VerifyEmail from './verifyEmail';
+import ResetPassword from './resetPass';
+import PrivacyPolicy from './policies/privacy';
+import TermsAndConditions from './policies/terms_conditions';
 
 
 class App extends Component {
@@ -34,8 +39,8 @@ class App extends Component {
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
     window.addEventListener('focus', (e) => {
-      console.log('focus changed - APP');
-      console.log(e.target);
+      // console.log('focus changed - APP');
+      // console.log(e.target);
     }, true);
   }
 
@@ -50,7 +55,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.width >= 500 && this.state.height >= 700) {
+    if (this.state.width >= minWidth && this.state.height >= minHeight) {
       return (
         <div>
           <Router>
@@ -63,11 +68,16 @@ class App extends Component {
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}
                   {/* <Route path="/plan/:id" component={DPlan} /> */}
-                  {/* This Was Discoer */}
+                  {/* This Was Discover */}
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />
                   <Route path="/credits" component={Credits} />
+                  <Route path="/email/:key" component={VerifyEmail} />
+                  <Route path="/pass/:key" component={ResetPassword} />
+                  <Route path="/reset/pass" component={ForgotPassword} />
+                  <Route path="/policies/termsandconditions" component={TermsAndConditions} />
+                  <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                   <Route component={FallBack} />
                 </Switch>
               </div>

@@ -5,7 +5,7 @@ $off-white: #F9F9F9;
 $white: #FFFFFF;
 
 .formContainer {
-    width: 300px;
+    width: 400px;
 
     form {
         align-self: center;
@@ -39,7 +39,7 @@ $white: #FFFFFF;
         }
     
         .spacer {
-            height: 20px;
+            margin: 10px 0px;
             border: none;
         }
     
@@ -51,6 +51,10 @@ $white: #FFFFFF;
             * {
                 margin: 5px;
                 flex: 1;
+            }
+
+            &.input:invalid {
+              color: $error;
             }
         }
 
@@ -68,6 +72,7 @@ $white: #FFFFFF;
             width: $button-width;
             display: flex;
             justify-content: center;
+            align-items: center;
             background: $gradient;
             height: $button-height;
             border-radius: $button-border-radius;
