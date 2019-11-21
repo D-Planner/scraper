@@ -1,17 +1,6 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/1948",
-			"layup_id": 1948,
-			"title": "LATS007: First Year Seminar in Latino Studies",
-			"department": "LATS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 2,
-			"quality_score": 1,
-			"layup_score": 1
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/1955",
 			"layup_id": 1955,
 			"title": "LATS099: Honors Thesis II",
@@ -20,21 +9,21 @@
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1950",
-			"layup_id": 1950,
-			"title": "LATS040: Immigration, Race and Ethnicity",
+			"layup_url": "https://www.layuplist.com/course/5133",
+			"layup_id": 5133,
+			"title": "LATS007.02: Latinxs in Media \u0026 Arts",
 			"department": "LATS",
-			"offered": false,
+			"offered": true,
 			"distribs": [
-				"SOC",
+				"ART",
 				"CI"
 			],
 			"total_reviews": 0,
-			"quality_score": 2,
-			"layup_score": -2
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/1947",
@@ -48,21 +37,82 @@
 			],
 			"total_reviews": 3,
 			"quality_score": 2,
-			"layup_score": 3
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3804",
+			"layup_id": 3804,
+			"title": "LATS037: Migrant Lives and Labor in the Upper Valley: Latinx Studies for Community Engagement",
+			"department": "LATS",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5069",
+			"layup_id": 5069,
+			"title": "LATS017: The Latinx Nineteenth Century",
+			"department": "LATS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1952",
+			"layup_id": 1952,
+			"title": "LATS051: Beyond Sex, Drugs, Rock and Roll: Radical Latinos in the 60’s",
+			"department": "LATS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 1,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4531",
+			"layup_id": 4531,
+			"title": "LATS070: Race \u0026 Politics in the U.S.",
+			"department": "LATS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3748",
+			"layup_id": 3748,
+			"title": "LATS046: Politics of Latin@Ethnography",
+			"department": "LATS",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/1946",
 			"layup_id": 1946,
 			"title": "LATS003: Introduction to Latino Studies",
 			"department": "LATS",
-			"offered": true,
+			"offered": false,
 			"distribs": [
 				"SOC",
 				"CI"
 			],
 			"total_reviews": 0,
-			"quality_score": 2,
-			"layup_score": 2
+			"quality_score": 3,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/3543",
@@ -79,37 +129,18 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4530",
-			"layup_id": 4530,
-			"title": "LATS054: Immigration Policy in the U.S.",
+			"layup_url": "https://www.layuplist.com/course/4527",
+			"layup_id": 4527,
+			"title": "LATS020: Latino/a Social Movements",
 			"department": "LATS",
 			"offered": false,
-			"distribs": null,
+			"distribs": [
+				"SOC",
+				"W"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4531",
-			"layup_id": 4531,
-			"title": "LATS070: Race \u0026 Politics in the U.S.",
-			"department": "LATS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1953",
-			"layup_id": 1953,
-			"title": "LATS089: Independent Study",
-			"department": "LATS",
-			"offered": true,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 2
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/4532",
@@ -126,15 +157,89 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1952",
-			"layup_id": 1952,
-			"title": "LATS051: Beyond Sex, Drugs, Rock and Roll: Radical Latinos in the 60’s",
+			"layup_url": "https://www.layuplist.com/course/3179",
+			"layup_id": 3179,
+			"title": "LATS011: PerformActivism in the Américas",
+			"department": "LATS",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1950",
+			"layup_id": 1950,
+			"title": "LATS040: Immigration, Race and Ethnicity",
+			"department": "LATS",
+			"offered": true,
+			"distribs": [
+				"SOC",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 2,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1953",
+			"layup_id": 1953,
+			"title": "LATS089: Independent Study",
+			"department": "LATS",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4530",
+			"layup_id": 4530,
+			"title": "LATS054: Immigration Policy in the U.S.",
 			"department": "LATS",
 			"offered": false,
 			"distribs": null,
-			"total_reviews": 1,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4114",
+			"layup_id": 4114,
+			"title": "LATS012: Latinx Art and Activist Print Media",
+			"department": "LATS",
+			"offered": false,
+			"distribs": [
+				"ART",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4528",
+			"layup_id": 4528,
+			"title": "LATS021: The Power of Latinx in U.S. Politics",
+			"department": "LATS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1948",
+			"layup_id": 1948,
+			"title": "LATS007: First Year Seminar in Latino Studies",
+			"department": "LATS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 2,
 			"quality_score": 1,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/1954",
@@ -145,7 +250,7 @@
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/3473",
@@ -170,47 +275,8 @@
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 6,
-			"quality_score": 4,
-			"layup_score": 4
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3747",
-			"layup_id": 3747,
-			"title": "LATS045: Comparative Perspectives on the US-Mexican Borderlands",
-			"department": "LATS",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"CI"
-			],
-			"total_reviews": 1,
-			"quality_score": 1,
-			"layup_score": 2
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3748",
-			"layup_id": 3748,
-			"title": "LATS046: Politics of Latin@Ethnography",
-			"department": "LATS",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"CI"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4528",
-			"layup_id": 4528,
-			"title": "LATS021: The Power of Latinx in U.S. Politics",
-			"department": "LATS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 7,
+			"quality_score": 5,
 			"layup_score": 0
 		},
 		{
@@ -228,43 +294,18 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4114",
-			"layup_id": 4114,
-			"title": "LATS012: Latinx Art and Activist Print Media",
-			"department": "LATS",
-			"offered": false,
-			"distribs": [
-				"ART",
-				"CI"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4527",
-			"layup_id": 4527,
-			"title": "LATS020: Latino/a Social Movements",
+			"layup_url": "https://www.layuplist.com/course/3747",
+			"layup_id": 3747,
+			"title": "LATS045: Comparative Perspectives on the US-Mexican Borderlands",
 			"department": "LATS",
 			"offered": false,
 			"distribs": [
 				"SOC",
-				"W"
+				"CI"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 1,
+			"quality_score": 1,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1949",
-			"layup_id": 1949,
-			"title": "LATS035: Topics Course in Latino Studies",
-			"department": "LATS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/3787",
@@ -279,36 +320,20 @@
 			],
 			"total_reviews": 0,
 			"quality_score": -1,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3179",
-			"layup_id": 3179,
-			"title": "LATS011: PerformActivism in the Américas",
-			"department": "LATS",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3804",
-			"layup_id": 3804,
-			"title": "LATS037: Migrant Lives and Labor in the Upper Valley: Latinx Studies for Community Engagement",
+			"layup_url": "https://www.layuplist.com/course/1949",
+			"layup_id": 1949,
+			"title": "LATS035: Topics Course in Latino Studies",
 			"department": "LATS",
 			"offered": false,
-			"distribs": [
-				"SOC",
-				"W"
-			],
+			"distribs": null,
 			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 1
+			"quality_score": 0,
+			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 22:57:24",
-	"total": 24
+	"updated": "2019-11-20 20:53:55",
+	"total": 26
 }
