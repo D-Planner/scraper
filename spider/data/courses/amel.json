@@ -1,23 +1,23 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/3516",
-			"layup_id": 3516,
-			"title": "AMEL007.01: Jerusalem: Vision \u0026 Reality",
+			"layup_url": "https://www.layuplist.com/course/4121",
+			"layup_id": 4121,
+			"title": "AMEL007.05: Arab Revolutions",
 			"department": "AMEL",
 			"offered": false,
 			"distribs": [
-				"NW",
-				"LIT"
+				"INT",
+				"NW"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3379",
-			"layup_id": 3379,
-			"title": "AMEL007: First-Year Seminars in Asian and Middle Eastern Languages and Literatures",
+			"layup_url": "https://www.layuplist.com/course/3026",
+			"layup_id": 3026,
+			"title": "AMEL085: Independent Research",
 			"department": "AMEL",
 			"offered": false,
 			"distribs": null,
@@ -26,13 +26,13 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4121",
-			"layup_id": 4121,
-			"title": "AMEL007.05: Arab Revolutions",
+			"layup_url": "https://www.layuplist.com/course/3516",
+			"layup_id": 3516,
+			"title": "AMEL007.01: Jerusalem: Vision \u0026 Reality",
 			"department": "AMEL",
 			"offered": false,
 			"distribs": [
-				"INT",
+				"LIT",
 				"NW"
 			],
 			"total_reviews": 0,
@@ -51,9 +51,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3026",
-			"layup_id": 3026,
-			"title": "AMEL085: Independent Research",
+			"layup_url": "https://www.layuplist.com/course/3379",
+			"layup_id": 3379,
+			"title": "AMEL007: First-Year Seminars in Asian and Middle Eastern Languages and Literatures",
 			"department": "AMEL",
 			"offered": false,
 			"distribs": null,
@@ -92,6 +92,6 @@
 			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 22:56:17",
+	"updated": "2019-11-20 20:45:18",
 	"total": 7
 }
