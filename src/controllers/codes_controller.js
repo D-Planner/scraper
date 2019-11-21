@@ -13,7 +13,7 @@ const generateAccessCode = (req, res) => {
     if (req.headers.key === accessCodeKey) {
         const newAuth = new Auth({
             code: rand.generateKey(accessCodeLength),
-            timeout: Date.now() + timeoutDuration,
+            timeout: Date.now() + (req.body.duration || timeoutDuration),
             name: req.body.name,
             email: req.body.email,
         });
@@ -49,7 +49,7 @@ const verifyAccessCode = (req, res) => {
                     user.accessGranted = true;
                     user.save().then((savedUser) => {
                         code.remove();
-                        res.send({ token: tokenForUser(user) });
+                        res.send({ token: tokenForUser(savedUser) });
                     });
                 } else {
                     res.status(400).send('Couldn\t verify email with code: please contact code provider');
