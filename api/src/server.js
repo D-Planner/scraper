@@ -73,20 +73,18 @@ const resetDB = () => {
             mongoose.connection.close(() => {
                 mongoose.connect(mongoURI).then(() => {
                     CoursesController.createCourse().then(() => {
-                        CoursesController.createCourse().then(() => {
-                            const newUser = new UserModel({
-                                email: 'a@a.com',
-                                password: 'a',
-                                firstName: 'D',
-                                lastName: 'Planner',
-                                university: 'Dartmouth',
-                                graduationYear: 2023,
-                                emailVerified: true,
-                                accessGranted: true,
-                            });
-                            newUser.save().then(() => {
-                                resolve();
-                            });
+                        const newUser = new UserModel({
+                            email: 'a@a.com',
+                            password: 'a',
+                            firstName: 'D',
+                            lastName: 'Planner',
+                            university: 'Dartmouth',
+                            graduationYear: 2023,
+                            emailVerified: true,
+                            accessGranted: true,
+                        });
+                        newUser.save().then(() => {
+                            resolve();
                         });
                     });
                 }).catch(() => {
