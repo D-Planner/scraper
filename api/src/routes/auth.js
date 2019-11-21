@@ -2,8 +2,19 @@ import { Router } from 'express';
 import * as UserController from '../controllers/user_controller';
 import { requireSignin, requireAuth } from '../authentication/init';
 import VerifyController from '../controllers/verify_controller';
+import CodesController from '../controllers/codes_controller';
 
 const authRouter = Router();
+
+// Work with auth codes
+authRouter.route('/code/all')
+    .get(CodesController.getAccessCodes)
+    .delete(CodesController.removeAccessCodes);
+
+authRouter.route('/code')
+    .get(CodesController.verifyAccessCode)
+    .post(CodesController.generateAccessCode)
+    .delete(CodesController.removeAccessCode);
 
 /**
  * @api {post} /auth/signin Sign In
@@ -93,6 +104,30 @@ authRouter.get('/', requireAuth, UserController.getUser);
 // Delete account
 authRouter.delete('/', requireAuth, UserController.deleteUser);
 
+authRouter.post('/update', requireAuth, UserController.updateUser);
+
+// Does the given email have an associated user?
+authRouter.get('/checkuser', UserController.checkUserByEmail);
+
+// For verifying email against key and for sending verification email, respectively
+authRouter.post('/verify/email', requireAuth, VerifyController.verifyEmail);
+authRouter.post('/verify/email/send', VerifyController.sendVerifyEmail);
+
+// Forgot pasword call, checks for email and sends reset message
+authRouter.post('/verify/pass/byemail', VerifyController.resetPassByEmail);
+
+// Gets user based on URL key
+authRouter.get('/verify/pass/bykey', VerifyController.getUserByKey);
+
+// Is the password reset authorized (are the user and URL keys the same)?
+authRouter.post('/verify/pass', VerifyController.authResetPass);
+
+// Take new password and update User schema
+authRouter.post('/verify/pass/reset', VerifyController.resetPass);
+
+// Send password reset email
+authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
+
 /**
  * @api {get} /auth/:id Get a user by id
  * @apiName GetUserById
@@ -119,26 +154,5 @@ authRouter.delete('/', requireAuth, UserController.deleteUser);
  *          }
  */
 authRouter.get('/:id', requireAuth, UserController.getUser);
-
-authRouter.post('/update', requireAuth, UserController.updateUser);
-
-// For verifying email against key and for sending verification email, respectively
-authRouter.post('/verify/email', requireAuth, VerifyController.verifyEmail);
-authRouter.post('/verify/email/send', VerifyController.sendVerifyEmail);
-
-// Forgot pasword call, checks for email and sends reset message
-authRouter.post('/verify/pass/byemail', VerifyController.resetPassByEmail);
-
-// Gets user based on URL key
-authRouter.get('/verify/pass/bykey', VerifyController.getUserByKey);
-
-// Is the password reset authorized (are the user and URL keys the same)?
-authRouter.post('/verify/pass', VerifyController.authResetPass);
-
-// Take new password and update User schema
-authRouter.post('/verify/pass/reset', VerifyController.resetPass);
-
-// Send password reset email
-authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
 
 export default authRouter;
