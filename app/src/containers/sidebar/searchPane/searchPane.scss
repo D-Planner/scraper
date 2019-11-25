@@ -70,9 +70,10 @@
             color: $text-accent;
             background: none;
             outline: none;
+            margin: 0 auto 0 4%;
 
             &.small {
-              width: 50%;
+              width: 60%;
             }
 
             &::placeholder {

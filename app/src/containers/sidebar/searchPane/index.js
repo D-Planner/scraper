@@ -98,7 +98,7 @@ const SearchPane = React.forwardRef((props, ref) => {
           }}
           ref={ref}
         />
-        {resultsLoading ? <LoadingWheel style={{ outerHeight: '100%' }} /> : null}
+        {resultsLoading ? <LoadingWheel /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
         </button>

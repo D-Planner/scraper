@@ -102,7 +102,7 @@ const renderLoading = (whetherActive) => {
   return (
     // className="loading-plan-container"
     <div role="presentation">
-      <div className="loading-spinner" />
+      <div className="loading-wheel" />
       {whetherActive
         ? null
         // ? <div>Test</div>
@@ -113,7 +113,7 @@ const renderLoading = (whetherActive) => {
   // } else {
   //   return (
   //     <div className="loading-plan-container text">
-  //       <div className="loading-spinner" />
+  //       <div className="loading-wheel" />
   //     </div>
   //   );
   // }
