@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -76,6 +76,8 @@ class ProfileDialog extends Component {
     if (e.target.name === 'email') {
       if (!emailCheckRegex.test(e.target.value)) {
         this.setState({ errorMessage: 'Invalid Email Address' });
+      } else if (checkUserByEmail(e.target.value)) {
+        this.setState({ errorMessage: 'Email already associated to an account' });
       } else {
         this.setState({ errorMessage: null });
         this.newUser.email = e.target.value;
@@ -269,5 +271,5 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
+  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail,
 })(ProfileDialog));
