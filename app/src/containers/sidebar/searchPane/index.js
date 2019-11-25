@@ -8,6 +8,7 @@ import { DialogTypes } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
+import LoadingWheel from '../../../components/loadingWheel';
 import { setFilters, clearFilters } from '../../../actions';
 
 
@@ -28,6 +29,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
   const [offeredNextTerm, setOfferedNextTerm] = useState(false);
+  const [resultsLoading, setResultsLoading] = useState(false);
 
   // Allows a user to search by the query entered in the search input
 
@@ -43,7 +45,12 @@ const SearchPane = React.forwardRef((props, ref) => {
       };
       // console.log(props.resultStamp);
       props.stampIncrement((props.resultStamp + 1));
-      props.search(queryParsed, props.resultStamp);
+      setResultsLoading(true);
+      props.search(queryParsed, props.resultStamp).then(() => {
+        setResultsLoading(false);
+      }).catch((error) => {
+        console.error(error);
+      });
     }
   }, [props.searchQuery, wcs, distribs]);
 
@@ -82,7 +89,7 @@ const SearchPane = React.forwardRef((props, ref) => {
           <img className="search-config-icon" src={arrowDropDown} alt="filter" />
         </button>
         <input type="text"
-          className="search-input"
+          className={`search-input${resultsLoading ? ' small' : ''}`}
           placeholder="Search for courses"
           value={props.searchQuery}
           tabIndex={-1}
@@ -91,6 +98,7 @@ const SearchPane = React.forwardRef((props, ref) => {
           }}
           ref={ref}
         />
+        {resultsLoading ? <LoadingWheel style={{ outerHeight: '100%' }} /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
         </button>

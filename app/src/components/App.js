@@ -63,7 +63,7 @@ class App extends Component {
               <div className="app-container">
                 <Switch>
                   {/* DPlan */}
-                  <Route exact path="/" component={requireAuth(Landing, Loading)} />
+                  <Route exact path="/" component={requireAuth(Landing, DPlan)} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}

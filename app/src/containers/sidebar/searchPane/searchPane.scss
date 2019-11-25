@@ -9,6 +9,8 @@
     }  
 
     .pane-header {
+        display: flex;
+        justify-content: left;
 
         .option-menu {
             z-index: 100;
@@ -19,6 +21,7 @@
             position: absolute;
             right: -100px;
             top: 0px;
+
             &:hover {
                 display: flex;
             }
@@ -67,6 +70,10 @@
             color: $text-accent;
             background: none;
             outline: none;
+
+            &.small {
+              width: 50%;
+            }
 
             &::placeholder {
                 color: $gray-3;
