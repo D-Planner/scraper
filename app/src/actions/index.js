@@ -251,9 +251,10 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch({ type: ActionTypes.AUTH_USER });
-      history.push('/');
+      // localStorage.setItem('token', response.data.token);
+      // Deactivated unless access code given
+      // dispatch({ type: ActionTypes.AUTH_USER });
+      // history.push('/');
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -261,6 +262,31 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
       reject(error);
     });
   }));
+}
+
+// Verifies access code
+export function validateAccessCode(code, history) {
+  return dispatch => new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/auth/code?code=${code}`).then((response) => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      localStorage.setItem('token', response.data.token);
+      history.push('/');
+      resolve('Authenticated');
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+// Does a user exist with the given email?
+export function checkUserByEmail(email) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/auth/checkuser?email=${email}`).then((response) => {
+      resolve(response);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
 }
 
 /**

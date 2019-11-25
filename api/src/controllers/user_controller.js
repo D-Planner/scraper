@@ -3,20 +3,35 @@ import User from '../models/user';
 import Plan from '../models/plan';
 import { PopulateUser } from './populators';
 
+// Does a user exist with the given email?
+export const checkUserByEmail = (req, res) => {
+    User.findOne({ email: req.query.email }).then((user) => {
+        if (user) {
+            res.send(true);
+        } else {
+            res.send(false);
+        }
+    }).catch((error) => {
+        res.send({ error });
+    });
+};
+
 export const signin = (req, res, next) => {
-    const json = req.user.toJSON();
-    delete json.password;
-    res.send({ token: tokenForUser(req.user), user: json });
+    if (req.user.accessGranted === false) {
+        // Pre-release signup
+        res.status(403).send('Account not yet authorized: pre-release sign up');
+    } else {
+        // Authorized user
+        const json = req.user.toJSON();
+        delete json.password;
+        res.send({ token: tokenForUser(req.user), user: json });
+    }
 };
 
 export const signup = (req, res, next) => {
     const {
         email, password, firstName, lastName, college, grad,
     } = req.body;
-
-    // if (!email || !password) {
-    //     return res.status(400).send('You must provide both an email and a password');
-    // }
 
     return User.findOne({ email }).then((user) => {
         if (user) {
@@ -35,6 +50,7 @@ export const signup = (req, res, next) => {
             university: college,
             graduationYear: grad,
             emailVerified: false,
+            accessGranted: false,
         });
 
         return newUser.save().then((savedUser) => {
@@ -133,7 +149,7 @@ export const deleteUser = (req, res) => {
 
 
 // encodes a new token for a user object
-function tokenForUser(user) {
+export function tokenForUser(user) {
     const timestamp = new Date().getTime();
     return jwt.encode({ sub: user.id, iat: timestamp }, process.env.AUTH_SECRET);
 }
