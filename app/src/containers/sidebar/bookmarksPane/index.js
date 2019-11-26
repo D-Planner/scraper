@@ -42,11 +42,12 @@ const component = (props) => {
       {props.active
         ? (
           <div className="bookmarked-courses-list">
-            <select defaultValue={placeholderDept} onChange={e => setPlaceholderDept(e.target.value)}>
-              {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
-            </select>
-            <PlaceholderCourse size="sm" department={placeholderDept} addPlaceholderCourse={props.addPlaceholderCourse} />
-            <br />
+            <div className="row">
+              <select defaultValue={placeholderDept} className="sort-picker" onChange={e => setPlaceholderDept(e.target.value)}>
+                {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
+              </select>
+              <PlaceholderCourse size="sm" department={placeholderDept} addPlaceholderCourse={props.addPlaceholderCourse} />
+            </div>
             {props.bookmarks.map((course, index) => {
               return (
                 <div key={course.id}>
