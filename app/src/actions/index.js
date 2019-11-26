@@ -45,6 +45,8 @@ export const ActionTypes = {
   RESET_PASS: 'RESET_PASS',
   ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
   REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
+  ADD_PLACEHOLDER_COURSE_TO_PLAN: 'ADD_PLACEHOLDER_COURSE_TO_PLAN',
+  REMOVE_PLACEHOLDER_COURSE_FROM_PLAN: 'REMOVE_PLACEHOLDER_COURSE_FROM_PLAN',
 };
 
 export function setPressedKey(key) {
@@ -728,6 +730,36 @@ export function removeCourseFromTerm(userCourse) {
     resolve();
   });
 }
+
+/**
+ *
+ * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} termID the termID that the course should be added to
+ */
+export function addPlaceholderCourse(placeholderCourse, termID) {
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN,
+      payload: { placeholderCourse, termID },
+    });
+  });
+}
+
+/**
+ *
+ * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} termID the termID that the course should be added to
+ */
+export function removePlaceholderCourse(placeholderCourse, termID) {
+  console.log(placeholderCourse, termID);
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
+      payload: { placeholderCourse, termID },
+    });
+  });
+}
+
 
 export function updateTerm(term) {
   return (dispatch) => {
