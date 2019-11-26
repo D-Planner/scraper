@@ -86,7 +86,7 @@ class DPlan extends Component {
     this.props.updateCloseFocus(this.dplanref);
 
     // Prevents locking of plan on resize
-    if (this.state.noPlan === true) this.props.fetchPlan(null);
+    if (this.props.plan !== null) this.state.noPlan = false;
   }
 
   componentDidMount() {
