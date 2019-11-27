@@ -75,9 +75,7 @@ CourseSchema.virtual('avg_median').get(function () {
         const closest = Object.values(LetterToScore).reduce((prev, curr) => {
             return Math.abs(curr - avg) < Math.abs(prev - avg) ? curr : prev;
         });
-        return Object.keys(LetterToScore).find((l) => {
-            return LetterToScore[l] === closest;
-        });
+        return closest;
     } catch (e) {
         return 'N/A';
     }
