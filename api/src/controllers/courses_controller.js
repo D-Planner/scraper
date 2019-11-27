@@ -7,6 +7,7 @@ import courses from '../../static/data/courses.json';
 import departments from '../../static/data/departments.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse, PopulateTerm } from './populators';
+import { Query } from 'mongoose';
 
 
 export const trim = (res) => {
@@ -45,13 +46,14 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    if (query.department || query.number || query.distribs || query.wcs) {
+    if (query.department || query.number || query.distribs || query.wcs || query.offerd) {
         const courseQuery = {
             department: query.department,
             number: query.number ? { $gte: query.number, $lt: parseInt(query.number) + 1 } : { $gte: 0 },
         };
         if (query.distribs) courseQuery.distribs = { $all: query.distribs };
         if (query.wcs) courseQuery.wcs = { $all: query.wcs };
+        if (query.offered === 'true') courseQuery.offered = query.offered;
         Course.find(courseQuery)
             .populate(PopulateCourse)
             .sort({ number: 1 })

@@ -27,7 +27,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   const [sort, setSort] = useState('Sort by alphabet');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
-  const [offeredNextTerm, setOfferedNextTerm] = useState(false);
+  const [offered, setOffered] = useState('');
 
   // Allows a user to search by the query entered in the search input
 
@@ -40,6 +40,7 @@ const SearchPane = React.forwardRef((props, ref) => {
         number: props.searchQuery.split(' ')[1],
         distribs,
         wcs,
+        offered,
       };
       // console.log(props.resultStamp);
       props.stampIncrement((props.resultStamp + 1));
@@ -48,18 +49,18 @@ const SearchPane = React.forwardRef((props, ref) => {
   }, [props.searchQuery, wcs, distribs]);
 
   const useFilters = () => {
+    console.log(props);
     console.log(sort);
     setWC(props.wcs.filter(e => e.checked).map(e => e.name));
     setDistrib(props.distribs.filter(e => e.checked).map(e => e.name));
-    setOfferedNextTerm(props.offeredNextTerm);
-    console.log(offeredNextTerm);
+    setOffered(props.offered.filter(e => e.checked).length > 0);
+    console.log(offered);
   };
 
   const clearCurFilters = () => {
     setWC([]);
     setDistrib([]);
-    setOfferedNextTerm(false);
-    console.log(offeredNextTerm);
+    setOffered([]);
   };
 
   const showFilterDialog = () => {
@@ -135,7 +136,7 @@ const SearchPane = React.forwardRef((props, ref) => {
 const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
-  offeredNextTerm: state.filters.offeredNextTerm,
+  offered: state.filters.offered,
 });
 
 

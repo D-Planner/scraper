@@ -175,15 +175,13 @@ export function setDraggingState(isDragging, course) {
 
 // ----- Filter Setting ----- //
 export function setFilters(filters) {
-  return {
-    type: ActionTypes.SET_FILTERS,
-    payload: filters,
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.setFilters, payload: filters });
   };
 }
 export function clearFilters() {
-  return {
-    type: ActionTypes.CLEAR_FILTERS,
-    payload: null,
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.setFilters, payload: null });
   };
 }
 
