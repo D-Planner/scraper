@@ -47,6 +47,9 @@ const RequirementsPane = (props) => {
       userCourse.course.distribs.forEach((distrib) => {
         GenEds[distrib].fulfilled = true;
       });
+      userCourse.course.wcs.forEach((wc) => {
+        GenEds[wc].fulfilled = true;
+      });
       if (userCourse.course.distribs.length > 1) {
         flexible.push(userCourse);
       } else if (userCourse.course.distribs.length > 0) {
