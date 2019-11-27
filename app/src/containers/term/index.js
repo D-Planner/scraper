@@ -31,13 +31,13 @@ const termTarget = {
           props.removePlaceholderCourse(item.department, item.sourceTerm).then(() => {
             console.log('[TERM.js] Attempting to add a placeholder course');
             props.addPlaceholderCourse(item.department, props.term).then(() => {
-              console.log('[TERM.js] Removed, and readded the course');
+              console.log('[TERM.js] Removed, and readded the Placeholder course');
             });
           });
         } else {
           console.log('[TERM.js] Attempting to add a placeholder course');
-          props.addPlaceholderCourse(item.department, props.term).then((next) => {
-            next();
+          props.addPlaceholderCourse(item.department, props.term).then(() => {
+            console.log('[TERM.js] Added placeholder the term');
           });
         }
       } else if (item.sourceTerm) {
@@ -262,7 +262,7 @@ class Term extends Component {
         {this.props.term.courses.map((course, i) => {
           // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
-            <div className="course-row-with-space" key={course.id}>
+            <div className="course-row-with-space" key={i.toString()}>
               <div className="course-row">
 
                 {(course.placeholder)
