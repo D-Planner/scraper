@@ -6,9 +6,10 @@ const initialState = {
   distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e) => { return { name: e.name, checked: false }; }),
   wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e) => { return { name: e.name, checked: false }; }),
   offered: [''].reduce((acc, cur) => {
-    const returnVal = [];
-    for (let i = 0; i < 15; i += 1) {
-      returnVal.push({ termIndex: i, checked: false });
+    const returnVal = [{ term: 'current', check: false }];
+    const terms = ['F', 'W', 'S', 'X'];
+    for (let i = 0; i < terms.length; i += 1) {
+      returnVal.push({ term: terms[i], checked: false });
     }
     return returnVal;
   }, []),

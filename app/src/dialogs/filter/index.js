@@ -85,15 +85,23 @@ class FilterDialog extends React.Component {
             })}
           </div>
           <div className="filter-offered filter-list">
-            {this.state.offered.map((offered) => {
-              if (this.falttenedTerms()[offered.termIndex].name === `${this.props.currTerm.year}${this.props.currTerm.term}`) {
-                return (
-                  <div className="choice" key={offered.termIndex}>
-                    <div className="choice-label">{`${this.props.currTerm.year}${this.props.currTerm.term}`}</div>
-                    <input className="choice-input" type="checkbox" checked={offered.checked} onChange={() => this.changeState(offered.termIndex, 'offered')} />
-                  </div>
-                );
-              } else return null;
+            {this.state.offered.map((offered, i) => {
+              const currentTermName = () => {
+                switch (offered.term) {
+                  case 'F': return 'Fall';
+                  case 'W': return 'Winter';
+                  case 'S': return 'Spring';
+                  case 'X': return 'Summer';
+                  default: return 'Next Term';
+                }
+              };
+              const currentTerm = (offered.term === 'current');
+              return (
+                <div className="choice" key={offered.termIndex}>
+                  <div className={`choice-label ${currentTerm ? 'bold' : ''}`}>{currentTermName()}</div>
+                  <input className="choice-input" type="checkbox" checked={offered.checked} onChange={() => this.changeState(i, 'offered')} />
+                </div>
+              );
             })}
           </div>
         </div>

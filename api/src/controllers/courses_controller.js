@@ -7,8 +7,6 @@ import courses from '../../static/data/courses.json';
 import departments from '../../static/data/departments.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse, PopulateTerm } from './populators';
-import { Query } from 'mongoose';
-
 
 export const trim = (res) => {
     try {
@@ -53,7 +51,15 @@ const searchCourses = (req, res) => {
         };
         if (query.distribs) courseQuery.distribs = { $all: query.distribs };
         if (query.wcs) courseQuery.wcs = { $all: query.wcs };
-        if (query.offered === 'true') courseQuery.offered = query.offered;
+        if (query.offered) {
+            if (query.offered.includes('current')) {
+                courseQuery.offered = true;
+                query.offered = query.offered.slice(1);
+            }
+            console.log(query.offered);
+            // **** NEED TO EITHER QUERY VIRTUALS, OR MOVE LIKELY_TERMS TO A MODEL OBJECT RATHER THAN VIRTUAL.
+            if (query.offered.length > 0) courseQuery.likely_terms = { $all: query.offered };
+        }
         Course.find(courseQuery)
             .populate(PopulateCourse)
             .sort({ number: 1 })
