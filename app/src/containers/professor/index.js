@@ -26,7 +26,7 @@ class Professor extends React.Component {
     }).then((response) => {
       response.data.reviews = response.data.reviews.map((review) => {
         const term = review.match(/\d{2}['X'|'F'|'W'|'S']/)[0];
-        const course = review.match(/^(.*?):/);
+        const course = review.match(/^[^:]*/);
 
         review = review.substring(review.indexOf(`${response.data.name}:`) + response.data.name.length + 2).toString();
         return { course, term, review };
