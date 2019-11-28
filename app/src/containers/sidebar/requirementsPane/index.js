@@ -138,7 +138,7 @@ const RequirementsPane = (props) => {
               <img className="icon" src={genEd.icon} alt={`${genEd.name} icon`} data-tip data-for={genEd.name} />
               <ReactTooltip id={genEd.name} place="right" type="dark" effect="float">{genEd.fullName}</ReactTooltip>
               {/* <div className="genEd-name">{genEd.fullName}</div> */}
-              <div className="checkbox complete">{genEd.fulfilled ? 'Complete' : 'Incomplete'}</div>
+              <div className={genEd.fulfilled ? 'checkbox complete' : 'checkbox'}>{genEd.fulfilled ? 'Complete' : 'Incomplete'}</div>
               {/* <img className="checkbox" src={genEd.fulfilled ? checkedIcon : uncheckedIcon} alt="checkbox" /> */}
             </div>
           );

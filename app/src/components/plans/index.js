@@ -14,13 +14,13 @@ const Plans = ({
       {plans.map((plan) => {
         if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
           return (
-            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan current">
+            <div role="presentation" onClick={() => checkGoToPlan(plan, currentPlan, goToPlan)} key={plan.id} className="plan current">
               <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
             </div>
           );
         } else {
           return (
-            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
+            <div role="presentation" onClick={() => checkGoToPlan(plan, currentPlan, goToPlan)} key={plan.id} className="plan">
               <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
             </div>
           );
@@ -29,6 +29,20 @@ const Plans = ({
       {renderNewPlanButton(showDialog, active, maxedPlans)}
     </div>
   );
+};
+
+/**
+ * Checks if the current plan is clicked again, stops execution of goToPlan() if so
+ * @param {*} planName
+ * @param {*} currentPlan
+ * @param {*} goToPlan
+ */
+const checkGoToPlan = (plan, currentPlan, goToPlan) => {
+  console.log('check go to plan');
+  if (!currentPlan || plan.id !== currentPlan.id) { // Check that no plan is specified or that current isn't selected
+    console.log('go to plan');
+    goToPlan(plan.id);
+  }
 };
 
 /**

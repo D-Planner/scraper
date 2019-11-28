@@ -1,58 +1,61 @@
 @import '../../style/variables.scss';
 
-
-.menu {
-  width: $menu-width-closed;
-  background: $text-accent;
-  color: $white;
-  transition: all 200ms ease-in-out !important; // we want this faster
-  padding: 0 10px 10px 10px;
-  flex-shrink: 0;
-  display:flex;
-  flex-direction:column;
-  justify-content: space-between;
-  align-content: center;
-
-  &.active {
+.dashboard-container {
+  height: 100%;
+  
+  .menu {
+    width: $menu-width-closed;
+    background: $text-accent;
+    color: $white;
     transition: all 200ms ease-in-out !important; // we want this faster
-    width: $menu-width-open;
-    padding: 0 20px 10px 20px;
-  }
-
-  .nav-container{
-    justify-self: end;
+    padding: 0 10px 10px 10px;
+    flex-shrink: 0;
     display:flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    flex-direction:column;
+    justify-content: space-between;
+    align-content: center;
+    height: 100%;
 
-    .option-button {
-      width: 100%;
-      margin-bottom: 10px;
-      width: 100%;
-      height: calc(68px - 20px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: $purple-light;
-      border-radius: 5px;
-      cursor: pointer;
-
-      p {
-        color: $text-accent;
-        font-family: $poppins;
-        font-weight: 600;
-        font-size: 18px;
-      }
-      .space {
-        width: 10%;
-      }
-
-      &:hover {
-          filter: opacity(90%);
-      }
+    &.active {
+      transition: all 200ms ease-in-out !important; // we want this faster
+      width: $menu-width-open;
+      padding: 0 20px 10px 20px;
     }
 
+    .nav-container{
+      justify-self: end;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .option-button {
+        width: 100%;
+        margin-bottom: 10px;
+        width: 100%;
+        height: calc(68px - 20px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $purple-light;
+        border-radius: 5px;
+        cursor: pointer;
+
+        p {
+          color: $text-accent;
+          font-family: $poppins;
+          font-weight: 600;
+          font-size: 18px;
+        }
+        .space {
+          width: 10%;
+        }
+
+        &:hover {
+            filter: opacity(90%);
+        }
+      }
+    }
   }
 }
 

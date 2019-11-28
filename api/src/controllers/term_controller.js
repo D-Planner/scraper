@@ -3,7 +3,7 @@ import User from '../models/user';
 import UserCourse from '../models/user_course';
 import UserCourseController from '../controllers/user_course_controller';
 import { setTermsPrevCourses } from '../controllers/plan_controller';
-import { PopulateTerm } from './populators';
+import { PopulateTerm, PopulateCourse } from './populators';
 import { trim } from './courses_controller';
 
 // Helpers
@@ -74,14 +74,14 @@ const addCourseToTerm = (req, res) => {
                         UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
                             .then((userCourse) => {
                                 term.courses.push(userCourse);
-                                return term.save();
-                            })
-                            .then(() => {
-                                // addCompleted(req.user.id, req.body.course.id); let's not do this because we don't want a universal completed list
-                                return setTermsPrevCourses(req.body.planID, req.user.id);
-                            })
-                            .then(() => {
-                                res.send(term);
+                                term.save().then(() => {
+                                    userCourse.populate({
+                                        path: 'course',
+                                        populate: PopulateCourse,
+                                    }).execPopulate().then((populated) => {
+                                        res.send(populated);
+                                    });
+                                });
                             })
                             .catch((e) => {
                                 console.log(e);
@@ -113,8 +113,8 @@ const addCourseToTerm = (req, res) => {
 };
 
 const removeCourseFromTerm = (req, res) => {
-    const { userCourseID, termID, planID } = req.params;
-    const userID = req.user.id;
+    const { userCourseID, termID } = req.params;
+    // const userID = req.user.id;
     Term.findById(termID)
         .then((term) => {
             term.courses.filter((c) => {
@@ -130,9 +130,9 @@ const removeCourseFromTerm = (req, res) => {
                 .then(() => {
                     return UserCourseController.deleteUserCourse(userCourseID);
                 })
-                .then((user) => {
-                    return setTermsPrevCourses(planID, userID);
-                })
+                // .then((user) => {
+                //     return setTermsPrevCourses(planID, userID);
+                // })
                 .then(() => {
                     res.json(term);
                 });

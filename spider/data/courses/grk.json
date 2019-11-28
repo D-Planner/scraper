@@ -1,17 +1,6 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/1615",
-			"layup_id": 1615,
-			"title": "GRK011: Modern Greek I",
-			"department": "GRK",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 3,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/1625",
 			"layup_id": 1625,
 			"title": "GRK087: Thesis",
@@ -23,17 +12,53 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1621",
-			"layup_id": 1621,
-			"title": "GRK029: New Testament",
+			"layup_url": "https://www.layuplist.com/course/3035",
+			"layup_id": 3035,
+			"title": "GRK003.01: Intermediate Greek",
+			"department": "GRK",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1619",
+			"layup_id": 1619,
+			"title": "GRK026: Intellectual Enquiry in Classical Athens",
 			"department": "GRK",
 			"offered": false,
 			"distribs": [
-				"W",
-				"TMV"
+				"TMV",
+				"W"
 			],
-			"total_reviews": 2,
-			"quality_score": 3,
+			"total_reviews": 4,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1623",
+			"layup_id": 1623,
+			"title": "GRK030.04: Ancient Fiction: The Greek and Roman Novels",
+			"department": "GRK",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1620",
+			"layup_id": 1620,
+			"title": "GRK028: Philosophy",
+			"department": "GRK",
+			"offered": true,
+			"distribs": [
+				"TMV",
+				"W"
+			],
+			"total_reviews": 4,
+			"quality_score": 2,
 			"layup_score": 0
 		},
 		{
@@ -51,18 +76,29 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1614",
-			"layup_id": 1614,
-			"title": "GRK010: Readings in Greek Prose and Poetry",
+			"layup_url": "https://www.layuplist.com/course/4503",
+			"layup_id": 4503,
+			"title": "GRK030.06: Thinking Big: Heroes in Aristophanes and Plautus",
 			"department": "GRK",
-			"offered": true,
+			"offered": false,
 			"distribs": [
 				"LIT",
 				"W"
 			],
-			"total_reviews": 6,
-			"quality_score": 1,
-			"layup_score": -1
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1611",
+			"layup_id": 1611,
+			"title": "GRK001: Introductory Greek",
+			"department": "GRK",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 20,
+			"quality_score": 4,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/3034",
@@ -76,49 +112,13 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1624",
-			"layup_id": 1624,
-			"title": "GRK085: Independent Reading and Research",
+			"layup_url": "https://www.layuplist.com/course/1617",
+			"layup_id": 1617,
+			"title": "GRK022: The Lyric Age of Greece",
 			"department": "GRK",
 			"offered": false,
 			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3407",
-			"layup_id": 3407,
-			"title": "GRK030: Special Topics in Greek Literature",
-			"department": "GRK",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1622",
-			"layup_id": 1622,
-			"title": "GRK030.03: Studies in Greek and Latin Literature",
-			"department": "GRK",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1619",
-			"layup_id": 1619,
-			"title": "GRK026: Intellectual Enquiry in Classical Athens",
-			"department": "GRK",
-			"offered": false,
-			"distribs": [
-				"W",
-				"TMV"
-			],
-			"total_reviews": 4,
+			"total_reviews": 2,
 			"quality_score": 1,
 			"layup_score": 0
 		},
@@ -134,9 +134,37 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1623",
-			"layup_id": 1623,
-			"title": "GRK030.04: Ancient Fiction: The Greek and Roman Novels",
+			"layup_url": "https://www.layuplist.com/course/1614",
+			"layup_id": 1614,
+			"title": "GRK010: Readings in Greek Prose and Poetry",
+			"department": "GRK",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 6,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1621",
+			"layup_id": 1621,
+			"title": "GRK029: New Testament",
+			"department": "GRK",
+			"offered": false,
+			"distribs": [
+				"TMV",
+				"W"
+			],
+			"total_reviews": 2,
+			"quality_score": 3,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1624",
+			"layup_id": 1624,
+			"title": "GRK085: Independent Reading and Research",
 			"department": "GRK",
 			"offered": false,
 			"distribs": null,
@@ -156,9 +184,31 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4503",
-			"layup_id": 4503,
-			"title": "GRK030.06: Thinking Big: Heroes in Aristophanes and Plautus",
+			"layup_url": "https://www.layuplist.com/course/1622",
+			"layup_id": 1622,
+			"title": "GRK030.03: Studies in Greek and Latin Literature",
+			"department": "GRK",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3407",
+			"layup_id": 3407,
+			"title": "GRK030: The End of the World: Jewish and Christian Apocalyptic Literature in the Hellenistic Era",
+			"department": "GRK",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1618",
+			"layup_id": 1618,
+			"title": "GRK024: Theatre",
 			"department": "GRK",
 			"offered": false,
 			"distribs": [
@@ -167,6 +217,17 @@
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1615",
+			"layup_id": 1615,
+			"title": "GRK011: Modern Greek I",
+			"department": "GRK",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 3,
+			"quality_score": 1,
 			"layup_score": 0
 		},
 		{
@@ -183,69 +244,8 @@
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3035",
-			"layup_id": 3035,
-			"title": "GRK003.01: Intermediate Greek",
-			"department": "GRK",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1620",
-			"layup_id": 1620,
-			"title": "GRK028: Philosophy",
-			"department": "GRK",
-			"offered": false,
-			"distribs": [
-				"W",
-				"TMV"
-			],
-			"total_reviews": 4,
-			"quality_score": 2,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1617",
-			"layup_id": 1617,
-			"title": "GRK022: The Lyric Age of Greece",
-			"department": "GRK",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 2,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1611",
-			"layup_id": 1611,
-			"title": "GRK001: Introductory Greek",
-			"department": "GRK",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 20,
-			"quality_score": 4,
-			"layup_score": -4
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1618",
-			"layup_id": 1618,
-			"title": "GRK024: Theatre",
-			"department": "GRK",
-			"offered": true,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 22:58:15",
+	"updated": "2019-11-20 20:52:38",
 	"total": 20
 }
