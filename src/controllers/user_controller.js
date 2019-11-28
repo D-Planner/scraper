@@ -83,9 +83,28 @@ export const getUser = (req, res) => {
     User.findById(userID)
         .populate(PopulateUser)
         .then((user) => {
-            const json = user.toJSON();
-            delete json.password;
-            res.json(json);
+            // Check if any keys have expired (email, password)
+            Promise.resolve((resolve, reject) => {
+                if (user.emailVerificationKeyTimeout - Date.now() < 0) {
+                    user.emailVerificationKeyTimeout = -1;
+                    user.emailVerificationKey = -1;
+                    user.save().then(() => {
+                        resolve();
+                    });
+                } else if (user.passwordVerificationKeyTimeout - Date.now() < 0) {
+                    user.passwordVerificationKeyTimeout = -1;
+                    user.passwordVerificationKey = -1;
+                    user.save().then(() => {
+                        resolve();
+                    });
+                } else {
+                    resolve();
+                }
+            }).then(() => {
+                const json = user.toJSON();
+                delete json.password;
+                res.json(json);
+            });
         })
         .catch((error) => {
             console.log(error);
