@@ -10,7 +10,6 @@ class InterestTile extends Component {
       interest: this.props.interest,
     };
     this.toggle = this.toggle.bind(this);
-    console.log(this.props.interest);
   }
 
   componentWillMount() {

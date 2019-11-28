@@ -13,7 +13,7 @@ class InterestProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      interests: [],
+      interests: null,
       tempUserInterests: [],
     };
     this.getInterests = this.getInterests.bind(this);
@@ -41,7 +41,12 @@ class InterestProfile extends Component {
   // eslint-disable-next-line class-methods-use-this
   updateUserInterest(interestID, userID, active) {
     console.log(`updating user interest with id ${interestID}`);
-    this.props.updateUser({ interest_profile: interestID }).then(user => console.log(user));
+    this.props.updateUser({ interest_profile: interestID }).then((user) => {
+      console.log('user', user);
+    }).catch((error) => {
+      console.error(error);
+    });
+    console.log('after updateUser');
 
   // return new Promise((resolve, reject) => {
   //   const headers = {
@@ -66,7 +71,7 @@ class InterestProfile extends Component {
       if (this.state.tempUserInterests) {
         console.log('fetched user');
         console.log('user interest profile');
-        console.log(this.state.tempUserInterests);
+        console.log('this.state.tempUserInterests', this.state.tempUserInterests);
         let toRemove = false;
         let toRemoveIndex = -1;
 
@@ -111,7 +116,7 @@ class InterestProfile extends Component {
           }).then((res) => {
             this.props.fetchUser().then(() => {
               console.log('response');
-              console.log(res);
+              console.log('fetchUser response', res);
               this.setState({ tempUserInterests: res.interest_profile });
             });
           });
@@ -121,30 +126,30 @@ class InterestProfile extends Component {
   }
 
   renderUserInterests = () => {
-    console.log('this.state.interests', this.state.interests);
     if (this.props.user) {
       return (
         <div className="container">
-          {this.state.interests.map((interest) => {
+          {!this.state.interests ? 'Interests not loaded...'
+            : this.state.interests.map((interest) => {
             // console.log(i.name);
             // console.log(interest.name);
 
-            if (this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
-              console.log('active', interest.name);
-              return (
-              // TODO: ADD KEYPRESS
-              // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                <InterestTile active user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
-              );
-            } else {
+              if (this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
+                console.log('active', interest.name);
+                return (
+                // TODO: ADD KEYPRESS
+                // eslint-disable-next-line jsx-a11y/interactive-supports-focus
+                  <InterestTile active user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
+                );
+              } else {
               // console.log('inactive', interest.name);
-              return (
-              // TODO: ADD KEYPRESS
-              // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                <InterestTile active={false} user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
-              );
-            }
-          })}
+                return (
+                // TODO: ADD KEYPRESS
+                // eslint-disable-next-line jsx-a11y/interactive-supports-focus
+                  <InterestTile active={false} user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
+                );
+              }
+            })}
         </div>
       );
     } else {

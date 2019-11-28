@@ -33,7 +33,6 @@ const seedInterests = (req, res) => {
 const getInterests = (req, res) => {
     try {
         Interest.find({}).then((result) => {
-            console.log(result);
             res.send(result);
         });
     } catch (error) {
