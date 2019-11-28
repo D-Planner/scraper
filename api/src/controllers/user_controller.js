@@ -51,6 +51,7 @@ export const signup = (req, res, next) => {
             graduationYear: grad,
             emailVerified: false,
             accessGranted: false,
+            accountCreated: Date.now(),
         });
 
         return newUser.save().then((savedUser) => {
