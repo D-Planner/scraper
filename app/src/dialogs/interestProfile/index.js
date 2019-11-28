@@ -7,6 +7,7 @@ import {
 import DialogWrapper from '../dialogWrapper';
 import { ROOT_URL } from '../../constants';
 import InterestTile from '../../components/interestTile/interestTile';
+import LoadingWheel from '../../components/loadingWheel';
 import './interestProfile.scss';
 
 class InterestProfile extends Component {
@@ -127,31 +128,35 @@ class InterestProfile extends Component {
 
   renderUserInterests = () => {
     if (this.props.user) {
-      return (
-        <div className="container">
-          {!this.state.interests ? 'Interests not loaded...'
-            : this.state.interests.map((interest) => {
-            // console.log(i.name);
-            // console.log(interest.name);
+      if (!this.state.interests) {
+        return <LoadingWheel />;
+      } else {
+        return (
+          <div className="container">
+            {this.state.interests.length === 0 ? 'Interests not loaded...'
+              : this.state.interests.map((interest) => {
+                // console.log(i.name);
+                // console.log(interest.name);
 
-              if (this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
-                console.log('active', interest.name);
-                return (
-                // TODO: ADD KEYPRESS
-                // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                  <InterestTile active user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
-                );
-              } else {
-              // console.log('inactive', interest.name);
-                return (
-                // TODO: ADD KEYPRESS
-                // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                  <InterestTile active={false} user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
-                );
-              }
-            })}
-        </div>
-      );
+                if (this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
+                  console.log('active', interest.name);
+                  return (
+                  // TODO: ADD KEYPRESS
+                  // eslint-disable-next-line jsx-a11y/interactive-supports-focus
+                    <InterestTile active user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
+                  );
+                } else {
+                  // console.log('inactive', interest.name);
+                  return (
+                  // TODO: ADD KEYPRESS
+                  // eslint-disable-next-line jsx-a11y/interactive-supports-focus
+                    <InterestTile active={false} user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
+                  );
+                }
+              })}
+          </div>
+        );
+      }
     } else {
       return (null);
     }
