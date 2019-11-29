@@ -52,4 +52,11 @@
     }
 
   }
+
+  .close-container {
+    display: flex;
+    align-items: right;
+    position: absolute;
+    right: 8%;
+  }
 }

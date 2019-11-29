@@ -1,19 +1,10 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import React, { Component } from 'react';
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
-
+import closeIcon from '../../style/close.svg';
 import { GenEds } from '../../constants';
-
-// Props:
-// course (Shortened Course Data)
-// action {
-//   type
-//   svg
-//   method
-// }
-//
-//
 
 class CourseElement extends Component {
   renderCourseSupplementaryInfo = () => {
@@ -37,6 +28,11 @@ class CourseElement extends Component {
               );
             }) : null}
           </div>
+          {this.props.showClose === true ? (
+            <div className="close-container" role="button" onClick={this.props.deleteCourse ? (e) => { e.stopPropagation(); this.props.deleteCourse(); } : null}>
+              <img className="close" src={closeIcon} alt="close" />
+            </div>
+          ) : null}
         </div>
       </>
     );
