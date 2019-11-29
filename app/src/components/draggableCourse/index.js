@@ -66,7 +66,7 @@ class Course extends React.Component {
           <div className="popover"
             onMouseEnter={() => this.setState({ beingHovered: true })}
             onMouseLeave={() => this.setState({ beingHovered: false })}
-            onClick={() => this.showCourseInfoDialog(this.props)}
+            // onClick={() => this.showCourseInfoDialog(this.props)}
             role="button"
             tabIndex="-1" // 0
           >
