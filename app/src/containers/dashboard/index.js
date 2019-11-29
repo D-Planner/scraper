@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
-import searchIcon from '../../style/searchIcon.png';
+import lightbulbIcon from '../../style/lightbulb.svg';
 import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
@@ -115,7 +115,6 @@ class Dashboard extends React.Component {
       title: 'Your Interests',
       size: 'lg',
       okText: 'Done',
-      // onOk: /* Send user data to backend */,
     };
     this.props.showDialog(DialogTypes.INTEREST_PROFILE, dialogOptions);
   }
@@ -141,26 +140,14 @@ class Dashboard extends React.Component {
               {this.state.active
                 ? (
                   <>
-                    <img className="search-icon" src={searchIcon} alt="search" />
+                    <img className="search-icon" src={lightbulbIcon} alt="search" />
                     <div className="space" />
-                    <p>Test</p>
+                    <p>Interest Profile</p>
                   </>
                 )
-                : <img className="search-icon" src={searchIcon} alt="search" />
+                : <img className="search-icon" src={lightbulbIcon} alt="search" />
               }
             </div>
-            {/* <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
-            {this.state.active
-              ? (
-                <>
-                  <img className="search-icon" src={searchIcon} alt="search" />
-                  <div className="space" />
-                  <p>Discover</p>
-                </>
-              )
-              : <img className="search-icon" src={searchIcon} alt="search" />
-            }
-          </div> */}
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
                 ? (
