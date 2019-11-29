@@ -29,7 +29,7 @@ class CourseElement extends Component {
             }) : null}
           </div>
           {this.props.showClose === true ? (
-            <div className="close-container" role="button" onClick={this.props.deleteCourse ? (e) => { e.stopPropagation(); this.props.deleteCourse(); } : null}>
+            <div className="close-container" role="button" onClick={this.props.onClose ? (e) => { e.stopPropagation(); this.props.onClose(); } : null}>
               <img className="close" src={closeIcon} alt="close" />
             </div>
           ) : null}

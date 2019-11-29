@@ -71,6 +71,8 @@ class Course extends React.Component {
             tabIndex="-1" // 0
           >
             <CourseElement
+              showClose={this.props.showClose}
+              onClose={() => this.props.onClose()}
               size="xl"
               course={course}
               beingHovered={this.state.beingHovered}

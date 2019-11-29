@@ -75,7 +75,7 @@ class UserCourse extends Component {
       >
         <CourseElement
           showClose
-          deleteCourse={() => this.props.removeCourseFromTerm(this.props.course.id, this.props.sourceTerm)}
+          onClose={() => this.props.removeCourseFromTerm(this.props.course.id, this.props.sourceTerm)}
           sourceTerm={this.props.sourceTerm}
           size={this.props.size}
           error={this.props.course.fulfilledStatus}
