@@ -84,7 +84,7 @@ export const getUser = (req, res) => {
         .populate(PopulateUser)
         .then((user) => {
             // Check if any keys have expired (email, password)
-            Promise.resolve((resolve, reject) => {
+            new Promise((resolve, reject) => {
                 if (user.emailVerificationKeyTimeout - Date.now() < 0) {
                     user.emailVerificationKeyTimeout = -1;
                     user.emailVerificationKey = -1;
@@ -122,7 +122,6 @@ export const updateUser = async (req, res) => {
     User.findById(req.user.id)
         .populate(PopulateUser)
         .then((user) => {
-            console.log('beforeUser', user);
             if (req.body.change.graduationYear && user.graduationYear !== req.body.change.graduationYear) {
                 console.log('deleting all plans...');
                 Plan.find({ user_id: user._id }).remove().exec()
@@ -134,7 +133,6 @@ export const updateUser = async (req, res) => {
                     });
             }
 
-            console.log('change', req.body.change);
             if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
             if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
             if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
@@ -159,7 +157,6 @@ export const updateUser = async (req, res) => {
             if (req.body.change.password) { user.password = req.body.change.password; }
 
             user.save().then((newUser) => {
-                console.log('newUser', newUser);
                 const json = newUser.toJSON();
                 delete json.password;
                 res.json(json);
