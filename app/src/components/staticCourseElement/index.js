@@ -1,9 +1,12 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
 import closeIcon from '../../style/close.svg';
+import bookmarkEmpty from '../../style/bookmark.svg';
+import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import { GenEds } from '../../constants';
 
 class CourseElement extends Component {
@@ -28,14 +31,28 @@ class CourseElement extends Component {
               );
             }) : null}
           </div>
-          {this.props.showClose === true ? (
-            <div className="close-container" role="button" onClick={this.props.onClose ? (e) => { e.stopPropagation(); this.props.onClose(); } : null}>
-              <img className="close" src={closeIcon} alt="close" />
+          {this.props.showIcon === true ? (
+            <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+              {this.renderIcon(this.props.icon)}
             </div>
           ) : null}
         </div>
       </>
     );
+  }
+
+  // Takes a string and decides which icon to use
+  renderIcon = (name) => {
+    switch (name) {
+      case 'close':
+        return <img className="icon" src={closeIcon} alt="icon" />;
+      case 'bookmarkEmpty':
+        return <img className="icon" src={bookmarkEmpty} alt="icon" />;
+      case 'bookmarkFilled':
+        return <img className="icon" src={bookmarkFilled} alt="icon" />;
+      default:
+        return null;
+    }
   }
 
   renderCourseIdentifyingInfo = () => {
@@ -77,4 +94,8 @@ class CourseElement extends Component {
   }
 }
 
-export default CourseElement;
+const mapStateToProps = state => ({
+  user: state.user.current,
+});
+
+export default connect(mapStateToProps, {})(CourseElement);

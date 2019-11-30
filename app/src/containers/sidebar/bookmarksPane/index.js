@@ -41,11 +41,11 @@ const component = (props) => {
       {props.active
         ? (
           <div className="bookmarked-courses-list">
-            {props.bookmarks.map((course, index) => {
+            {props.bookmarks.map((course, index) => { // RENAMING AND ADDING VARYING ICONS AND FUNCTIONALITY
               return (
                 <div key={course.id}>
                   <div className="paneCourse">
-                    <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showClose onClose={() => props.removeCourseFromFavorites(course._id)} />
+                    <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
                   </div>
                   <div id="course-spacer-large" />
                 </div>
