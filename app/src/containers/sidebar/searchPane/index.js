@@ -9,7 +9,7 @@ import { DialogTypes } from '../../../constants';
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
 import {
-  setFilters, clearFilters, addCourseToFavorites, fetchUser,
+  setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
 } from '../../../actions';
 
 
@@ -121,7 +121,7 @@ const SearchPane = React.forwardRef((props, ref) => {
                     return (
                       <div className="result-row" key={course.id}>
                         <div className="paneCourse">
-                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.addCourseToFavorites(course.id)} />
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.removeCourseFromFavorites(course.id)} />
                         </div>
                         <div id="course-spacer-large" />
                       </div>
@@ -158,5 +158,6 @@ export default connect(mapStateToProps, {
   setFilters,
   clearFilters,
   addCourseToFavorites,
+  removeCourseFromFavorites,
   fetchUser,
 })(SearchPane);
