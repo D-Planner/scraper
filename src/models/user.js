@@ -5,8 +5,8 @@ const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     username: { type: String },
-    first_name: String,
-    last_name: String,
+    firstName: String,
+    lastName: String,
     university: String,
     graduationYear: Number,
     favorite_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
@@ -15,6 +15,12 @@ const UserSchema = new Schema({
     viewed_announcements: [String], // ID of course
     majors: [{ type: Schema.Types.ObjectId, ref: 'Major' }],
     settings: {},
+    accessGranted: Boolean,
+    emailVerified: Boolean,
+    emailVerificationKey: String,
+    emailVerificationKeyTimeout: Number,
+    passwordVerificationKey: String,
+    passwordVerificationKeyTimeout: Number,
 }, {
     toObject: {
         virtuals: true,
@@ -59,9 +65,9 @@ UserSchema.methods.comparePassword = function (password, callback) {
     });
 };
 
-UserSchema.virtual('full_name')
+UserSchema.virtual('fullName')
     .get(function () {
-        return `${this.first_name} ${this.last_name}`;
+        return `${this.firstName} ${this.lastName}`;
     });
 
 // create model class
