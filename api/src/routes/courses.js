@@ -32,7 +32,13 @@ coursesRouter.get('/random', CoursesController.randomCourse);
  * *
  * @apiUse CoursesSuccessExample
  */
-coursesRouter.post('/create', CoursesController.createCourse);
+coursesRouter.route('/create').post((req, res) => {
+    CoursesController.createCourse().then(() => {
+        res.status(200).json({ message: 'Courses successfully added to db 🚀' });
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+});
 
 /**
  * @api {get} /courses/favorite Get favorite courses
@@ -344,7 +350,7 @@ coursesRouter.get('/', CoursesController.getCourses);
  *      ]
  */
 
-coursesRouter.get('/fulfilled/:courseID/:termID/:planID', CoursesController.getFulfilledStatusTerm);
-coursesRouter.get('/fulfilled/:courseID/:planID', CoursesController.getFulfilledStatusPlan);
+// coursesRouter.get('/fulfilled/:courseID/:termID/:planID', CoursesController.getFulfilledStatusTerm);
+// coursesRouter.get('/fulfilled/:courseID/:planID', CoursesController.getFulfilledStatusPlan);
 
 export default coursesRouter;

@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 const ProfessorSchema = new Schema({
-    name: { type: String },
+    name: { type: String, index: 'text' },
     nameLowCase: { type: String, unique: true },
     reviews: [String],
     // For Future Scraping

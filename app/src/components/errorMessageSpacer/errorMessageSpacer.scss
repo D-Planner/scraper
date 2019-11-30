@@ -1,0 +1,9 @@
+@import "../../style/variables.scss";
+
+.error-message-spacer {
+  margin: 10px 0px;
+  border: none;
+
+  color: $error;
+  text-align: center;
+}

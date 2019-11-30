@@ -1,6 +1,6 @@
 @import "../../style/variables.scss";
 
-$content-height: calc(100vh);
+$content-height: 100vh;
 $content-divide: 100px;
 $content-padding-top: 25vh;
 
@@ -67,8 +67,6 @@ $content-padding-top: 25vh;
         align-items: center;
         padding-top: $content-padding-top;
 
-        // justify-content: center;
-
         .scroller {
             border-radius: 100%;
             text-align: center;
@@ -91,11 +89,17 @@ $content-padding-top: 25vh;
 
     display: flex;
     flex-direction: column;
+    align-items: center;
     
     .section {
         margin-top:$content-divide;
         display: flex;
         flex-direction: column;
+        max-width: 1200px;
+
+        #philosophy-title{
+          margin-bottom: 24px;
+        }
 
         .title {
             font-family: Poppins;
@@ -104,6 +108,7 @@ $content-padding-top: 25vh;
             font-size: 48px;
             text-align: center;
             color:#574966;
+            margin-bottom: 10px;
         }
 
         img {
@@ -118,12 +123,14 @@ $content-padding-top: 25vh;
                 display: flex;
                 flex-direction: column;
                 align-self:center;
+                margin-left: 40px;
 
                 .text{
                     color: #574966;
                     text-align: left;
                     font-family: Poppins;
                     font-style: normal;
+                    margin-bottom: 20px;
 
                     .textHeader {
                         font-size:36px;
@@ -140,8 +147,8 @@ $content-padding-top: 25vh;
         .row {
             flex:1;
             display: flex;
-            justify-content:space-between;
-            margin-bottom:50px;;
+            justify-content:center;
+            margin-bottom:50px;
 
             .text{
                 width:600px;
@@ -153,6 +160,7 @@ $content-padding-top: 25vh;
 
                 &:first-child{
                     text-align:right;
+                    margin-right: $landing-center;
                 }
 
                 &.allLeft{
@@ -168,16 +176,6 @@ $content-padding-top: 25vh;
                     line-height: 21px;
                 }
             }
-        }
-
-        .creditTitle {
-            font-family: Poppins;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 24px;
-            line-height: 36px;
-            text-align: center;
-            margin-bottom:$content-divide;
         }
     }
 }

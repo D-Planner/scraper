@@ -7,8 +7,10 @@ export const ActionTypes = {
   AUTH_ERROR: 'AUTH_ERROR',
   FETCH_PLANS: 'FETCH_PLANS',
   FETCH_PLAN: 'FETCH_PLAN',
+  UPDATE_PLAN: 'UPDATE_PLAN',
   DELETE_PLAN: 'DELETE_PLAN',
   FETCH_USER: 'FETCH_USER',
+  DELETE_USER: 'DELETE_USER',
   FETCH_COURSE: 'FETCH_COURSE',
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
@@ -39,7 +41,31 @@ export const ActionTypes = {
   NEW_ANNOUNCEMENT: 'NEW_ANNOUNCEMENT',
   DELETE_ANNOUNCEMENT: 'DELETE_ANNOUNCEMENT',
   DELETE_ALL_ANNOUNCEMENTS: 'DELETE_ALL_ANNOUNCEMENTS',
+  SET_FULFILLED_STATUS: 'SET_FULFILLED_STATUS',
+  SET_PRESSED_KEY: 'SET_PRESSED_KEY',
+  REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
+  UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
+  SET_FILTERS: 'SET_FILTERS',
+  CLEAR_FILTERS: 'CLEAR_FILTERS',
+  VERIFY_EMAIL: 'VERIFY_EMAIL',
+  RESET_PASS: 'RESET_PASS',
+  ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
+  REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
 };
+
+export function setPressedKey(key) {
+  return {
+    type: ActionTypes.SET_PRESSED_KEY,
+    payload: key,
+  };
+}
+
+export function removePressedKey(key) {
+  return {
+    type: ActionTypes.REMOVE_PRESSED_KEY,
+    payload: key,
+  };
+}
 
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
@@ -76,7 +102,6 @@ export function getTimes() {
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/globals/`, { headers }).then((response) => {
-      console.log(response);
       dispatch({ type: ActionTypes.FETCH_TIME, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -101,6 +126,22 @@ export function updateUser(change) {
       reject();
     });
   }));
+}
+
+export function deleteUser(id) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/auth/`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.DELETE_USER, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error });
+      reject();
+    });
+  });
 }
 
 export function createCourses() {
@@ -136,6 +177,20 @@ export function setDraggingState(isDragging, course) {
   }
 }
 
+// ----- Filter Setting ----- //
+export function setFilters(filters) {
+  return {
+    type: ActionTypes.SET_FILTERS,
+    payload: filters,
+  };
+}
+export function clearFilters() {
+  return {
+    type: ActionTypes.CLEAR_FILTERS,
+    payload: null,
+  };
+}
+
 // ----- Error Handling ----- //
 /**
  * An action creator to dispatch and authorization error to redux
@@ -162,6 +217,7 @@ export function clearError() {
   };
 }
 
+
 // ----- Authorization Actions ----- //
 
 /**
@@ -182,7 +238,7 @@ export function signinUser({ email, password }, history) {
     }).catch((error) => {
       console.log(error);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
-      reject();
+      reject(error);
     });
   }));
 }
@@ -200,16 +256,42 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch({ type: ActionTypes.AUTH_USER });
-      history.push('/');
+      // localStorage.setItem('token', response.data.token);
+      // Deactivated unless access code given
+      // dispatch({ type: ActionTypes.AUTH_USER });
+      // history.push('/');
       resolve();
     }).catch((error) => {
       console.log(error);
       dispatch(authError(`Sign Up Failed: ${error.response.data}`));
-      reject();
+      reject(error);
     });
   }));
+}
+
+// Verifies access code
+export function validateAccessCode(code, history) {
+  return dispatch => new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/auth/code?code=${code}`).then((response) => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      localStorage.setItem('token', response.data.token);
+      history.push('/');
+      resolve('Authenticated');
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+// Does a user exist with the given email?
+export function checkUserByEmail(email) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/auth/checkuser?email=${email}`).then((response) => {
+      resolve(response);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
 }
 
 /**
@@ -260,6 +342,7 @@ export function createPlan(plan, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
+  console.log(`plan: ${plan}, planSetter: ${planSetter}`);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
       planSetter(response.data.id);
@@ -314,6 +397,27 @@ export function fetchPlan(planID) {
         dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
         reject();
       });
+  }));
+}
+
+/**
+ * Updates a specific plan from the database
+ * @export
+ * @param {String} planID a string representing a Mongoose ObjectID for the plan to update
+ * @returns
+ */
+export function updatePlan(planUpdate, planID) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.put(`${ROOT_URL}/plans/${planID}`, { planUpdate }, { headers }).then((response) => {
+      console.log(response);
+      dispatch({ type: ActionTypes.UPDATE_PLAN, payload: planID });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
   }));
 }
 
@@ -482,6 +586,14 @@ export function removeCourseFromFavorites(courseID) {
   }));
 }
 
+export function setFulfilledStatus(id, value) {
+  console.log(id, value);
+  return dispatch => dispatch({
+    type: ActionTypes.SET_FULFILLED_STATUS,
+    payload: { id, value },
+  });
+}
+
 /**
  * Adds a course to a user's placement courses
  * @export
@@ -619,24 +731,17 @@ export function getRandomCourse() {
 /**
  * Adds a new UserCourse object to a specific term
  * @export
- * @param {*} course the course to add to the term (will be converted to a UserCourse object)
- * @param {*} term the term object to which this course should be added
+ * @param {*} userCourse the user course to add to the term
+ * @param {*} termID the term object to which this course should be added
  * @returns an action creator to add a new course to the given term
  */
-export function addCourseToTerm(course, term, planID) {
-  console.log('[ACTION.js] We got the resquest to add course to term');
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id, planID }, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then(() => {
-      // console.log(`[ACTION.js] The course \n${course.name} has been added to term \n${term.id}`);
-      resolve();
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-      reject();
+export function addCourseToTerm(userCourse, termID) {
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.ADD_COURSE_TO_PLAN,
+      payload: { userCourse, termID },
     });
-  }));
+  });
 }
 
 /**
@@ -646,19 +751,14 @@ export function addCourseToTerm(course, term, planID) {
  * @param {*} term the term object from which this course should be removed
  * @returns an action creator to remove a course from the given term
  */
-export function removeCourseFromTerm(course, term, planID) {
-  const termID = (typeof term === 'object') ? term.id : term;
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.delete(`${ROOT_URL}/terms/${termID}/course/${course.id}/${planID}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then(() => {
-      resolve();
-    }).catch((error) => {
-      console.log(error);
-      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-      reject();
+export function removeCourseFromTerm(userCourse) {
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.REMOVE_COURSE_FROM_PLAN,
+      payload: { userCourse },
     });
-  }));
+    resolve();
+  });
 }
 
 export function updateTerm(term) {
@@ -910,4 +1010,48 @@ export function updateAnnouncement(id, update) {
       reject();
     });
   }));
+}
+
+/**
+ * Updates where the window will focus once a dialog box closes
+ * @param {*} ref
+ */
+export function updateCloseFocus(ref) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.UPDATE_CLOSE_FOCUS, payload: { focusOnClose: ref } });
+  };
+}
+
+/**
+ * Tells the server to send an email to the given userID with a verification link
+ * @param {*} userID
+ */
+export function sendVerifyEmail(userID) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/verify/email/send`, { userID }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.VERIFY_EMAIL, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
+}
+
+/**
+ * Tells the server to send an email to the given userID with a verification link
+ * @param {*} userID
+ */
+export function sendResetPass(userID) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/auth/verify/pass/send`, { userID }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.RESET_PASS, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+    });
+  };
 }

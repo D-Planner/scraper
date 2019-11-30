@@ -45,7 +45,7 @@ class NonDraggableCOurse extends React.Component {
         onMouseLeave={() => this.setState({ beingHovered: false })}
         onClick={() => this.showCourseInfoDialog(this.props)}
         role="button"
-        tabIndex="0"
+        tabIndex="-1" // 0
       >
         <CourseElement
           size="xl"
@@ -54,7 +54,7 @@ class NonDraggableCOurse extends React.Component {
         />
         <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip />
         <ReactTooltip place="right" type="dark" effect="float">
-          {course.offered ? `Offered ${this.props.currTerm.year.toString() + this.props.currTerm}` : `Not offered ${this.props.currTerm.year.toString() + this.props.currTerm}`}
+          {course.offered ? `Offered ${this.props.currTerm.year.toString() + this.props.currTerm.term}` : `Not offered ${this.props.currTerm.year.toString() + this.props.currTerm.term}`}
         </ReactTooltip>
       </div>
     );
