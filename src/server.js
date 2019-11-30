@@ -5,13 +5,14 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
 import CoursesController from './controllers/courses_controller';
 import UserModel from './models/user';
 
-require('dotenv').config();
+require('dotenv').config({ silent: true });
 
 // initialize
 const app = express();
@@ -46,13 +47,24 @@ const port = process.env.PORT || 9090;
 app.listen(port);
 console.log(`listening on: ${port}`);
 
-export const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_ADDR,
-        pass: process.env.GMAIL_PASS,
-    },
-});
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// console.log('sending...');
+// sgMail.send({
+//     to: 'adam.j.mcquilkin.22@dartmouth.edu',
+//     from: 'dplanner.official@gmail.com',
+//     subject: 'This is a test!',
+//     text: 'Hello from D-Planner!',
+// }).then(() => {
+//     console.log('sent');
+// });
+
+// export const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: process.env.GMAIL_ADDR,
+//         pass: process.env.GMAIL_PASS,
+//     },
+// });
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
