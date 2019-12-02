@@ -380,13 +380,13 @@ class CourseInfoDialog extends Component {
         <hr className="horizontal-divider" />
         <div id="scrollable">
           <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
-          {/* <hr /> Add lines */}
+          <hr className="horizontal-divider-small" />
           <div id="metrics">
             {this.renderDistribs(course)}
             {this.renderMedians(course.medians)}
             {this.renderScores(course)}
           </div>
-          {/* <hr /> Add lines */}
+          <hr className="horizontal-divider-small" />
           <div id="last">
             {this.renderPrerequisites(course)}
             {this.renderOfferingsWrapper(course)}
