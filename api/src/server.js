@@ -5,11 +5,14 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
+import CoursesController from './controllers/courses_controller';
+import UserModel from './models/user';
 
-require('dotenv').config();
+require('dotenv').config({ silent: true });
 
 // initialize
 const app = express();
@@ -44,13 +47,24 @@ const port = process.env.PORT || 9090;
 app.listen(port);
 console.log(`listening on: ${port}`);
 
-export const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_ADDR,
-        pass: process.env.GMAIL_PASS,
-    },
-});
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// console.log('sending...');
+// sgMail.send({
+//     to: 'adam.j.mcquilkin.22@dartmouth.edu',
+//     from: 'dplanner.official@gmail.com',
+//     subject: 'This is a test!',
+//     text: 'Hello from D-Planner!',
+// }).then(() => {
+//     console.log('sent');
+// });
+
+// export const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: process.env.GMAIL_ADDR,
+//         pass: process.env.GMAIL_PASS,
+//     },
+// });
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
@@ -66,9 +80,29 @@ mongoose.connect(mongoURI, mongooseOptions).then(() => {
 });
 
 const resetDB = () => {
-    mongoose.connection.db.dropDatabase(() => {
-        mongoose.connection.close(() => {
-            mongoose.connect(mongoURI);
+    return new Promise((resolve, reject) => {
+        mongoose.connection.db.dropDatabase(() => {
+            mongoose.connection.close(() => {
+                mongoose.connect(mongoURI).then(() => {
+                    CoursesController.createCourse().then(() => {
+                        const newUser = new UserModel({
+                            email: 'a@a.com',
+                            password: 'a',
+                            firstName: 'D',
+                            lastName: 'Planner',
+                            university: 'Dartmouth',
+                            graduationYear: 2023,
+                            emailVerified: true,
+                            accessGranted: true,
+                        });
+                        newUser.save().then(() => {
+                            resolve();
+                        });
+                    });
+                }).catch(() => {
+                    console.log('error in connecting to new URI');
+                });
+            });
         });
     });
 };
@@ -90,9 +124,17 @@ app.use('/globals', requireAuth, globalRouter);
 
 // These cannot be used in production, or will need our own special Authorization
 app.get('/reset', (req, res) => {
-    resetDB();
-    res.send('database reset');
+    if (req.headers.key === 'planthed') {
+        resetDB().then(() => {
+            res.send('database reset');
+        }).catch((error) => {
+            res.status(500).send({ error });
+        });
+    } else {
+        res.status(403).send('not authorized');
+    }
 });
+
 // custom middleware for 404 errors
 app.use((req, res, next) => {
     res.status(404).send('The route you\'ve requested does not exist');

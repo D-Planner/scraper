@@ -84,6 +84,9 @@ class DPlan extends Component {
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
+
+    // Prevents locking of plan on resize
+    if (this.props.plan !== null) this.state.noPlan = false;
   }
 
   componentDidMount() {
@@ -221,7 +224,6 @@ class DPlan extends Component {
           return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
         })
         .flat())];
-      console.log(prevCourses);
       return { [term._id]: prevCourses };
     });
     previousByTerm.forEach((t) => {
