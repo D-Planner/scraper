@@ -360,9 +360,10 @@ const filledValues = (course) => {
     ];
 };
 
-const createCourse = (req, res) => {
-    Promise.resolve(courses.map(async (course) => {
-        Promise.all(filledValues(course)).then((r) => {
+const createCourse = () => {
+    return new Promise((resolve, reject) => {
+        Promise.all(courses.map(async (course) => {
+            Promise.all(filledValues(course)).then((r) => {
             // separates into [wcs] and [distribs]
             let wcs = []; let distribs = [];
             if (course.distribs != null) {
@@ -405,14 +406,11 @@ const createCourse = (req, res) => {
             }).catch((error) => {
                 return error;
             });
-        }).catch((e) => {
-            console.log(e);
+        })).then(() => {
+            resolve();
+        }).catch((error) => {
+            reject(error);
         });
-    })).then(() => {
-        res.status(200).json({ message: 'Courses successfully added to db 🚀' });
-    }).catch((error) => {
-        console.log(error);
-        res.status(500).json({ error });
     });
 };
 
