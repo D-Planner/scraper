@@ -195,8 +195,12 @@
                           border-radius: 6px;
                           font-size: 12px;
                           font-weight: 700;
-                          width: 36px;
+                          min-width: 36px;
                           height: 36px;
+
+                          .margin-bubble-text {
+                            margin: 0 8px;
+                          }
                       }
                       .median-bubble-term {
                           font-size: 12px;

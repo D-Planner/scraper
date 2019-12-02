@@ -82,7 +82,7 @@ class CourseInfoDialog extends Component {
             medians.slice(0, cutOff).map((median) => {
               return (
                 <div key={median.term} className="median-bubble">
-                  <div className="median-bubble-grade">{median.courses[0].median}</div>
+                  <div className="median-bubble-grade"><div className="margin-bubble-text">{median.courses[0].median}</div></div>
                   <div className="median-bubble-term">{median.term}</div>
                 </div>
               );
