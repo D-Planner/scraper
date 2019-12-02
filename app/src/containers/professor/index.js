@@ -63,7 +63,7 @@ class Professor extends React.Component {
               Object.keys(this.state.professor.reviews).map((course, i) => {
                 return (
                   <>
-                    <Link to={course} spy smooth duration={500}>
+                    <Link to={course} key={i.toString()} spy smooth duration={500}>
                       <div className="professor-course">{course}</div>
                     </Link>
                   </>
@@ -73,21 +73,21 @@ class Professor extends React.Component {
             </div>
             <div className="professor-reviews">
               {
-              Object.entries(this.state.professor.reviews).map(([course, reviews]) => {
+              Object.entries(this.state.professor.reviews).map(([course, reviews], i) => {
                 return (
-                  <div className="professor-review">
+                  <div className="professor-review" key={i.toString()}>
                     <Element name={course} />
                     <div className="review-header">
                       {course}
                     </div>
                     {
-                      reviews.map(((review) => {
+                      reviews.map((review, j) => {
                         return (
-                          <div className="review-body">
+                          <div key={j.toString()} className="review-body">
                             <strong>[{review.term}]</strong> {review.review}
                           </div>
                         );
-                      }))
+                      })
                     }
                   </div>
                 );
