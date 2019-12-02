@@ -1,15 +1,17 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/333",
-			"layup_id": 333,
-			"title": "ASTR087: Undergraduate Research in Astronomy",
+			"layup_url": "https://www.layuplist.com/course/329",
+			"layup_id": 329,
+			"title": "ASTR061: Observational Techniques in Astronomy",
 			"department": "ASTR",
-			"offered": true,
-			"distribs": null,
+			"offered": false,
+			"distribs": [
+				"SLA"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/338",
@@ -20,55 +22,7 @@
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/323",
-			"layup_id": 323,
-			"title": "ASTR003: Exploring the Universe, with Laboratory",
-			"department": "ASTR",
-			"offered": true,
-			"distribs": [
-				"SLA"
-			],
-			"total_reviews": 2,
-			"quality_score": 14,
-			"layup_score": 16
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/335",
-			"layup_id": 335,
-			"title": "ASTR116: Galactic Systems",
-			"department": "ASTR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/324",
-			"layup_id": 324,
-			"title": "ASTR004: The Development of Astronomical Thought",
-			"department": "ASTR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/329",
-			"layup_id": 329,
-			"title": "ASTR061: Observational Techniques in Astronomy",
-			"department": "ASTR",
-			"offered": true,
-			"distribs": [
-				"SLA"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 2
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/321",
@@ -79,101 +33,31 @@
 			"distribs": [
 				"SLA"
 			],
-			"total_reviews": 2,
+			"total_reviews": 3,
 			"quality_score": 10,
-			"layup_score": 20
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/333",
+			"layup_id": 333,
+			"title": "ASTR087: Undergraduate Research in Astronomy",
+			"department": "ASTR",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/336",
 			"layup_id": 336,
-			"title": "ASTR117: Interstellar Astrophysics",
+			"title": "ASTR117: Observational Galactic Astrophysics",
 			"department": "ASTR",
 			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/334",
-			"layup_id": 334,
-			"title": "ASTR115: Advanced Stellar Astrophysics",
-			"department": "ASTR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/325",
-			"layup_id": 325,
-			"title": "ASTR007: First-year Seminars in Astronomy",
-			"department": "ASTR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/331",
-			"layup_id": 331,
-			"title": "ASTR075: High Energy Astrophysics",
-			"department": "ASTR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/330",
-			"layup_id": 330,
-			"title": "ASTR074: Astrophysics",
-			"department": "ASTR",
-			"offered": true,
-			"distribs": [
-				"SCI"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 2
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/332",
-			"layup_id": 332,
-			"title": "ASTR081: Special Topics in Astronomy",
-			"department": "ASTR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/322",
-			"layup_id": 322,
-			"title": "ASTR002: Exploring the Universe",
-			"department": "ASTR",
-			"offered": true,
-			"distribs": [
-				"SCI"
-			],
-			"total_reviews": 8,
-			"quality_score": 22,
-			"layup_score": 25
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/337",
-			"layup_id": 337,
-			"title": "ASTR118: Observational Cosmology",
-			"department": "ASTR",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/326",
@@ -189,17 +73,52 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/328",
-			"layup_id": 328,
-			"title": "ASTR025: Galaxies and Cosmology",
+			"layup_url": "https://www.layuplist.com/course/324",
+			"layup_id": 324,
+			"title": "ASTR004: The Development of Astronomical Thought",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/325",
+			"layup_id": 325,
+			"title": "ASTR007: First-year Seminars in Astronomy",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/330",
+			"layup_id": 330,
+			"title": "ASTR074: Astrophysics",
 			"department": "ASTR",
 			"offered": false,
 			"distribs": [
 				"SCI"
 			],
-			"total_reviews": 1,
-			"quality_score": 1,
-			"layup_score": 1
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/323",
+			"layup_id": 323,
+			"title": "ASTR003: Exploring the Universe, with Laboratory",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": [
+				"SLA"
+			],
+			"total_reviews": 2,
+			"quality_score": 15,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/327",
@@ -212,9 +131,90 @@
 			],
 			"total_reviews": 0,
 			"quality_score": 2,
-			"layup_score": 1
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/337",
+			"layup_id": 337,
+			"title": "ASTR118: Observational Cosmology",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/328",
+			"layup_id": 328,
+			"title": "ASTR025: Galaxies and Cosmology",
+			"department": "ASTR",
+			"offered": true,
+			"distribs": [
+				"SCI"
+			],
+			"total_reviews": 1,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/331",
+			"layup_id": 331,
+			"title": "ASTR075: High Energy Astrophysics",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/335",
+			"layup_id": 335,
+			"title": "ASTR116: Galactic Systems",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/322",
+			"layup_id": 322,
+			"title": "ASTR002: Exploring the Universe",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": [
+				"SCI"
+			],
+			"total_reviews": 9,
+			"quality_score": 25,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/332",
+			"layup_id": 332,
+			"title": "ASTR081: Special Topics in Astronomy",
+			"department": "ASTR",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/334",
+			"layup_id": 334,
+			"title": "ASTR115: Advanced Stellar Astrophysics",
+			"department": "ASTR",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 22:58:27",
+	"updated": "2019-11-20 20:54:13",
 	"total": 18
 }

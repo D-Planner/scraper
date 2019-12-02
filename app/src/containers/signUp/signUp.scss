@@ -5,105 +5,141 @@ $off-white: #F9F9F9;
 $white: #FFFFFF;
 
 .formContainer {
-    width: 300px;
+    width: 400px;
+
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    * {
+        font-size: 18px;
+    }
 
     form {
-        align-self: center;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    
+      * {
+          font-size: 18px;
+      }
+    }
+    
+    .greeting {
         display: flex;
-        flex-direction: column;
+        justify-content: flex-start;
+        margin-left: 12px;
         align-items: center;
-    
-        * {
-            font-size: 18px;
-        }
-    
-        .greeting {
-            display: flex;
-            justify-content: flex-start;
-            margin-left: 12px;
-            align-items: center;
-            font-weight: 700;
-            color: $text-accent;
-            font-size: 24px;
-        }
+        font-weight: 700;
+        color: $text-accent;
+        font-size: 24px;
+    }
 
-        input {
-            padding: 10px;
-            background: $white;
-            border: 1px solid $gray-5;
-            border-radius: 12px;
-        
-            &:focus {
-                border: 1.5px solid $blue-primary;
-            }
-        }
+    input {
+        padding: 10px;
+        background: $white;
+        border: 1px solid $gray-5;
+        border-radius: 12px;
     
-        .spacer {
-            height: 20px;
-            border: none;
-        }
-    
-        
-        .row {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            * {
-                margin: 5px;
-                flex: 1;
-            }
-        }
-
-        button {
+        &:hover {
             cursor: pointer;
-            &:hover {
-                filter: brightness(130%);
-            }
-        }
-        $button-height: 40px;
-        $button-width: 120px;
-        $button-border-radius: 12px;
-            
-        .sign-up {
-            width: $button-width;
-            display: flex;
-            justify-content: center;
-            background: $gradient;
-            height: $button-height;
-            border-radius: $button-border-radius;
-            color: $white;
-            font-weight: bold;
-            font-size: 16px;
-            text-transform: uppercase;
-        }
-    
-        .sign-in {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            .button-cover {
-                background: $white;
-                $virtual-border: 2px;
-                margin: $virtual-border;
-                border-radius: inherit;
-                .button-text {
-                    width: calc(#{$button-width} - #{$virtual-border} - #{$virtual-border});
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background: $gradient;
-                    background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                    height: calc(#{$button-height} - #{$virtual-border} - #{$virtual-border});
-                    font-weight: bold;
-                    font-size: 16px;
-                    text-transform: uppercase;
-                }
-            }
-            background: $gradient;
-            border-radius: $button-border-radius;
-            border: 1px solid $gradient;
+            border: 1.5px solid $blue-primary;
         }
     }
 
+    .spacer {
+        margin: 10px 0px;
+        text-align: center;
+        border: none;
+        color: $text-accent;
+
+        a {
+          color: $blue-primary;
+          text-decoration: underline;
+
+          &:hover {
+            color: lighten($color: $blue-primary, $amount: 15%)
+          }
+        }
+    }
+
+    
+    .row {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        * {
+            margin: 5px;
+            flex: 1;
+        }
+
+        &.input:invalid {
+          color: $error;
+        }
+    }
+
+    .homepage-pass-reset {
+      margin-top: 10px;
+      color: $gray-5;
+      text-decoration: none;
+      transition: color .075s;
+    
+      &:hover {
+        color: $text-accent;
+      }
+    }
+
+    button {
+        cursor: pointer;
+        &:hover {
+            filter: brightness(130%);
+        }
+    }
+    $button-height: 40px;
+    $button-width: 120px;
+    $button-border-radius: 12px;
+        
+    .sign-up {
+        width: $button-width;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: $gradient;
+        height: $button-height;
+        border-radius: $button-border-radius;
+        color: $white;
+        font-weight: bold;
+        font-size: 16px;
+        text-transform: uppercase;
+    }
+
+    .sign-in {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .button-cover {
+            background: $white;
+            $virtual-border: 2px;
+            margin: $virtual-border;
+            border-radius: inherit;
+            .button-text {
+                width: calc(#{$button-width} - #{$virtual-border} - #{$virtual-border});
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: $gradient;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                height: calc(#{$button-height} - #{$virtual-border} - #{$virtual-border});
+                font-weight: bold;
+                font-size: 16px;
+                text-transform: uppercase;
+            }
+        }
+        background: $gradient;
+        border-radius: $button-border-radius;
+        border: 1px solid $gradient;
+    }
 }

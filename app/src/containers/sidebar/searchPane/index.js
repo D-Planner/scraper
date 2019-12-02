@@ -1,19 +1,22 @@
 /* eslint-disable no-case-declarations */
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
 import arrowDropDown from '../../../style/arrowDropDown.svg';
-import { DialogTypes, GenEds } from '../../../constants';
+import { DialogTypes } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
+import { setFilters, clearFilters } from '../../../actions';
 
 
 /**
  * @name SearchPane
  * @description allows a user to search specific courses right in the sidebar
+ * @param ref UNUSED, for focus selecting
  */
-const SearchPane = (props) => {
+const SearchPane = React.forwardRef((props, ref) => {
   const paneClass = classNames({
     search: true,
     pane: true,
@@ -21,8 +24,10 @@ const SearchPane = (props) => {
   });
 
   // const [searchText, setSearchText] = useState('');
+  const [sort, setSort] = useState('Sort by alphabet');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
+  const [offeredNextTerm, setOfferedNextTerm] = useState(false);
 
   // Allows a user to search by the query entered in the search input
 
@@ -42,17 +47,30 @@ const SearchPane = (props) => {
     }
   }, [props.searchQuery, wcs, distribs]);
 
-  const setFilters = (wc, distrib) => {
-    setWC(wc);
-    setDistrib(distrib);
+  const useFilters = () => {
+    console.log(sort);
+    setWC(props.wcs.filter(e => e.checked).map(e => e.name));
+    setDistrib(props.distribs.filter(e => e.checked).map(e => e.name));
+    setOfferedNextTerm(props.offeredNextTerm);
+    console.log(offeredNextTerm);
+  };
+
+  const clearCurFilters = () => {
+    setWC([]);
+    setDistrib([]);
+    setOfferedNextTerm(false);
+    console.log(offeredNextTerm);
   };
 
   const showFilterDialog = () => {
     const dialogOptions = {
       title: 'Search filters',
       size: 'md',
-      okText: 'Save',
-      onOk: setFilters,
+      showNo: true,
+      okText: 'Apply',
+      noText: 'Clear',
+      onOk: useFilters,
+      onNo: clearCurFilters,
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
   };
@@ -67,9 +85,11 @@ const SearchPane = (props) => {
           className="search-input"
           placeholder="Search for courses"
           value={props.searchQuery}
+          tabIndex={-1}
           onChange={(e) => {
             props.setSearchQuery(e.target.value);
           }}
+          ref={ref}
         />
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
@@ -78,41 +98,19 @@ const SearchPane = (props) => {
       {props.active
         ? (
           <div className="pane-content">
-
-            <div className="filters">
-              <select className="gened-picker"
-                onChange={(e) => {
-                  setWC(e.target.value);
-                }}
-              >
-                <option value="">None</option>
-                {
-                  Object.keys(GenEds).filter((g) => {
-                    return g.length <= 2;
-                  }).map((g) => {
-                    return (
-                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-                    );
-                  })
-                }
-              </select>
-              <select className="gened-picker"
-                onChange={(e) => {
-                  setDistrib(e.target.value);
-                }}
-              >
-                <option value="">None</option>
-                {
-                  Object.keys(GenEds).filter((g) => {
-                    return g.length > 2;
-                  }).map((g) => {
-                    return (
-                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-                    );
-                  })
-                }
-              </select>
-            </div>
+            <select className="sort-picker"
+              onChange={(e) => {
+                setSort(e.target.value);
+              }}
+            >
+              {
+                ['Sort by alphabet', 'Sort by layup-list score', 'Sort by median'].map((method) => {
+                  return (
+                    <option value={method} key={method}>{method}</option>
+                  );
+                })
+              }
+            </select>
             <div className="search-results">
               {props.results.length
                 ? props.results.map((course) => {
@@ -133,7 +131,13 @@ const SearchPane = (props) => {
           }
     </div>
   );
-};
+});
+
+const mapStateToProps = state => ({
+  distribs: state.filters.distribs,
+  wcs: state.filters.wcs,
+  offeredNextTerm: state.filters.offeredNextTerm,
+});
 
 
-export default SearchPane;
+export default connect(mapStateToProps, { setFilters, clearFilters })(SearchPane);

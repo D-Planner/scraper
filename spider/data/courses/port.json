@@ -1,28 +1,6 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/3904",
-			"layup_id": 3904,
-			"title": "PORT002: Portuguese II",
-			"department": "PORT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2458",
-			"layup_id": 2458,
-			"title": "PORT007: First-Year Seminars in Portuguese",
-			"department": "PORT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/2476",
 			"layup_id": 2476,
 			"title": "PORT091: Honors Seminar",
@@ -34,9 +12,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2467",
-			"layup_id": 2467,
-			"title": "PORT060: The Portuguese-Speaking World: Literature and Culture by Period",
+			"layup_url": "https://www.layuplist.com/course/2469",
+			"layup_id": 2469,
+			"title": "PORT062: Film Media, Performance, and the Arts in the Portuguese-Speaking World",
 			"department": "PORT",
 			"offered": false,
 			"distribs": null,
@@ -45,92 +23,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2463",
-			"layup_id": 2463,
-			"title": "PORT025: Advanced Portuguese Composition",
-			"department": "PORT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2457",
-			"layup_id": 2457,
-			"title": "PORT003: Portuguese III",
-			"department": "PORT",
-			"offered": true,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2472",
-			"layup_id": 2472,
-			"title": "PORT063: Special Topics. Literary and Cultural Productions of the Portuguese-Speaking World",
-			"department": "PORT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2456",
-			"layup_id": 2456,
-			"title": "PORT001: Portuguese I",
-			"department": "PORT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 2,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2471",
-			"layup_id": 2471,
-			"title": "PORT063.03: Dismantling Paradise:  representations of violence in Brazilian arts",
-			"department": "PORT",
-			"offered": false,
-			"distribs": [
-				"NW",
-				"LIT"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2474",
-			"layup_id": 2474,
-			"title": "PORT083: Independent Reading and Research",
-			"department": "PORT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2464",
-			"layup_id": 2464,
-			"title": "PORT035.01: There Won't Be a World Cup: Social Shifts in Contemporary Brazil",
-			"department": "PORT",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"NW"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2468",
-			"layup_id": 2468,
-			"title": "PORT061: The Portuguese-Speaking World: Genre",
+			"layup_url": "https://www.layuplist.com/course/2470",
+			"layup_id": 2470,
+			"title": "PORT062.02: The Lusophone World Throughout Its Cinema: From Angola to Timor Leste",
 			"department": "PORT",
 			"offered": false,
 			"distribs": null,
@@ -145,17 +40,78 @@
 			"department": "PORT",
 			"offered": false,
 			"distribs": [
-				"NW",
-				"LIT"
+				"LIT",
+				"NW"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2475",
-			"layup_id": 2475,
-			"title": "PORT090: Honors Course",
+			"layup_url": "https://www.layuplist.com/course/2471",
+			"layup_id": 2471,
+			"title": "PORT063.03: Dismantling Paradise:  representations of violence in Brazilian arts",
+			"department": "PORT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"NW"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2466",
+			"layup_id": 2466,
+			"title": "PORT036: Studies in Contemporary Brazilian Literature",
+			"department": "PORT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2456",
+			"layup_id": 2456,
+			"title": "PORT001: Portuguese I",
+			"department": "PORT",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 2,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2472",
+			"layup_id": 2472,
+			"title": "PORT063: Special Topics. Literary and Cultural Productions of the Portuguese-Speaking World",
+			"department": "PORT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3349",
+			"layup_id": 3349,
+			"title": "PORT060.03: America \u0026 the Oblique Gaze",
+			"department": "PORT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"NW"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3904",
+			"layup_id": 3904,
+			"title": "PORT002: Portuguese II",
 			"department": "PORT",
 			"offered": false,
 			"distribs": null,
@@ -175,9 +131,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2466",
-			"layup_id": 2466,
-			"title": "PORT036: Studies in Contemporary Brazilian Literature",
+			"layup_url": "https://www.layuplist.com/course/2467",
+			"layup_id": 2467,
+			"title": "PORT060: The Portuguese-Speaking World: Literature and Culture by Period",
 			"department": "PORT",
 			"offered": false,
 			"distribs": null,
@@ -186,56 +142,14 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3229",
-			"layup_id": 3229,
-			"title": "PORT061.02: Eroticism, Power \u0026amp; Fiction",
-			"department": "PORT",
-			"offered": false,
-			"distribs": [
-				"NW",
-				"LIT"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2470",
-			"layup_id": 2470,
-			"title": "PORT062.02: The Lusophone World Throughout Its Cinema: From Angola to Timor Leste",
+			"layup_url": "https://www.layuplist.com/course/2457",
+			"layup_id": 2457,
+			"title": "PORT003: Portuguese III",
 			"department": "PORT",
 			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3349",
-			"layup_id": 3349,
-			"title": "PORT060.03: America \u0026 the Oblique Gaze",
-			"department": "PORT",
-			"offered": false,
-			"distribs": [
-				"NW",
-				"LIT"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2461",
-			"layup_id": 2461,
-			"title": "PORT012: Introduction to Brazilian Literature",
-			"department": "PORT",
-			"offered": false,
-			"distribs": [
-				"NW",
-				"LIT"
-			],
-			"total_reviews": 3,
-			"quality_score": 1,
 			"layup_score": 0
 		},
 		{
@@ -252,9 +166,34 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2465",
-			"layup_id": 2465,
-			"title": "PORT035: Advanced Studies in Brazilian Culture and Society",
+			"layup_url": "https://www.layuplist.com/course/2474",
+			"layup_id": 2474,
+			"title": "PORT083: Independent Reading and Research",
+			"department": "PORT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2461",
+			"layup_id": 2461,
+			"title": "PORT012: Introduction to Brazilian Literature",
+			"department": "PORT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"NW"
+			],
+			"total_reviews": 3,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2458",
+			"layup_id": 2458,
+			"title": "PORT007: First-Year Seminars in Portuguese",
 			"department": "PORT",
 			"offered": false,
 			"distribs": null,
@@ -277,9 +216,86 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2469",
-			"layup_id": 2469,
-			"title": "PORT062: Film Media, Performance, and the Arts in the Portuguese-Speaking World",
+			"layup_url": "https://www.layuplist.com/course/5156",
+			"layup_id": 5156,
+			"title": "PORT008: Brazilian Portraits",
+			"department": "PORT",
+			"offered": true,
+			"distribs": [
+				"LIT",
+				"NW",
+				"ART",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2463",
+			"layup_id": 2463,
+			"title": "PORT025: Advanced Portuguese Composition",
+			"department": "PORT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2464",
+			"layup_id": 2464,
+			"title": "PORT035.01: Social, Political, and Cultural Trends in Contemporary Brazil",
+			"department": "PORT",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"NW"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3229",
+			"layup_id": 3229,
+			"title": "PORT061.02: Eroticism, Power \u0026amp; Fiction",
+			"department": "PORT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"NW"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2475",
+			"layup_id": 2475,
+			"title": "PORT090: Honors Course",
+			"department": "PORT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2468",
+			"layup_id": 2468,
+			"title": "PORT061: The Portuguese-Speaking World: Genre",
+			"department": "PORT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2465",
+			"layup_id": 2465,
+			"title": "PORT035: Advanced Studies in Brazilian Culture and Society",
 			"department": "PORT",
 			"offered": false,
 			"distribs": null,
@@ -288,6 +304,6 @@
 			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 23:04:44",
-	"total": 24
+	"updated": "2019-11-20 20:46:54",
+	"total": 25
 }

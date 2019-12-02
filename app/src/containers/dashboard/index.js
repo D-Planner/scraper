@@ -8,6 +8,7 @@ import {
 } from '../../actions';
 // import searchIcon from '../../style/searchSimple.svg';
 import tutorialIcon from '../../style/tutorial.svg';
+import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import { emptyPlan } from '../../services/empty_plan';
@@ -72,7 +73,6 @@ class Dashboard extends React.Component {
 
   goToPlan(id) {
     this.props.setCurrentPlan(id);
-    // this.props.history.push(`/plan/${id}`);
   }
 
   showDialog() {
@@ -101,7 +101,7 @@ class Dashboard extends React.Component {
 
   showProfileDialog(props) {
     const dialogOptions = {
-      title: `Hello, ${props.user.first_name}`,
+      title: `Hello${props.user.firstName ? `, ${props.user.firstName}!` : '!'}`,
       size: 'lg',
       okText: 'Sign out',
       onOk: () => {
@@ -113,7 +113,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <>
+      <div className="dashboard-container">
         <div className={classNames({
           menu: true,
           active: this.state.active,
@@ -125,7 +125,6 @@ class Dashboard extends React.Component {
             <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
-
             <div role="presentation" onClick={() => this.props.history.push('/tutorial/0')} className="option-button">
               {this.state.active
                 ? (
@@ -137,7 +136,6 @@ class Dashboard extends React.Component {
                 )
                 : <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
             }
-
             </div>
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
@@ -149,6 +147,18 @@ class Dashboard extends React.Component {
                   </>
                 )
                 : <img className="search-icon" src={feedbackIcon} alt="search" />
+            }
+            </div>
+            <div role="presentation" onClick={() => this.props.history.push('/credits')} className="option-button">
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={creditsIcon} alt="search" />
+                    <div className="space" />
+                    <p>Credits</p>
+                  </>
+                )
+                : <img className="search-icon" src={creditsIcon} alt="search" />
             }
             </div>
             <div role="presentation"
@@ -172,13 +182,12 @@ class Dashboard extends React.Component {
                 : <img className="search-icon" src={personIcon} alt="search" />
             }
             </div>
-            {/* <NavLink to="/" onClick={() => this.props.signoutUser(this.props.history)}>Sign out</NavLink> */}
           </div>
         </div>
         <div id="error-container">
           {this.displayIfError()}
         </div>
-      </>
+      </div>
     );
   }
 }

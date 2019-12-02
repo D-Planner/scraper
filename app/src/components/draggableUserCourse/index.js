@@ -20,7 +20,11 @@ const source = {
     props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
-      props.removeCourseFromTerm();
+      console.log(props.course);
+      props.removeCourseFromTerm(props.course.id, props.sourceTerm).then((next) => {
+        next();
+        console.log('removed');
+      });
     }
   },
 };
@@ -65,9 +69,9 @@ class UserCourse extends Component {
         className="popover"
         onMouseEnter={() => this.setState({ beingHovered: true })}
         onMouseLeave={() => this.setState({ beingHovered: false })}
-        onClick={() => this.showCourseInfoDialog(this.props)}
+        onClick={() => this.showCourseInfoDialog()}
         role="button"
-        tabIndex="0"
+        tabIndex="-1" // 0
       >
         <CourseElement
           size={this.props.size}
