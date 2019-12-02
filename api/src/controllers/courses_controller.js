@@ -35,6 +35,7 @@ const searchCourses = (req, res) => {
         return;
     }
     const searchText = req.query.title;
+    console.log(searchText);
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
             if (k === 'department' && !departments.includes(v)) return false;
