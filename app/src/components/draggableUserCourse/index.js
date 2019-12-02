@@ -77,11 +77,16 @@ class UserCourse extends Component {
     // Fetches term and checks if course is likely to be offered then
     if (this.props.course.course.likely_terms) {
       getTerm(this.props.sourceTerm).then((term) => {
-        if (this.props.course.course.likely_terms.includes(term.quarter)) {
-          dialogOptions.infoBarMessage = `Likely to be offered during ${term.name}`;
-        } else {
-          dialogOptions.infoBarMessage = `Unlikely to be offered during ${term.name}`;
+        if (this.props.course.course.offered === true && this.props.currentTerm.year + this.props.currentTerm.term === term.name) { // Offered and in current term
+          dialogOptions.infoBarMessage = `Offered during ${term.name}`;
+        } else if (this.props.course.course.offered === false && this.props.currentTerm.year + this.props.currentTerm.term === term.name) { // Not offered and in current term
+          dialogOptions.infoBarMessage = `Not offered during ${term.name}`;
           dialogOptions.infoBarColor = 'error';
+        } else if (this.props.course.course.likely_terms.includes(term.quarter)) { // Likely to be offered and not in current term
+          dialogOptions.infoBarMessage = `Likely to be offered during ${term.name}`;
+        } else { // Unlikely to be offered and not in current term
+          dialogOptions.infoBarMessage = `Unlikely to be offered during ${term.name}`;
+          dialogOptions.infoBarColor = 'warning';
         }
         this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
       });
@@ -112,5 +117,9 @@ class UserCourse extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  currentTerm: state.time.currTerm,
+});
+
 // eslint-disable-next-line new-cap
-export default connect(null, { showDialog, setDraggingState })(DraggableUserCourse(ItemTypes.COURSE, source, collect)(UserCourse));
+export default connect(mapStateToProps, { showDialog, setDraggingState })(DraggableUserCourse(ItemTypes.COURSE, source, collect)(UserCourse));
