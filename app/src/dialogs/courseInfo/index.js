@@ -363,7 +363,6 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
-    // console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
         <div id="top">

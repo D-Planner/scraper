@@ -74,24 +74,17 @@ class UserCourse extends Component {
       showOk: false,
     };
 
-    console.log('props', this.props);
-    console.log('course', this.props.course);
     if (this.props.course.course.likely_terms) {
       getTerm(this.props.sourceTerm).then((term) => {
-        console.log('term', term);
-        console.log('offered?', this.props.course.course.likely_terms.includes(term.quarter));
         if (this.props.course.course.likely_terms.includes(term.quarter)) {
           dialogOptions.infoBarMessage = `Likely to be offered during ${term.name}`;
         } else {
           dialogOptions.infoBarMessage = `Unlikely to be offered during ${term.name}`;
           dialogOptions.infoBarColor = 'error';
         }
-        console.log('dialogOptions', dialogOptions);
         this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
       });
     } else {
-      console.log('no data on likely terms');
-      console.log('dialogOptions', dialogOptions);
       this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
     }
   }

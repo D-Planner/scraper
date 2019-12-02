@@ -40,7 +40,6 @@ class DialogWrapper extends React.Component {
   handlers = {
     OK: () => this.onOk(),
     CLOSE: () => {
-      console.log('closing...');
       this.props.hideDialog();
     },
   };
@@ -60,26 +59,22 @@ class DialogWrapper extends React.Component {
   }
 
   onOk = () => {
-    console.log('onOk');
     this.props.onOk();
     this.props.hideDialog();
   };
 
   onNo = () => {
-    console.log('onNo');
     this.props.onNo();
     this.props.hideDialog();
   };
 
   handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      console.log('handleBackgroundClick');
-      console.log(this.props.hideDialog());
+      this.props.hideDialog();
     }
   };
 
   render = () => {
-    console.log('dialogWrapper props', this.props);
     return (
       <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
