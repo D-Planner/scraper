@@ -14,6 +14,7 @@ const UserSchema = new Schema({
     placement_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     majors: [{ type: Schema.Types.ObjectId, ref: 'Major' }],
     settings: {},
+    accessGranted: Boolean,
     emailVerified: Boolean,
     emailVerificationKey: String,
     emailVerificationKeyTimeout: Number,
