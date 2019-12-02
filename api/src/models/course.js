@@ -85,16 +85,16 @@ CourseSchema.virtual('avg_median').get(function () {
 // For terms most likely to be offered, I'm thinking we take the average of times offered in each term (F,W,S,X), \
 // and whichever term has recurrence greater than the average, we display those as likely_terms?
 
-// CourseSchema.virtual('yearlyOccurences')
-//     .get(function () {
-//         return (this.terms_offered) ? this.terms_offered
-//             .reduce((acc, cur, i) => {
-//                 const [year, term] = cur.split(/(?!\d)/g);
-//                 if (acc[year]) acc[year].push(term);
-//                 else acc[year] = [term];
-//                 return acc;
-//             }, {}) : {};
-//     });
+CourseSchema.virtual('yearlyOccurences')
+    .get(function () {
+        return (this.terms_offered) ? this.terms_offered
+            .reduce((acc, cur, i) => {
+                const [year, term] = cur.split(/(?!\d)/g);
+                if (acc[year]) acc[year].push(term);
+                else acc[year] = [term];
+                return acc;
+            }, {}) : {};
+    });
 
 // // Format ["F", "W", "S", "X"]
 // CourseSchema.virtual('likely_terms').get(function () {
