@@ -295,8 +295,8 @@ class CourseInfoDialog extends Component {
       <>
         <div className="offering-label">{`20${year.toString()}:`}</div>
         {
-          ['F', 'W', 'S', 'X'].map((term) => {
-            return <div className={`an-offering ${terms.includes(term) ? 'filled' : ''}`} />;
+          ['F', 'W', 'S', 'X'].map((term, i) => {
+            return <div key={i.toString()} className={`an-offering ${terms.includes(term) ? 'filled' : ''}`} />;
           })
         }
       </>

@@ -5,7 +5,14 @@ import { GenEds } from '../constants';
 const initialState = {
   distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e) => { return { name: e.name, checked: false }; }),
   wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e) => { return { name: e.name, checked: false }; }),
-  offeredNextTerm: false,
+  offered: [''].reduce((acc, cur) => {
+    const returnVal = [{ term: 'current', check: false }];
+    const terms = ['F', 'W', 'S', 'X'];
+    for (let i = 0; i < terms.length; i += 1) {
+      returnVal.push({ term: terms[i], checked: false });
+    }
+    return returnVal;
+  }, []),
 };
 
 const filterReducer = (state = initialState, action) => {
@@ -16,7 +23,7 @@ const filterReducer = (state = initialState, action) => {
       return {
         distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e) => { return { name: e.name, checked: false }; }),
         wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e) => { return { name: e.name, checked: false }; }),
-        offeredNextTerm: false,
+        offered: new Array(15).map(i => ({ termIndex: i, checked: false })),
       };
     default:
       return state;

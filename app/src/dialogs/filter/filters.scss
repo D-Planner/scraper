@@ -15,6 +15,12 @@
         &.choice-next-term {
             width: 120px !important;
         }
+
+        .choice-label {
+            &.bold {
+                font-weight: bold;
+            }
+        }
     }
 
     .filter-list {

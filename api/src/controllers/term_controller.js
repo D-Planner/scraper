@@ -64,6 +64,46 @@ const updateTerm = (req, res) => {
         });
 };
 
+const addPlaceholderToTerm = (req, res) => {
+    console.log('ADD PLACEHOLDER TO TERM', req.body);
+    const termID = req.params.termID;
+    Term.findById(termID)
+        .then((term) => {
+            UserCourseController.createPlacementCourse(req.user.id, termID, req.body.department).then((placeholderCourse) => {
+                term.courses.push(placeholderCourse);
+                console.log(term);
+                return term.save();
+            });
+        })
+        .then((r) => {
+            res.send(200);
+        })
+        .catch((e) => {
+            console.log(e);
+            res.status(500).json({ e });
+        });
+};
+
+const removePlaceholderFromTerm = (req, res) => {
+    const { termID, department } = req.params;
+    console.log(department);
+    Term.findById(termID)
+        .populate({ path: 'courses' })
+        .then((term) => {
+            console.log(term.courses);
+            term.courses = term.courses.filter((c) => {
+                return c.placeholder !== department;
+            });
+            return term.save();
+        })
+        .then((r) => {
+            res.send(200);
+        })
+        .catch((e) => {
+            res.status(500).json({ e });
+        });
+};
+
 const addCourseToTerm = (req, res) => {
     const termID = req.params.termID;
     Term.findById(termID)
@@ -158,6 +198,8 @@ const TermController = {
     addCourseToTerm,
     removeCourseFromTerm,
     getTerm,
+    addPlaceholderToTerm,
+    removePlaceholderFromTerm,
 };
 
 export default TermController;
