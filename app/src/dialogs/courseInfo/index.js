@@ -129,22 +129,12 @@ class CourseInfoDialog extends Component {
    * @param {String} description
    */
   renderDescription = (description, orc_url) => {
-    if (description && description.length > 600) {
-      return (
-        <div id="description">
-          <div className="section-header">Description</div>
-          {/* {`${description.substring(0, 600)}... `}<a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a> */}
-          <div className="description-text">{description}</div>
-        </div>
-      );
-    } else {
-      return (
-        <div id="description">
-          <div className="section-header">Description</div>
-          {description} <a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a>
-        </div>
-      );
-    }
+    return (
+      <div id="description">
+        <div className="section-header">Description</div>
+        <div className="description-text">{description}</div>
+      </div>
+    );
   }
 
   /**
