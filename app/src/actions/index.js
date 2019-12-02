@@ -252,9 +252,10 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch({ type: ActionTypes.AUTH_USER });
-      history.push('/');
+      // localStorage.setItem('token', response.data.token);
+      // Deactivated unless access code given
+      // dispatch({ type: ActionTypes.AUTH_USER });
+      // history.push('/');
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -262,6 +263,31 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
       reject(error);
     });
   }));
+}
+
+// Verifies access code
+export function validateAccessCode(code, history) {
+  return dispatch => new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/auth/code?code=${code}`).then((response) => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      localStorage.setItem('token', response.data.token);
+      history.push('/');
+      resolve('Authenticated');
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+// Does a user exist with the given email?
+export function checkUserByEmail(email) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/auth/checkuser?email=${email}`).then((response) => {
+      resolve(response);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
 }
 
 /**
@@ -347,27 +373,31 @@ export function fetchPlans() {
 }
 
 /**
- * Fetches a specific plan by id from the API
+ * Fetches a specific plan by id from the API, or clears current plan in redux (null)
  * @export
  * @param {String} planID a string representing a Mongoose ObjectID for the plan to fetch
  * @returns an action creator to fetch a plan and store it in redux
  */
 export function fetchPlan(planID) {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  };
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
-      .then((response) => {
-        // console.log('[ACTION.js] fetched plan');
-        dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
-        resolve(response);
-      }).catch((error) => {
-        console.log(error);
-        dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-        reject();
-      });
-  }));
+  if (planID === null) {
+    return dispatch => dispatch({ type: ActionTypes.FETCH_PLAN, payload: null });
+  } else {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    return dispatch => new Promise(((resolve, reject) => {
+      axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
+        .then((response) => {
+          // console.log('[ACTION.js] fetched plan');
+          dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
+          resolve(response);
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+          reject();
+        });
+    }));
+  }
 }
 
 /**
