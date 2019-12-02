@@ -10,7 +10,7 @@ import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
-import open from '../../style/open.svg';
+// import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
@@ -109,12 +109,15 @@ class CourseInfoDialog extends Component {
   renderScores = (course) => {
     return (
       <div id="scores">
-        <div className="section-header" id="layup-header"><a href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-list</a><img src={open} alt="open in new tab" /></div>
-        <div>
-          Layup-list Score: {course.layup_score}
+        <div className="section-header" id="layup-header">
+          <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-list</a>
+          {/* <img src={open} alt="open in new tab" /> */}
         </div>
-        <div>
-          Quality Score: {course.quality_score}
+        <div className="layup-score-container">
+          <div>Layup-list Score:</div><div className="layup-score-accent">{course.layup_score}</div>
+        </div>
+        <div className="layup-score-container">
+          <div>Quality Score:</div><div className="layup-score-accent">{course.quality_score}</div>
         </div>
       </div>
     );
@@ -377,11 +380,13 @@ class CourseInfoDialog extends Component {
         <hr className="horizontal-divider" />
         <div id="scrollable">
           <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
+          {/* <hr /> Add lines */}
           <div id="metrics">
             {this.renderDistribs(course)}
             {this.renderMedians(course.medians)}
             {this.renderScores(course)}
           </div>
+          {/* <hr /> Add lines */}
           <div id="last">
             {this.renderPrerequisites(course)}
             {this.renderOfferingsWrapper(course)}

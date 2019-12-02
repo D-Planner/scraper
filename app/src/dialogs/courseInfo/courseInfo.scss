@@ -8,6 +8,14 @@
   }
 }
 
+:link {
+  color: $blue-primary;
+
+  &:visited {
+    color: $text-accent;
+  }
+}
+
 #content {
     flex: 1;
     display: flex;
@@ -26,6 +34,12 @@
       font-weight: 600;
       color: $text-accent;
       margin-bottom: 10px;
+
+      .layup-link {
+        // color: $blue-primary;
+        color: $text-accent;
+        text-decoration: none;
+      }
     }
 
     #layup-header {
@@ -189,6 +203,17 @@
               color: $text-accent;
               font-size: 14px;
               text-overflow: ellipsis;
+
+              .layup-score-container {
+                display: flex;
+                flex-direction: row;
+
+                .layup-score-accent {
+                  color: $blue-primary;
+                  margin-left: 5px;
+                  font-weight: 500;
+                }
+              }
           }
       }
 
