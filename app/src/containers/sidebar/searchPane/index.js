@@ -47,7 +47,7 @@ const SearchPane = React.forwardRef((props, ref) => {
       props.stampIncrement((props.resultStamp + 1));
       props.search(queryParsed, props.resultStamp);
     }
-  }, [props.searchQuery, wcs, distribs]);
+  }, [props.searchQuery, wcs, distribs, offered]);
 
   useEffect(() => {
     setResults(props.results);
@@ -85,6 +85,7 @@ const SearchPane = React.forwardRef((props, ref) => {
     setWC([]);
     setDistrib([]);
     setOffered([]);
+    props.clearFilters();
   };
 
   const showFilterDialog = () => {
