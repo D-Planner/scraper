@@ -79,9 +79,11 @@ class DialogWrapper extends React.Component {
   };
 
   render = () => {
+    console.log(this.props);
     return (
       <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+          {this.props.infoBarMessage ? <div className="dialog-info-bar"><div className="dialog-info">{this.props.infoBarMessage}</div></div> : null}
           <div className={this.size} ref={this.popupRef} tabIndex={-1}>
             <div className="dialog-header">
               <h1 className="dialog-title">{this.props.title}</h1>
@@ -123,6 +125,8 @@ DialogWrapper.propTypes = {
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
   /** a generic message */
   message: PropTypes.string,
+  /** a generic message for top of dialog */
+  infoBarMessage: PropTypes.string,
 
   // methods
   /** hides the dialog */
@@ -143,6 +147,7 @@ DialogWrapper.defaultProps = {
   noDisabled: false,
   size: 'sm',
   message: null,
+  infoBarMessage: null,
   onOk: () => {},
   onNo: () => {},
 };

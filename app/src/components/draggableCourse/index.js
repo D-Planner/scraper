@@ -54,6 +54,7 @@ class Course extends React.Component {
       size: 'lg',
       data: this.props.course,
       showOk: false,
+      infoBarMessage: 'Hello there!',
     };
     this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
   }
