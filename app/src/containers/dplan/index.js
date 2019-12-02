@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -295,6 +295,48 @@ class DPlan extends Component {
     }
   })
 
+  addPlaceholderCourseToTerm = (department, term) => new Promise((resolve, reject) => {
+    console.log('[DPLAN.js] We got request to add placeholder course to term');
+    try {
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === term._id) {
+            axios.post(`${ROOT_URL}/terms/${term.id}/course/placement`, { department }, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then((response) => {
+              this.props.addPlaceholderCourse(department, term._id);
+              resolve();
+            });
+          }
+        });
+      });
+    } catch (e) {
+      reject(e);
+    }
+  })
+
+  removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
+    console.log('[DPLAN.js] We got request to remove placeholder course from term');
+    try {
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === termID) {
+            axios.delete(`${ROOT_URL}/terms/${termID}/course/placement/${department}`, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then(() => {
+              console.log('DEPARTMENT to remove', department);
+              this.props.removePlaceholderCourse(department, termID);
+              resolve();
+            });
+          }
+        });
+      });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  })
+
   setDraggingFulfilledStatus = courseID => new Promise((resolve, reject) => {
     console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
     // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
@@ -422,6 +464,8 @@ class DPlan extends Component {
                   openPane={this.state.openPane}
                   planCourses={this.getFlattenedCourses()}
                   setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                  addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                  removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
                 />
               </div>
               <div className="plan-grid">
@@ -438,6 +482,8 @@ class DPlan extends Component {
                             addCourseToTerm={this.addCourseToTerm}
                             removeCourseFromTerm={this.removeCourseFromTerm}
                             setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                            addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                            removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
                           />
                         );
                       })}
@@ -477,4 +523,6 @@ export default withRouter(connect(mapStateToProps, {
   updatePlan,
   sendVerifyEmail,
   setFulfilledStatus,
+  addPlaceholderCourse,
+  removePlaceholderCourse,
 })(DPlan));
