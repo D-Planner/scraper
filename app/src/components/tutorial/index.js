@@ -13,7 +13,11 @@ import {
 } from '../../actions';
 
 import './tutorial.scss';
+
 import feature1 from '../../style/dplanner-19.png';
+import requirementBubbles from '../../style/requirement_bubbles.png';
+import emptyTerm from '../../style/empty_term.png';
+import filledTerm from '../../style/filled_term.png';
 
 const tutorialData = [
   {
@@ -25,40 +29,85 @@ const tutorialData = [
   {
     title: 'The  Basics.',
     isInteractable: false,
-    graphic: feature1,
+    graphic: requirementBubbles,
     text: '1',
   },
   {
     title: 'Course Items.',
-    isInteractable: true,
-    graphic: 'course',
+    isInteractable: false,
+    graphic: emptyTerm,
     text: '2',
   },
   {
     title: 'Course Items.',
-    isInteractable: true,
-    graphic: 'course',
+    isInteractable: false,
+    graphic: filledTerm,
     text: '3',
   },
   {
     title: 'Term Modules.',
-    isInteractable: true,
-    graphic: 'term',
+    isInteractable: false,
+    graphic: feature1,
     text: '4',
   },
   {
     title: 'Finding Classes.',
-    isInteractable: true,
-    graphic: 'search',
+    isInteractable: false,
+    graphic: feature1,
     text: '5',
   },
   {
     title: 'Your Degree.',
-    isInteractable: true,
-    graphic: 'degree',
+    isInteractable: false,
+    graphic: feature1,
     text: '6',
   },
 ];
+
+// const tutorialData = [
+//   {
+//     title: 'Welcome to D-Planner!',
+//     isInteractable: false,
+//     graphic: feature1,
+//     text: '0',
+//   },
+//   {
+//     title: 'The  Basics.',
+//     isInteractable: false,
+//     graphic: feature1,
+//     text: '1',
+//   },
+//   {
+//     title: 'Course Items.',
+//     isInteractable: true,
+//     graphic: 'course',
+//     text: '2',
+//   },
+//   {
+//     title: 'Course Items.',
+//     isInteractable: true,
+//     graphic: 'course',
+//     text: '3',
+//   },
+//   {
+//     title: 'Term Modules.',
+//     isInteractable: true,
+//     graphic: 'term',
+//     text: '4',
+//   },
+//   {
+//     title: 'Finding Classes.',
+//     isInteractable: true,
+//     graphic: 'search',
+//     text: '5',
+//   },
+//   {
+//     title: 'Your Degree.',
+//     isInteractable: true,
+//     graphic: 'degree',
+//     text: '6',
+//   },
+// ];
 
 const endTutorialText = 'Continue';
 

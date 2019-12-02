@@ -12,6 +12,8 @@ $content-padding-top: 25vh;
   flex-direction: column;
 
   .skip-tutorial {
+    cursor: pointer;
+
     width: 8vw;
     height: 2vw;
 
@@ -44,7 +46,8 @@ $content-padding-top: 25vh;
     text-align: left;
   
     color: $text-accent;
-    font-style: italic;
+    font-weight: 600;
+    // font-style: italic;
   }
   
   .rowContainer {
@@ -97,6 +100,8 @@ $content-padding-top: 25vh;
     flex-direction: column;
 
     .previous {
+      cursor: pointer;
+
       width: 32vw;
       height: 5vh;
 
@@ -126,6 +131,8 @@ $content-padding-top: 25vh;
     }
 
     .next {
+      cursor: pointer;
+
       width: 32vw;
       height: 5vh;
 
