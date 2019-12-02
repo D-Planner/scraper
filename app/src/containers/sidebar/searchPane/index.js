@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
-import arrowDropDown from '../../../style/arrowDropDown.svg';
+import searchIcon from '../../../style/search-purple.svg';
 import { DialogTypes } from '../../../constants';
 
 import './searchPane.scss';
@@ -78,9 +78,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
-        <button type="button" className="search-config-button">
-          <img className="search-config-icon" src={arrowDropDown} alt="filter" />
-        </button>
+        <img className="search-config-icon" src={searchIcon} alt="search" />
         <input type="text"
           className="search-input"
           placeholder="Search for courses"
