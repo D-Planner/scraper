@@ -83,7 +83,7 @@ class DialogWrapper extends React.Component {
     return (
       <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-          {this.props.infoBarMessage ? <div className="dialog-info-bar"><div className="dialog-info">{this.props.infoBarMessage}</div></div> : null}
+          {this.props.infoBarMessage ? <div className={`dialog-info-bar${this.props.infoBarColor ? ` ${this.props.infoBarColor}` : ''}`}><div className="dialog-info">{this.props.infoBarMessage}</div></div> : null}
           <div className={this.size} ref={this.popupRef} tabIndex={-1}>
             <div className="dialog-header">
               <h1 className="dialog-title">{this.props.title}</h1>

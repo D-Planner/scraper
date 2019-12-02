@@ -22,6 +22,14 @@
       align-content: center;
       justify-content: center;
 
+      &.warning {
+        background-color: $orange;
+      }
+
+      &.error {
+        background-color: $error;
+      }
+
       .dialog-info {
         display: flex;
         margin: auto;

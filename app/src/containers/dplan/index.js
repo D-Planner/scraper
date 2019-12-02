@@ -221,7 +221,12 @@ class DPlan extends Component {
           return c.fulfilledStatus === '';
         })
         .map((c) => {
-          return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
+          try {
+            return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
+          } catch (e) {
+            console.log(e);
+            return c.course.id;
+          }
         })
         .flat())];
       return { [term._id]: prevCourses };

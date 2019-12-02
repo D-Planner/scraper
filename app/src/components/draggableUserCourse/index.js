@@ -83,7 +83,8 @@ class UserCourse extends Component {
         if (this.props.course.course.likely_terms.includes(term.quarter)) {
           dialogOptions.infoBarMessage = `Likely to be offered during ${term.name}`;
         } else {
-          dialogOptions.infoBarMessage = `Unlikely to be offered during ${term.term}`;
+          dialogOptions.infoBarMessage = `Unlikely to be offered during ${term.name}`;
+          dialogOptions.infoBarColor = 'error';
         }
         console.log('dialogOptions', dialogOptions);
         this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
