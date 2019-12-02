@@ -9,6 +9,7 @@ const initialState = {
 const dialogReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SHOW_DIALOG:
+      console.log('reducer', action.payload.options);
       return Object.assign({}, state, { type: action.payload.type, options: action.payload.options });
     case ActionTypes.HIDE_DIALOG:
       if (state.focusOnClose !== null) {

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
-import { ItemTypes, DialogTypes } from '../../constants';
+import { ItemTypes, DialogTypes, ROOT_URL } from '../../constants';
 import { showDialog, setDraggingState } from '../../actions';
 import CourseElement from '../staticCourseElement';
 
@@ -36,6 +37,19 @@ const collect = (connectDrag, monitor) => {
   };
 };
 
+const getTerm = (termID) => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/terms/${termID}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve(response.data);
+    })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 /** a drag-n-drop capable component containing information on a UserCourse object */
 class UserCourse extends Component {
   constructor(props) {
@@ -59,7 +73,26 @@ class UserCourse extends Component {
       previousCourses: this.props.previousCourses,
       showOk: false,
     };
-    this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
+
+    console.log('props', this.props);
+    console.log('course', this.props.course);
+    if (this.props.course.course.likely_terms) {
+      getTerm(this.props.sourceTerm).then((term) => {
+        console.log('term', term);
+        console.log('offered?', this.props.course.course.likely_terms.includes(term.quarter));
+        if (this.props.course.course.likely_terms.includes(term.quarter)) {
+          dialogOptions.infoBarMessage = `Likely to be offered during ${term.name}`;
+        } else {
+          dialogOptions.infoBarMessage = `Unlikely to be offered during ${term.term}`;
+        }
+        console.log('dialogOptions', dialogOptions);
+        this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
+      });
+    } else {
+      console.log('no data on likely terms');
+      console.log('dialogOptions', dialogOptions);
+      this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
+    }
   }
 
 
@@ -83,5 +116,6 @@ class UserCourse extends Component {
     );
   }
 }
+
 // eslint-disable-next-line new-cap
 export default connect(null, { showDialog, setDraggingState })(DraggableUserCourse(ItemTypes.COURSE, source, collect)(UserCourse));

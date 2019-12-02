@@ -79,7 +79,7 @@ class DialogWrapper extends React.Component {
   };
 
   render = () => {
-    console.log(this.props);
+    console.log('dialogWrapper props', this.props);
     return (
       <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>

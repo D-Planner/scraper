@@ -19,7 +19,6 @@ const DialogOrchestrator = (props) => {
   // useEffect(() => {
   //   props.fetchMajors();
   // }, []);
-  console.log('dialogOrchestrator', props.options);
   switch (props.type) {
     case DialogTypes.NEW_PLAN:
       return (<NewPlanDialog {...props.options} hideDialog={props.hideDialog} />);
