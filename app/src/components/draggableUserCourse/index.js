@@ -74,6 +74,7 @@ class UserCourse extends Component {
       showOk: false,
     };
 
+    // Fetches term and checks if course is likely to be offered then
     if (this.props.course.course.likely_terms) {
       getTerm(this.props.sourceTerm).then((term) => {
         if (this.props.course.course.likely_terms.includes(term.quarter)) {
