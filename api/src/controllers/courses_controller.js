@@ -365,52 +365,53 @@ const createCourse = () => {
         Promise.all(courses.map(async (course) => {
             Promise.all(filledValues(course)).then((r) => {
             // separates into [wcs] and [distribs]
-            let wcs = []; let distribs = [];
-            if (course.distribs != null) {
-                wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
-                distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
-            }
-            const [xlist, prerequisites, professors] = r;
-            const profUnique = Array.from(new Set(professors.map((p) => { return p.toString(); })));
-            // if (course.name === 'Problem Solving via Object-Oriented Programming') console.log(profUnique);
-            return Course.findOneAndUpdate(
-                { title: course.title },
-                {
-                    layup_url: course.layup_url,
-                    layup_id: course.layup_id,
-                    title: course.title,
-                    department: course.department,
-                    offered: course.offered,
-                    distribs,
-                    wcs,
-                    total_reviews: course.total_reviews,
-                    quality_score: course.quality_score,
-                    layup_score: course.layup_score,
-                    name: course.name,
-                    number: course.number,
-                    periods: course.periods,
-                    description: course.description,
-                    // reviews: course.reviews,
-                    similar_courses: course.similar_courses,
-                    orc_url: course.orc_url,
-                    medians: course.medians,
-                    terms_offered: course.terms_offered,
-                    professors: profUnique,
-                    prerequisites,
-                    $addToSet: { xlist: { $each: xlist.flat() } },
-                    likely_terms: calculateLikelyTerms(course.terms_offered),
-                },
-                { upsert: true },
-            ).then((res) => {
-                return res;
+                let wcs = []; let distribs = [];
+                if (course.distribs != null) {
+                    wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
+                    distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
+                }
+                const [xlist, prerequisites, professors] = r;
+                const profUnique = Array.from(new Set(professors.map((p) => { return p.toString(); })));
+                // if (course.name === 'Problem Solving via Object-Oriented Programming') console.log(profUnique);
+                return Course.findOneAndUpdate(
+                    { title: course.title },
+                    {
+                        layup_url: course.layup_url,
+                        layup_id: course.layup_id,
+                        title: course.title,
+                        department: course.department,
+                        offered: course.offered,
+                        distribs,
+                        wcs,
+                        total_reviews: course.total_reviews,
+                        quality_score: course.quality_score,
+                        layup_score: course.layup_score,
+                        name: course.name,
+                        number: course.number,
+                        periods: course.periods,
+                        description: course.description,
+                        // reviews: course.reviews,
+                        similar_courses: course.similar_courses,
+                        orc_url: course.orc_url,
+                        medians: course.medians,
+                        terms_offered: course.terms_offered,
+                        professors: profUnique,
+                        prerequisites,
+                        $addToSet: { xlist: { $each: xlist.flat() } },
+                        likely_terms: calculateLikelyTerms(course.terms_offered),
+                    },
+                    { upsert: true },
+                ).then((res) => {
+                    return res;
+                }).catch((error) => {
+                    return error;
+                });
+            }).then(() => {
+                resolve();
             }).catch((error) => {
-                return error;
+                reject(error);
             });
-        })).then(() => {
-            resolve();
-        }).catch((error) => {
-            reject(error);
-        });
+        }));
     });
 };
 
