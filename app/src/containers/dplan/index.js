@@ -205,6 +205,7 @@ class DPlan extends Component {
 
   setPreviousCourses = () => {
     console.log('[setPreviousCourses Dplan.js]');
+
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
         .sort((t1, t2) => {
@@ -218,7 +219,7 @@ class DPlan extends Component {
         })
         .flat()
         .filter((c) => {
-          return c.fulfilledStatus === '';
+          return (c.fulfilledStatus === '' && !c.placeholder && c.course !== null);
         })
         .map((c) => {
           return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
@@ -232,7 +233,9 @@ class DPlan extends Component {
           .forEach((x) => {
             if (x._id === String(term)) {
               x.previousCourses = previousCourses;
-              x.courses.forEach((course) => {
+              x.courses.filter((c) => {
+                return (c.fulfilledStatus === '' && !c.placeholder && c.course !== null);
+              }).forEach((course) => {
                 console.log('SETFULFILLEDSTATUS', course.course.name);
                 this.setAllFulfilledStatus(x._id, course.id);
               });
