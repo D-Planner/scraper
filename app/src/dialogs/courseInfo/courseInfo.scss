@@ -16,6 +16,12 @@
   }
 }
 
+// For 'no prerequisites', ...
+.no-options-text {
+  font-size: 14px;
+  color: $text-accent;
+}
+
 #content {
     flex: 1;
     display: flex;
@@ -51,12 +57,6 @@
         margin-left: 4px;
         width: 16px;
       }
-    }
-
-    .sad {
-      font-size: 14px;
-      font-style: italic;
-      color: $gray-6;
     }
 
     #top {
@@ -244,11 +244,6 @@
             flex-direction: column;
             align-items: flex-start;
             overflow: visible;
-
-            #no-prerequisites {
-              font-size: 14px;
-              color: $text-accent;
-            }
 
             .rule-header {
               font-size: 14px;

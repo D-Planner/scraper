@@ -48,11 +48,12 @@ class CourseInfoDialog extends Component {
       <div id="distribs">
         <div className="section-header">Distributives</div>
         <div id="bubbles">
-          {distribs.map((distrib, i) => {
-            return (
-              <img key={i.toString()} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
-            );
-          })}
+          {distribs.length > 0
+            ? distribs.map((distrib, i) => {
+              return (
+                <img key={i.toString()} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
+              );
+            }) : <div className="no-options-text">No distributives</div>}
           {(wcs.length === 0 || distribs.length === 0) ? null : <div className="vertical-divider" />}
           {wcs.map((wc, i) => {
             return (
@@ -94,7 +95,7 @@ class CourseInfoDialog extends Component {
       return (
         <div id="medians">
           <div className="section-header">Medians</div>
-          <div className="sad">
+          <div className="no-options-text">
             No medians available.
           </div>
         </div>
@@ -255,7 +256,7 @@ class CourseInfoDialog extends Component {
                 default:
                   return render;
               }
-            }) : <div id="no-prerequisites">No prerequisites</div>}
+            }) : <div className="no-options-text">No prerequisites</div>}
         </div>
       </div>
     );
@@ -266,7 +267,7 @@ class CourseInfoDialog extends Component {
       return (
         <div id="offerings">
           <div className="section-header">Past Offerings</div>
-          <div className="sad">No historical offering data.</div>
+          <div className="no-options-text">No historical offering data</div>
         </div>
       );
     }
