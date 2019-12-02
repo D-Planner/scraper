@@ -87,6 +87,7 @@ app/build
 .env.production.local
 *.DS_Store
 .vs
+.vscode
 *.code-workspace
 app/surge.crt
 app/surge.key

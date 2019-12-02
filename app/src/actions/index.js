@@ -371,27 +371,31 @@ export function fetchPlans() {
 }
 
 /**
- * Fetches a specific plan by id from the API
+ * Fetches a specific plan by id from the API, or clears current plan in redux (null)
  * @export
  * @param {String} planID a string representing a Mongoose ObjectID for the plan to fetch
  * @returns an action creator to fetch a plan and store it in redux
  */
 export function fetchPlan(planID) {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  };
-  return dispatch => new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
-      .then((response) => {
-        // console.log('[ACTION.js] fetched plan');
-        dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
-        resolve(response);
-      }).catch((error) => {
-        console.log(error);
-        dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-        reject();
-      });
-  }));
+  if (planID === null) {
+    return dispatch => dispatch({ type: ActionTypes.FETCH_PLAN, payload: null });
+  } else {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    return dispatch => new Promise(((resolve, reject) => {
+      axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
+        .then((response) => {
+          // console.log('[ACTION.js] fetched plan');
+          dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
+          resolve(response);
+        }).catch((error) => {
+          console.log(error);
+          dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+          reject();
+        });
+    }));
+  }
 }
 
 /**
