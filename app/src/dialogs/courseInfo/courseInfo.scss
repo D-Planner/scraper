@@ -19,7 +19,9 @@
 // For 'no prerequisites', ...
 .no-options-text {
   font-size: 14px;
-  color: $text-accent;
+  color: $gray-6;
+  font-style: italic;
+  font-weight: 300;
 }
 
 #content {
@@ -122,10 +124,14 @@
               }
           }
           #description {
-              text-overflow: ellipsis;
               font-size: 14px;
               color: $text-accent;
               line-height: 20px;
+
+              .description-text {
+                overflow: auto;
+                max-height: $description-height;
+              }
           }
       }
 

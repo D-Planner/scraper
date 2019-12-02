@@ -133,7 +133,8 @@ class CourseInfoDialog extends Component {
       return (
         <div id="description">
           <div className="section-header">Description</div>
-          {`${description.substring(0, 600)}... `}<a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a>
+          {/* {`${description.substring(0, 600)}... `}<a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a> */}
+          <div className="description-text">{description}</div>
         </div>
       );
     } else {
