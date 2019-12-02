@@ -245,6 +245,11 @@
             align-items: flex-start;
             overflow: visible;
 
+            #no-prerequisites {
+              font-size: 14px;
+              color: $text-accent;
+            }
+
             .rule-header {
               font-size: 14px;
               color: $text-accent;

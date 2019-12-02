@@ -110,7 +110,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="scores">
         <div className="section-header" id="layup-header">
-          <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-list</a>
+          <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
           {/* <img src={open} alt="open in new tab" /> */}
         </div>
         <div className="layup-score-container">
@@ -228,33 +228,34 @@ class CourseInfoDialog extends Component {
       <div id="dependenciesContainer">
         <div className="section-header">Prerequisites</div>
         <div id="dependencies">
-          {prerequisites.map((o, i) => {
-            let dependencyType = Object.keys(o).find((key) => {
-              return (o[key].length > 0 && key !== '_id');
-            });
-            if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
+          {prerequisites.length > 0
+            ? prerequisites.map((o, i) => {
+              let dependencyType = Object.keys(o).find((key) => {
+                return (o[key].length > 0 && key !== '_id');
+              });
+              if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
-            const render = (
-              <div key={i.toString()} className="dependency">
-                <div className="rule-header">{Dependencies[dependencyType]}</div>
-                <div id="course-spacer-large" />
-                {renderPrereqByType(o, dependencyType)}
-              </div>
-            );
-            if (!this.props.previousCourses) return render;
-            switch (dependencyType) {
-              case 'req':
-                return (o[dependencyType].some((c) => {
-                  return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
-                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
-              case 'range':
-                return (this.props.previousCourses.some((c) => {
-                  return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
-                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
-              default:
-                return render;
-            }
-          })}
+              const render = (
+                <div key={i.toString()} className="dependency">
+                  <div className="rule-header">{Dependencies[dependencyType]}</div>
+                  <div id="course-spacer-large" />
+                  {renderPrereqByType(o, dependencyType)}
+                </div>
+              );
+              if (!this.props.previousCourses) return render;
+              switch (dependencyType) {
+                case 'req':
+                  return (o[dependencyType].some((c) => {
+                    return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
+                  })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
+                case 'range':
+                  return (this.props.previousCourses.some((c) => {
+                    return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
+                  })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
+                default:
+                  return render;
+              }
+            }) : <div id="no-prerequisites">No prerequisites</div>}
         </div>
       </div>
     );
