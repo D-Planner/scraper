@@ -469,26 +469,6 @@ export function fetchCourses() {
  * @export
  * @returns an action creator to gather all courses and store them in the redux store
  */
-// export function fetchCourse(id) {
-//   const headers = {
-//     Authorization: `Bearer ${localStorage.getItem('token')}`,
-//   };
-//   return new Promise(((resolve, reject) => {
-//     axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
-//       resolve(response.data);
-//     }).catch((error) => {
-//       console.log(error);
-//       reject(error);
-//     });
-//   }));
-// }
-
-// /**
-//  * @private
-//  * Fetches a specific courses from the database (corresponding to the most recent ORC crawl)
-//  * NOTE: not set up in reducer yet because it's not used
-//  * @returns an action creator to gather a course and store it in the redux store
-//  */
 export function fetchCourse(id) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -619,7 +599,7 @@ export function addCourseToPlacements(courseID) {
  * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
  * @returns an action creator to add a course to a user's favorites
  */
-export function removePlacement(courseID) {
+export function removeCourseFromPlacement(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

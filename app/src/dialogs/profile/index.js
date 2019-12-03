@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
+  removeCourseFromFavorites, removeCourseFromPlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -269,5 +269,5 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
+  removeCourseFromFavorites, removeCourseFromPlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
 })(ProfileDialog));

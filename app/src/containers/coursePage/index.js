@@ -1,21 +1,35 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
+// Headers: fc, fp, fu
+// User: actf, actp, rcfp, rp,
+// None:
 import {
-  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
-import logo from '../../style/logo.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 import { GenEds, APP_URL } from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
 import './coursePage.scss';
+
+const invalidCourse = id => ({
+  title: 'Error: Course not found',
+  description: `The course with id '${id}' could not be found.`,
+  medians: [{ term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }],
+  layup_score: '--',
+  quality_score: '--',
+  distribs: [],
+  prerequisites: [],
+  professors: [],
+  department: '--',
+});
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -30,6 +44,8 @@ class CoursePage extends React.Component {
     this.state = {
       course: null,
     };
+
+    this.pageNavigate = this.pageNavigate.bind(this);
   }
 
   componentDidMount() {
@@ -39,11 +55,10 @@ class CoursePage extends React.Component {
       console.log('id', this.props.match.params.id);
       this.setState({ course });
     }).catch((error) => {
+      this.setState({ course: invalidCourse(this.props.match.params.id) });
       console.error(error);
     });
   }
-
-  // -------------------------------------------- //
 
   /**
    * Handles rendering of distributive bubbles.
@@ -193,7 +208,7 @@ class CoursePage extends React.Component {
     return (
       <div id="professors">
         <div className="section-header">Professor Reviews</div>
-        {professors.map((p) => {
+        {professors.length > 0 ? professors.map((p) => {
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
@@ -203,9 +218,13 @@ class CoursePage extends React.Component {
               </ReactTooltip>
             </div>
           );
-        })}
+        }) : <div className="professor empty">No professor data</div> }
       </div>
     );
+  }
+
+  pageNavigate = (id) => {
+    this.props.history.push(`/course/${id}`);
   }
 
   renderPrerequisites = (course) => {
@@ -228,7 +247,8 @@ class CoursePage extends React.Component {
         return o[dependencyType].map((c) => {
           return (
             <div key={c.id.toString()}>
-              <NonDraggableCourse course={c} currTerm={this.props.currTerm} />
+              {/* ADD ID VERIFICATION AND INVALID PAGE MESSAGE */}
+              <NonDraggableCourse course={c} currTerm={this.props.currTerm} click={() => this.pageNavigate(c._id)} />
               <div id="course-spacer-large" />
             </div>
           );
@@ -362,7 +382,7 @@ class CoursePage extends React.Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removePlacement(this.props.data.id)
+              ? () => this.props.removeCourseFromPlacement(this.props.data.id)
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(this.props.data.id)
                 .then(() => this.props.fetchUser())
@@ -385,7 +405,6 @@ class CoursePage extends React.Component {
   courseInfo(course, nextTerm) {
     return (
       <div id="content">
-        {/* <div className="spacer" /> */}
         <h1 className="course-info-title">{this.state.course.title}</h1>
         <div id="top">
           <div id="major">{`Department: ${course.department}`}</div>
@@ -411,14 +430,12 @@ class CoursePage extends React.Component {
     );
   }
 
-  // -------------------------------------------- //
-
   render() {
     return (
       <Fragment>
         <HeaderMenu />
         <div className="course-info-container">
-          {this.state.course ? this.courseInfo(this.state.course, {}) : <LoadingWheel />}
+          {this.state.course ? this.courseInfo(this.state.course, this.props.nextTerm) : <LoadingWheel />}
         </div>
       </Fragment>
     );
@@ -428,8 +445,9 @@ class CoursePage extends React.Component {
 const mapStateToProps = state => ({
   user: state.user.current,
   currTerm: state.time.currTerm,
+  nextTerm: state.time.nextTerm,
 });
 
 export default connect(mapStateToProps, {
-  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 })(CoursePage);

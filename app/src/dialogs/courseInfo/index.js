@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
 import {
-  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -342,7 +342,7 @@ class CourseInfoDialog extends Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removePlacement(this.props.data.id)
+              ? () => this.props.removeCourseFromPlacement(this.props.data.id)
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(this.props.data.id)
                 .then(() => this.props.fetchUser())
@@ -406,5 +406,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement, showDialog, fetchCourseProfessors,
+  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removeCourseFromPlacement, showDialog, fetchCourseProfessors,
 })(CourseInfoDialog);

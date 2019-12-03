@@ -36,7 +36,7 @@
         justify-content: flex-start;
         overflow-y: auto;
 
-        max-width: 900px;
+        max-width: $page-width;
         margin: 0 auto;
 
         .logo {
@@ -329,6 +329,12 @@
               .professor {
                 color: $text-accent;
                 font-size: 14px;
+
+                &.empty {
+                  color: $gray-6;
+                  font-style: italic;
+                  font-weight: 300;
+                }
               }
             }
           }

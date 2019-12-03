@@ -22,9 +22,6 @@ class HeaderMenu extends React.Component {
           <a className="header-menu-login" href="/">Sign In</a>
           <a className="header-menu-login" href="/">Sign Up</a>
         </div>
-        {/* <div className="header-menu-login">
-          Sign Up
-        </div> */}
       </div>
     );
   }
