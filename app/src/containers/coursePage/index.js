@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
+import { withRouter } from 'react-router-dom';
 // Headers: fc, fp, fu
 // User: actf, actp, rcfp, rp,
 // None:
@@ -51,13 +52,18 @@ class CoursePage extends React.Component {
   componentDidMount() {
     this.props.getTimes();
     this.props.fetchCourse(this.props.match.params.id).then((course) => {
-      console.log('course', course);
-      console.log('id', this.props.match.params.id);
       this.setState({ course });
     }).catch((error) => {
       this.setState({ course: invalidCourse(this.props.match.params.id) });
       console.error(error);
     });
+  }
+
+  // Detects click on course and reloads
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      window.location.reload();
+    }
   }
 
   /**
@@ -223,10 +229,6 @@ class CoursePage extends React.Component {
     );
   }
 
-  pageNavigate = (id) => {
-    this.props.history.push(`/course/${id}`);
-  }
-
   renderPrerequisites = (course) => {
     const { prerequisites } = course;
 
@@ -248,7 +250,7 @@ class CoursePage extends React.Component {
           return (
             <div key={c.id.toString()}>
               {/* ADD ID VERIFICATION AND INVALID PAGE MESSAGE */}
-              <NonDraggableCourse course={c} currTerm={this.props.currTerm} click={() => this.pageNavigate(c._id)} />
+              <NonDraggableCourse course={c} currTerm={this.props.currTerm} click={() => this.props.history.push(`/course/${c._id}`)} />
               <div id="course-spacer-large" />
             </div>
           );
@@ -448,6 +450,6 @@ const mapStateToProps = state => ({
   nextTerm: state.time.nextTerm,
 });
 
-export default connect(mapStateToProps, {
+export default withRouter(connect(mapStateToProps, {
   fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
-})(CoursePage);
+})(CoursePage));
