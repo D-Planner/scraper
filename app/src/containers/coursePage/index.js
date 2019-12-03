@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import {
-  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -14,7 +14,7 @@ import logo from '../../style/logo.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 import { GenEds, APP_URL } from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
-
+import HeaderMenu from '../../components/headerMenu';
 import './coursePage.scss';
 
 const Dependencies = {
@@ -33,6 +33,7 @@ class CoursePage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getTimes();
     this.props.fetchCourse(this.props.match.params.id).then((course) => {
       console.log('course', course);
       console.log('id', this.props.match.params.id);
@@ -384,8 +385,7 @@ class CoursePage extends React.Component {
   courseInfo(course, nextTerm) {
     return (
       <div id="content">
-        <img alt="logo" className="logo" src={logo} />
-        <div className="spacer" />
+        {/* <div className="spacer" /> */}
         <h1 className="course-info-title">{this.state.course.title}</h1>
         <div id="top">
           <div id="major">{`Department: ${course.department}`}</div>
@@ -414,7 +414,14 @@ class CoursePage extends React.Component {
   // -------------------------------------------- //
 
   render() {
-    return <div className="course-info-container">{this.state.course ? this.courseInfo(this.state.course, {}) : <LoadingWheel />}</div>;
+    return (
+      <Fragment>
+        <HeaderMenu />
+        <div className="course-info-container">
+          {this.state.course ? this.courseInfo(this.state.course, {}) : <LoadingWheel />}
+        </div>
+      </Fragment>
+    );
   }
 }
 
@@ -424,5 +431,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 })(CoursePage);

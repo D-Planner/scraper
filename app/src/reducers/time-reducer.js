@@ -2,12 +2,12 @@ import { ActionTypes } from '../actions';
 
 const initialState = {
   currTerm: {
-    year: 19,
-    term: 'F',
+    year: new Date().getFullYear().toString().substring(2, 4),
+    term: '-',
   },
   nextTerm: {
-    year: 20,
-    term: 'W',
+    year: new Date().getFullYear().toString().substring(2, 4),
+    term: '-',
   },
 };
 

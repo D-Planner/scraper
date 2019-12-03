@@ -1,0 +1,44 @@
+@import '../../style/variables.scss';
+
+.header-menu-container {
+  display: flex;
+  flex-direction: row;
+  height: $header-menu-height;
+  justify-content: space-between;
+  align-content: center;
+  box-shadow: $box-shadow-default;
+
+  // background-color: red;
+  // border: 1px solid red;
+
+  .header-menu-content-container {
+    display: flex;
+    justify-content: flex-start;
+
+    .logo-top {
+      height: 60%;
+      margin: auto 0 auto 30px;
+    }
+
+    .header-menu-content {
+      margin: auto 0 auto 30px;
+      color: $text-accent;
+      width: 400px;
+      // font-size: 24px;
+      // font-weight: 500;
+    }
+  }
+
+  .header-menu-login-container {
+    display: flex;
+    justify-content: flex-end;
+    
+    .header-menu-login {
+      text-decoration: none;
+      display: flex;
+      margin: auto 30px auto 0;
+      color: $text-accent;
+      font-size: 14px;
+    }
+  }
+}
