@@ -87,6 +87,10 @@
           margin: 5px;
           cursor: pointer;
 
+          &.redirect {
+            margin: 0 5px;
+            width: 24%;
+          }
         }
       }
     }

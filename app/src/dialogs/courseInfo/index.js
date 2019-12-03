@@ -10,6 +10,7 @@ import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
+import link from '../../style/link_24px_blue.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
@@ -320,6 +321,17 @@ class CourseInfoDialog extends Component {
     const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
     return (
       <div id="user-actions">
+        <img
+          className="action redirect"
+          src={link}
+          alt="See More"
+          onClick={() => window.open(`/course/${courseID}`)}
+          data-tip
+          data-for="redirect"
+        />
+        <ReactTooltip id="redirect" place="bottom" type="dark" effect="float">
+          {'See More'}
+        </ReactTooltip>
         <img
           className="action"
           src={bookmarked ? bookmarkFilled : bookmark}
