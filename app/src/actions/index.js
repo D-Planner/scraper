@@ -469,19 +469,19 @@ export function fetchCourses() {
  * @export
  * @returns an action creator to gather all courses and store them in the redux store
  */
-export function fetchCourse(id) {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  };
-  return new Promise(((resolve, reject) => {
-    axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
-      resolve(response.data);
-    }).catch((error) => {
-      console.log(error);
-      reject(error);
-    });
-  }));
-}
+// export function fetchCourse(id) {
+//   const headers = {
+//     Authorization: `Bearer ${localStorage.getItem('token')}`,
+//   };
+//   return new Promise(((resolve, reject) => {
+//     axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
+//       resolve(response.data);
+//     }).catch((error) => {
+//       console.log(error);
+//       reject(error);
+//     });
+//   }));
+// }
 
 // /**
 //  * @private
@@ -489,19 +489,21 @@ export function fetchCourse(id) {
 //  * NOTE: not set up in reducer yet because it's not used
 //  * @returns an action creator to gather a course and store it in the redux store
 //  */
-// export function fetchCourse(id) {
-//   const headers = {
-//     Authorization: `Bearer ${localStorage.getItem('token')}`,
-//   };
-//   return (dispatch) => {
-//     axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
-//       dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
-//     }).catch((error) => {
-//       console.log(error);
-//       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-//     });
-//   };
-// }
+export function fetchCourse(id) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
+      resolve(response.data);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
+    });
+  });
+}
 
 /**
  * Fetches a list of all courses that a user has marked as a favorite (i.e. that are in their bookmarks)

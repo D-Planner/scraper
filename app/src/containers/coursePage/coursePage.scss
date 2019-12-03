@@ -1,0 +1,336 @@
+@import '../../style/variables.scss';
+
+.bookmark {
+  display:flex;
+
+  &:hover {
+    filter:invert(100%);
+  }
+}
+
+:link {
+  color: $blue-primary;
+
+  &:visited {
+    color: $text-accent;
+  }
+}
+
+// For 'no prerequisites', ...
+.no-options-text {
+  font-size: 14px;
+  color: $gray-6;
+  font-style: italic;
+  font-weight: 300;
+}
+
+.course-info-container {
+    display: flex;
+    justify-content: center;
+
+    #content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow-y: auto;
+
+        max-width: 900px;
+        margin: 24px auto;
+
+        .logo {
+          height: 6em;
+          margin-bottom: 18px;
+        }
+
+        .course-info-title {
+          font-size: 32px;
+          color: $text-accent;
+          font-weight: 600;
+        }
+
+        .horizontal-divider {
+          border: 0.5px solid $gray-5;
+        }
+
+        .section-header {
+          font-size: 18px;
+          font-weight: 600;
+          color: $text-accent;
+          margin-bottom: 10px;
+
+          .layup-link {
+            // color: $blue-primary;
+            color: $text-accent;
+            text-decoration: none;
+          }
+        }
+
+        #layup-header {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          img {
+            align-self: center;
+            margin-left: 4px;
+            width: 16px;
+          }
+        }
+
+        #top {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin: 10px 0 10px 0;
+
+          #major {
+            font-style: italic;
+            font-weight: 300;
+            font-size: 16px;
+            color: $gray-6;
+          }
+
+          #user-actions {
+            align-self: flex-end;
+            display:flex;
+            margin-right: 0;
+            flex-direction: row;
+            align-items: center;
+
+            .action {
+              width: 20px;
+              margin: 5px;
+              cursor: pointer;
+
+            }
+          }
+        }
+
+        #scrollable {
+          overflow-y: auto;
+          padding-top: 20px;
+          width: 100%;
+
+          .horizontal-divider-small {
+            border: 0.5px dotted $gray-3;
+            margin: 20px;
+          }
+
+          #first {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 20px;
+              padding: 0 20px 0 20px;
+              #next-term {
+                  display: flex;
+                  flex-direction: column;
+                  margin-right: 5%;
+                  #periods {
+                      display: flex;
+                      flex-direction: column;
+                      .a-period {
+                          font-size: 14px;
+                          color: $gray-6;
+                          text-align: center;
+                          border: 1px solid $gray-5;
+                          padding: 2px;
+                          margin-bottom: 4px;
+                      }
+                  }
+              }
+              #description {
+                  font-size: 14px;
+                  color: $text-accent;
+                  line-height: 20px;
+
+                  .description-text {
+                    overflow: auto;
+                    max-height: $description-height;
+                  }
+              }
+          }
+
+          #metrics {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 20px;
+              padding: 0 20px 0 20px;
+
+              #distribs {
+                  display: flex;
+                  flex-direction: column;
+                  // max-width: 150px; //CSS-DEF: this is based on a guess of how wide this can get if a course has 2 distribs and 2 wcs
+
+                  #bubbles {
+                      display: flex;
+                      flex-direction: row;
+                      align-items: center;
+
+                      .distrib-icon {
+                          width: 46px;
+                          margin-right: 10px;
+                          &:hover {
+                            animation: jump 0.1s ease-in-out;
+                          }
+                      }
+
+                      .vertical-divider {
+                          width: 1px;
+                          background: $gray-5;
+                          height: 26px;
+                      }
+
+                      .wc-icon {
+                          width: 32px;
+                          margin-left: 10px;
+                          &:hover {
+                            animation: jump 0.1s ease-in-out;
+                          }
+                      }
+                  }
+              }
+              #medians {
+                  // max-width: 30%;
+                  overflow-x: hidden;
+                  display: flex;
+                  flex-direction: column;
+
+                  #bubbles {
+                      display: flex;
+                      .median-bubble {
+                          display: flex;
+                          flex-direction: column;
+                          margin-right: 7px;
+                          .median-bubble-grade {
+                              display: flex;
+                              align-items: center;
+                              justify-content: center;
+                              background: $blue-primary;
+                              color: $white;
+                              border-radius: 6px;
+                              font-size: 12px;
+                              font-weight: 700;
+                              min-width: 36px;
+                              height: 36px;
+
+                              .margin-bubble-text {
+                                margin: 0 8px;
+                              }
+                          }
+                          .median-bubble-term {
+                              font-size: 12px;
+                              font-weight: 200;
+                              color: $gray-6;
+                              text-align: center;
+                          }
+                      }
+                  }
+              }
+              #scores {
+                  display: flex;
+                  flex-direction: column;
+                  // max-width: 30%;
+                  color: $text-accent;
+                  font-size: 14px;
+                  text-overflow: ellipsis;
+
+                  .layup-score-container {
+                    display: flex;
+                    flex-direction: row;
+
+                    .layup-score-accent {
+                      color: $blue-primary;
+                      margin-left: 5px;
+                      font-weight: 500;
+                    }
+                  }
+              }
+          }
+
+          #last {
+            display: flex;
+            align-content: flex-start;
+            justify-content: space-between;
+            padding: 0 20px 0 20px;
+
+            #dependenciesContainer {
+              display: flex;
+              flex-wrap: wrap;
+              flex-direction: column;
+              align-items: flex-start;
+              max-height: 100%;
+
+              #dependencies {
+                width: 100%;
+                flex: 1;
+                overflow-y: auto;
+                flex-wrap: wrap;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                overflow: visible;
+
+                .rule-header {
+                  font-size: 14px;
+                  color: $text-accent;
+                }
+
+                .dependency {
+                  flex: 1;
+                  margin-bottom: 10px;
+                }
+              }
+            }
+
+            #offerings {
+              display: flex;
+              flex-direction: column;
+              .offering-label {
+                font-size: 14px;
+                color: $text-accent;
+                min-width: 38.5px; //CSS-DEF this is calculated from the width of the letters "Term:" at 14px font.
+                margin-right: 15px;
+              }
+              
+              .offering-row {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                font-weight: 600;
+                color: $text-accent;
+                margin-bottom: 5px;
+                .the-term {
+                  display: flex;
+                  min-width: 20px;
+                }
+              }
+              .the-offerings {
+                .offering-row {
+                  .an-offering {
+                    min-width: 5px;
+                    height: 5px;
+                    margin-right: 15px;
+                    &.filled {
+                      background: $text-accent;
+                    }
+                  }
+                }
+              }
+            }
+
+            #professors {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              overflow-y: auto;
+
+              .professor {
+                color: $text-accent;
+                font-size: 14px;
+              }
+            }
+          }
+      }
+    }
+}
