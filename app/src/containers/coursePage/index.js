@@ -45,8 +45,6 @@ class CoursePage extends React.Component {
     this.state = {
       course: null,
     };
-
-    this.pageNavigate = this.pageNavigate.bind(this);
   }
 
   componentDidMount() {
