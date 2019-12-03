@@ -13,6 +13,7 @@ import logo from '../../style/logo.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 import { GenEds, APP_URL } from '../../constants';
+import LoadingWheel from '../../components/loadingWheel';
 
 import './coursePage.scss';
 
@@ -413,7 +414,7 @@ class CoursePage extends React.Component {
   // -------------------------------------------- //
 
   render() {
-    return <div>{this.state.course ? <div className="course-info-container">{this.courseInfo(this.state.course, {})}</div> : 'Test'}</div>;
+    return <div className="course-info-container">{this.state.course ? this.courseInfo(this.state.course, {}) : <LoadingWheel />}</div>;
   }
 }
 

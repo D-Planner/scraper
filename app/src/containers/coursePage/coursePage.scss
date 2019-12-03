@@ -27,6 +27,7 @@
 .course-info-container {
     display: flex;
     justify-content: center;
+    margin: 24px 0;
 
     #content {
         flex: 1;
@@ -36,7 +37,7 @@
         overflow-y: auto;
 
         max-width: 900px;
-        margin: 24px auto;
+        margin: 0 auto;
 
         .logo {
           height: 6em;
