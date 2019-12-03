@@ -599,6 +599,7 @@ export function addCourseToPlacements(courseID) {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
+      console.log('added course to placement');
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -735,6 +736,7 @@ export function addCourseToTerm(userCourse, termID) {
       type: ActionTypes.ADD_COURSE_TO_PLAN,
       payload: { userCourse, termID },
     });
+    resolve();
   });
 }
 
