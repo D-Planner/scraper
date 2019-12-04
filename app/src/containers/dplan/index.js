@@ -98,17 +98,23 @@ class DPlan extends Component {
   }
 
   componentDidMount() {
-    console.log('mount');
+    console.log('[DPlan] Did Mount');
     this.dplanref.current.focus();
   }
 
   componentWillUpdate(prevProps) {
-    console.log('update', this.props);
-    if (
-      (!prevProps.plan && this.props.plan)
-      || (this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
+    console.log('[DPlan] Will Update');
+    if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
     ) {
-      console.log('setting previous on update');
+      console.log('setting previous on Will Update');
+      this.setPreviousCourses();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('[DPlan] Did Update');
+    if (prevState.noPlan && !this.state.noPlan) {
+      console.log('setting previous on Did Update');
       this.setPreviousCourses();
     }
   }
@@ -166,7 +172,7 @@ class DPlan extends Component {
           this.getFlattenedCourses().forEach((userCourse) => {
             if (userCourse.id === userCourseID) {
               const getValue = (uCourse) => {
-                console.log(uCourse);
+                // console.log(uCourse);
                 const { course } = uCourse;
                 let prereqs = course.prerequisites ? course.prerequisites : [];
                 if (!prereqs || prereqs.length === 0) {
@@ -222,8 +228,9 @@ class DPlan extends Component {
     }
   };
 
+
   setPreviousCourses = () => {
-    // console.log('[setPreviousCourses Dplan.js]');
+    console.log('[setPreviousCourses Dplan.js]');
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
         .sort((t1, t2) => {
