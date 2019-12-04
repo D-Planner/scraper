@@ -83,6 +83,9 @@ termsRouter.post('/:termID/course', TermController.addCourseToTerm);
  */
 termsRouter.delete('/:termID/course/:userCourseID', TermController.removeCourseFromTerm);
 
+termsRouter.post('/:termID/course/placement', TermController.addPlaceholderToTerm);
+termsRouter.delete('/:termID/course/placement/:department', TermController.removePlaceholderFromTerm);
+
 /**
  * @api {put} /terms/:id Update a term by id
  * @apiName UpdateTerm
