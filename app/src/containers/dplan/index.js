@@ -301,14 +301,20 @@ class DPlan extends Component {
     // console.log('[DPLAN.js] We got request to remove course from term');
     // console.log(userCourseID, termID);
     try {
-      axios.delete(`${ROOT_URL}/terms/${termID}/course/${userCourseID}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      }).then(() => {
-        this.props.removeCourseFromTerm(userCourseID).then(() => {
-          // console.log('[DPLAN.js]', this.props.plan.terms);
-          // Set Previous Courses for Each Term here
-          this.setPreviousCourses();
-          resolve();
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === termID) {
+            axios.delete(`${ROOT_URL}/terms/${termID}/course/${userCourseID}`, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then(() => {
+              this.props.removeCourseFromTerm(userCourseID).then(() => {
+                console.log('[DPLAN.js]', this.props.plan.terms);
+                // Set Previous Courses for Each Term here
+                this.setPreviousCourses();
+                resolve();
+              });
+            });
+          }
         });
       });
     } catch (e) {
