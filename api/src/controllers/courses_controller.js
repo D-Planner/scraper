@@ -20,7 +20,6 @@ export const trim = (res) => {
 };
 
 const searchCourses = (req, res) => {
-    console.log(req.query);
     if (!req.query.title) {
         Course.find({})
             .populate(PopulateCourse)
@@ -34,7 +33,6 @@ const searchCourses = (req, res) => {
         return;
     }
     const searchText = req.query.title;
-    console.log(searchText);
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
             if (k === 'department' && !departments.includes(v)) return false;
@@ -57,7 +55,6 @@ const searchCourses = (req, res) => {
                 courseQuery.offered = true;
                 query.offered = query.offered.slice(1);
             }
-            console.log(query.offered);
             // **** NEED TO EITHER QUERY VIRTUALS, OR MOVE LIKELY_TERMS TO A MODEL OBJECT RATHER THAN VIRTUAL.
             if (query.offered.length > 0) courseQuery.likely_terms = { $all: query.offered };
         }
@@ -119,6 +116,7 @@ const getCourse = async (req, res) => {
     Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
+            console.log(result);
             res.json(trim(result));
         })
         .catch((error) => {

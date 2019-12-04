@@ -74,10 +74,10 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
+        overflow-x: visible;
         overflow-y: auto;
         padding: 10px 0 10px 0;
         width: 100%;
-        overflow: visible;
 
         .sort-picker {
             font-size: 12px;
@@ -92,7 +92,7 @@
 
         .search-results {
             width: 100%;
-            overflow: visible;
+
             .result-row {
                 display: flex;
                 flex-direction: column;
