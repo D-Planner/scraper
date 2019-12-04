@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 // Headers: fc, fp, fu
 // User: actf, actp, rcfp, rp,
 // None:
@@ -16,7 +17,7 @@ import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
-import { GenEds, APP_URL } from '../../constants';
+import { GenEds, APP_URL, ROOT_URL } from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
 import './coursePage.scss';
@@ -394,8 +395,8 @@ class CoursePage extends React.Component {
 
   courseUserOptions(courseID) {
     if (this.props.authenticated === true) {
-      const bookmarked = this.props.user.favorite_courses ? this.props.user.favorite_courses.map(c => c.id).includes(courseID) : [];
-      const placement = this.props.user.placement_courses ? this.props.user.placement_courses.map(c => c.id).includes(courseID) : [];
+      const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
+      const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
       return (
         <div id="user-actions">
           <img
