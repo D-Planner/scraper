@@ -525,16 +525,16 @@ class CoursePage extends React.Component {
         <hr className="horizontal-divider" />
         <div id="scrollable">
           {this.props.authenticated === false
-            ? (
-              <>
-                <div id="intro-coursepage">
-                  <div className="section-header">Want to get the most from college?</div>
-                  <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We belive that through data curation and insightful analytics students are betetr prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
-                </div>
-                <hr className="horizontal-divider-small" />
-              </>
-            )
-            : null}
+          ? (
+            <>
+              <div id="intro-coursepage">
+                <div className="section-header">Want to get the most from college?</div>
+                <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We belive that through data curation and insightful analytics students are better prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
+              </div>
+              <hr className="horizontal-divider-small" />
+            </>
+          )
+          : null}
           <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
           <hr className="horizontal-divider-small" />
           <div id="metrics">
