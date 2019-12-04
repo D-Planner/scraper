@@ -9,8 +9,10 @@ import mongoose from 'mongoose';
 import sgMail from '@sendgrid/mail';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
-import CoursesController from './controllers/courses_controller';
+import CoursesController, { trim } from './controllers/courses_controller';
 import UserModel from './models/user';
+import CourseModel from './models/course';
+import { PopulateCourse } from './controllers/populators';
 
 require('dotenv').config({ silent: true });
 
@@ -120,6 +122,26 @@ app.use('/terms', requireAuth, termsRouter);
 app.use('/majors', requireAuth, majorsRouter);
 app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
+
+// Get information for course display without being logged in
+app.get('/public/course/:id', (req, res) => {
+    CourseModel.findById(req.params.id)
+        .populate(PopulateCourse)
+        .then((result) => {
+            console.log(result);
+            const json = result.toJSON();
+            delete json.professors;
+            delete json.prerequisites;
+            delete json.terms_offered;
+            delete json.yearlyOccurences;
+            delete json.likely_terms;
+            delete json.similar_courses;
+            res.json(trim(json));
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+});
 
 
 // These cannot be used in production, or will need our own special Authorization

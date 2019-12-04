@@ -486,6 +486,23 @@ export function fetchCourse(id) {
 }
 
 /**
+ * Public equivalent of fetchCourse
+ * @param {*} id
+ */
+export function fetchCoursePublic(id) {
+  return dispatch => new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/public/course/${id}`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
+      resolve(response.data);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
+    });
+  });
+}
+
+/**
  * Fetches a list of all courses that a user has marked as a favorite (i.e. that are in their bookmarks)
  * @export
  * @returns an action creator to gather all bookmarked courses and store them in the redux store

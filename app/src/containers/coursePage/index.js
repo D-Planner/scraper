@@ -8,7 +8,7 @@ import axios from 'axios';
 // User: actf, actp, rcfp, rp,
 // None:
 import {
-  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -62,13 +62,26 @@ class CoursePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getTimes();
-    this.props.fetchCourse(this.props.match.params.id).then((course) => {
-      this.setState({ course });
-    }).catch((error) => {
-      this.setState({ course: invalidCourse(this.props.match.params.id) });
-      console.error(error);
-    });
+    if (this.props.authenticated === true) { // Authenticated
+      console.log('authenticated');
+      this.props.getTimes();
+      this.props.fetchCourse(this.props.match.params.id).then((course) => {
+        this.setState({ course });
+        console.log('course', course);
+      }).catch((error) => {
+        this.setState({ course: invalidCourse(this.props.match.params.id) });
+        console.error(error);
+      });
+    } else { // Not authenticated
+      console.log('not authenticated');
+      this.props.fetchCoursePublic(this.props.match.params.id).then((course) => {
+        this.setState({ course });
+        console.log('course', course);
+      }).catch((error) => {
+        this.setState({ course: invalidCourse(this.props.match.params.id) });
+        console.error(error);
+      });
+    }
   }
 
   // Detects click on course and reloads
@@ -480,12 +493,17 @@ class CoursePage extends React.Component {
             {this.renderScores(course)}
           </div>
           <hr className="horizontal-divider-small" />
-          <div id="last">
-            {this.renderPrerequisites(course)}
-            {this.renderOfferingsWrapper(course)}
-            {this.renderProfessors(course.professors)}
-          </div>
-          <hr className="horizontal-divider-small" />
+          {this.props.authenticated
+            ? (
+              <>
+                <div id="last">
+                  {this.renderPrerequisites(course)}
+                  {this.renderOfferingsWrapper(course)}
+                  {this.renderProfessors(course.professors)}
+                </div>
+                <hr className="horizontal-divider-small" />
+              </>
+            ) : <div id="last" style={{flexDirection: "column"}}><div className="section-header">Sign in to see more</div><div>To see more, please sign in or sign up above.</div></div>}
           {/* <div id="reviews-course-page">
             {this.renderReviews(course)}
           </div> */}
@@ -510,8 +528,9 @@ const mapStateToProps = state => ({
   user: state.user.current,
   currTerm: state.time.currTerm,
   nextTerm: state.time.nextTerm,
+  authenticated: state.auth.authenticated,
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchCourse, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 })(CoursePage));
