@@ -67,7 +67,7 @@ class UserCourse extends Component {
    * @param {*} props
    */
   showCourseInfoDialog = () => {
-    //console.log(this.props.previousCourses);
+    // console.log(this.props.previousCourses);
     const dialogOptions = {
       title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',

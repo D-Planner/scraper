@@ -524,8 +524,7 @@ class CoursePage extends React.Component {
         </div>
         <hr className="horizontal-divider" />
         <div id="scrollable">
-          {this.props.authenticated === false
-          ? (
+          {this.props.authenticated === false ? (
             <>
               <div id="intro-coursepage">
                 <div className="section-header">Want to get the most from college?</div>
@@ -533,8 +532,7 @@ class CoursePage extends React.Component {
               </div>
               <hr className="horizontal-divider-small" />
             </>
-          )
-          : null}
+          ) : null}
           <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
           <hr className="horizontal-divider-small" />
           <div id="metrics">
