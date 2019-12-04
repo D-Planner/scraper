@@ -1,7 +1,9 @@
+/* eslint-disable react/sort-comp */
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 // Headers: fc, fp, fu
 // User: actf, actp, rcfp, rp,
 // None:
@@ -15,7 +17,7 @@ import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
-import { GenEds, APP_URL } from '../../constants';
+import { GenEds, APP_URL, ROOT_URL } from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
 import './coursePage.scss';
@@ -38,6 +40,18 @@ const Dependencies = {
   grade: 'High Grade in:',
   rec: 'Reccomended',
 };
+
+function getProfessor(id) {
+  return new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/professors/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      resolve(response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
 
 class CoursePage extends React.Component {
   constructor(props) {
@@ -397,6 +411,52 @@ class CoursePage extends React.Component {
     );
   }
 
+  // renderReviews(course) {
+  //   console.log(this.props);
+
+  //   console.log(course);
+  //   return (
+  //     <>
+  //       <div className="section-header">Reviews</div>
+  //       {course ? course.professors.map((professor) => {
+  //         return (
+  //           <div key={professor._id} className="professor-container">
+  //             <div className="professor-title">{professor.name}</div>
+
+  //             {/* {professor.map((r) => {
+  //               return (
+  //                 <div className="review-container">
+  //                   <div className="review-title" />
+  //                   <div className="review-content">
+  //                     {
+  //                       axios.get(`${ROOT_URL}/professors/${professor._id}`, {
+  //                         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //                       }).then((response) => {
+  //                         return (response.data);
+  //                       })
+  //                     }
+  //                   </div>
+  //                 </div>
+  //               );
+  //             })} */}
+
+  //             {
+  //               getProfessor(professor._id).then((reviews) => {
+  //                 console.log(reviews);
+  //                 return (<div>Test</div>);
+  //               }).catch((error) => {
+  //                 console.error(error);
+  //                 return (<div />);
+  //               })
+  //             }
+
+  //           </div>
+  //         );
+  //       }) : null}
+  //     </>
+  //   );
+  // }
+
   /**
    * Master handlers for all information about the course.
    * @param {*} course
@@ -425,6 +485,10 @@ class CoursePage extends React.Component {
             {this.renderOfferingsWrapper(course)}
             {this.renderProfessors(course.professors)}
           </div>
+          <hr className="horizontal-divider-small" />
+          {/* <div id="reviews-course-page">
+            {this.renderReviews(course)}
+          </div> */}
         </div>
       </div>
     );

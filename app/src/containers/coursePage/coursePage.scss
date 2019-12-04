@@ -338,6 +338,37 @@
               }
             }
           }
+
+          #reviews-course-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+            padding: 0 20px 0 20px;
+
+            .professor-container {
+              display: flex;
+
+              .professor-title {
+
+              }
+
+              .review-container {
+                display: flex;
+                flex-direction: row;
+
+                .review {
+                  
+                  .review-title {
+
+                  }
+
+                  .review-content {
+
+                  }
+                }
+              }
+            }
+          }
       }
     }
 }
