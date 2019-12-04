@@ -49,24 +49,8 @@ const port = process.env.PORT || 9090;
 app.listen(port);
 console.log(`listening on: ${port}`);
 
+// Set up SendGrid email API
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-// console.log('sending...');
-// sgMail.send({
-//     to: 'adam.j.mcquilkin.22@dartmouth.edu',
-//     from: 'dplanner.official@gmail.com',
-//     subject: 'This is a test!',
-//     text: 'Hello from D-Planner!',
-// }).then(() => {
-//     console.log('sent');
-// });
-
-// export const transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: process.env.GMAIL_ADDR,
-//         pass: process.env.GMAIL_PASS,
-//     },
-// });
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
@@ -128,7 +112,6 @@ app.get('/public/course/:id', (req, res) => {
     CourseModel.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
-            console.log(result);
             const json = result.toJSON();
             delete json.professors;
             delete json.prerequisites;

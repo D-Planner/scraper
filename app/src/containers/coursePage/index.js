@@ -67,7 +67,6 @@ class CoursePage extends React.Component {
       this.props.getTimes();
       this.props.fetchCourse(this.props.match.params.id).then((course) => {
         this.setState({ course });
-        console.log('course', course);
       }).catch((error) => {
         this.setState({ course: invalidCourse(this.props.match.params.id) });
         console.error(error);
@@ -75,7 +74,6 @@ class CoursePage extends React.Component {
     } else { // Not authenticated
       this.props.fetchCoursePublic(this.props.match.params.id).then((course) => {
         this.setState({ course });
-        console.log('course', course);
       }).catch((error) => {
         this.setState({ course: invalidCourse(this.props.match.params.id) });
         console.error(error);
@@ -213,9 +211,9 @@ class CoursePage extends React.Component {
         <div id="next-term">
           <div className="section-header">Off.</div>
           <div id="periods">
-            <div className="a-period" key={'invalid'}>
-              <span data-tip data-for={'invalid'}>{'--'}</span>
-              <ReactTooltip id={'invalid'} place="right" type="dark" effect="float">
+            <div className="a-period" key="invalid">
+              <span data-tip data-for="invalid">--</span>
+              <ReactTooltip id="invalid" place="right" type="dark" effect="float">
                 {'To see when this course is offered, sign in above.'}
               </ReactTooltip>
             </div>
@@ -527,11 +525,17 @@ class CoursePage extends React.Component {
         </div>
         <hr className="horizontal-divider" />
         <div id="scrollable">
-          <div id="intro-coursepage">
-            <div className="section-header">Want to get the most from college?</div>
-            <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We belive that through data curation and insightful analytics students are betetr prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
-          </div>
-          <hr className="horizontal-divider-small" />
+          {this.props.authenticated === false
+            ? (
+              <>
+                <div id="intro-coursepage">
+                  <div className="section-header">Want to get the most from college?</div>
+                  <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We belive that through data curation and insightful analytics students are betetr prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
+                </div>
+                <hr className="horizontal-divider-small" />
+              </>
+            )
+            : null}
           <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
           <hr className="horizontal-divider-small" />
           <div id="metrics">

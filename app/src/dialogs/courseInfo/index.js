@@ -319,7 +319,6 @@ class CourseInfoDialog extends Component {
   courseUserOptions(courseID) {
     const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
     const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
-    console.log('data', this.props.data);
     return (
       <div id="user-actions">
         <img
