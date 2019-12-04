@@ -119,6 +119,7 @@ const getCourse = async (req, res) => {
     Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
+            console.log(result);
             res.json(trim(result));
         })
         .catch((error) => {
