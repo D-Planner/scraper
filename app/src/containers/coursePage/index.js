@@ -208,7 +208,21 @@ class CoursePage extends React.Component {
    * @param {*} course
    */
   renderNextTerm = (course) => {
-    if (course.offered) {
+    if (this.props.authenticated === false) {
+      return (
+        <div id="next-term">
+          <div className="section-header">Off.</div>
+          <div id="periods">
+            <div className="a-period" key={'invalid'}>
+              <span data-tip data-for={'invalid'}>{'--'}</span>
+              <ReactTooltip id={'invalid'} place="right" type="dark" effect="float">
+                {'To see when this course is offered, sign in above.'}
+              </ReactTooltip>
+            </div>
+          </div>
+        </div>
+      );
+    } else if (course.offered) {
       return (
         <div id="next-term">
           <div className="section-header">{`${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}</div>
@@ -382,7 +396,7 @@ class CoursePage extends React.Component {
   }
 
   courseUserOptions(courseID) {
-    if (this.props.authenticated) {
+    if (this.props.authenticated === true) {
       const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
       const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
       return (
@@ -526,7 +540,7 @@ class CoursePage extends React.Component {
             {this.renderScores(course)}
           </div>
           <hr className="horizontal-divider-small" />
-          {this.props.authenticated
+          {this.props.authenticated === true
             ? (
               <>
                 <div id="last">
