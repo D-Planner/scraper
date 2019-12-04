@@ -63,7 +63,7 @@ class CoursePage extends React.Component {
 
   componentDidMount() {
     if (this.props.authenticated === true) { // Authenticated
-      console.log('authenticated');
+      this.props.fetchUser();
       this.props.getTimes();
       this.props.fetchCourse(this.props.match.params.id).then((course) => {
         this.setState({ course });
@@ -73,7 +73,6 @@ class CoursePage extends React.Component {
         console.error(error);
       });
     } else { // Not authenticated
-      console.log('not authenticated');
       this.props.fetchCoursePublic(this.props.match.params.id).then((course) => {
         this.setState({ course });
         console.log('course', course);
@@ -503,7 +502,7 @@ class CoursePage extends React.Component {
                 </div>
                 <hr className="horizontal-divider-small" />
               </>
-            ) : <div id="last" style={{flexDirection: "column"}}><div className="section-header">Sign in to see more</div><div>To see more, please sign in or sign up above.</div></div>}
+            ) : <div id="last" style={{ flexDirection: 'column' }}><div className="section-header">Sign in to see more</div><div>To see more, please sign in or sign up above.</div></div>}
           {/* <div id="reviews-course-page">
             {this.renderReviews(course)}
           </div> */}
@@ -529,6 +528,7 @@ const mapStateToProps = state => ({
   currTerm: state.time.currTerm,
   nextTerm: state.time.nextTerm,
   authenticated: state.auth.authenticated,
+  user: state.user.current,
 });
 
 export default withRouter(connect(mapStateToProps, {
