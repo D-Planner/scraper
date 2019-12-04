@@ -99,15 +99,20 @@ class DPlan extends Component {
     this.dplanref.current.focus();
   }
 
-  componentDidUpdate(prevProps) {
-    console.log('update');
-    if (!prevProps.plan && this.props.plan) this.setPreviousCourses();
-    if (this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString()))) this.setPreviousCourses();
+  componentWillUpdate(prevProps) {
+    console.log('update', this.props);
+    if (
+      (!prevProps.plan && this.props.plan)
+      || (this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
+    ) {
+      console.log('setting previous on update');
+      this.setPreviousCourses();
+    }
   }
 
   setCurrentPlan(planID) {
     if (planID !== null) {
-      console.log(`setting plan to ${planID}`);
+      // console.log(`setting plan to ${planID}`);
       this.props.fetchPlan(planID).then(() => {
         this.setState({
           noPlan: false,
@@ -115,7 +120,7 @@ class DPlan extends Component {
         });
       });
     } else {
-      console.log('resetting to no plan');
+      // console.log('resetting to no plan');
       this.setState({ noPlan: true });
     }
   }
@@ -158,6 +163,7 @@ class DPlan extends Component {
           this.getFlattenedCourses().forEach((userCourse) => {
             if (userCourse.id === userCourseID) {
               const getValue = (uCourse) => {
+                console.log(uCourse);
                 const { course } = uCourse;
                 let prereqs = course.prerequisites ? course.prerequisites : [];
                 if (!prereqs || prereqs.length === 0) {
@@ -203,7 +209,7 @@ class DPlan extends Component {
 
                 return CLEAR;
               };
-              this.props.setFulfilledStatus(userCourse.id, getValue(userCourse));
+              this.props.setFulfilledStatus(userCourseID, getValue(userCourse));
             }
           });
         }
@@ -214,7 +220,7 @@ class DPlan extends Component {
   };
 
   setPreviousCourses = () => {
-    console.log('[setPreviousCourses Dplan.js]');
+    // console.log('[setPreviousCourses Dplan.js]');
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
         .sort((t1, t2) => {
@@ -237,7 +243,6 @@ class DPlan extends Component {
           return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
         })
         .flat())];
-      console.log(prevCourses);
       return { [term._id]: prevCourses };
     });
     previousByTerm.forEach((t) => {
@@ -247,7 +252,6 @@ class DPlan extends Component {
             if (x._id === String(term)) {
               x.previousCourses = previousCourses;
               x.courses.filter(c => !c.placeholder).forEach((course) => {
-                console.log('SETFULFILLEDSTATUS', course.course.name);
                 this.setAllFulfilledStatus(x._id, course.id);
               });
             }
@@ -262,7 +266,7 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to add course to term');
+    // console.log('[DPLAN.js] We got request to add course to term');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -270,9 +274,9 @@ class DPlan extends Component {
             axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then((response) => {
-              console.log('[DPLAN.js] Axios Call Complete');
+              // console.log('[DPLAN.js] Axios Call Complete');
               this.props.addCourseToTerm(response.data, term._id).then(() => {
-                console.log('[DPLAN.js] Course was added');
+                // console.log('[DPLAN.js] Course was added');
                 this.setPreviousCourses();
                 resolve();
               });
@@ -286,23 +290,17 @@ class DPlan extends Component {
   })
 
   removeCourseFromTerm = (userCourseID, termID) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to remove course from term');
-    console.log(userCourseID, termID);
+    // console.log('[DPLAN.js] We got request to remove course from term');
+    // console.log(userCourseID, termID);
     try {
-      this.props.plan.terms.forEach((y) => {
-        y.forEach((t) => {
-          if (t._id === termID) {
-            axios.delete(`${ROOT_URL}/terms/${termID}/course/${userCourseID}`, {
-              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            }).then(() => {
-              this.props.removeCourseFromTerm(userCourseID).then(() => {
-                console.log('[DPLAN.js]', this.props.plan.terms);
-                // Set Previous Courses for Each Term here
-                this.setPreviousCourses();
-                resolve();
-              });
-            });
-          }
+      axios.delete(`${ROOT_URL}/terms/${termID}/course/${userCourseID}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }).then(() => {
+        this.props.removeCourseFromTerm(userCourseID).then(() => {
+          // console.log('[DPLAN.js]', this.props.plan.terms);
+          // Set Previous Courses for Each Term here
+          this.setPreviousCourses();
+          resolve();
         });
       });
     } catch (e) {
@@ -312,7 +310,7 @@ class DPlan extends Component {
   })
 
   addPlaceholderCourseToTerm = (department, term) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to add placeholder course to term');
+    // console.log('[DPLAN.js] We got request to add placeholder course to term');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -332,7 +330,7 @@ class DPlan extends Component {
   })
 
   addCourseToPlacements = courseID => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got a request to add a placement course');
+    // console.log('[DPLAN.js] We got a request to add a placement course');
     try {
       axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -349,12 +347,12 @@ class DPlan extends Component {
   })
 
   removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to remove placeholder course from term');
+    // console.log('[DPLAN.js] We got request to remove placeholder course from term');
     try {
       axios.delete(`${ROOT_URL}/terms/${termID}/course/placeholder/${department}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }).then(() => {
-        console.log('DEPARTMENT to remove', department);
+        // console.log('DEPARTMENT to remove', department);
         this.props.removePlaceholderCourse(department, termID);
         resolve();
       });
@@ -365,7 +363,7 @@ class DPlan extends Component {
   })
 
   setDraggingFulfilledStatus = courseID => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
+    // console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
     // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
     //   resolve();
     // }).catch((e) => {
@@ -376,9 +374,9 @@ class DPlan extends Component {
 
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
-      console.log('deletePlanKeyPress');
+      // console.log('deletePlanKeyPress');
       if (plan === null) {
-        console.log('plan is null');
+        // console.log('plan is null');
       } else {
         this.showDialog();
       }
@@ -425,7 +423,7 @@ class DPlan extends Component {
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
       let currQuarter = -1;
-      console.log(`creating new plan with name ${name}`);
+      // console.log(`creating new plan with name ${name}`);
       this.props.createPlan({
         terms: emptyPlan.terms.map((term) => {
           if (currQuarter === 3) currYear += 1;
