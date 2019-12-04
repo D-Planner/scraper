@@ -26,7 +26,7 @@ class Professor extends React.Component {
     }).then((response) => {
       response.data.reviews = response.data.reviews.map((review) => {
         const term = review.match(/\d{2}['X'|'F'|'W'|'S']/)[0];
-        const course = review.match(/^(.*?):/);
+        const course = review.match(/^[^:]*/);
 
         review = review.substring(review.indexOf(`${response.data.name}:`) + response.data.name.length + 2).toString();
         return { course, term, review };
@@ -63,7 +63,7 @@ class Professor extends React.Component {
               Object.keys(this.state.professor.reviews).map((course, i) => {
                 return (
                   <>
-                    <Link to={course} spy smooth duration={500}>
+                    <Link to={course} key={i.toString()} spy smooth duration={500}>
                       <div className="professor-course">{course}</div>
                     </Link>
                   </>
@@ -73,21 +73,21 @@ class Professor extends React.Component {
             </div>
             <div className="professor-reviews">
               {
-              Object.entries(this.state.professor.reviews).map(([course, reviews]) => {
+              Object.entries(this.state.professor.reviews).map(([course, reviews], i) => {
                 return (
-                  <div className="professor-review">
+                  <div className="professor-review" key={i.toString()}>
                     <Element name={course} />
                     <div className="review-header">
                       {course}
                     </div>
                     {
-                      reviews.map(((review) => {
+                      reviews.map((review, j) => {
                         return (
-                          <div className="review-body">
+                          <div key={j.toString()} className="review-body">
                             <strong>[{review.term}]</strong> {review.review}
                           </div>
                         );
-                      }))
+                      })
                     }
                   </div>
                 );

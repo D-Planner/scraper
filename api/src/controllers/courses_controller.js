@@ -8,7 +8,6 @@ import departments from '../../static/data/departments.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse, PopulateTerm } from './populators';
 
-
 export const trim = (res) => {
     try {
         return res.map((course) => {
@@ -35,6 +34,7 @@ const searchCourses = (req, res) => {
         return;
     }
     const searchText = req.query.title;
+    console.log(searchText);
     const query = Object.entries(req.query)
         .filter(([k, v]) => {
             if (k === 'department' && !departments.includes(v)) return false;
@@ -45,13 +45,22 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    if (query.department || query.number || query.distribs || query.wcs) {
+    if (query.department || query.number || query.distribs || query.wcs || query.offerd) {
         const courseQuery = {
             department: query.department,
             number: query.number ? { $gte: query.number, $lt: parseInt(query.number) + 1 } : { $gte: 0 },
         };
         if (query.distribs) courseQuery.distribs = { $all: query.distribs };
         if (query.wcs) courseQuery.wcs = { $all: query.wcs };
+        if (query.offered) {
+            if (query.offered.includes('current')) {
+                courseQuery.offered = true;
+                query.offered = query.offered.slice(1);
+            }
+            console.log(query.offered);
+            // **** NEED TO EITHER QUERY VIRTUALS, OR MOVE LIKELY_TERMS TO A MODEL OBJECT RATHER THAN VIRTUAL.
+            if (query.offered.length > 0) courseQuery.likely_terms = { $all: query.offered };
+        }
         Course.find(courseQuery)
             .populate(PopulateCourse)
             .sort({ number: 1 })
@@ -181,6 +190,74 @@ const getCourseByNumber = (req, res) => {
         .catch((error) => {
             res.status(500).json({ error });
         });
+};
+
+const calculateLikelyTerms = (termsoOffered) => {
+    // Start with yearly occurences.
+    const yearlyOccurences = (termsoOffered) ? termsoOffered
+        .reduce((acc, cur, i) => {
+            const [year, term] = cur.split(/(?!\d)/g);
+            if (acc[year]) acc[year].push(term);
+            else acc[year] = [term];
+            return acc;
+        }, {}) : {};
+
+
+    // Perform the likely calculations
+    try {
+        const indexFromEndYearlyOccurences = (i) => {
+            const values = Object.values(yearlyOccurences);
+            return values[values.length - i];
+        };
+        const patternSeach = (yOccurences) => {
+            // This is a dictionary of pattern types as keys and functions as values that test the key pattern type.
+            // Each function returns
+            const patternTypes = {
+                consistency: (occ) => {
+                    const annualRepititions = Object.entries(occ)
+                        .reduce((acc, [k, v]) => {
+                            if (acc.some((e) => {
+                                return e.every((i, j) => {
+                                    return i === v[j];
+                                });
+                            })) return acc;
+                            if (Object.values(occ)
+                                .reduce((n, x) => {
+                                    return (n + (x.every((e, i) => {
+                                        return e === v[i];
+                                    })));
+                                }, 0) > Object.values(occ).length - 3) acc.push(v);
+                            return acc;
+                        }, []);
+                    if (annualRepititions.length === 1) return Object.values(occ)[Object.values(occ).length - 2];
+                    return null;
+                },
+                // biennial: (occ) => {
+                //     const evenYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 === 0);
+                //         });
+                //     const oddYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 !== 0);
+                //         });
+                //     console.log('Even Years,', evenYears);
+                //     console.log('Odd Years,', oddYears);
+                // },
+            };
+            return Object.entries(patternTypes)
+                .map(([k, fn]) => { return fn(yOccurences); })
+                .filter((e) => { return e !== null; });
+        };
+
+        const foundPatterns = patternSeach(yearlyOccurences);
+        if (foundPatterns.length === 1) return foundPatterns[0];
+        // If we didn't find a single patter (If we have multiple, or none), just return what happened last year
+        return indexFromEndYearlyOccurences(2);
+    } catch (e) {
+        console.log(e);
+        return e;
+    }
 };
 
 const filledValues = (course) => {
@@ -322,6 +399,7 @@ const createCourse = () => {
                         professors: profUnique,
                         prerequisites,
                         $addToSet: { xlist: { $each: xlist.flat() } },
+                        likely_terms: calculateLikelyTerms(course.terms_offered),
                     },
                     { upsert: true },
                 ).then((res) => {
@@ -329,14 +407,12 @@ const createCourse = () => {
                 }).catch((error) => {
                     return error;
                 });
-            }).catch((e) => {
-                console.log(e);
+            }).then(() => {
+                resolve();
+            }).catch((error) => {
+                reject(error);
             });
-        })).then(() => {
-            resolve();
-        }).catch((error) => {
-            reject(error);
-        });
+        }));
     });
 };
 

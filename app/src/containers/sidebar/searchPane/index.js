@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
-import arrowDropDown from '../../../style/arrowDropDown.svg';
+import searchIcon from '../../../style/search-purple.svg';
 import { DialogTypes } from '../../../constants';
 
 import './searchPane.scss';
@@ -25,11 +25,12 @@ const SearchPane = React.forwardRef((props, ref) => {
   });
 
   // const [searchText, setSearchText] = useState('');
-  const [sort, setSort] = useState('Sort by alphabet');
+  // const [sort, setSort] = useState('');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
-  const [offeredNextTerm, setOfferedNextTerm] = useState(false);
   const [resultsLoading, setResultsLoading] = useState(false);
+  const [offered, setOffered] = useState('');
+  const [results, setResults] = useState('');
 
   // Allows a user to search by the query entered in the search input
 
@@ -42,6 +43,7 @@ const SearchPane = React.forwardRef((props, ref) => {
         number: props.searchQuery.split(' ')[1],
         distribs,
         wcs,
+        offered,
       };
       // console.log(props.resultStamp);
       props.stampIncrement((props.resultStamp + 1));
@@ -52,21 +54,45 @@ const SearchPane = React.forwardRef((props, ref) => {
         console.error(error);
       });
     }
-  }, [props.searchQuery, wcs, distribs]);
+  }, [props.searchQuery, wcs, distribs, offered]);
+
+  useEffect(() => {
+    setResults(props.results);
+  }, [props.results]);
+
+  const resort = (method) => {
+    const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
+      switch (method) {
+        case 'Sort by alphabet':
+          return c1.name >= c2.name ? 1 : -1;
+        case 'Sort by layup-list score': // This doesn't work. Most classes have a layuplist score of 0.
+          return c1.layup_score >= c2.layup_score ? 1 : -1;
+        case 'Sort by quality score':
+          return c1.quality_score <= c2.quality_score ? 1 : -1;
+        case 'Sort by median':
+          if (c2.avg_median === 'N/A') return -1;
+          if (c1.avg_median === 'N/A') return 1;
+          return -1;
+        case 'Sort by number':
+          return (c1.number >= c2.number) ? 1 : -1;
+        default:
+          return 1;
+      }
+    }));
+    setResults(sortedResults);
+  };
 
   const useFilters = () => {
-    console.log(sort);
     setWC(props.wcs.filter(e => e.checked).map(e => e.name));
     setDistrib(props.distribs.filter(e => e.checked).map(e => e.name));
-    setOfferedNextTerm(props.offeredNextTerm);
-    console.log(offeredNextTerm);
+    setOffered(props.offered.filter(e => e.checked).map(e => e.term));
   };
 
   const clearCurFilters = () => {
     setWC([]);
     setDistrib([]);
-    setOfferedNextTerm(false);
-    console.log(offeredNextTerm);
+    setOffered([]);
+    props.clearFilters();
   };
 
   const showFilterDialog = () => {
@@ -85,9 +111,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
-        <button type="button" className="search-config-button">
-          <img className="search-config-icon" src={arrowDropDown} alt="filter" />
-        </button>
+        <img className="search-config-icon" src={searchIcon} alt="search" />
         <input type="text"
           className={`search-input${resultsLoading ? ' small' : ''}`}
           placeholder="Search for courses"
@@ -108,11 +132,11 @@ const SearchPane = React.forwardRef((props, ref) => {
           <div className="pane-content">
             <select className="sort-picker"
               onChange={(e) => {
-                setSort(e.target.value);
+                resort(e.target.value);
               }}
             >
               {
-                ['Sort by alphabet', 'Sort by layup-list score', 'Sort by median'].map((method) => {
+                ['Sort by number', 'Sort by alphabet', 'Sort by layup-list score', 'Sort by median', 'Sort by quality score'].map((method) => {
                   return (
                     <option value={method} key={method}>{method}</option>
                   );
@@ -120,8 +144,8 @@ const SearchPane = React.forwardRef((props, ref) => {
               }
             </select>
             <div className="search-results">
-              {props.results.length
-                ? props.results.map((course) => {
+              {results.length
+                ? results.map((course) => {
                   return (
                     <div className="result-row" key={course.id}>
                       <div className="paneCourse">
@@ -143,7 +167,7 @@ const SearchPane = React.forwardRef((props, ref) => {
 const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
-  offeredNextTerm: state.filters.offeredNextTerm,
+  offered: state.filters.offered,
 });
 
 

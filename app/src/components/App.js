@@ -15,7 +15,6 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
-import Loading from './loading';
 // import FlowChart from './flowchart';
 import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
@@ -55,7 +54,9 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.width >= minWidth && this.state.height >= minHeight) {
+    // eslint-disable-next-line no-unused-vars
+    const sizeSufficient = (this.state.width >= minWidth && this.state.height >= minHeight);
+    if (sizeSufficient) {
       return (
         <div>
           <Router>

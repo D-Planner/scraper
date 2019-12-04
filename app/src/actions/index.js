@@ -46,6 +46,8 @@ export const ActionTypes = {
   RESET_PASS: 'RESET_PASS',
   ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
   REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
+  ADD_PLACEHOLDER_COURSE_TO_PLAN: 'ADD_PLACEHOLDER_COURSE_TO_PLAN',
+  REMOVE_PLACEHOLDER_COURSE_FROM_PLAN: 'REMOVE_PLACEHOLDER_COURSE_FROM_PLAN',
 };
 
 export function setPressedKey(key) {
@@ -174,15 +176,13 @@ export function setDraggingState(isDragging, course) {
 
 // ----- Filter Setting ----- //
 export function setFilters(filters) {
-  return {
-    type: ActionTypes.SET_FILTERS,
-    payload: filters,
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_FILTERS, payload: filters });
   };
 }
 export function clearFilters() {
-  return {
-    type: ActionTypes.CLEAR_FILTERS,
-    payload: null,
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.CLEAR_FILTERS, payload: null });
   };
 }
 
@@ -372,16 +372,18 @@ export function fetchPlans() {
 }
 
 /**
- * Fetches a specific plan by id from the API
+ * Fetches a specific plan by id from the API, or clears current plan in redux (null)
  * @export
  * @param {String} planID a string representing a Mongoose ObjectID for the plan to fetch
  * @returns an action creator to fetch a plan and store it in redux
  */
 export function fetchPlan(planID) {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  };
-  if (planID !== null) {
+  if (planID === null) {
+    return dispatch => dispatch({ type: ActionTypes.FETCH_PLAN, payload: null });
+  } else {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
     return dispatch => new Promise(((resolve, reject) => {
       axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
         .then((response) => {
@@ -394,10 +396,6 @@ export function fetchPlan(planID) {
           reject();
         });
     }));
-  } else {
-    return (dispatch) => {
-      dispatch({ type: ActionTypes.FETCH_PLAN, payload: null });
-    };
   }
 }
 
@@ -761,6 +759,36 @@ export function removeCourseFromTerm(userCourse) {
     resolve();
   });
 }
+
+/**
+ *
+ * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} termID the termID that the course should be added to
+ */
+export function addPlaceholderCourse(placeholderCourse, termID) {
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN,
+      payload: { placeholderCourse, termID },
+    });
+  });
+}
+
+/**
+ *
+ * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} termID the termID that the course should be added to
+ */
+export function removePlaceholderCourse(placeholderCourse, termID) {
+  console.log(placeholderCourse, termID);
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
+      payload: { placeholderCourse, termID },
+    });
+  });
+}
+
 
 export function updateTerm(term) {
   return (dispatch) => {

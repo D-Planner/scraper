@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -86,6 +86,9 @@ class DPlan extends Component {
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
+
+    // Prevents locking of plan on resize
+    if (this.props.plan !== null) this.state.noPlan = false;
   }
 
   componentDidMount() {
@@ -232,7 +235,6 @@ class DPlan extends Component {
           return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
         })
         .flat())];
-      console.log(prevCourses);
       return { [term._id]: prevCourses };
     });
     previousByTerm.forEach((t) => {
@@ -294,6 +296,48 @@ class DPlan extends Component {
                 this.setPreviousCourses();
                 resolve();
               });
+            });
+          }
+        });
+      });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  })
+
+  addPlaceholderCourseToTerm = (department, term) => new Promise((resolve, reject) => {
+    console.log('[DPLAN.js] We got request to add placeholder course to term');
+    try {
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === term._id) {
+            axios.post(`${ROOT_URL}/terms/${term.id}/course/placement`, { department }, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then((response) => {
+              this.props.addPlaceholderCourse(department, term._id);
+              resolve();
+            });
+          }
+        });
+      });
+    } catch (e) {
+      reject(e);
+    }
+  })
+
+  removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
+    console.log('[DPLAN.js] We got request to remove placeholder course from term');
+    try {
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === termID) {
+            axios.delete(`${ROOT_URL}/terms/${termID}/course/placement/${department}`, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then(() => {
+              console.log('DEPARTMENT to remove', department);
+              this.props.removePlaceholderCourse(department, termID);
+              resolve();
             });
           }
         });
@@ -434,34 +478,38 @@ class DPlan extends Component {
                           <img src={trash} alt="" />
                         </button>
                       </div>
-                      <Sidebar className="sidebar"
-                        setOpenPane={pane => this.setState({ openPane: pane })}
-                        openPane={this.state.openPane}
-                        planCourses={this.getFlattenedCourses()}
-                        setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                      />
                     </div>
-                    <div className="plan-grid">
-                      {this.props.plan.terms.map((year) => {
-                        return (
-                          <div className="plan-row" key={year[0].id}>
-                            {year.map((term) => {
-                              return (
-                                <Term
-                                  plan={this.props.plan}
-                                  time={this.props.time}
-                                  term={term}
-                                  key={term.id}
-                                  addCourseToTerm={this.addCourseToTerm}
-                                  removeCourseFromTerm={this.removeCourseFromTerm}
-                                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                                />
-                              );
-                            })}
-                          </div>
-                        );
-                      })}
-                    </div>
+                    <Sidebar className="sidebar"
+                      setOpenPane={pane => this.setState({ openPane: pane })}
+                      openPane={this.state.openPane}
+                      planCourses={this.getFlattenedCourses()}
+                      setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                      addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                      removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                    />
+                  </div>
+                  <div className="plan-grid">
+                    {this.props.plan.terms.map((year) => {
+                      return (
+                        <div className="plan-row" key={year[0].id}>
+                          {year.map((term) => {
+                            return (
+                              <Term
+                                plan={this.props.plan}
+                                time={this.props.time}
+                                term={term}
+                                key={term.id}
+                                addCourseToTerm={this.addCourseToTerm}
+                                removeCourseFromTerm={this.removeCourseFromTerm}
+                                setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                                addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                                removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                              />
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
                   </div>
                 </Fragment>
               )
@@ -499,4 +547,6 @@ export default withRouter(connect(mapStateToProps, {
   setLoading,
   sendVerifyEmail,
   setFulfilledStatus,
+  addPlaceholderCourse,
+  removePlaceholderCourse,
 })(DPlan));
