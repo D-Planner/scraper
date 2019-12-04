@@ -49,21 +49,22 @@ class Professor extends React.Component {
     if (this.props.authenticated === true) { // Authenticated
       if (this.state.professor) { // Professor exists
         return (
-          <div className="professor-page-container">
+          <div>
             <HeaderMenu />
-            <div className="professor-container">
-              <div className="professor">
-                <Helmet>
-                  <title>{this.state.professor.name}</title>
-                </Helmet>
-                <div className="professor-name">
-                  {this.state.professor.name}
-                </div>
-                <div className="professor-name-sub">
-            All course reviews for this professor. Supplied by Layup-list, curated by D-Planner.
-                </div>
-                <div className="professor-name-sub">
-                  {
+            <div className="professor-page-container">
+              <div className="professor-container">
+                <div className="professor">
+                  <Helmet>
+                    <title>{this.state.professor.name}</title>
+                  </Helmet>
+                  <div className="professor-name">
+                    {this.state.professor.name}
+                  </div>
+                  <div className="professor-name-sub">
+                    {`All course reviews for ${this.state.professor.name}. Supplied by Layup-list, curated by D-Planner.`}
+                  </div>
+                  <div className="professor-name-sub">
+                    {
               Object.keys(this.state.professor.reviews).map((course, i) => {
                 return (
                   <>
@@ -74,9 +75,9 @@ class Professor extends React.Component {
                 );
               })
             }
-                </div>
-                <div className="professor-reviews">
-                  {
+                  </div>
+                  <div className="professor-reviews">
+                    {
               Object.entries(this.state.professor.reviews).map(([course, reviews], i) => {
                 return (
                   <div className="professor-review" key={i.toString()}>
@@ -97,7 +98,7 @@ class Professor extends React.Component {
                 );
               })
             }
-                  {/* {this.state.professor.reviews.map((review) => {
+                    {/* {this.state.professor.reviews.map((review) => {
               return (
                 <div className="professor-review">
                   <div className="review-header">
@@ -109,6 +110,7 @@ class Professor extends React.Component {
                 </div>
               );
             })} */}
+                  </div>
                 </div>
               </div>
             </div>
