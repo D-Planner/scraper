@@ -125,11 +125,26 @@
             margin: 20px;
           }
 
+          #intro-coursepage {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 0 20px 0 20px;
+
+            .intro-coursepage-text {
+              color: $text-accent;
+              font-size: 14px;
+              margin-top: -5px;
+            }
+          }
+
           #first {
               display: flex;
               justify-content: space-between;
               margin-bottom: 20px;
               padding: 0 20px 0 20px;
+
               #next-term {
                   display: flex;
                   flex-direction: column;
