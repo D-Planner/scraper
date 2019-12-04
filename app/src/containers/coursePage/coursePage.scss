@@ -99,6 +99,13 @@
             flex-direction: row;
             align-items: center;
 
+            .action-message {
+              margin-right: 5px;
+              color: $text-accent;
+              font-style: italic;
+              font-weight: 300;
+            }
+
             .action {
               width: 20px;
               margin: 5px;
@@ -337,38 +344,44 @@
                 }
               }
             }
-          }
 
-          #reviews-course-page {
-            display: flex;
-            flex-direction: column;
-            justify-content: left;
-            padding: 0 20px 0 20px;
-
-            .professor-container {
-              display: flex;
-
-              .professor-title {
-
-              }
-
-              .review-container {
-                display: flex;
-                flex-direction: row;
-
-                .review {
-                  
-                  .review-title {
-
-                  }
-
-                  .review-content {
-
-                  }
-                }
-              }
+            .last-message {
+              color: $text-accent;
+              font-style: italic;
+              font-weight: 300;
             }
           }
+
+          // #reviews-course-page {
+          //   display: flex;
+          //   flex-direction: column;
+          //   justify-content: left;
+          //   padding: 0 20px 0 20px;
+
+          //   .professor-container {
+          //     display: flex;
+
+          //     .professor-title {
+
+          //     }
+
+          //     .review-container {
+          //       display: flex;
+          //       flex-direction: row;
+
+          //       .review {
+                  
+          //         .review-title {
+
+          //         }
+
+          //         .review-content {
+
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
       }
     }
 }

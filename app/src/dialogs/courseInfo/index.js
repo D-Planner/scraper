@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
 import {
-  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -319,6 +319,7 @@ class CourseInfoDialog extends Component {
   courseUserOptions(courseID) {
     const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
     const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
+    console.log('data', this.props.data);
     return (
       <div id="user-actions">
         <img
@@ -338,8 +339,8 @@ class CourseInfoDialog extends Component {
           alt="Bookmark"
           onClick={
             bookmarked
-              ? () => this.props.removeCourseFromFavorites(this.props.data.id)
-              : () => this.props.addCourseToFavorites(this.props.data.id)
+              ? () => this.props.removeCourseFromFavorites(courseID)
+              : () => this.props.addCourseToFavorites(courseID)
           }
           data-tip
           data-for="bookmark"
@@ -354,9 +355,9 @@ class CourseInfoDialog extends Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removeCourseFromPlacement(this.props.data.id)
+              ? () => this.props.removeCourseFromPlacement(courseID)
                 .then(() => this.props.fetchUser())
-              : () => this.props.addCourseToPlacements(this.props.data.id)
+              : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
           }
           data-tip
@@ -418,5 +419,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removeCourseFromPlacement, showDialog, fetchCourseProfessors,
+  fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, showDialog, fetchCourseProfessors,
 })(CourseInfoDialog);

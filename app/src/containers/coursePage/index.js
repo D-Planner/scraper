@@ -382,45 +382,74 @@ class CoursePage extends React.Component {
   }
 
   courseUserOptions(courseID) {
-    const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
-    const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
-    return (
-      <div id="user-actions">
-        <img
-          className="action"
-          src={bookmarked ? bookmarkFilled : bookmark}
-          alt="Bookmark"
-          onClick={
+    if (this.props.authenticated) {
+      const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
+      const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
+      return (
+        <div id="user-actions">
+          <img
+            className="action"
+            src={bookmarked ? bookmarkFilled : bookmark}
+            alt="Bookmark"
+            onClick={
             bookmarked
-              ? () => this.props.removeCourseFromFavorites(this.props.data.id)
-              : () => this.props.addCourseToFavorites(this.props.data.id)
+              ? () => this.props.removeCourseFromFavorites(courseID)
+              : () => this.props.addCourseToFavorites(courseID)
           }
-          data-tip
-          data-for="bookmark"
-        />
-        <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
-          {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
-        </ReactTooltip>
-        <div className="spacer" />
-        <img
-          className="action"
-          src={placement ? minus : plus}
-          alt="Placement"
-          onClick={
+            data-tip
+            data-for="bookmark"
+          />
+          <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
+            {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
+          </ReactTooltip>
+          <div className="spacer" />
+          <img
+            className="action"
+            src={placement ? minus : plus}
+            alt="Placement"
+            onClick={
             placement
-              ? () => this.props.removeCourseFromPlacement(this.props.data.id)
+              ? () => this.props.removeCourseFromPlacement(courseID)
                 .then(() => this.props.fetchUser())
-              : () => this.props.addCourseToPlacements(this.props.data.id)
+              : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
           }
-          data-tip
-          data-for="plus"
-        />
-        <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
-          {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
-        </ReactTooltip>
-      </div>
-    );
+            data-tip
+            data-for="plus"
+          />
+          <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
+            {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
+          </ReactTooltip>
+        </div>
+      );
+    } else {
+      return (
+        <div id="user-actions">
+          <div className="action-message">Sign in to see more</div>
+          <img
+            className="action"
+            src={bookmark}
+            alt="Bookmark"
+            data-tip
+            data-for="bookmark"
+          />
+          <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
+            {'Sign in to bookmark this course'}
+          </ReactTooltip>
+          <div className="spacer" />
+          <img
+            className="action"
+            src={plus}
+            alt="Placement"
+            data-tip
+            data-for="plus"
+          />
+          <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
+            {'Sign in to add this to courses you have placed out of'}
+          </ReactTooltip>
+        </div>
+      );
+    }
   }
 
   // renderReviews(course) {
@@ -480,7 +509,7 @@ class CoursePage extends React.Component {
         <h1 className="course-info-title">{this.state.course.title}</h1>
         <div id="top">
           <div id="major">{`Department: ${course.department}`}</div>
-          { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
+          {this.courseUserOptions(course.id)}
         </div>
         <hr className="horizontal-divider" />
         <div id="scrollable">
@@ -502,7 +531,7 @@ class CoursePage extends React.Component {
                 </div>
                 <hr className="horizontal-divider-small" />
               </>
-            ) : <div id="last" style={{ flexDirection: 'column' }}><div className="section-header">Sign in to see more</div><div>To see more, please sign in or sign up above.</div></div>}
+            ) : <div id="last" style={{ flexDirection: 'column' }}><div className="section-header">Sign in to see more</div><div className="last-message">To see more, please sign in or sign up above.</div></div>}
           {/* <div id="reviews-course-page">
             {this.renderReviews(course)}
           </div> */}
@@ -528,7 +557,6 @@ const mapStateToProps = state => ({
   currTerm: state.time.currTerm,
   nextTerm: state.time.nextTerm,
   authenticated: state.auth.authenticated,
-  user: state.user.current,
 });
 
 export default withRouter(connect(mapStateToProps, {
