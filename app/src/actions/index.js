@@ -739,6 +739,7 @@ export function addCourseToTerm(userCourse, termID) {
       type: ActionTypes.ADD_COURSE_TO_PLAN,
       payload: { userCourse, termID },
     });
+    resolve();
   });
 }
 
