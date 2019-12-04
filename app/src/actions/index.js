@@ -584,7 +584,6 @@ export function removeCourseFromFavorites(courseID) {
 }
 
 export function setFulfilledStatus(id, value) {
-  console.log(id, value);
   return dispatch => dispatch({
     type: ActionTypes.SET_FULFILLED_STATUS,
     payload: { id, value },
@@ -602,6 +601,7 @@ export function addCourseToPlacements(courseID) {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
+      // console.log('added course to placement');
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -738,6 +738,7 @@ export function addCourseToTerm(userCourse, termID) {
       type: ActionTypes.ADD_COURSE_TO_PLAN,
       payload: { userCourse, termID },
     });
+    resolve();
   });
 }
 
@@ -778,7 +779,7 @@ export function addPlaceholderCourse(placeholderCourse, termID) {
  * @param {*} termID the termID that the course should be added to
  */
 export function removePlaceholderCourse(placeholderCourse, termID) {
-  console.log(placeholderCourse, termID);
+  // console.log(placeholderCourse, termID);
   return dispatch => new Promise((resolve, reject) => {
     dispatch({
       type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
