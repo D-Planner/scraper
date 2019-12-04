@@ -83,3 +83,8 @@ $tablet-box-shadow: -3px 5px 20px rgba(0, 0, 0, 0.15);
     height: 5px;
     width: 100%;
 }
+
+.horizontal-divider-small {
+  border: 0.5px dotted $gray-3;
+  margin: 20px;
+}

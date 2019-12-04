@@ -41,17 +41,17 @@ const Dependencies = {
   rec: 'Reccomended',
 };
 
-function getProfessor(id) {
-  return new Promise((resolve, reject) => {
-    axios.get(`${ROOT_URL}/professors/${id}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
-      resolve(response.data);
-    }).catch((error) => {
-      reject(error);
-    });
-  });
-}
+// function getProfessor(id) {
+//   return new Promise((resolve, reject) => {
+//     axios.get(`${ROOT_URL}/professors/${id}`, {
+//       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+//     }).then((response) => {
+//       resolve(response.data);
+//     }).catch((error) => {
+//       reject(error);
+//     });
+//   });
+// }
 
 class CoursePage extends React.Component {
   constructor(props) {
