@@ -3,7 +3,7 @@ import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
 
-import { GenEds } from '../../constants';
+import { GenEdsForDisplay as GenEds } from '../../constants';
 
 // Props:
 // course (Shortened Course Data)

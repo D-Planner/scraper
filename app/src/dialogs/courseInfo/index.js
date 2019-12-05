@@ -15,7 +15,7 @@ import link from '../../style/link_24px_blue.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
-import { GenEds, APP_URL } from '../../constants';
+import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
 
 const Dependencies = {
   req: 'Required (One of):',
