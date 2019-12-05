@@ -24,7 +24,10 @@ class RequirementsPane extends Component {
   constructor(props) {
     super(props);
 
+    this.nonPlaceholders = Object.assign([], this.props.userCourses.filter(userCourse => !(userCourse.placeholder)));
+
     this.fillAll();
+
 
     this.state = {
       distribsAction: true,
@@ -34,20 +37,35 @@ class RequirementsPane extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.userCourses && this.props.userCourses && prevProps.userCourses.length !== this.props.userCourses.length) {
+      // Reset the removed ones
+      this.nonPlaceholders.forEach((userCourse) => {
+        if (!this.props.userCourses.map(uC => uC._id).includes(userCourse._id)) {
+          if (userCourse.distrib) {
+            GenEds[userCourse.distrib].filled -= 1;
+            GenEds[userCourse.distrib].fulfilled = false;
+          } if (userCourse.wc) {
+            GenEds[userCourse.wc].filled -= 1;
+            GenEds[userCourse.wc].fulfilled = false;
+          }
+        }
+      });
+      // Add the new ones.
+      this.nonPlaceholders = this.props.userCourses.map((userCourse) => {
+        if (this.nonPlaceholders.map(uC => uC._id).includes(userCourse._id)) return this.nonPlaceholders.find(e => e._id === userCourse._id);
+        return userCourse;
+      });
       this.fillAll();
     }
   }
 
   fillAll = () => {
-    const nonPlaceholders = this.props.userCourses.filter(userCourse => !(userCourse.placeholder));
-
     const wcs = {
       used: [],
-      open: Object.assign([], nonPlaceholders.filter(userCourse => (!userCourse.wc))),
+      open: Object.assign([], this.nonPlaceholders.filter(userCourse => (!userCourse.wc))),
     };
     const distribs = {
       used: [],
-      open: Object.assign([], nonPlaceholders.filter(userCourse => (!userCourse.distrib))),
+      open: Object.assign([], this.nonPlaceholders.filter(userCourse => (!userCourse.distrib))),
     };
 
     this.fillDistribs(wcs, distribs);
