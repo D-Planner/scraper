@@ -54,6 +54,15 @@ class RequirementsPane extends Component {
   }
 
   fillDistribs = (wcs, distribs) => {
+    const fixDistrib = (distrib) => {
+      if (distrib === 'SCI' || distrib === 'SLA') return 'SLA/SCI';
+      if (distrib === 'TLA') {
+        if (GenEds.TLA.fulfilled) return 'TLA/TAS';
+        return distrib;
+      } if (distrib === 'TAS') return 'TLA/TAS';
+      return distrib;
+    };
+
     let previousFlex = 0;
     let nextFlex = wcs.open.length + distribs.open.length;
     while (previousFlex !== nextFlex) {
@@ -70,6 +79,7 @@ class RequirementsPane extends Component {
           userCourse.wc = wc;
           GenEds[wc].filled += 1;
           wcs.used.push(userCourse);
+          GenEds[wc].course = GenEds[wc].course ? [...GenEds[wc].course, userCourse.course.name] : [userCourse.course.name];
           if (GenEds[wc].filled === GenEds[wc].count) GenEds[wc].fulfilled = true;
           // console.log(userCourse.course.name, 'Using this course for', wc, userCourse.course.wcs);
         } else if (unFulfilledWCs.length === 0) {
@@ -85,12 +95,11 @@ class RequirementsPane extends Component {
         const userCourse = distribs.open[j];
         const unFulfilled = Object.values(GenEds).filter(genEd => (!genEd.fulfilled)).map(genEd => genEd.name);
         const unFulfilledDistribs = userCourse.course.distribs.filter((distrib) => {
-          return unFulfilled.includes(distrib);
+          return unFulfilled.includes(fixDistrib(distrib));
         });
         if (unFulfilledDistribs.length === 1) {
-          let distrib = unFulfilledDistribs[0];
-          if (distrib === 'SCI' || distrib === 'SLA') distrib = 'SLA/SCI';
-          if (distrib === 'TAS' || distrib === 'TLA') distrib = 'TLA/TAS';
+          const distrib = fixDistrib(unFulfilledDistribs[0]);
+
           userCourse.distrib = distrib;
 
           GenEds[distrib].filled += 1;
@@ -102,11 +111,11 @@ class RequirementsPane extends Component {
           distribs.open.splice(j, 1);
           console.log(userCourse.course.name, 'Is no longer being used for ', distrib);
         } else if (unFulfilledDistribs.length === 0) {
-          // console.log(userCourse.course.name, 'Is no longer being used', userCourse.course.distribs);
+          console.log(userCourse.course.name, 'Is no longer being used', userCourse.course.distribs);
           distribs.open.splice(j, 1);
         } else {
           j += 1;
-          // console.log(userCourse.course.name, 'ERROR', unFulfilledDistribs.length);
+          console.log(userCourse.course.name, 'ERROR', unFulfilledDistribs.length);
         }
       }
       nextFlex = wcs.open.length + distribs.open.length;
@@ -115,11 +124,9 @@ class RequirementsPane extends Component {
       const userCourse = distribs.open[0];
       const unFulfilled = Object.values(GenEds).filter(genEd => (!genEd.fulfilled)).map(genEd => genEd.name);
       const unFulfilledDistribs = userCourse.course.distribs.filter((distrib) => {
-        return unFulfilled.includes(distrib);
+        return unFulfilled.includes(fixDistrib(distrib));
       });
-      let distrib = unFulfilledDistribs[0];
-      if (distrib === 'SCI' || distrib === 'SLA') distrib = 'SLA/SCI';
-      if (distrib === 'TAS' || distrib === 'TLA') distrib = 'TLA/TAS';
+      const distrib = fixDistrib(unFulfilledDistribs[0]);
       userCourse.distrib = distrib;
 
       GenEds[distrib].filled += 1;
