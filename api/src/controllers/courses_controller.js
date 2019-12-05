@@ -43,21 +43,20 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    if (query.department || query.number || query.distribs || query.wcs || query.offerd) {
-        const courseQuery = {
-            department: query.department,
-            number: query.number ? { $gte: query.number, $lt: parseInt(query.number) + 1 } : { $gte: 0 },
-        };
-        if (query.distribs) courseQuery.distribs = { $all: query.distribs };
-        if (query.wcs) courseQuery.wcs = { $all: query.wcs };
-        if (query.offered) {
-            if (query.offered.includes('current')) {
-                courseQuery.offered = true;
-                query.offered = query.offered.slice(1);
-            }
-            // **** NEED TO EITHER QUERY VIRTUALS, OR MOVE LIKELY_TERMS TO A MODEL OBJECT RATHER THAN VIRTUAL.
-            if (query.offered.length > 0) courseQuery.likely_terms = { $all: query.offered };
+    const courseQuery = {};
+    if (query.department) courseQuery.department = query.department;
+    if (query.number) courseQuery.number = { $gte: query.number, $lt: parseInt(query.number) + 1 };
+    if (query.distribs) courseQuery.distribs = { $all: query.distribs };
+    if (query.wcs) courseQuery.wcs = { $all: query.wcs };
+    if (query.offered) {
+        if (query.offered.includes('current')) {
+            courseQuery.offered = true;
+            query.offered = query.offered.slice(1);
         }
+        // **** NEED TO EITHER QUERY VIRTUALS, OR MOVE LIKELY_TERMS TO A MODEL OBJECT RATHER THAN VIRTUAL.
+        if (query.offered.length > 0) courseQuery.likely_terms = { $all: query.offered };
+    }
+    if (query.department || query.number || query.distribs || query.wcs || query.offerd) {
         Course.find(courseQuery)
             .populate(PopulateCourse)
             .sort({ number: 1 })
@@ -73,10 +72,9 @@ const searchCourses = (req, res) => {
         Professor.find({
             $text: { $search: search },
         }).then((r) => {
-            Course.find({
-                $text: { $search: search },
-                // { professor: { $in: r.map((p) => { return p._id; }) } },
-            }).populate(PopulateCourse)
+            const queryWithText = Object.assign(courseQuery, { $text: { $search: search } });
+            Course.find(queryWithText)
+                .populate(PopulateCourse)
                 .then((result) => {
                     res.json(trim(result));
                 })
