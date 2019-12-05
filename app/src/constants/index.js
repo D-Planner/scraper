@@ -449,6 +449,12 @@ export const GenEds = {
     icon: icons.soc,
     fulfilled: false,
   },
+  SOC2: {
+    fullName: 'Social Analysis',
+    name: 'SOC',
+    icon: icons.soc,
+    fulfilled: false,
+  },
   QDS: {
     fullName: 'Quantitative and Deductive Science',
     name: 'QDS',
