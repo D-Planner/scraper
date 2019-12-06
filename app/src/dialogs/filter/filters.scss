@@ -11,9 +11,18 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 60px;
+        max-width: 120px;
+
         &.choice-next-term {
             width: 120px !important;
+        }
+
+        .choice-label {
+            margin-right: 18px;
+
+            &.bold {
+                font-weight: bold;
+            }
         }
     }
 

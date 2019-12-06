@@ -56,6 +56,21 @@ class CourseElement extends Component {
   }
 
   renderCourseIdentifyingInfo = () => {
+    if (this.props.placeholder) {
+      return (
+        <>
+          <div className="course-left">
+            {`${this.props.department}`}
+          </div>
+          <div className="spacer" />
+          <div className="course-right">
+            <div className="name">
+              Placeholder
+            </div>
+          </div>
+        </>
+      );
+    }
     return (
       <>
         <div className="course-left">

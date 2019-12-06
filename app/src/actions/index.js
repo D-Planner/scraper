@@ -45,6 +45,8 @@ export const ActionTypes = {
   RESET_PASS: 'RESET_PASS',
   ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
   REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
+  ADD_PLACEHOLDER_COURSE_TO_PLAN: 'ADD_PLACEHOLDER_COURSE_TO_PLAN',
+  REMOVE_PLACEHOLDER_COURSE_FROM_PLAN: 'REMOVE_PLACEHOLDER_COURSE_FROM_PLAN',
 };
 
 export function setPressedKey(key) {
@@ -173,15 +175,13 @@ export function setDraggingState(isDragging, course) {
 
 // ----- Filter Setting ----- //
 export function setFilters(filters) {
-  return {
-    type: ActionTypes.SET_FILTERS,
-    payload: filters,
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_FILTERS, payload: filters });
   };
 }
 export function clearFilters() {
-  return {
-    type: ActionTypes.CLEAR_FILTERS,
-    payload: null,
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.CLEAR_FILTERS, payload: null });
   };
 }
 
@@ -473,35 +473,34 @@ export function fetchCourse(id) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  return new Promise(((resolve, reject) => {
+  return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
       resolve(response.data);
     }).catch((error) => {
       console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject(error);
     });
-  }));
+  });
 }
 
-// /**
-//  * @private
-//  * Fetches a specific courses from the database (corresponding to the most recent ORC crawl)
-//  * NOTE: not set up in reducer yet because it's not used
-//  * @returns an action creator to gather a course and store it in the redux store
-//  */
-// export function fetchCourse(id) {
-//   const headers = {
-//     Authorization: `Bearer ${localStorage.getItem('token')}`,
-//   };
-//   return (dispatch) => {
-//     axios.get(`${ROOT_URL}/courses/${id}`, { headers }).then((response) => {
-//       dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
-//     }).catch((error) => {
-//       console.log(error);
-//       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
-//     });
-//   };
-// }
+/**
+ * Public equivalent of fetchCourse
+ * @param {*} id
+ */
+export function fetchCoursePublic(id) {
+  return dispatch => new Promise((resolve, reject) => {
+    axios.get(`${ROOT_URL}/public/course/${id}`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
+      resolve(response.data);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
+    });
+  });
+}
 
 /**
  * Fetches a list of all courses that a user has marked as a favorite (i.e. that are in their bookmarks)
@@ -585,7 +584,6 @@ export function removeCourseFromFavorites(courseID) {
 }
 
 export function setFulfilledStatus(id, value) {
-  console.log(id, value);
   return dispatch => dispatch({
     type: ActionTypes.SET_FULFILLED_STATUS,
     payload: { id, value },
@@ -603,6 +601,7 @@ export function addCourseToPlacements(courseID) {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
+      // console.log('added course to placement');
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -617,7 +616,7 @@ export function addCourseToPlacements(courseID) {
  * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
  * @returns an action creator to add a course to a user's favorites
  */
-export function removePlacement(courseID) {
+export function removeCourseFromPlacement(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -739,6 +738,7 @@ export function addCourseToTerm(userCourse, termID) {
       type: ActionTypes.ADD_COURSE_TO_PLAN,
       payload: { userCourse, termID },
     });
+    resolve();
   });
 }
 
@@ -758,6 +758,36 @@ export function removeCourseFromTerm(userCourse) {
     resolve();
   });
 }
+
+/**
+ *
+ * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} termID the termID that the course should be added to
+ */
+export function addPlaceholderCourse(placeholderCourse, termID) {
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN,
+      payload: { placeholderCourse, termID },
+    });
+  });
+}
+
+/**
+ *
+ * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} termID the termID that the course should be added to
+ */
+export function removePlaceholderCourse(placeholderCourse, termID) {
+  // console.log(placeholderCourse, termID);
+  return dispatch => new Promise((resolve, reject) => {
+    dispatch({
+      type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
+      payload: { placeholderCourse, termID },
+    });
+  });
+}
+
 
 export function updateTerm(term) {
   return (dispatch) => {

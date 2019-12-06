@@ -17,6 +17,21 @@ const createUserCourse = (userID, catalogCourseID, termID) => {
     });
 };
 
+const createPlacementCourse = async (userID, termID, department) => {
+    const newCourse = await UserCourse.create({
+        user: userID,
+        course: null,
+        term: termID,
+        major: null,
+        distrib: null,
+        wc: null,
+        timeslot: null,
+        fulfilledStatus: '',
+        placeholder: department,
+    });
+    return newCourse.save();
+};
+
 // const deleteUserCourse = async (userCourseID) => {
 //     try {
 //         await UserCourse.findByIdAndRemove(userCourseID);
@@ -62,6 +77,7 @@ const getCourse = async (req, res) => {
 
 const UserCourseController = {
     createUserCourse,
+    createPlacementCourse,
     deleteUserCourse,
     updateUserCourse,
     getCourse,

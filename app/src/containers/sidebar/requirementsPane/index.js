@@ -43,8 +43,12 @@ const RequirementsPane = (props) => {
 
     // does initial sort, sorts the list of user courses into [fixed] or [flexible]
     props.userCourses.forEach((userCourse) => {
+      if (userCourse.placeholder) return;
       userCourse.course.distribs.forEach((distrib) => {
         GenEds[distrib].fulfilled = true;
+      });
+      userCourse.course.wcs.forEach((wc) => {
+        GenEds[wc].fulfilled = true;
       });
       if (userCourse.course.distribs.length > 1) {
         flexible.push(userCourse);
