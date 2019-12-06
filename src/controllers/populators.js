@@ -26,6 +26,7 @@ export const PopulateTerm = [{
 
 export const PopulateUser = [{
     path: 'favorite_courses',
+    populate: PopulateCourse,
 }, {
     path: 'placement_courses',
     populate: PopulateCourse,
