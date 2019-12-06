@@ -127,6 +127,7 @@ class DPlan extends Component {
           noPlan: false,
           tempPlanName: this.props.plan.name,
         });
+        this.setPreviousCourses();
       });
     } else {
       // console.log('resetting to no plan');

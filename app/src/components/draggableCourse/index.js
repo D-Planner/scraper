@@ -72,6 +72,9 @@ class Course extends React.Component {
             tabIndex="-1" // 0
           >
             <CourseElement
+              icon={this.props.icon}
+              showIcon={this.props.showIcon}
+              onIconClick={this.props.onIconClick}
               size="xl"
               course={course}
               beingHovered={this.state.beingHovered}

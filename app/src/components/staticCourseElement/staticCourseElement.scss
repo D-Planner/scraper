@@ -58,4 +58,18 @@
     }
 
   }
+
+  .icon-container {
+    display: flex;
+    align-items: right;
+    position: absolute;
+    top: 20%;
+    right: 5%;
+    bottom: 20%;
+    // height: 100%;
+
+    .icon {
+      height: 90%;
+    }
+  }
 }
