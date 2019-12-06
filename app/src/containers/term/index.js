@@ -46,16 +46,18 @@ const termTarget = {
         props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then((next) => {
           console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
           props.addCourseToTerm(item.catalogCourse, props.term);
-        }).then((next) => {
-          next();
+        }).then(() => {
           console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+        }).catch((e) => {
+          console.log(e);
         });
       } else {
         // console.log('[TERM.js] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
-        props.addCourseToTerm(item.course, props.term).then((next) => {
-          next();
+        props.addCourseToTerm(item.course, props.term).then(() => {
           // console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
+        }).catch((e) => {
+          console.log(e);
         });
       }
       // return an object containing the current term
