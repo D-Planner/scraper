@@ -344,7 +344,7 @@ class CourseInfoDialog extends Component {
           data-for="bookmark"
         />
         <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
-          {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
+          {!bookmarked ? 'Bookmark this course' : 'Unbookmark this course'}
         </ReactTooltip>
         <div className="spacer" />
         <img
@@ -362,7 +362,7 @@ class CourseInfoDialog extends Component {
           data-for="plus"
         />
         <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
-          {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
+          {!placement ? 'Add to your placement courses' : 'Remove from your placement courses'}
         </ReactTooltip>
       </div>
     );
