@@ -208,7 +208,7 @@ class CourseInfoDialog extends Component {
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
           return (
-            <div key={c.id.toString()}>
+            <div key={c.toString()}>
               <NonDraggableCourse course={c} currTerm={this.props.currTerm} />
               <div id="course-spacer-large" />
             </div>
@@ -227,7 +227,6 @@ class CourseInfoDialog extends Component {
                 return (o[key].length > 0 && key !== '_id');
               });
               if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
-
               const render = (
                 <div key={i.toString()} className="dependency">
                   <div className="rule-header">{Dependencies[dependencyType]}</div>
