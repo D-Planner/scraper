@@ -109,6 +109,10 @@ class UserCourse extends Component {
         tabIndex="-1" // 0
       >
         <CourseElement
+          showIcon
+          icon="close"
+          onIconClick={() => this.props.removeCourseFromTerm(this.props.course.id, this.props.sourceTerm)}
+          sourceTerm={this.props.sourceTerm}
           size={this.props.size}
           error={this.props.course.fulfilledStatus}
           course={this.catalogCourse}

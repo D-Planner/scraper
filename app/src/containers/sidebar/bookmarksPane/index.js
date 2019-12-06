@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { DropTarget as BookmarksPane } from 'react-dnd';
+import { connect } from 'react-redux';
 import { ItemTypes, Departments } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
+import { removeCourseFromFavorites } from '../../../actions';
 
 import './bookmarksPane.scss';
 import PlaceholderCourse from '../../../components/placeholderCourse';
@@ -15,9 +17,9 @@ const target = {
   },
 };
 
-const collect = (connect, monitor) => {
+const collect = (conn, monitor) => {
   return {
-    connectDropTarget: connect.dropTarget(),
+    connectDropTarget: conn.dropTarget(),
   };
 };
 
@@ -52,7 +54,7 @@ const component = (props) => {
               return (
                 <div key={course.id}>
                   <div className="paneCourse">
-                    <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} />
+                    <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
                   </div>
                   <div id="course-spacer-large" />
                 </div>
@@ -66,4 +68,4 @@ const component = (props) => {
 };
 
 // eslint-disable-next-line new-cap
-export default BookmarksPane(ItemTypes.COURSE, target, collect)(component);
+export default BookmarksPane(ItemTypes.COURSE, target, collect)(connect(null, { removeCourseFromFavorites })(component));

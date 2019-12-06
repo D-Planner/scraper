@@ -8,7 +8,9 @@ import { DialogTypes } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
-import { setFilters, clearFilters } from '../../../actions';
+import {
+  setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
+} from '../../../actions';
 
 
 /**
@@ -43,7 +45,6 @@ const SearchPane = React.forwardRef((props, ref) => {
         wcs,
         offered,
       };
-      // console.log(props.resultStamp);
       props.stampIncrement((props.resultStamp + 1));
       props.search(queryParsed, props.resultStamp);
     }
@@ -138,14 +139,26 @@ const SearchPane = React.forwardRef((props, ref) => {
             <div className="search-results">
               {results.length
                 ? results.map((course) => {
-                  return (
-                    <div className="result-row" key={course.id}>
-                      <div className="paneCourse">
-                        <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} />
+                  // Find whether this course's ID matches with any ID in the user's favorites
+                  if (props.user.favorite_courses.findIndex(c => c._id === course._id) !== -1) {
+                    return (
+                      <div className="result-row" key={course.id}>
+                        <div className="paneCourse">
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.removeCourseFromFavorites(course.id)} />
+                        </div>
+                        <div id="course-spacer-large" />
                       </div>
-                      <div id="course-spacer-large" />
-                    </div>
-                  );
+                    );
+                  } else {
+                    return (
+                      <div className="result-row" key={course.id}>
+                        <div className="paneCourse">
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkEmpty" onIconClick={() => props.addCourseToFavorites(course.id)} />
+                        </div>
+                        <div id="course-spacer-large" />
+                      </div>
+                    );
+                  }
                 })
                 : (<div className="no-search">Search for courses!</div>)}
             </div>
@@ -159,8 +172,16 @@ const SearchPane = React.forwardRef((props, ref) => {
 const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
+  offeredNextTerm: state.filters.offeredNextTerm,
+  user: state.user.current,
   offered: state.filters.offered,
 });
 
 
-export default connect(mapStateToProps, { setFilters, clearFilters })(SearchPane);
+export default connect(mapStateToProps, {
+  setFilters,
+  clearFilters,
+  addCourseToFavorites,
+  removeCourseFromFavorites,
+  fetchUser,
+})(SearchPane);
