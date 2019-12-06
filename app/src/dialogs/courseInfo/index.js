@@ -208,7 +208,7 @@ class CourseInfoDialog extends Component {
       } else if (dependencyType) {
         return o[dependencyType].map((c) => {
           return (
-            <div key={c.toString()}>
+            <div key={c.id.toString()}>
               <NonDraggableCourse course={c} currTerm={this.props.currTerm} />
               <div id="course-spacer-large" />
             </div>
