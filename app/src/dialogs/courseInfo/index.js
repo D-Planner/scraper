@@ -15,7 +15,7 @@ import link from '../../style/link_24px_blue.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
-import { GenEds, APP_URL } from '../../constants';
+import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -227,7 +227,6 @@ class CourseInfoDialog extends Component {
                 return (o[key].length > 0 && key !== '_id');
               });
               if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
-
               const render = (
                 <div key={i.toString()} className="dependency">
                   <div className="rule-header">{Dependencies[dependencyType]}</div>

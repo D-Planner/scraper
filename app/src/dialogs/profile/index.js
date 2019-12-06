@@ -134,13 +134,14 @@ class ProfileDialog extends Component {
 
   // Toggles editing for a given inputName and saves the result on close or 'Enter'
   displayEditOption = (text, inputName, editing) => {
+    const gradBool = inputName === 'graduationYear';
     return (
       <div className="info">
         <div className="label">{text}:</div>
         {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
         <div className="data" role="textbox" onClick={editing ? null : () => this.handleToggleEdit(inputName)}>
           {!editing ? `${this.newUser[inputName]}`
-            : <input type="text" onKeyPress={e => this.keypressHandler(e, inputName, this.handleToggleEdit)} defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
+            : <input type={gradBool ? 'number' : 'text'} min={gradBool ? 0 : null} max={gradBool ? 9999 : null} onKeyPress={e => this.keypressHandler(e, inputName, this.handleToggleEdit)} defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
         </div>
         {!editing ? <img src={edit} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />
           : <img src={check} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />}

@@ -459,7 +459,6 @@ const getFavorite = (req, res) => {
             model: 'Course',
             populate: PopulateCourse,
         })
-        .exec()
         .then((result) => {
             res.json(result.favorite_courses);
         })

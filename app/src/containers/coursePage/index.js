@@ -16,7 +16,7 @@ import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
-import { GenEds, APP_URL } from '../../constants';
+import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
 import './coursePage.scss';

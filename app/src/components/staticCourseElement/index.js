@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
+import { GenEdsForDisplay as GenEds } from '../../constants';
 import closeIcon from '../../style/close.svg';
 import bookmarkEmpty from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
-import { GenEds } from '../../constants';
 
 class CourseElement extends Component {
   renderCourseSupplementaryInfo = () => {

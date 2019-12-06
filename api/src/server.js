@@ -129,7 +129,7 @@ app.get('/public/course/:id', (req, res) => {
 
 // These cannot be used in production, or will need our own special Authorization
 app.get('/reset', (req, res) => {
-    if (req.headers.key === 'planthed') {
+    if (req.headers.key === '7d0cde01-30bb-465a-b614-9a9237a98f20') {
         resetDB().then(() => {
             res.send('database reset');
         }).catch((error) => {
