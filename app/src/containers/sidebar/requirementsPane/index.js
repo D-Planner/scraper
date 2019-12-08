@@ -241,7 +241,9 @@ class RequirementsPane extends Component {
             )
             : <div /> }
         </div>
-        {this.state.distribsAction ? this.renderGenEds() : this.renderMajorReqs()}
+        <div className="pane-content">
+          {this.state.distribsAction ? this.renderGenEds() : this.renderMajorReqs()}
+        </div>
       </div>
     );
   }
