@@ -12,7 +12,7 @@ import bookmarkFilled from '../../style/bookmarkFilled.svg';
 class CourseElement extends Component {
   renderCourseSupplementaryInfo = () => {
     return (
-      <>
+      <div className="supplementary-course">
         <div className="likely-terms">
           <LikelyTerms terms={this.props.course.likely_terms} />
         </div>
@@ -31,13 +31,13 @@ class CourseElement extends Component {
               );
             }) : null}
           </div>
-          {this.props.showIcon === true ? (
-            <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
-              {this.renderIcon(this.props.icon)}
-            </div>
-          ) : null}
         </div>
-      </>
+        {this.props.showIcon === true ? (
+          <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+            {this.renderIcon(this.props.icon)}
+          </div>
+        ) : null}
+      </div>
     );
   }
 

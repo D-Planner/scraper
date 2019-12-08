@@ -2,11 +2,12 @@
 
 .title-box {
   display: flex;
-  flex-flow: row nowrap;
+  flex: 1;
   white-space: nowrap;
   overflow: hidden;
   align-items: center;
   // height: 100%;
+
 
   .course-left {
     font-weight: 500;
@@ -39,37 +40,54 @@
       }
   }
 
-  .genEds {
+  .supplementary-course {
     display: flex;
-    align-items: center;
-    .icon {
-      height: 18px;
-      margin-right: 5px;
-    }
-    .distribs {
-      display: flex;
-      align-items: center;
-      margin-right: 10px;
-    }
-    .wcs {
-      display: flex;
-      align-items: center;
+    width:100%;
+    max-width: 100%;
+    justify-content: space-between;
 
+    .likelyTerms {
+      flex: 1;
     }
 
+    .genEds {
+      display: flex;
+      overflow: scroll;
+      flex-wrap: nowrap;
+
+      &::-webkit-scrollbar {
+        display: none !important;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        display: none !important;
+      }
+      
+      .distribs {
+        display: flex;
+        flex:1;
+        align-items: center;
+        margin-right: 10px;
+      }
+      .wcs {
+        flex:1;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .icon-container {
+      display: flex;
+      margin-left: 10px;
+
+      .icon {
+        flex:1;
+        height: 90%;
+      }
+    }
   }
 
-  .icon-container {
-    display: flex;
-    align-items: right;
-    position: absolute;
-    top: 20%;
-    right: 5%;
-    bottom: 20%;
-    // height: 100%;
-
-    .icon {
-      height: 90%;
-    }
+  .icon {
+    height: 18px;
+    margin-right: 5px;
   }
 }
