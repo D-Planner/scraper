@@ -13,9 +13,13 @@ class CourseElement extends Component {
   renderCourseSupplementaryInfo = () => {
     return (
       <div className="supplementary-course">
-        <div className="likely-terms">
-          <LikelyTerms terms={this.props.course.likely_terms} />
-        </div>
+        {
+          !this.props.showIcon ? (
+            <div className="likely-terms">
+              <LikelyTerms terms={this.props.course.likely_terms} />
+            </div>
+          ) : null
+        }
         <div className="genEds">
           <div className="distribs">
             {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
@@ -32,7 +36,7 @@ class CourseElement extends Component {
             }) : null}
           </div>
         </div>
-        {this.props.showIcon === true ? (
+        {this.props.showIcon ? (
           <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
             {this.renderIcon(this.props.icon)}
           </div>
