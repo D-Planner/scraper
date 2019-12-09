@@ -268,10 +268,7 @@ class DPlan extends Component {
           .forEach((x) => {
             if (x._id === String(term)) {
               x.previousCourses = previousCourses;
-              x.courses.filter((c) => {
-                return (c.fulfilledStatus === '' && !c.placeholder && c.course !== null);
-              }).forEach((course) => {
-                console.log('SETFULFILLEDSTATUS', course.course.name);
+              x.courses.filter(c => !c.placeholder).forEach((course) => {
                 this.setAllFulfilledStatus(x._id, course.id);
               });
             }
