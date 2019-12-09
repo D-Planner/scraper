@@ -6,11 +6,14 @@
   white-space: nowrap;
   overflow: hidden;
   align-items: center;
+  // height: 100%;
+
   .course-left {
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
   }
+
   .spacer {
       margin-left: 5px;
       padding-left: 5px;
@@ -21,13 +24,16 @@
 
   .course-right {
       font-size: 10px;
+      line-height: 16px; // this is to make it the same height as the DEPT  part
       text-align: start;
-      line-height: 100%;
       overflow-x: hidden;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+
       .name {
-        flex:1;
-        min-width: 0;
-        overflow: hidden;
+        height: 100%;
+        overflow: hidden; 
         text-overflow: ellipsis;
         margin-right: 5px;
       }
@@ -51,5 +57,19 @@
 
     }
 
+  }
+
+  .icon-container {
+    display: flex;
+    align-items: right;
+    position: absolute;
+    top: 20%;
+    right: 5%;
+    bottom: 20%;
+    // height: 100%;
+
+    .icon {
+      height: 90%;
+    }
   }
 }

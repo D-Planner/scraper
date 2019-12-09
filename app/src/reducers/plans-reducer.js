@@ -79,7 +79,7 @@ const plansReducer = (state = initialState, action) => {
         });
         return p;
       });
-      console.log(current);
+      // console.log(current);
       return Object.assign({}, state, { current, all });
     case ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN:
       // eslint-disable-next-line no-case-declarations
@@ -111,7 +111,6 @@ const plansReducer = (state = initialState, action) => {
           if (t._id === action.payload.termID) {
             const remove_index = t.courses.findIndex(c => c.placeholder === action.payload.placeholderCourse);
             t.courses = t.courses.filter((c, i) => i !== remove_index);
-            console.log(t.courses);
           }
           return t;
         });

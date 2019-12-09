@@ -21,6 +21,14 @@ import './dplan.scss';
 
 const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
+const arraysMatch = (a1, a2) => {
+  if (a1.length !== a2.length) return false;
+  for (let i = 0; i < a1.length; i += 1) {
+    if (a1[i] !== a2[i]) return false;
+  }
+  return true;
+};
+
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
   // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values for more
@@ -90,22 +98,39 @@ class DPlan extends Component {
   }
 
   componentDidMount() {
+    console.log('[DPlan] Did Mount');
     this.dplanref.current.focus();
-    if (this.props.plan) this.setPreviousCourses();
   }
 
+  componentWillUpdate(prevProps) {
+    console.log('[DPlan] Will Update');
+    if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
+    ) {
+      console.log('setting previous on Will Update');
+      this.setPreviousCourses();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('[DPlan] Did Update');
+    if (prevState.noPlan && !this.state.noPlan) {
+      console.log('setting previous on Did Update');
+      this.setPreviousCourses();
+    }
+  }
 
   setCurrentPlan(planID) {
     if (planID !== null) {
-      console.log(`setting plan to ${planID}`);
+      // console.log(`setting plan to ${planID}`);
       this.props.fetchPlan(planID).then(() => {
         this.setState({
           noPlan: false,
           tempPlanName: this.props.plan.name,
         });
+        this.setPreviousCourses();
       });
     } else {
-      console.log('resetting to no plan');
+      // console.log('resetting to no plan');
       this.setState({ noPlan: true });
     }
   }
@@ -114,7 +139,7 @@ class DPlan extends Component {
     const courses = [];
     this.props.plan.terms.forEach((year) => {
       year.forEach((term) => {
-        courses.push(...term.courses);
+        courses.push(...term.courses.filter(c => !c.placeholder));
       });
     });
     return courses;
@@ -148,6 +173,7 @@ class DPlan extends Component {
           this.getFlattenedCourses().forEach((userCourse) => {
             if (userCourse.id === userCourseID) {
               const getValue = (uCourse) => {
+                // console.log(uCourse);
                 const { course } = uCourse;
                 let prereqs = course.prerequisites ? course.prerequisites : [];
                 if (!prereqs || prereqs.length === 0) {
@@ -193,7 +219,7 @@ class DPlan extends Component {
 
                 return CLEAR;
               };
-              this.props.setFulfilledStatus(userCourse.id, getValue(userCourse));
+              this.props.setFulfilledStatus(userCourseID, getValue(userCourse));
             }
           });
         }
@@ -202,6 +228,7 @@ class DPlan extends Component {
       console.log(e);
     }
   };
+
 
   setPreviousCourses = () => {
     console.log('[setPreviousCourses Dplan.js]');
@@ -221,8 +248,16 @@ class DPlan extends Component {
         .filter((c) => {
           return (c.fulfilledStatus === '' && !c.placeholder && c.course !== null);
         })
+        .filter((c) => {
+          return !c.placeholder;
+        })
         .map((c) => {
-          return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
+          try {
+            return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
+          } catch (e) {
+            console.log(e);
+            return c.course.id;
+          }
         })
         .flat())];
       return { [term._id]: prevCourses };
@@ -251,7 +286,7 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to add course to term');
+    // console.log('[DPLAN.js] We got request to add course to term');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -259,7 +294,9 @@ class DPlan extends Component {
             axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then((response) => {
+              // console.log('[DPLAN.js] Axios Call Complete');
               this.props.addCourseToTerm(response.data, term._id).then(() => {
+                // console.log('[DPLAN.js] Course was added');
                 this.setPreviousCourses();
                 resolve();
               });
@@ -273,8 +310,8 @@ class DPlan extends Component {
   })
 
   removeCourseFromTerm = (userCourseID, termID) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to remove course from term');
-    console.log(userCourseID, termID);
+    // console.log('[DPLAN.js] We got request to remove course from term');
+    // console.log(userCourseID, termID);
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -299,12 +336,12 @@ class DPlan extends Component {
   })
 
   addPlaceholderCourseToTerm = (department, term) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to add placeholder course to term');
+    // console.log('[DPLAN.js] We got request to add placeholder course to term');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
           if (t._id === term._id) {
-            axios.post(`${ROOT_URL}/terms/${term.id}/course/placement`, { department }, {
+            axios.post(`${ROOT_URL}/terms/${term.id}/course/placeholder`, { department }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then((response) => {
               this.props.addPlaceholderCourse(department, term._id);
@@ -318,21 +355,32 @@ class DPlan extends Component {
     }
   })
 
-  removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to remove placeholder course from term');
+  addCourseToPlacements = courseID => new Promise((resolve, reject) => {
+    // console.log('[DPLAN.js] We got a request to add a placement course');
     try {
-      this.props.plan.terms.forEach((y) => {
-        y.forEach((t) => {
-          if (t._id === termID) {
-            axios.delete(`${ROOT_URL}/terms/${termID}/course/placement/${department}`, {
-              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            }).then(() => {
-              console.log('DEPARTMENT to remove', department);
-              this.props.removePlaceholderCourse(department, termID);
-              resolve();
-            });
-          }
-        });
+      axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }).then((response) => {
+        this.setPreviousCourses();
+        resolve();
+      }).catch((error) => {
+        reject();
+      });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  })
+
+  removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
+    // console.log('[DPLAN.js] We got request to remove placeholder course from term');
+    try {
+      axios.delete(`${ROOT_URL}/terms/${termID}/course/placeholder/${department}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }).then(() => {
+        // console.log('DEPARTMENT to remove', department);
+        this.props.removePlaceholderCourse(department, termID);
+        resolve();
       });
     } catch (e) {
       console.log(e);
@@ -341,7 +389,7 @@ class DPlan extends Component {
   })
 
   setDraggingFulfilledStatus = courseID => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
+    // console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
     // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
     //   resolve();
     // }).catch((e) => {
@@ -352,9 +400,9 @@ class DPlan extends Component {
 
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
-      console.log('deletePlanKeyPress');
+      // console.log('deletePlanKeyPress');
       if (plan === null) {
-        console.log('plan is null');
+        // console.log('plan is null');
       } else {
         this.showDialog();
       }
@@ -401,7 +449,7 @@ class DPlan extends Component {
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
       let currQuarter = -1;
-      console.log(`creating new plan with name ${name}`);
+      // console.log(`creating new plan with name ${name}`);
       this.props.createPlan({
         terms: emptyPlan.terms.map((term) => {
           if (currQuarter === 3) currYear += 1;
