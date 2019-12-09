@@ -21,6 +21,7 @@ import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
 import PrivacyPolicy from './policies/privacy';
 import TermsAndConditions from './policies/terms_conditions';
+import CoursePage from '../containers/coursePage';
 
 
 class App extends Component {
@@ -56,7 +57,7 @@ class App extends Component {
   render() {
     // eslint-disable-next-line no-unused-vars
     const sizeSufficient = (this.state.width >= minWidth && this.state.height >= minHeight);
-    if (true) {
+    if (sizeSufficient) {
       return (
         <div>
           <Router>
@@ -65,6 +66,7 @@ class App extends Component {
                 <Switch>
                   {/* DPlan */}
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
+                  <Route path="/course/:id" component={CoursePage} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
                   {/* <Route path="/signup" component={signUp} />
                 <Route path="/signin" component={signIn} /> */}

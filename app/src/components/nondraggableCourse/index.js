@@ -43,7 +43,7 @@ class NonDraggableCOurse extends React.Component {
       <div className="popover"
         onMouseEnter={() => this.setState({ beingHovered: true })}
         onMouseLeave={() => this.setState({ beingHovered: false })}
-        onClick={() => this.showCourseInfoDialog(this.props)}
+        onClick={this.props.click ? () => this.props.click() : () => this.showCourseInfoDialog(this.props)}
         role="button"
         tabIndex="-1" // 0
       >
