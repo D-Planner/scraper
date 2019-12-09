@@ -17,6 +17,7 @@ import trash from '../../style/trash.svg';
 import check from '../../style/check.svg';
 import Term from '../term';
 import './dplan.scss';
+import Cytoscape from '../../components/Cytoscape';
 
 
 const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
@@ -79,6 +80,7 @@ class DPlan extends Component {
       openPane: paneTypes.REQUIREMENTS,
       isEditing: false,
       tempPlanName: '',
+      cytoscape: false,
     };
 
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
@@ -121,10 +123,12 @@ class DPlan extends Component {
 
   setCurrentPlan(planID) {
     if (planID !== null) {
+      if (planID === -1) this.setState({ cytoscape: true });
       // console.log(`setting plan to ${planID}`);
       this.props.fetchPlan(planID).then(() => {
         this.setState({
           noPlan: false,
+          cytoscape: false,
           tempPlanName: this.props.plan.name,
         });
         this.setPreviousCourses();
@@ -474,6 +478,16 @@ class DPlan extends Component {
   };
 
   render() {
+    if (this.state.cytoscape) {
+      return (
+        <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+          <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
+            <Dashboard setCurrentPlan={this.setCurrentPlan} />
+            <Cytoscape />
+          </div>
+        </HotKeys>
+      );
+    }
     if (!this.props.plan || this.state.noPlan) {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>

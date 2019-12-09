@@ -39,7 +39,7 @@ class Graph extends Component {
             linkIDs.push(course.id);
             return prereq[dependencyType].map((c) => {
               linkIDs.push(c.id);
-              return { source: course.id, target: c.id, color: '#aaaaaa' };
+              return { target: course.id, source: c.id, color: '#aaaaaa' };
             }).flat();
           } else return [];
         }).flat();
@@ -99,7 +99,7 @@ class Graph extends Component {
             <ForceGraph2D
               graphData={{ nodes: this.state.nodes, links: this.state.links }}
               nodeLabel="title"
-              linkWidth={3}
+              linkWidth={1}
               linkDirectionalArrowLength={10}
               linkDirectionalArrowRelPos={1}
               nodeAutoColorBy={d => this.getColor(d)}
@@ -109,16 +109,14 @@ class Graph extends Component {
               }}
               zoom={[1]}
               backgroundColor="#e8e8e8"
+              onNodeDragEnd={(node) => {
+                node.fx = node.x;
+                node.fy = node.y;
+                node.fz = node.z;
+              }}
             />
           </div>
-          <div className="majors">
-            {this.selectedDept ? `Major for ${departmentsWithFullName[this.selectedDept]}` : 'Pick a major'}<br />
-            Feature arriving soon!
-          </div>
-
         </div>
-
-
       </div>
     );
   }
