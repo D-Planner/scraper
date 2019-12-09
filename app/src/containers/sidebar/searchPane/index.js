@@ -83,7 +83,7 @@ const SearchPane = React.forwardRef((props, ref) => {
 
   const useFilters = () => {
     setWC(props.wcs.filter(e => e.checked).map(e => e.name));
-    setDistrib(props.distribs.filter(e => e.checked).map(e => e.name));
+    setDistrib(props.distribs.filter(e => e.checked).map(e => e.tag));
     setOffered(props.offered.filter(e => e.checked).map(e => e.term));
   };
 

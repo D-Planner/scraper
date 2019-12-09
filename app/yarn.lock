@@ -10036,6 +10036,11 @@ react-side-effect@^1.1.0:
   dependencies:
     shallowequal "^1.0.1"
 
+react-tag-autocomplete@^6.0.0-beta.3:
+  version "6.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/react-tag-autocomplete/-/react-tag-autocomplete-6.0.0-beta.3.tgz#75d0ac36b6afbac8ec8f99ae5b4b5ba3657a2e9f"
+  integrity sha512-8tn8rSaARnJj6P43rYm9fI6GqaQ0pbZTf9UxrHtIGqZkAUGzw8uEgR2xysT4yPJm/gF9mFURtjLLby03+ovN/w==
+
 react-tooltip@^3.11.1:
   version "3.11.1"
   resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.11.1.tgz#7b4ce48ed26a46e996662b19a2afebbfd483513b"
