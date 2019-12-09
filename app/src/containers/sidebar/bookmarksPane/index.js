@@ -48,13 +48,24 @@ const component = (props) => {
               <select defaultValue={placeholderDept} className="sort-picker" onChange={e => setPlaceholderDept(e.target.value)}>
                 {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
               </select>
-              <PlaceholderCourse size="sm" department={placeholderDept} addPlaceholderCourse={props.addPlaceholderCourse} />
+              <PlaceholderCourse
+                size="sm"
+                department={placeholderDept}
+                addPlaceholderCourse={props.addPlaceholderCourse}
+              />
             </div>
             {props.bookmarks.map((course, index) => {
               return (
                 <div key={course.id}>
                   <div className="paneCourse">
-                    <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
+                    <DraggableCourse
+                      course={course}
+                      currTerm={props.currTerm}
+                      setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
+                      showIcon
+                      icon="close"
+                      onIconClick={() => props.removeCourseFromFavorites(course._id)}
+                    />
                   </div>
                   <div id="course-spacer-large" />
                 </div>

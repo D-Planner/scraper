@@ -192,6 +192,8 @@ class Term extends Component {
         department={placeholderCourse.placeholder}
         size={(this.isCurrTerm() ? 'sm' : 'lg')}
         sourceTerm={this.props.term.id}
+        icon="close"
+        showIcon
         addPlaceholderCourse={this.props.addPlaceholderCourse}
         removePlaceholderCourse={this.props.removePlaceholderCourse}
       />

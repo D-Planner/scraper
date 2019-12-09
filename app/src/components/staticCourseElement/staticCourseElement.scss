@@ -8,6 +8,11 @@
   align-items: center;
   // height: 100%;
 
+  .hold-left {
+    display: flex;
+    justify-content: flex-end;
+  }
+
 
   .course-left {
     font-weight: 500;
