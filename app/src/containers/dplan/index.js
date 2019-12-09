@@ -478,38 +478,38 @@ class DPlan extends Component {
                           <img src={trash} alt="" />
                         </button>
                       </div>
+                      <Sidebar
+                        setOpenPane={pane => this.setState({ openPane: pane })}
+                        openPane={this.state.openPane}
+                        planCourses={this.getFlattenedCourses()}
+                        setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                        addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                        removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                      />
                     </div>
-                    <Sidebar className="sidebar"
-                      setOpenPane={pane => this.setState({ openPane: pane })}
-                      openPane={this.state.openPane}
-                      planCourses={this.getFlattenedCourses()}
-                      setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                      addPlaceholderCourse={this.addPlaceholderCourseToTerm}
-                      removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
-                    />
-                  </div>
-                  <div className="plan-grid">
-                    {this.props.plan.terms.map((year) => {
-                      return (
-                        <div className="plan-row" key={year[0].id}>
-                          {year.map((term) => {
-                            return (
-                              <Term
-                                plan={this.props.plan}
-                                time={this.props.time}
-                                term={term}
-                                key={term.id}
-                                addCourseToTerm={this.addCourseToTerm}
-                                removeCourseFromTerm={this.removeCourseFromTerm}
-                                setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                                addPlaceholderCourse={this.addPlaceholderCourseToTerm}
-                                removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
-                              />
-                            );
-                          })}
-                        </div>
-                      );
-                    })}
+                    <div className="plan-grid">
+                      {this.props.plan.terms.map((year) => {
+                        return (
+                          <div className="plan-row" key={year[0].id}>
+                            {year.map((term) => {
+                              return (
+                                <Term
+                                  plan={this.props.plan}
+                                  time={this.props.time}
+                                  term={term}
+                                  key={term.id}
+                                  addCourseToTerm={this.addCourseToTerm}
+                                  removeCourseFromTerm={this.removeCourseFromTerm}
+                                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                                  addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                                  removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                                />
+                              );
+                            })}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </Fragment>
               )
