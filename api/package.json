@@ -13,7 +13,8 @@
     "prod": "yarn build; node dist/server.js",
     "docs": "yarn docs:generate && yarn docs:serve",
     "docs:generate": "./node_modules/apidoc/bin/apidoc -i src/ -o apidoc/",
-    "docs:serve": "open apidoc/index.html"
+    "docs:serve": "open apidoc/index.html",
+    "testUpdate": "babel-node test/update.js"
   },
   "license": "ISC",
   "engines": {

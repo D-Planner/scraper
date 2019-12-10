@@ -377,7 +377,7 @@ export function fetchPlans() {
  * @returns an action creator to fetch a plan and store it in redux
  */
 export function fetchPlan(planID) {
-  if (planID === null) {
+  if (planID === null || planID === -1) {
     return dispatch => dispatch({ type: ActionTypes.FETCH_PLAN, payload: null });
   } else {
     const headers = {

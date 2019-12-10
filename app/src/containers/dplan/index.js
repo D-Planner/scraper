@@ -105,26 +105,28 @@ class DPlan extends Component {
   }
 
   componentWillUpdate(prevProps) {
-    console.log('[DPlan] Will Update');
+    // console.log('[DPlan] Will Update');
     if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
     ) {
-      console.log('setting previous on Will Update');
+      // console.log('setting previous on Will Update');
       this.setPreviousCourses();
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('[DPlan] Did Update');
+    // console.log('[DPlan] Did Update');
     if (prevState.noPlan && !this.state.noPlan) {
-      console.log('setting previous on Did Update');
+      // console.log('setting previous on Did Update');
       this.setPreviousCourses();
     }
   }
 
   setCurrentPlan(planID) {
     if (planID !== null) {
-      if (planID === -1) this.setState({ cytoscape: true });
-      // console.log(`setting plan to ${planID}`);
+      if (planID === -1) {
+        this.setState({ cytoscape: true, noPlan: true });
+      }
+      console.log(`setting plan to ${planID}`);
       this.props.fetchPlan(planID).then(() => {
         this.setState({
           noPlan: false,

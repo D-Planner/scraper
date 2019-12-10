@@ -19,7 +19,7 @@ import {
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
-    console.log(item);
+    // console.log(item);
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
@@ -76,7 +76,7 @@ const collect = (connect, monitor) => {
 
 class Term extends Component {
   componentDidUpdate() {
-    console.log('[TERM.js] Component Did Update');
+    // console.log('[TERM.js] Component Did Update');
   }
 
   turnOffTerm = () => {
