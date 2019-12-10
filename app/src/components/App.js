@@ -15,6 +15,7 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
+// import FlowChart from './flowchart';
 import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
@@ -63,6 +64,7 @@ class App extends Component {
             <div>
               <div className="app-container">
                 <Switch>
+                  {/* DPlan */}
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
                   <Route path="/course/:id" component={CoursePage} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />

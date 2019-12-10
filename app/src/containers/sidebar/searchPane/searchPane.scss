@@ -3,6 +3,9 @@
 
 .search {
     .pane-header {
+        display: flex;
+        justify-content: left;
+
         .option-menu {
             z-index: 100;
             background: $white;
@@ -12,6 +15,7 @@
             position: absolute;
             right: -100px;
             top: 0px;
+
             &:hover {
                 display: flex;
             }
@@ -60,6 +64,11 @@
             color: $text-accent;
             background: none;
             outline: none;
+            margin: 0 auto 0 4%;
+
+            &.small {
+              width: 60%;
+            }
 
             &::placeholder {
                 color: $gray-3;
@@ -74,10 +83,7 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        overflow-x: visible;
-        overflow-y: auto;
-        padding: 10px 0 10px 0;
-        width: 100%;
+        overflow-y: scroll;
 
         .sort-picker {
             font-size: 12px;
@@ -92,6 +98,7 @@
 
         .search-results {
             width: 100%;
+            overflow: visible;
 
             .result-row {
                 display: flex;

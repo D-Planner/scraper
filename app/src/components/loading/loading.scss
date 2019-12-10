@@ -1,0 +1,43 @@
+@import '../../style/variables.scss';
+
+.loader {
+  flex-grow: 1;
+  display: flex;
+  align-items: stretch;
+
+  align-items: center;
+  justify-content: center;
+
+  .loader-image {
+    width: 120px;
+    
+    -webkit-animation:spin 2s ease infinite;
+    -moz-animation:spin 2s ease infinite;
+    animation:spin 2s ease infinite;
+
+    // -webkit-animation:fadeIn 2s ease ease-in;
+    // -moz-animation:fadeIn 2s ease ease-in;
+    // animation:fadeIn 2s ease ease-in;
+
+    // -webkit-animation-delay: 2s;
+    // -moz-animation-delay: 2s;
+    // animation-delay: 2s;
+  }
+  @keyframes spin { 
+    0% { -moz-transform: rotate(0); -webkit-transform: rotate(0); transform:rotate(0); }
+    15% { -moz-transform: rotate(60); -webkit-transform: rotate(60); transform:rotate(60); }
+    50% { -moz-transform: rotate(180); -webkit-transform: rotate(180); transform:rotate(180); }
+    85% { -moz-transform: rotate(300); -webkit-transform: rotate(300); transform:rotate(300); }
+    100% { -moz-transform: rotate(360); -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+  }
+
+  // @keyframes fadeIn {
+  //   0% { opacity: 0; }
+  //   100% { opacity: 1; }
+  // }
+}
+
+.loading-content-container {
+  width: 100vw;
+  height: 100vh;
+}
