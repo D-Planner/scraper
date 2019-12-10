@@ -41,39 +41,30 @@ const component = (props) => {
       <div className="pane-header">
         <h1 className="pane-title">Bookmarked</h1>
       </div>
-      {props.active
-        ? (
-          <div className="bookmarked-courses-list">
-            <div className="row">
-              <select defaultValue={placeholderDept} className="sort-picker" onChange={e => setPlaceholderDept(e.target.value)}>
-                {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
-              </select>
-              <PlaceholderCourse
-                size="sm"
-                department={placeholderDept}
-                addPlaceholderCourse={props.addPlaceholderCourse}
-              />
-            </div>
-            {props.bookmarks.map((course, index) => {
-              return (
-                <div key={course.id}>
-                  <div className="paneCourse">
-                    <DraggableCourse
-                      course={course}
-                      currTerm={props.currTerm}
-                      setDraggingFulfilledStatus={props.setDraggingFulfilledStatus}
-                      showIcon
-                      icon="close"
-                      onIconClick={() => props.removeCourseFromFavorites(course._id)}
-                    />
+      <div className="pane-content">
+        {props.bookmarks
+          ? (
+            <div className="bookmarked-courses-list">
+              <div className="row">
+                <select defaultValue={placeholderDept} className="sort-picker" onChange={e => setPlaceholderDept(e.target.value)}>
+                  {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
+                </select>
+                <PlaceholderCourse size="sm" department={placeholderDept} addPlaceholderCourse={props.addPlaceholderCourse} />
+              </div>
+              {props.bookmarks.map((course, index) => {
+                return (
+                  <div key={course.id}>
+                    <div className="paneCourse">
+                      <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
+                    </div>
+                    <div id="course-spacer-large" />
                   </div>
-                  <div id="course-spacer-large" />
-                </div>
-              );
-            })}
-          </div>
-        ) : null
-          }
+                );
+              })}
+            </div>
+          ) : null
+        }
+      </div>
     </div>,
   );
 };
