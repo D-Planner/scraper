@@ -6,7 +6,7 @@ import './plans.scss';
  * @param {*} param0
  */
 const Plans = ({
-  plans, currentPlan, showDialog, goToPlan, active,
+  plans, currentPlan, showDialog, goToPlan, active, loading,
 }) => {
   const maxedPlans = (plans.length >= 10);
   return (
@@ -26,6 +26,7 @@ const Plans = ({
           );
         }
       })}
+      {loading === true ? <div role="presentation" className="plan">{renderLoading(active)}</div> : null}
       {renderNewPlanButton(showDialog, active, maxedPlans)}
     </div>
   );
@@ -94,6 +95,28 @@ const renderNewPlanButton = (showDialog, whetherActive, maxedPlans) => {
       </button>
     );
   }
+};
+
+const renderLoading = (whetherActive) => {
+  // if (whetherActive) {
+  return (
+    // className="loading-plan-container"
+    <div role="presentation">
+      <div className="loading-wheel" />
+      {whetherActive
+        ? null
+        // ? <div>Test</div>
+        : null
+      }
+    </div>
+  );
+  // } else {
+  //   return (
+  //     <div className="loading-plan-container text">
+  //       <div className="loading-wheel" />
+  //     </div>
+  //   );
+  // }
 };
 
 export default Plans;

@@ -41,6 +41,7 @@ export const ActionTypes = {
   UPDATE_CLOSE_FOCUS: 'UPDATE_CLOSE_FOCUS',
   SET_FILTERS: 'SET_FILTERS',
   CLEAR_FILTERS: 'CLEAR_FILTERS',
+  SET_LOADING: 'SET_LOADING',
   VERIFY_EMAIL: 'VERIFY_EMAIL',
   RESET_PASS: 'RESET_PASS',
   ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
@@ -954,6 +955,12 @@ export function hideDialog() {
 export function updateCloseFocus(ref) {
   return (dispatch) => {
     dispatch({ type: ActionTypes.UPDATE_CLOSE_FOCUS, payload: { focusOnClose: ref } });
+  };
+}
+
+export function setLoading(location, value) {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_LOADING, payload: { location, loading: value } });
   };
 }
 

@@ -4,10 +4,11 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
 import searchIcon from '../../../style/search-purple.svg';
-import { DialogTypes } from '../../../constants';
+import { DialogTypes, Departments } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
+import LoadingWheel from '../../../components/loadingWheel';
 import {
   setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
 } from '../../../actions';
@@ -29,6 +30,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   // const [sort, setSort] = useState('');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
+  const [resultsLoading, setResultsLoading] = useState(false);
   const [offered, setOffered] = useState('');
   const [results, setResults] = useState('');
 
@@ -39,20 +41,30 @@ const SearchPane = React.forwardRef((props, ref) => {
     if (props.searchQuery.length !== 0) {
       const queryParsed = {
         title: props.searchQuery,
-        department: props.searchQuery.split(' ')[0].toUpperCase(),
+        department: matchDepartment(props.searchQuery.split(' ')[0].toUpperCase()),
         number: props.searchQuery.split(' ')[1],
         distribs,
         wcs,
         offered,
       };
       props.stampIncrement((props.resultStamp + 1));
-      props.search(queryParsed, props.resultStamp);
+      setResultsLoading(true);
+      props.search(queryParsed, props.resultStamp).then(() => {
+        setResultsLoading(false);
+      }).catch((error) => {
+        console.error(error);
+      });
     }
   }, [props.searchQuery, wcs, distribs, offered]);
 
   useEffect(() => {
     setResults(props.results);
   }, [props.results]);
+
+  const matchDepartment = (department) => {
+    console.log(Departments.includes(department));
+    return (Departments.includes(department)) ? department : null;
+  };
 
   const resort = (method) => {
     const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
@@ -107,7 +119,7 @@ const SearchPane = React.forwardRef((props, ref) => {
       <div className="pane-header">
         <img className="search-config-icon" src={searchIcon} alt="search" />
         <input type="text"
-          className="search-input"
+          className={`search-input${resultsLoading ? ' small' : ''}`}
           placeholder="Search for courses"
           value={props.searchQuery}
           tabIndex={-1}
@@ -116,6 +128,7 @@ const SearchPane = React.forwardRef((props, ref) => {
           }}
           ref={ref}
         />
+        {resultsLoading ? <LoadingWheel /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
         </button>
