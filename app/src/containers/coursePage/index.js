@@ -213,7 +213,7 @@ class CoursePage extends React.Component {
             <div className="a-period" key="invalid">
               <span data-tip data-for="invalid">--</span>
               <ReactTooltip id="invalid" place="right" type="dark" effect="float">
-                {'To see when this course is offered, sign in above.'}
+                To see when this course is offered, sign in above.
               </ReactTooltip>
             </div>
           </div>
@@ -445,7 +445,7 @@ class CoursePage extends React.Component {
             data-for="bookmark"
           />
           <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
-            {'Sign in to bookmark this course'}
+            Sign in to bookmark this course
           </ReactTooltip>
           <div className="spacer" />
           <img
@@ -456,7 +456,7 @@ class CoursePage extends React.Component {
             data-for="plus"
           />
           <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
-            {'Sign in to add this to courses you have placed out of'}
+            Sign in to add this to courses you have placed out of
           </ReactTooltip>
         </div>
       );
