@@ -1,12 +1,10 @@
 import mongoose from 'mongoose';
-import Course from '../src/models/course';
-import Professor from '../src/models/professor';
-import prerequisitesJSON from '../static/data/prerequisites.json';
-import courses from '../static/data/courses.json';
+import User from '../src/models/user';
 
-const differences = {
-
-};
+const differences = [
+    { $rename: { first_name: 'firstName' } },
+    { $rename: { last_name: 'lastName' } },
+];
 
 
 // DB Setup
@@ -18,9 +16,14 @@ const mongooseOptions = {
 };
 mongoose.connect(mongoURI, mongooseOptions).then(() => {
     console.log('Connected to Database');
+    updateUserDocuments();
 }).catch((err) => {
     console.log('Not Connected to Database ERROR! ', err);
 });
+
+function updateUserDocuments() {
+    User.updateMany({}, differences);
+}
 
 
 // set mongoose promises to es6 default
