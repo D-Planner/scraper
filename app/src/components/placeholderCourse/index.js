@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
-import { ItemTypes, DialogTypes } from '../../constants';
+import { ItemTypes } from '../../constants';
 import CourseElement from '../staticCourseElement';
 
 const source = {
@@ -32,20 +32,12 @@ const collect = (connectDrag, monitor) => {
 
 /** a drag-n-drop capable component containing information on a UserCourse object */
 class PlaceholderCourse extends Component {
-  /**
-   * Sends off information for [dialogOrchestrator].
-   * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
-   * @param {*} props
-   */
-  showCourseInfoDialog = () => {
-    const dialogOptions = {
-      title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
-      size: 'lg',
-      data: this.props.catalogCourse,
-      previousCourses: this.props.previousCourses,
-      showOk: false,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      beingHovered: false,
     };
-    this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
   }
 
 
@@ -53,14 +45,19 @@ class PlaceholderCourse extends Component {
     return this.props.connectDragSource(
       <div
         className="popover"
+        onMouseEnter={() => this.setState({ beingHovered: true })}
+        onMouseLeave={() => this.setState({ beingHovered: false })}
         role="button"
         tabIndex="-1" // 0
       >
         <CourseElement
           placeholder
+          showIcon={this.props.showIcon}
+          icon={this.props.icon}
+          onIconClick={() => this.props.removePlaceholderCourse(this.props.department, this.props.sourceTerm)}
           department={this.props.department}
           size={this.props.size}
-          beingHovered={false}
+          beingHovered={this.state.beingHovered}
         />
       </div>,
     );

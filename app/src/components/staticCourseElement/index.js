@@ -11,11 +11,27 @@ import bookmarkFilled from '../../style/bookmarkFilled.svg';
 
 class CourseElement extends Component {
   renderCourseSupplementaryInfo = () => {
-    return (
-      <>
-        <div className="likely-terms">
-          <LikelyTerms terms={this.props.course.likely_terms} />
+    if (this.props.placeholder) {
+      return (
+        <div className="supplementary-course">
+          {this.renderCourseIdentifyingInfo()}
+          {this.props.showIcon ? (
+            <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+              {this.renderIcon(this.props.icon)}
+            </div>
+          ) : null}
         </div>
+      );
+    }
+    return (
+      <div className="supplementary-course">
+        {
+          !this.props.showIcon ? (
+            <div className="likely-terms">
+              <LikelyTerms terms={this.props.course.likely_terms} />
+            </div>
+          ) : null
+        }
         <div className="genEds">
           <div className="distribs">
             {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
@@ -31,13 +47,13 @@ class CourseElement extends Component {
               );
             }) : null}
           </div>
-          {this.props.showIcon === true ? (
-            <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
-              {this.renderIcon(this.props.icon)}
-            </div>
-          ) : null}
         </div>
-      </>
+        {this.props.showIcon ? (
+          <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+            {this.renderIcon(this.props.icon)}
+          </div>
+        ) : null}
+      </div>
     );
   }
 
@@ -58,7 +74,7 @@ class CourseElement extends Component {
   renderCourseIdentifyingInfo = () => {
     if (this.props.placeholder) {
       return (
-        <>
+        <div className="hold-left">
           <div className="course-left">
             {`${this.props.department}`}
           </div>
@@ -68,7 +84,7 @@ class CourseElement extends Component {
               Placeholder
             </div>
           </div>
-        </>
+        </div>
       );
     }
     return (

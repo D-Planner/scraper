@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
 import searchIcon from '../../../style/search-purple.svg';
-import { DialogTypes } from '../../../constants';
+import { DialogTypes, Departments } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
@@ -41,7 +41,7 @@ const SearchPane = React.forwardRef((props, ref) => {
     if (props.searchQuery.length !== 0) {
       const queryParsed = {
         title: props.searchQuery,
-        department: props.searchQuery.split(' ')[0].toUpperCase(),
+        department: matchDepartment(props.searchQuery.split(' ')[0].toUpperCase()),
         number: props.searchQuery.split(' ')[1],
         distribs,
         wcs,
@@ -60,6 +60,11 @@ const SearchPane = React.forwardRef((props, ref) => {
   useEffect(() => {
     setResults(props.results);
   }, [props.results]);
+
+  const matchDepartment = (department) => {
+    console.log(Departments.includes(department));
+    return (Departments.includes(department)) ? department : null;
+  };
 
   const resort = (method) => {
     const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
