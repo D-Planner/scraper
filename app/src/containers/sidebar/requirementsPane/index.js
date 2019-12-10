@@ -5,6 +5,7 @@
 /* eslint-disable prefer-arrow-callback */
 
 import React, { Component } from 'react';
+import ReactMinimalPieChart from 'react-minimal-pie-chart';
 // import async from 'async';
 import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
@@ -13,7 +14,7 @@ import Majors from '../../majors';
 // import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
 
 import './requirementsPane.scss';
-import { GenEds } from '../../../constants';
+import { GenEds, gradient } from '../../../constants';
 
 /**
  * @name RequirementsPane
@@ -30,7 +31,7 @@ class RequirementsPane extends Component {
 
 
     this.state = {
-      distribsAction: true,
+      action: 0,
     };
   }
 
@@ -56,6 +57,10 @@ class RequirementsPane extends Component {
       });
       this.fillAll();
     }
+  }
+
+  setAction = (i) => {
+    this.setState({ action: i });
   }
 
   fillAll = () => {
@@ -182,6 +187,63 @@ class RequirementsPane extends Component {
     );
   };
 
+  getColor = (array, i) => {
+    return gradient.rgbAt(i / array.length);
+  }
+
+  renderStats = () => {
+    const departmentStats = this.props.userCourses.reduce((acc, cur) => {
+      if (!acc.some(e => e.title === cur.course.department)) acc.push({ title: cur.course.department, value: 0 });
+      acc.forEach((e) => {
+        if (e.title === cur.course.department) e.value += 1;
+      });
+      return acc;
+    }, []);
+
+    return (
+      <div className="reqs-list">
+        {/* {
+          departmentStats.map(({ title, value }) => {
+            return (
+              <>
+                <div key={title} className="stats-row">
+                  {title} - {value}
+                </div>
+              </>
+            );
+          })
+        } */}
+        <ReactMinimalPieChart
+          animate
+          animationDuration={500}
+          animationEasing="ease-out"
+          data={departmentStats.map((e, i) => ({ ...e, color: this.getColor(departmentStats, i) }))}
+          lineWidth={20}
+          radius={30}
+          label={(props) => {
+            return `${props.data[props.dataIndex].title} ${props.data[props.dataIndex].value}`;
+          }}
+          labelPosition={112}
+          labelStyle={{
+            fontFamily: 'sans-serif',
+            fontSize: '5px',
+          }}
+          lengthAngle={360}
+          onClick={undefined}
+          onMouseOut={undefined}
+          onMouseOver={undefined}
+          paddingAngle={18}
+          rounded
+          startAngle={0}
+          viewBoxSize={[
+            100,
+            100,
+          ]}
+        />
+      </div>
+    );
+  }
+
   renderMajorReqs = () => {
     if (this.props.majors && this.props.majors.length > 0) {
       return (
@@ -210,6 +272,19 @@ class RequirementsPane extends Component {
     }
   };
 
+  renderTab = () => {
+    switch (this.state.action) {
+      case 0:
+        return this.renderGenEds();
+      case 1:
+        return this.renderMajorReqs();
+      case 2:
+        return this.renderStats();
+      default:
+        return null;
+    }
+  };
+
   render() {
     const paneClass = classNames({
       requirements: true,
@@ -220,12 +295,17 @@ class RequirementsPane extends Component {
     const distribsButtonClass = classNames({
       distribs: true,
       toggle: true,
-      active: this.state.distribsAction,
+      active: this.state.action === 0,
     });
     const majorButtonClass = classNames({
       major: true,
       toggle: true,
-      active: !this.state.distribsAction,
+      active: this.state.action === 1,
+    });
+    const statsButtonClass = classNames({
+      major: true,
+      toggle: true,
+      active: this.state.action === 2,
     });
 
     return (
@@ -235,13 +315,14 @@ class RequirementsPane extends Component {
           {this.props.active
             ? (
               <div className="requirements-toggle">
-                <button type="button" className={distribsButtonClass} onClick={() => this.setState({ distribsAction: true })}>Distribs</button>
-                <button type="button" className={majorButtonClass} onClick={() => this.setState({ distribsAction: false })}>Major</button>
+                <button type="button" className={distribsButtonClass} onClick={() => this.setAction(0)}>Distribs</button>
+                <button type="button" className={majorButtonClass} onClick={() => this.setAction(1)}>Major</button>
+                <button type="button" className={statsButtonClass} onClick={() => this.setAction(2)}>Stats</button>
               </div>
             )
             : <div /> }
         </div>
-        {this.state.distribsAction ? this.renderGenEds() : this.renderMajorReqs()}
+        {this.renderTab()}
       </div>
     );
   }

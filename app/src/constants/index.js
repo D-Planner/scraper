@@ -1,3 +1,6 @@
+import tinygradient from 'tinygradient';
+
+
 // Self URL for the React application
 export const APP_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://d-planner.com';
 export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'http://api.d-planner.com';
@@ -584,3 +587,9 @@ export const GenEds = {
     filled: 0,
   },
 };
+
+
+export const gradient = tinygradient([
+  { color: '#66ffff', pos: 0 },
+  { color: '#660066', pos: 1 },
+]);

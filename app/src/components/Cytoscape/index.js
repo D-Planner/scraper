@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import tinygradient from 'tinygradient';
 import ForceGraph2D from 'react-force-graph-2d';
-import { Departments, departmentsWithFullName } from '../../constants';
+import { Departments, departmentsWithFullName, gradient } from '../../constants';
 import { courseSearch } from '../../actions';
 
 import './cytoscape.scss';
 
 class Graph extends Component {
-  gradient = tinygradient([
-    { color: '#66ffff', pos: 0 },
-    { color: '#660066', pos: 1 },
-  ]);
-
   constructor(props) {
     super(props);
     this.state = { nodes: [], links: [] };
@@ -67,7 +61,7 @@ class Graph extends Component {
   }
 
   getColor = (n) => {
-    return this.gradient.rgbAt(Departments.indexOf(n.department) / Departments.length);
+    return gradient.rgbAt(Departments.indexOf(n.department) / Departments.length);
   }
 
   focusGraph = (dep) => {
