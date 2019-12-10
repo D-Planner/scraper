@@ -31,3 +31,61 @@
         flex-direction: column;
     }
 }
+
+.icon {
+    margin-right: 5px;
+}
+
+
+/// For The Tags
+
+.react-tags {
+    width:150px;
+
+    .react-tags__selected {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+        
+        div {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    }
+    
+    .react-tags__search {
+        display: flex;
+        flex-direction: column;
+        .react-tags__search-wrapper{
+            flex:1;
+            display: flex;
+            input {
+                padding: 10px;
+                background: $white;
+                border: 1px solid $gray-5;
+                border-radius: 12px;
+                flex:1;
+            
+                &:hover {
+                    cursor: pointer;
+                    border: 1.5px solid $blue-primary;
+                }
+            }
+        }
+        .react-tags__suggestions {
+            flex:1;
+            ul {
+                list-style: none;
+            }
+    
+            li {
+                margin:10px;
+                mark {}
+                :hover{}
+                .is-active{}
+                .is-disabled{}
+            }
+        }
+    }
+}
