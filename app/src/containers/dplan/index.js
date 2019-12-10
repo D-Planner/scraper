@@ -244,6 +244,7 @@ class DPlan extends Component {
 
   setPreviousCourses = () => {
     console.log('[setPreviousCourses Dplan.js]');
+
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
         .sort((t1, t2) => {
@@ -257,7 +258,7 @@ class DPlan extends Component {
         })
         .flat()
         .filter((c) => {
-          return c.fulfilledStatus === '';
+          return (c.fulfilledStatus === '' && !c.placeholder && c.course !== null);
         })
         .filter((c) => {
           return !c.placeholder;
