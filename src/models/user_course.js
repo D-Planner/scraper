@@ -9,6 +9,7 @@ const UserCourseSchema = new Schema({
     wc: String,
     timeslot: String,
     fulfilledStatus: String, // This is for keeping track of in place fulfillment, not dragging
+    placeholder: String,
 }, {
     toJSON: {
         virtuals: true,
