@@ -30,16 +30,17 @@
     }
   }
 
-  .header-menu-login-container {
+  .header-menu-option-container {
     display: flex;
     justify-content: flex-end;
     
-    .header-menu-login {
+    .header-menu-option {
       text-decoration: none;
       display: flex;
       margin: auto 30px auto 0;
       color: $text-accent;
       font-size: 14px;
+      cursor: pointer;
     }
   }
 }

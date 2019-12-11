@@ -7,8 +7,14 @@ class HeaderMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      menuOptions: [{ name: 'Sign Up', callback: () => this.props.history.push('/') }, { name: 'Sign In', callback: () => this.props.history.push('/') }],
     };
+  }
+
+  componentDidMount() {
+    if (this.props.menuOptions) {
+      this.setState({ menuOptions: this.props.menuOptions });
+    }
   }
 
   render() {
@@ -18,9 +24,11 @@ class HeaderMenu extends React.Component {
           <img alt="logo" className="logo-top" onClick={() => this.props.history.push('/')} src={logo} />
           <div className="header-menu-content">D-Planner, the future of academic planning</div>
         </div>
-        <div className="header-menu-login-container">
-          <a className="header-menu-login" href="/">Sign In</a>
-          <a className="header-menu-login" href="/">Sign Up</a>
+        <div className="header-menu-option-container">
+          {this.state.menuOptions.map((menuOption) => {
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            return (<a className="header-menu-option" onClick={menuOption.callback} role="button" tabIndex={-1}>{menuOption.name}</a>);
+          })}
         </div>
       </div>
     );

@@ -2,6 +2,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import HeaderMenu from '../headerMenu';
+
 import Term from '../../containers/term';
 import Courses from '../../containers/courses';
 import SearchPane from '../../containers/sidebar/searchPane';
@@ -228,6 +230,7 @@ class Tutorial extends React.Component {
   render() {
     return (
       <div className="colContainer">
+        <HeaderMenu />
         <button type="button" className="skip-tutorial" onClick={this.endTutorial}>Skip Tutorial</button>
         <div className="title">{tutorialData[this.state.tutorialPage].title}</div>
         <div className="rowContainer">
