@@ -12,8 +12,11 @@ class HeaderMenu extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.menuOptions) {
+    // Check if the object is an array
+    if (this.props.menuOptions.length) {
       this.setState({ menuOptions: this.props.menuOptions });
+    } else {
+      this.setState({ menuOptions: [this.props.menuOptions] });
     }
   }
 
@@ -26,8 +29,9 @@ class HeaderMenu extends React.Component {
         </div>
         <div className="header-menu-option-container">
           {this.state.menuOptions.map((menuOption) => {
+            console.log('menuOption', menuOption);
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            return (<a className="header-menu-option" onClick={menuOption.callback} role="button" tabIndex={-1}>{menuOption.name}</a>);
+            return (<a className="header-menu-option" onClick={menuOption.callback} role="button" tabIndex={-1} key={menuOption.name}>{menuOption.name}</a>);
           })}
         </div>
       </div>
