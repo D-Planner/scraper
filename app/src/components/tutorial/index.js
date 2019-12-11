@@ -230,8 +230,7 @@ class Tutorial extends React.Component {
   render() {
     return (
       <div className="colContainer">
-        <HeaderMenu />
-        <button type="button" className="skip-tutorial" onClick={this.endTutorial}>Skip Tutorial</button>
+        <HeaderMenu menuOptions={[{ name: 'End Tutorial', callback: () => this.props.history.push('/') }]} />
         <div className="title">{tutorialData[this.state.tutorialPage].title}</div>
         <div className="rowContainer">
           <div className="graphic">{this.renderComponent(tutorialData[this.state.tutorialPage])}</div>
