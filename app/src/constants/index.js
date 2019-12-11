@@ -19,6 +19,7 @@ export const DialogTypes = {
   ERROR: 'ERROR',
   FILTER: 'FILTER',
   NOTICE: 'NOTICE',
+  INTEREST_PROFILE: 'INTEREST_PROFILE',
 };
 
 export const Departments = [

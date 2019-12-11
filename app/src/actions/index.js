@@ -64,6 +64,11 @@ export function removePressedKey(key) {
   };
 }
 
+/**
+ * Fetches the current user from the database and stores their information in the redux store
+ * @export
+ * @returns an action creator to fetch the current user and stash their info in the store
+ */
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -116,7 +121,7 @@ export function updateUser(change) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/update`, { change }, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
-      resolve();
+      resolve(response.data);
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error });

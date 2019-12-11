@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
+    accountCreated: Number,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     username: { type: String },
@@ -13,6 +14,7 @@ const UserSchema = new Schema({
     completed_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }], // this should be only for courses we KNOW the user has actually taken in real life, we'll make an interface for them to add this
     placement_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     majors: [{ type: Schema.Types.ObjectId, ref: 'Major' }],
+    interest_profile: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
     settings: {},
     accessGranted: Boolean,
     emailVerified: Boolean,

@@ -1,0 +1,45 @@
+@import '../../style/variables.scss';
+
+.tile_inactive {
+  background: $white;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: normal;
+  color: $text-accent;
+  
+  border-radius: 2px;
+  padding: 10px;
+
+  width: 180px;
+  height: 45px;
+
+  margin: 6px;
+}
+
+.tile_inactive:hover {
+  background-color: $blue-primary;
+  color: $white;
+  cursor: pointer;
+}
+
+.tile_active {
+  background: $blue-primary;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: normal;
+  color: $white;
+  
+  border-radius: 2px;
+  padding: 10px;
+
+  width: 180px;
+  height: 45px;
+
+  margin: 6px;
+}
+
+.tile_active:hover {
+  background-color: lighten($blue-primary, 25%) !important;
+  color: $white !important;
+  cursor: pointer;
+}

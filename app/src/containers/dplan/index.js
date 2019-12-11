@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
+  deletePlan, fetchPlan, fetchUser, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -97,6 +97,10 @@ class DPlan extends Component {
 
     // Prevents locking of plan on resize
     if (this.props.plan !== null) this.state.noPlan = false;
+  }
+
+  componentWillMount() {
+    this.props.fetchUser();
   }
 
   componentDidMount() {
@@ -581,21 +585,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlan,
-  deletePlan,
-  addCourseToTerm,
-  removeCourseFromTerm,
-  showDialog,
-  getTimes,
-  createPlan,
-  setDraggingFulfilledStatus,
-  fetchUser,
-  fetchPlans,
-  updateCloseFocus,
-  updatePlan,
-  setLoading,
-  sendVerifyEmail,
-  setFulfilledStatus,
-  addPlaceholderCourse,
-  removePlaceholderCourse,
+  deletePlan, fetchPlan, fetchUser, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse,
 })(DPlan));

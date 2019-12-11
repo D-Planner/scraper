@@ -8,6 +8,7 @@ import {
 } from '../../actions';
 // import searchIcon from '../../style/searchSimple.svg';
 import tutorialIcon from '../../style/tutorial.svg';
+import lightbulbIcon from '../../style/lightbulb.svg';
 import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
@@ -26,6 +27,7 @@ class Dashboard extends React.Component {
       active: false,
       loadingPlans: true,
     };
+    this.showUserData = this.showUserData.bind(this);
     this.showProfileDialog = this.showProfileDialog.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -117,6 +119,15 @@ class Dashboard extends React.Component {
     this.props.showDialog(DialogTypes.PROFILE, dialogOptions);
   }
 
+  showUserData(props) {
+    const dialogOptions = {
+      title: 'Your Interests',
+      size: 'lg',
+      okText: 'Done',
+    };
+    this.props.showDialog(DialogTypes.INTEREST_PROFILE, dialogOptions);
+  }
+
   render() {
     return (
       <div className="dashboard-container">
@@ -143,6 +154,21 @@ class Dashboard extends React.Component {
                 )
                 : <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
             }
+            </div>
+            <div role="presentation"
+              onClick={this.showUserData}
+              className="option-button"
+            >
+              {this.state.active
+                ? (
+                  <>
+                    <img className="search-icon" src={lightbulbIcon} alt="search" />
+                    <div className="space" />
+                    <p>Interest Profile</p>
+                  </>
+                )
+                : <img className="search-icon" src={lightbulbIcon} alt="search" />
+              }
             </div>
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
