@@ -5,6 +5,7 @@ import termsRouter from './terms';
 import majorsRouter from './majors';
 import professorsRouter from './professors';
 import globalRouter from './global';
+import interestsRouter from './interests';
 
 export {
     authRouter,
@@ -14,4 +15,5 @@ export {
     majorsRouter,
     professorsRouter,
     globalRouter,
+    interestsRouter,
 };

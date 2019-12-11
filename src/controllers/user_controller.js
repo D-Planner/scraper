@@ -51,6 +51,7 @@ export const signup = (req, res, next) => {
             graduationYear: grad,
             emailVerified: false,
             accessGranted: false,
+            accountCreated: Date.now(),
         });
 
         return newUser.save().then((savedUser) => {
@@ -82,9 +83,28 @@ export const getUser = (req, res) => {
     User.findById(userID)
         .populate(PopulateUser)
         .then((user) => {
-            const json = user.toJSON();
-            delete json.password;
-            res.json(json);
+            // Check if any keys have expired (email, password)
+            new Promise((resolve, reject) => {
+                if (user.emailVerificationKeyTimeout - Date.now() < 0) {
+                    user.emailVerificationKeyTimeout = -1;
+                    user.emailVerificationKey = -1;
+                    user.save().then(() => {
+                        resolve();
+                    });
+                } else if (user.passwordVerificationKeyTimeout - Date.now() < 0) {
+                    user.passwordVerificationKeyTimeout = -1;
+                    user.passwordVerificationKey = -1;
+                    user.save().then(() => {
+                        resolve();
+                    });
+                } else {
+                    resolve();
+                }
+            }).then(() => {
+                const json = user.toJSON();
+                delete json.password;
+                res.json(json);
+            });
         })
         .catch((error) => {
             console.log(error);
@@ -102,31 +122,47 @@ export const updateUser = async (req, res) => {
     User.findById(req.user.id)
         .populate(PopulateUser)
         .then((user) => {
-            if (user.graduationYear !== req.body.change.graduationYear) {
+            if (req.body.change.graduationYear && user.graduationYear !== req.body.change.graduationYear) {
                 console.log('deleting all plans...');
-                Plan.find({ user_id: user._id }).remove().exec();
+                Plan.find({ user_id: user._id }).remove().exec()
+                    .then(() => {
+                        user.graduationYear = req.body.change.graduationYear;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             }
-            user.fullName = req.body.change.fullName;
-            user.firstName = req.body.change.firstName;
-            user.lastName = req.body.change.lastName;
-            user.email = req.body.change.email;
-            user.graduationYear = req.body.change.graduationYear;
-            user.emailVerified = req.body.change.emailVerified;
+
+            if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
+            if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
+            if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
+            if (req.body.change.email) { user.email = req.body.change.email; }
+            if (req.body.change.emailVerified) { user.emailVerified = req.body.change.emailVerified; }
+
+            // For managing adding and removing elements from interest profile
+            if (user.interest_profile.indexOf(req.body.change.interest_profile) !== -1) {
+                user.interest_profile.pull(req.body.change.interest_profile);
+            } else {
+                user.interest_profile.addToSet(req.body.change.interest_profile);
+            }
 
             // Force user to re-verify on email change
             if (req.body.change.email && req.body.change.email !== user.email) {
                 console.log('unverifying email');
                 user.emailVerified = false;
+                user.email = req.body.change.email; // Keep this after email update check
             }
-            user.email = req.body.change.email; // Keep this after email update check
 
             // Don't reset password if none in request
             if (req.body.change.password) { user.password = req.body.change.password; }
 
-            user.save();
-            const json = user.toJSON();
-            delete json.password;
-            res.json(json);
+            user.save().then((newUser) => {
+                const json = newUser.toJSON();
+                delete json.password;
+                res.json(json);
+            }).catch((error) => {
+                console.error(error);
+            });
         })
         .catch((error) => {
             console.log(error);
