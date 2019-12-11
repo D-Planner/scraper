@@ -563,7 +563,7 @@ class CoursePage extends React.Component {
   render() {
     return (
       <Fragment>
-        {this.props.authenticated ? <HeaderMenu menuOptions={{ name: 'Go Home', callback: () => this.props.history.push('/') }} /> : <HeaderMenu />}
+        <HeaderMenu menuOptions={this.props.authenticated ? { name: 'Go Home', callback: () => this.props.history.push('/') } : null} />
         <div className="course-info-container">
           {this.state.course ? this.courseInfo(this.state.course, this.props.nextTerm) : <LoadingWheel />}
         </div>

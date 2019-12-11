@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import HeaderMenu from '../headerMenu';
+import VideoEmbed from '../videoEmbed';
 
 import Term from '../../containers/term';
 import Courses from '../../containers/courses';
@@ -232,9 +233,14 @@ class Tutorial extends React.Component {
       <div className="colContainer">
         <HeaderMenu menuOptions={[{ name: 'End Tutorial', callback: () => this.props.history.push('/') }]} />
         <div className="title">{tutorialData[this.state.tutorialPage].title}</div>
-        <div className="rowContainer">
+        {/* <div className="rowContainer">
           <div className="graphic">{this.renderComponent(tutorialData[this.state.tutorialPage])}</div>
           <div className="paragraph">{tutorialData[this.state.tutorialPage].text}</div>
+        </div> */}
+        <div className="rowContainer">
+          <div className="video-embed-container">
+            <VideoEmbed youtubeID="3K3VdVbBOxw" />
+          </div>
         </div>
         <div className="button-container">
           <button type="button" className="next" onClick={this.next}>{this.state.nextButtonLabel}</button>
