@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
+  removeCourseFromFavorites, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail, removeCourseFromPlacement,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -76,6 +76,8 @@ class ProfileDialog extends Component {
     if (e.target.name === 'email') {
       if (!emailCheckRegex.test(e.target.value)) {
         this.setState({ errorMessage: 'Invalid Email Address' });
+      } else if (checkUserByEmail(e.target.value)) {
+        this.setState({ errorMessage: 'Email already associated to an account' });
       } else {
         this.setState({ errorMessage: null });
         this.newUser.email = e.target.value;
@@ -134,13 +136,14 @@ class ProfileDialog extends Component {
 
   // Toggles editing for a given inputName and saves the result on close or 'Enter'
   displayEditOption = (text, inputName, editing) => {
+    const gradBool = inputName === 'graduationYear';
     return (
       <div className="info">
         <div className="label">{text}:</div>
         {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
         <div className="data" role="textbox" onClick={editing ? null : () => this.handleToggleEdit(inputName)}>
           {!editing ? `${this.newUser[inputName]}`
-            : <input type="text" onKeyPress={e => this.keypressHandler(e, inputName, this.handleToggleEdit)} defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
+            : <input type={gradBool ? 'number' : 'text'} min={gradBool ? 0 : null} max={gradBool ? 9999 : null} onKeyPress={e => this.keypressHandler(e, inputName, this.handleToggleEdit)} defaultValue={this.newUser[inputName]} name={inputName} onChange={this.handleChange} />}
         </div>
         {!editing ? <img src={edit} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />
           : <img src={check} alt="edit" onClick={() => this.handleToggleEdit(inputName)} />}
@@ -269,5 +272,17 @@ const mapStateToProps = state => ({
 });
 
 export default (connect(mapStateToProps, {
-  removeCourseFromFavorites, removePlacement, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog,
+  removeCourseFromFavorites,
+  fetchUser,
+  fetchPlan,
+  updateUser,
+  fetchPlans,
+  showDialog,
+  sendVerifyEmail,
+  sendResetPass,
+  deleteUser,
+  signoutUser,
+  hideDialog,
+  checkUserByEmail,
+  removeCourseFromPlacement,
 })(ProfileDialog));

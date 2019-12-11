@@ -8,6 +8,7 @@ import ReactTooltip from 'react-tooltip';
 import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import DraggableUserCourse from '../../components/draggableUserCourse';
+import PlaceholderCourse from '../../components/placeholderCourse';
 import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
@@ -18,29 +19,47 @@ import {
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
+    console.log(item);
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
-      if (item.sourceTerm && item.sourceTerm.id === props.term.id) {
+      if (item.sourceTerm && item.sourceTerm.id === props.term.id && !item.department) {
         return undefined;
+      } else if (item.department) { // This is a placeholder Course
+        if (item.sourceTerm) {
+          console.log('[TERM.js] Attempting to remove a placeholder course');
+          props.removePlaceholderCourse(item.department, item.sourceTerm).then(() => {
+            console.log('[TERM.js] Attempting to add a placeholder course');
+            props.addPlaceholderCourse(item.department, props.term).then(() => {
+              console.log('[TERM.js] Removed, and readded the Placeholder course');
+            });
+          });
+        } else {
+          console.log('[TERM.js] Attempting to add a placeholder course');
+          props.addPlaceholderCourse(item.department, props.term).then(() => {
+            console.log('[TERM.js] Added placeholder the term');
+          });
+        }
       } else if (item.sourceTerm) {
         console.log('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then((next) => {
           console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
           props.addCourseToTerm(item.catalogCourse, props.term);
-        }).then((next) => {
-          next();
+        }).then(() => {
           console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+        }).catch((e) => {
+          console.log(e);
         });
       } else {
         console.log('[TERM.js] We think this is a search-to-term drag');
         console.log('props');
         console.log(props.addCourseToTerm);
         // this is a regular course, so deal with it accordingly
-        props.addCourseToTerm(item.course, props.term).then((next) => {
-          next();
+        props.addCourseToTerm(item.course, props.term).then(() => {
           // console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
+        }).catch((e) => {
+          console.log(e);
         });
       }
       // return an object containing the current term
@@ -168,6 +187,53 @@ class Term extends Component {
     }
   }
 
+  renderPlaceholderCourse = (placeholderCourse, i) => {
+    return (
+      <PlaceholderCourse
+        key={i.toString()}
+        department={placeholderCourse.placeholder}
+        size={(this.isCurrTerm() ? 'sm' : 'lg')}
+        sourceTerm={this.props.term.id}
+        icon="close"
+        showIcon
+        addPlaceholderCourse={this.props.addPlaceholderCourse}
+        removePlaceholderCourse={this.props.removePlaceholderCourse}
+      />
+    );
+  }
+
+  renderUserCourse = (course, i) => {
+    return (
+      <>
+        <DraggableUserCourse
+          size={(this.isCurrTerm() ? 'sm' : 'lg')}
+          key={i.toString()}
+          catalogCourse={course.course}
+          course={course}
+          sourceTerm={this.props.term.id}
+          removeCourseFromTerm={this.props.removeCourseFromTerm}
+          setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+          previousCourses={this.props.term.previousCourses}
+        />
+        {
+        this.isCurrTerm()
+          ? (
+            <div>
+              <HourSelector
+                past={this.past()}
+                key={course.id}
+                course={course}
+                timeslots={course.course.periods}
+                updateUserCourse={this.updateUserCourse}
+              />
+            </div>
+          )
+          : <></>
+      }
+      </>
+    );
+  }
+
   renderContent = () => {
     if (this.props.term.off_term) {
       return (
@@ -199,35 +265,15 @@ class Term extends Component {
     }
     return (
       <div className="term-content">
-        {this.props.term.courses.map((course) => {
+        {this.props.term.courses.map((course, i) => {
           // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
-            <div className="course-row-with-space" key={course.id}>
+            <div className="course-row-with-space" key={i.toString()}>
               <div className="course-row">
-                <DraggableUserCourse
-                  size={(this.isCurrTerm() ? 'sm' : 'lg')}
-                  key={course.id}
-                  catalogCourse={course.course}
-                  course={course}
-                  sourceTerm={this.props.term.id}
-                  removeCourseFromTerm={this.props.removeCourseFromTerm}
-                  setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
-                  previousCourses={this.props.term.previousCourses}
-                />
-                {
-                  this.isCurrTerm()
-                    ? (
-                      <div>
-                        <HourSelector
-                          past={this.past()}
-                          key={course.id}
-                          course={course}
-                          timeslots={course.course.periods}
-                          updateUserCourse={this.updateUserCourse}
-                        />
-                      </div>
-                    )
-                    : <></>
+
+                {(course.placeholder)
+                  ? this.renderPlaceholderCourse(course, i)
+                  : this.renderUserCourse(course, i)
                 }
               </div>
               <div id="course-spacer-small" />
@@ -240,6 +286,7 @@ class Term extends Component {
   };
 
   render() {
+    const dataTipID = this.props.term.index.toString();
     return this.props.connectDropTarget(
       <div className={classNames({
         on: !this.props.term.off_term,
@@ -260,9 +307,9 @@ class Term extends Component {
             {/* Add a warning if two courses occupy the same timeslot */}
             {this.props.term.name} {/* this.props.term.index */}
           </div>
-          <div className="toggle-buttons" data-tip>
+          <div className="toggle-buttons" data-tip data-for={dataTipID}>
             {this.renderToggleButton()}
-            <ReactTooltip delayShow={100} place="right" type="dark" effect="float">
+            <ReactTooltip id={dataTipID} delayShow={100} place="right" type="dark" effect="float">
               {this.props.term.off_term ? 'Make this an on-term' : 'Make this an off-term'}
             </ReactTooltip>
           </div>

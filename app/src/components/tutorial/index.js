@@ -64,51 +64,6 @@ const tutorialData = [
   },
 ];
 
-// const tutorialData = [
-//   {
-//     title: 'Welcome to D-Planner!',
-//     isInteractable: false,
-//     graphic: feature1,
-//     text: '0',
-//   },
-//   {
-//     title: 'The  Basics.',
-//     isInteractable: false,
-//     graphic: feature1,
-//     text: '1',
-//   },
-//   {
-//     title: 'Course Items.',
-//     isInteractable: true,
-//     graphic: 'course',
-//     text: '2',
-//   },
-//   {
-//     title: 'Course Items.',
-//     isInteractable: true,
-//     graphic: 'course',
-//     text: '3',
-//   },
-//   {
-//     title: 'Term Modules.',
-//     isInteractable: true,
-//     graphic: 'term',
-//     text: '4',
-//   },
-//   {
-//     title: 'Finding Classes.',
-//     isInteractable: true,
-//     graphic: 'search',
-//     text: '5',
-//   },
-//   {
-//     title: 'Your Degree.',
-//     isInteractable: true,
-//     graphic: 'degree',
-//     text: '6',
-//   },
-// ];
-
 const endTutorialText = 'Continue';
 
 class Tutorial extends React.Component {
@@ -141,23 +96,6 @@ class Tutorial extends React.Component {
         this.setState({ nextButtonLabel: endTutorialText });
       }
     });
-
-    // this.setState({
-    //   courseLocation: {
-    //     termOne: [this.props.randomCourse],
-    //     termTwo: [{}],
-    //   },
-    // });
-  }
-
-  componentDidUpdate() {
-    console.log(this.state);
-    // this.setState({
-    //   courseLocation: {
-    //     termOne: [this.props.randomCourse],
-    //     termTwo: [{}],
-    //   },
-    // });
   }
 
   prev = () => {
@@ -216,9 +154,6 @@ class Tutorial extends React.Component {
         console.log(component.graphic);
         switch (component.graphic) {
           case 'term':
-            // return (<div className="graphic">Term graphic</div>);
-            console.log('term contents');
-            console.log(this.state.courseLocation.termOne, this.state.courseLocation.termTwo);
             return (
               <>
                 <Term
@@ -243,8 +178,6 @@ class Tutorial extends React.Component {
             );
 
           case 'course':
-            // TODO: Add props
-            console.log('showing draggable course');
             return (
               <DraggableCourse
                 size="lg"
@@ -256,11 +189,8 @@ class Tutorial extends React.Component {
                 setDraggingFulfilledStatus={() => console.log('setting dragging fulfilled status placeholder')}
               />
             );
-            // return (<div className="graphic">Course graphic</div>);
-            // return (<Courses className="graphic" />);
 
           case 'search':
-            // return (<div className="graphic">Search graphic</div>);
             return (
               <div id="test-pane">
                 <SearchPane
@@ -282,8 +212,6 @@ class Tutorial extends React.Component {
             );
 
           case 'degree':
-            // TODO: Add props
-            // return (<div className="graphic">Degree graphic</div>);
             return (<div id="test-pane"><RequirementsPane className="graphic" /></div>);
 
           default:
@@ -318,7 +246,6 @@ class Tutorial extends React.Component {
 const mapStateToProps = state => ({
   searchResults: state.courses.results,
   resultStamp: state.courses.resultStamp,
-  // currTerm: state.time.currTerm,
   randomCourse: state.courses.random_course,
 });
 

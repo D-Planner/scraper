@@ -34,6 +34,30 @@ $sidebar-margin-left: 30px;
             font-weight: 400;
         }
     }
+
+    .loader {
+      flex-grow: 1;
+      display: flex;
+      align-items: stretch;
+
+      align-items: center;
+      justify-content: center;
+
+      .loader-image {
+        width: 120px;
+
+        -webkit-animation:spin-ease 2s ease infinite;
+        -moz-animation:spin-ease 2s ease infinite;
+        animation:spin-ease 2s ease infinite;
+      }
+      @keyframes spin-ease { 
+        0% { -moz-transform: rotate(0); -webkit-transform: rotate(0); transform:rotate(0); }
+        15% { -moz-transform: rotate(60); -webkit-transform: rotate(60); transform:rotate(60); }
+        50% { -moz-transform: rotate(180); -webkit-transform: rotate(180); transform:rotate(180); }
+        85% { -moz-transform: rotate(300); -webkit-transform: rotate(300); transform:rotate(300); }
+        100% { -moz-transform: rotate(360); -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+      }
+    }
   
     .plan-content {
         box-shadow: -5px 0px 20px rgba(0, 0, 0, 0.15);
@@ -43,7 +67,7 @@ $sidebar-margin-left: 30px;
         min-width: calc(100vw - #{$menu-width-closed}); // CSS-DEF the 68px refers to $menu-width-closed
         max-height: 100vh;
         background: $background;
-        
+
         .plan-side {
             margin-left: $sidebar-margin-left;
             display: flex;

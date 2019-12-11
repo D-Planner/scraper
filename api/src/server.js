@@ -5,13 +5,16 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
-import nodemailer from 'nodemailer';
+// import nodemailer from 'nodemailer';
+import sgMail from '@sendgrid/mail';
 import { requireAuth } from './authentication/init';
 import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter } from './routes';
-import CoursesController from './controllers/courses_controller';
+import CoursesController, { trim } from './controllers/courses_controller';
 import UserModel from './models/user';
+import CourseModel from './models/course';
+import { PopulateCourse } from './controllers/populators';
 
-require('dotenv').config();
+require('dotenv').config({ silent: true });
 
 // initialize
 const app = express();
@@ -46,13 +49,8 @@ const port = process.env.PORT || 9090;
 app.listen(port);
 console.log(`listening on: ${port}`);
 
-export const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_ADDR,
-        pass: process.env.GMAIL_PASS,
-    },
-});
+// Set up SendGrid email API
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // DB Setup
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/dplanner';
@@ -109,10 +107,29 @@ app.use('/majors', requireAuth, majorsRouter);
 app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
 
+// Get information for course display without being logged in
+app.get('/public/course/:id', (req, res) => {
+    CourseModel.findById(req.params.id)
+        .populate(PopulateCourse)
+        .then((result) => {
+            const json = result.toJSON();
+            delete json.professors;
+            delete json.prerequisites;
+            delete json.terms_offered;
+            delete json.yearlyOccurences;
+            delete json.likely_terms;
+            delete json.similar_courses;
+            res.json(trim(json));
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
+        });
+});
+
 
 // These cannot be used in production, or will need our own special Authorization
 app.get('/reset', (req, res) => {
-    if (req.headers.key === 'planthed') {
+    if (req.headers.key === '7d0cde01-30bb-465a-b614-9a9237a98f20') {
         resetDB().then(() => {
             res.send('database reset');
         }).catch((error) => {

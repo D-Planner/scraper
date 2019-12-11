@@ -1,12 +1,12 @@
 /* eslint-disable no-alert */
 /* eslint-disable class-methods-use-this */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -15,11 +15,20 @@ import Dashboard from '../dashboard';
 // import noPlan from '../../style/no-plan.png';
 import trash from '../../style/trash.svg';
 import check from '../../style/check.svg';
+import logo from '../../style/logo.svg';
 import Term from '../term';
 import './dplan.scss';
 
 
 const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
+
+const arraysMatch = (a1, a2) => {
+  if (a1.length !== a2.length) return false;
+  for (let i = 0; i < a1.length; i += 1) {
+    if (a1[i] !== a2[i]) return false;
+  }
+  return true;
+};
 
 /** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
@@ -70,6 +79,7 @@ class DPlan extends Component {
       noPlan: true,
       openPane: paneTypes.REQUIREMENTS,
       isEditing: false,
+      loadingPlan: false,
       tempPlanName: '',
     };
 
@@ -84,26 +94,56 @@ class DPlan extends Component {
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
+
+    // Prevents locking of plan on resize
+    if (this.props.plan !== null) this.state.noPlan = false;
   }
 
   componentDidMount() {
+    console.log('[DPlan] Did Mount');
     this.dplanref.current.focus();
+    this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
   }
 
+  componentWillUpdate(prevProps) {
+    console.log('[DPlan] Will Update');
+    if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
+    ) {
+      console.log('setting previous on Will Update');
+      this.setPreviousCourses();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log('[DPlan] Did Update');
+    if (prevState.noPlan && !this.state.noPlan) {
+      console.log('setting previous on Did Update');
+      this.setPreviousCourses();
+    }
+  }
 
   setCurrentPlan(planID) {
+    console.log('plan loading');
+
     if (planID !== null) {
       console.log(`setting plan to ${planID}`);
+      this.setState({ loadingPlan: true });
       this.props.fetchPlan(planID).then(() => {
         this.setState({
           noPlan: false,
+          loadingPlan: false,
+        });
+        console.log('plan loaded');
+        this.setState({
           tempPlanName: this.props.plan.name,
         });
+        this.setPreviousCourses();
       });
     } else {
-      console.log('resetting to no plan');
+      // console.log('resetting to no plan');
       this.setState({ noPlan: true });
+      this.props.fetchPlan(null);
     }
   }
 
@@ -111,7 +151,7 @@ class DPlan extends Component {
     const courses = [];
     this.props.plan.terms.forEach((year) => {
       year.forEach((term) => {
-        courses.push(...term.courses);
+        courses.push(...term.courses.filter(c => !c.placeholder));
       });
     });
     return courses;
@@ -145,6 +185,7 @@ class DPlan extends Component {
           this.getFlattenedCourses().forEach((userCourse) => {
             if (userCourse.id === userCourseID) {
               const getValue = (uCourse) => {
+                // console.log(uCourse);
                 const { course } = uCourse;
                 let prereqs = course.prerequisites ? course.prerequisites : [];
                 if (!prereqs || prereqs.length === 0) {
@@ -190,7 +231,7 @@ class DPlan extends Component {
 
                 return CLEAR;
               };
-              this.props.setFulfilledStatus(userCourse.id, getValue(userCourse));
+              this.props.setFulfilledStatus(userCourseID, getValue(userCourse));
             }
           });
         }
@@ -200,8 +241,10 @@ class DPlan extends Component {
     }
   };
 
+
   setPreviousCourses = () => {
     console.log('[setPreviousCourses Dplan.js]');
+
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
         .sort((t1, t2) => {
@@ -215,13 +258,20 @@ class DPlan extends Component {
         })
         .flat()
         .filter((c) => {
-          return c.fulfilledStatus === '';
+          return (c.fulfilledStatus === '' && !c.placeholder && c.course !== null);
+        })
+        .filter((c) => {
+          return !c.placeholder;
         })
         .map((c) => {
-          return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
+          try {
+            return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
+          } catch (e) {
+            console.log(e);
+            return c.course.id;
+          }
         })
         .flat())];
-      console.log(prevCourses);
       return { [term._id]: prevCourses };
     });
     previousByTerm.forEach((t) => {
@@ -230,8 +280,7 @@ class DPlan extends Component {
           .forEach((x) => {
             if (x._id === String(term)) {
               x.previousCourses = previousCourses;
-              x.courses.forEach((course) => {
-                console.log('SETFULFILLEDSTATUS', course.course.name);
+              x.courses.filter(c => !c.placeholder).forEach((course) => {
                 this.setAllFulfilledStatus(x._id, course.id);
               });
             }
@@ -246,7 +295,7 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to add course to term');
+    // console.log('[DPLAN.js] We got request to add course to term');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -254,7 +303,9 @@ class DPlan extends Component {
             axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then((response) => {
+              // console.log('[DPLAN.js] Axios Call Complete');
               this.props.addCourseToTerm(response.data, term._id).then(() => {
+                // console.log('[DPLAN.js] Course was added');
                 this.setPreviousCourses();
                 resolve();
               });
@@ -268,8 +319,8 @@ class DPlan extends Component {
   })
 
   removeCourseFromTerm = (userCourseID, termID) => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to remove course from term');
-    console.log(userCourseID, termID);
+    // console.log('[DPLAN.js] We got request to remove course from term');
+    // console.log(userCourseID, termID);
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -293,8 +344,61 @@ class DPlan extends Component {
     }
   })
 
+  addPlaceholderCourseToTerm = (department, term) => new Promise((resolve, reject) => {
+    // console.log('[DPLAN.js] We got request to add placeholder course to term');
+    try {
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((t) => {
+          if (t._id === term._id) {
+            axios.post(`${ROOT_URL}/terms/${term.id}/course/placeholder`, { department }, {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            }).then((response) => {
+              this.props.addPlaceholderCourse(department, term._id);
+              resolve();
+            });
+          }
+        });
+      });
+    } catch (e) {
+      reject(e);
+    }
+  })
+
+  addCourseToPlacements = courseID => new Promise((resolve, reject) => {
+    // console.log('[DPLAN.js] We got a request to add a placement course');
+    try {
+      axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }).then((response) => {
+        this.setPreviousCourses();
+        resolve();
+      }).catch((error) => {
+        reject();
+      });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  })
+
+  removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
+    // console.log('[DPLAN.js] We got request to remove placeholder course from term');
+    try {
+      axios.delete(`${ROOT_URL}/terms/${termID}/course/placeholder/${department}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      }).then(() => {
+        // console.log('DEPARTMENT to remove', department);
+        this.props.removePlaceholderCourse(department, termID);
+        resolve();
+      });
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  })
+
   setDraggingFulfilledStatus = courseID => new Promise((resolve, reject) => {
-    console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
+    // console.log('[DPLAN.js] We got request to set Dragging Status for', courseID);
     // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
     //   resolve();
     // }).catch((e) => {
@@ -305,9 +409,9 @@ class DPlan extends Component {
 
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
-      console.log('deletePlanKeyPress');
+      // console.log('deletePlanKeyPress');
       if (plan === null) {
-        console.log('plan is null');
+        // console.log('plan is null');
       } else {
         this.showDialog();
       }
@@ -354,7 +458,7 @@ class DPlan extends Component {
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
       let currQuarter = -1;
-      console.log(`creating new plan with name ${name}`);
+      // console.log(`creating new plan with name ${name}`);
       this.props.createPlan({
         terms: emptyPlan.terms.map((term) => {
           if (currQuarter === 3) currYear += 1;
@@ -400,50 +504,65 @@ class DPlan extends Component {
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
-            <div className="plan-content">
-              <div className="plan-side">
-                <div className="plan-header">
-                  {this.state.isEditing
-                    ? (
-                      <>
-                        <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
-                        <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
-                      </>
-                    )
-                    : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
-                  <button type="button" className="settings-button" onClick={this.showDialog}>
-                    <img src={trash} alt="" />
-                  </button>
+            {this.state.loadingPlan === true
+              ? (
+                <div className="loader">
+                  <img className="loader-image" src={logo} alt="logo" />
                 </div>
-                <Sidebar className="sidebar"
-                  setOpenPane={pane => this.setState({ openPane: pane })}
-                  openPane={this.state.openPane}
-                  planCourses={this.getFlattenedCourses()}
-                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                />
-              </div>
-              <div className="plan-grid">
-                {this.props.plan.terms.map((year) => {
-                  return (
-                    <div className="plan-row" key={year[0].id}>
-                      {year.map((term) => {
+              )
+              : (
+                <Fragment>
+                  <div className="plan-content">
+                    <div className="plan-side">
+                      <div className="plan-header">
+                        {this.state.isEditing
+                          ? (
+                            <>
+                              <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
+                              <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
+                            </>
+                          )
+                          : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
+                        <button type="button" className="settings-button" onClick={this.showDialog}>
+                          <img src={trash} alt="" />
+                        </button>
+                      </div>
+                      <Sidebar
+                        setOpenPane={pane => this.setState({ openPane: pane })}
+                        openPane={this.state.openPane}
+                        planCourses={this.getFlattenedCourses()}
+                        setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                        addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                        removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                      />
+                    </div>
+                    <div className="plan-grid">
+                      {this.props.plan.terms.map((year) => {
                         return (
-                          <Term
-                            plan={this.props.plan}
-                            time={this.props.time}
-                            term={term}
-                            key={term.id}
-                            addCourseToTerm={this.addCourseToTerm}
-                            removeCourseFromTerm={this.removeCourseFromTerm}
-                            setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                          />
+                          <div className="plan-row" key={year[0].id}>
+                            {year.map((term) => {
+                              return (
+                                <Term
+                                  plan={this.props.plan}
+                                  time={this.props.time}
+                                  term={term}
+                                  key={term.id}
+                                  addCourseToTerm={this.addCourseToTerm}
+                                  removeCourseFromTerm={this.removeCourseFromTerm}
+                                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                                  addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                                  removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                                />
+                              );
+                            })}
+                          </div>
                         );
                       })}
                     </div>
-                  );
-                })}
-              </div>
-            </div>
+                  </div>
+                </Fragment>
+              )
+            }
           </div>
         </HotKeys>
       );
@@ -458,6 +577,7 @@ const mapStateToProps = state => ({
   user: state.user.current,
   focusElement: state.dialog.focusOnClose,
   openDialog: state.dialog.type,
+  loading: state.loading.loading,
 });
 
 export default withRouter(connect(mapStateToProps, {
@@ -473,6 +593,9 @@ export default withRouter(connect(mapStateToProps, {
   fetchPlans,
   updateCloseFocus,
   updatePlan,
+  setLoading,
   sendVerifyEmail,
   setFulfilledStatus,
+  addPlaceholderCourse,
+  removePlaceholderCourse,
 })(DPlan));

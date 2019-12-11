@@ -1,21 +1,37 @@
-import React, { Component } from 'react';
+/* eslint-disable react/sort-comp */
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
-import DialogWrapper from '../dialogWrapper';
+import { withRouter } from 'react-router-dom';
+// Headers: fc, fp, fu
+// User: actf, actp, rcfp, rp,
+// None:
 import {
-  addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
-import link from '../../style/link_24px_blue.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
-
-import './courseInfo.scss';
 import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
+import LoadingWheel from '../../components/loadingWheel';
+import HeaderMenu from '../../components/headerMenu';
+import './coursePage.scss';
+
+const invalidCourse = id => ({
+  title: 'Error: Course not found',
+  description: `The course with id '${id}' could not be found.`,
+  medians: [{ term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }, { term: '--', avg_numeric_value: 0, courses: [{ median: '--' }] }],
+  layup_score: '--',
+  quality_score: '--',
+  distribs: [],
+  prerequisites: [],
+  professors: [],
+  department: '--',
+});
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -24,8 +40,53 @@ const Dependencies = {
   rec: 'Reccomended',
 };
 
-/** displays information on a course -- displayed when a draggable course is clicked without dragging */
-class CourseInfoDialog extends Component {
+// function getProfessor(id) {
+//   return new Promise((resolve, reject) => {
+//     axios.get(`${ROOT_URL}/professors/${id}`, {
+//       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+//     }).then((response) => {
+//       resolve(response.data);
+//     }).catch((error) => {
+//       reject(error);
+//     });
+//   });
+// }
+
+class CoursePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      course: null,
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.authenticated === true) { // Authenticated
+      this.props.fetchUser();
+      this.props.getTimes();
+      this.props.fetchCourse(this.props.match.params.id).then((course) => {
+        this.setState({ course });
+      }).catch((error) => {
+        this.setState({ course: invalidCourse(this.props.match.params.id) });
+        console.error(error);
+      });
+    } else { // Not authenticated
+      this.props.fetchCoursePublic(this.props.match.params.id).then((course) => {
+        this.setState({ course });
+      }).catch((error) => {
+        this.setState({ course: invalidCourse(this.props.match.params.id) });
+        console.error(error);
+      });
+    }
+  }
+
+  // Detects click on course and reloads
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      window.location.reload();
+    }
+  }
+
   /**
    * Handles rendering of distributive bubbles.
    * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
@@ -144,7 +205,21 @@ class CourseInfoDialog extends Component {
    * @param {*} course
    */
   renderNextTerm = (course) => {
-    if (course.offered) {
+    if (this.props.authenticated === false) {
+      return (
+        <div id="next-term">
+          <div className="section-header">Off.</div>
+          <div id="periods">
+            <div className="a-period" key="invalid">
+              <span data-tip data-for="invalid">--</span>
+              <ReactTooltip id="invalid" place="right" type="dark" effect="float">
+                To see when this course is offered, sign in above.
+              </ReactTooltip>
+            </div>
+          </div>
+        </div>
+      );
+    } else if (course.offered) {
       return (
         <div id="next-term">
           <div className="section-header">{`${this.props.currTerm.year.toString()}${this.props.currTerm.term}`}</div>
@@ -174,7 +249,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="professors">
         <div className="section-header">Professor Reviews</div>
-        {professors.map((p) => {
+        {professors.length > 0 ? professors.map((p) => {
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
@@ -184,7 +259,7 @@ class CourseInfoDialog extends Component {
               </ReactTooltip>
             </div>
           );
-        })}
+        }) : <div className="professor empty">No professor data</div> }
       </div>
     );
   }
@@ -209,7 +284,8 @@ class CourseInfoDialog extends Component {
         return o[dependencyType].map((c) => {
           return (
             <div key={c.id.toString()}>
-              <NonDraggableCourse course={c} currTerm={this.props.currTerm} />
+              {/* ADD ID VERIFICATION AND INVALID PAGE MESSAGE */}
+              <NonDraggableCourse course={c} currTerm={this.props.currTerm} click={() => this.props.history.push(`/course/${c._id}`)} />
               <div id="course-spacer-large" />
             </div>
           );
@@ -227,6 +303,7 @@ class CourseInfoDialog extends Component {
                 return (o[key].length > 0 && key !== '_id');
               });
               if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
+
               const render = (
                 <div key={i.toString()} className="dependency">
                   <div className="rule-header">{Dependencies[dependencyType]}</div>
@@ -316,57 +393,121 @@ class CourseInfoDialog extends Component {
   }
 
   courseUserOptions(courseID) {
-    const bookmarked = this.props.user.favorite_courses.map(c => c.id).includes(courseID);
-    const placement = this.props.user.placement_courses.map(c => c.id).includes(courseID);
-    return (
-      <div id="user-actions">
-        <img
-          className="action redirect"
-          src={link}
-          alt="See More"
-          onClick={() => window.open(`/course/${courseID}`)}
-          data-tip
-          data-for="redirect"
-        />
-        <ReactTooltip id="redirect" place="bottom" type="dark" effect="float">
-          {'See More'}
-        </ReactTooltip>
-        <img
-          className="action"
-          src={bookmarked ? bookmarkFilled : bookmark}
-          alt="Bookmark"
-          onClick={
+    if (this.props.authenticated === true) {
+      const bookmarked = this.props.user.favorite_courses ? this.props.user.favorite_courses.map(c => c.id).includes(courseID) : [];
+      const placement = this.props.user.placement_courses ? this.props.user.placement_courses.map(c => c.id).includes(courseID) : [];
+      return (
+        <div id="user-actions">
+          <img
+            className="action"
+            src={bookmarked ? bookmarkFilled : bookmark}
+            alt="Bookmark"
+            onClick={
             bookmarked
               ? () => this.props.removeCourseFromFavorites(courseID)
               : () => this.props.addCourseToFavorites(courseID)
           }
-          data-tip
-          data-for="bookmark"
-        />
-        <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
-          {!bookmarked ? 'Bookmark this course' : 'Unbookmark this course'}
-        </ReactTooltip>
-        <div className="spacer" />
-        <img
-          className="action"
-          src={placement ? minus : plus}
-          alt="Placement"
-          onClick={
+            data-tip
+            data-for="bookmark"
+          />
+          <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
+            {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
+          </ReactTooltip>
+          <div className="spacer" />
+          <img
+            className="action"
+            src={placement ? minus : plus}
+            alt="Placement"
+            onClick={
             placement
               ? () => this.props.removeCourseFromPlacement(courseID)
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
           }
-          data-tip
-          data-for="plus"
-        />
-        <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
-          {!placement ? 'Add to your placement courses' : 'Remove from your placement courses'}
-        </ReactTooltip>
-      </div>
-    );
+            data-tip
+            data-for="plus"
+          />
+          <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
+            {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
+          </ReactTooltip>
+        </div>
+      );
+    } else {
+      return (
+        <div id="user-actions">
+          <div className="action-message">Sign in to see more</div>
+          <img
+            className="action"
+            src={bookmark}
+            alt="Bookmark"
+            data-tip
+            data-for="bookmark"
+          />
+          <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
+            Sign in to bookmark this course
+          </ReactTooltip>
+          <div className="spacer" />
+          <img
+            className="action"
+            src={plus}
+            alt="Placement"
+            data-tip
+            data-for="plus"
+          />
+          <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
+            Sign in to add this to courses you have placed out of
+          </ReactTooltip>
+        </div>
+      );
+    }
   }
+
+  // renderReviews(course) {
+  //   console.log(this.props);
+
+  //   console.log(course);
+  //   return (
+  //     <>
+  //       <div className="section-header">Reviews</div>
+  //       {course ? course.professors.map((professor) => {
+  //         return (
+  //           <div key={professor._id} className="professor-container">
+  //             <div className="professor-title">{professor.name}</div>
+
+  //             {/* {professor.map((r) => {
+  //               return (
+  //                 <div className="review-container">
+  //                   <div className="review-title" />
+  //                   <div className="review-content">
+  //                     {
+  //                       axios.get(`${ROOT_URL}/professors/${professor._id}`, {
+  //                         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  //                       }).then((response) => {
+  //                         return (response.data);
+  //                       })
+  //                     }
+  //                   </div>
+  //                 </div>
+  //               );
+  //             })} */}
+
+  //             {
+  //               getProfessor(professor._id).then((reviews) => {
+  //                 console.log(reviews);
+  //                 return (<div>Test</div>);
+  //               }).catch((error) => {
+  //                 console.error(error);
+  //                 return (<div />);
+  //               })
+  //             }
+
+  //           </div>
+  //         );
+  //       }) : null}
+  //     </>
+  //   );
+  // }
 
   /**
    * Master handlers for all information about the course.
@@ -376,12 +517,22 @@ class CourseInfoDialog extends Component {
   courseInfo(course, nextTerm) {
     return (
       <div id="content">
+        <h1 className="course-info-title">{this.state.course.title}</h1>
         <div id="top">
           <div id="major">{`Department: ${course.department}`}</div>
-          { (this.props.user.id) ? this.courseUserOptions(course.id) : null}
+          {this.courseUserOptions(course.id)}
         </div>
         <hr className="horizontal-divider" />
         <div id="scrollable">
+          {this.props.authenticated === false ? (
+            <>
+              <div id="intro-coursepage">
+                <div className="section-header">Want to get the most from college?</div>
+                <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We belive that through data curation and insightful analytics students are better prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
+              </div>
+              <hr className="horizontal-divider-small" />
+            </>
+          ) : null}
           <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
           <hr className="horizontal-divider-small" />
           <div id="metrics">
@@ -390,33 +541,44 @@ class CourseInfoDialog extends Component {
             {this.renderScores(course)}
           </div>
           <hr className="horizontal-divider-small" />
-          <div id="last">
-            {this.renderPrerequisites(course)}
-            {this.renderOfferingsWrapper(course)}
-            {this.renderProfessors(course.professors)}
-          </div>
+          {this.props.authenticated === true
+            ? (
+              <>
+                <div id="last">
+                  {this.renderPrerequisites(course)}
+                  {this.renderOfferingsWrapper(course)}
+                  {this.renderProfessors(course.professors)}
+                </div>
+                <hr className="horizontal-divider-small" />
+              </>
+            ) : <div id="last" style={{ flexDirection: 'column' }}><div className="section-header">Sign in to see more</div><div className="last-message">To see more, please sign in or sign up above.</div></div>}
+          {/* <div id="reviews-course-page">
+            {this.renderReviews(course)}
+          </div> */}
         </div>
       </div>
     );
   }
 
   render() {
-    console.log(this.props.previousCourses);
     return (
-      <DialogWrapper {...this.props}>
-        {this.courseInfo(this.props.data, this.props.nextTerm)}
-      </DialogWrapper>
+      <Fragment>
+        <HeaderMenu />
+        <div className="course-info-container">
+          {this.state.course ? this.courseInfo(this.state.course, this.props.nextTerm) : <LoadingWheel />}
+        </div>
+      </Fragment>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  nextTerm: state.time.nextTerm,
-  currTerm: state.time.currTerm,
-  plan: state.plans.current,
   user: state.user.current,
+  currTerm: state.time.currTerm,
+  nextTerm: state.time.nextTerm,
+  authenticated: state.auth.authenticated,
 });
 
-export default connect(mapStateToProps, {
-  fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, showDialog, fetchCourseProfessors,
-})(CourseInfoDialog);
+export default withRouter(connect(mapStateToProps, {
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+})(CoursePage));

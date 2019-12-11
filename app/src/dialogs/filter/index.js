@@ -1,81 +1,158 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReactTags from 'react-tag-autocomplete';
+import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
-
 import './filters.scss';
+import { GenEdsForDisplay as GenEds } from '../../constants';
+
+import closeIcon from '../../style/close.svg';
+
 
 class FilterDialog extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log('Offered next term', props.offered);
+
     this.state = {
-      distribs: this.props.distribs,
-      wcs: this.props.wcs,
-      offeredNextTerm: this.props.offeredNextTerm,
+      distribs: props.distribs,
+      wcs: props.wcs,
+      offered: props.offered,
+      tags: {
+        distribs: props.distribs.filter(d => d.checked),
+        wcs: props.wcs.filter(wc => wc.checked),
+      },
     };
+    console.log(this.state);
   }
 
-  changeState = (name) => {
-    if (name === 'W' || name === 'CI' || name === 'NW') {
-      const i = this.state.wcs.findIndex(e => e.name === name);
-      // eslint-disable-next-line react/no-access-state-in-setstate
-      const temp = Object.assign([], this.state.wcs);
+  changeState = (i, name) => {
+    this.setState((prevState) => {
+      const temp = Object.assign([], prevState[name]);
       temp[i].checked = !temp[i].checked;
-      this.setState({
-        wcs: temp,
-      });
-    } else if (name !== 'offeredNextTerm') {
-      const i = this.state.distribs.findIndex(e => e.name === name);
-      // eslint-disable-next-line react/no-access-state-in-setstate
-      const temp = Object.assign([], this.state.distribs);
-      temp[i].checked = !temp[i].checked;
-      this.setState({
-        distribs: temp,
-      });
-    } else if (this.state.offeredNextTerm) {
-      this.setState({
-        offeredNextTerm: false,
-      });
-    } else {
-      this.setState({
-        offeredNextTerm: true,
-      });
-      this.setState({
-        offeredNextTerm: true,
-      });
-      console.log(this.state.offeredNextTerm); // why is this happening
-    }
+      return temp;
+    }, () => {
+    });
+  }
+
+  falttenedTerms = () => {
+    const flattened = this.props.plan.terms.reduce((acc, term) => {
+      acc = acc.concat(term);
+      return acc;
+    }, []);
+    return flattened;
+  }
+
+  handleAdd = (e, type) => {
+    this.setState((prevState) => {
+      if (!prevState.tags[type].includes(e)) prevState.tags[type].push(e);
+      return {
+        [`tags${type}`]: prevState.tags[type],
+      };
+    }, () => ((!e.checked) ? this.changeState(e.id, type) : null));
+  }
+
+  handleDelete = (i, type) => {
+    const removedTagId = this.state[type].findIndex(t => t.name === this.state.tags[type][i].name);
+    this.setState((prevState) => {
+      prevState.tags[type].splice(i, 1);
+      return { [`tags${type}`]: prevState.tags[type] };
+    }, () => this.changeState(removedTagId, type));
+  }
+
+  renderTag = (e) => {
+    const { tag } = e.tag;
+    return (
+      <div key={e.tag.id}
+        style={{
+          display: 'flex',
+        }}
+      >
+        <img className="icon" src={GenEds[tag].icon} alt={`${tag} icon`} data-tip data-for={tag} />
+        <ReactTooltip id={tag} place="right" type="dark" effect="float">{GenEds[tag].fullName}</ReactTooltip>
+        <img src={closeIcon} alt="icon" onClick={e.onDelete} />
+      </div>
+
+    );
+  }
+
+  renderSuggestion = (e) => {
+    const { tag } = e.item;
+    return (
+      <div key={e.item.id}>
+        <img className="icon" src={GenEds[tag].icon} alt={`${tag} icon`} data-tip data-for={tag} />
+        <ReactTooltip id={tag} place="right" type="dark" effect="float">{GenEds[tag].fullName}</ReactTooltip>
+      </div>
+    );
   }
 
   render() {
+    console.log(this.state.distribs);
     return (
       <DialogWrapper {...this.props}>
         <div className="filter-content">
+          <ReactTags
+            tags={this.state.tags.distribs}
+            suggestions={this.state.distribs}
+            onAddition={e => this.handleAdd(e, 'distribs')}
+            onDelete={i => this.handleDelete(i, 'distribs')}
+            tagComponent={this.renderTag}
+            suggestionComponent={this.renderSuggestion}
+            placeholderText="Add New Distrib Filter"
+          />
           <div className="filter-distribs filter-list">
-            {this.state.distribs.map((distrib) => {
+            {/* {this.state.distribs.map((distrib, i) => {
               return (
                 <div className="choice" key={distrib.name}>
                   <div className="choice-label">{distrib.name}</div>
-                  <input className="choice-input" type="checkbox" checked={distrib.checked} onChange={() => this.changeState(distrib.name)} />
+                  <input className="choice-input" type="checkbox" checked={distrib.checked} onChange={() => this.changeState(i, 'distribs')} />
                 </div>
               );
-            })}
+            })} */}
           </div>
           <div className="filter-wcs filter-list">
-            {this.state.wcs.map((wc) => {
+            {/* <ReactTags
+              tags={this.state.tags.wcs}
+              suggestions={this.state.wcs}
+              labelField="name"
+              onAddition={e => this.handleAdd(e, 'wcs')}
+              onDelete={i => this.handleDelete(i, 'wcs')}
+              tagComponent={this.renderTag}
+              suggestionComponent={this.renderSuggestion}
+              placeholderText="Add New World Culture Filter"
+            /> */}
+            {this.state.wcs.map((wc, i) => {
               return (
                 <div className="choice" key={wc.name}>
-                  <div className="choice-label">{wc.name}</div>
-                  <input className="choice-input" type="checkbox" checked={wc.checked} onChange={() => this.changeState(wc.name)} />
+                  <div className="choice-label">
+                    <ReactTooltip id={wc.name} place="right" type="dark" effect="float">{wc.fullName}</ReactTooltip>
+                    <img className="icon" src={GenEds[wc.name].icon} alt={`${wc.name} icon`} data-tip data-for={wc.name} />
+                  </div>
+                  <input className="choice-input" type="checkbox" checked={wc.checked} onChange={() => this.changeState(i, 'wcs')} />
                 </div>
               );
             })}
           </div>
-          <div className="filter-next-term">
-            <div className="choice choice-next-term">
-              <div className="choice-label">Offered {this.props.currTerm.year.toString()}{this.props.currTerm.term}</div>
-              <input className="choice-input" type="checkbox" checked={this.state.offeredNextTerm} onChange={() => this.changeState('offeredNextTerm')} />
-            </div>
+          <div className="filter-offered filter-list">
+            {this.state.offered.map((offered, i) => {
+              const currentTermName = () => {
+                switch (offered.term) {
+                  case 'F': return 'Fall';
+                  case 'W': return 'Winter';
+                  case 'S': return 'Spring';
+                  case 'X': return 'Summer';
+                  default: return 'Next Term';
+                }
+              };
+              const currentTerm = (offered.term === 'current');
+              return (
+                <div className="choice" key={i.toString()}>
+                  <div className={`choice-label ${currentTerm ? 'bold' : ''}`}>{currentTermName()}</div>
+                  <input className="choice-input" type="checkbox" checked={offered.checked} onChange={() => this.changeState(i, 'offered')} />
+                </div>
+              );
+            })}
           </div>
         </div>
       </DialogWrapper>
@@ -86,8 +163,9 @@ class FilterDialog extends React.Component {
 const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
-  offeredNextTerm: state.filters.offeredNextTerm,
+  offered: state.filters.offered,
   currTerm: state.time.currTerm,
+  plan: state.plans.current,
 });
 
 export default connect(mapStateToProps, null)(FilterDialog);

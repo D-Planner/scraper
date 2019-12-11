@@ -24,6 +24,7 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       active: false,
+      loadingPlans: true,
     };
     this.showProfileDialog = this.showProfileDialog.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
@@ -37,7 +38,9 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    this.props.fetchPlans();
+    this.props.fetchPlans().then(() => {
+      this.setState({ loadingPlans: false });
+    });
   }
 
   displayIfError = () => {
@@ -55,6 +58,7 @@ class Dashboard extends React.Component {
 
   createNewPlan(name) {
     const terms = ['F', 'W', 'S', 'X'];
+    this.setState({ loadingPlans: true });
     this.props.fetchUser().then(() => { // grabs most recent user data first
       let currYear = this.props.user.graduationYear - 4;
       let currQuarter = -1;
@@ -66,7 +70,9 @@ class Dashboard extends React.Component {
         }),
         name,
       }, this.props.setCurrentPlan).then(() => {
-        this.props.fetchPlans();
+        this.props.fetchPlans().then(() => {
+          this.setState({ loadingPlans: false });
+        });
       });
     });
   }
@@ -121,8 +127,9 @@ class Dashboard extends React.Component {
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         >
+          {/* ={this.state.loading} */}
           <div className="plans-container">
-            <Plans plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
+            <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
             <div role="presentation" onClick={() => this.props.history.push('/tutorial/0')} className="option-button">
