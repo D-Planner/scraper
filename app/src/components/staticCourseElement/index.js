@@ -61,11 +61,11 @@ class CourseElement extends Component {
   renderIcon = (name) => {
     switch (name) {
       case 'close':
-        return <img className="icon" src={closeIcon} alt="icon" />;
+        return <img className="course-action-icon" src={closeIcon} alt="icon" />;
       case 'bookmarkEmpty':
-        return <img className="icon" src={bookmarkEmpty} alt="icon" />;
+        return <img className="course-action-icon" src={bookmarkEmpty} alt="icon" />;
       case 'bookmarkFilled':
-        return <img className="icon" src={bookmarkFilled} alt="icon" />;
+        return <img className="course-action-icon" src={bookmarkFilled} alt="icon" />;
       default:
         return null;
     }
