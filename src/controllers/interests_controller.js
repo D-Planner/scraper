@@ -26,6 +26,19 @@ const seedInterests = (req, res) => {
 };
 
 /**
+ * Return an interest from a given interest ID
+ * @param {*} req
+ * @param {*} res
+ */
+const getInterestById = (req, res) => {
+    Interest.findById(req.params.id).then((interest) => {
+        res.send(interest);
+    }).catch((error) => {
+        res.json({ error });
+    });
+};
+
+/**
  * Send all interests to frontend from DB
  * @param {*} req
  * @param {*} res
@@ -43,7 +56,6 @@ const getInterests = (req, res) => {
 
 const updateUserInterest = (req, res) => {
     User.findById(req.body.userID).then((user) => {
-        console.log(user);
         res.json(user);
     });
 };
@@ -52,6 +64,7 @@ const InterestsController = {
     seedInterests,
     getInterests,
     updateUserInterest,
+    getInterestById,
 };
 
 export default InterestsController;

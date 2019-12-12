@@ -1,6 +1,7 @@
 import jwt from 'jwt-simple';
 import User from '../models/user';
 import Plan from '../models/plan';
+import Interest from '../models/interest';
 import { PopulateUser } from './populators';
 
 // Does a user exist with the given email?
@@ -113,11 +114,36 @@ export const getUser = (req, res) => {
 };
 
 /**
+ * Get filled-out user interest objects
+ * @param {*} req
+ * @param {*} res
+ */
+export const getUserInterests = (req, res) => {
+    User.findById(req.params.id).then((user) => {
+        const userInterests = [];
+        Promise.all(user.interest_profile.map((interestID) => {
+            return Interest.findById(interestID).then((interest) => {
+                userInterests.push(interest);
+            }).catch((error) => {
+                console.error(error);
+                res.status(500).json({ error });
+            });
+        })).then(() => {
+            console.log('sending user interests');
+            res.send(userInterests);
+        });
+    })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).json({ error });
+        });
+};
+
+/**
  * 🚀 TODO:
  * Check if there are security vulnerabilities created by sending user key to
  * frontend for validation, add as backend functionality
  */
-
 export const updateUser = async (req, res) => {
     User.findById(req.user.id)
         .populate(PopulateUser)
