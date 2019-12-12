@@ -13,9 +13,7 @@ const tooSmall = (props) => {
         {`DPlanner is not yet available in resolutions less than ${minWidth}px by ${minHeight}px! Please use a device with a larger sceen.`}
       </div>
       <div className="error-disclaimer">
-        {'If you think you are seeing this message in error, please contact us at '}
-        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-        {'.'}
+        If you think you are seeing this message in error, please contact us at <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
       </div>
     </div>
   );
