@@ -1,16 +1,18 @@
 import React from 'react';
 import './videoEmbed.scss';
 
-function VideoEmbed(youtubeID) {
+function VideoEmbed(props) {
+  console.log(props.youtubeID);
   return (
     <div
       className="video-container"
     >
       <iframe
-        title={youtubeID}
+        title={props.youtubeID}
         className="video-frame"
-        src={`https://www.youtube.com/embed/${youtubeID}`}
+        src={`https://www.youtube.com/embed/${props.youtubeID}`}
         frameBorder="0"
+        allowFullScreen
       />
     </div>
   );
