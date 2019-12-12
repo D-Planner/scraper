@@ -2,7 +2,6 @@ import React from 'react';
 import './videoEmbed.scss';
 
 function VideoEmbed(props) {
-  console.log(props.youtubeID);
   return (
     <div
       className="video-container"

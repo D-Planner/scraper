@@ -8,4 +8,6 @@ interestsRouter.get('/', requireAuth, InterestsController.getInterests);
 interestsRouter.post('/', requireAuth, InterestsController.seedInterests);
 interestsRouter.post('/update', requireAuth, InterestsController.updateUserInterest);
 
+interestsRouter.get('/:id', requireAuth, InterestsController.getInterestById);
+
 export default interestsRouter;

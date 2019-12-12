@@ -97,12 +97,12 @@ class InterestProfile extends Component {
                 if (this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
                   return (
                     // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                    <InterestTile active user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
+                    <InterestTile active user={this.props.user} interest={interest} click={this.updateUserInterest} />
                   );
                 } else {
                   return (
                     // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                    <InterestTile active={false} user={this.props.user} interest={interest} updateUserInterests={this.updateUserInterest} />
+                    <InterestTile active={false} user={this.props.user} interest={interest} click={this.updateUserInterest} />
                   );
                 }
               })}

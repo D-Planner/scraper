@@ -128,6 +128,9 @@ authRouter.post('/verify/pass/reset', VerifyController.resetPass);
 // Send password reset email
 authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
 
+// Get a user's filled-out interests by id
+authRouter.get('/:id/interests', requireAuth, UserController.getUserInterests);
+
 /**
  * @api {get} /auth/:id Get a user by id
  * @apiName GetUserById

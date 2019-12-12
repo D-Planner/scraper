@@ -26,14 +26,14 @@ class InterestTile extends Component {
         this.setState({ className: 'tile_active', active: true }, () => resolve(true));
       }
     }).then((active) => {
-      this.props.updateUserInterests(this.state.interest._id, this.props.user._id, active);
+      this.props.click(this.state.interest._id, this.props.user._id, active);
     });
   }
 
   render() {
     return (
       // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-      <div className={this.state.className} key={this.state.interest.name} role="button" onClick={() => { this.toggle(); }}>
+      <div className={this.state.className} key={this.state.interest.name} role="button" onClick={this.props.disableClick ? null : () => { this.toggle(); }}>
         {this.state.interest.name}
       </div>
     );

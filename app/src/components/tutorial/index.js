@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import HeaderMenu from '../headerMenu';
 import VideoEmbed from '../videoEmbed';
@@ -15,8 +16,12 @@ import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
 
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser,
 } from '../../actions';
+
+import { ROOT_URL } from '../../constants';
+import InterestTile from '../interestTile/interestTile';
+import LoadingWheel from '../loadingWheel';
 
 import './tutorial.scss';
 
@@ -24,6 +29,7 @@ import feature1 from '../../style/dplanner-19.png';
 import requirementBubbles from '../../style/requirement_bubbles.png';
 import emptyTerm from '../../style/empty_term.png';
 import filledTerm from '../../style/filled_term.png';
+import NewPlanPage from './pages/newPlanPage';
 
 // const tutorialData = [
 //   {
@@ -91,6 +97,35 @@ const tutorialData = [
 
 const endTutorialText = 'Continue';
 
+function getInterestById(id) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.get(`${ROOT_URL}/interests/${id}`, { headers }).then((response) => {
+      console.log(response.data);
+      resolve('interestById', response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+// // Make this into an action
+// function getUserInterests(userID) {
+//   return new Promise((resolve, reject) => {
+//     const headers = {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`,
+//     };
+//     axios.get(`${ROOT_URL}/auth/${userID}/interests`, { headers }).then((response) => {
+//       console.log('filledInterests', response.data);
+//       resolve(response.data);
+//     }).catch((error) => {
+//       reject(error);
+//     });
+//   });
+// }
+
 class Tutorial extends React.Component {
   constructor(props) {
     super(props);
@@ -98,14 +133,20 @@ class Tutorial extends React.Component {
       tutorialPage: 0,
       prevButtonLabel: 'Previous',
       nextButtonLabel: 'Next',
-      // searchQuery: 'COSC 98',
-      // courseLocation: {
-      //   termOne: {},
-      //   termTwo: {},
-      // },
+      interests: null,
+      tempUserInterests: [],
+      deanEmail: '',
+      advisorEmail: '',
+      otherEmail: '',
     };
 
-    // this.test = this.test.bind(this);
+    this.getInterests = this.getInterests.bind(this);
+    this.updateUserInterest = this.updateUserInterest.bind(this);
+    this.updateUserInterests = this.updateUserInterests.bind(this);
+
+    this.getInterests().then(() => {
+      this.props.fetchUser();
+    });
   }
 
   componentWillMount() {
@@ -115,7 +156,7 @@ class Tutorial extends React.Component {
   // Add check for loading directly into final page
   componentDidMount() {
     this.setState({
-      tutorialPage: this.props.match.params.page,
+      tutorialPage: parseInt(this.props.match.params.page, 10),
     }, () => {
       if (this.state.tutorialPage == tutorialData.length - 1) {
         this.setState({ nextButtonLabel: endTutorialText });
@@ -150,139 +191,117 @@ class Tutorial extends React.Component {
     this.props.history.push('/');
   }
 
-  // test = (action) => {
-  //   if (action === 'to19F') {
-  //     console.log('moving course to 19F');
-  //     this.setState({
-  //       courseLocation: {
-  //         '19F': [this.props.randomCourse],
-  //         '20W': [],
-  //       },
-  //     });
-  //   } else {
-  //     console.log('moving course to 20W');
-  //     this.setState({
-  //       courseLocation: {
-  //         '19F': [],
-  //         '20W': [this.props.randomCourse],
-  //       },
-  //     });
-  //   }
-  //   return new Promise((resolve, reject) => {
-  //     console.log('test function');
-  //   });
-  // }
+  getInterests() {
+    return new Promise((resolve, reject) => {
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      };
+      axios.get(`${ROOT_URL}/interests/`, { headers }).then((response) => {
+        this.setState({ interests: response.data }, resolve());
+      });
+    });
+  }
 
-  // renderComponent = (component) => {
-  //   if (component != null && this.props.randomCourse !== undefined) {
-  //     if (component.isInteractable) {
-  //       console.log(component.graphic);
-  //       switch (component.graphic) {
-  //         case 'term':
-  //           return (
-  //             <>
-  //               <Term
-  //                 plan={{}}
-  //                 time={{ currTerm: '19F' }}
-  //                 term={{ name: '19F', courses: [{ course: this.state.courseLocation.termOne }] }}
-  //                 key="19F"
-  //                 addCourseToTerm={() => this.test('to19F')}
-  //                 removeCourseFromTerm={() => this.test('to20W')}
-  //                 setDraggingFulfilledStatus={() => console.log('setting dragging fulfilled status placeholder')}
-  //               />
-  //               <Term
-  //                 plan={{}}
-  //                 time={{ currTerm: '20W' }}
-  //                 term={{ name: '20W', courses: [{ course: this.state.courseLocation.termTwo }] }}
-  //                 key="20W"
-  //                 addCourseToTerm={() => this.test('to20W')}
-  //                 removeCourseFromTerm={() => this.test('to19F')}
-  //                 setDraggingFulfilledStatus={() => console.log('setting dragging fulfilled status placeholder')}
-  //               />
-  //             </>
-  //           );
+  updateUserInterest(interestID) {
+    this.props.updateUser({ interest_profile: interestID }).then((user) => {
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 
-  //         case 'course':
-  //           return (
-  //             <DraggableCourse
-  //               size="lg"
-  //               key={this.props.randomCourse.id}
-  //               catalogCourse={this.props.randomCourse}
-  //               course={this.props.randomCourse}
-  //               currTerm={{ year: 2019 }}
-  //               removeCourseFromTerm={() => console.log('remove course from term placeholder')}
-  //               setDraggingFulfilledStatus={() => console.log('setting dragging fulfilled status placeholder')}
-  //             />
-  //           );
+  updateUserInterests(interestString) {
+    this.props.fetchUser().then(() => {
+      if (this.state.tempUserInterests) {
+        let toRemove = false;
+        let toRemoveIndex = -1;
 
-  //         case 'search':
-  //           return (
-  //             <div id="test-pane">
-  //               <SearchPane
-  //                 active
-  //                 activate={() => {}}
-  //                 setSearchQuery={quiery => this.setState({ searchQuery: quiery })}
-  //                 searchQuery={this.state.searchQuery}
-  //                 search={this.props.courseSearch}
-  //                 results={this.props.searchResults}
-  //                 resultStamp={this.props.resultStamp}
-  //                 stampIncrement={this.props.stampIncrement}
-  //                 setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
-  //                 currTerm={{ year: 2019 }}
-  //                 showDialog={this.props.showDialog}
-  //                 // style={{ 'box-shadow': '-3px 5px 20px rgba(0, 0, 0, 0.15) !important' }}
-  //                 // style={{ 'background-color': 'red' }}
-  //               />
-  //             </div>
-  //           );
+        Promise.all(
+          this.state.tempUserInterests.map((e, i) => {
+            return new Promise((resolve, reject) => {
+              if (e.name === interestString) {
+                toRemove = true;
+                toRemoveIndex = i;
+              }
+              resolve();
+            });
+          }),
+        ).then((r) => {
+          if (toRemove) {
+            this.setState((prevState) => {
+              prevState.tempUserInterests.splice(toRemoveIndex, 1);
+              return ({ tempUserInterests: prevState.tempUserInterests });
+            });
+          } else {
+            this.setState((prevState) => {
+              prevState.tempUserInterests.push({ name: interestString });
+              return ({ name: prevState.tempUserInterests });
+            });
+          }
 
-  //         case 'degree':
-  //           return (<div id="test-pane"><RequirementsPane className="graphic" /></div>);
+          this.props.updateUser({
+            interest_profile: this.state.tempUserInterests,
+          }).then((res) => {
+            this.props.fetchUser().then(() => {
+              this.setState({ tempUserInterests: res.interest_profile });
+            });
+          });
+        });
+      }
+    });
+  }
 
-  //         default:
-  //           return <div className="graphic">You should never see this!</div>;
-  //       }
-  //     } else {
-  //       return (<img className="graphic" src={component.graphic} alt="tutorial-graphic" />);
-  //     }
-  //   } else {
-  //     return <div className="graphic">You should never see this!</div>;
-  //   }
-  // }
+  renderUserInterests = () => {
+    if (this.props.user) {
+      if (!this.state.interests) {
+        return <LoadingWheel />;
+      } else {
+        return (
+          <div className="container">
+            {this.state.interests.length === 0 ? 'Interests not loaded...'
+              : this.state.interests.map((interest) => {
+                if (this.props.user.interest_profile && this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
+                  return (
+                    // eslint-disable-next-line jsx-a11y/interactive-supports-focus
+                    <InterestTile active user={this.props.user} interest={interest} click={this.updateUserInterest} />
+                  );
+                } else {
+                  return (
+                    // eslint-disable-next-line jsx-a11y/interactive-supports-focus
+                    <InterestTile active={false} user={this.props.user} interest={interest} click={this.updateUserInterest} />
+                  );
+                }
+              })}
+          </div>
+        );
+      }
+    } else {
+      return (null);
+    }
+  };
 
-  pages = [
-    <VideoEmbed youtubeID="czd0Er-_qI8" />,
-    <div>Cats</div>,
-    <div>Cats</div>,
-    <div>Cats</div>,
-    <div>Cats</div>,
-    <div>Cats</div>,
-    <div>Cats</div>,
-  ];
+  renderTutorialPage = (page) => {
+    switch (page) {
+      case 0:
+        return <VideoEmbed youtubeID="vjhFsPNk6Po" />;
+      case 1:
+        return <div>{this.renderUserInterests()}</div>;
+      case 2:
+        return (
+          <form>
+            <input className="tutorial-input" type="email" placeholder="Dean - name@college.edu" value={this.state.deanEmail} onChange={e => this.setState({ deanEmail: e.target.value })} />
+            <input className="tutorial-input" type="email" placeholder="Faculty Advisor - name@college.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
+            <input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state.otherEmail} onChange={e => this.setState({ otherEmail: e.target.value })} />
+          </form>
+        );
+      case 3:
+        console.log('user', this.props.user);
+        return <NewPlanPage user={this.props.user} />;
+      default:
+        return <div>Error...</div>;
+    }
+  }
 
   render() {
-    // return (
-    //   <div className="colContainer">
-    //     {/* <HeaderMenu menuOptions={[{ name: 'End Tutorial', callback: () => this.props.history.push('/') }]} /> */}
-    //     <HeaderMenu menuOptions={[{ name: this.state.prevButtonLabel, callback: () => this.prev() }, { name: this.state.nextButtonLabel, callback: () => this.next() }]} />
-    //     <div className="title">{tutorialData[this.state.tutorialPage].title}</div>
-    //     {/* <div className="rowContainer">
-    //       <div className="graphic">{this.renderComponent(tutorialData[this.state.tutorialPage])}</div>
-    //       <div className="paragraph">{tutorialData[this.state.tutorialPage].text}</div>
-    //     </div> */}
-    //     <div className="rowContainer">
-    //       {this.pages[this.state.tutorialPage]}
-    //       {/* <div className="video-embed-container">
-    //         <VideoEmbed youtubeID="3K3VdVbBOxw" />
-    //       </div> */}
-    //     </div>
-    //     <div className="button-container">
-    //       <button type="button" className="next" onClick={this.next}>{this.state.nextButtonLabel}</button>
-    //       <button type="button" className="previous" onClick={this.prev}>{this.state.prevButtonLabel}</button>
-    //     </div>
-    //   </div>
-    // );
-
     return (
       <div className="tutorial-container">
         <HeaderMenu menuOptions={[{ name: this.state.prevButtonLabel, callback: () => this.prev() }, { name: this.state.nextButtonLabel, callback: () => this.next() }]} />
@@ -292,7 +311,7 @@ class Tutorial extends React.Component {
             <div className="title">{tutorialData[this.state.tutorialPage].title}</div>
             <div className="subtitle">{tutorialData[this.state.tutorialPage].text}</div>
             <div className="rowContainer">
-              {this.pages[this.state.tutorialPage]}
+              {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
           </div>
           <img src={right} alt="right" onClick={this.next} id="left-arrow" />
@@ -306,8 +325,9 @@ const mapStateToProps = state => ({
   searchResults: state.courses.results,
   resultStamp: state.courses.resultStamp,
   randomCourse: state.courses.random_course,
+  user: state.user.current,
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser,
 })(Tutorial);
