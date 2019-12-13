@@ -129,7 +129,6 @@ export const getUserInterests = (req, res) => {
                 res.status(500).json({ error });
             });
         })).then(() => {
-            console.log('sending user interests');
             res.send(userInterests);
         });
     })
@@ -137,6 +136,46 @@ export const getUserInterests = (req, res) => {
             console.error(error);
             res.status(500).json({ error });
         });
+};
+
+/**
+ * Add all possible interests to user interest_profile
+ * @param {*} req
+ * @param {*} res
+ */
+export const addAllUserInterests = (req, res) => {
+    User.findById(req.params.id).then((user) => {
+        user.interest_profile = [];
+        Interest.find({}).then((interests) => {
+            interests.map((interest) => {
+                user.interest_profile.push(interest._id);
+                return null;
+            });
+            user.save().then((savedUser) => {
+                res.send(savedUser);
+            });
+        });
+    }).catch((error) => {
+        console.error(error);
+        res.status(500).json({ error });
+    });
+};
+
+/**
+ * Remove all interests from user interest_profile
+ * @param {*} req
+ * @param {*} res
+ */
+export const removeAllUserInterests = (req, res) => {
+    User.findById(req.params.id).then((user) => {
+        user.interest_profile = [];
+        user.save().then((savedUser) => {
+            res.send(savedUser);
+        });
+    }).catch((error) => {
+        console.error(error);
+        res.status(500).json({ error });
+    });
 };
 
 /**
