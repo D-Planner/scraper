@@ -3,78 +3,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import {
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests,
+} from '../../actions';
+import { ROOT_URL } from '../../constants';
+
 import HeaderMenu from '../headerMenu';
 import VideoEmbed from '../videoEmbed';
-
-import Term from '../../containers/term';
-import Courses from '../../containers/courses';
-import SearchPane from '../../containers/sidebar/searchPane';
-import RequirementsPane from '../../containers/sidebar/requirementsPane';
-import DraggableCourse from '../draggableCourse';
+import InterestTile from '../interestTile/interestTile';
+import LoadingWheel from '../loadingWheel';
+import NewPlanPage from './pages/newPlanPage';
 
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
-
-import {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser,
-} from '../../actions';
-
-import { ROOT_URL } from '../../constants';
-import InterestTile from '../interestTile/interestTile';
-import LoadingWheel from '../loadingWheel';
-
 import './tutorial.scss';
-
-import feature1 from '../../style/dplanner-19.png';
-import requirementBubbles from '../../style/requirement_bubbles.png';
-import emptyTerm from '../../style/empty_term.png';
-import filledTerm from '../../style/filled_term.png';
-import NewPlanPage from './pages/newPlanPage';
-
-// const tutorialData = [
-//   {
-//     title: 'Welcome to D-Planner!',
-//     isInteractable: false,
-//     graphic: feature1,
-//     text: '0',
-//   },
-//   {
-//     title: 'The  Basics.',
-//     isInteractable: false,
-//     graphic: requirementBubbles,
-//     text: '1',
-//   },
-//   {
-//     title: 'Course Items.',
-//     isInteractable: false,
-//     graphic: emptyTerm,
-//     text: '2',
-//   },
-//   {
-//     title: 'Course Items.',
-//     isInteractable: false,
-//     graphic: filledTerm,
-//     text: '3',
-//   },
-//   {
-//     title: 'Term Modules.',
-//     isInteractable: false,
-//     graphic: feature1,
-//     text: '4',
-//   },
-//   {
-//     title: 'Finding Classes.',
-//     isInteractable: false,
-//     graphic: feature1,
-//     text: '5',
-//   },
-//   {
-//     title: 'Your Degree.',
-//     isInteractable: false,
-//     graphic: feature1,
-//     text: '6',
-//   },
-// ];
 
 const tutorialData = [
   {
@@ -83,7 +25,7 @@ const tutorialData = [
   },
   {
     title: 'Let\'s get you started.',
-    text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us a bit about you.',
+    text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
   },
   {
     title: 'Add plan collaborators.',
@@ -103,28 +45,12 @@ function getInterestById(id) {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.get(`${ROOT_URL}/interests/${id}`, { headers }).then((response) => {
-      console.log(response.data);
       resolve('interestById', response.data);
     }).catch((error) => {
       reject(error);
     });
   });
 }
-
-// // Make this into an action
-// function getUserInterests(userID) {
-//   return new Promise((resolve, reject) => {
-//     const headers = {
-//       Authorization: `Bearer ${localStorage.getItem('token')}`,
-//     };
-//     axios.get(`${ROOT_URL}/auth/${userID}/interests`, { headers }).then((response) => {
-//       console.log('filledInterests', response.data);
-//       resolve(response.data);
-//     }).catch((error) => {
-//       reject(error);
-//     });
-//   });
-// }
 
 class Tutorial extends React.Component {
   constructor(props) {
@@ -256,22 +182,43 @@ class Tutorial extends React.Component {
         return <LoadingWheel />;
       } else {
         return (
-          <div className="container">
-            {this.state.interests.length === 0 ? 'Interests not loaded...'
-              : this.state.interests.map((interest) => {
-                if (this.props.user.interest_profile && this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1) {
-                  return (
-                    // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                    <InterestTile active user={this.props.user} interest={interest} click={this.updateUserInterest} />
-                  );
-                } else {
-                  return (
-                    // eslint-disable-next-line jsx-a11y/interactive-supports-focus
-                    <InterestTile active={false} user={this.props.user} interest={interest} click={this.updateUserInterest} />
-                  );
-                }
-              })}
-          </div>
+          <>
+            <div className="tutorial-interests-container">
+              {this.state.interests.length === 0 ? 'Interests not loaded...'
+                : this.state.interests.map((interest) => {
+                  if (this.props.user.interest_profile) {
+                    return (
+                      <InterestTile
+                        active={this.props.user.interest_profile && this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1}
+                        user={this.props.user}
+                        interest={interest}
+                        click={this.updateUserInterest}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+            </div>
+            <div className="tutorial-selectors">
+              <button className="tutorial-select"
+                type="button"
+                onClick={() => {
+                  this.props.addAllUserInterests(this.props.user._id);
+                  this.forceUpdate();
+                }}
+              >Select All
+              </button>
+              <button className="tutorial-select"
+                type="button"
+                onClick={() => {
+                  this.props.removeAllUserInterests(this.props.user._id);
+                  this.forceUpdate();
+                }}
+              >Select None
+              </button>
+            </div>
+          </>
         );
       }
     } else {
@@ -294,7 +241,6 @@ class Tutorial extends React.Component {
           </form>
         );
       case 3:
-        console.log('user', this.props.user);
         return <NewPlanPage user={this.props.user} />;
       default:
         return <div>Error...</div>;
@@ -329,5 +275,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests,
 })(Tutorial);

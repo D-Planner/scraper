@@ -1003,3 +1003,43 @@ export function sendResetPass(userID) {
     });
   };
 }
+
+/**
+ * Adds all possible interests to user's interest_profile
+ * @param {*} userID
+ */
+export function addAllUserInterests(userID) {
+  return dispatch => new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.post(`${ROOT_URL}/auth/${userID}/interests`, {}, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      resolve(response.data);
+    }).catch((error) => {
+      console.error(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Adds all possible interests to user's interest_profile
+ * @param {*} userID
+ */
+export function removeAllUserInterests(userID) {
+  return dispatch => new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.delete(`${ROOT_URL}/auth/${userID}/interests`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      resolve(response.data);
+    }).catch((error) => {
+      console.error(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
+    });
+  });
+}

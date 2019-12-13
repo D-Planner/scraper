@@ -13,7 +13,6 @@ function getUserInterests(userID) {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.get(`${ROOT_URL}/auth/${userID}/interests`, { headers }).then((response) => {
-      console.log('filledInterests', response.data);
       resolve(response.data);
     }).catch((error) => {
       console.error('error', error);
@@ -37,9 +36,7 @@ class NewPlanPage extends React.Component {
 
   componentDidUpdate() {
     if (this.state.fetchedInterests === false) {
-      console.log('user', this.props.user);
       getUserInterests(this.props.user._id).then((interests) => {
-        console.log('interests', interests);
         this.setState({ filledInterests: interests, fetchedInterests: true });
       }).catch(error => console.error(error));
     }
@@ -67,14 +64,13 @@ class NewPlanPage extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <form>
         <input className="tutorial-input" type="text" placeholder="Give your plan a name" value={this.state.planName} onChange={e => this.setState({ planName: e.target.value })} />
         <input className="tutorial-input" type="text" placeholder="Give a short blurb about this plan" value={this.state.planDescription} onChange={e => this.setState({ planDescription: e.target.value })} />
         <input className="tutorial-input" type="text" placeholder="Pick a major for this plan" value={this.state.planMajor} onChange={e => this.setState({ planMajor: e.target.value })} />
-        <div className="tutorial-input text">Which of your interests does this plan relate to?</div>
-        <div className="plan-interests-container" style={{ minHeight: '200px' }}>
+        <div className="tutorial-input">Which of your interests does this plan relate to?</div>
+        <div className="plan-interests-container">
           {this.state.fetchedInterests ? this.state.filledInterests.map((interest) => {
             return (
               <InterestTile

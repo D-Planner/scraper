@@ -61,7 +61,7 @@ $content-padding-top: 25vh;
         font-size: 60px;
         color: $white;
         font-weight: 500;
-        margin: auto;
+        margin: 20px auto 0;
       }
     
       .subtitle {
@@ -69,12 +69,12 @@ $content-padding-top: 25vh;
         font-size: 24px;
         color: $white;
         font-weight: 300;
-        margin: auto;
+        margin: 0 auto 20px;
       }
       
       .rowContainer {
         width: 60vw;
-        height: 48vh;
+        // height: 48vh;
         display: flex;
         flex-direction: row;
     
@@ -84,6 +84,40 @@ $content-padding-top: 25vh;
         margin-left: auto;
         margin-right: auto;
         margin-top: 1vh;
+
+        div .tutorial-interests-container {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+        }
+
+        .tutorial-selectors {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          margin: 20px 0;
+
+          .tutorial-select {
+            text-align: center;
+            font-size: 16px;
+
+            background: none;
+            color: $white;
+            border: solid $white 1.5px;
+            border-radius: 4px;
+
+            width: 180px;
+            height: 48px;
+            padding: 4px 8px;
+
+            &:hover {
+              cursor: pointer;
+              background: $purple-light-10;
+              border: solid $white 2px;
+            }
+          }
+        }
 
         form {
           display: flex;
@@ -101,16 +135,9 @@ $content-padding-top: 25vh;
             color: $white;
             font-size: 16px;
             background-color: rgba($color: #666666, $alpha: .24);
-
-            &.text {
-              margin: auto;
-              // font-size: 1em;
-            }
+            font-size: 1em;
+            // }
           }
-        }
-
-        .interests-container-tutorial {
-          overflow-y: auto;
         }
       
         .graphic {

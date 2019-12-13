@@ -129,7 +129,10 @@ authRouter.post('/verify/pass/reset', VerifyController.resetPass);
 authRouter.post('/verify/pass/send', VerifyController.sendResetPass);
 
 // Get a user's filled-out interests by id
-authRouter.get('/:id/interests', requireAuth, UserController.getUserInterests);
+authRouter.route('/:id/interests')
+    .get(requireAuth, UserController.getUserInterests)
+    .post(requireAuth, UserController.addAllUserInterests)
+    .delete(requireAuth, UserController.removeAllUserInterests);
 
 /**
  * @api {get} /auth/:id Get a user by id
