@@ -136,6 +136,10 @@ $content-padding-top: 25vh;
             font-size: 16px;
             background-color: rgba($color: #666666, $alpha: .24);
             font-size: 1em;
+
+            &.error {
+              border: $error solid 2px;
+            }
           }
 
           .contributor-modify-container {
@@ -148,10 +152,10 @@ $content-padding-top: 25vh;
               color: $text-accent;
 
               &.inactive {
-                // color: $gray-3;
                 opacity: .4;
                 cursor: default;
               }
+
               color: $white;
               margin: 0 12px;
             }

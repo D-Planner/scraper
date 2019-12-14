@@ -64,7 +64,6 @@ class Tutorial extends React.Component {
       tempUserInterests: [],
       deanEmail: '',
       advisorEmail: '',
-      otherEmail: '',
       addedOtherEmailCount: 0,
     };
 
