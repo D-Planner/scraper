@@ -21,7 +21,7 @@ import './tutorial.scss';
 const tutorialData = [
   {
     title: 'Welcome to D-Planner!',
-    text: 'We are the future of academic planning. Here’s a video about us.',
+    text: 'We are the future of academic planning. Here’s a little bit about us.',
   },
   {
     title: 'Let\'s get you started.',
@@ -37,7 +37,8 @@ const tutorialData = [
   },
 ];
 
-const endTutorialText = 'Continue';
+const END_TUTORIAL_TEXT = 'Continue';
+const MAX_ADDED_CONTRIBUTORS = 6;
 
 function getInterestById(id) {
   return new Promise((resolve, reject) => {
@@ -64,11 +65,14 @@ class Tutorial extends React.Component {
       deanEmail: '',
       advisorEmail: '',
       otherEmail: '',
+      addedOtherEmailCount: 0,
     };
 
     this.getInterests = this.getInterests.bind(this);
     this.updateUserInterest = this.updateUserInterest.bind(this);
     this.updateUserInterests = this.updateUserInterests.bind(this);
+    this.addNewContributor = this.addNewContributor.bind(this);
+    this.removeContributor = this.removeContributor.bind(this);
 
     this.getInterests().then(() => {
       this.props.fetchUser();
@@ -85,7 +89,7 @@ class Tutorial extends React.Component {
       tutorialPage: parseInt(this.props.match.params.page, 10),
     }, () => {
       if (this.state.tutorialPage == tutorialData.length - 1) {
-        this.setState({ nextButtonLabel: endTutorialText });
+        this.setState({ nextButtonLabel: END_TUTORIAL_TEXT });
       }
     });
   }
@@ -104,7 +108,7 @@ class Tutorial extends React.Component {
   next = () => {
     if (this.state.tutorialPage < tutorialData.length - 1) { // Within data range
       if (this.state.tutorialPage + 1 == tutorialData.length - 1) { // Final page
-        this.setState({ nextButtonLabel: endTutorialText });
+        this.setState({ nextButtonLabel: END_TUTORIAL_TEXT });
       }
       this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
         () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
@@ -215,7 +219,8 @@ class Tutorial extends React.Component {
                   this.props.removeAllUserInterests(this.props.user._id);
                   this.forceUpdate();
                 }}
-              >Select None
+              >
+                Select None
               </button>
             </div>
           </>
@@ -225,6 +230,30 @@ class Tutorial extends React.Component {
       return (null);
     }
   };
+
+  addNewContributor() {
+    if (this.state.addedOtherEmailCount < MAX_ADDED_CONTRIBUTORS) {
+      this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount + 1 }));
+    }
+  }
+
+  removeContributor() {
+    if (this.state.addedOtherEmailCount > 0) {
+      this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
+    }
+  }
+
+  renderAddedOtherEmails() {
+    if (this.state.addedOtherEmailCount) {
+      const addedOtherEmailList = [];
+      for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
+        addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
+      }
+      return addedOtherEmailList;
+    } else {
+      return null;
+    }
+  }
 
   renderTutorialPage = (page) => {
     switch (page) {
@@ -238,6 +267,11 @@ class Tutorial extends React.Component {
             <input className="tutorial-input" type="email" placeholder="Dean - name@college.edu" value={this.state.deanEmail} onChange={e => this.setState({ deanEmail: e.target.value })} />
             <input className="tutorial-input" type="email" placeholder="Faculty Advisor - name@college.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
             <input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state.otherEmail} onChange={e => this.setState({ otherEmail: e.target.value })} />
+            {this.renderAddedOtherEmails()}
+            <div className="contributor-modify-container">
+              {this.state.addedOtherEmailCount < MAX_ADDED_CONTRIBUTORS ? <div className="contributor-modify" onClick={this.addNewContributor}>+ Add another contributor</div> : null}
+              {this.state.addedOtherEmailCount > 0 ? <div className="contributor-modify" onClick={this.removeContributor}>- Remove contributor</div> : null}
+            </div>
           </form>
         );
       case 3:

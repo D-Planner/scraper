@@ -136,7 +136,21 @@ $content-padding-top: 25vh;
             font-size: 16px;
             background-color: rgba($color: #666666, $alpha: .24);
             font-size: 1em;
-            // }
+          }
+
+          .contributor-modify-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            .contributor-modify {
+              &:hover {
+                cursor: pointer;
+                color: $text-accent;
+              }
+              color: $white;
+              margin: 0 12px;
+            }
           }
         }
       

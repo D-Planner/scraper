@@ -155,7 +155,7 @@ class Dashboard extends React.Component {
                 : <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
             }
             </div>
-            <div role="presentation"
+            {/* <div role="presentation"
               onClick={this.showUserData}
               className="option-button"
             >
@@ -169,7 +169,7 @@ class Dashboard extends React.Component {
                 )
                 : <img className="search-icon" src={lightbulbIcon} alt="search" />
               }
-            </div>
+            </div> */}
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
                 ? (

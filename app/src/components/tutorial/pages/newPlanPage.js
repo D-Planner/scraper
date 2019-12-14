@@ -86,6 +86,9 @@ class NewPlanPage extends React.Component {
               />
             );
           }) : <LoadingWheel />}
+          <div style={{ color: 'white' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!'
+            : null}
+          </div>
         </div>
       </form>
     );
