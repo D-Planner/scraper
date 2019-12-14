@@ -266,11 +266,11 @@ class Tutorial extends React.Component {
           <form>
             <input className="tutorial-input" type="email" placeholder="Dean - name@college.edu" value={this.state.deanEmail} onChange={e => this.setState({ deanEmail: e.target.value })} />
             <input className="tutorial-input" type="email" placeholder="Faculty Advisor - name@college.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
-            <input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state.otherEmail} onChange={e => this.setState({ otherEmail: e.target.value })} />
+            {/* <input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state.otherEmail} onChange={e => this.setState({ otherEmail: e.target.value })} /> */}
             {this.renderAddedOtherEmails()}
             <div className="contributor-modify-container">
-              {this.state.addedOtherEmailCount < MAX_ADDED_CONTRIBUTORS ? <div className="contributor-modify" onClick={this.addNewContributor}>+ Add another contributor</div> : null}
-              {this.state.addedOtherEmailCount > 0 ? <div className="contributor-modify" onClick={this.removeContributor}>- Remove contributor</div> : null}
+              <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor}>+ Add another contributor</div>
+              <div className={`contributor-modify${this.state.addedOtherEmailCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor}>- Remove contributor</div>
             </div>
           </form>
         );
