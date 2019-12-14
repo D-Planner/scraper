@@ -5,6 +5,7 @@ import InterestTile from '../../interestTile/interestTile';
 import LoadingWheel from '../../loadingWheel';
 import { ROOT_URL } from '../../../constants';
 import './newPlanPage.scss';
+import { addCourseToFavorites } from '../../../actions';
 
 // Make this into an action
 function getUserInterests(userID) {
@@ -72,12 +73,14 @@ class NewPlanPage extends React.Component {
         <div className="tutorial-input">Which of your interests does this plan relate to?</div>
         <div className="plan-interests-container">
           {this.state.fetchedInterests ? this.state.filledInterests.map((interest) => {
+            const interestActive = this.state.relevantInterests.has(interest._id);
             return (
               <InterestTile
+                active={interestActive}
                 user={this.props.user}
                 interest={interest}
                 click={(interestID, userID, active) => {
-                  if (active) {
+                  if (interestActive === false) {
                     this.addInterestToSet(interestID);
                   } else {
                     this.removeInterestFromSet(interestID);
@@ -86,8 +89,7 @@ class NewPlanPage extends React.Component {
               />
             );
           }) : <LoadingWheel />}
-          <div style={{ color: 'white' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!'
-            : null}
+          <div style={{ color: 'white' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!' : null}
           </div>
         </div>
       </form>
