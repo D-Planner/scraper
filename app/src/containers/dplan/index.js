@@ -12,7 +12,6 @@ import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
-// import noPlan from '../../style/no-plan.png';
 import trash from '../../style/trash.svg';
 import check from '../../style/check.svg';
 import logo from '../../style/logo.svg';
@@ -76,7 +75,6 @@ class DPlan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      noPlan: true,
       openPane: paneTypes.REQUIREMENTS,
       isEditing: false,
       loadingPlan: false,
@@ -94,9 +92,6 @@ class DPlan extends Component {
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
-
-    // Prevents locking of plan on resize
-    if (this.props.plan !== null) this.state.noPlan = false;
   }
 
   componentWillMount() {
@@ -121,10 +116,6 @@ class DPlan extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     console.log('[DPlan] Did Update');
-    if (prevState.noPlan && !this.state.noPlan) {
-      console.log('setting previous on Did Update');
-      this.setPreviousCourses();
-    }
   }
 
   setCurrentPlan(planID) {
@@ -135,7 +126,6 @@ class DPlan extends Component {
       this.setState({ loadingPlan: true });
       this.props.fetchPlan(planID).then(() => {
         this.setState({
-          noPlan: false,
           loadingPlan: false,
         });
         console.log('plan loaded');
@@ -145,8 +135,6 @@ class DPlan extends Component {
         this.setPreviousCourses();
       });
     } else {
-      // console.log('resetting to no plan');
-      this.setState({ noPlan: true });
       this.props.fetchPlan(null);
     }
   }
@@ -491,7 +479,7 @@ class DPlan extends Component {
   };
 
   render() {
-    if (!this.props.plan || this.state.noPlan) {
+    if (!this.props.plan) {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
