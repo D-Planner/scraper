@@ -1,11 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import InterestTile from '../../interestTile/interestTile';
 import LoadingWheel from '../../loadingWheel';
 import { ROOT_URL } from '../../../constants';
+import { createPlan, fetchPlan } from '../../../actions';
+import { emptyPlan } from '../../../services/empty_plan';
 import './newPlanPage.scss';
-import { addCourseToFavorites } from '../../../actions';
 
 // Make this into an action
 function getUserInterests(userID) {
@@ -29,10 +32,14 @@ class NewPlanPage extends React.Component {
       filledInterests: [],
       fetchedInterests: false,
       relevantInterests: new Set(),
+      planName: '',
+      planDescription: '',
+      // planMajor: '',
     };
 
     this.addInterestToSet = this.addInterestToSet.bind(this);
     this.removeInterestFromSet = this.removeInterestFromSet.bind(this);
+    this.createTutorialPlan = this.createTutorialPlan.bind(this);
   }
 
   componentDidUpdate() {
@@ -64,12 +71,35 @@ class NewPlanPage extends React.Component {
     });
   }
 
+  createTutorialPlan() {
+    if (this.props.createPlan) {
+      const terms = ['F', 'W', 'S', 'X'];
+      let currYear = this.props.user.graduationYear - 4;
+      let currQuarter = -1;
+      this.props.createPlan({
+        terms: emptyPlan.terms.map((term) => {
+          if (currQuarter === 3) currYear += 1;
+          currQuarter = (currQuarter + 1) % 4;
+          return { ...term, year: currYear, quarter: terms[currQuarter] };
+        }),
+        name: this.state.planName,
+        relevant_interets: this.state.relevantInterests,
+        description: this.state.planDescription,
+        // major: this.state.planMajor,
+      }, (planID) => {
+        this.props.fetchPlan(planID).then(() => {
+          this.props.history.push('/');
+        });
+      });
+    }
+  }
+
   render() {
     return (
       <form>
-        <input className="tutorial-input" type="text" placeholder="Give your plan a name" value={this.state.planName} onChange={e => this.setState({ planName: e.target.value })} />
+        <input className="tutorial-input" type="text" placeholder="Give your plan a short name" value={this.state.planName} onChange={e => this.setState({ planName: e.target.value })} />
         <input className="tutorial-input" type="text" placeholder="Give a short blurb about this plan" value={this.state.planDescription} onChange={e => this.setState({ planDescription: e.target.value })} />
-        <input className="tutorial-input" type="text" placeholder="Pick a major for this plan" value={this.state.planMajor} onChange={e => this.setState({ planMajor: e.target.value })} />
+        {/* <input className="tutorial-input" type="text" placeholder="Pick a major for this plan" value={this.state.planMajor} onChange={e => this.setState({ planMajor: e.target.value })} /> */}
         <div className="tutorial-input">Which of your interests does this plan relate to?</div>
         <div className="plan-interests-container">
           {this.state.fetchedInterests ? this.state.filledInterests.map((interest) => {
@@ -90,6 +120,7 @@ class NewPlanPage extends React.Component {
             );
           }) : <LoadingWheel />}
           <div style={{ color: 'white' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!' : null}
+            <div onClick={this.createTutorialPlan} role="button" tabIndex={-1}>Click me!</div>
           </div>
         </div>
       </form>
@@ -97,4 +128,4 @@ class NewPlanPage extends React.Component {
   }
 }
 
-export default NewPlanPage;
+export default withRouter(connect(null, { createPlan, fetchPlan })(NewPlanPage));
