@@ -1,0 +1,19 @@
+@import '../../style/variables.scss';
+
+.progress-bar-container {
+  position: relative;
+  background: $white;
+  
+  height: 12px;
+  width: 200px;
+
+  border-radius: 8px;
+  border-radius: solid $text-accent 1px;
+
+  .progress-bar {
+    background: $text-accent;
+    height: 100%;
+    border-radius: inherit;
+    transition: width $transition-duration ease-in;
+  }
+}
