@@ -2,13 +2,14 @@
 
 .progress-bar-container {
   position: relative;
-  background: $white;
-  
+  margin: auto;
+  // background: $white;
+
   height: 12px;
-  width: 200px;
+  width: 120px;
 
   border-radius: 8px;
-  border-radius: solid $text-accent 1px;
+  border: solid $text-accent 2px;
 
   .progress-bar {
     background: $text-accent;

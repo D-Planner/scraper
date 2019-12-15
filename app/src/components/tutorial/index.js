@@ -17,6 +17,7 @@ import NewPlanPage from './pages/newPlanPage';
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
 import './tutorial.scss';
+import { ProgressBar } from '../progressBar';
 
 const tutorialData = [
   {
@@ -268,8 +269,8 @@ class Tutorial extends React.Component {
             {/* <input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state.otherEmail} onChange={e => this.setState({ otherEmail: e.target.value })} /> */}
             {this.renderAddedOtherEmails()}
             <div className="contributor-modify-container">
-              <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor}>+ Add another contributor</div>
-              <div className={`contributor-modify${this.state.addedOtherEmailCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor}>- Remove contributor</div>
+              <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
+              <div className={`contributor-modify${this.state.addedOtherEmailCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor} role="button" tabIndex={-1}>- Remove contributor</div>
             </div>
           </form>
         );
@@ -283,7 +284,8 @@ class Tutorial extends React.Component {
   render() {
     return (
       <div className="tutorial-container">
-        <HeaderMenu menuOptions={[{ name: this.state.prevButtonLabel, callback: () => this.prev() }, { name: this.state.nextButtonLabel, callback: () => this.next() }]} />
+        {/* menuOptions={[{ name: this.state.prevButtonLabel, callback: () => this.prev() }, { name: this.state.nextButtonLabel, callback: () => this.next() }]} */}
+        <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (tutorialData.length - 1))) }} />
         <div className="arrow-container">
           <img src={left} alt="right" onClick={this.prev} id="right-arrow" />
           <div className="tutorial-content">

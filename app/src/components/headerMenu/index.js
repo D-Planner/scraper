@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import logo from '../../style/logo.svg';
 import './headerMenu.scss';
+import { ProgressBar } from '../progressBar';
 
 class HeaderMenu extends React.Component {
   constructor(props) {
@@ -22,6 +23,19 @@ class HeaderMenu extends React.Component {
     }
   }
 
+  renderGraphic() {
+    if (this.props.graphic) {
+      switch (this.props.graphic.type) {
+        case 'progress-bar':
+          return <ProgressBar percentage={this.props.graphic.data || 0} />;
+        default:
+          return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <div className="header-menu-container">
@@ -34,6 +48,9 @@ class HeaderMenu extends React.Component {
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
             return (<a className="header-menu-option" onClick={menuOption.callback} role="button" tabIndex={-1} key={menuOption.name}>{menuOption.name}</a>);
           })}
+          <div className="header-menu-graphic-container">
+            {this.renderGraphic()}
+          </div>
         </div>
       </div>
     );

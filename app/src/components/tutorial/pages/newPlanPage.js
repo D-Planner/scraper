@@ -9,6 +9,7 @@ import { ROOT_URL } from '../../../constants';
 import { createPlan, fetchPlan } from '../../../actions';
 import { emptyPlan } from '../../../services/empty_plan';
 import './newPlanPage.scss';
+import { ProgressBar } from '../../progressBar';
 
 // Make this into an action
 function getUserInterests(userID) {
@@ -119,6 +120,7 @@ class NewPlanPage extends React.Component {
               />
             );
           }) : <LoadingWheel />}
+          {/* <ProgressBar percentage={60} /> */}
           <div style={{ color: 'white' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!' : null}
             <div onClick={this.createTutorialPlan} role="button" tabIndex={-1}>Click me!</div>
           </div>
