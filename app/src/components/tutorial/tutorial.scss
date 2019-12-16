@@ -125,28 +125,36 @@
           position: relative;
           display: inline-block;
 
-          .dropdown-content {
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            overflow: auto;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            margin-top: -18px;
+          // .dropdown-background {
+          //   // position: absolute;
+          //   top: 0;
+          //   left: 0;
+          //   height: 100vh;
+          //   width: 100vw;
 
-            p {
-              color: black;
-              padding: 12px 16px;
-              text-decoration: none;
-              display: block;
-              background-color: $gray-5;
-
-              &:hover {
-                cursor: pointer;
-                background-color: $gray-6;
+            .dropdown-content {
+              position: absolute;
+              background-color: #f1f1f1;
+              min-width: 160px;
+              overflow: auto;
+              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+              z-index: 1;
+              margin-top: -18px;
+  
+              .tutorial-dropdown-element {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                background-color: $gray-5;
+  
+                &:hover {
+                  cursor: pointer;
+                  background-color: $gray-6;
+                }
               }
-            }
-          }
+            } 
+          // }
 
           width: 100%;
           margin-top: 40px;

@@ -121,37 +121,22 @@ class Tutorial extends React.Component {
     this.addNewContributor = this.addNewContributor.bind(this);
     this.removeContributor = this.removeContributor.bind(this);
     this.onInputUpdate = this.onInputUpdate.bind(this);
+    this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
 
     this.getInterests().then(() => {
       this.props.fetchUser();
     });
   }
 
-  // TESTING, REMOVE
-  componentWillMount() {
-    // findOrCreateAdvisor('adam.mcquilkin@dartmouth.edu');
-    // checkAdvisor('Hanlon');
-  }
-
-  // Add check for loading directly into final page
   componentDidMount() {
     this.setState({
       tutorialPage: parseInt(this.props.match.params.page, 10),
     });
+    window.addEventListener('click', this.handleBackgroundClick);
   }
 
-  componentDidUpdate(prevState) {
-    if (prevState.deanEmail !== this.state.deanEmail) {
-      // checkAdvisor(this.state.deanEmail).then((results) => {
-      //   if (results.users.length === 0) {
-      //     console.log('no results found');
-      //   } else if (results.users.length === 1) {
-      //     console.log(results.users[0].displayName);
-      //   } else {
-      //     console.log('query not specific enough');
-      //   }
-      // });
-    }
+  componentWillUnmount() {
+    window.removeEventListener('click', this.handleBackgroundClick);
   }
 
   prev = () => {
@@ -331,23 +316,22 @@ class Tutorial extends React.Component {
     }
   }
 
-  renderInput() {
-
+  renderTutorialInput(stateName, placeholder) {
+    return (<input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName)} />);
   }
 
   // Input onChange callback handler
   onInputUpdate(value, stateName) {
     console.log('value', value);
-    this.setState({ [stateName]: value, [`${stateName}Clicked`]: false }, () => {
+    this.setState({ [stateName]: value, dropdownClosed: false }, () => {
       this.fetchSuggestions(value, stateName);
     });
   }
 
   // Get suggestions based on query and save to stateName
-  // TODO: Save to stateName
   fetchSuggestions(query, stateName) {
     checkAdvisor(query).then((results) => {
-      this.setState(function(prevState) {
+      this.setState((prevState) => {
         if (prevState.deanSuggestions !== results.users) {
           return ({ [`${stateName}Suggestions`]: results.users });
         }
@@ -357,40 +341,50 @@ class Tutorial extends React.Component {
 
   // Handles a user click on a suggestion
   handleSuggestionSelect(stateName, suggestion) {
-    console.log('setting name to', suggestion);
-    this.setState({ [stateName]: suggestion, [`${stateName}Clicked`]: true });
+    this.setState({ [stateName]: suggestion, dropdownClosed: true });
+  }
+
+  // Close menu if user clicks outside
+  handleBackgroundClick(e) {
+    if (e.target.className !== 'tutorial-dropdown-element') {
+      this.setState({ dropdownClosed: true });
+    }
   }
 
   // Render suggestions from passed state array name
   renderSuggestedDropdownMenu(stateName) {
     // Check if the user already selected an option
-    if (this.state[`${stateName}Clicked`] === false) {
-
+    if (this.state.dropdownClosed === false) {
       // Initialize "{stateName}Suggestions"
       if (this.state[`${stateName}Suggestions`]) {
-
         // Check if results length is within length requirements
         if (this.state[`${stateName}Suggestions`].length > MAX_SUGGESTIONS_LENGTH) { // Outside length requirements
           return (
+            // <div onClick={() => this.handleBackgroundClick(stateName)} className="dropdown-background" role="presentation">
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].slice(0, MAX_SUGGESTIONS_LENGTH - 1).map((user) => {
-                return <p key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
+                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
               })}
-              <p>+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
+              <p className="tutorial-dropdown-element">+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
             </div>
+            // </div>
           );
         } else { // Within length requirements
           return (
+            // <div onClick={() => this.handleBackgroundClick(stateName)} className="dropdown-background" role="presentation">
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].map((user) => {
-                return <p key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
+                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
               })}
             </div>
-          ); 
+            // </div>
+          );
         }
       } else {
-        this.setState({[`${stateName}Suggestions`]: []})
+        this.setState({ [`${stateName}Suggestions`]: [] });
       }
+    } else {
+      return null;
     }
   }
 
@@ -403,7 +397,8 @@ class Tutorial extends React.Component {
       case 2:
         return (
           <form>
-            <input className="tutorial-input" placeholder="Dean - name@yourcollege.edu" value={this.state.deanEmail} onChange={e => this.onInputUpdate(e.target.value, 'deanEmail')} />
+            {this.renderTutorialInput('deanEmail', 'Enter Dean Name')}
+            {/* <input className="tutorial-input" placeholder="Dean - name@yourcollege.edu" value={this.state.deanEmail} onChange={e => this.onInputUpdate(e.target.value, 'deanEmail')} /> */}
             {this.renderSuggestedDropdownMenu('deanEmail')}
             <input className="tutorial-input" placeholder="Faculty Advisor - name@yourcollege.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
             {this.renderAddedOtherEmails()}
