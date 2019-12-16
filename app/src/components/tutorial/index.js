@@ -20,6 +20,7 @@ import './tutorial.scss';
 import ErrorMessageSpacer from '../errorMessageSpacer';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
+const MAX_SUGGESTIONS_LENGTH = 8;
 
 function getInterestById(id) {
   return new Promise((resolve, reject) => {
@@ -119,6 +120,7 @@ class Tutorial extends React.Component {
     this.updateUserInterests = this.updateUserInterests.bind(this);
     this.addNewContributor = this.addNewContributor.bind(this);
     this.removeContributor = this.removeContributor.bind(this);
+    this.onInputUpdate = this.onInputUpdate.bind(this);
 
     this.getInterests().then(() => {
       this.props.fetchUser();
@@ -136,6 +138,20 @@ class Tutorial extends React.Component {
     this.setState({
       tutorialPage: parseInt(this.props.match.params.page, 10),
     });
+  }
+
+  componentDidUpdate(prevState) {
+    if (prevState.deanEmail !== this.state.deanEmail) {
+      // checkAdvisor(this.state.deanEmail).then((results) => {
+      //   if (results.users.length === 0) {
+      //     console.log('no results found');
+      //   } else if (results.users.length === 1) {
+      //     console.log(results.users[0].displayName);
+      //   } else {
+      //     console.log('query not specific enough');
+      //   }
+      // });
+    }
   }
 
   prev = () => {
@@ -315,6 +331,69 @@ class Tutorial extends React.Component {
     }
   }
 
+  renderInput() {
+
+  }
+
+  // Input onChange callback handler
+  onInputUpdate(value, stateName) {
+    console.log('value', value);
+    this.setState({ [stateName]: value, [`${stateName}Clicked`]: false }, () => {
+      this.fetchSuggestions(value, stateName);
+    });
+  }
+
+  // Get suggestions based on query and save to stateName
+  // TODO: Save to stateName
+  fetchSuggestions(query, stateName) {
+    checkAdvisor(query).then((results) => {
+      this.setState(function(prevState) {
+        if (prevState.deanSuggestions !== results.users) {
+          return ({ [`${stateName}Suggestions`]: results.users });
+        }
+      });
+    }).catch(error => console.error(error));
+  }
+
+  // Handles a user click on a suggestion
+  handleSuggestionSelect(stateName, suggestion) {
+    console.log('setting name to', suggestion);
+    this.setState({ [stateName]: suggestion, [`${stateName}Clicked`]: true });
+  }
+
+  // Render suggestions from passed state array name
+  renderSuggestedDropdownMenu(stateName) {
+    // Check if the user already selected an option
+    if (this.state[`${stateName}Clicked`] === false) {
+
+      // Initialize "{stateName}Suggestions"
+      if (this.state[`${stateName}Suggestions`]) {
+
+        // Check if results length is within length requirements
+        if (this.state[`${stateName}Suggestions`].length > MAX_SUGGESTIONS_LENGTH) { // Outside length requirements
+          return (
+            <div className="dropdown-content">
+              {this.state[`${stateName}Suggestions`].slice(0, MAX_SUGGESTIONS_LENGTH - 1).map((user) => {
+                return <p key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
+              })}
+              <p>+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
+            </div>
+          );
+        } else { // Within length requirements
+          return (
+            <div className="dropdown-content">
+              {this.state[`${stateName}Suggestions`].map((user) => {
+                return <p key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
+              })}
+            </div>
+          ); 
+        }
+      } else {
+        this.setState({[`${stateName}Suggestions`]: []})
+      }
+    }
+  }
+
   renderTutorialPage = (page) => {
     switch (page) {
       case 0:
@@ -324,8 +403,9 @@ class Tutorial extends React.Component {
       case 2:
         return (
           <form>
-            <input className="tutorial-input" type="email" placeholder="Dean - name@yourcollege.edu" value={this.state.deanEmail} onChange={e => this.setState({ deanEmail: e.target.value })} />
-            <input className="tutorial-input" type="email" placeholder="Faculty Advisor - name@yourcollege.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
+            <input className="tutorial-input" placeholder="Dean - name@yourcollege.edu" value={this.state.deanEmail} onChange={e => this.onInputUpdate(e.target.value, 'deanEmail')} />
+            {this.renderSuggestedDropdownMenu('deanEmail')}
+            <input className="tutorial-input" placeholder="Faculty Advisor - name@yourcollege.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
             {this.renderAddedOtherEmails()}
             <div className="contributor-modify-container">
               <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
@@ -345,7 +425,7 @@ class Tutorial extends React.Component {
       <div className="tutorial-container">
         <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (this.tutorialData.length - 1))) }} />
         <div className="arrow-container">
-          <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className={`tutorial-arrow left${this.state.tutorialPage === 0 ? ' disabled' : ''}`} left />
+          <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className={`tutorial-arrow left${this.state.tutorialPage === 0 ? ' disabled' : ''}`} />
           <div className="tutorial-content">
             <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
             <div className="subtitle">{this.tutorialData[this.state.tutorialPage].text}</div>
