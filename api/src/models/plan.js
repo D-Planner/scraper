@@ -12,8 +12,8 @@ const PlanSchema = new Schema({
     modified_sub: String,
     specialization: String,
     terms: [{ type: Schema.Types.ObjectId, ref: 'Term' }],
-    relevant_interests: [Schema.Types.ObjectId],
-    description: [],
+    relevant_interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    description: String,
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
 }, {
     toJSON: {

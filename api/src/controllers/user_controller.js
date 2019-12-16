@@ -211,6 +211,13 @@ export const updateUser = async (req, res) => {
                 user.interest_profile.addToSet(req.body.change.interest_profile);
             }
 
+            // For managing adding and removing elements from advisor list
+            if (user.advisors.indexOf(req.body.change.advisor) !== -1) {
+                user.advisors.pull(req.body.change.advisor);
+            } else {
+                user.advisors.addToSet(req.body.change.advisor);
+            }
+
             // Force user to re-verify on email change
             if (req.body.change.email && req.body.change.email !== user.email) {
                 console.log('unverifying email');

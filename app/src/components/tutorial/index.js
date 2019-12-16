@@ -17,28 +17,8 @@ import NewPlanPage from './pages/newPlanPage';
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
 import './tutorial.scss';
-import { ProgressBar } from '../progressBar';
+import ErrorMessageSpacer from '../errorMessageSpacer';
 
-const tutorialData = [
-  {
-    title: 'Welcome to D-Planner!',
-    text: 'We are the future of academic planning. Here’s a little bit about us.',
-  },
-  {
-    title: 'Let\'s get you started.',
-    text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
-  },
-  {
-    title: 'Add plan collaborators.',
-    text: 'Invite academic professionals to review your plans and give personalized feedback.',
-  },
-  {
-    title: 'Here\'s to your first plan!',
-    text: 'A plan is a window into a potential path through college. Imagine your future now!',
-  },
-];
-
-const END_TUTORIAL_TEXT = 'Continue';
 const MAX_ADDED_CONTRIBUTORS = 6;
 
 function getInterestById(id) {
@@ -47,7 +27,32 @@ function getInterestById(id) {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.get(`${ROOT_URL}/interests/${id}`, { headers }).then((response) => {
-      resolve('interestById', response.data);
+      resolve(response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+function findOrCreateAdvisor(email) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.post(`${ROOT_URL}/advisors/`, { email }, { headers }).then((response) => {
+      console.log('advisor', response.data);
+      resolve(response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+function checkAdvisor(query) {
+  return new Promise((resolve, reject) => {
+    axios.get(`https://api-lookup.dartmouth.edu/v1/lookup?q=${query}&field=displayName&includeAlum=false&field=eduPersonPrimaryAffiliation&field=mail&field=eduPersonNickname&field=dcDeptclass&field=dcAffiliation&field=telephoneNumber&field=dcHinmanaddr`).then((response) => {
+      console.log(response.data);
+      resolve(response.data);
     }).catch((error) => {
       reject(error);
     });
@@ -55,17 +60,58 @@ function getInterestById(id) {
 }
 
 class Tutorial extends React.Component {
+  /**
+ * Holds all data to display tutorial pages
+ * NOTE: Length of this array determines number of pages and when tutorial ends
+ *
+ * Title: Header text
+ * Text: Subheader text
+ * neededToContinue: What state values need to be filled to continue to next page (NOT go back)
+ */
+  tutorialData = [
+    {
+      title: 'Welcome to D-Planner!',
+      text: 'We are the future of academic planning. Here’s a little bit about us.',
+      neededToContinue: [],
+      onContinue: null,
+    },
+    {
+      title: 'Let\'s get you started.',
+      text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
+      neededToContinue: [],
+      onContinue: null,
+    },
+    {
+      title: 'Add plan advisors.',
+      text: 'Invite academic professionals to review your plans and give personalized feedback.',
+      neededToContinue: [
+        { name: 'deanEmail', errorMessage: 'Please enter an email address for your dean' },
+        { name: 'advisorEmail', errorMessage: 'Please enter an email address for your advisor' },
+      ],
+      onContinue: null,
+    },
+    {
+      title: 'Here\'s to your first plan!',
+      text: 'A plan is a window into a potential path through college. Imagine your future now!',
+      neededToContinue: [
+        { name: 'planName', errorMessage: 'Please give your plan a name' },
+        { name: 'planDescription', errorMessage: 'Please give a short description of your plan' },
+      // { name: 'planMajor', errorMessage: 'Please select a major for your plan' },
+      ],
+      onContinue: null,
+    },
+  ];
+
   constructor(props) {
     super(props);
     this.state = {
       tutorialPage: 0,
-      prevButtonLabel: 'Previous',
-      nextButtonLabel: 'Next',
       interests: null,
       tempUserInterests: [],
       deanEmail: '',
       advisorEmail: '',
       addedOtherEmailCount: 0,
+      errorMessage: null,
     };
 
     this.getInterests = this.getInterests.bind(this);
@@ -79,18 +125,16 @@ class Tutorial extends React.Component {
     });
   }
 
+  // TESTING, REMOVE
   componentWillMount() {
-    this.props.getRandomCourse();
+    // findOrCreateAdvisor('adam.mcquilkin@dartmouth.edu');
+    // checkAdvisor('Hanlon');
   }
 
   // Add check for loading directly into final page
   componentDidMount() {
     this.setState({
       tutorialPage: parseInt(this.props.match.params.page, 10),
-    }, () => {
-      if (this.state.tutorialPage == tutorialData.length - 1) {
-        this.setState({ nextButtonLabel: END_TUTORIAL_TEXT });
-      }
     });
   }
 
@@ -99,22 +143,38 @@ class Tutorial extends React.Component {
       this.setState((prevState) => {
         return ({
           tutorialPage: parseInt(prevState.tutorialPage, 10) - 1,
-          nextButtonLabel: 'Next',
+          errorMessage: null,
         });
       }, () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
     }
   }
 
   next = () => {
-    if (this.state.tutorialPage < tutorialData.length - 1) { // Within data range
-      if (this.state.tutorialPage + 1 == tutorialData.length - 1) { // Final page
-        this.setState({ nextButtonLabel: END_TUTORIAL_TEXT });
+    // Check if the user has filled out all the required info, throws error if not
+    let canContinue = true;
+
+    this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element) => {
+      if (canContinue === true && !this.state[element.name]) {
+        this.setState({ errorMessage: element.errorMessage });
+        canContinue = false;
       }
-      this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
-        () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
-    } else if (this.state.tutorialPage >= tutorialData.length - 1) {
-      this.endTutorial();
+    });
+
+    // Push
+    if (canContinue) {
+      this.setState({ errorMessage: null });
+      if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
+        this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
+          () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
+      } else if (this.state.tutorialPage >= this.tutorialData.length - 1) { // Final tutorial page
+        this.endTutorial();
+      }
     }
+  }
+
+  // Get state change from subpage components
+  handleUpdate = input => (e) => {
+    this.setState({ [input]: e.target.value });
   }
 
   endTutorial = () => {
@@ -247,7 +307,7 @@ class Tutorial extends React.Component {
     if (this.state.addedOtherEmailCount) {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
-        addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
+        addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@yourcollege.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
       }
       return addedOtherEmailList;
     } else {
@@ -258,15 +318,14 @@ class Tutorial extends React.Component {
   renderTutorialPage = (page) => {
     switch (page) {
       case 0:
-        return <VideoEmbed youtubeID="vjhFsPNk6Po" />;
+        return <VideoEmbed youtubeID="rbasThWVb-c" />;
       case 1:
         return <div>{this.renderUserInterests()}</div>;
       case 2:
         return (
           <form>
-            <input className="tutorial-input" type="email" placeholder="Dean - name@college.edu" value={this.state.deanEmail} onChange={e => this.setState({ deanEmail: e.target.value })} />
-            <input className="tutorial-input" type="email" placeholder="Faculty Advisor - name@college.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
-            {/* <input className="tutorial-input" type="email" placeholder="Other - name@college.edu" value={this.state.otherEmail} onChange={e => this.setState({ otherEmail: e.target.value })} /> */}
+            <input className="tutorial-input" type="email" placeholder="Dean - name@yourcollege.edu" value={this.state.deanEmail} onChange={e => this.setState({ deanEmail: e.target.value })} />
+            <input className="tutorial-input" type="email" placeholder="Faculty Advisor - name@yourcollege.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
             {this.renderAddedOtherEmails()}
             <div className="contributor-modify-container">
               <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
@@ -275,7 +334,7 @@ class Tutorial extends React.Component {
           </form>
         );
       case 3:
-        return <NewPlanPage user={this.props.user} />;
+        return <NewPlanPage handleUpdate={this.handleUpdate} user={this.props.user} />;
       default:
         return <div>Error...</div>;
     }
@@ -284,18 +343,18 @@ class Tutorial extends React.Component {
   render() {
     return (
       <div className="tutorial-container">
-        {/* menuOptions={[{ name: this.state.prevButtonLabel, callback: () => this.prev() }, { name: this.state.nextButtonLabel, callback: () => this.next() }]} */}
-        <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (tutorialData.length - 1))) }} />
+        <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (this.tutorialData.length - 1))) }} />
         <div className="arrow-container">
-          <img src={left} alt="right" onClick={this.prev} id="right-arrow" />
+          <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className={`tutorial-arrow left${this.state.tutorialPage === 0 ? ' disabled' : ''}`} left />
           <div className="tutorial-content">
-            <div className="title">{tutorialData[this.state.tutorialPage].title}</div>
-            <div className="subtitle">{tutorialData[this.state.tutorialPage].text}</div>
+            <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
+            <div className="subtitle">{this.tutorialData[this.state.tutorialPage].text}</div>
+            <ErrorMessageSpacer errorMessage={this.state.errorMessage} />
             <div className="rowContainer">
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
           </div>
-          <img src={right} alt="right" onClick={this.next} id="left-arrow" />
+          <img src={right} alt="right" onClick={this.next} className="tutorial-arrow right" />
         </div>
       </div>
     );

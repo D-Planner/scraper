@@ -9,7 +9,6 @@ import { ROOT_URL } from '../../../constants';
 import { createPlan, fetchPlan } from '../../../actions';
 import { emptyPlan } from '../../../services/empty_plan';
 import './newPlanPage.scss';
-import { ProgressBar } from '../../progressBar';
 
 // Make this into an action
 function getUserInterests(userID) {
@@ -84,7 +83,7 @@ class NewPlanPage extends React.Component {
           return { ...term, year: currYear, quarter: terms[currQuarter] };
         }),
         name: this.state.planName,
-        relevant_interets: this.state.relevantInterests,
+        relevant_interests: Array.from(this.state.relevantInterests),
         description: this.state.planDescription,
         // major: this.state.planMajor,
       }, (planID) => {

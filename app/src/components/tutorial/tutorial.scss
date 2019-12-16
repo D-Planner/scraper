@@ -1,13 +1,7 @@
 @import "../../style/variables.scss";
 
-$content-height: calc(100vh);
-$content-divide: 100px;
-$content-padding-top: 25vh;
-
-//TODO: Add styling to thingy
 .tutorial-container {
-  // width: 100%;
-  height: 97vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 
@@ -45,15 +39,22 @@ $content-padding-top: 25vh;
     flex-direction: row;
     justify-content: space-between;
 
-    #left-arrow {
-      margin: 0 4% 0 auto;
-    }
+    .tutorial-arrow {
+      &.left {
+        margin: 0 4% 0 auto;
+      }
 
-    #right-arrow {
-      margin: 0 auto 0 4%;
+      &.right {
+        margin: 0 auto 0 4%;
+      }
+
+      &.disabled {
+        opacity: .4;
+      }
     }
 
     .tutorial-content {
+      width: 900px;
       height: 100%;
       
       .title {
@@ -73,8 +74,7 @@ $content-padding-top: 25vh;
       }
       
       .rowContainer {
-        width: 60vw;
-        // height: 48vh;
+        width: inherit;
         display: flex;
         flex-direction: row;
     
@@ -192,75 +192,6 @@ $content-padding-top: 25vh;
           font-size: 18px;
       
           top: 0vh;
-        }
-      }
-    
-      .button-container {
-        margin-top: 2vh;
-        display: flex;
-        flex-direction: column;
-    
-        .previous {
-          cursor: pointer;
-    
-          width: 32vw;
-          height: 5vh;
-    
-          margin-left: auto;
-          margin-right: auto;
-          margin-bottom: 2vh;
-    
-          background-color: #FFFFFF;
-          /* blue-drop-shadow */
-          box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
-          border-radius: 32px;
-    
-          font-size: 18px;
-          font-style: bold;
-          color: $gray-6;
-    
-          transition: background-color $transition-duration, color $transition-duration;
-    
-          // Fix this here
-          color: linear-gradient(236.64deg, #8901FB 37.26%, rgba(255, 255, 255, 0) 81.22%), #3A84FF;
-        }
-    
-        .previous:hover {
-          background-color: $gray-5;
-          color: white;
-          transition: background-color $transition-duration, color $transition-duration;
-        }
-    
-        .next {
-          cursor: pointer;
-    
-          width: 32vw;
-          height: 5vh;
-    
-          margin-left: auto;
-          margin-right: auto;
-          margin-top: 2vh;
-          margin-bottom: 2vh;
-    
-          background-color: #FFFFFF;
-          /* blue-drop-shadow */
-          box-shadow: 0px 4px 12px rgba(30, 67, 139, 0.4);
-          border-radius: 32px;
-    
-          font-size: 18px;
-          font-style: bold;
-          color: $blue-primary;
-    
-          transition: background-color $transition-duration, color $transition-duration;
-    
-          // Fix this here
-          color: linear-gradient(236.64deg, #8901FB 37.26%, rgba(255, 255, 255, 0) 81.22%), #3A84FF;
-        }
-    
-        .next:hover {
-          background-color: $blue-primary;
-          color: white;
-          transition: background-color $transition-duration, color $transition-duration;
         }
       }
     }

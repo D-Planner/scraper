@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Plan from '../models/plan';
 // import Term from '../models/term';
 // import UserCourse from '../models/user_course';
@@ -16,11 +17,40 @@ const getPlansByUserId = (req, res, next) => {
     });
 };
 
+// plansRouter.post('/', (req, res, next) => {
+//     PlanController.createPlanForUser(req.body.plan, req.user.id).then((newPlan) => {
+//         res.send(PlanController.sortPlan(newPlan));
+//     }).catch((err) => {
+//         if (err.name === 'MongoError' && err.code === 11000) {
+//             res.status(409).send({ err, message: 'You have already created a plan with this name' });
+//         } else {
+//             next(err);
+//         }
+//     });
+// });
+
 const createPlanForUser = async (plan, userId) => {
     try {
+        // Converts strings in relevant_interests to UUIDs
+        const tempRelevantInterests = [];
+        plan.relevant_interests.map((interest) => {
+            // eslint-disable-next-line new-cap
+            return tempRelevantInterests.push(mongoose.Types.ObjectId(interest));
+        });
+
+        // Converts strings in comments to UUIDs
+        const tempComments = [];
+        plan.comments.map((interest) => {
+            // eslint-disable-next-line new-cap
+            return tempComments.push(mongoose.Types.ObjectId(interest));
+        });
+
         const newPlan = await Plan.create({
             name: plan.name,
             user_id: userId,
+            description: plan.description,
+            relevant_interests: tempRelevantInterests,
+            comments: tempComments,
         });
 
         const { id } = await newPlan.save();

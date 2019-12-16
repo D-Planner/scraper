@@ -25,7 +25,13 @@ class VideoEmbed extends React.Component {
           id="video-frame"
           src={`https://www.youtube.com/embed/${this.props.youtubeID}`}
           frameBorder="0"
-          allowFullScreen
+          width="100%"
+          height="100%"
+          // allowFullScreen
+          // mozallowfullscreen="mozallowfullscreen"
+          // msallowfullscreen="msallowfullscreen"
+          // oallowfullscreen="oallowfullscreen"
+          // webkitallowfullscreen="webkitallowfullscreen"
           onLoad={() => this.doneLoading()}
         />
       </div>
