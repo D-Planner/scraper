@@ -33,17 +33,21 @@ const createPlanForUser = async (plan, userId) => {
     try {
         // Converts strings in relevant_interests to UUIDs
         const tempRelevantInterests = [];
-        plan.relevant_interests.map((interest) => {
+        if (plan.relevant_interests) {
+            plan.relevant_interests.map((interest) => {
             // eslint-disable-next-line new-cap
-            return tempRelevantInterests.push(mongoose.Types.ObjectId(interest));
-        });
+                return tempRelevantInterests.push(mongoose.Types.ObjectId(interest));
+            });
+        }
 
         // Converts strings in comments to UUIDs
         const tempComments = [];
-        plan.comments.map((interest) => {
-            // eslint-disable-next-line new-cap
-            return tempComments.push(mongoose.Types.ObjectId(interest));
-        });
+        if (plan.comments) {
+            plan.comments.map((interest) => {
+                // eslint-disable-next-line new-cap
+                return tempComments.push(mongoose.Types.ObjectId(interest));
+            });
+        }
 
         const newPlan = await Plan.create({
             name: plan.name,
