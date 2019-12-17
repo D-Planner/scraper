@@ -302,18 +302,6 @@ class Tutorial extends React.Component {
     }
   }
 
-  renderAddedOtherEmails() {
-    if (this.state.addedOtherEmailCount) {
-      const addedOtherEmailList = [];
-      for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
-        addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@yourcollege.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
-      }
-      return addedOtherEmailList;
-    } else {
-      return null;
-    }
-  }
-
   renderTutorialInput(stateName, placeholder) {
     return (
       <>
@@ -321,6 +309,19 @@ class Tutorial extends React.Component {
         {this.renderSuggestedDropdownMenu(stateName)}
       </>
     );
+  }
+
+  renderAddedOtherEmails() {
+    if (this.state.addedOtherEmailCount) {
+      const addedOtherEmailList = [];
+      for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
+        // addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@yourcollege.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
+        addedOtherEmailList.push(this.renderTutorialInput(`otherEmail${i}`, 'Enter Other Contributor Name'));
+      }
+      return addedOtherEmailList;
+    } else {
+      return null;
+    }
   }
 
   // Input onChange callback handler
