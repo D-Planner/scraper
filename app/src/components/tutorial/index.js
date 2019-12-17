@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan,
 } from '../../actions';
 import { ROOT_URL } from '../../constants';
 
@@ -13,6 +13,8 @@ import VideoEmbed from '../videoEmbed';
 import InterestTile from '../interestTile/interestTile';
 import LoadingWheel from '../loadingWheel';
 import NewPlanPage from './pages/newPlanPage';
+import { emptyPlan } from '../../services/empty_plan';
+
 
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
@@ -88,13 +90,13 @@ class Tutorial extends React.Component {
       title: 'Welcome to D-Planner!',
       text: 'We are the future of academic planning. Here’s a little bit about us.',
       neededToContinue: [],
-      onContinue: null,
+      onContinue: () => console.log('next from welcome'),
     },
     {
       title: 'Let\'s get you started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
       neededToContinue: [],
-      onContinue: null,
+      onContinue: () => console.log('next from started'),
     },
     {
       title: 'Add plan advisors.',
@@ -103,7 +105,7 @@ class Tutorial extends React.Component {
         { name: 'deanAdvisor', errorMessage: 'Please select the name of your dean from the dropdown' },
         { name: 'facultyAdvisor', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
       ],
-      onContinue: null,
+      onContinue: () => console.log('next from advisors'),
     },
     {
       title: 'Here\'s to your first plan!',
@@ -113,7 +115,7 @@ class Tutorial extends React.Component {
         { name: 'planDescription', errorMessage: 'Please give a short description of your plan' },
       // { name: 'planMajor', errorMessage: 'Please select a major for your plan' },
       ],
-      onContinue: null,
+      onContinue: () => this.createTutorialPlan(),
     },
   ];
 
@@ -134,6 +136,8 @@ class Tutorial extends React.Component {
     this.removeContributor = this.removeContributor.bind(this);
     this.onInputUpdate = this.onInputUpdate.bind(this);
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
+    this.handleNewPlanPageUpdate = this.handleNewPlanPageUpdate.bind(this);
+    this.createTutorialPlan = this.createTutorialPlan.bind(this);
 
     this.getInterests().then(() => {
       this.props.fetchUser();
@@ -195,22 +199,28 @@ class Tutorial extends React.Component {
         canContinue = false;
       }
     });
-
+    console.log('canContinue', canContinue);
+    console.log('state', this.state);
     // Push
     if (canContinue) {
+      this.tutorialData[this.state.tutorialPage].onContinue();
       this.setState({ errorMessage: null });
       if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
+        console.log('onContinue');
         this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
           () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
       } else if (this.state.tutorialPage >= this.tutorialData.length - 1) { // Final tutorial page
         this.endTutorial();
+      } else {
+        this.setState({ tutorialPage: 0 }); // Catch error
       }
     }
   }
 
   // Get state change from subpage components
-  handleUpdate = input => (e) => {
-    this.setState({ [input]: e.target.value });
+  handleNewPlanPageUpdate(key, value) {
+    console.log('upper', key, value);
+    this.setState({ [key]: value });
   }
 
   endTutorial = () => {
@@ -427,6 +437,34 @@ class Tutorial extends React.Component {
     }
   }
 
+  // createTutorialPlan() {
+  //   console.log('createTutorialPlan');
+  // }
+
+  createTutorialPlan() {
+    console.log('this', this);
+    if (this.props.createPlan) {
+      const terms = ['F', 'W', 'S', 'X'];
+      let currYear = this.props.user.graduationYear - 4;
+      let currQuarter = -1;
+      this.props.createPlan({
+        terms: emptyPlan.terms.map((term) => {
+          if (currQuarter === 3) currYear += 1;
+          currQuarter = (currQuarter + 1) % 4;
+          return { ...term, year: currYear, quarter: terms[currQuarter] };
+        }),
+        name: this.state.planName,
+        relevant_interests: this.state.relevantInterests ? Array.from(this.state.relevantInterests) : null,
+        description: this.state.planDescription,
+        // major: this.state.planMajor,
+      }, (planID) => {
+        this.props.fetchPlan(planID).then(() => {
+          // this.props.history.push('/');
+        });
+      });
+    }
+  }
+
   // Render suggestions from passed state array name
   renderSuggestedDropdownMenu(stateName) {
     // Check if the user already selected an option
@@ -479,7 +517,7 @@ class Tutorial extends React.Component {
           </form>
         );
       case 3:
-        return <NewPlanPage handleUpdate={this.handleUpdate} user={this.props.user} />;
+        return <NewPlanPage handleStateChange={this.handleNewPlanPageUpdate} user={this.props.user} />;
       default:
         return <div>Error...</div>;
     }
@@ -514,5 +552,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan,
 })(Tutorial);

@@ -39,7 +39,7 @@ class NewPlanPage extends React.Component {
 
     this.addInterestToSet = this.addInterestToSet.bind(this);
     this.removeInterestFromSet = this.removeInterestFromSet.bind(this);
-    this.createTutorialPlan = this.createTutorialPlan.bind(this);
+    // this.createTutorialPlan = this.createTutorialPlan.bind(this);
   }
 
   componentDidUpdate() {
@@ -50,60 +50,58 @@ class NewPlanPage extends React.Component {
     }
   }
 
+  handleStateChange(key, value) {
+    this.setState({ [key]: value });
+    this.props.handleStateChange(key, value);
+  }
+
   getInterestCheckedStatus(interest) {
     return this.state.relevantInterests.has(interest);
   }
 
   addInterestToSet(interest) {
-    this.setState(({ relevantInterests }) => ({
-      relevantInterests: new Set(relevantInterests).add(interest),
-    }));
+    this.state.relevantInterests.add(interest);
+    this.handleStateChange('relevantInterests', this.state.relevantInterests.add(interest));
   }
 
   removeInterestFromSet(interest) {
-    this.setState(({ relevantInterests }) => {
-      const newChecked = new Set(relevantInterests);
-      newChecked.delete(interest);
-
-      return {
-        relevantInterests: newChecked,
-      };
-    });
+    this.state.relevantInterests.delete(interest);
+    this.handleStateChange('relevantInterests', this.state.relevantInterests);
   }
 
-  createTutorialPlan() {
-    if (this.props.createPlan) {
-      const terms = ['F', 'W', 'S', 'X'];
-      let currYear = this.props.user.graduationYear - 4;
-      let currQuarter = -1;
-      this.props.createPlan({
-        terms: emptyPlan.terms.map((term) => {
-          if (currQuarter === 3) currYear += 1;
-          currQuarter = (currQuarter + 1) % 4;
-          return { ...term, year: currYear, quarter: terms[currQuarter] };
-        }),
-        name: this.state.planName,
-        relevant_interests: Array.from(this.state.relevantInterests),
-        description: this.state.planDescription,
-        // major: this.state.planMajor,
-      }, (planID) => {
-        this.props.fetchPlan(planID).then(() => {
-          this.props.history.push('/');
-        });
-      });
-    }
-  }
+  // createTutorialPlan() {
+  //   if (this.props.createPlan) {
+  //     const terms = ['F', 'W', 'S', 'X'];
+  //     let currYear = this.props.user.graduationYear - 4;
+  //     let currQuarter = -1;
+  //     this.props.createPlan({
+  //       terms: emptyPlan.terms.map((term) => {
+  //         if (currQuarter === 3) currYear += 1;
+  //         currQuarter = (currQuarter + 1) % 4;
+  //         return { ...term, year: currYear, quarter: terms[currQuarter] };
+  //       }),
+  //       name: this.state.planName,
+  //       relevant_interests: Array.from(this.state.relevantInterests),
+  //       description: this.state.planDescription,
+  //       // major: this.state.planMajor,
+  //     }, (planID) => {
+  //       this.props.fetchPlan(planID).then(() => {
+  //         this.props.history.push('/');
+  //       });
+  //     });
+  //   }
+  // }
 
   render() {
     return (
       <form>
-        <input className="tutorial-input" type="text" placeholder="Give your plan a short name" value={this.state.planName} onChange={e => this.setState({ planName: e.target.value })} />
-        <input className="tutorial-input" type="text" placeholder="Give a short blurb about this plan" value={this.state.planDescription} onChange={e => this.setState({ planDescription: e.target.value })} />
-        {/* <input className="tutorial-input" type="text" placeholder="Pick a major for this plan" value={this.state.planMajor} onChange={e => this.setState({ planMajor: e.target.value })} /> */}
+        <input className="tutorial-input" type="text" placeholder="Give your plan a short name" value={this.state.planName} onChange={e => this.handleStateChange('planName', e.target.value)} />
+        <input className="tutorial-input" type="text" placeholder="Give a short blurb about this plan" value={this.state.planDescription} onChange={e => this.handleStateChange('planDescription', e.target.value)} />
+        {/* <input className="tutorial-input" type="text" placeholder="Pick a major for this plan" value={this.state.planMajor} onChange={e => this.handleStateChange('planMajor', e.target.value)} /> */}
         <div className="tutorial-input">Which of your interests does this plan relate to?</div>
         <div className="plan-interests-container">
           {this.state.fetchedInterests ? this.state.filledInterests.map((interest) => {
-            const interestActive = this.state.relevantInterests.has(interest._id);
+            const interestActive = this.getInterestCheckedStatus(interest._id);
             return (
               <InterestTile
                 active={interestActive}
@@ -120,9 +118,9 @@ class NewPlanPage extends React.Component {
             );
           }) : <LoadingWheel />}
           {/* <ProgressBar percentage={60} /> */}
-          <div style={{ color: 'white' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!' : null}
-            <div onClick={this.createTutorialPlan} role="button" tabIndex={-1}>Click me!</div>
-          </div>
+        </div>
+        <div style={{ color: 'white', textAlign: 'center', marginBottom: '18px' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!' : null}
+          {/* <div onClick={this.createTutorialPlan} role="button" tabIndex={-1}>Click me!</div> */}
         </div>
       </form>
     );
