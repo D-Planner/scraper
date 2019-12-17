@@ -100,8 +100,8 @@ class Tutorial extends React.Component {
       title: 'Add plan advisors.',
       text: 'Invite academic professionals to review your plans and give personalized feedback.',
       neededToContinue: [
-        { name: 'deanEmail', errorMessage: 'Please select the name of your dean from the dropdown' },
-        { name: 'advisorEmail', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
+        { name: 'deanAdvisor', errorMessage: 'Please select the name of your dean from the dropdown' },
+        { name: 'facultyAdvisor', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
       ],
       onContinue: null,
     },
@@ -392,7 +392,7 @@ class Tutorial extends React.Component {
 
   // Handles a user click on a suggestion
   handleSuggestionSelect(stateName, suggestion) {
-    this.setState({ [stateName]: (suggestion.displayName + LOADED_ADVISOR_TEXT), dropdownClosed: true }, () => {
+    this.setState({ [stateName]: (suggestion.displayName + LOADED_ADVISOR_TEXT), dropdownClosed: true, errorMessage: null }, () => {
       const json = suggestion;
       delete json.dcHinmanaddr;
       delete json.telephoneNumber;
