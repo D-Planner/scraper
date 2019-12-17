@@ -34,8 +34,22 @@ const findOrCreateAdvisor = (req, res) => {
     });
 };
 
+// Returns advisor object based on passed id
+const getAdvisor = (req, res) => {
+    Advisor.findById(req.params.id).then((advisor) => {
+        const json = advisor.toJSON();
+        delete json.settings;
+        delete json.password;
+        delete json.advisees;
+        return res.send(json);
+    }).catch((error) => {
+        res.status(500).json({ error });
+    });
+};
+
 const advisorController = {
     findOrCreateAdvisor,
+    getAdvisor,
 };
 
 export default advisorController;
