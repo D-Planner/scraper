@@ -198,7 +198,6 @@ export const updateUser = async (req, res) => {
                         console.error(error);
                     });
             }
-            console.log(req.body.change);
             if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
             if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
             if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
@@ -215,18 +214,14 @@ export const updateUser = async (req, res) => {
             // For managing adding and removing elements from advisor elements
             if (req.body.change.dean) { user.dean = req.body.change.dean; }
             if (req.body.change.faculty_advisor) { user.faculty_advisor = req.body.change.faculty_advisor; }
-            console.log('otherAdvisor', req.body.change.other_advisor);
             if (user.other_advisors.indexOf(req.body.change.other_advisor) !== -1) {
-                console.log('removing from set');
                 user.other_advisors.pull(req.body.change.other_advisor);
             } else {
                 user.other_advisors.addToSet(req.body.change.other_advisor);
             }
-            console.log('temp_user', user);
 
             // Force user to re-verify on email change
             if (req.body.change.email && req.body.change.email !== user.email) {
-                console.log('unverifying email');
                 user.emailVerified = false;
                 user.email = req.body.change.email; // Keep this after email update check
             }
@@ -237,7 +232,6 @@ export const updateUser = async (req, res) => {
             user.save().then((newUser) => {
                 const json = newUser.toJSON();
                 delete json.password;
-                console.log('json', json);
                 res.json(json);
             }).catch((error) => {
                 console.error(error);
