@@ -35,6 +35,21 @@ function getInterestById(id) {
   });
 }
 
+function getAdvisorById(id) {
+  if (id !== null) {
+    return new Promise((resolve, reject) => {
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      };
+      axios.get(`${ROOT_URL}/advisors/${id}`, { headers }).then((response) => {
+        resolve(response.data);
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  }
+}
+
 function findOrCreateAdvisor(collectedInfo) {
   return new Promise((resolve, reject) => {
     const headers = {
@@ -126,10 +141,38 @@ class Tutorial extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.user);
     this.setState({
       tutorialPage: parseInt(this.props.match.params.page, 10),
     });
     window.addEventListener('click', this.handleBackgroundClick);
+
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (this.props.user.other_advisors) {
+          resolve();
+        }
+      }, 1000);
+    }).then(() => {
+      getAdvisorById(this.props.user.dean).then((dean) => {
+        console.log('dean', dean.full_name);
+        this.setState({ deanAdvisor: dean.full_name });
+      });
+      getAdvisorById(this.props.user.dean).then((facultyAdvisor) => {
+        console.log('facultyAdvisor', facultyAdvisor.full_name);
+        this.setState({ facultyAdvisor: facultyAdvisor.full_name });
+      });
+      let advisorImportCount = 0;
+      console.log('other_advisors', this.props.user.other_advisors);
+      this.props.user.other_advisors.forEach((advisorID) => {
+        console.log('loading', advisorID);
+        getAdvisorById(advisorID).then((savedAdvisor) => {
+          console.log('loadedAdvisor', savedAdvisor.full_name, advisorImportCount);
+          this.setState({ [`otherAdvisor${advisorImportCount}`]: savedAdvisor.full_name, addedOtherEmailCount: advisorImportCount + 1 });
+          advisorImportCount += 1;
+        });
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -291,12 +334,14 @@ class Tutorial extends React.Component {
 
   addNewContributor() {
     if (this.state.addedOtherEmailCount < MAX_ADDED_CONTRIBUTORS) {
+      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}`] });
       this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount + 1 }));
     }
   }
 
   removeContributor() {
     if (this.state.addedOtherEmailCount > 0) {
+      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}`] });
       this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
     }
   }
@@ -334,7 +379,7 @@ class Tutorial extends React.Component {
   fetchSuggestions(query, stateName) {
     checkAdvisor(query).then((results) => {
       this.setState((prevState) => {
-        if (prevState.deanSuggestions !== results.users) {
+        if (prevState[`${stateName}Suggestions`] !== results.users) {
           return ({ [`${stateName}Suggestions`]: results.users });
         } else return null;
       });
@@ -349,26 +394,19 @@ class Tutorial extends React.Component {
       delete json.telephoneNumber;
       delete json.eduPersonNickname;
       findOrCreateAdvisor(json).then((advisorID) => {
-        // Check which value to update in backend
+        // Check which advisor to update in backend
         let advisorIdentifier;
-
-        // Check for final digit in otherAdvisor{#}
 
         if (stateName === 'deanAdvisor') {
           advisorIdentifier = 'dean';
-          console.log('dean');
         } else if (stateName === 'facultyAdvisor') {
           advisorIdentifier = 'faculty_advisor';
-          console.log('faculty_advisor');
         } else if (stateName.slice(0, stateName.length - 1) === 'otherAdvisor') {
           advisorIdentifier = 'other_advisor';
-          console.log('other_advisor');
         } else {
-          console.log('none');
           advisorIdentifier = undefined;
         }
 
-        console.log('handled', advisorID, advisorIdentifier);
         if (advisorIdentifier) {
           this.props.updateUser({ [advisorIdentifier]: advisorID });
         }
@@ -442,6 +480,7 @@ class Tutorial extends React.Component {
   }
 
   render() {
+    console.log('this.state', this.state);
     return (
       <div className="tutorial-container">
         <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (this.tutorialData.length - 1))) }} />
