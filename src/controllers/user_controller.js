@@ -3,6 +3,7 @@ import User from '../models/user';
 import Plan from '../models/plan';
 import Interest from '../models/interest';
 import { PopulateUser } from './populators';
+import UserModel from '../models/user';
 
 // Does a user exist with the given email?
 export const checkUserByEmail = (req, res) => {
@@ -197,7 +198,7 @@ export const updateUser = async (req, res) => {
                         console.error(error);
                     });
             }
-
+            console.log(req.body.change);
             if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
             if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
             if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
@@ -211,12 +212,15 @@ export const updateUser = async (req, res) => {
                 user.interest_profile.addToSet(req.body.change.interest_profile);
             }
 
-            // For managing adding and removing elements from advisor list
-            if (user.advisors.indexOf(req.body.change.advisor) !== -1) {
-                user.advisors.pull(req.body.change.advisor);
+            // For managing adding and removing elements from advisor elements
+            if (req.body.change.dean) { user.dean = req.body.change.dean; }
+            if (req.body.change.faculty_advisor) { user.faculty_advisor = req.body.change.faculty_advisor; }
+            if (user.other_advisors.indexOf(req.body.change.other_advisor) !== -1) {
+                user.other_advisors.pull(req.body.change.other_advisor);
             } else {
-                user.advisors.addToSet(req.body.change.advisor);
+                user.other_advisors.addToSet(req.body.change.other_advisor);
             }
+            console.log('temp_user', user);
 
             // Force user to re-verify on email change
             if (req.body.change.email && req.body.change.email !== user.email) {
@@ -231,6 +235,7 @@ export const updateUser = async (req, res) => {
             user.save().then((newUser) => {
                 const json = newUser.toJSON();
                 delete json.password;
+                console.log('json', json);
                 res.json(json);
             }).catch((error) => {
                 console.error(error);
