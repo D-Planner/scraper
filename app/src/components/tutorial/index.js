@@ -315,7 +315,7 @@ class Tutorial extends React.Component {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
         // addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@yourcollege.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
-        addedOtherEmailList.push(this.renderTutorialInput(`otherEmail${i}`, 'Enter Other Contributor Name'));
+        addedOtherEmailList.push(this.renderTutorialInput(`otherAdvisor${i}`, 'Enter Other Contributor Name'));
       }
       return addedOtherEmailList;
     } else {
@@ -348,8 +348,31 @@ class Tutorial extends React.Component {
       delete json.dcHinmanaddr;
       delete json.telephoneNumber;
       delete json.eduPersonNickname;
-      console.log('json', json);
-      findOrCreateAdvisor(json);
+      findOrCreateAdvisor(json).then((advisorID) => {
+        // Check which value to update in backend
+        let advisorIdentifier;
+
+        // Check for final digit in otherAdvisor{#}
+
+        if (stateName === 'deanAdvisor') {
+          advisorIdentifier = 'dean';
+          console.log('dean');
+        } else if (stateName === 'facultyAdvisor') {
+          advisorIdentifier = 'faculty_advisor';
+          console.log('faculty_advisor');
+        } else if (stateName.slice(0, stateName.length - 1) === 'otherAdvisor') {
+          advisorIdentifier = 'other_advisor';
+          console.log('other_advisor');
+        } else {
+          console.log('none');
+          advisorIdentifier = undefined;
+        }
+
+        console.log('handled', advisorID, advisorIdentifier);
+        if (advisorIdentifier) {
+          this.props.updateUser({ [advisorIdentifier]: advisorID });
+        }
+      });
     });
   }
 
@@ -402,8 +425,8 @@ class Tutorial extends React.Component {
       case 2:
         return (
           <form>
-            {this.renderTutorialInput('deanEmail', 'Enter Dean Name')}
-            {this.renderTutorialInput('advisorEmail', 'Enter Advisor Name')}
+            {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name')}
+            {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name')}
             {this.renderAddedOtherEmails()}
             <div className="contributor-modify-container">
               <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
