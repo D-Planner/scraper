@@ -1,10 +1,10 @@
-/* eslint-disable no-alert */
-/* eslint-disable class-methods-use-this */
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
@@ -12,7 +12,6 @@ import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
-// import noPlan from '../../style/no-plan.png';
 import trash from '../../style/trash.svg';
 import check from '../../style/check.svg';
 import logo from '../../style/logo.svg';
@@ -65,6 +64,7 @@ class DPlan extends Component {
     PLAN_NINE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[8].id), event),
     PLAN_TEN: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[9].id), event),
     CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
+    // eslint-disable-next-line no-alert
     SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event), // TODO: Add to announcement bar
     OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
     OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => this.deletePlanKeyPress(this.props.plan), event),
@@ -81,6 +81,7 @@ class DPlan extends Component {
       isEditing: false,
       loadingPlan: false,
       tempPlanName: '',
+      anchorEl: null,
     };
 
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
@@ -407,6 +408,12 @@ class DPlan extends Component {
     // });
   })
 
+  setMenuAnchor = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+  };
+
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
       // console.log('deletePlanKeyPress');
@@ -418,6 +425,7 @@ class DPlan extends Component {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   keyCommandWrapper(fn, event = null) {
     event.preventDefault();
     try {
@@ -523,9 +531,29 @@ class DPlan extends Component {
                             </>
                           )
                           : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
-                        <button type="button" className="settings-button" onClick={this.showDialog}>
+                        <button type="button" className="settings-button" onClick={this.setMenuAnchor}>
                           <img src={trash} alt="" />
                         </button>
+                        <Menu
+                          className="plan-options"
+                          anchorEl={this.state.anchorEl}
+                          keepMounted
+                          open={Boolean(this.state.anchorEl)}
+                          onClose={() => this.setState({ anchorEl: null })}
+                        >
+                          <MenuItem onClick={() => {
+                            this.setState({ anchorEl: null });
+                            this.duplicatePlan();
+                          }}
+                          >Duplicate
+                          </MenuItem>
+                          <MenuItem onClick={() => {
+                            this.setState({ anchorEl: null });
+                            this.showDialog();
+                          }}
+                          >Delete
+                          </MenuItem>
+                        </Menu>
                       </div>
                       <Sidebar
                         setOpenPane={pane => this.setState({ openPane: pane })}
