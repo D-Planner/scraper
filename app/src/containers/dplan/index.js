@@ -468,21 +468,10 @@ class DPlan extends Component {
   }
 
   createNewPlan(name) {
-    const terms = ['F', 'W', 'S', 'X'];
-    this.props.fetchUser().then(() => { // grabs most recent user data first
-      let currYear = this.props.user.graduationYear - 4;
-      let currQuarter = -1;
-      // console.log(`creating new plan with name ${name}`);
-      this.props.createPlan({
-        terms: emptyPlan.terms.map((term) => {
-          if (currQuarter === 3) currYear += 1;
-          currQuarter = (currQuarter + 1) % 4;
-          return { ...term, year: currYear, quarter: terms[currQuarter] };
-        }),
-        name,
-      }, this.setCurrentPlan).then(() => {
-        this.props.fetchPlans();
-      });
+    this.props.createPlan({
+      name,
+    }, this.setCurrentPlan).then(() => {
+      this.props.fetchPlans();
     });
   }
 

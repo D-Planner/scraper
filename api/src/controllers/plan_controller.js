@@ -1,11 +1,13 @@
 import Plan from '../models/plan';
 // import Term from '../models/term';
+import User from '../models/user';
 // import UserCourse from '../models/user_course';
 import TermController from '../controllers/term_controller';
 // import CoursesController from '../controllers/courses_controller';
-import { PopulateTerm } from './populators';
+import { PopulateTerm, PopulateUser } from './populators';
+import { emptyPlan } from '../../static/emptyplan';
 
-const getPlansByUserId = (req, res, next) => {
+const getPlansByUserID = (req, res, next) => {
     Plan.find({ user_id: req.user.id }).populate({
         path: 'terms',
         populate: PopulateTerm,
@@ -16,29 +18,52 @@ const getPlansByUserId = (req, res, next) => {
     });
 };
 
-const createPlanForUser = async (plan, userId) => {
-    try {
-        const newPlan = await Plan.create({
-            name: plan.name,
-            user_id: userId,
-        });
+const createPlanForUser = (plan, userID) => {
+    return new Promise((resolve, reject) => {
+        const terms = ['F', 'W', 'S', 'X'];
+        User.findById(userID).populate(PopulateUser)
+            .then(async (user) => {
+                const json = user.toJSON();
+                delete json.password;
+                let currYear = user.graduationYear - 4;
+                let currQuarter = -1;
+                const planTerms = emptyPlan.terms.map((term) => {
+                    if (currQuarter === 3) currYear += 1;
+                    currQuarter = (currQuarter + 1) % 4;
+                    return {
+                        year: currYear,
+                        quarter: terms[currQuarter],
+                        off_term: false,
+                        courses: term.courses.map((course) => { return course.id; }),
+                    };
+                });
+                try {
+                    const newPlan = await Plan.create({
+                        name: plan.name,
+                        user_id: userID,
+                    });
 
-        const { id } = await newPlan.save();
+                    const { id } = await newPlan.save();
 
-        // iterate through each term and create a term in the database for each one
-        const promises = plan.terms.map((term, i) => {
-            return TermController.createTerm(term, id, i);
-        });
+                    // iterate through each term and create a term in the database for each one
+                    const promises = planTerms.map((term, i) => {
+                        return TermController.createTerm(term, id, i);
+                    });
 
-        // resolve that big promise array to get a terms array with ids that reference the Terms model
-        const dbTerms = await Promise.all(promises);
+                    // resolve that big promise array to get a terms array with ids that reference the Terms model
+                    const dbTerms = await Promise.all(promises);
 
-        // save this to the newPlan object
-        newPlan.terms = dbTerms;
-        return newPlan.save();
-    } catch (e) {
-        throw e;
-    }
+                    // save this to the newPlan object
+                    newPlan.terms = dbTerms;
+                    console.log('MADE IT HERE');
+                    newPlan.save().then((savedPlan) => {
+                        resolve(savedPlan);
+                    });
+                } catch (e) {
+                    throw e;
+                }
+            });
+    });
 };
 
 const sortPlan = (plan) => {
@@ -182,7 +207,7 @@ const deletePlanByID = async (planId) => {
 };
 
 const PlanController = {
-    getPlansByUserId,
+    getPlansByUserID,
     createPlanForUser,
     sortPlan,
     getPlanByID,
