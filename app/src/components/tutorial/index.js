@@ -56,7 +56,6 @@ function findOrCreateAdvisor(collectedInfo) {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.post(`${ROOT_URL}/advisors/`, { collectedInfo }, { headers }).then((response) => {
-      console.log('advisor', response.data);
       resolve(response.data);
     }).catch((error) => {
       reject(error);
@@ -141,7 +140,6 @@ class Tutorial extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.user);
     this.setState({
       tutorialPage: parseInt(this.props.match.params.page, 10),
     });
@@ -155,23 +153,15 @@ class Tutorial extends React.Component {
       }, 1000);
     }).then(() => {
       getAdvisorById(this.props.user.dean).then((dean) => {
-        console.log('dean', dean.full_name);
         this.loadAdvisor('deanAdvisor', dean);
-        // this.setState({ deanAdvisor: dean.full_name });
       });
-      getAdvisorById(this.props.user.dean).then((facultyAdvisor) => {
-        console.log('facultyAdvisor', facultyAdvisor.full_name);
+      getAdvisorById(this.props.user.faculty_advisor).then((facultyAdvisor) => {
         this.loadAdvisor('facultyAdvisor', facultyAdvisor);
-        // this.setState({ facultyAdvisor: facultyAdvisor.full_name });
       });
       let advisorImportCount = 0;
-      console.log('other_advisors', this.props.user.other_advisors);
       this.props.user.other_advisors.forEach((advisorID) => {
-        console.log('loading', advisorID);
         getAdvisorById(advisorID).then((savedAdvisor) => {
-          console.log('loadedAdvisor', savedAdvisor.full_name, advisorImportCount);
           this.loadAdvisor(`otherAdvisor${advisorImportCount}`, savedAdvisor);
-          // this.setState({ [`otherAdvisor${advisorImportCount}`]: savedAdvisor.full_name, addedOtherEmailCount: advisorImportCount + 1 });
           this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
           advisorImportCount += 1;
         });
@@ -345,7 +335,6 @@ class Tutorial extends React.Component {
 
   removeContributor() {
     if (this.state.addedOtherEmailCount > 0) {
-      console.log('removingOtherAdvisor', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount - 1);
       this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] });
       this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
     }
@@ -496,7 +485,6 @@ class Tutorial extends React.Component {
   }
 
   render() {
-    console.log('this.state', this.state);
     return (
       <div className="tutorial-container">
         <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (this.tutorialData.length - 1))) }} />
