@@ -442,6 +442,28 @@ export function deletePlan(planID, history) {
   };
 }
 
+/**
+ * Duplicates an existing plan in the database
+ * @export
+ * @param {*} planID ID of existing plan
+ * @returns an action creator to create a new plan in the API
+ */
+export function duplicatePlan(planID, planSetter) {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  return dispatch => new Promise((resolve, reject) => {
+    axios.post(`${ROOT_URL}/plans/duplicate/${planID}`, { headers }).then((response) => {
+      planSetter(response.data.id);
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  });
+}
+
 // ----- Course Actions ----- //
 
 /**
