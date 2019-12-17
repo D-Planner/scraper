@@ -6,7 +6,7 @@ import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
 import { emptyPlan } from '../../services/empty_plan';
@@ -414,6 +414,12 @@ class DPlan extends Component {
     });
   };
 
+  duplicatePlan = () => {
+    this.props.createPlan(this.props.plan.id, this.setCurrentPlan).then(() => {
+      this.props.fetchPlans();
+    });
+  }
+
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
       // console.log('deletePlanKeyPress');
@@ -489,6 +495,8 @@ class DPlan extends Component {
   renderPlanName = (planName) => {
     if (planName.length > 20) {
       return `${planName.substring(0, 20)}...`;
+    } else if (planName.length === 0) {
+      return 'Untitled';
     } else {
       return planName;
     }
@@ -616,6 +624,7 @@ export default withRouter(connect(mapStateToProps, {
   showDialog,
   getTimes,
   createPlan,
+  duplicatePlan,
   setDraggingFulfilledStatus,
   fetchUser,
   fetchPlans,
