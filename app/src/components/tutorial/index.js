@@ -21,6 +21,7 @@ import ErrorMessageSpacer from '../errorMessageSpacer';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
 const MAX_SUGGESTIONS_LENGTH = 8;
+const LOADED_ADVISOR_TEXT = ' - Added';
 
 function getInterestById(id) {
   return new Promise((resolve, reject) => {
@@ -99,8 +100,8 @@ class Tutorial extends React.Component {
       title: 'Add plan advisors.',
       text: 'Invite academic professionals to review your plans and give personalized feedback.',
       neededToContinue: [
-        { name: 'deanEmail', errorMessage: 'Please enter the name of your dean' },
-        { name: 'advisorEmail', errorMessage: 'Please enter the name of your advisor' },
+        { name: 'deanEmail', errorMessage: 'Please select the name of your dean from the dropdown' },
+        { name: 'advisorEmail', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
       ],
       onContinue: null,
     },
@@ -365,7 +366,7 @@ class Tutorial extends React.Component {
   // Automatically loads all required fields from user prop
   loadAdvisor(stateName, advisor) {
     this.setState({
-      [stateName]: advisor.full_name,
+      [stateName]: advisor.full_name + LOADED_ADVISOR_TEXT,
       [`${stateName}ID`]: advisor._id,
       [`${stateName}Suggestions`]: [],
     });
@@ -391,7 +392,7 @@ class Tutorial extends React.Component {
 
   // Handles a user click on a suggestion
   handleSuggestionSelect(stateName, suggestion) {
-    this.setState({ [stateName]: suggestion.displayName, dropdownClosed: true }, () => {
+    this.setState({ [stateName]: (suggestion.displayName + LOADED_ADVISOR_TEXT), dropdownClosed: true }, () => {
       const json = suggestion;
       delete json.dcHinmanaddr;
       delete json.telephoneNumber;
