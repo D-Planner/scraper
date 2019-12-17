@@ -315,7 +315,12 @@ class Tutorial extends React.Component {
   }
 
   renderTutorialInput(stateName, placeholder) {
-    return (<input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName)} />);
+    return (
+      <>
+        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName)} />
+        {this.renderSuggestedDropdownMenu(stateName)}
+      </>
+    );
   }
 
   // Input onChange callback handler
@@ -392,9 +397,7 @@ class Tutorial extends React.Component {
         return (
           <form>
             {this.renderTutorialInput('deanEmail', 'Enter Dean Name')}
-            {this.renderSuggestedDropdownMenu('deanEmail')}
             {this.renderTutorialInput('advisorEmail', 'Enter Advisor Name')}
-            {this.renderSuggestedDropdownMenu('advisorEmail')}
             {this.renderAddedOtherEmails()}
             <div className="contributor-modify-container">
               <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
