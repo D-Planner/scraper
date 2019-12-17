@@ -154,12 +154,26 @@ const getPlanByID = (req, res) => {
     });
 };
 
-const updatePlanById = async (planUpdate, planId) => {
+const duplicatePlanByID = (planID) => {
+    Plan.findById(planID).then((plan) => {
+        if (!plan) {
+            throw new Error('This plan does not exist for this user');
+        }
+        return plan.populate({
+            path: 'terms',
+            populate: PopulateTerm,
+        }).execPopulate();
+    }).then((populatedPlan) => {
+        createPlanForUser(populatedPlan.toJSON(), populatedPlan.toJSON().user_id);
+    });
+};
+
+const updatePlanByID = async (planUpdate, planId) => {
     return Plan.findByIdAndUpdate(planId, planUpdate);
 };
 
 // delete a plan by id
-const deletePlanById = async (planId) => {
+const deletePlanByID = async (planId) => {
     try {
         return await Plan.findByIdAndDelete(planId);
     } catch (e) {
@@ -172,8 +186,9 @@ const PlanController = {
     createPlanForUser,
     sortPlan,
     getPlanByID,
-    updatePlanById,
-    deletePlanById,
+    duplicatePlanByID,
+    updatePlanByID,
+    deletePlanByID,
 };
 
 export default PlanController;
