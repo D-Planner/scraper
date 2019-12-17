@@ -35,12 +35,12 @@ function getInterestById(id) {
   });
 }
 
-function findOrCreateAdvisor(email) {
+function findOrCreateAdvisor(collectedInfo) {
   return new Promise((resolve, reject) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
-    axios.post(`${ROOT_URL}/advisors/`, { email }, { headers }).then((response) => {
+    axios.post(`${ROOT_URL}/advisors/`, { collectedInfo }, { headers }).then((response) => {
       console.log('advisor', response.data);
       resolve(response.data);
     }).catch((error) => {
@@ -52,7 +52,6 @@ function findOrCreateAdvisor(email) {
 function checkAdvisor(query) {
   return new Promise((resolve, reject) => {
     axios.get(`https://api-lookup.dartmouth.edu/v1/lookup?q=${query}&field=displayName&includeAlum=false&field=eduPersonPrimaryAffiliation&field=mail&field=eduPersonNickname&field=dcDeptclass&field=dcAffiliation&field=telephoneNumber&field=dcHinmanaddr`).then((response) => {
-      console.log(response.data);
       resolve(response.data);
     }).catch((error) => {
       reject(error);
@@ -86,8 +85,8 @@ class Tutorial extends React.Component {
       title: 'Add plan advisors.',
       text: 'Invite academic professionals to review your plans and give personalized feedback.',
       neededToContinue: [
-        { name: 'deanEmail', errorMessage: 'Please enter an email address for your dean' },
-        { name: 'advisorEmail', errorMessage: 'Please enter an email address for your advisor' },
+        { name: 'deanEmail', errorMessage: 'Please enter the name of your dean' },
+        { name: 'advisorEmail', errorMessage: 'Please enter the name of your advisor' },
       ],
       onContinue: null,
     },
@@ -326,7 +325,6 @@ class Tutorial extends React.Component {
 
   // Input onChange callback handler
   onInputUpdate(value, stateName) {
-    console.log('value', value);
     this.setState({ [stateName]: value, dropdownClosed: false }, () => {
       this.fetchSuggestions(value, stateName);
     });
@@ -338,14 +336,21 @@ class Tutorial extends React.Component {
       this.setState((prevState) => {
         if (prevState.deanSuggestions !== results.users) {
           return ({ [`${stateName}Suggestions`]: results.users });
-        }
+        } else return null;
       });
     }).catch(error => console.error(error));
   }
 
   // Handles a user click on a suggestion
   handleSuggestionSelect(stateName, suggestion) {
-    this.setState({ [stateName]: suggestion, dropdownClosed: true });
+    this.setState({ [stateName]: suggestion.displayName, dropdownClosed: true }, () => {
+      const json = suggestion;
+      delete json.dcHinmanaddr;
+      delete json.telephoneNumber;
+      delete json.eduPersonNickname;
+      console.log('json', json);
+      findOrCreateAdvisor(json);
+    });
   }
 
   // Close menu if user clicks outside
@@ -366,7 +371,7 @@ class Tutorial extends React.Component {
           return (
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].slice(0, MAX_SUGGESTIONS_LENGTH - 1).map((user) => {
-                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
+                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user)}>{user.displayName}</p>;
               })}
               <p className="tutorial-dropdown-element">+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
             </div>
@@ -375,7 +380,7 @@ class Tutorial extends React.Component {
           return (
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].map((user) => {
-                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
+                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user)}>{user.displayName}</p>;
               })}
             </div>
           );
