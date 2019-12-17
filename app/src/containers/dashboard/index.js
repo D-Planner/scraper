@@ -8,7 +8,6 @@ import {
 } from '../../actions';
 // import searchIcon from '../../style/searchSimple.svg';
 import tutorialIcon from '../../style/tutorial.svg';
-import lightbulbIcon from '../../style/lightbulb.svg';
 import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';

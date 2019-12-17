@@ -7,7 +7,6 @@ import InterestTile from '../../interestTile/interestTile';
 import LoadingWheel from '../../loadingWheel';
 import { ROOT_URL } from '../../../constants';
 import { createPlan, fetchPlan } from '../../../actions';
-import { emptyPlan } from '../../../services/empty_plan';
 import './newPlanPage.scss';
 
 // Make this into an action
@@ -50,11 +49,6 @@ class NewPlanPage extends React.Component {
     }
   }
 
-  handleStateChange(key, value) {
-    this.setState({ [key]: value });
-    this.props.handleStateChange(key, value);
-  }
-
   getInterestCheckedStatus(interest) {
     return this.state.relevantInterests.has(interest);
   }
@@ -69,28 +63,10 @@ class NewPlanPage extends React.Component {
     this.handleStateChange('relevantInterests', this.state.relevantInterests);
   }
 
-  // createTutorialPlan() {
-  //   if (this.props.createPlan) {
-  //     const terms = ['F', 'W', 'S', 'X'];
-  //     let currYear = this.props.user.graduationYear - 4;
-  //     let currQuarter = -1;
-  //     this.props.createPlan({
-  //       terms: emptyPlan.terms.map((term) => {
-  //         if (currQuarter === 3) currYear += 1;
-  //         currQuarter = (currQuarter + 1) % 4;
-  //         return { ...term, year: currYear, quarter: terms[currQuarter] };
-  //       }),
-  //       name: this.state.planName,
-  //       relevant_interests: Array.from(this.state.relevantInterests),
-  //       description: this.state.planDescription,
-  //       // major: this.state.planMajor,
-  //     }, (planID) => {
-  //       this.props.fetchPlan(planID).then(() => {
-  //         this.props.history.push('/');
-  //       });
-  //     });
-  //   }
-  // }
+  handleStateChange(key, value) {
+    this.setState({ [key]: value });
+    this.props.handleStateChange(key, value);
+  }
 
   render() {
     return (

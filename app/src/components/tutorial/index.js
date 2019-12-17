@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 /* eslint-disable eqeqeq */
 import React from 'react';
 import { connect } from 'react-redux';
@@ -25,18 +26,18 @@ const MAX_ADDED_CONTRIBUTORS = 6;
 const MAX_SUGGESTIONS_LENGTH = 8;
 const LOADED_ADVISOR_TEXT = ' - Added';
 
-function getInterestById(id) {
-  return new Promise((resolve, reject) => {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    };
-    axios.get(`${ROOT_URL}/interests/${id}`, { headers }).then((response) => {
-      resolve(response.data);
-    }).catch((error) => {
-      reject(error);
-    });
-  });
-}
+// function getInterestById(id) {
+//   return new Promise((resolve, reject) => {
+//     const headers = {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`,
+//     };
+//     axios.get(`${ROOT_URL}/interests/${id}`, { headers }).then((response) => {
+//       resolve(response.data);
+//     }).catch((error) => {
+//       reject(error);
+//     });
+//   });
+// }
 
 function getAdvisorById(id) {
   if (id !== null) {
@@ -50,7 +51,7 @@ function getAdvisorById(id) {
         reject(error);
       });
     });
-  }
+  } else return null;
 }
 
 function findOrCreateAdvisor(collectedInfo) {
@@ -90,13 +91,13 @@ class Tutorial extends React.Component {
       title: 'Welcome to D-Planner!',
       text: 'We are the future of academic planning. Here’s a little bit about us.',
       neededToContinue: [],
-      onContinue: () => console.log('next from welcome'),
+      onContinue: () => {},
     },
     {
       title: 'Let\'s get you started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
       neededToContinue: [],
-      onContinue: () => console.log('next from started'),
+      onContinue: () => {},
     },
     {
       title: 'Add plan advisors.',
@@ -105,7 +106,7 @@ class Tutorial extends React.Component {
         { name: 'deanAdvisor', errorMessage: 'Please select the name of your dean from the dropdown' },
         { name: 'facultyAdvisor', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
       ],
-      onContinue: () => console.log('next from advisors'),
+      onContinue: () => {},
     },
     {
       title: 'Here\'s to your first plan!',
@@ -199,14 +200,12 @@ class Tutorial extends React.Component {
         canContinue = false;
       }
     });
-    console.log('canContinue', canContinue);
-    console.log('state', this.state);
+
     // Push
     if (canContinue) {
       this.tutorialData[this.state.tutorialPage].onContinue();
       this.setState({ errorMessage: null });
       if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
-        console.log('onContinue');
         this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
           () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
       } else if (this.state.tutorialPage >= this.tutorialData.length - 1) { // Final tutorial page
@@ -219,7 +218,6 @@ class Tutorial extends React.Component {
 
   // Get state change from subpage components
   handleNewPlanPageUpdate(key, value) {
-    console.log('upper', key, value);
     this.setState({ [key]: value });
   }
 
@@ -437,12 +435,7 @@ class Tutorial extends React.Component {
     }
   }
 
-  // createTutorialPlan() {
-  //   console.log('createTutorialPlan');
-  // }
-
   createTutorialPlan() {
-    console.log('this', this);
     if (this.props.createPlan) {
       const terms = ['F', 'W', 'S', 'X'];
       let currYear = this.props.user.graduationYear - 4;
