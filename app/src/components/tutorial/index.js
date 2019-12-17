@@ -109,8 +109,6 @@ class Tutorial extends React.Component {
       tutorialPage: 0,
       interests: null,
       tempUserInterests: [],
-      deanEmail: '',
-      advisorEmail: '',
       addedOtherEmailCount: 0,
       errorMessage: null,
     };
@@ -360,32 +358,28 @@ class Tutorial extends React.Component {
         // Check if results length is within length requirements
         if (this.state[`${stateName}Suggestions`].length > MAX_SUGGESTIONS_LENGTH) { // Outside length requirements
           return (
-            // <div onClick={() => this.handleBackgroundClick(stateName)} className="dropdown-background" role="presentation">
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].slice(0, MAX_SUGGESTIONS_LENGTH - 1).map((user) => {
                 return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
               })}
               <p className="tutorial-dropdown-element">+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
             </div>
-            // </div>
           );
         } else { // Within length requirements
           return (
-            // <div onClick={() => this.handleBackgroundClick(stateName)} className="dropdown-background" role="presentation">
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].map((user) => {
                 return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user.displayName)}>{user.displayName}</p>;
               })}
             </div>
-            // </div>
           );
         }
       } else {
-        this.setState({ [`${stateName}Suggestions`]: [] });
+        return this.setState({ [`${stateName}Suggestions`]: [] });
       }
-    } else {
-      return null;
-    }
+    } else if (this.state[`${stateName}Suggestions`] && this.state[`${stateName}Suggestions`].length > 0) { // If component is mounted
+      return this.setState({ [`${stateName}Suggestions`]: [] });
+    } else return null;
   }
 
   renderTutorialPage = (page) => {
@@ -398,9 +392,9 @@ class Tutorial extends React.Component {
         return (
           <form>
             {this.renderTutorialInput('deanEmail', 'Enter Dean Name')}
-            {/* <input className="tutorial-input" placeholder="Dean - name@yourcollege.edu" value={this.state.deanEmail} onChange={e => this.onInputUpdate(e.target.value, 'deanEmail')} /> */}
             {this.renderSuggestedDropdownMenu('deanEmail')}
-            <input className="tutorial-input" placeholder="Faculty Advisor - name@yourcollege.edu" value={this.state.advisorEmail} onChange={e => this.setState({ advisorEmail: e.target.value })} />
+            {this.renderTutorialInput('advisorEmail', 'Enter Advisor Name')}
+            {this.renderSuggestedDropdownMenu('advisorEmail')}
             {this.renderAddedOtherEmails()}
             <div className="contributor-modify-container">
               <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
