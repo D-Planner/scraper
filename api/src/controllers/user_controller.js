@@ -215,7 +215,9 @@ export const updateUser = async (req, res) => {
             // For managing adding and removing elements from advisor elements
             if (req.body.change.dean) { user.dean = req.body.change.dean; }
             if (req.body.change.faculty_advisor) { user.faculty_advisor = req.body.change.faculty_advisor; }
+            console.log('otherAdvisor', req.body.change.other_advisor);
             if (user.other_advisors.indexOf(req.body.change.other_advisor) !== -1) {
+                console.log('removing from set');
                 user.other_advisors.pull(req.body.change.other_advisor);
             } else {
                 user.other_advisors.addToSet(req.body.change.other_advisor);

@@ -156,11 +156,13 @@ class Tutorial extends React.Component {
     }).then(() => {
       getAdvisorById(this.props.user.dean).then((dean) => {
         console.log('dean', dean.full_name);
-        this.setState({ deanAdvisor: dean.full_name });
+        this.loadAdvisor('deanAdvisor', dean);
+        // this.setState({ deanAdvisor: dean.full_name });
       });
       getAdvisorById(this.props.user.dean).then((facultyAdvisor) => {
         console.log('facultyAdvisor', facultyAdvisor.full_name);
-        this.setState({ facultyAdvisor: facultyAdvisor.full_name });
+        this.loadAdvisor('facultyAdvisor', facultyAdvisor);
+        // this.setState({ facultyAdvisor: facultyAdvisor.full_name });
       });
       let advisorImportCount = 0;
       console.log('other_advisors', this.props.user.other_advisors);
@@ -168,7 +170,9 @@ class Tutorial extends React.Component {
         console.log('loading', advisorID);
         getAdvisorById(advisorID).then((savedAdvisor) => {
           console.log('loadedAdvisor', savedAdvisor.full_name, advisorImportCount);
-          this.setState({ [`otherAdvisor${advisorImportCount}`]: savedAdvisor.full_name, addedOtherEmailCount: advisorImportCount + 1 });
+          this.loadAdvisor(`otherAdvisor${advisorImportCount}`, savedAdvisor);
+          // this.setState({ [`otherAdvisor${advisorImportCount}`]: savedAdvisor.full_name, addedOtherEmailCount: advisorImportCount + 1 });
+          this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
           advisorImportCount += 1;
         });
       });
@@ -341,7 +345,8 @@ class Tutorial extends React.Component {
 
   removeContributor() {
     if (this.state.addedOtherEmailCount > 0) {
-      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}`] });
+      console.log('removingOtherAdvisor', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount - 1);
+      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] });
       this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
     }
   }
@@ -366,6 +371,15 @@ class Tutorial extends React.Component {
     } else {
       return null;
     }
+  }
+
+  // Automatically loads all required fields from user prop
+  loadAdvisor(stateName, advisor) {
+    this.setState({
+      [stateName]: advisor.full_name,
+      [`${stateName}ID`]: advisor._id,
+      [`${stateName}Suggestions`]: [],
+    });
   }
 
   // Input onChange callback handler
@@ -406,6 +420,8 @@ class Tutorial extends React.Component {
         } else {
           advisorIdentifier = undefined;
         }
+
+        this.setState({ [`${stateName}ID`]: advisorID });
 
         if (advisorIdentifier) {
           this.props.updateUser({ [advisorIdentifier]: advisorID });
