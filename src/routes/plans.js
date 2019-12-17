@@ -40,7 +40,7 @@ const plansRouter = Router();
  *          },
  *      ]
  */
-plansRouter.get('/', PlanController.getPlansByUserId);
+plansRouter.get('/', PlanController.getPlansByUserID);
 
 /**
  * @api {get} /plans/:id Get a plan by id
@@ -139,6 +139,56 @@ plansRouter.post('/', (req, res, next) => {
 });
 
 /**
+ * @api {put} /plans/duplicate/:id Duplicate plan by id
+ * @apiName DuplicatePlan
+ * @apiGroup Plans
+ *
+ * @apiParam {String} id the id of the plan to be duplicated
+ *
+ * @apiSuccess {String} OK a 200 OK response
+ *
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ *      {
+ *          "terms": [
+ *              "5c76d43808c20d8f9f016a82",
+ *              "5c76d43808c20d8f9f016a83",
+ *              "5c76d43808c20d8f9f016a84",
+ *              "5c76d43808c20d8f9f016a85",
+ *              "5c76d43808c20d8f9f016a86",
+ *              "5c76d43808c20d8f9f016a87",
+ *              "5c76d43808c20d8f9f016a88",
+ *              "5c76d43808c20d8f9f016a89",
+ *              "5c76d43808c20d8f9f016a8a",
+ *              "5c76d43808c20d8f9f016a8b",
+ *              "5c76d43808c20d8f9f016a8c",
+ *              "5c76d43808c20d8f9f016a8d",
+ *              "5c76d43808c20d8f9f016a8e",
+ *              "5c76d43808c20d8f9f016a8f",
+ *              "5c76d43808c20d8f9f016a90"
+ *          ],
+ *          "_id": "5c76d43808c20d8f9f016a81",
+ *          "name": "yeet",
+ *          "user_id": "5c52a8940dadc9e7ae96e1e2",
+ *          "__v": 1,
+ *          "normalizedName": "yeet",
+ *          "id": "5c76d43808c20d8f9f016a81"
+ *      },
+ */
+plansRouter.post('/duplicate/:id', (req, res, next) => {
+    console.log('got request to duplicate plan');
+    PlanController.duplicatePlanByID(req.params.id).then((duplicatedPlan) => {
+        res.send(PlanController.sortPlan(duplicatedPlan));
+    }).catch((err) => {
+        if (err.name === 'CastError') {
+            res.status(400).send({ message: 'Sorry! We couldn\'t find that plan. Please try again later.' }); // The requested id was not valid.
+        } else {
+            next(err);
+        }
+    });
+});
+
+/**
  * @api {put} /plans/:id Update plan by id
  * @apiName UpdatePlan
  * @apiGroup Plans
@@ -153,7 +203,7 @@ plansRouter.post('/', (req, res, next) => {
  */
 plansRouter.put('/:id', (req, res, next) => {
     console.log('got request to change plan');
-    PlanController.updatePlanById(req.body.planUpdate, req.params.id).then((result) => {
+    PlanController.updatePlanByID(req.body.planUpdate, req.params.id).then((result) => {
         res.sendStatus(200);
     }).catch((err) => {
         if (err.name === 'CastError') {
@@ -177,7 +227,7 @@ plansRouter.put('/:id', (req, res, next) => {
  *      HTTP/1.1 200 OK
  */
 plansRouter.delete('/:id', (req, res, next) => {
-    PlanController.deletePlanById(req.params.id).then((result) => {
+    PlanController.deletePlanByID(req.params.id).then((result) => {
         res.sendStatus(200);
     }).catch((err) => {
         if (err.name === 'CastError') {
