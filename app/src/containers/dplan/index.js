@@ -415,7 +415,7 @@ class DPlan extends Component {
   };
 
   duplicatePlan = () => {
-    this.props.createPlan(this.props.plan.id, this.setCurrentPlan).then(() => {
+    this.props.duplicatePlan(this.props.plan.id, this.setCurrentPlan).then(() => {
       this.props.fetchPlans();
     });
   }
