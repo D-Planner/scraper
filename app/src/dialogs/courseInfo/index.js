@@ -329,7 +329,7 @@ class CourseInfoDialog extends Component {
           data-for="redirect"
         />
         <ReactTooltip id="redirect" place="bottom" type="dark" effect="float">
-          {'See More'}
+          See More
         </ReactTooltip>
         <img
           className="action"
