@@ -101,19 +101,20 @@ class FilterDialog extends React.Component {
             tagComponent={this.renderTag}
             suggestionComponent={this.renderSuggestion}
             placeholderText="Add New Filter"
+            // Use classNames to make it so that when there >=1 suggestions proposed, the borders are changed.
           />
-          <div className="filter-distribs filter-list">
-            {/* {this.state.distribs.map((distrib, i) => {
+          {/* <div className="filter-distribs filter-list">
+            {this.state.distribs.map((distrib, i) => {
               return (
                 <div className="choice" key={distrib.name}>
                   <div className="choice-label">{distrib.name}</div>
                   <input className="choice-input" type="checkbox" checked={distrib.checked} onChange={() => this.changeState(i, 'distribs')} />
                 </div>
               );
-            })} */}
+            })}
           </div>
           <div className="filter-wcs filter-list">
-            {/* <ReactTags
+            <ReactTags
               tags={this.state.tags.wcs}
               suggestions={this.state.wcs}
               labelField="name"
@@ -122,8 +123,8 @@ class FilterDialog extends React.Component {
               tagComponent={this.renderTag}
               suggestionComponent={this.renderSuggestion}
               placeholderText="Add New World Culture Filter"
-            /> */}
-            {/* {this.state.wcs.map((wc, i) => {
+            />
+            {this.state.wcs.map((wc, i) => {
               return (
                 <div className="choice" key={wc.name}>
                   <div className="choice-label">
@@ -133,8 +134,8 @@ class FilterDialog extends React.Component {
                   <input className="choice-input" type="checkbox" checked={wc.checked} onChange={() => this.changeState(i, 'wcs')} />
                 </div>
               );
-            })} */}
-          </div>
+            })}
+          </div> */}
           <div className="filter-offered filter-list">
             {this.state.offered.map((offered, i) => {
               const currentTermName = () => {

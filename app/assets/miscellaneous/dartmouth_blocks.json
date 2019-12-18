@@ -1,0 +1,182 @@
+[
+	{
+		"name": "8",
+		"slots" : [{
+			"name": "",
+			"start": "07:45",
+			"end": "08:35",
+			"days": ["mo","tu","th","fr"]
+		},{
+			"name": "x-hour",
+			"start": "07:45",
+			"end": "08:35",
+			"days": ["we"]
+		}]
+	},
+	{
+		"name": "9",
+		"slots" : [{
+			"name": "",
+			"start": "09:05",
+			"end": "09:55",
+			"days": ["mo","tu","th","fr"]
+		},{
+			"name": "x-hour",
+			"start": "09:05",
+			"end": "09:55",
+			"days": ["we"]
+		}]
+	},
+	{
+		"name": "9L",
+		"slots" : [{
+			"name": "",
+			"start": "08:50",
+			"end": "09:55",
+			"days": ["mo","we","fr"]
+		},{
+			"name": "x-hour",
+			"start": "09:05",
+			"end": "09:55",
+			"days": ["th"]
+		}]
+	},
+	{
+		"name": "10",
+		"slots" : [{
+			"name": "",
+			"start": "10:10",
+			"end": "11:15",
+			"days": ["mo","we","fr"]
+		},{
+			"name": "x-hour",
+			"start": "12:15",
+			"end": "13:05",
+			"days": ["th"]
+		}]
+	},
+	{
+		"name": "11",
+		"slots" : [{
+			"name": "",
+			"start": "11:30",
+			"end": "12:35",
+			"days": ["mo","we","fr"]
+		},{
+			"name": "x-hour",
+			"start": "12:15",
+			"end": "13:05",
+			"days": ["tu"]
+		}]
+	},
+	{
+		"name": "12",
+		"slots" : [{
+			"name": "",
+			"start": "12:50",
+			"end": "13:55",
+			"days": ["mo","we","fr"]
+		},{
+			"name": "x-hour",
+			"start": "13:20",
+			"end": "14:10",
+			"days": ["th"]
+		}]
+	},
+	{
+		"name": "2",
+		"slots" : [{
+			"name": "",
+			"start": "14:30",
+			"end": "15:15",
+			"days": ["mo","we","fr"]
+		},{
+			"name": "x-hour",
+			"start": "13:20",
+			"end": "14:10",
+			"days": ["th"]
+		}]
+	},
+	{
+		"name": "10A",
+		"slots" : [{
+			"name": "",
+			"start": "10:10",
+			"end": "12:00",
+			"days": ["tu","th"]
+		},{
+			"name": "x-hour",
+			"start": "15:30",
+			"end": "16:20",
+			"days": ["we"]
+		}]
+	},
+	{
+		"name": "2A",
+		"slots" : [{
+			"name": "",
+			"start": "14:25",
+			"end": "16:15",
+			"days": ["tu","th"]
+		},{
+			"name": "x-hour",
+			"start": "16:35",
+			"end": "17:25",
+			"days": ["we"]
+		}]
+	},
+	{
+		"name": "3A",
+		"slots" : [{
+			"name": "",
+			"start": "15:30",
+			"end": "17:20",
+			"days": ["mo"]
+		},{
+			"name": "",
+			"start": "16:30",
+			"end": "18:20",
+			"days": ["th"]
+		},{
+			"name": "x-hour",
+			"start": "17:35",
+			"end": "18:25",
+			"days": ["mo"]
+		}]
+	},
+	{
+		"name": "3B",
+		"slots" : [{
+			"name": "",
+			"start": "16:30",
+			"end": "18:20",
+			"days": ["tu","th"]
+		},{
+			"name": "x-hour",
+			"start": "17:35",
+			"end": "18:25",
+			"days": ["mo"]
+		}]
+	},
+	{
+		"name": "6A",
+		"slots" : [{
+			"name": "",
+			"start": "18:30",
+			"end": "20:20",
+			"days": ["mo","we"]
+		}]
+	},
+	{
+		"name": "6B",
+		"slots" : [{
+			"name": "",
+			"start": "18:30",
+			"end": "21:30",
+			"days": ["we"]
+		}]
+	},
+	{
+		"name": "Special"
+	}
+]
