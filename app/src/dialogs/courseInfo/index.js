@@ -17,6 +17,7 @@ import NonDraggableCourse from '../../components/nonDraggableCourse';
 import './courseInfo.scss';
 import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
 
+
 const Dependencies = {
   req: 'Required (One of):',
   range: 'Required',
@@ -329,7 +330,7 @@ class CourseInfoDialog extends Component {
           data-for="redirect"
         />
         <ReactTooltip id="redirect" place="bottom" type="dark" effect="float">
-          {'See More'}
+          See More
         </ReactTooltip>
         <img
           className="action"

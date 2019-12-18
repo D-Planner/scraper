@@ -15,7 +15,7 @@ const tooSmall = (props) => {
       <div className="error-disclaimer">
         {'If you think you are seeing this message in error, please contact us at '}
         <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-        {'.'}
+        .
       </div>
     </div>
   );

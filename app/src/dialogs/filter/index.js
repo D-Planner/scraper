@@ -16,12 +16,14 @@ class FilterDialog extends React.Component {
     console.log('Offered next term', props.offered);
 
     this.state = {
-      distribs: props.distribs,
-      wcs: props.wcs,
+      genEds: props.genEds,
+      // distribs: props.distribs,
+      // wcs: props.wcs,
       offered: props.offered,
       tags: {
-        distribs: props.distribs.filter(d => d.checked),
-        wcs: props.wcs.filter(wc => wc.checked),
+        genEds: props.genEds.filter(d => d.checked),
+        // distribs: props.distribs.filter(d => d.checked),
+        // wcs: props.wcs.filter(wc => wc.checked),
       },
     };
     console.log(this.state);
@@ -88,18 +90,17 @@ class FilterDialog extends React.Component {
   }
 
   render() {
-    console.log(this.state.distribs);
     return (
       <DialogWrapper {...this.props}>
         <div className="filter-content">
           <ReactTags
-            tags={this.state.tags.distribs}
-            suggestions={this.state.distribs}
-            onAddition={e => this.handleAdd(e, 'distribs')}
-            onDelete={i => this.handleDelete(i, 'distribs')}
+            tags={this.state.tags.genEds}
+            suggestions={this.state.genEds}
+            onAddition={e => this.handleAdd(e, 'genEds')}
+            onDelete={i => this.handleDelete(i, 'genEds')}
             tagComponent={this.renderTag}
             suggestionComponent={this.renderSuggestion}
-            placeholderText="Add New Distrib Filter"
+            placeholderText="Add New Filter"
           />
           <div className="filter-distribs filter-list">
             {/* {this.state.distribs.map((distrib, i) => {
@@ -122,7 +123,7 @@ class FilterDialog extends React.Component {
               suggestionComponent={this.renderSuggestion}
               placeholderText="Add New World Culture Filter"
             /> */}
-            {this.state.wcs.map((wc, i) => {
+            {/* {this.state.wcs.map((wc, i) => {
               return (
                 <div className="choice" key={wc.name}>
                   <div className="choice-label">
@@ -132,7 +133,7 @@ class FilterDialog extends React.Component {
                   <input className="choice-input" type="checkbox" checked={wc.checked} onChange={() => this.changeState(i, 'wcs')} />
                 </div>
               );
-            })}
+            })} */}
           </div>
           <div className="filter-offered filter-list">
             {this.state.offered.map((offered, i) => {
@@ -161,8 +162,9 @@ class FilterDialog extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  distribs: state.filters.distribs,
-  wcs: state.filters.wcs,
+  // distribs: state.filters.distribs,
+  // wcs: state.filters.wcs,
+  genEds: state.filters.genEds,
   offered: state.filters.offered,
   currTerm: state.time.currTerm,
   plan: state.plans.current,

@@ -3,16 +3,21 @@ import { GenEdsForDisplay as GenEds } from '../constants';
 
 
 const initialState = {
-  distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e, i) => {
+  genEds: Object.values(GenEds).map((e, i) => {
     return {
       id: `${i}`, tag: e.name, fullName: e.fullName, name: `${e.fullName} ${e.name}`, checked: false,
     };
   }),
-  wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e, i) => {
-    return {
-      id: `${i}`, fullName: e.fullName, name: e.name, checked: false,
-    };
-  }),
+  // distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e, i) => {
+  //   return {
+  //     id: `${i}`, tag: e.name, fullName: e.fullName, name: `${e.fullName} ${e.name}`, checked: false,
+  //   };
+  // }),
+  // wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e, i) => {
+  //   return {
+  //     id: `${i}`, fullName: e.fullName, name: e.name, checked: false,
+  //   };
+  // }),
   offered: [''].reduce((acc, cur) => {
     const returnVal = [{ term: 'current', check: false }];
     const terms = ['F', 'W', 'S', 'X'];
@@ -29,8 +34,13 @@ const filterReducer = (state = initialState, action) => {
       return action.payload;
     case ActionTypes.CLEAR_FILTERS:
       return {
-        distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e) => { return { name: e.name, checked: false }; }),
-        wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e) => { return { name: e.name, checked: false }; }),
+        genEds: Object.values(GenEds).map((e, i) => {
+          return {
+            id: `${i}`, tag: e.name, fullName: e.fullName, name: `${e.fullName} ${e.name}`, checked: false,
+          };
+        }),
+        // distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e) => { return { name: e.name, checked: false }; }),
+        // wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e) => { return { name: e.name, checked: false }; }),
         offered: [''].reduce((acc, cur) => {
           const returnVal = [{ term: 'current', check: false }];
           const terms = ['F', 'W', 'S', 'X'];

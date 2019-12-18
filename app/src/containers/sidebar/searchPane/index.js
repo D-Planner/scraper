@@ -89,7 +89,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   };
 
   const useFilters = () => {
-    setWC(props.wcs.filter(e => e.checked).map(e => e.name));
+    setWC(props.wcs.filter(e => e.checked).map(e => e.tag));
     setDistrib(props.distribs.filter(e => e.checked).map(e => e.tag));
     setOffered(props.offered.filter(e => e.checked).map(e => e.term));
   };
@@ -183,8 +183,10 @@ const SearchPane = React.forwardRef((props, ref) => {
 });
 
 const mapStateToProps = state => ({
-  distribs: state.filters.distribs,
-  wcs: state.filters.wcs,
+  // distribs: state.filters.distribs,
+  // wcs: state.filters.wcs,
+  distribs: state.filters.genEds.filter(e => (e.tag !== 'W' && e.tag !== 'CI' && e.tag !== 'NW')),
+  wcs: state.filters.genEds.filter(e => (e.tag === 'W' || e.tag === 'CI' || e.tag === 'NW')),
   offeredNextTerm: state.filters.offeredNextTerm,
   user: state.user.current,
   offered: state.filters.offered,
