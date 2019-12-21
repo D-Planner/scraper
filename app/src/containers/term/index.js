@@ -10,6 +10,8 @@ import { DialogTypes, ItemTypes } from '../../constants';
 import DraggableUserCourse from '../../components/draggableUserCourse';
 import PlaceholderCourse from '../../components/placeholderCourse';
 import PhantomCourse from '../../components/phantomCourse';
+import calendarExport from '../../services/cal_export';
+import downloadIcon from '../../style/download-solid.svg';
 
 import './term.scss';
 import {
@@ -160,10 +162,7 @@ class Term extends Component {
   }
 
   updateUserCourse = (courseID, change) => {
-    this.props.updateUserCourse(courseID, change).then((r) => {
-      this.props.fetchPlan(this.props.plan.id).then(() => {
-      });
-    });
+    this.props.updateUserCourse(courseID, change);
   }
 
   renderIfDragging = () => {
@@ -303,8 +302,13 @@ class Term extends Component {
           })}
           >
             {/* Add a warning if two courses occupy the same timeslot */}
-            {this.props.term.name} {/* this.props.term.index */}
+            {this.props.term.name}
           </div>
+          {this.isCurrTerm() ? (
+            <div className="download-button">
+              <img onClick={() => calendarExport(this.props.term.courses)} src={downloadIcon} alt="download" />
+            </div>
+          ) : null}
           <div className="toggle-buttons" data-tip data-for={dataTipID}>
             {this.renderToggleButton()}
             <ReactTooltip id={dataTipID} delayShow={100} place="right" type="dark" effect="float">

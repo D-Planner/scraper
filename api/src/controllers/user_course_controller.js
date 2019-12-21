@@ -3,6 +3,7 @@ import Course from '../models/course';
 
 const createUserCourse = (userID, catalogCourseID, termID) => {
     return Course.findById(catalogCourseID).then(async (r) => {
+        console.log(r);
         const newCourse = await UserCourse.create({
             user: userID,
             course: catalogCourseID,

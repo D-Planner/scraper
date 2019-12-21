@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './hourSelector.scss';
 
 const HourSelector = (props) => {
-  const [timeslot, setTimeslot] = useState(props.course.timeslot);
+  const [timeslot, setTimeslot] = useState((props.timeslots.length === 1) ? props.timeslots[0] : props.course.timeslot);
 
   useEffect(() => {
     props.updateUserCourse(props.course.id, { timeslot });
@@ -23,6 +23,7 @@ const HourSelector = (props) => {
   };
 
   return (
+
     <div className="hourSelector">
       {hours()}
     </div>

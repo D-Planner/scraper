@@ -66,6 +66,12 @@ $term-margin: 0 15px 15px 0;
             }
             
         }
+        .download-button {
+            height: 22px;
+            width: 20px;
+            justify-content: flex-start;
+            cursor:pointer;
+        }
         .toggle-button {
             background: $white;
             border-radius: 5px;

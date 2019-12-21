@@ -1,12 +1,27 @@
+import ical from 'ical-generator';
 import dartmouthBlocks from '../../assets/miscellaneous/dartmouth_blocks.json';
-// need to import ical-generator
 
-export const makeCal = (userCourses) => {
+const cal = ical({ domain: 'localhost', name: 'my first iCal' });
+
+function download(filename, data) {
+  const element = document.createElement('a');
+  element.setAttribute('href', `data:text/calendar;charset=utf-8,${encodeURIComponent(data)}`);
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+export default function makeCal(userCourses) {
   const dayOfWeek = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
   // Need to decide how to deal with these dates. Might need to save this data in Globals for the current term.
   // Good Idea
-  const termStart = new Date('January 3 2019');
-  const termEnd = new Date('March 13 2019');
+  const termStart = new Date('January 6 2020');
+  const termEnd = new Date('March 13 2020');
   let startTime = new Date();
   let endTime = new Date();
 
@@ -14,6 +29,7 @@ export const makeCal = (userCourses) => {
     const block = dartmouthBlocks.find((e) => {
       return e.name === userCourse.timeslot;
     });
+    console.log(block);
     block.slots.forEach((slot) => {
       const event = cal.createEvent();
       let i = termStart.getDay();
@@ -41,4 +57,6 @@ export const makeCal = (userCourses) => {
       });
     });
   });
-};
+
+  download('schedule.ics', cal.toString());
+}
