@@ -113,13 +113,21 @@ class Tutorial extends React.Component {
       toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
     },
     {
-      title: 'Let\'s get you started.',
+      /**
+       * Add minimum number of interests to select
+       */
+      title: 'Let\'s get started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
       neededToContinue: [],
       onContinue: () => {},
       toRender: () => <div>{this.renderUserInterests()}</div>,
     },
-    { // Placement courses
+    {
+      /**
+       * Add description on hover
+       * Add search for AP courses
+       * Add department key for users
+       */
       title: 'What have you already completed?',
       text: 'Search for and select which classes you have placed out of.',
       neededToContinue: [],
@@ -133,8 +141,12 @@ class Tutorial extends React.Component {
           </div>
         </form>
       ),
-    }, // End placement courses
+    },
     {
+      /**
+       * Add affiliation at dartmouth on hover
+       * Add nickname search and class year
+       */
       title: 'Add plan advisors.',
       text: 'Invite academic professionals to review your plans and give personalized feedback.',
       neededToContinue: [
