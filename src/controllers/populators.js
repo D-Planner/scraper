@@ -11,6 +11,11 @@ export const PopulateCourse = [{
     path: 'prerequisites.rec',
 }];
 
+// TODO
+// export const PopulateAdvisor = [{
+
+// }];
+
 export const PopulateTerm = [{
     path: 'courses',
     populate: [{
