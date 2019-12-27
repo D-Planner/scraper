@@ -609,7 +609,7 @@ export function addCourseToPlacements(courseID) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       console.log('added course to placement', response.data);
-      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      dispatch(fetchUser());
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -630,7 +630,7 @@ export function removeCourseFromPlacements(courseID) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       console.log('response', response);
-      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      dispatch(fetchUser());
       resolve();
     }).catch((error) => {
       console.log(error);

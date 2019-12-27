@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan, addCourseToPlacements, removeCourseFromPlacements, fetchCourse,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan, addCourseToPlacements, removeCourseFromPlacements,
 } from '../../actions';
 import { ROOT_URL } from '../../constants';
 
@@ -204,42 +204,51 @@ class Tutorial extends React.Component {
     // Load in all data from props arrays when loaded
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        // Add all props to be loaded HERE
+        // Add all props to be loaded HERE (only arrays can be guaranteed to be defined as [])
         if (this.props.user.other_advisors && this.props.user.placement_courses) {
-          console.log(this.props.user.other_advisors);
-          console.log(this.props.user.placement_courses);
+          console.log('other advisors', this.props.user.other_advisors);
+          console.log('placement_courses', this.props.user.placement_courses);
           resolve();
         }
       }, 1000);
     }).then(() => {
-      console.log('dean');
-      getAdvisorById(this.props.user.dean).then((dean) => {
-        this.loadElement('deanAdvisor', dean.full_name, dean._id);
-      });
+      if (this.props.user.dean) {
+        console.log('dean');
+        getAdvisorById(this.props.user.dean).then((dean) => {
+          this.loadElement('deanAdvisor', dean.full_name, dean._id);
+        });
+      }
 
-      console.log('faculty advisor');
-      getAdvisorById(this.props.user.faculty_advisor).then((facultyAdvisor) => {
-        this.loadElement('facultyAdvisor', facultyAdvisor.full_name, facultyAdvisor._id);
-      });
+      if (this.props.user.faculty_advisor) {
+        console.log('faculty advisor');
+        getAdvisorById(this.props.user.faculty_advisor).then((facultyAdvisor) => {
+          this.loadElement('facultyAdvisor', facultyAdvisor.full_name, facultyAdvisor._id);
+        });
+      }
 
       console.log('other advisors');
       let advisorImportCount = 0;
       this.props.user.other_advisors.forEach((advisorID) => {
-        getAdvisorById(advisorID).then((savedAdvisor) => {
-          this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
-          this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
-          advisorImportCount += 1;
-        });
+        if (advisorID !== null) {
+          getAdvisorById(advisorID).then((savedAdvisor) => {
+            console.log('savedAdvisor', savedAdvisor);
+            this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
+            this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
+            advisorImportCount += 1;
+          });
+        }
       });
 
       console.log('placement courses');
       let placementCourseImportCount = 0;
       console.log('user placements', this.props.user.placement_courses);
       this.props.user.placement_courses.forEach((savedCourse) => {
-        console.log('savedCourse', savedCourse);
-        this.loadElement(`placementCourse${placementCourseImportCount}`, `${savedCourse.department} ${savedCourse.number}`, savedCourse._id);
-        this.setState({ addedPlacementCourseCount: placementCourseImportCount + 1 });
-        placementCourseImportCount += 1;
+        if (savedCourse !== null) {
+          console.log('savedCourse', savedCourse);
+          this.loadElement(`placementCourse${placementCourseImportCount}`, `${savedCourse.department} ${savedCourse.number}`, savedCourse._id);
+          this.setState({ addedPlacementCourseCount: placementCourseImportCount + 1 });
+          placementCourseImportCount += 1;
+        }
       });
     });
   }
@@ -414,6 +423,7 @@ class Tutorial extends React.Component {
   removeContributor() {
     if (this.state.addedOtherEmailCount > 0) {
       this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] });
+      this.clearElement(`otherAdvisor${this.state.addedPlacementCourseCount - 1}`);
       this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
     }
   }
@@ -431,7 +441,6 @@ class Tutorial extends React.Component {
     if (this.state.addedOtherEmailCount) {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
-        // addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@yourcollege.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
         addedOtherEmailList.push(this.renderTutorialInput(`otherAdvisor${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName'));
       }
       return addedOtherEmailList;
@@ -442,14 +451,15 @@ class Tutorial extends React.Component {
 
   addPlacementCourse() {
     if (this.state.addedPlacementCourseCount < MAX_ADDED_CONTRIBUTORS) {
-      // this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}`] });
       this.setState(prevState => ({ addedPlacementCourseCount: prevState.addedPlacementCourseCount + 1 }));
     }
   }
 
   removePlacementCourse() {
     if (this.state.addedPlacementCourseCount > 0) {
-      // this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] });
+      console.log('count', this.state.addedPlacementCourseCount);
+      this.props.removeCourseFromPlacements(this.state[`placementCourse${this.state.addedPlacementCourseCount - 1}ID`]);
+      this.clearElement(`placementCourse${this.state.addedPlacementCourseCount - 1}`);
       this.setState(prevState => ({ addedPlacementCourseCount: prevState.addedPlacementCourseCount - 1 }));
     }
   }
@@ -472,6 +482,15 @@ class Tutorial extends React.Component {
       [stateName]: elementName + LOADED_OPTION_TEXT,
       [`${stateName}ID`]: elementID,
       [`${stateName}Suggestions`]: [],
+    });
+  }
+
+  // Automatically clears all states associated with 'stateName'
+  clearElement(stateName) {
+    this.setState({
+      [stateName]: undefined,
+      [`${stateName}ID`]: undefined,
+      [`${stateName}Suggestions`]: undefined,
     });
   }
 
@@ -703,5 +722,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan, addCourseToPlacements, removeCourseFromPlacements, fetchCourse,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan, addCourseToPlacements, removeCourseFromPlacements,
 })(Tutorial);
