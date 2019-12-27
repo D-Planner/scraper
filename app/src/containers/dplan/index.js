@@ -9,7 +9,6 @@ import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
-import { emptyPlan } from '../../services/empty_plan';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
 import trash from '../../style/trash.svg';
