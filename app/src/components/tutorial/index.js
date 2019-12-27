@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan, addCourseToPlacements, removeCourseFromPlacements, fetchCourse,
 } from '../../actions';
 import { ROOT_URL } from '../../constants';
 
@@ -15,7 +15,7 @@ import InterestTile from '../interestTile/interestTile';
 import LoadingWheel from '../loadingWheel';
 import NewPlanPage from './pages/newPlanPage';
 import { emptyPlan } from '../../services/empty_plan';
-
+import { parseQuery } from '../../containers/sidebar/searchPane';
 
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
@@ -23,8 +23,9 @@ import './tutorial.scss';
 import ErrorMessageSpacer from '../errorMessageSpacer';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
+const MAX_ADDED_PLACEMENT_COURSES = 6;
 const MAX_SUGGESTIONS_LENGTH = 8;
-const LOADED_ADVISOR_TEXT = ' - Added';
+const LOADED_OPTION_TEXT = ' - Added';
 
 // function getInterestById(id) {
 //   return new Promise((resolve, reject) => {
@@ -39,7 +40,24 @@ const LOADED_ADVISOR_TEXT = ' - Added';
 //   });
 // }
 
+function searchForCourse(query) {
+  return new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/courses/search`, {
+      params: query,
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
+      console.log('search for course', response.data);
+      resolve(response.data);
+    }).catch((error) => {
+      console.log(error);
+      reject();
+    });
+  }));
+}
+
 function getAdvisorById(id) {
+  console.log('getAdvisorById', id);
   if (id !== null) {
     return new Promise((resolve, reject) => {
       const headers = {
@@ -92,13 +110,30 @@ class Tutorial extends React.Component {
       text: 'We are the future of academic planning. Here’s a little bit about us.',
       neededToContinue: [],
       onContinue: () => {},
+      toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
     },
     {
       title: 'Let\'s get you started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
       neededToContinue: [],
       onContinue: () => {},
+      toRender: () => <div>{this.renderUserInterests()}</div>,
     },
+    { // Placement courses
+      title: 'What have you already completed?',
+      text: 'Search for and select which classes you have placed out of.',
+      neededToContinue: [],
+      onContinue: () => {},
+      toRender: () => (
+        <form>
+          {this.renderAddedPlacementCourses()}
+          <div className="contributor-modify-container">
+            <div className={`contributor-modify${this.state.addedPlacementCourseCount >= MAX_ADDED_PLACEMENT_COURSES ? ' inactive' : ''}`} onClick={this.addPlacementCourse} role="button" tabIndex={-1}>+ Add another placement course</div>
+            <div className={`contributor-modify${this.state.addedPlacementCourseCount == 0 ? ' inactive' : ''}`} onClick={this.removePlacementCourse} role="button" tabIndex={-1}>- Remove placement course</div>
+          </div>
+        </form>
+      ),
+    }, // End placement courses
     {
       title: 'Add plan advisors.',
       text: 'Invite academic professionals to review your plans and give personalized feedback.',
@@ -107,6 +142,17 @@ class Tutorial extends React.Component {
         { name: 'facultyAdvisor', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
       ],
       onContinue: () => {},
+      toRender: () => (
+        <form>
+          {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name', 'checkAdvisor', 'displayName')}
+          {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name', 'checkAdvisor', 'displayName')}
+          {this.renderAddedOtherEmails()}
+          <div className="contributor-modify-container">
+            <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
+            <div className={`contributor-modify${this.state.addedOtherEmailCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor} role="button" tabIndex={-1}>- Remove contributor</div>
+          </div>
+        </form>
+      ),
     },
     {
       title: 'Here\'s to your first plan!',
@@ -117,6 +163,7 @@ class Tutorial extends React.Component {
       // { name: 'planMajor', errorMessage: 'Please select a major for your plan' },
       ],
       onContinue: () => this.createTutorialPlan(),
+      toRender: () => <NewPlanPage handleStateChange={this.handleNewPlanPageUpdate} user={this.props.user} />,
     },
   ];
 
@@ -127,6 +174,7 @@ class Tutorial extends React.Component {
       interests: null,
       tempUserInterests: [],
       addedOtherEmailCount: 0,
+      addedPlacementCourseCount: 0,
       errorMessage: null,
     };
 
@@ -135,6 +183,8 @@ class Tutorial extends React.Component {
     this.updateUserInterests = this.updateUserInterests.bind(this);
     this.addNewContributor = this.addNewContributor.bind(this);
     this.removeContributor = this.removeContributor.bind(this);
+    this.addPlacementCourse = this.addPlacementCourse.bind(this);
+    this.removePlacementCourse = this.removePlacementCourse.bind(this);
     this.onInputUpdate = this.onInputUpdate.bind(this);
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
     this.handleNewPlanPageUpdate = this.handleNewPlanPageUpdate.bind(this);
@@ -151,26 +201,45 @@ class Tutorial extends React.Component {
     });
     window.addEventListener('click', this.handleBackgroundClick);
 
+    // Load in all data from props arrays when loaded
     new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (this.props.user.other_advisors) {
+        // Add all props to be loaded HERE
+        if (this.props.user.other_advisors && this.props.user.placement_courses) {
+          console.log(this.props.user.other_advisors);
+          console.log(this.props.user.placement_courses);
           resolve();
         }
       }, 1000);
     }).then(() => {
+      console.log('dean');
       getAdvisorById(this.props.user.dean).then((dean) => {
-        this.loadAdvisor('deanAdvisor', dean);
+        this.loadElement('deanAdvisor', dean.full_name, dean._id);
       });
+
+      console.log('faculty advisor');
       getAdvisorById(this.props.user.faculty_advisor).then((facultyAdvisor) => {
-        this.loadAdvisor('facultyAdvisor', facultyAdvisor);
+        this.loadElement('facultyAdvisor', facultyAdvisor.full_name, facultyAdvisor._id);
       });
+
+      console.log('other advisors');
       let advisorImportCount = 0;
       this.props.user.other_advisors.forEach((advisorID) => {
         getAdvisorById(advisorID).then((savedAdvisor) => {
-          this.loadAdvisor(`otherAdvisor${advisorImportCount}`, savedAdvisor);
+          this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
           this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
           advisorImportCount += 1;
         });
+      });
+
+      console.log('placement courses');
+      let placementCourseImportCount = 0;
+      console.log('user placements', this.props.user.placement_courses);
+      this.props.user.placement_courses.forEach((savedCourse) => {
+        console.log('savedCourse', savedCourse);
+        this.loadElement(`placementCourse${placementCourseImportCount}`, `${savedCourse.department} ${savedCourse.number}`, savedCourse._id);
+        this.setState({ addedPlacementCourseCount: placementCourseImportCount + 1 });
+        placementCourseImportCount += 1;
       });
     });
   }
@@ -349,11 +418,11 @@ class Tutorial extends React.Component {
     }
   }
 
-  renderTutorialInput(stateName, placeholder) {
+  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameter) {
     return (
       <>
-        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName)} />
-        {this.renderSuggestedDropdownMenu(stateName)}
+        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)} />
+        {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameter)}
       </>
     );
   }
@@ -363,7 +432,7 @@ class Tutorial extends React.Component {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
         // addedOtherEmailList.push(<input className="tutorial-input" type="email" placeholder="Other - name@yourcollege.edu" value={this.state[`otherEmail${i}`]} onChange={e => this.setState({ [`otherEmail${i}`]: e.target.value })} />);
-        addedOtherEmailList.push(this.renderTutorialInput(`otherAdvisor${i}`, 'Enter Other Contributor Name'));
+        addedOtherEmailList.push(this.renderTutorialInput(`otherAdvisor${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName'));
       }
       return addedOtherEmailList;
     } else {
@@ -371,36 +440,78 @@ class Tutorial extends React.Component {
     }
   }
 
+  addPlacementCourse() {
+    if (this.state.addedPlacementCourseCount < MAX_ADDED_CONTRIBUTORS) {
+      // this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}`] });
+      this.setState(prevState => ({ addedPlacementCourseCount: prevState.addedPlacementCourseCount + 1 }));
+    }
+  }
+
+  removePlacementCourse() {
+    if (this.state.addedPlacementCourseCount > 0) {
+      // this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] });
+      this.setState(prevState => ({ addedPlacementCourseCount: prevState.addedPlacementCourseCount - 1 }));
+    }
+  }
+
+  renderAddedPlacementCourses() {
+    if (this.state.addedPlacementCourseCount) {
+      const addedPlacementCourseList = [];
+      for (let i = 0; i < this.state.addedPlacementCourseCount; i += 1) {
+        addedPlacementCourseList.push(this.renderTutorialInput(`placementCourse${i}`, 'Enter Placement Course Name', 'courseSearch', 'title'));
+      }
+      return addedPlacementCourseList;
+    } else {
+      return null;
+    }
+  }
+
   // Automatically loads all required fields from user prop
-  loadAdvisor(stateName, advisor) {
+  loadElement(stateName, elementName, elementID) {
     this.setState({
-      [stateName]: advisor.full_name + LOADED_ADVISOR_TEXT,
-      [`${stateName}ID`]: advisor._id,
+      [stateName]: elementName + LOADED_OPTION_TEXT,
+      [`${stateName}ID`]: elementID,
       [`${stateName}Suggestions`]: [],
     });
   }
 
   // Input onChange callback handler
-  onInputUpdate(value, stateName) {
+  onInputUpdate(value, stateName, suggestionLocation) {
     this.setState({ [stateName]: value, dropdownClosed: false }, () => {
-      this.fetchSuggestions(value, stateName);
+      this.fetchSuggestions(value, stateName, suggestionLocation);
+      console.log(this.state);
     });
   }
 
   // Get suggestions based on query and save to stateName
-  fetchSuggestions(query, stateName) {
-    checkAdvisor(query).then((results) => {
-      this.setState((prevState) => {
-        if (prevState[`${stateName}Suggestions`] !== results.users) {
-          return ({ [`${stateName}Suggestions`]: results.users });
-        } else return null;
-      });
-    }).catch(error => console.error(error));
+  fetchSuggestions(query, stateName, suggestionLocation) {
+    console.log('suggestionLocation', suggestionLocation);
+    switch (suggestionLocation) {
+      case 'checkAdvisor':
+        checkAdvisor(query).then((results) => {
+          this.setState((prevState) => {
+            if (prevState[`${stateName}Suggestions`] !== results.users) {
+              return ({ [`${stateName}Suggestions`]: results.users });
+            } else return null;
+          });
+        }).catch(error => console.error(error));
+        break;
+      case 'courseSearch':
+        // FIX THIS
+        console.log('query', this.state[stateName]);
+        searchForCourse(parseQuery(this.state[stateName])).then((results) => {
+          console.log('results', results);
+          this.setState({ [`${stateName}Suggestions`]: results }, () => console.log(this.state[`${stateName}Suggestions`]));
+        });
+        break;
+      default:
+        break;
+    }
   }
 
-  // Handles a user click on a suggestion
-  handleSuggestionSelect(stateName, suggestion) {
-    this.setState({ [stateName]: (suggestion.displayName + LOADED_ADVISOR_TEXT), dropdownClosed: true, errorMessage: null }, () => {
+  // Handles a user click on an advisor suggestion
+  handleAdvisorSuggestionSelect(stateName, suggestion) {
+    this.setState({ [stateName]: (suggestion.displayName + LOADED_OPTION_TEXT), dropdownClosed: true, errorMessage: null }, () => {
       const json = suggestion;
       delete json.dcHinmanaddr;
       delete json.telephoneNumber;
@@ -425,6 +536,55 @@ class Tutorial extends React.Component {
           this.props.updateUser({ [advisorIdentifier]: advisorID });
         }
       });
+    });
+  }
+
+  // Handles a user click on a course suggestion
+  handlePlacementCourseSuggestionSelect(stateName, suggestion) {
+    console.log('suggestion befpre', suggestion, suggestion._id);
+    this.setState({
+      [stateName]: (`${suggestion.department} ${suggestion.number} ${LOADED_OPTION_TEXT}`),
+      [`${stateName}ID`]: suggestion._id,
+      dropdownClosed: true,
+      errorMessage: null,
+    }, () => {
+      if (this.props.user.placement_courses.indexOf(suggestion._id) !== -1) {
+        console.log('removing from placements');
+        this.props.removeCourseFromPlacements(suggestion._id).then(() => {
+          console.log('user placements', this.props.user.placement_courses);
+        });
+      } else {
+        console.log('adding to placements');
+        this.props.addCourseToPlacements(suggestion._id).then(() => {
+          console.log('user placements', this.props.user.placement_courses);
+        });
+      }
+      console.log('suggestion', this.state[stateName], this.state[`${stateName}ID`]);
+      console.log('user placement_courses', this.props.user.placement_courses);
+      // const json = suggestion;
+      // delete json.dcHinmanaddr;
+      // delete json.telephoneNumber;
+      // delete json.eduPersonNickname;
+      // findOrCreateAdvisor(json).then((advisorID) => {
+      //   // Check which advisor to update in backend
+      //   let advisorIdentifier;
+
+      //   if (stateName === 'deanAdvisor') {
+      //     advisorIdentifier = 'dean';
+      //   } else if (stateName === 'facultyAdvisor') {
+      //     advisorIdentifier = 'faculty_advisor';
+      //   } else if (stateName.slice(0, stateName.length - 1) === 'otherAdvisor') {
+      //     advisorIdentifier = 'other_advisor';
+      //   } else {
+      //     advisorIdentifier = undefined;
+      //   }
+
+      //   this.setState({ [`${stateName}ID`]: advisorID });
+
+      //   if (advisorIdentifier) {
+      //     this.props.updateUser({ [advisorIdentifier]: advisorID });
+      //   }
+      // });
     });
   }
 
@@ -459,7 +619,24 @@ class Tutorial extends React.Component {
   }
 
   // Render suggestions from passed state array name
-  renderSuggestedDropdownMenu(stateName) {
+  renderSuggestedDropdownMenu(stateName, sugestionLocation, displayParameter) {
+    // Function to be called on click of option
+    let click = () => {};
+
+    switch (sugestionLocation) {
+      case 'checkAdvisor':
+        click = (sn, el) => this.handleAdvisorSuggestionSelect(sn, el);
+        break;
+      case 'courseSearch':
+        click = (sn, el) => {
+          this.handlePlacementCourseSuggestionSelect(sn, el);
+          this.setState({ [`${stateName}ID`]: el._id });
+        };
+        break;
+      default:
+        break;
+    }
+
     // Check if the user already selected an option
     if (this.state.dropdownClosed === false) {
       // Initialize "{stateName}Suggestions"
@@ -468,8 +645,8 @@ class Tutorial extends React.Component {
         if (this.state[`${stateName}Suggestions`].length > MAX_SUGGESTIONS_LENGTH) { // Outside length requirements
           return (
             <div className="dropdown-content">
-              {this.state[`${stateName}Suggestions`].slice(0, MAX_SUGGESTIONS_LENGTH - 1).map((user) => {
-                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user)}>{user.displayName}</p>;
+              {this.state[`${stateName}Suggestions`].slice(0, MAX_SUGGESTIONS_LENGTH - 1).map((element) => {
+                return <p className="tutorial-dropdown-element" key={element[displayParameter]} onClick={() => click(stateName, element)}>{element[displayParameter]}</p>;
               })}
               <p className="tutorial-dropdown-element">+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
             </div>
@@ -477,8 +654,8 @@ class Tutorial extends React.Component {
         } else { // Within length requirements
           return (
             <div className="dropdown-content">
-              {this.state[`${stateName}Suggestions`].map((user) => {
-                return <p className="tutorial-dropdown-element" key={user.displayName} onClick={() => this.handleSuggestionSelect(stateName, user)}>{user.displayName}</p>;
+              {this.state[`${stateName}Suggestions`].map((element) => {
+                return <p className="tutorial-dropdown-element" key={element[displayParameter]} onClick={() => click(stateName, element)}>{element[displayParameter]}</p>;
               })}
             </div>
           );
@@ -492,28 +669,9 @@ class Tutorial extends React.Component {
   }
 
   renderTutorialPage = (page) => {
-    switch (page) {
-      case 0:
-        return <VideoEmbed youtubeID="rbasThWVb-c" />;
-      case 1:
-        return <div>{this.renderUserInterests()}</div>;
-      case 2:
-        return (
-          <form>
-            {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name')}
-            {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name')}
-            {this.renderAddedOtherEmails()}
-            <div className="contributor-modify-container">
-              <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
-              <div className={`contributor-modify${this.state.addedOtherEmailCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor} role="button" tabIndex={-1}>- Remove contributor</div>
-            </div>
-          </form>
-        );
-      case 3:
-        return <NewPlanPage handleStateChange={this.handleNewPlanPageUpdate} user={this.props.user} />;
-      default:
-        return <div>Error...</div>;
-    }
+    // console.log('page', page);
+    // console.log('toRender', this.tutorialData[page].toRender);
+    return this.tutorialData[page].toRender();
   }
 
   render() {
@@ -545,5 +703,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan,
+  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan, addCourseToPlacements, removeCourseFromPlacements, fetchCourse,
 })(Tutorial);

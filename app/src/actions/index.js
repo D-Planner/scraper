@@ -603,11 +603,13 @@ export function setFulfilledStatus(id, value) {
  * @returns an action creator to add a course to a user's favorites
  */
 export function addCourseToPlacements(courseID) {
+  console.log('addToPlacements action', courseID);
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      // console.log('added course to placement');
+      console.log('added course to placement', response.data);
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
       resolve();
     }).catch((error) => {
       console.log(error);
@@ -622,11 +624,13 @@ export function addCourseToPlacements(courseID) {
  * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
  * @returns an action creator to add a course to a user's favorites
  */
-export function removeCourseFromPlacement(courseID) {
+export function removeCourseFromPlacements(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
+      console.log('response', response);
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
       resolve();
     }).catch((error) => {
       console.log(error);
