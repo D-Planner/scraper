@@ -6,29 +6,29 @@ import { setTermsPrevCourses } from '../controllers/plan_controller';
 import { PopulateTerm, PopulateCourse } from './populators';
 import { trim } from './courses_controller';
 
-// Helpers
-const addCompleted = (userID, courseID) => {
-    User.findByIdAndUpdate(userID, {
-        $push: { completed_courses: courseID },
-    }, { new: true }).then((result) => {
-    }).catch((error) => {
-        console.log(error);
-    });
-};
+// Not used anymore because completed_courses are calculated in frontend
+// const addCompleted = (userID, courseID) => {
+//     User.findByIdAndUpdate(userID, {
+//         $push: { completed_courses: courseID },
+//     }, { new: true }).then((result) => {
+//     }).catch((error) => {
+//         console.log(error);
+//     });
+// };
 
-const removeCompleted = (userID, courseID) => {
-    console.log('REMOVING COURSE FROM COMPLETED, ', courseID);
-    return new Promise((resolve, reject) => {
-        User.findByIdAndUpdate(userID, {
-            $pull: { completed_courses: courseID },
-        }, { new: true }).then((result) => {
-            resolve();
-        }).catch((error) => {
-            console.log(error);
-            reject();
-        });
-    });
-};
+// const removeCompleted = (userID, courseID) => {
+//     console.log('REMOVING COURSE FROM COMPLETED, ', courseID);
+//     return new Promise((resolve, reject) => {
+//         User.findByIdAndUpdate(userID, {
+//             $pull: { completed_courses: courseID },
+//         }, { new: true }).then((result) => {
+//             resolve();
+//         }).catch((error) => {
+//             console.log(error);
+//             reject();
+//         });
+//     });
+// };
 
 const createTerm = async (term, planID, index) => {
     const newTerm = await Term.create({
@@ -109,26 +109,22 @@ const addCourseToTerm = (req, res) => {
     Term.findById(termID)
         .then((term) => {
             User.findById(req.user.id)
-                .then((user) => {
-                    if (user.completed_courses.filter((c) => { return c.id === req.body.courseID; }).length === 0) {
-                        UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
-                            .then((userCourse) => {
-                                term.courses.push(userCourse);
-                                term.save().then(() => {
-                                    userCourse.populate({
-                                        path: 'course',
-                                        populate: PopulateCourse,
-                                    }).execPopulate().then((populated) => {
-                                        res.send(populated);
-                                    });
+                .then(() => {
+                    UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
+                        .then((userCourse) => {
+                            term.courses.push(userCourse);
+                            term.save().then(() => {
+                                userCourse.populate({
+                                    path: 'course',
+                                    populate: PopulateCourse,
+                                }).execPopulate().then((populated) => {
+                                    res.send(populated);
                                 });
-                            })
-                            .catch((e) => {
-                                console.log(e);
                             });
-                    } else {
-                        res.sendStatus(409).json({ message: 'This course already exists in this term' });
-                    }
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
                 });
         });
     // TO-DO: build in auto-scheduler that will put in appropriate course hour that fits with the other courses in the term
