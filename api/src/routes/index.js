@@ -7,6 +7,7 @@ import professorsRouter from './professors';
 import globalRouter from './global';
 import interestsRouter from './interests';
 import advisorRouter from './advisor';
+import dataRouter from './data';
 
 export {
     authRouter,
@@ -18,4 +19,5 @@ export {
     globalRouter,
     interestsRouter,
     advisorRouter,
+    dataRouter,
 };

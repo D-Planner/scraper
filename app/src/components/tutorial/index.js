@@ -205,6 +205,8 @@ class Tutorial extends React.Component {
     this.getInterests().then(() => {
       this.props.fetchUser();
     });
+
+    this.getAPPlacements();
   }
 
   componentDidMount() {
@@ -315,6 +317,18 @@ class Tutorial extends React.Component {
       };
       axios.get(`${ROOT_URL}/interests/`, { headers }).then((response) => {
         this.setState({ interests: response.data }, resolve());
+      });
+    });
+  }
+
+  getAPPlacements() {
+    return new Promise((resolve, reject) => {
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      };
+      axios.get(`${ROOT_URL}/data/ap`, { headers }).then((response) => {
+        // this.setState({ interests: response.data }, resolve());
+        console.log('AP Placements', response.data);
       });
     });
   }
