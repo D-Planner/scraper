@@ -11,11 +11,6 @@ export const PopulateCourse = [{
     path: 'prerequisites.rec',
 }];
 
-// TODO
-// export const PopulateAdvisor = [{
-
-// }];
-
 export const PopulateTerm = [{
     path: 'courses',
     populate: [{
@@ -35,4 +30,10 @@ export const PopulateUser = [{
 }, {
     path: 'placement_courses',
     populate: PopulateCourse,
+}, {
+    path: 'dean',
+}, {
+    path: 'faculty_advisor',
+}, {
+    path: 'other_advisors',
 }];
