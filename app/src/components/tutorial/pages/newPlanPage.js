@@ -76,27 +76,28 @@ class NewPlanPage extends React.Component {
         {/* <input className="tutorial-input" type="text" placeholder="Pick a major for this plan" value={this.state.planMajor} onChange={e => this.handleStateChange('planMajor', e.target.value)} /> */}
         <div className="tutorial-input">Which of your interests does this plan relate to?</div>
         <div className="plan-interests-container">
-          {this.state.fetchedInterests ? this.state.filledInterests.map((interest) => {
-            const interestActive = this.getInterestCheckedStatus(interest._id);
-            return (
-              <InterestTile
-                active={interestActive}
-                user={this.props.user}
-                interest={interest}
-                click={(interestID, userID, active) => {
-                  if (interestActive === false) {
-                    this.addInterestToSet(interestID);
-                  } else {
-                    this.removeInterestFromSet(interestID);
-                  }
-                }}
-              />
-            );
+          {this.state.fetchedInterests === true ? this.state.filledInterests.map((interest) => {
+            if (interest !== null) {
+              console.log('interest', interest, this.state.fetchedInterests, this.state.filledInterests);
+              const interestActive = this.getInterestCheckedStatus(interest._id);
+              return (
+                <InterestTile
+                  active={interestActive}
+                  user={this.props.user}
+                  interest={interest}
+                  click={(interestID, userID, active) => {
+                    if (interestActive === false) {
+                      this.addInterestToSet(interestID);
+                    } else {
+                      this.removeInterestFromSet(interestID);
+                    }
+                  }}
+                />
+              );
+            } else return null;
           }) : <LoadingWheel />}
-          {/* <ProgressBar percentage={60} /> */}
         </div>
         <div style={{ color: 'white', textAlign: 'center', marginBottom: '18px' }}>{this.state.fetchedInterests && this.state.filledInterests.length === 0 ? 'You didn\'t select any interests when you got started. Go back and do that now!' : null}
-          {/* <div onClick={this.createTutorialPlan} role="button" tabIndex={-1}>Click me!</div> */}
         </div>
       </form>
     );

@@ -357,6 +357,7 @@ class Tutorial extends React.Component {
 
   renderUserInterests = () => {
     if (this.props.user) {
+      console.log('interest_profile', this.props.user.interest_profile);
       if (!this.state.interests) {
         return <LoadingWheel />;
       } else {
@@ -577,30 +578,6 @@ class Tutorial extends React.Component {
       }
       console.log('suggestion', this.state[stateName], this.state[`${stateName}ID`]);
       console.log('user placement_courses', this.props.user.placement_courses);
-      // const json = suggestion;
-      // delete json.dcHinmanaddr;
-      // delete json.telephoneNumber;
-      // delete json.eduPersonNickname;
-      // findOrCreateAdvisor(json).then((advisorID) => {
-      //   // Check which advisor to update in backend
-      //   let advisorIdentifier;
-
-      //   if (stateName === 'deanAdvisor') {
-      //     advisorIdentifier = 'dean';
-      //   } else if (stateName === 'facultyAdvisor') {
-      //     advisorIdentifier = 'faculty_advisor';
-      //   } else if (stateName.slice(0, stateName.length - 1) === 'otherAdvisor') {
-      //     advisorIdentifier = 'other_advisor';
-      //   } else {
-      //     advisorIdentifier = undefined;
-      //   }
-
-      //   this.setState({ [`${stateName}ID`]: advisorID });
-
-      //   if (advisorIdentifier) {
-      //     this.props.updateUser({ [advisorIdentifier]: advisorID });
-      //   }
-      // });
     });
   }
 
