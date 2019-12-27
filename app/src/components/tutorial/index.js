@@ -56,21 +56,21 @@ function searchForCourse(query) {
   }));
 }
 
-function getAdvisorById(id) {
-  console.log('getAdvisorById', id);
-  if (id !== null) {
-    return new Promise((resolve, reject) => {
-      const headers = {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      };
-      axios.get(`${ROOT_URL}/advisors/${id}`, { headers }).then((response) => {
-        resolve(response.data);
-      }).catch((error) => {
-        reject(error);
-      });
-    });
-  } else return null;
-}
+// function getAdvisorById(id) {
+//   console.log('getAdvisorById', id);
+//   if (id !== null) {
+//     return new Promise((resolve, reject) => {
+//       const headers = {
+//         Authorization: `Bearer ${localStorage.getItem('token')}`,
+//       };
+//       axios.get(`${ROOT_URL}/advisors/${id}`, { headers }).then((response) => {
+//         resolve(response.data);
+//       }).catch((error) => {
+//         reject(error);
+//       });
+//     });
+//   } else return null;
+// }
 
 function findOrCreateAdvisor(collectedInfo) {
   return new Promise((resolve, reject) => {
@@ -206,37 +206,30 @@ class Tutorial extends React.Component {
       setTimeout(() => {
         // Add all props to be loaded HERE (only arrays can be guaranteed to be defined as [])
         if (this.props.user.other_advisors && this.props.user.placement_courses) {
-          console.log('other advisors', this.props.user.other_advisors);
-          console.log('placement_courses', this.props.user.placement_courses);
+          // console.log('other advisors', this.props.user.other_advisors);
+          // console.log('placement_courses', this.props.user.placement_courses);
           resolve();
         }
       }, 1000);
     }).then(() => {
       if (this.props.user.dean) {
-        console.log('dean');
-        getAdvisorById(this.props.user.dean).then((dean) => {
-          this.loadElement('deanAdvisor', dean.full_name, dean._id);
-        });
+        console.log('dean', this.props.user.dean);
+        this.loadElement('deanAdvisor', this.props.user.dean.full_name, this.props.user.dean._id);
       }
 
       if (this.props.user.faculty_advisor) {
-        console.log('faculty advisor');
-        getAdvisorById(this.props.user.faculty_advisor).then((facultyAdvisor) => {
-          this.loadElement('facultyAdvisor', facultyAdvisor.full_name, facultyAdvisor._id);
-        });
+        console.log('faculty advisor', this.props.user.faculty_advisor);
+        this.loadElement('facultyAdvisor', this.props.user.faculty_advisor.full_name, this.props.user.faculty_advisor._id);
       }
 
-      console.log('other advisors');
+      console.log('other advisors', this.props.user.other_advisors);
       let advisorImportCount = 0;
-      this.props.user.other_advisors.forEach((advisorID) => {
-        if (advisorID !== null) {
-          getAdvisorById(advisorID).then((savedAdvisor) => {
-            console.log('savedAdvisor', savedAdvisor);
-            this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
-            this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
-            advisorImportCount += 1;
-          });
-        }
+      this.props.user.other_advisors.forEach((savedAdvisor) => {
+        console.log('savedAdvisor', savedAdvisor);
+        this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
+        this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
+        advisorImportCount += 1;
+        console.log('advisorImportCount', advisorImportCount);
       });
 
       console.log('placement courses');
@@ -422,9 +415,12 @@ class Tutorial extends React.Component {
 
   removeContributor() {
     if (this.state.addedOtherEmailCount > 0) {
-      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] });
-      this.clearElement(`otherAdvisor${this.state.addedPlacementCourseCount - 1}`);
-      this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
+      console.log('other_advisors on removeContributor', this.props.user.other_advisors);
+      console.log('removing', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount);
+      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
+        this.clearElement(`otherAdvisor${this.state.addedOtherEmailCount - 1}`);
+        this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
+      });
     }
   }
 
@@ -487,6 +483,7 @@ class Tutorial extends React.Component {
 
   // Automatically clears all states associated with 'stateName'
   clearElement(stateName) {
+    console.log('clearing', stateName);
     this.setState({
       [stateName]: undefined,
       [`${stateName}ID`]: undefined,
