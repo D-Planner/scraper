@@ -420,7 +420,6 @@ const addPlacement = (req, res) => {
     User.findByIdAndUpdate(req.user.id, {
         $addToSet: { placement_courses: req.params.id },
     }, { new: true }).then((result) => {
-        console.log('result', result);
         res.json(result);
     }).catch((error) => {
         res.status(500).json({ error });
@@ -431,7 +430,6 @@ const removePlacement = (req, res) => {
     User.findByIdAndUpdate(req.user.id, {
         $pull: { placement_courses: req.params.id },
     }, { new: true }).then((result) => {
-        console.log('result', result);
         res.json(result);
     }).catch((error) => {
         res.status(500).json({ error });

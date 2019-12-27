@@ -36,4 +36,7 @@ export const PopulateUser = [{
     path: 'faculty_advisor',
 }, {
     path: 'other_advisors',
+    // ADD THIS FUNCTIONALITY
+// }, {
+//     path: 'interest_profile',
 }];
