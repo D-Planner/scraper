@@ -1,3 +1,4 @@
+/* eslint-disable no-lonely-if */
 /* eslint-disable react/sort-comp */
 /* eslint-disable eqeqeq */
 import React from 'react';
@@ -587,11 +588,11 @@ class Tutorial extends React.Component {
     }
   };
 
-  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameter) {
+  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameterPrimary, displayParametersSecondary = undefined) {
     return (
       <>
         <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)} />
-        {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameter)}
+        {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameterPrimary, displayParametersSecondary)}
       </>
     );
   }
@@ -686,15 +687,33 @@ class Tutorial extends React.Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  separateArray(arr, separator = ', ') {
+  separateArray(arr, separator = ', ', subParam = undefined, superParam = undefined) {
     let returnString = '';
     for (let i = 0; i < arr.length; i += 1) {
-      if (i < arr.length - 1) {
-        returnString += arr[i] + separator;
+      if (subParam) {
+        console.log('subParam', subParam);
+        if (i < arr.length - 1) {
+          returnString += arr[i][subParam] + separator;
+        } else {
+          returnString += arr[i][subParam];
+        }
+      } else if (superParam) {
+        console.log('superParam', superParam);
+        if (i < arr.length - 1) {
+          returnString += superParam[arr[i]] + separator;
+        } else {
+          returnString += superParam[arr[i]];
+        }
       } else {
-        returnString += arr[i];
+        console.log('no sub or super param');
+        if (i < arr.length - 1) {
+          returnString += arr[i] + separator;
+        } else {
+          returnString += arr[i];
+        }
       }
     }
+    console.log('returnString', returnString);
     return returnString;
   }
 
@@ -721,7 +740,7 @@ class Tutorial extends React.Component {
     if (this.state.addedOtherEmailCount) {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherEmailCount; i += 1) {
-        addedOtherEmailList.push(this.renderTutorialInput(`otherAdvisor${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName'));
+        addedOtherEmailList.push(this.renderTutorialInput(`otherAdvisor${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass']));
       }
       return addedOtherEmailList;
     } else {
@@ -858,6 +877,7 @@ class Tutorial extends React.Component {
     switch (suggestionLocation) {
       case 'checkAdvisor':
         checkAdvisor(query).then((results) => {
+          console.log('advisor result', results);
           this.setState((prevState) => {
             if (prevState[`${stateName}Suggestions`] !== results.users) {
               return ({ [`${stateName}Suggestions`]: results.users });
@@ -963,7 +983,7 @@ class Tutorial extends React.Component {
   }
 
   // Render suggestions from passed state array name
-  renderSuggestedDropdownMenu(stateName, sugestionLocation, displayParameter) {
+  renderSuggestedDropdownMenu(stateName, sugestionLocation, displayParameterPrimary, displayParametersSecondary) {
     // Function to be called on click of option
     let click = () => { };
 
@@ -989,8 +1009,8 @@ class Tutorial extends React.Component {
         if (this.state[`${stateName}Suggestions`].length > MAX_SUGGESTIONS_LENGTH) { // Outside length requirements
           return (
             <div className="dropdown-content">
-              {this.state[`${stateName}Suggestions`].slice(0, MAX_SUGGESTIONS_LENGTH - 1).map((element) => {
-                return <p className="tutorial-dropdown-element" key={element[displayParameter]} onClick={() => click(stateName, element)}>{element[displayParameter]}</p>;
+              {this.state[`${stateName}Suggestions`].slice(0, (MAX_SUGGESTIONS_LENGTH - 1)).map((element) => {
+                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]} - {displayParametersSecondary ? this.separateArray(displayParametersSecondary, ', ', undefined, element) : ''}</p>;
               })}
               <p className="tutorial-dropdown-element">+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
             </div>
@@ -999,7 +1019,7 @@ class Tutorial extends React.Component {
           return (
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].map((element) => {
-                return <p className="tutorial-dropdown-element" key={element[displayParameter]} onClick={() => click(stateName, element)}>{element[displayParameter]}</p>;
+                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]} - {displayParametersSecondary ? this.separateArray(displayParametersSecondary, ', ', undefined, element) : ''}</p>;
               })}
             </div>
           );
