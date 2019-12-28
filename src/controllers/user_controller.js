@@ -53,6 +53,7 @@ export const signup = (req, res, next) => {
             emailVerified: false,
             accessGranted: false,
             accountCreated: Date.now(),
+            tc_accepted: false,
         });
 
         return newUser.save().then((savedUser) => {
@@ -222,8 +223,10 @@ export const updateUser = async (req, res) => {
 
             // For managing adding and removing elements from AP profile
             if (user.ap_profile.indexOf(req.body.change.ap_profile) !== -1) {
+                console.log('removing from ap_profile', req.body.change.ap_profile);
                 user.ap_profile.pull(req.body.change.ap_profile);
             } else {
+                console.log('adding to ap_profile', req.body.change.ap_profile);
                 user.ap_profile.addToSet(req.body.change.ap_profile);
             }
 
@@ -246,7 +249,7 @@ export const updateUser = async (req, res) => {
             if (req.body.change.password) { user.password = req.body.change.password; }
 
             user.save().then((newUser) => {
-                const json = newUser.toJSON();
+                const json = newUser.populate(PopulateUser).toJSON();
                 delete json.password;
                 res.json(json);
             }).catch((error) => {
