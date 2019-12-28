@@ -19,10 +19,10 @@ export const checkUserByEmail = (req, res) => {
 
 export const signin = (req, res, next) => {
     if (req.user.accessGranted === false) {
-        // Pre-release signup
+    // Pre-release signup
         res.status(403).send('Account not yet authorized: pre-release sign up');
     } else {
-        // Authorized user
+    // Authorized user
         const json = req.user.toJSON();
         delete json.password;
         res.send({ token: tokenForUser(req.user), user: json });
@@ -66,12 +66,12 @@ export const signup = (req, res, next) => {
         next(err);
     });
 
-// 🚀 TODO:
-// here you should do a mongo query to find if a user already exists with this email.
-// if user exists then return an error. If not, use the User model to create a new user.
-// Save the new User object
-// this is similar to how you created a Post
-// and then return a token same as you did in in signin
+    // 🚀 TODO:
+    // here you should do a mongo query to find if a user already exists with this email.
+    // if user exists then return an error. If not, use the User model to create a new user.
+    // Save the new User object
+    // this is similar to how you created a Post
+    // and then return a token same as you did in in signin
 };
 
 export const getUser = (req, res) => {
@@ -203,11 +203,28 @@ export const updateUser = async (req, res) => {
             if (req.body.change.email) { user.email = req.body.change.email; }
             if (req.body.change.emailVerified) { user.emailVerified = req.body.change.emailVerified; }
 
+            // Set terms and conditions accepted
+            if (req.body.change.tc_accepted !== undefined) {
+                user.tc_accepted = req.body.change.tc_accepted;
+                if (req.body.change.tc_accepted === true) {
+                    user.tc_accepted_date = Date.now();
+                } else if (req.body.change.tc_accepted === false) {
+                    user.tc_accepted_date = -1;
+                }
+            }
+
             // For managing adding and removing elements from interest profile
             if (user.interest_profile.indexOf(req.body.change.interest_profile) !== -1) {
                 user.interest_profile.pull(req.body.change.interest_profile);
             } else {
                 user.interest_profile.addToSet(req.body.change.interest_profile);
+            }
+
+            // For managing adding and removing elements from AP profile
+            if (user.ap_profile.indexOf(req.body.change.ap_profile) !== -1) {
+                user.ap_profile.pull(req.body.change.ap_profile);
+            } else {
+                user.ap_profile.addToSet(req.body.change.ap_profile);
             }
 
             // For managing adding and removing elements from advisor elements
@@ -232,6 +249,7 @@ export const updateUser = async (req, res) => {
                 const json = newUser.toJSON();
                 delete json.password;
                 res.json(json);
+                console.log(json);
             }).catch((error) => {
                 console.error(error);
             });

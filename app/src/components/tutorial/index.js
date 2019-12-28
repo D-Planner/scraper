@@ -160,10 +160,49 @@ class Tutorial extends React.Component {
  */
   tutorialData = [
     {
+      /**
+       * Add checking for reviewing and accepting terms and conditions
+       */
+      title: 'Before we begin...',
+      text: 'Please review the terms and conditions that we operate under.',
+      neededToContinue: [
+        { name: 'tcAccepted', errorMessage: 'Please accept the terms and conditions' },
+      ],
+      onContinue: () => { },
+      toRender: () => (
+        <div className="tc-accept">
+          <a className="policy-link" href="/policies/termsandconditions">Terms and Conditions</a>
+          <p className="policy-spacer" />
+          <a className="policy-link" href="/policies/privacypolicy">Privacy Policy</a>
+          <div className="tc-checkbox-container">
+            <div>Please accept our terms and conditions</div>
+            <div style={{ display: 'none' }}>
+              {setTimeout(() => {
+                if (this.props.user.tc_accepted === true && !this.state.tcAccepted) {
+                  this.setState({ tcAccepted: true });
+                }
+              })}
+            </div>
+            {this.props.user.tc_accepted !== undefined ? (
+              <input
+                type="checkbox"
+                defaultChecked={this.props.user.tc_accepted}
+                onChange={(e) => {
+                  const check = e.target.checked;
+                  this.setState({ tcAccepted: check === true ? true : undefined });
+                  this.props.updateUser({ tc_accepted: check === true });
+                }}
+              />
+            ) : null}
+          </div>
+        </div>
+      ),
+    },
+    {
       title: 'Welcome to D-Planner!',
       text: 'We are the future of academic planning. Here’s a little bit about us.',
       neededToContinue: [],
-      onContinue: () => {},
+      onContinue: () => { },
       toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
     },
     {
@@ -173,7 +212,7 @@ class Tutorial extends React.Component {
       title: 'Let\'s get started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
       neededToContinue: [],
-      onContinue: () => {},
+      onContinue: () => { },
       toRender: () => <div>{this.renderUserInterests()}</div>,
     },
     {
@@ -183,7 +222,7 @@ class Tutorial extends React.Component {
       title: 'What AP tests have you taken?',
       text: 'Enter the AP tests you have taken and the score you received.',
       neededToContinue: [],
-      onContinue: () => {},
+      onContinue: () => { },
       toRender: () => (
         <form>
           {this.renderAPPlacementScores()}
@@ -225,7 +264,7 @@ class Tutorial extends React.Component {
         { name: 'deanAdvisor', errorMessage: 'Please select the name of your dean from the dropdown' },
         { name: 'facultyAdvisor', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
       ],
-      onContinue: () => {},
+      onContinue: () => { },
       toRender: () => (
         <form>
           {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name', 'checkAdvisor', 'displayName')}
@@ -239,12 +278,15 @@ class Tutorial extends React.Component {
       ),
     },
     {
+      /**
+       * Add "This information is used to refine our future course election process."
+       */
       title: 'Here\'s to your first plan!',
       text: 'A plan is a window into a potential path through college. Imagine your future now!',
       neededToContinue: [
         { name: 'planName', errorMessage: 'Please give your plan a name' },
         { name: 'planDescription', errorMessage: 'Please give a short description of your plan' },
-      // { name: 'planMajor', errorMessage: 'Please select a major for your plan' },
+        // { name: 'planMajor', errorMessage: 'Please select a major for your plan' },
       ],
       onContinue: () => this.createTutorialPlan(),
       toRender: () => <NewPlanPage handleStateChange={this.handleNewPlanPageUpdate} user={this.props.user} />,
@@ -436,7 +478,7 @@ class Tutorial extends React.Component {
       };
       axios.get(`${ROOT_URL}/data/ap`, { headers }).then((response) => {
         console.log('AP Placements', response.data);
-        this.setState({ APPlacements: response.data.data }, () => resolve());
+        this.setState({ APPlacements: response.data.data, APPlacementsLink: response.data.link }, () => resolve());
       });
     });
   }
@@ -716,6 +758,7 @@ class Tutorial extends React.Component {
       console.log('initialName', this.state.APPlacements[0].name);
       createAPPlacement(this.state.APPlacements[0].name, 0).then((response) => {
         console.log('response', response);
+        this.props.updateUser({ ap_profile: response._id });
         this.setState(prevState => ({
           [`APPlacement${prevState.addedAPPlacementCount}`]: response.name,
           [`APPlacement${prevState.addedAPPlacementCount}ID`]: response._id,
@@ -728,6 +771,7 @@ class Tutorial extends React.Component {
 
   removeAPPlacementScore() {
     if (this.state.addedAPPlacementCount > 0) {
+      this.props.updateUser({ ap_profile: this.state[`APPlacement${this.state.addedAPPlacementCount - 1}ID`] });
       removeAPPlacement(`APPlacement${this.state.addedAPPlacementCount - 1}ID`).then((response) => {
         this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
         this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount - 1 }));
@@ -738,6 +782,7 @@ class Tutorial extends React.Component {
   renderAPPlacementScores() {
     if (this.state.addedAPPlacementCount) {
       const addedAPPlacementList = [];
+      addedAPPlacementList.push(<div className="tutorial-AP-source">Information Source: <a href={this.state.APPlacementsLink} target="_blank" rel="noopener noreferrer">Dartmouth College</a></div>);
       for (let i = 0; i < this.state.addedAPPlacementCount; i += 1) {
         addedAPPlacementList.push(this.renderTutorialAPDropdown(`APPlacement${i}`, 'Select AP Test', 'Score', 'APPlacement', 'title'));
       }
@@ -778,13 +823,16 @@ class Tutorial extends React.Component {
   // Dropdown onChange callback handler
   onDropdownUpdate(value, location, stateName) {
     console.log('dropDownUpdate', value, location, stateName);
-    updateAPPlacement(this.state[`${stateName}ID`], { [location]: value });
-    if (location === 'score') {
-      const intValue = parseInt(value, 10);
-      this.setState({ [`${stateName}`]: intValue }, () => console.log(value, '=>', this.state[stateName]));
-    } else {
-      this.setState({ [stateName]: value }, () => console.log(value, '=>', this.state[stateName]));
-    }
+    new Promise((resolve, reject) => {
+      if (location === 'score') {
+        const intValue = parseInt(value, 10);
+        this.setState({ [`${stateName}`]: intValue }, () => console.log(value, '=>', this.state[stateName]), () => resolve());
+      } else {
+        this.setState({ [stateName]: value }, () => console.log(value, '=>', this.state[stateName]), () => resolve());
+      }
+    }).then(() => {
+      updateAPPlacement(this.state[`${stateName}ID`], { [location]: this.state[stateName] });
+    });
   }
 
   // Get suggestions based on query and save to stateName
@@ -900,7 +948,7 @@ class Tutorial extends React.Component {
   // Render suggestions from passed state array name
   renderSuggestedDropdownMenu(stateName, sugestionLocation, displayParameter) {
     // Function to be called on click of option
-    let click = () => {};
+    let click = () => { };
 
     switch (sugestionLocation) {
       case 'checkAdvisor':

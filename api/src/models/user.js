@@ -19,6 +19,8 @@ const UserSchema = new Schema({
     faculty_advisor: { type: Schema.Types.ObjectId, ref: 'Advisor' },
     other_advisors: [{ type: Schema.Types.ObjectId, ref: 'Advisor' }],
     ap_profile: [{ type: Schema.Types.ObjectId, ref: 'apPlacement' }],
+    tc_accepted: Boolean,
+    tc_accepted_date: Number,
     settings: {},
     accessGranted: Boolean,
     emailVerified: Boolean,
