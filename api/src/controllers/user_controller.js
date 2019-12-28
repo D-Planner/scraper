@@ -249,7 +249,6 @@ export const updateUser = async (req, res) => {
                 const json = newUser.toJSON();
                 delete json.password;
                 res.json(json);
-                console.log(json);
             }).catch((error) => {
                 console.error(error);
             });

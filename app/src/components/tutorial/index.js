@@ -171,9 +171,9 @@ class Tutorial extends React.Component {
       onContinue: () => { },
       toRender: () => (
         <div className="tc-accept">
-          <a className="policy-link" href="/policies/termsandconditions">Terms and Conditions</a>
+          <a className="policy-link" href="/policies/termsandconditions" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>
           <p className="policy-spacer" />
-          <a className="policy-link" href="/policies/privacypolicy">Privacy Policy</a>
+          <a className="policy-link" href="/policies/privacypolicy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
           <div className="tc-checkbox-container">
             <div>Please accept our terms and conditions</div>
             <div style={{ display: 'none' }}>
@@ -189,8 +189,9 @@ class Tutorial extends React.Component {
                 defaultChecked={this.props.user.tc_accepted}
                 onChange={(e) => {
                   const check = e.target.checked;
-                  this.setState({ tcAccepted: check === true ? true : undefined });
-                  this.props.updateUser({ tc_accepted: check === true });
+                  this.props.updateUser({ tc_accepted: check === true }).then(() => {
+                    this.setState({ tcAccepted: check === true ? true : undefined });
+                  });
                 }}
               />
             ) : null}
@@ -408,6 +409,7 @@ class Tutorial extends React.Component {
 
   componentDidUpdate() {
     console.log('this.state', this.state);
+    console.log('this.props.user', this.props.user);
   }
 
   componentWillUnmount() {
