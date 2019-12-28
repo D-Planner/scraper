@@ -562,8 +562,8 @@ class Tutorial extends React.Component {
           </select>
         </div>
         {console.log(this.state.APPlacements)}
-        {console.log('indexTest', this.findIndexInAPPlacements(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}`]))}
-        {this.renderAdditionalAPInformation(this.findIndexInAPPlacements(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}`]), this.state[`APPlacement${this.state.addedAPPlacementCount - 1}Score`])}
+        {console.log('indexTest', this.findIndexInAPPlacements(this.state[stateName]))}
+        {this.renderAdditionalAPInformation(this.findIndexInAPPlacements(this.state[stateName]), this.state[`${stateName}Score`])}
       </div>
     );
   }
