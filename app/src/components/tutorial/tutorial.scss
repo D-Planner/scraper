@@ -48,10 +48,6 @@
   }
 
   .arrow-container {
-    // background-image: url('../../style/gradient-background.svg');
-    // background-size: 100%;
-    // background-repeat: no-repeat;
-    // background-position-y: center;
     background: $gradient;
     min-height: calc(100vh - #{$header-menu-height});
 
@@ -61,6 +57,11 @@
     overflow: auto;
 
     .tutorial-arrow {
+      &:hover {
+        cursor: pointer;
+        filter: drop-shadow(0px 6px 12px rgba(153, 153, 153, 1))
+      }
+      
       &.left {
         margin: 0 4% 0 auto;
       }
@@ -72,6 +73,8 @@
       &.disabled {
         opacity: .4;
       }
+
+      transition: filter $transition-duration-short, margin $transition-duration;
     }
 
     .tutorial-content {

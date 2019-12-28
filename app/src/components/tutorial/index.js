@@ -309,6 +309,7 @@ class Tutorial extends React.Component {
       // addedPlacementCourseCount: 0,
       addedAPPlacementCount: 0,
       errorMessage: null,
+      canContinue: false,
     };
 
     this.getInterests = this.getInterests.bind(this);
@@ -430,30 +431,41 @@ class Tutorial extends React.Component {
     }
   }
 
+  canContinue() {
+    return new Promise((resolve, reject) => {
+      let canContinue = true;
+
+      this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element) => {
+        if (canContinue === true && !this.state[element.name]) {
+          this.setState({ errorMessage: element.errorMessage });
+          canContinue = false;
+        }
+      });
+
+      console.log('canContinue', canContinue);
+      this.setState({ canContinue }, () => { resolve(canContinue); });
+    });
+  }
+
   next = () => {
     // Check if the user has filled out all the required info, throws error if not
-    let canContinue = true;
+    this.canContinue().then((canContinue) => {
+      console.log('continuing', canContinue);
 
-    this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element) => {
-      if (canContinue === true && !this.state[element.name]) {
-        this.setState({ errorMessage: element.errorMessage });
-        canContinue = false;
+      // Push
+      if (canContinue) {
+        this.tutorialData[this.state.tutorialPage].onContinue();
+        this.setState({ errorMessage: null });
+        if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
+          this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
+            () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
+        } else if (this.state.tutorialPage >= this.tutorialData.length - 1) { // Final tutorial page
+          this.endTutorial();
+        } else {
+          this.setState({ tutorialPage: 0 }); // Catch error
+        }
       }
     });
-
-    // Push
-    if (canContinue) {
-      this.tutorialData[this.state.tutorialPage].onContinue();
-      this.setState({ errorMessage: null });
-      if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
-        this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
-          () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
-      } else if (this.state.tutorialPage >= this.tutorialData.length - 1) { // Final tutorial page
-        this.endTutorial();
-      } else {
-        this.setState({ tutorialPage: 0 }); // Catch error
-      }
-    }
   }
 
   // Get state change from subpage components
@@ -1052,7 +1064,7 @@ class Tutorial extends React.Component {
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
           </div>
-          <img src={right} alt="right" onClick={this.next} className="tutorial-arrow right" />
+          <img src={right} alt="right" onClick={this.next} className={`tutorial-arrow right`} />
         </div>
       </div>
     );
