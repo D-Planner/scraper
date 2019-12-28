@@ -49,7 +49,7 @@ function searchForCourse(query) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
-      console.log('search for course', response.data);
+      // console.log('search for course', response.data);
       resolve(response.data);
     }).catch((error) => {
       console.log(error);
@@ -124,7 +124,7 @@ function getAPPlacement(id) {
 }
 
 function updateAPPlacement(id, change) {
-  console.log(id, change);
+  // console.log(id, change);
   return new Promise((resolve, reject) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -335,19 +335,6 @@ class Tutorial extends React.Component {
     });
 
     this.getAPPlacements();
-
-    // createAPPlacement('test', 5).then((response1) => {
-    //   console.log('response1', response1);
-    //   updateAPPlacement(response1._id, { name: 'Test 2' }).then((response4) => {
-    //     console.log('response4', response4);
-    //     getAPPlacement(response4._id).then((response2) => {
-    //       console.log('response2', response2);
-    //       deleteAPPlacement(response2._id).then((response3) => {
-    //         console.log('response3', response3);
-    //       });
-    //     });
-    //   });
-    // });
   }
 
   componentDidMount() {
@@ -358,13 +345,19 @@ class Tutorial extends React.Component {
 
     // Load in all data from props arrays when loaded
     new Promise((resolve, reject) => {
-      setTimeout(() => {
+      console.log('setting timeout...');
+      this.setState({
+        timeoutKey: setTimeout(() => {
         // Add all props to be loaded HERE (only arrays can be guaranteed to be defined as [])
-        if (this.props.user.other_advisors && this.props.user.placement_courses) {
-          resolve();
-        }
-      }, 1000);
+          if (this.props.user.other_advisors && this.props.user.placement_courses && this.props.user.ap_profile) {
+            resolve();
+          } else {
+            reject();
+          }
+        }, 1000),
+      }, () => console.log('resolving...', this.props, this.state));
     }).then(() => {
+      console.log('before dean');
       if (this.props.user.dean) {
         console.log('dean', this.props.user.dean);
         this.loadElement('deanAdvisor', this.props.user.dean.full_name, this.props.user.dean._id);
@@ -378,11 +371,13 @@ class Tutorial extends React.Component {
       console.log('other advisors', this.props.user.other_advisors);
       let advisorImportCount = 0;
       this.props.user.other_advisors.forEach((savedAdvisor) => {
-        console.log('savedAdvisor', savedAdvisor);
-        this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
-        this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
-        advisorImportCount += 1;
-        console.log('advisorImportCount', advisorImportCount);
+        if (savedAdvisor !== null) {
+          console.log('savedAdvisor', savedAdvisor);
+          this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
+          this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
+          advisorImportCount += 1;
+          console.log('advisorImportCount', advisorImportCount);
+        }
       });
 
       console.log('placement courses');
@@ -401,6 +396,7 @@ class Tutorial extends React.Component {
       let apProfileImportCount = 0;
       console.log('user ap_profile', this.props.user.ap_profile);
       this.props.user.ap_profile.forEach((profileElement) => {
+        console.log('profileElement', profileElement);
         if (profileElement !== null) {
           console.log('profileElement', profileElement, profileElement.name, profileElement.score);
           this.loadElement(`APPlacement${apProfileImportCount}`, profileElement.name, profileElement._id, profileElement.score, true);
@@ -408,7 +404,8 @@ class Tutorial extends React.Component {
           apProfileImportCount += 1;
         }
       });
-    });
+      console.log('resolving... end', this.props, this.state);
+    }).catch((error) => console.log(error));
   }
 
   componentDidUpdate() {
@@ -418,6 +415,7 @@ class Tutorial extends React.Component {
 
   componentWillUnmount() {
     window.removeEventListener('click', this.handleBackgroundClick);
+    clearTimeout(this.state.timeoutKey);
   }
 
   prev = () => {
@@ -539,7 +537,7 @@ class Tutorial extends React.Component {
 
   renderUserInterests = () => {
     if (this.props.user) {
-      console.log('interest_profile', this.props.user.interest_profile);
+      // console.log('interest_profile', this.props.user.interest_profile);
       if (!this.state.interests) {
         return <LoadingWheel />;
       } else {
@@ -599,7 +597,7 @@ class Tutorial extends React.Component {
   }
 
   renderTutorialAPDropdown(stateName, coursePlaceholder, scorePlaceholder, suggestionLocation, displayParameter) {
-    console.log('stateName', stateName, this.state[stateName], this.state[`${stateName}Score`]);
+    // console.log('stateName', stateName, this.state[stateName], this.state[`${stateName}Score`]);
     return (
       <div className="tutorial-option-dropdown-container">
         <div>
@@ -627,8 +625,8 @@ class Tutorial extends React.Component {
   }
 
   renderAdditionalAPInformation(index, score) {
-    console.log('index', index);
-    console.log('score', score);
+    // console.log('index', index);
+    // console.log('score', score);
     if (index !== -1) {
       if (score > 0 && score <= 5) {
         let max_passed_score = -1;
@@ -710,8 +708,8 @@ class Tutorial extends React.Component {
 
   removeContributor() {
     if (this.state.addedOtherEmailCount > 0) {
-      console.log('other_advisors on removeContributor', this.props.user.other_advisors);
-      console.log('removing', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount);
+      // console.log('other_advisors on removeContributor', this.props.user.other_advisors);
+      // console.log('removing', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount);
       this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
         this.clearElement(`otherAdvisor${this.state.addedOtherEmailCount - 1}`);
         this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
@@ -740,7 +738,7 @@ class Tutorial extends React.Component {
 
   removePlacementCourse() {
     if (this.state.addedPlacementCourseCount > 0) {
-      console.log('count', this.state.addedPlacementCourseCount);
+      // console.log('count', this.state.addedPlacementCourseCount);
       this.props.removeCourseFromPlacements(this.state[`placementCourse${this.state.addedPlacementCourseCount - 1}ID`]);
       this.clearElement(`placementCourse${this.state.addedPlacementCourseCount - 1}`);
       this.setState(prevState => ({ addedPlacementCourseCount: prevState.addedPlacementCourseCount - 1 }));
@@ -762,16 +760,18 @@ class Tutorial extends React.Component {
   // Placement Courses
   addAPPlacement() {
     if (this.state.addedAPPlacementCount < MAX_ADDED_AP_PLACEMENTS) {
-      console.log('initialName', this.state.APPlacements[0].name);
+      // console.log('initialName', this.state.APPlacements[0].name);
       createAPPlacement(this.state.APPlacements[0].name, 0).then((response) => {
-        console.log('response', response);
+        // console.log('response', response);
         this.props.updateUser({ ap_profile: response._id }).then(() => {
           this.setState(prevState => ({
             [`APPlacement${prevState.addedAPPlacementCount}`]: response.name,
             [`APPlacement${prevState.addedAPPlacementCount}ID`]: response._id,
             [`APPlacement${prevState.addedAPPlacementCount}Score`]: response.score,
             addedAPPlacementCount: prevState.addedAPPlacementCount + 1,
-          }), () => { console.log('afterUpdating State', this.state); console.log('afterUpdate user', this.props.user); });
+          }),
+          // () => { console.log('afterUpdating State', this.state); console.log('afterUpdate user', this.props.user); }
+          );
         });
       });
     }
@@ -808,12 +808,14 @@ class Tutorial extends React.Component {
       [`${stateName}ID`]: elementID,
       [`${stateName}Suggestions`]: [],
       [`${stateName}Score`]: score,
-    }, () => console.log('profileElement', this.state[`${stateName}`], this.state[`${stateName}ID`], this.state[`${stateName}Suggestions`], this.state[`${stateName}Score`]));
+    },
+    // () => console.log('profileElement', this.state[`${stateName}`], this.state[`${stateName}ID`], this.state[`${stateName}Suggestions`], this.state[`${stateName}Score`])
+    );
   }
 
   // Automatically clears all states associated with 'stateName'
   clearElement(stateName) {
-    console.log('clearing', stateName);
+    // console.log('clearing', stateName);
     this.setState({
       [stateName]: undefined,
       [`${stateName}ID`]: undefined,
@@ -826,13 +828,13 @@ class Tutorial extends React.Component {
   onInputUpdate(value, stateName, suggestionLocation) {
     this.setState({ [stateName]: value, dropdownClosed: false }, () => {
       this.fetchSuggestions(value, stateName, suggestionLocation);
-      console.log(this.state);
+      // console.log(this.state);
     });
   }
 
   // Dropdown onChange callback handler
   onDropdownUpdate(value, location, stateName) {
-    console.log('dropDownUpdate', value, location, stateName);
+    // console.log('dropDownUpdate', value, location, stateName);
     new Promise((resolve, reject) => {
       if (location === 'score') {
         const intValue = parseInt(value, 10);
@@ -852,7 +854,7 @@ class Tutorial extends React.Component {
 
   // Get suggestions based on query and save to stateName
   fetchSuggestions(query, stateName, suggestionLocation) {
-    console.log('suggestionLocation', suggestionLocation);
+    // console.log('suggestionLocation', suggestionLocation);
     switch (suggestionLocation) {
       case 'checkAdvisor':
         checkAdvisor(query).then((results) => {
@@ -864,9 +866,9 @@ class Tutorial extends React.Component {
         }).catch(error => console.error(error));
         break;
       case 'courseSearch':
-        console.log('query', this.state[stateName]);
+        // console.log('query', this.state[stateName]);
         searchForCourse(parseQuery(this.state[stateName])).then((results) => {
-          console.log('results', results);
+          // console.log('results', results);
           this.setState({ [`${stateName}Suggestions`]: results }, () => console.log(this.state[`${stateName}Suggestions`]));
         });
         break;
@@ -907,7 +909,7 @@ class Tutorial extends React.Component {
 
   // Handles a user click on a course suggestion
   handlePlacementCourseSuggestionSelect(stateName, suggestion) {
-    console.log('suggestion befpre', suggestion, suggestion._id);
+    // console.log('suggestion before', suggestion, suggestion._id);
     this.setState({
       [stateName]: (`${suggestion.department} ${suggestion.number} ${LOADED_OPTION_TEXT}`),
       [`${stateName}ID`]: suggestion._id,
@@ -915,18 +917,18 @@ class Tutorial extends React.Component {
       errorMessage: null,
     }, () => {
       if (this.props.user.placement_courses.indexOf(suggestion._id) !== -1) {
-        console.log('removing from placements');
+        // console.log('removing from placements');
         this.props.removeCourseFromPlacements(suggestion._id).then(() => {
-          console.log('user placements', this.props.user.placement_courses);
+          // console.log('user placements', this.props.user.placement_courses);
         });
       } else {
-        console.log('adding to placements');
+        // console.log('adding to placements');
         this.props.addCourseToPlacements(suggestion._id).then(() => {
-          console.log('user placements', this.props.user.placement_courses);
+          // console.log('user placements', this.props.user.placement_courses);
         });
       }
-      console.log('suggestion', this.state[stateName], this.state[`${stateName}ID`]);
-      console.log('user placement_courses', this.props.user.placement_courses);
+      // console.log('suggestion', this.state[stateName], this.state[`${stateName}ID`]);
+      // console.log('user placement_courses', this.props.user.placement_courses);
     });
   }
 

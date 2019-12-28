@@ -251,6 +251,7 @@ export const updateUser = async (req, res) => {
             user.save().then((newUser) => {
                 const json = newUser.populate(PopulateUser).toJSON();
                 delete json.password;
+                console.log('json', json);
                 res.json(json);
             }).catch((error) => {
                 console.error(error);
