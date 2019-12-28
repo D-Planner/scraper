@@ -18,6 +18,7 @@ const UserSchema = new Schema({
     dean: { type: Schema.Types.ObjectId, ref: 'Advisor' },
     faculty_advisor: { type: Schema.Types.ObjectId, ref: 'Advisor' },
     other_advisors: [{ type: Schema.Types.ObjectId, ref: 'Advisor' }],
+    ap_profile: [{ type: Schema.Types.ObjectId, ref: 'apPlacement' }],
     settings: {},
     accessGranted: Boolean,
     emailVerified: Boolean,

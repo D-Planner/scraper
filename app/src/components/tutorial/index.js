@@ -97,6 +97,58 @@ function checkAdvisor(query) {
   });
 }
 
+function createAPPlacement(test, score) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.post(`${ROOT_URL}/auth/ap/`, { test, score }, { headers }).then((response) => {
+      resolve(response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+function getAPPlacement(id) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.get(`${ROOT_URL}/auth/ap/${id}/`, { headers }).then((response) => {
+      resolve(response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+function updateAPPlacement(id, change) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.post(`${ROOT_URL}/auth/ap/${id}/`, { change }, { headers }).then((response) => {
+      resolve(response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
+function deleteAPPlacement(id) {
+  return new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.delete(`${ROOT_URL}/auth/ap/${id}/`, { headers }).then((response) => {
+      resolve(response.data);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
 class Tutorial extends React.Component {
   /**
  * Holds all data to display tutorial pages
@@ -223,15 +275,32 @@ class Tutorial extends React.Component {
     this.removeAPPlacementScore = this.removeAPPlacementScore.bind(this);
 
     this.onInputUpdate = this.onInputUpdate.bind(this);
+    this.onDropdownUpdate = this.onDropdownUpdate.bind(this);
+
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
     this.handleNewPlanPageUpdate = this.handleNewPlanPageUpdate.bind(this);
     this.createTutorialPlan = this.createTutorialPlan.bind(this);
 
     this.getInterests().then(() => {
-      this.props.fetchUser();
+      this.props.fetchUser().then(() => {
+        this.props.updateUser({});
+      });
     });
 
     this.getAPPlacements();
+
+    createAPPlacement('test', 5).then((response1) => {
+      console.log('response1', response1);
+      updateAPPlacement(response1._id, { name: 'Test 2' }).then((response4) => {
+        console.log('response4', response4);
+        getAPPlacement(response4._id).then((response2) => {
+          console.log('response2', response2);
+          deleteAPPlacement(response2._id).then((response3) => {
+            console.log('response3', response3);
+          });
+        });
+      });
+    });
   }
 
   componentDidMount() {
@@ -278,6 +347,18 @@ class Tutorial extends React.Component {
           this.loadElement(`placementCourse${placementCourseImportCount}`, `${savedCourse.department} ${savedCourse.number}`, savedCourse._id);
           this.setState({ addedPlacementCourseCount: placementCourseImportCount + 1 });
           placementCourseImportCount += 1;
+        }
+      });
+
+      console.log('ap profile');
+      let apProfileImportCount = 0;
+      console.log('user ap_profile', this.props.user.ap_profile);
+      this.props.user.ap_profile.forEach((profileElement) => {
+        if (profileElement !== null) {
+          console.log('profileElement', profileElement);
+          this.loadElement(`placementCourse${placementCourseImportCount}`, `${profileElement.department} ${profileElement.number}`, profileElement._id);
+          this.setState({ addedAPPlacementCount: apProfileImportCount + 1 });
+          apProfileImportCount += 1;
         }
       });
     });
@@ -465,14 +546,14 @@ class Tutorial extends React.Component {
     );
   }
 
-  renderTutorialDropdown(stateName, placeholder, suggestionLocation, displayParameter) {
+  renderTutorialAPDropdown(stateName, coursePlaceholder, scorePlaceholder, suggestionLocation, displayParameter) {
     return (
       <div className="tutorial-option-dropdown-container">
         <div>
-          <select className="ap-course-dropdown tutorial-input" onChange={e => console.log(e.target.name, e.target.value)}>
+          <select className="ap-course-dropdown tutorial-input" name={coursePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, stateName)}>
             {this.state.APPlacements.map(placement => <option className="tutorial-option-element">{placement.name}</option>)}
           </select>
-          <select className="ap-score-dropdown tutorial-input" onChange={e => console.log(e.target.name, e.target.value)}>
+          <select className="ap-score-dropdown tutorial-input" name={scorePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, stateName)}>
             {AP_SCORES.map(possibleScore => <option>{possibleScore}</option>)}
           </select>
         </div>
@@ -613,7 +694,7 @@ class Tutorial extends React.Component {
     if (this.state.addedAPPlacementCount > 0) {
       console.log('AP count', this.state.addedAPPlacementCount);
       // this.props.removeCourseFromPlacements(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}ID`]);
-      // this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
+      this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
       this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount - 1 }));
     }
   }
@@ -622,8 +703,7 @@ class Tutorial extends React.Component {
     if (this.state.addedAPPlacementCount) {
       const addedAPPlacementList = [];
       for (let i = 0; i < this.state.addedAPPlacementCount; i += 1) {
-        addedAPPlacementList.push(this.renderTutorialDropdown(`APPlacement${i}`, 'Select AP Test Name', 'APPlacement', 'title'));
-        // addedAPPlacementList.push(<p style={{ height: '100px' }}>Test!</p>);
+        addedAPPlacementList.push(this.renderTutorialAPDropdown(`APPlacement${i}`, 'Select AP Test', 'Score', 'APPlacement', 'title'));
       }
       return addedAPPlacementList;
     } else {
@@ -656,6 +736,11 @@ class Tutorial extends React.Component {
       this.fetchSuggestions(value, stateName, suggestionLocation);
       console.log(this.state);
     });
+  }
+
+  // Dropdown onChange callback handler
+  onDropdownUpdate(value, stateName) {
+    this.setState({ [stateName]: value }, () => console.log(value, '=>', this.state[stateName]));
   }
 
   // Get suggestions based on query and save to stateName
