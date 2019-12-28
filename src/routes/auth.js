@@ -3,6 +3,8 @@ import * as UserController from '../controllers/user_controller';
 import { requireSignin, requireAuth } from '../authentication/init';
 import VerifyController from '../controllers/verify_controller';
 import CodesController from '../controllers/codes_controller';
+import APPlacementController from '../controllers/ap_placement_controller';
+import APPlacementModel from '../models/ap_placement';
 
 const authRouter = Router();
 
@@ -15,6 +17,15 @@ authRouter.route('/code')
     .get(CodesController.verifyAccessCode)
     .post(CodesController.generateAccessCode)
     .delete(CodesController.removeAccessCode);
+
+// Work with AP placements
+authRouter.route('/ap')
+    .post(requireAuth, APPlacementController.newAPPlacement);
+
+authRouter.route('/ap/:id')
+    .get(requireAuth, APPlacementController.getAPPlacement)
+    .post(requireAuth, APPlacementController.updateAPPlacement)
+    .delete(requireAuth, APPlacementController.removeAPPlacement);
 
 /**
  * @api {post} /auth/signin Sign In
