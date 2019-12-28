@@ -23,9 +23,11 @@ import './tutorial.scss';
 import ErrorMessageSpacer from '../errorMessageSpacer';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
-const MAX_ADDED_PLACEMENT_COURSES = 6;
+// const MAX_ADDED_PLACEMENT_COURSES = 6;
+const MAX_ADDED_AP_PLACEMENTS = 99;
 const MAX_SUGGESTIONS_LENGTH = 8;
 const LOADED_OPTION_TEXT = ' - Added';
+const AP_SCORES = [0, 1, 2, 3, 4, 5];
 
 // function getInterestById(id) {
 //   return new Promise((resolve, reject) => {
@@ -124,24 +126,42 @@ class Tutorial extends React.Component {
     },
     {
       /**
-       * Add description on hover
        * Add search for AP courses
-       * Add department key for users
        */
-      title: 'What have you already completed?',
-      text: 'Search for and select which classes you have placed out of.',
+      title: 'What AP tests have you taken?',
+      text: 'Enter the AP tests you have taken and the score you received.',
       neededToContinue: [],
       onContinue: () => {},
       toRender: () => (
         <form>
-          {this.renderAddedPlacementCourses()}
+          {this.renderAPPlacementScores()}
           <div className="contributor-modify-container">
-            <div className={`contributor-modify${this.state.addedPlacementCourseCount >= MAX_ADDED_PLACEMENT_COURSES ? ' inactive' : ''}`} onClick={this.addPlacementCourse} role="button" tabIndex={-1}>+ Add another placement course</div>
-            <div className={`contributor-modify${this.state.addedPlacementCourseCount == 0 ? ' inactive' : ''}`} onClick={this.removePlacementCourse} role="button" tabIndex={-1}>- Remove placement course</div>
+            <div className={`contributor-modify${this.state.addedAPPlacementCount >= MAX_ADDED_AP_PLACEMENTS ? ' inactive' : ''}`} onClick={this.addAPPlacementScore} role="button" tabIndex={-1}>+ Add AP score</div>
+            <div className={`contributor-modify${this.state.addedAPPlacementCount == 0 ? ' inactive' : ''}`} onClick={this.removeAPPlacementScore} role="button" tabIndex={-1}>- Remove AP score</div>
           </div>
         </form>
       ),
     },
+    // {
+    //   /**
+    //    * Add description on hover
+    //    * Add search for AP courses
+    //    * Add department key for users
+    //    */
+    //   title: 'What have you already completed?',
+    //   text: 'Search for and select which classes you have placed out of.',
+    //   neededToContinue: [],
+    //   onContinue: () => {},
+    //   toRender: () => (
+    //     <form>
+    //       {this.renderAddedPlacementCourses()}
+    //       <div className="contributor-modify-container">
+    //         <div className={`contributor-modify${this.state.addedPlacementCourseCount >= MAX_ADDED_PLACEMENT_COURSES ? ' inactive' : ''}`} onClick={this.addPlacementCourse} role="button" tabIndex={-1}>+ Add another placement course</div>
+    //         <div className={`contributor-modify${this.state.addedPlacementCourseCount == 0 ? ' inactive' : ''}`} onClick={this.removePlacementCourse} role="button" tabIndex={-1}>- Remove placement course</div>
+    //       </div>
+    //     </form>
+    //   ),
+    // },
     {
       /**
        * Add affiliation at dartmouth on hover
@@ -186,17 +206,22 @@ class Tutorial extends React.Component {
       interests: null,
       tempUserInterests: [],
       addedOtherEmailCount: 0,
-      addedPlacementCourseCount: 0,
+      // addedPlacementCourseCount: 0,
+      addedAPPlacementCount: 0,
       errorMessage: null,
     };
 
     this.getInterests = this.getInterests.bind(this);
     this.updateUserInterest = this.updateUserInterest.bind(this);
     this.updateUserInterests = this.updateUserInterests.bind(this);
+
     this.addNewContributor = this.addNewContributor.bind(this);
     this.removeContributor = this.removeContributor.bind(this);
-    this.addPlacementCourse = this.addPlacementCourse.bind(this);
-    this.removePlacementCourse = this.removePlacementCourse.bind(this);
+    // this.addPlacementCourse = this.addPlacementCourse.bind(this);
+    // this.removePlacementCourse = this.removePlacementCourse.bind(this);
+    this.addAPPlacementScore = this.addAPPlacementScore.bind(this);
+    this.removeAPPlacementScore = this.removeAPPlacementScore.bind(this);
+
     this.onInputUpdate = this.onInputUpdate.bind(this);
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
     this.handleNewPlanPageUpdate = this.handleNewPlanPageUpdate.bind(this);
@@ -220,8 +245,6 @@ class Tutorial extends React.Component {
       setTimeout(() => {
         // Add all props to be loaded HERE (only arrays can be guaranteed to be defined as [])
         if (this.props.user.other_advisors && this.props.user.placement_courses) {
-          // console.log('other advisors', this.props.user.other_advisors);
-          // console.log('placement_courses', this.props.user.placement_courses);
           resolve();
         }
       }, 1000);
@@ -327,8 +350,8 @@ class Tutorial extends React.Component {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       };
       axios.get(`${ROOT_URL}/data/ap`, { headers }).then((response) => {
-        // this.setState({ interests: response.data }, resolve());
         console.log('AP Placements', response.data);
+        this.setState({ APPlacements: response.data.data }, () => resolve());
       });
     });
   }
@@ -433,6 +456,94 @@ class Tutorial extends React.Component {
     }
   };
 
+  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameter) {
+    return (
+      <>
+        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)} />
+        {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameter)}
+      </>
+    );
+  }
+
+  renderTutorialDropdown(stateName, placeholder, suggestionLocation, displayParameter) {
+    return (
+      <div className="tutorial-option-dropdown-container">
+        <div>
+          <select className="ap-course-dropdown tutorial-input" onChange={e => console.log(e.target.name, e.target.value)}>
+            {this.state.APPlacements.map(placement => <option className="tutorial-option-element">{placement.name}</option>)}
+          </select>
+          <select className="ap-score-dropdown tutorial-input" onChange={e => console.log(e.target.name, e.target.value)}>
+            {AP_SCORES.map(possibleScore => <option>{possibleScore}</option>)}
+          </select>
+        </div>
+        {this.renderAdditionalAPInformation(8, 5)}
+      </div>
+    );
+  }
+
+  renderAdditionalAPInformation(index, score) {
+    if (score > 0 && score <= 5) {
+      let max_passed_score = -1;
+      let max_passed_score_index = -1;
+
+      for (let i = 0; i < this.state.APPlacements[index].options.length; i += 1) {
+        if (score >= this.state.APPlacements[index].options[i].min_score && this.state.APPlacements[index].options[i].min_score >= max_passed_score) {
+          max_passed_score = this.state.APPlacements[index].options[i].min_score;
+          max_passed_score_index = i;
+        }
+      }
+
+      if (max_passed_score !== -1 && max_passed_score_index !== -1) {
+        return Object.entries(this.state.APPlacements[index].options[max_passed_score_index]).map(([k, v]) => {
+          return (<div className="tutorial-ap-text">{this.apKeyToTextLookup(k)}: {typeof v === 'object' ? this.separateArray(v) : v}</div>);
+        });
+      } else {
+        return <div className="tutorial-ap-text">Unfortunately, your score is below the threshold required by Dartmouth College to receive course credit from this exam.</div>;
+      }
+    } else if (score === 0) {
+      return <div className="tutorial-ap-text">Please select a score for {this.state.APPlacements[index].name}</div>;
+    } else {
+      return <div className="tutorial-ap-text">Invalid score</div>;
+    }
+  }
+
+  // Converts a string (key) to text to display
+  // eslint-disable-next-line class-methods-use-this
+  apKeyToTextLookup(key) {
+    switch (key.toLowerCase()) {
+      case 'min_score':
+        return 'Score required';
+      case 'credit_given':
+        return 'Credit received';
+      case 'placement':
+        return 'Placement received';
+      case 'placement_message':
+        return 'Additional placement information';
+      case 'language_fulfilled':
+        return 'Language fulfilled';
+      case 'exemption':
+        return 'Exemption received';
+      case 'credit_message':
+        return 'Additional credit information';
+      default:
+        return '';
+    }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  separateArray(arr, separator = ', ') {
+    let returnString = '';
+    for (let i = 0; i < arr.length; i += 1) {
+      if (i < arr.length - 1) {
+        returnString += arr[i] + separator;
+      } else {
+        returnString += arr[i];
+      }
+    }
+    return returnString;
+  }
+
+  // Advisors and contributors
   addNewContributor() {
     if (this.state.addedOtherEmailCount < MAX_ADDED_CONTRIBUTORS) {
       this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}`] });
@@ -451,15 +562,6 @@ class Tutorial extends React.Component {
     }
   }
 
-  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameter) {
-    return (
-      <>
-        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)} />
-        {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameter)}
-      </>
-    );
-  }
-
   renderAddedOtherEmails() {
     if (this.state.addedOtherEmailCount) {
       const addedOtherEmailList = [];
@@ -472,6 +574,7 @@ class Tutorial extends React.Component {
     }
   }
 
+  // Placement Courses
   addPlacementCourse() {
     if (this.state.addedPlacementCourseCount < MAX_ADDED_CONTRIBUTORS) {
       this.setState(prevState => ({ addedPlacementCourseCount: prevState.addedPlacementCourseCount + 1 }));
@@ -494,6 +597,35 @@ class Tutorial extends React.Component {
         addedPlacementCourseList.push(this.renderTutorialInput(`placementCourse${i}`, 'Enter Placement Course Name', 'courseSearch', 'title'));
       }
       return addedPlacementCourseList;
+    } else {
+      return null;
+    }
+  }
+
+  // Placement Courses
+  addAPPlacementScore() {
+    if (this.state.addedAPPlacementCount < MAX_ADDED_AP_PLACEMENTS) {
+      this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount + 1 }));
+    }
+  }
+
+  removeAPPlacementScore() {
+    if (this.state.addedAPPlacementCount > 0) {
+      console.log('AP count', this.state.addedAPPlacementCount);
+      // this.props.removeCourseFromPlacements(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}ID`]);
+      // this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
+      this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount - 1 }));
+    }
+  }
+
+  renderAPPlacementScores() {
+    if (this.state.addedAPPlacementCount) {
+      const addedAPPlacementList = [];
+      for (let i = 0; i < this.state.addedAPPlacementCount; i += 1) {
+        addedAPPlacementList.push(this.renderTutorialDropdown(`APPlacement${i}`, 'Select AP Test Name', 'APPlacement', 'title'));
+        // addedAPPlacementList.push(<p style={{ height: '100px' }}>Test!</p>);
+      }
+      return addedAPPlacementList;
     } else {
       return null;
     }
@@ -540,7 +672,6 @@ class Tutorial extends React.Component {
         }).catch(error => console.error(error));
         break;
       case 'courseSearch':
-        // FIX THIS
         console.log('query', this.state[stateName]);
         searchForCourse(parseQuery(this.state[stateName])).then((results) => {
           console.log('results', results);
