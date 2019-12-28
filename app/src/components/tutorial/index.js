@@ -136,7 +136,7 @@ function updateAPPlacement(id, change) {
   });
 }
 
-function deleteAPPlacement(id) {
+function removeAPPlacement(id) {
   return new Promise((resolve, reject) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -289,18 +289,18 @@ class Tutorial extends React.Component {
 
     this.getAPPlacements();
 
-    createAPPlacement('test', 5).then((response1) => {
-      console.log('response1', response1);
-      updateAPPlacement(response1._id, { name: 'Test 2' }).then((response4) => {
-        console.log('response4', response4);
-        getAPPlacement(response4._id).then((response2) => {
-          console.log('response2', response2);
-          deleteAPPlacement(response2._id).then((response3) => {
-            console.log('response3', response3);
-          });
-        });
-      });
-    });
+    // createAPPlacement('test', 5).then((response1) => {
+    //   console.log('response1', response1);
+    //   updateAPPlacement(response1._id, { name: 'Test 2' }).then((response4) => {
+    //     console.log('response4', response4);
+    //     getAPPlacement(response4._id).then((response2) => {
+    //       console.log('response2', response2);
+    //       deleteAPPlacement(response2._id).then((response3) => {
+    //         console.log('response3', response3);
+    //       });
+    //     });
+    //   });
+    // });
   }
 
   componentDidMount() {
@@ -362,6 +362,10 @@ class Tutorial extends React.Component {
         }
       });
     });
+  }
+
+  componentDidUpdate() {
+    console.log('this.state', this.state);
   }
 
   componentWillUnmount() {
@@ -550,41 +554,64 @@ class Tutorial extends React.Component {
     return (
       <div className="tutorial-option-dropdown-container">
         <div>
-          <select className="ap-course-dropdown tutorial-input" name={coursePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, stateName)}>
+          <select className="ap-course-dropdown tutorial-input" name={coursePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, 'name', stateName)}>
             {this.state.APPlacements.map(placement => <option className="tutorial-option-element">{placement.name}</option>)}
           </select>
-          <select className="ap-score-dropdown tutorial-input" name={scorePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, stateName)}>
+          <select className="ap-score-dropdown tutorial-input" name={scorePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, 'score', `${stateName}Score`)}>
             {AP_SCORES.map(possibleScore => <option>{possibleScore}</option>)}
           </select>
         </div>
-        {this.renderAdditionalAPInformation(8, 5)}
+        {console.log(this.state.APPlacements)}
+        {console.log('indexTest', this.findIndexInAPPlacements(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}`]))}
+        {this.renderAdditionalAPInformation(this.findIndexInAPPlacements(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}`]), this.state[`APPlacement${this.state.addedAPPlacementCount - 1}Score`])}
       </div>
     );
   }
 
+  findIndexInAPPlacements(name) {
+    for (let i = 0; i < this.state.APPlacements.length; i += 1) {
+      if (name === this.state.APPlacements[i].name) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   renderAdditionalAPInformation(index, score) {
-    if (score > 0 && score <= 5) {
-      let max_passed_score = -1;
-      let max_passed_score_index = -1;
+    console.log('index', index);
+    console.log('score', score);
+    if (index !== -1) {
+      if (score > 0 && score <= 5) {
+        let max_passed_score = -1;
+        let max_passed_score_index = -1;
 
-      for (let i = 0; i < this.state.APPlacements[index].options.length; i += 1) {
-        if (score >= this.state.APPlacements[index].options[i].min_score && this.state.APPlacements[index].options[i].min_score >= max_passed_score) {
-          max_passed_score = this.state.APPlacements[index].options[i].min_score;
-          max_passed_score_index = i;
+        for (let i = 0; i < this.state.APPlacements[index].options.length; i += 1) {
+          if (score >= this.state.APPlacements[index].options[i].min_score && this.state.APPlacements[index].options[i].min_score >= max_passed_score) {
+            max_passed_score = this.state.APPlacements[index].options[i].min_score;
+            max_passed_score_index = i;
+          }
         }
-      }
 
-      if (max_passed_score !== -1 && max_passed_score_index !== -1) {
-        return Object.entries(this.state.APPlacements[index].options[max_passed_score_index]).map(([k, v]) => {
-          return (<div className="tutorial-ap-text">{this.apKeyToTextLookup(k)}: {typeof v === 'object' ? this.separateArray(v) : v}</div>);
-        });
+        if (max_passed_score !== -1 && max_passed_score_index !== -1) {
+          return Object.entries(this.state.APPlacements[index].options[max_passed_score_index]).map(([k, v]) => {
+            return (
+              <div className="tutorial-ap-text">
+                {this.apKeyToTextLookup(k)}
+                {': '}
+                {typeof v === 'object' ? this.separateArray(v) : v}
+              </div>
+            );
+          });
+        } else {
+          return <div className="tutorial-ap-text">Unfortunately, your score is below the threshold required by Dartmouth College to receive course credit from this exam.</div>;
+        }
+      } else if (score === 0) {
+        return <div className="tutorial-ap-text">Please select a score for {this.state.APPlacements[index].name}</div>;
       } else {
-        return <div className="tutorial-ap-text">Unfortunately, your score is below the threshold required by Dartmouth College to receive course credit from this exam.</div>;
+        return <div className="tutorial-ap-text">Invalid score</div>;
       }
-    } else if (score === 0) {
-      return <div className="tutorial-ap-text">Please select a score for {this.state.APPlacements[index].name}</div>;
     } else {
-      return <div className="tutorial-ap-text">Invalid score</div>;
+      return <div className="tutorial-ap-text">Invalid index</div>;
     }
   }
 
@@ -686,16 +713,25 @@ class Tutorial extends React.Component {
   // Placement Courses
   addAPPlacementScore() {
     if (this.state.addedAPPlacementCount < MAX_ADDED_AP_PLACEMENTS) {
-      this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount + 1 }));
+      console.log('initialName', this.state.APPlacements[0].name);
+      createAPPlacement(this.state.APPlacements[0].name, 0).then((response) => {
+        console.log('response', response);
+        this.setState(prevState => ({
+          [`APPlacement${prevState.addedAPPlacementCount}`]: response.name,
+          [`APPlacement${prevState.addedAPPlacementCount}ID`]: response._id,
+          [`APPlacement${prevState.addedAPPlacementCount}Score`]: response.score,
+          addedAPPlacementCount: prevState.addedAPPlacementCount + 1,
+        }));
+      });
     }
   }
 
   removeAPPlacementScore() {
     if (this.state.addedAPPlacementCount > 0) {
-      console.log('AP count', this.state.addedAPPlacementCount);
-      // this.props.removeCourseFromPlacements(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}ID`]);
-      this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
-      this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount - 1 }));
+      removeAPPlacement(`APPlacement${this.state.addedAPPlacementCount - 1}ID`).then((response) => {
+        this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
+        this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount - 1 }));
+      });
     }
   }
 
@@ -727,6 +763,7 @@ class Tutorial extends React.Component {
       [stateName]: undefined,
       [`${stateName}ID`]: undefined,
       [`${stateName}Suggestions`]: undefined,
+      [`${stateName}Score`]: undefined,
     });
   }
 
@@ -739,8 +776,15 @@ class Tutorial extends React.Component {
   }
 
   // Dropdown onChange callback handler
-  onDropdownUpdate(value, stateName) {
-    this.setState({ [stateName]: value }, () => console.log(value, '=>', this.state[stateName]));
+  onDropdownUpdate(value, location, stateName) {
+    console.log('dropDownUpdate', value, location, stateName);
+    updateAPPlacement(this.state[`${stateName}ID`], { [location]: value });
+    if (location === 'score') {
+      const intValue = parseInt(value, 10);
+      this.setState({ [`${stateName}`]: intValue }, () => console.log(value, '=>', this.state[stateName]));
+    } else {
+      this.setState({ [stateName]: value }, () => console.log(value, '=>', this.state[stateName]));
+    }
   }
 
   // Get suggestions based on query and save to stateName
