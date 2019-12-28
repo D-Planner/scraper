@@ -3,6 +3,7 @@ import User from '../models/user';
 import Plan from '../models/plan';
 import Interest from '../models/interest';
 import { PopulateUser } from './populators';
+import { Mongoose } from 'mongoose';
 
 // Does a user exist with the given email?
 export const checkUserByEmail = (req, res) => {
@@ -221,22 +222,44 @@ export const updateUser = async (req, res) => {
                 user.interest_profile.addToSet(req.body.change.interest_profile);
             }
 
-            // For managing adding and removing elements from AP profile
-            if (user.ap_profile.indexOf(req.body.change.ap_profile) !== -1) {
-                console.log('removing from ap_profile', req.body.change.ap_profile);
-                user.ap_profile.pull(req.body.change.ap_profile);
-            } else {
-                console.log('adding to ap_profile', req.body.change.ap_profile);
-                user.ap_profile.addToSet(req.body.change.ap_profile);
+            // For managing adding and removing elements from AP profile based on filled objects
+            if (req.body.change.ap_profile) {
+                let found = false;
+                let foundIndex = -1;
+
+                user.ap_profile.forEach((item, index) => {
+                    if (found === false && item._id.toString() === req.body.change.ap_profile) {
+                        found = true;
+                        foundIndex = index;
+                    }
+                });
+                if (found === true) {
+                    user.ap_profile.splice(foundIndex, 1);
+                } else {
+                    user.ap_profile.addToSet(req.body.change.ap_profile);
+                }
             }
 
             // For managing adding and removing elements from advisor elements
             if (req.body.change.dean) { user.dean = req.body.change.dean; }
             if (req.body.change.faculty_advisor) { user.faculty_advisor = req.body.change.faculty_advisor; }
-            if (user.other_advisors.indexOf(req.body.change.other_advisor) !== -1) {
-                user.other_advisors.pull(req.body.change.other_advisor);
-            } else {
-                user.other_advisors.addToSet(req.body.change.other_advisor);
+
+            // For managing adding and removing elements from other_advisors based on filled objects
+            if (req.body.change.other_advisor) {
+                let found = false;
+                let foundIndex = -1;
+
+                user.other_advisors.forEach((item, index) => {
+                    if (found === false && item._id.toString() === req.body.change.other_advisor) {
+                        found = true;
+                        foundIndex = index;
+                    }
+                });
+                if (found === true) {
+                    user.other_advisors.splice(foundIndex, 1);
+                } else {
+                    user.other_advisors.addToSet(req.body.change.other_advisor);
+                }
             }
 
             // Force user to re-verify on email change
@@ -251,7 +274,6 @@ export const updateUser = async (req, res) => {
             user.save().then((newUser) => {
                 const json = newUser.populate(PopulateUser).toJSON();
                 delete json.password;
-                console.log('json', json);
                 res.json(json);
             }).catch((error) => {
                 console.error(error);
