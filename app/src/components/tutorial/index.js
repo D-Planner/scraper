@@ -124,12 +124,16 @@ function getAPPlacement(id) {
 }
 
 function updateAPPlacement(id, change) {
+  console.log(id, change);
   return new Promise((resolve, reject) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.post(`${ROOT_URL}/auth/ap/${id}/`, { change }, { headers }).then((response) => {
-      resolve(response.data);
+      console.log('response', response);
+      // fetchUser(response.data._id).then(() => {
+      resolve(fetchUser());
+      // });
     }).catch((error) => {
       reject(error);
     });
@@ -181,7 +185,7 @@ class Tutorial extends React.Component {
                 if (this.props.user.tc_accepted === true && !this.state.tcAccepted) {
                   this.setState({ tcAccepted: true });
                 }
-              })}
+              }, 1000)}
             </div>
             {this.props.user.tc_accepted !== undefined ? (
               <input
@@ -228,8 +232,8 @@ class Tutorial extends React.Component {
         <form>
           {this.renderAPPlacementScores()}
           <div className="contributor-modify-container">
-            <div className={`contributor-modify${this.state.addedAPPlacementCount >= MAX_ADDED_AP_PLACEMENTS ? ' inactive' : ''}`} onClick={this.addAPPlacementScore} role="button" tabIndex={-1}>+ Add AP score</div>
-            <div className={`contributor-modify${this.state.addedAPPlacementCount == 0 ? ' inactive' : ''}`} onClick={this.removeAPPlacementScore} role="button" tabIndex={-1}>- Remove AP score</div>
+            <div className={`contributor-modify${this.state.addedAPPlacementCount >= MAX_ADDED_AP_PLACEMENTS ? ' inactive' : ''}`} onClick={this.addAPPlacement} role="button" tabIndex={-1}>+ Add AP score</div>
+            <div className={`contributor-modify${this.state.addedAPPlacementCount == 0 ? ' inactive' : ''}`} onClick={this.removeAPPlacement} role="button" tabIndex={-1}>- Remove AP score</div>
           </div>
         </form>
       ),
@@ -314,8 +318,8 @@ class Tutorial extends React.Component {
     this.removeContributor = this.removeContributor.bind(this);
     // this.addPlacementCourse = this.addPlacementCourse.bind(this);
     // this.removePlacementCourse = this.removePlacementCourse.bind(this);
-    this.addAPPlacementScore = this.addAPPlacementScore.bind(this);
-    this.removeAPPlacementScore = this.removeAPPlacementScore.bind(this);
+    this.addAPPlacement = this.addAPPlacement.bind(this);
+    this.removeAPPlacement = this.removeAPPlacement.bind(this);
 
     this.onInputUpdate = this.onInputUpdate.bind(this);
     this.onDropdownUpdate = this.onDropdownUpdate.bind(this);
@@ -398,8 +402,8 @@ class Tutorial extends React.Component {
       console.log('user ap_profile', this.props.user.ap_profile);
       this.props.user.ap_profile.forEach((profileElement) => {
         if (profileElement !== null) {
-          console.log('profileElement', profileElement);
-          this.loadElement(`placementCourse${placementCourseImportCount}`, `${profileElement.department} ${profileElement.number}`, profileElement._id);
+          console.log('profileElement', profileElement, profileElement.name, profileElement.score);
+          this.loadElement(`APPlacement${apProfileImportCount}`, profileElement.name, profileElement._id, profileElement.score, true);
           this.setState({ addedAPPlacementCount: apProfileImportCount + 1 });
           apProfileImportCount += 1;
         }
@@ -595,18 +599,19 @@ class Tutorial extends React.Component {
   }
 
   renderTutorialAPDropdown(stateName, coursePlaceholder, scorePlaceholder, suggestionLocation, displayParameter) {
+    console.log('stateName', stateName, this.state[stateName], this.state[`${stateName}Score`]);
     return (
       <div className="tutorial-option-dropdown-container">
         <div>
-          <select className="ap-course-dropdown tutorial-input" name={coursePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, 'name', stateName)}>
+          <select className="ap-course-dropdown tutorial-input" defaultValue={this.state[`${stateName}`]} onChange={e => this.onDropdownUpdate(e.target.value, 'name', stateName)}>
             {this.state.APPlacements.map(placement => <option className="tutorial-option-element">{placement.name}</option>)}
           </select>
-          <select className="ap-score-dropdown tutorial-input" name={scorePlaceholder} onChange={e => this.onDropdownUpdate(e.target.value, 'score', `${stateName}Score`)}>
+          <select className="ap-score-dropdown tutorial-input" defaultValue={this.state[`${stateName}Score`]} onChange={e => this.onDropdownUpdate(e.target.value, 'score', stateName)}>
             {AP_SCORES.map(possibleScore => <option>{possibleScore}</option>)}
           </select>
         </div>
-        {console.log(this.state.APPlacements)}
-        {console.log('indexTest', this.findIndexInAPPlacements(this.state[stateName]))}
+        {/* {console.log(this.state.APPlacements)}
+        {console.log('indexTest', this.findIndexInAPPlacements(this.state[stateName]))} */}
         {this.renderAdditionalAPInformation(this.findIndexInAPPlacements(this.state[stateName]), this.state[`${stateName}Score`])}
       </div>
     );
@@ -755,28 +760,30 @@ class Tutorial extends React.Component {
   }
 
   // Placement Courses
-  addAPPlacementScore() {
+  addAPPlacement() {
     if (this.state.addedAPPlacementCount < MAX_ADDED_AP_PLACEMENTS) {
       console.log('initialName', this.state.APPlacements[0].name);
       createAPPlacement(this.state.APPlacements[0].name, 0).then((response) => {
         console.log('response', response);
-        this.props.updateUser({ ap_profile: response._id });
-        this.setState(prevState => ({
-          [`APPlacement${prevState.addedAPPlacementCount}`]: response.name,
-          [`APPlacement${prevState.addedAPPlacementCount}ID`]: response._id,
-          [`APPlacement${prevState.addedAPPlacementCount}Score`]: response.score,
-          addedAPPlacementCount: prevState.addedAPPlacementCount + 1,
-        }));
+        this.props.updateUser({ ap_profile: response._id }).then(() => {
+          this.setState(prevState => ({
+            [`APPlacement${prevState.addedAPPlacementCount}`]: response.name,
+            [`APPlacement${prevState.addedAPPlacementCount}ID`]: response._id,
+            [`APPlacement${prevState.addedAPPlacementCount}Score`]: response.score,
+            addedAPPlacementCount: prevState.addedAPPlacementCount + 1,
+          }), () => { console.log('afterUpdating State', this.state); console.log('afterUpdate user', this.props.user); });
+        });
       });
     }
   }
 
-  removeAPPlacementScore() {
+  removeAPPlacement() {
     if (this.state.addedAPPlacementCount > 0) {
-      this.props.updateUser({ ap_profile: this.state[`APPlacement${this.state.addedAPPlacementCount - 1}ID`] });
-      removeAPPlacement(`APPlacement${this.state.addedAPPlacementCount - 1}ID`).then((response) => {
-        this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
-        this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount - 1 }));
+      removeAPPlacement(this.state[`APPlacement${this.state.addedAPPlacementCount - 1}ID`]).then((response) => {
+        this.props.updateUser({ ap_profile: this.state[`APPlacement${this.state.addedAPPlacementCount - 1}ID`] }).then(() => {
+          this.clearElement(`APPlacement${this.state.addedAPPlacementCount - 1}`);
+          this.setState(prevState => ({ addedAPPlacementCount: prevState.addedAPPlacementCount - 1 }));
+        });
       });
     }
   }
@@ -795,12 +802,13 @@ class Tutorial extends React.Component {
   }
 
   // Automatically loads all required fields from user prop
-  loadElement(stateName, elementName, elementID) {
+  loadElement(stateName, elementName, elementID, score = undefined, disableLoadedText = false) {
     this.setState({
-      [stateName]: elementName + LOADED_OPTION_TEXT,
+      [stateName]: elementName + (disableLoadedText === false ? LOADED_OPTION_TEXT : ''),
       [`${stateName}ID`]: elementID,
       [`${stateName}Suggestions`]: [],
-    });
+      [`${stateName}Score`]: score,
+    }, () => console.log('profileElement', this.state[`${stateName}`], this.state[`${stateName}ID`], this.state[`${stateName}Suggestions`], this.state[`${stateName}Score`]));
   }
 
   // Automatically clears all states associated with 'stateName'
@@ -828,12 +836,17 @@ class Tutorial extends React.Component {
     new Promise((resolve, reject) => {
       if (location === 'score') {
         const intValue = parseInt(value, 10);
-        this.setState({ [`${stateName}`]: intValue }, () => console.log(value, '=>', this.state[stateName]), () => resolve());
+        // () => console.log(value, '=>', this.state[stateName]),
+        this.setState({ [`${stateName}Score`]: intValue }, () => resolve());
       } else {
-        this.setState({ [stateName]: value }, () => console.log(value, '=>', this.state[stateName]), () => resolve());
+        this.setState({ [stateName]: value }, () => resolve());
       }
     }).then(() => {
-      updateAPPlacement(this.state[`${stateName}ID`], { [location]: this.state[stateName] });
+      if (location === 'score') {
+        updateAPPlacement(this.state[`${stateName}ID`], { [location]: this.state[`${stateName}Score`] });
+      } else {
+        updateAPPlacement(this.state[`${stateName}ID`], { [location]: this.state[stateName] });
+      }
     });
   }
 
