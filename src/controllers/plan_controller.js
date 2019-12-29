@@ -5,7 +5,7 @@ import User from '../models/user';
 import TermController from '../controllers/term_controller';
 // import CoursesController from '../controllers/courses_controller';
 import { PopulateTerm, PopulateUser } from './populators';
-import { emptyPlan } from '../../static/emptyplan';
+// import { emptyPlan } from '../../static/emptyplan';
 
 const getPlansByUserID = (req, res, next) => {
     Plan.find({ user_id: req.user.id }).populate({
@@ -27,14 +27,15 @@ const createPlanForUser = (plan, userID) => {
                 delete json.password;
                 let currYear = user.graduationYear - 4;
                 let currQuarter = -1;
-                const planTerms = emptyPlan.terms.map((term) => {
+                const planTerms = plan.terms.map((term) => {
                     if (currQuarter === 3) currYear += 1;
                     currQuarter = (currQuarter + 1) % 4;
+                    if (term.index === 1) console.log(term.courses);
                     return {
                         year: currYear,
                         quarter: terms[currQuarter],
                         off_term: false,
-                        courses: term.courses.map((course) => { return course.id; }),
+                        courses: term.courses.map((userCourse) => { return userCourse.course.id; }),
                     };
                 });
                 try {
@@ -47,7 +48,7 @@ const createPlanForUser = (plan, userID) => {
 
                     // iterate through each term and create a term in the database for each one
                     const promises = planTerms.map((term, i) => {
-                        return TermController.createTerm(term, id, i);
+                        return TermController.createTerm(term, id, i, userID);
                     });
 
                     // resolve that big promise array to get a terms array with ids that reference the Terms model
@@ -55,7 +56,6 @@ const createPlanForUser = (plan, userID) => {
 
                     // save this to the newPlan object
                     newPlan.terms = dbTerms;
-                    console.log('MADE IT HERE');
                     newPlan.save().then((savedPlan) => {
                         resolve(savedPlan);
                     });
@@ -180,16 +180,30 @@ const getPlanByID = (req, res) => {
 };
 
 const duplicatePlanByID = (planID) => {
-    Plan.findById(planID).then((plan) => {
-        if (!plan) {
-            throw new Error('This plan does not exist for this user');
-        }
-        return plan.populate({
-            path: 'terms',
-            populate: PopulateTerm,
-        }).execPopulate();
-    }).then((populatedPlan) => {
-        createPlanForUser(populatedPlan.toJSON(), populatedPlan.toJSON().user_id);
+    return new Promise((resolve, reject) => {
+        Plan.findById(planID).then((plan) => {
+            if (!plan) {
+                throw new Error('This plan does not exist for this user');
+            }
+            return plan.populate({
+                path: 'terms',
+                populate: PopulateTerm,
+            }).execPopulate();
+        }).then((populatedPlan) => {
+            console.log(populatedPlan.toJSON().terms[1].courses);
+            createPlanForUser(populatedPlan.toJSON(), populatedPlan.toJSON().user_id).then((blankPlan) => {
+                resolve(blankPlan);
+                // const duplicateTermspromises = blankPlan.terms.map((term) => {
+                //     return new Promise((resolve, reject) => {
+                //         const duplicateCoursespromises =
+                //         TermController.addCourseToTerm({ params: { termID: term.id }, user: { id: populatedPlan.toJSON().user_id }, body: {courseID: } });
+                //     });
+                // });
+                // Promises.all(duplicateTermspromises).then(() => {
+
+                // });
+            });
+        });
     });
 };
 
