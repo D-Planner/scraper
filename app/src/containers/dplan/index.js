@@ -100,31 +100,31 @@ class DPlan extends Component {
   }
 
   componentDidMount() {
-    console.log('[DPlan] Did Mount');
+    // console.log('[DPlan] Did Mount');
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
   }
 
   componentWillUpdate(prevProps) {
-    console.log('[DPlan] Will Update');
+    // console.log('[DPlan] Will Update');
     if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
     ) {
-      console.log('setting previous on Will Update');
+      // console.log('setting previous on Will Update');
       this.setPreviousCourses();
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('[DPlan] Did Update');
+    // console.log('[DPlan] Did Update');
     if (prevState.noPlan && !this.state.noPlan) {
-      console.log('setting previous on Did Update');
+      // console.log('setting previous on Did Update');
       this.setPreviousCourses();
     }
   }
 
   setCurrentPlan(planID) {
-    console.log('plan loading');
+    // console.log('plan loading');
 
     if (planID !== null) {
       console.log(`setting plan to ${planID}`);
@@ -134,7 +134,7 @@ class DPlan extends Component {
           noPlan: false,
           loadingPlan: false,
         });
-        console.log('plan loaded');
+        // console.log('plan loaded');
         this.setState({
           tempPlanName: this.props.plan.name,
         });
@@ -243,7 +243,7 @@ class DPlan extends Component {
 
 
   setPreviousCourses = () => {
-    console.log('[setPreviousCourses Dplan.js]');
+    // console.log('[setPreviousCourses Dplan.js]');
 
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
