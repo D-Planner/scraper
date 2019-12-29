@@ -11,7 +11,7 @@ import {
 import { DialogTypes, ROOT_URL } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
-import trash from '../../style/trash.svg';
+import settings from '../../style/settings.svg';
 import check from '../../style/check.svg';
 import logo from '../../style/logo.svg';
 import Term from '../term';
@@ -528,7 +528,7 @@ class DPlan extends Component {
                           )
                           : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
                         <button type="button" className="settings-button" onClick={this.setMenuAnchor}>
-                          <img src={trash} alt="" />
+                          <img src={settings} alt="" />
                         </button>
                         <Menu
                           className="plan-options"
