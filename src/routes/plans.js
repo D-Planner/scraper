@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import PlanController from '../controllers/plan_controller';
+import { emptyPlan } from '../../static/emptyplan';
 
 const plansRouter = Router();
 
@@ -127,7 +128,8 @@ plansRouter.get('/:id', PlanController.getPlanByID);
  *      },
  */
 plansRouter.post('/', (req, res, next) => {
-    PlanController.createPlanForUser(req.body.plan, req.user.id).then((newPlan) => {
+    emptyPlan.name = req.body.plan.name;
+    PlanController.createPlanForUser(emptyPlan, req.user.id).then((newPlan) => {
         res.send(PlanController.sortPlan(newPlan));
     }).catch((err) => {
         if (err.name === 'MongoError' && err.code === 11000) {
@@ -139,7 +141,7 @@ plansRouter.post('/', (req, res, next) => {
 });
 
 /**
- * @api {put} /plans/duplicate/:id Duplicate plan by id
+ * @api {post} /plans/duplicate/:id Duplicate plan by id
  * @apiName DuplicatePlan
  * @apiGroup Plans
  *
