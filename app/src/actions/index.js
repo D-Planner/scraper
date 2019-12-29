@@ -452,8 +452,9 @@ export function duplicatePlan(planID, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
+  console.log(headers);
   return dispatch => new Promise((resolve, reject) => {
-    axios.post(`${ROOT_URL}/plans/duplicate/${planID}`, { headers }).then((response) => {
+    axios.post(`${ROOT_URL}/plans/duplicate/${planID}`, {}, { headers }).then((response) => {
       planSetter(response.data.id);
       resolve();
     }).catch((error) => {
@@ -462,6 +463,20 @@ export function duplicatePlan(planID, planSetter) {
       reject();
     });
   });
+  // const headers = {
+  //   Authorization: `Bearer ${localStorage.getItem('token')}`,
+  // };
+  // console.log(`plan: ${plan}, planSetter: ${planSetter}`);
+  // return dispatch => new Promise((resolve, reject) => {
+  //   axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
+  //     planSetter(response.data.id);
+  //     resolve();
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+  //     reject();
+  //   });
+  // });
 }
 
 // ----- Course Actions ----- //
