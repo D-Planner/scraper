@@ -182,16 +182,17 @@ class Tutorial extends React.Component {
           <div className="tc-checkbox-container">
             <div>Please accept our terms and conditions</div>
             <div style={{ display: 'none' }}>
-              {setTimeout(() => {
+              {/* {setTimeout(() => {
                 if (this.props.user.tc_accepted === true && !this.state.tcAccepted) {
                   this.setState({ tcAccepted: true });
                 }
-              }, 1000)}
+              }, 1000)} */}
             </div>
-            {this.props.user.tc_accepted !== undefined ? (
+            {this.props.user.tc_accepted != undefined ? (
               <input
                 type="checkbox"
-                defaultChecked={this.props.user.tc_accepted}
+                // value={this.state.tcAccepted === true}Updated
+                checked={this.state.tcAccepted}
                 onChange={(e) => {
                   const check = e.target.checked;
                   this.props.updateUser({ tc_accepted: check === true }).then(() => {
@@ -308,7 +309,7 @@ class Tutorial extends React.Component {
       addedOtherEmailCount: 0,
       // addedPlacementCourseCount: 0,
       addedAPPlacementCount: 0,
-      errorMessage: null,
+      errorMessages: [],
     };
 
     this.getInterests = this.getInterests.bind(this);
@@ -414,7 +415,7 @@ class Tutorial extends React.Component {
       console.log('resolving... end', this.props, this.state);
     }).then(() => {
       // Check if initial load satisfies continuation parameters
-      this.canContinue();
+      // this.canContinue();
     }).catch((error) => console.log(error));
   }
 
@@ -434,7 +435,7 @@ class Tutorial extends React.Component {
       this.setState((prevState) => {
         return ({
           tutorialPage: parseInt(prevState.tutorialPage, 10) - 1,
-          errorMessage: null,
+          errorMessages: [],
         });
       }, () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
     }
@@ -443,20 +444,30 @@ class Tutorial extends React.Component {
   canContinue() {
     let canContinue = true;
 
-    this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element) => {
-      if (this.state.errorMessage == null && !this.state[element.name]) {
+    this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element, index) => {
+      console.log(`this.state.errorMessages[${index}]`, this.state.errorMessages[index]);
+      if (!this.state[element.name] && this.state.errorMessages.indexOf(element.errorMessage) === -1) {
         // Set error message as first found error and stop
         console.log('setting error message from', element);
-        this.setState({ errorMessage: element.errorMessage });
+        this.setState((prevState) => {
+          console.log('concat', prevState.errorMessages.concat(element.errorMessage));
+          return { errorMessages: prevState.errorMessages.concat(element.errorMessage) };
+        });
         canContinue = false;
-      } else if (!this.state[element.name]) {
+      } else if (this.state[element.name] && this.state.errorMessages.indexOf(element.errorMessage) !== -1) {
+        console.log('resetting error message', this.state.errorMessages[this.state.errorMessages.indexOf(element.errorMessage)]);
+        this.setState((prevState) => {
+          const arr = prevState.errorMessages;
+          console.log('arr before', arr);
+          console.log('removing error message', index, arr[prevState.errorMessages.indexOf(element.errorMessage)]);
+          arr.splice(prevState.errorMessages.indexOf(element.errorMessage), 1);
+          console.log('arr after', arr);
+          return { errorMessages: arr };
+        }, () => console.log('after errorMessages', this.state.errorMessages));
+      } else if (this.state.errorMessages.length !== 0) {
         // Block continuing if error message has already been set (second click)
         console.log('blocking');
         canContinue = false;
-      } else if (this.state[element.name] && this.state.errorMessage != null) {
-        // Remove an error message if set before props loaded
-        console.log('resetting error message', this.state.errorMessage);
-        // this.setState({ errorMessage: null });
       } else {
         console.log('else');
       }
@@ -474,7 +485,7 @@ class Tutorial extends React.Component {
     // Push
     if (canContinue) {
       this.tutorialData[this.state.tutorialPage].onContinue();
-      this.setState({ errorMessage: null });
+      this.setState({ errorMessages: [] });
       if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
         this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
           () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
@@ -930,7 +941,7 @@ class Tutorial extends React.Component {
 
   // Handles a user click on an advisor suggestion
   handleAdvisorSuggestionSelect(stateName, suggestion) {
-    this.setState({ [stateName]: (suggestion.displayName + LOADED_OPTION_TEXT), dropdownClosed: true, errorMessage: null }, () => {
+    this.setState({ [stateName]: (suggestion.displayName + LOADED_OPTION_TEXT), dropdownClosed: true }, () => {
       const json = suggestion;
       delete json.dcHinmanaddr;
       delete json.telephoneNumber;
@@ -965,7 +976,6 @@ class Tutorial extends React.Component {
       [stateName]: (`${suggestion.department} ${suggestion.number} ${LOADED_OPTION_TEXT}`),
       [`${stateName}ID`]: suggestion._id,
       dropdownClosed: true,
-      errorMessage: null,
     }, () => {
       if (this.props.user.placement_courses.indexOf(suggestion._id) !== -1) {
         // console.log('removing from placements');
@@ -1079,14 +1089,14 @@ class Tutorial extends React.Component {
           <div className="tutorial-content">
             <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
             <div className="subtitle">{this.tutorialData[this.state.tutorialPage].text}</div>
-            <ErrorMessageSpacer errorMessage={this.state.errorMessage} />
+            <ErrorMessageSpacer errorMessage={this.state.errorMessages[0]} />
             <div className="rowContainer">
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
           </div>
           {/* <img src={right} alt="right" onClick={this.next} className="tutorial-arrow right" /> */}
-          {this.state.errorMessage ? console.log(' disabled') : console.log(null)}
-          <img src={right} alt="right" onClick={this.next} className={`tutorial-arrow right${this.state.errorMessage ? ' disabled' : ''}`} />
+          {this.state.errorMessages.length !== 0 ? console.log(' disabled') : console.log(null)}
+          <img src={right} alt="right" onClick={this.next} className={`tutorial-arrow right${this.state.errorMessages.length !== 0 ? ' disabled' : ''}`} />
         </div>
       </div>
     );
