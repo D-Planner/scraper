@@ -3,7 +3,6 @@ import User from '../models/user';
 import Plan from '../models/plan';
 import Interest from '../models/interest';
 import { PopulateUser } from './populators';
-import { Mongoose } from 'mongoose';
 
 // Does a user exist with the given email?
 export const checkUserByEmail = (req, res) => {
