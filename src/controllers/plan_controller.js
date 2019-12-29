@@ -190,8 +190,9 @@ const duplicatePlanByID = (planID) => {
                 populate: PopulateTerm,
             }).execPopulate();
         }).then((populatedPlan) => {
-            console.log(populatedPlan.toJSON().terms[1].courses);
-            createPlanForUser(populatedPlan.toJSON(), populatedPlan.toJSON().user_id).then((blankPlan) => {
+            const planToBeDuplicated = populatedPlan.toJSON();
+            planToBeDuplicated.name += ' Copy';
+            createPlanForUser(planToBeDuplicated, planToBeDuplicated.user_id).then((blankPlan) => {
                 resolve(blankPlan);
                 // const duplicateTermspromises = blankPlan.terms.map((term) => {
                 //     return new Promise((resolve, reject) => {
