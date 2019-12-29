@@ -145,25 +145,25 @@ const removeCourseFromTerm = (req, res) => {
 };
 
 const createTerm = async (term, planID, index, userID) => {
-    const newTerm = await Term.create({
-        plan_id: planID,
-        year: term.year,
-        quarter: term.quarter,
-        off_term: term.off_term,
-        courses: term.courses,
-        index,
-    });
-    newTerm.save().then(((newlyCreatedTerm) => {
-        Promise.all(term.courses.map((courseID) => {
-            return new Promise((resolve, reject) => {
-                addCourseToTerm({ params: { termID: term.id }, user: { id: userID }, body: { courseID } });
+    return new Promise((resolve, reject) => {
+        Term.create({
+            plan_id: planID,
+            year: term.year,
+            quarter: term.quarter,
+            off_term: term.off_term,
+            courses: term.courses,
+            index,
+        }).then((newlyCreatedTerm) => {
+            Promise.all(term.courses.map((courseID) => {
+                return new Promise((resolve, reject) => {
+                    addCourseToTerm({ params: { termID: newlyCreatedTerm.id }, user: { id: userID }, body: { courseID } });
+                    resolve();
+                });
+            })).then(() => {
+                resolve(newlyCreatedTerm);
             });
-        })).then(() => {
-
         });
-    }));
-
-    return newTerm.save();
+    });
 };
 
 const updateTerm = (req, res) => {
