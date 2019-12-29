@@ -30,40 +30,6 @@ import { trim } from './courses_controller';
 //     });
 // };
 
-const createTerm = async (term, planID, index) => {
-    const newTerm = await Term.create({
-        plan_id: planID,
-        year: term.year,
-        quarter: term.quarter,
-        off_term: term.off_term,
-        courses: term.courses.map((course) => { return course.id; }),
-        index,
-    });
-
-    return newTerm.save();
-};
-
-const updateTerm = (req, res) => {
-    Term.findByIdAndUpdate(req.params.id, {
-        plan_id: req.body.plan_id,
-        year: req.body.year,
-        quarter: req.body.quarter,
-        off_term: req.body.off_term,
-        courses: req.body.courses,
-    }, { new: true })
-        .then((result) => {
-            User.findById(req.user.id)
-                .then((user) => {
-                    return setTermsPrevCourses(req.body.plan_id, req.user.id);
-                }).then(() => {
-                    res.send(result);
-                });
-        })
-        .catch((error) => {
-            res.status(500).json({ error });
-        });
-};
-
 const addPlaceholderToTerm = (req, res) => {
     console.log('ADD PLACEHOLDER TO TERM', req.body);
     const termID = req.params.termID;
@@ -175,6 +141,49 @@ const removeCourseFromTerm = (req, res) => {
         }).catch((e) => {
             console.log(e);
             res.status(400).json({ e });
+        });
+};
+
+const createTerm = async (term, planID, index, userID) => {
+    const newTerm = await Term.create({
+        plan_id: planID,
+        year: term.year,
+        quarter: term.quarter,
+        off_term: term.off_term,
+        courses: term.courses,
+        index,
+    });
+    newTerm.save().then(((newlyCreatedTerm) => {
+        Promise.all(term.courses.map((courseID) => {
+            return new Promise((resolve, reject) => {
+                addCourseToTerm({ params: { termID: term.id }, user: { id: userID }, body: { courseID } });
+            });
+        })).then(() => {
+
+        });
+    }));
+
+    return newTerm.save();
+};
+
+const updateTerm = (req, res) => {
+    Term.findByIdAndUpdate(req.params.id, {
+        plan_id: req.body.plan_id,
+        year: req.body.year,
+        quarter: req.body.quarter,
+        off_term: req.body.off_term,
+        courses: req.body.courses,
+    }, { new: true })
+        .then((result) => {
+            User.findById(req.user.id)
+                .then((user) => {
+                    return setTermsPrevCourses(req.body.plan_id, req.user.id);
+                }).then(() => {
+                    res.send(result);
+                });
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
         });
 };
 
