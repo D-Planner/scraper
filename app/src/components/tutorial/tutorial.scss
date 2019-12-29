@@ -71,6 +71,8 @@
       }
 
       &.disabled {
+        cursor: default;
+        filter: none;
         opacity: .4;
       }
 

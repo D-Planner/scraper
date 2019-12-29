@@ -309,7 +309,6 @@ class Tutorial extends React.Component {
       // addedPlacementCourseCount: 0,
       addedAPPlacementCount: 0,
       errorMessage: null,
-      canContinue: false,
     };
 
     this.getInterests = this.getInterests.bind(this);
@@ -329,6 +328,7 @@ class Tutorial extends React.Component {
     this.handleBackgroundClick = this.handleBackgroundClick.bind(this);
     this.handleNewPlanPageUpdate = this.handleNewPlanPageUpdate.bind(this);
     this.createTutorialPlan = this.createTutorialPlan.bind(this);
+    this.canContinue = this.canContinue.bind(this);
 
     this.getInterests().then(() => {
       this.props.fetchUser().then(() => {
@@ -359,6 +359,11 @@ class Tutorial extends React.Component {
         }, 1000),
       }, () => console.log('resolving...', this.props, this.state));
     }).then(() => {
+      if (this.props.user.tc_accepted) {
+        console.log('user tc_accepted', this.props.user.tc_accepted);
+        this.setState({ tcAccepted: this.props.user.tc_accepted }, () => console.log('state tcAccepted', this.state.tcAccepted));
+      }
+
       console.log('before dean');
       if (this.props.user.dean) {
         console.log('dean', this.props.user.dean);
@@ -407,12 +412,16 @@ class Tutorial extends React.Component {
         }
       });
       console.log('resolving... end', this.props, this.state);
+    }).then(() => {
+      // Check if initial load satisfies continuation parameters
+      this.canContinue();
     }).catch((error) => console.log(error));
   }
 
   componentDidUpdate() {
     console.log('this.state', this.state);
     console.log('this.props.user', this.props.user);
+    this.canContinue();
   }
 
   componentWillUnmount() {
@@ -432,40 +441,49 @@ class Tutorial extends React.Component {
   }
 
   canContinue() {
-    return new Promise((resolve, reject) => {
-      let canContinue = true;
+    let canContinue = true;
 
-      this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element) => {
-        if (canContinue === true && !this.state[element.name]) {
-          this.setState({ errorMessage: element.errorMessage });
-          canContinue = false;
-        }
-      });
-
-      console.log('canContinue', canContinue);
-      this.setState({ canContinue }, () => { resolve(canContinue); });
+    this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element) => {
+      if (this.state.errorMessage == null && !this.state[element.name]) {
+        // Set error message as first found error and stop
+        console.log('setting error message from', element);
+        this.setState({ errorMessage: element.errorMessage });
+        canContinue = false;
+      } else if (!this.state[element.name]) {
+        // Block continuing if error message has already been set (second click)
+        console.log('blocking');
+        canContinue = false;
+      } else if (this.state[element.name] && this.state.errorMessage != null) {
+        // Remove an error message if set before props loaded
+        console.log('resetting error message', this.state.errorMessage);
+        // this.setState({ errorMessage: null });
+      } else {
+        console.log('else');
+      }
     });
+
+    console.log('canContinue', canContinue);
+    return canContinue;
   }
 
   next = () => {
     // Check if the user has filled out all the required info, throws error if not
-    this.canContinue().then((canContinue) => {
-      console.log('continuing', canContinue);
+    const canContinue = this.canContinue();
+    console.log('continuing', canContinue);
 
-      // Push
-      if (canContinue) {
-        this.tutorialData[this.state.tutorialPage].onContinue();
-        this.setState({ errorMessage: null });
-        if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
-          this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
-            () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
-        } else if (this.state.tutorialPage >= this.tutorialData.length - 1) { // Final tutorial page
-          this.endTutorial();
-        } else {
-          this.setState({ tutorialPage: 0 }); // Catch error
-        }
+    // Push
+    if (canContinue) {
+      this.tutorialData[this.state.tutorialPage].onContinue();
+      this.setState({ errorMessage: null });
+      if (this.state.tutorialPage < this.tutorialData.length - 1) { // Within data range
+        this.setState((prevState) => { return ({ tutorialPage: parseInt(prevState.tutorialPage, 10) + 1 }); },
+          () => { this.props.history.push(`/tutorial/${this.state.tutorialPage}`); });
+      } else if (this.state.tutorialPage >= this.tutorialData.length - 1) { // Final tutorial page
+        this.endTutorial();
+      } else {
+        this.setState({ tutorialPage: 0 }); // Catch error
       }
-    });
+    }
   }
 
   // Get state change from subpage components
@@ -857,6 +875,7 @@ class Tutorial extends React.Component {
 
   // Input onChange callback handler
   onInputUpdate(value, stateName, suggestionLocation) {
+    console.log('value', value);
     this.setState({ [stateName]: value, dropdownClosed: false }, () => {
       this.fetchSuggestions(value, stateName, suggestionLocation);
       // console.log(this.state);
@@ -1055,6 +1074,7 @@ class Tutorial extends React.Component {
       <div className="tutorial-container">
         <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (this.tutorialData.length - 1))) }} />
         <div className="arrow-container">
+          {/* <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className="tutorial-arrow left" /> */}
           <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className={`tutorial-arrow left${this.state.tutorialPage === 0 ? ' disabled' : ''}`} />
           <div className="tutorial-content">
             <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
@@ -1064,7 +1084,9 @@ class Tutorial extends React.Component {
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
           </div>
-          <img src={right} alt="right" onClick={this.next} className={`tutorial-arrow right`} />
+          {/* <img src={right} alt="right" onClick={this.next} className="tutorial-arrow right" /> */}
+          {this.state.errorMessage ? console.log(' disabled') : console.log(null)}
+          <img src={right} alt="right" onClick={this.next} className={`tutorial-arrow right${this.state.errorMessage ? ' disabled' : ''}`} />
         </div>
       </div>
     );
