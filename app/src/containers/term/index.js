@@ -13,7 +13,7 @@ import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
 import {
-  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 } from '../../actions';
 
 const termTarget = {
@@ -94,7 +94,7 @@ class Term extends Component {
         });
         this.props.term.off_term = true;
         this.props.term.courses = [];
-        this.props.updateTerm(this.props.term)
+        this.props.updateTermInCurrentPlan(this.props.term)
           .then(() => {
             this.props.fetchPlan(this.props.plan.id);
             this.props.fetchUser();
@@ -107,7 +107,7 @@ class Term extends Component {
   turnOnTerm = () => {
     this.props.term.off_term = false;
     this.props.term.courses = [];
-    this.props.updateTerm(this.props.term).then(() => {
+    this.props.updateTermInCurrentPlan(this.props.term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     });
   }
@@ -325,11 +325,11 @@ const mapStateToProps = state => ({
 });
 
 // export default withRouter(connect(mapStateToProps, {
-//   fetchPlan, deletePlan, updateTerm, showDialog,
+//   fetchPlan, deletePlan, updateTermInCurrentPlan, showDialog,
 // })(DPlan));
 // eslint-disable-next-line new-cap
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 })(Term)));

@@ -57,12 +57,19 @@ const loggingErrorsInReduxActions = (error) => {
 
 const loggingStageProgressionInReduxActions = (stage, message) => {
   const config = {
-    fetchPlan: false,
-
+    createPlan: true,
+    fetchPlan: true,
+    updateUserCourse: true,
   };
   switch (stage) {
+    case 'createPlan':
+      if (config.createPlan) console.log(message);
+      break;
     case 'fetchPlan':
       if (config.fetchPlan) console.log(message);
+      break;
+    case 'updateUserCourse':
+      if (config.updateUserCourse) console.log(message);
       break;
     default:
       break;
@@ -851,8 +858,7 @@ export function removePlaceholderCourse(placeholderCourse, termID) {
   });
 }
 
-
-export function updateTerm(term) {
+export function updateTermInCurrentPlan(term) {
   return (dispatch) => {
     return axios.put(`${ROOT_URL}/terms/${term.id}`, term, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
