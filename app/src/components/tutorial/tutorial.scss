@@ -28,7 +28,8 @@
   font-size: 1em;
 
   &.error {
-    border: $error solid 2px;
+    // border: $error solid 2px;
+    box-shadow: 0px 0px 6px $red;
   }
 }
 

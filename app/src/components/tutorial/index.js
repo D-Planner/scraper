@@ -274,14 +274,14 @@ class Tutorial extends React.Component {
       text: 'Invite academic professionals to review your plans and give personalized feedback.',
       subtext: 'Don\'t worry, we won\'t share your information to these people without your permission!',
       neededToContinue: [
-        { name: 'deanAdvisor', errorMessage: 'Please enter the name of your dean in the form below' },
-        { name: 'facultyAdvisor', errorMessage: 'Please enter the name of your faculty advisor in the form below' },
+        { name: 'deanAdvisorID', errorMessage: 'Please enter the name of your dean in the form below' },
+        { name: 'facultyAdvisorID', errorMessage: 'Please enter the name of your faculty advisor in the form below' },
       ],
       onContinue: () => { },
       toRender: () => (
         <form>
-          {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'])}
-          {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'])}
+          {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
+          {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
           {this.renderAddedOtherEmails()}
           <div className="contributor-modify-container">
             <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
@@ -338,6 +338,7 @@ class Tutorial extends React.Component {
     this.createTutorialPlan = this.createTutorialPlan.bind(this);
     this.canContinue = this.canContinue.bind(this);
     this.renderTutorialInput = this.renderTutorialInput.bind(this);
+    this.handleClearClick = this.handleClearClick.bind(this);
 
     this.getInterests().then(() => {
       this.props.fetchUser().then(() => {
@@ -424,7 +425,7 @@ class Tutorial extends React.Component {
     }).then(() => {
       // Check if initial load satisfies continuation parameters
       // this.canContinue();
-    }).catch((error) => console.log(error));
+    }).catch(error => console.log(error));
   }
 
   componentDidUpdate() {
@@ -454,6 +455,7 @@ class Tutorial extends React.Component {
 
     this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element, index) => {
       // console.log(`this.state.errorMessages[${index}]`, this.state.errorMessages[index]);
+      console.log('state', this.state[element.name]);
       if (!this.state[element.name] && this.state.errorMessages.indexOf(element.errorMessage) === -1) {
         // Set error message as first found error and stop
         // console.log('setting error message from', element);
@@ -637,11 +639,14 @@ class Tutorial extends React.Component {
     }
   };
 
-  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameterPrimary, displayParametersSecondary = undefined, disableClearInput = false, change = e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)) {
+  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameterPrimary, displayParametersSecondary = undefined, disableClearInput = false, requireID = false, change = e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)) {
+    if (this.state[stateName] === '') {
+      this.handleClearClick(stateName);
+    }
     return (
       <div className="tutorial-input-container">
         <input
-          className="tutorial-input"
+          className={`tutorial-input${this.tutorialData[this.state.tutorialPage].neededToContinue.some(e => (e.name === (requireID === true ? `${stateName}ID` : stateName))) && (requireID === true ? !this.state[`${stateName}ID`] : !this.state[stateName]) ? ' error' : ''}`}
           placeholder={placeholder}
           value={this.state[stateName] || ''}
           // defaultValue={this.state[stateName]}
@@ -654,31 +659,33 @@ class Tutorial extends React.Component {
             role="button"
             tabIndex="-1"
             // onClick={() => this.removeContributor(stateName)}
-            onClick={() => {
-              console.log('substring', stateName.length - 1, stateName.substring(0, stateName.length - 2));
-              console.log('stateName', stateName);
-              if (stateName === 'deanAdvisor') {
-                this.props.updateUser({ dean: null }).then(() => {
-                  console.log('user', this.props.user);
-                  this.clearElement(stateName);
-                });
-              } else if (stateName === 'facultyAdvisor') {
-                this.props.updateUser({ faculty_advisor: null }).then(() => {
-                  console.log('user', this.props.user);
-                  this.clearElement(stateName);
-                });
-              } else if (stateName.substring(0, stateName.length - 1) === 'otherAdvisor') {
-                this.removeContributor(undefined, stateName, false);
-              } else {
-                this.clearElement(stateName);
-              }
-            }}
+            onClick={() => this.handleClearClick(stateName)}
           >
             Clear Saved Input
           </div>
         ) : null}
       </div>
     );
+  }
+
+  handleClearClick = (stateName) => {
+    console.log('substring', stateName.length - 1, stateName.substring(0, stateName.length - 2));
+    console.log('stateName', stateName);
+    if (stateName === 'deanAdvisor') {
+      this.props.updateUser({ dean: null }).then(() => {
+        console.log('user', this.props.user);
+        this.clearElement(stateName);
+      });
+    } else if (stateName === 'facultyAdvisor') {
+      this.props.updateUser({ faculty_advisor: null }).then(() => {
+        console.log('user', this.props.user);
+        this.clearElement(stateName);
+      });
+    } else if (stateName.substring(0, stateName.length - 1) === 'otherAdvisor') {
+      this.removeContributor(undefined, stateName, false);
+    } else {
+      this.clearElement(stateName);
+    }
   }
 
   renderTutorialAPDropdown(stateName, coursePlaceholder, scorePlaceholder, suggestionLocation, displayParameter) {
