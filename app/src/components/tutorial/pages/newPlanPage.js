@@ -71,10 +71,10 @@ class NewPlanPage extends React.Component {
   render() {
     return (
       <form>
-        <input className="tutorial-input" type="text" placeholder="Give your plan a short name" value={this.state.planName} onChange={e => this.handleStateChange('planName', e.target.value)} />
-        <input className="tutorial-input" type="text" placeholder="Give a short blurb about this plan" value={this.state.planDescription} onChange={e => this.handleStateChange('planDescription', e.target.value)} />
-        {/* <input className="tutorial-input" type="text" placeholder="Pick a major for this plan" value={this.state.planMajor} onChange={e => this.handleStateChange('planMajor', e.target.value)} /> */}
-        <div className="tutorial-input">Which of your interests does this plan relate to?</div>
+        {this.props.renderTutorialInput(null, 'Give your plan a short name', null, null, undefined, true, e => this.handleStateChange('planName', e.target.value))}
+        {this.props.renderTutorialInput(null, 'Give a short description about this plan', null, null, undefined, true, e => this.handleStateChange('planDescription', e.target.value))}
+        {/* {this.props.renderTutorialInput(null, 'Select a major for this plan', null, null, undefined, true, e => this.handleStateChange('planMajor', e.target.value))} */}
+        <div className="tutorial-input-container"><div className="tutorial-input">Which of your interests does this plan relate to?</div></div>
         <div className="plan-interests-container">
           {this.state.fetchedInterests === true ? this.state.filledInterests.map((interest) => {
             if (interest !== null) {
