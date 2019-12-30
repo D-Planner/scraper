@@ -668,7 +668,7 @@ class Tutorial extends React.Component {
                   this.clearElement(stateName);
                 });
               } else if (stateName.substring(0, stateName.length - 1) === 'otherAdvisor') {
-                this.removeContributor();
+                this.removeContributor(undefined, stateName, false);
               } else {
                 this.clearElement(stateName);
               }
@@ -809,14 +809,26 @@ class Tutorial extends React.Component {
     }
   }
 
-  removeContributor(contributorName = undefined) {
+  removeContributor(contributorName = undefined, stateName = undefined, remove = true) {
     if (this.state.addedOtherEmailCount > 0) {
       // console.log('other_advisors on removeContributor', this.props.user.other_advisors);
       // console.log('removing', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount);
       console.log('contributorName', contributorName);
-      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
-        this.clearElement(`otherAdvisor${this.state.addedOtherEmailCount - 1}`);
-        this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
+      this.props.updateUser({ other_advisor: this.state[`${stateName}ID`] || this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
+        // const removedIndex = stateName[stateName.length - 1];
+        console.log('stateName', stateName);
+        // if (removedIndex !== this.state.addedOtherEmailCount - 1) {
+        //   for (let i = this.state.addedOtherEmailCount; i > removedIndex; i -= 1) {
+        //     let breakLoop = false;
+        //     while (breakLoop === false) {
+        //       this.clearElement(stateName).then((breakLoop = true));
+        //     }
+        //   }
+        // }
+        this.clearElement(stateName || `otherAdvisor${this.state.addedOtherEmailCount - 1}`);
+        if (remove === true) {
+          this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
+        }
       });
     }
   }
@@ -907,24 +919,26 @@ class Tutorial extends React.Component {
 
   // Automatically loads all required fields from user prop
   loadElement(stateName, elementName, elementID, score = undefined, disableLoadedText = false) {
-    this.setState({
-      [stateName]: (elementName ? elementName + (disableLoadedText === false ? LOADED_OPTION_TEXT : '') : undefined),
-      [`${stateName}ID`]: elementID,
-      [`${stateName}Suggestions`]: [],
-      [`${stateName}Score`]: score,
-    },
-    // () => console.log('profileElement', this.state[`${stateName}`], this.state[`${stateName}ID`], this.state[`${stateName}Suggestions`], this.state[`${stateName}Score`])
-    );
+    return new Promise((resolve, reject) => {
+      this.setState({
+        [stateName]: (elementName ? elementName + (disableLoadedText === false ? LOADED_OPTION_TEXT : '') : undefined),
+        [`${stateName}ID`]: elementID,
+        [`${stateName}Suggestions`]: [],
+        [`${stateName}Score`]: score,
+      }, () => resolve());
+    });
   }
 
   // Automatically clears all states associated with 'stateName'
   clearElement(stateName) {
     // console.log('clearing', stateName);
-    this.setState({
-      [stateName]: undefined,
-      [`${stateName}ID`]: undefined,
-      [`${stateName}Suggestions`]: undefined,
-      [`${stateName}Score`]: undefined,
+    return new Promise((resolve, reject) => {
+      this.setState({
+        [stateName]: undefined,
+        [`${stateName}ID`]: undefined,
+        [`${stateName}Suggestions`]: undefined,
+        [`${stateName}Score`]: undefined,
+      }, () => resolve());
     });
   }
 
