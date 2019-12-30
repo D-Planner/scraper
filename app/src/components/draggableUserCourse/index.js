@@ -21,9 +21,7 @@ const source = {
     props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
-      console.log(props.course);
       props.removeCourseFromTerm(props.course.id, props.sourceTerm).then(() => {
-        console.log('removed');
       }).catch((e) => {
         console.log(e);
       });
@@ -61,13 +59,18 @@ class UserCourse extends Component {
     };
   }
 
+  loggingInUserCourse = (message) => {
+    const shouldWeLogThese = true;
+    if (shouldWeLogThese) console.log(message);
+  }
+
   /**
    * Sends off information for [dialogOrchestrator].
    * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
    * @param {*} props
    */
   showCourseInfoDialog = () => {
-    console.log(this.props.catalogCourse);
+    this.loggingInUserCourse('[DraggableUserCourse]', this.props.course);
     const dialogOptions = {
       title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',

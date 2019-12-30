@@ -32,35 +32,35 @@ const termTarget = {
         return undefined;
       } else if (item.department) { // This is a placeholder Course
         if (item.sourceTerm) {
-          loggingInTermDragAndDrop('[TERM.js] Attempting to remove a placeholder course');
+          loggingInTermDragAndDrop('[Term] Attempting to remove a placeholder course');
           props.removePlaceholderCourse(item.department, item.sourceTerm).then(() => {
-            loggingInTermDragAndDrop('[TERM.js] Attempting to add a placeholder course');
+            loggingInTermDragAndDrop('[Term] Attempting to add a placeholder course');
             props.addPlaceholderCourse(item.department, props.term).then(() => {
-              loggingInTermDragAndDrop('[TERM.js] Removed, and readded the Placeholder course');
+              loggingInTermDragAndDrop('[Term] Removed, and readded the Placeholder course');
             });
           });
         } else {
-          loggingInTermDragAndDrop('[TERM.js] Attempting to add a placeholder course');
+          loggingInTermDragAndDrop('[Term] Attempting to add a placeholder course');
           props.addPlaceholderCourse(item.department, props.term).then(() => {
-            loggingInTermDragAndDrop('[TERM.js] Added placeholder the term');
+            loggingInTermDragAndDrop('[Term] Added placeholder the term');
           });
         }
       } else if (item.sourceTerm) {
-        // loggingInTermDragAndDrop('[TERM.js] We think this is a term-to-term drag');
+        // loggingInTermDragAndDrop('[Term] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then((next) => {
-          loggingInTermDragAndDrop(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          loggingInTermDragAndDrop(`[Term] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
           props.addCourseToTerm(item.catalogCourse, props.term);
         }).then(() => {
-          loggingInTermDragAndDrop(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+          loggingInTermDragAndDrop(`[Term] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         }).catch((e) => {
           loggingInTermDragAndDrop(e);
         });
       } else {
-        // loggingInTermDragAndDrop('[TERM.js] We think this is a search-to-term drag');
+        // loggingInTermDragAndDrop('[Term] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
         props.addCourseToTerm(item.course, props.term).then(() => {
-          // loggingInTermDragAndDrop(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
+          // loggingInTermDragAndDrop(`[Term] The course \n${item.course.name} has been added to term \n${props.term.id}`);
         }).catch((e) => {
           loggingInTermDragAndDrop(e);
         });
@@ -81,7 +81,7 @@ const collect = (connect, monitor) => {
 
 class Term extends Component {
   componentDidUpdate() {
-    loggingInTermDragAndDrop('[TERM.js] Component Did Update');
+    loggingInTermDragAndDrop('[Term] Component Did Update');
   }
 
   turnOffTerm = () => {
