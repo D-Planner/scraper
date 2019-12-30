@@ -56,8 +56,8 @@ class App extends Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const sizeSufficient = (this.state.width >= minWidth && this.state.height >= minHeight);
-    if (true) {
+    const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
+    if (sizeSufficient) {
       return (
         <div>
           <Router>
