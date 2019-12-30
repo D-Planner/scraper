@@ -82,14 +82,6 @@ class DPlan extends Component {
       tempPlanName: '',
       anchorEl: null,
     };
-    this.loggingInDplan = this.loggingInDplan.bind(this);
-    this.setCurrentPlan = this.setCurrentPlan.bind(this);
-    this.showDialog = this.showDialog.bind(this);
-    this.createNewPlan = this.createNewPlan.bind(this);
-    this.showNewPlanDialog = this.showNewPlanDialog.bind(this);
-    this.getFlattenedCourses = this.getFlattenedCourses.bind(this);
-    this.addCourseToTerm = this.addCourseToTerm.bind(this);
-    this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
     this.props.getTimes();
 
     this.dplanref = React.createRef();
@@ -99,19 +91,19 @@ class DPlan extends Component {
     if (this.props.plan !== null) this.state.noPlan = false;
   }
 
-  loggingInDplan(message) {
+  loggingInDplan = (message) => {
     const shouldWeLogThese = false;
     if (shouldWeLogThese) console.log(message);
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.loggingInDplan('[DPlan] Did Mount');
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
   }
 
-  componentWillUpdate(prevProps) {
+  componentWillUpdate = (prevProps) => {
     this.loggingInDplan('[DPlan] Will Update');
     if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
     ) {
@@ -120,7 +112,7 @@ class DPlan extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
     this.loggingInDplan('[DPlan] Did Update');
     if (prevState.noPlan && !this.state.noPlan) {
       this.loggingInDplan('[DPlan] calling setPreviousCourses() in componentDidUpdate');
@@ -128,7 +120,7 @@ class DPlan extends Component {
     }
   }
 
-  setCurrentPlan(planID) {
+  setCurrentPlan = (planID) => {
     this.loggingInDplan('[DPlan] setCurrentPlan() starting.');
 
     if (planID !== null) {
@@ -151,7 +143,7 @@ class DPlan extends Component {
     }
   }
 
-  getFlattenedCourses() {
+  getFlattenedCourses = () => {
     const courses = [];
     this.props.plan.terms.forEach((year) => {
       year.forEach((term) => {
@@ -161,7 +153,7 @@ class DPlan extends Component {
     return courses;
   }
 
-  getFlattenedTerms() {
+  getFlattenedTerms = () => {
     const terms = [];
     this.props.plan.terms.forEach((y) => {
       y.forEach((term) => {
@@ -422,17 +414,16 @@ class DPlan extends Component {
     });
   }
 
-  deletePlanKeyPress(plan) {
+  deletePlanKeyPress = (plan) => {
     if (this.props.plan !== null) {
-      if (plan === null) {
-      } else {
+      if (plan !== null) {
         this.showDialog();
       }
     }
   }
 
   // eslint-disable-next-line class-methods-use-this
-  keyCommandWrapper(fn, event = null) {
+  keyCommandWrapper = (fn, event = null) => {
     event.preventDefault();
     try {
       fn();
@@ -441,7 +432,7 @@ class DPlan extends Component {
     }
   }
 
-  showDialog() {
+  showDialog = () => {
     if (!this.props.openDialog) {
       const opts = {
         title: `Delete ${this.props.plan.name === '' ? 'Plan' : ` '${this.props.plan.name.length > 10 ? (`${this.props.plan.name.substring(0, 7)}...`) : this.props.plan.name}'`}?`,
@@ -454,7 +445,7 @@ class DPlan extends Component {
     }
   }
 
-  showNewPlanDialog() {
+  showNewPlanDialog = () => {
     if (!this.props.openDialog) {
       const dialogOptions = {
         title: 'Name your plan',
@@ -467,7 +458,7 @@ class DPlan extends Component {
     }
   }
 
-  createNewPlan(name) {
+  createNewPlan = (name) => {
     this.props.createPlan({
       name,
     }, this.setCurrentPlan).then(() => {
