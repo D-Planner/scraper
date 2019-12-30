@@ -3,7 +3,9 @@ import axios from 'axios';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
-import { ItemTypes, DialogTypes, ROOT_URL } from '../../constants';
+import {
+  ItemTypes, DialogTypes, ROOT_URL, consoleLogging,
+} from '../../constants';
 import { showDialog, setDraggingState } from '../../actions';
 import CourseElement from '../staticCourseElement';
 
@@ -59,18 +61,13 @@ class UserCourse extends Component {
     };
   }
 
-  loggingInUserCourse = (message) => {
-    const shouldWeLogThese = true;
-    if (shouldWeLogThese) console.log(message);
-  }
-
   /**
    * Sends off information for [dialogOrchestrator].
    * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
    * @param {*} props
    */
   showCourseInfoDialog = () => {
-    this.loggingInUserCourse('[DraggableUserCourse]', this.props.course);
+    consoleLogging('DraggableUserCourse', '[DraggableUserCourse]', this.props.course);
     const dialogOptions = {
       title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',
