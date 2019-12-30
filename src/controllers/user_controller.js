@@ -243,7 +243,6 @@ export const updateUser = async (req, res) => {
 
             // For managing adding and removing elements from advisor elements
             if (req.body.change.dean !== undefined) {
-                console.log('dean', req.body.change.dean);
                 if (req.body.change.dean === null) {
                     user.dean = undefined;
                     user.markModified('dean');
@@ -286,7 +285,6 @@ export const updateUser = async (req, res) => {
 
             // Don't reset password if none in request
             if (req.body.change.password) { user.password = req.body.change.password; }
-            console.log('user', user);
 
             user.save().then((newUser) => {
                 const json = newUser.populate(PopulateUser).toJSON();
