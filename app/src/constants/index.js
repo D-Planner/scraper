@@ -585,6 +585,12 @@ export const GenEds = {
   },
 };
 
+/**
+ * Controls all logging in D-Planner frontend application.
+ * @param {String} source Name of the originating component, in camel case.
+ * @param {String} message Message.
+ * @param  {...any} objects Set of objects to be logged in addition to the message.
+ */
 export const consoleLogging = (source, message, ...objects) => {
   const config = {
     DraggableUserCourse: true,
