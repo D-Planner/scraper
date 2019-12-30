@@ -28,7 +28,6 @@ const arraysMatch = (a1, a2) => {
   return true;
 };
 
-/** Contains one of a user's plans, with all available terms and a sidebar with other information */
 class DPlan extends Component {
   // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values for more
   keyMap = {
