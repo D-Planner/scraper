@@ -814,6 +814,7 @@ export function addPlaceholderCourse(placeholderCourse, termID) {
       type: ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN,
       payload: { placeholderCourse, termID },
     });
+    resolve();
   });
 }
 
@@ -829,6 +830,7 @@ export function removePlaceholderCourse(placeholderCourse, termID) {
       type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
       payload: { placeholderCourse, termID },
     });
+    resolve();
   });
 }
 
