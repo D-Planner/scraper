@@ -13,7 +13,7 @@ import Majors from '../../majors';
 // import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
 
 import './requirementsPane.scss';
-import { GenEds } from '../../../constants';
+import { GenEds, consoleLogging } from '../../../constants';
 
 /**
  * @name RequirementsPane
@@ -58,11 +58,6 @@ class RequirementsPane extends Component {
     }
   }
 
-  loggingInRequirementsPaneFillerAlgo = (message) => {
-    const shouldWeLogThese = false;
-    if (shouldWeLogThese) console.log(message);
-  }
-
   fillAll = () => {
     const wcs = {
       used: [],
@@ -104,12 +99,12 @@ class RequirementsPane extends Component {
           wcs.used.push(userCourse);
           GenEds[wc].course = GenEds[wc].course ? [...GenEds[wc].course, userCourse.course.name] : [userCourse.course.name];
           if (GenEds[wc].filled === GenEds[wc].count) GenEds[wc].fulfilled = true;
-          this.loggingInRequirementsPaneFillerAlgo(userCourse.course.name, 'Using this course for', wc, userCourse.course.wcs);
+          consoleLogging('RequirementsPane', userCourse.course.name, 'Using this course for', wc, userCourse.course.wcs);
         } else if (unFulfilledWCs.length === 0) {
           wcs.open.splice(i, 1);
-          this.loggingInRequirementsPaneFillerAlgo(userCourse.course.name, 'Is no longer being used', userCourse.course.wcs);
+          consoleLogging('RequirementsPane', userCourse.course.name, 'Is no longer being used', userCourse.course.wcs);
         } else {
-          this.loggingInRequirementsPaneFillerAlgo('ERROR', userCourse.course.name, unFulfilledWCs.length);
+          consoleLogging('RequirementsPane', 'ERROR', userCourse.course.name, unFulfilledWCs.length);
           i += 1;
         }
       }
@@ -132,13 +127,13 @@ class RequirementsPane extends Component {
             GenEds[distrib].fulfilled = true;
           }
           distribs.open.splice(j, 1);
-          this.loggingInRequirementsPaneFillerAlgo(userCourse.course.name, 'Is no longer being used for ', distrib);
+          consoleLogging('RequirementsPane', userCourse.course.name, 'Is no longer being used for ', distrib);
         } else if (unFulfilledDistribs.length === 0) {
-          this.loggingInRequirementsPaneFillerAlgo(userCourse.course.name, 'Is no longer being used', userCourse.course.distribs);
+          consoleLogging('RequirementsPane', userCourse.course.name, 'Is no longer being used', userCourse.course.distribs);
           distribs.open.splice(j, 1);
         } else {
           j += 1;
-          this.loggingInRequirementsPaneFillerAlgo(userCourse.course.name, 'ERROR', unFulfilledDistribs.length);
+          consoleLogging('RequirementsPane', userCourse.course.name, 'ERROR', unFulfilledDistribs.length);
         }
       }
       nextFlex = wcs.open.length + distribs.open.length;
@@ -153,7 +148,7 @@ class RequirementsPane extends Component {
       userCourse.distrib = distrib;
 
       GenEds[distrib].filled += 1;
-      this.loggingInRequirementsPaneFillerAlgo(userCourse.course.name, 'Is no longer being used for ', distrib);
+      consoleLogging('RequirementsPane', userCourse.course.name, 'Is no longer being used for ', distrib);
       GenEds[distrib].course = GenEds[distrib].course ? [...GenEds[distrib].course, userCourse.course.name] : [userCourse.course.name];
       distribs.used.push(userCourse);
       if (GenEds[distrib].filled === GenEds[distrib].count) {
