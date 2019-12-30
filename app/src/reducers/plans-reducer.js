@@ -116,6 +116,16 @@ const plansReducer = (state = initialState, action) => {
         });
       });
       return Object.assign({}, state, { current });
+    case ActionTypes.UPDATE_TERM_IN_CURRENT_PLAN:
+      current.term = state.current.terms.map((y) => {
+        return y.map((t) => {
+          if (t._id === action.payload.termID) {
+            t = action.payload.term;
+          }
+          return t;
+        });
+      });
+      return Object.assign({}, state, { current });
     default:
       return state;
   }
