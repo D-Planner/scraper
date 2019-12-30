@@ -317,6 +317,7 @@ class Tutorial extends React.Component {
       // addedPlacementCourseCount: 0,
       addedAPPlacementCount: 0,
       errorMessages: [],
+      loading: true,
     };
 
     this.getInterests = this.getInterests.bind(this);
@@ -425,6 +426,7 @@ class Tutorial extends React.Component {
     }).then(() => {
       // Check if initial load satisfies continuation parameters
       // this.canContinue();
+      this.setState({ loading: false });
     }).catch(error => console.log(error));
   }
 
@@ -1155,7 +1157,7 @@ class Tutorial extends React.Component {
             <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
             <div className="text">{this.tutorialData[this.state.tutorialPage].text}</div>
             <div className="subtext">{this.tutorialData[this.state.tutorialPage].subtext}</div>
-            <ErrorMessageSpacer errorMessage={this.state.errorMessages[0]} />
+            {this.state.loading === true ? <LoadingWheel /> : <ErrorMessageSpacer errorMessage={this.state.errorMessages[0]} />}
             <div className="rowContainer">
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
