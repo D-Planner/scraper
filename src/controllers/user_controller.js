@@ -198,6 +198,8 @@ export const updateUser = async (req, res) => {
                         console.error(error);
                     });
             }
+
+            console.log('req.body.change', req.body.change);
             if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
             if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
             if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
@@ -240,8 +242,23 @@ export const updateUser = async (req, res) => {
             }
 
             // For managing adding and removing elements from advisor elements
-            if (req.body.change.dean) { user.dean = req.body.change.dean; }
-            if (req.body.change.faculty_advisor) { user.faculty_advisor = req.body.change.faculty_advisor; }
+            if (req.body.change.dean !== undefined) {
+                console.log('dean', req.body.change.dean);
+                if (req.body.change.dean === null) {
+                    user.dean = undefined;
+                    user.markModified('dean');
+                } else {
+                    user.dean = req.body.change.dean;
+                }
+            }
+            if (req.body.change.faculty_advisor !== undefined) {
+                if (req.body.change.faculty_advisor === null) {
+                    user.faculty_advisor = undefined;
+                    user.markModified('faculty_advisor');
+                } else {
+                    user.faculty_advisor = req.body.change.faculty_advisor;
+                }
+            }
 
             // For managing adding and removing elements from other_advisors based on filled objects
             if (req.body.change.other_advisor) {
@@ -269,10 +286,12 @@ export const updateUser = async (req, res) => {
 
             // Don't reset password if none in request
             if (req.body.change.password) { user.password = req.body.change.password; }
+            console.log('user', user.dean);
 
             user.save().then((newUser) => {
                 const json = newUser.populate(PopulateUser).toJSON();
                 delete json.password;
+                console.log('json', json.dean);
                 res.json(json);
             }).catch((error) => {
                 console.error(error);
