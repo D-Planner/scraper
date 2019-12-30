@@ -584,3 +584,28 @@ export const GenEds = {
     filled: 0,
   },
 };
+
+export const consoleLogging = (source, message, ...objects) => {
+  const config = {
+    DraggableUserCourse: true,
+    DPlan: false,
+    RequirementsPane: false,
+    Term: false,
+  };
+  switch (source) {
+    case 'DraggableUserCourse':
+      if (config.DraggableUserCourse) console.log(message, ...objects);
+      break;
+    case 'DPlan':
+      if (config.DPlan) console.log(message, ...objects);
+      break;
+    case 'RequirementsPane':
+      if (config.RequirementsPane) console.log(message, ...objects);
+      break;
+    case 'Term':
+      if (config.Term) console.log(message, ...objects);
+      break;
+    default:
+      break;
+  }
+};
