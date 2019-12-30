@@ -286,12 +286,12 @@ export const updateUser = async (req, res) => {
 
             // Don't reset password if none in request
             if (req.body.change.password) { user.password = req.body.change.password; }
-            console.log('user', user.dean);
+            console.log('user', user);
 
             user.save().then((newUser) => {
                 const json = newUser.populate(PopulateUser).toJSON();
                 delete json.password;
-                console.log('json', json.dean);
+                console.log('json', json);
                 res.json(json);
             }).catch((error) => {
                 console.error(error);
