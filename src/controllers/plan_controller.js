@@ -30,7 +30,6 @@ const createPlanForUser = (plan, userID) => {
                 const planTerms = plan.terms.map((term) => {
                     if (currQuarter === 3) currYear += 1;
                     currQuarter = (currQuarter + 1) % 4;
-                    if (term.index === 1) console.log(term.courses);
                     return {
                         year: currYear,
                         quarter: terms[currQuarter],
@@ -42,6 +41,7 @@ const createPlanForUser = (plan, userID) => {
                     const newPlan = await Plan.create({
                         name: plan.name,
                         user_id: userID,
+                        duplicatedFrom: plan.id,
                     });
 
                     const { id } = await newPlan.save();
@@ -60,7 +60,7 @@ const createPlanForUser = (plan, userID) => {
                         resolve(savedPlan);
                     });
                 } catch (e) {
-                    throw e;
+                    reject(e);
                 }
             });
     });
