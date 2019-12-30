@@ -266,7 +266,7 @@ class Tutorial extends React.Component {
        * Add nickname search and class year
        */
       title: 'Add plan advisors.',
-      text: 'Invite academic professionals to review your plans and give personalized feedback.',
+      text: 'Invite academic professionals to review your plans and give personalized feedback. (Don\'t worry, we won\'t share your information to these people without your permission!)',
       neededToContinue: [
         { name: 'deanAdvisor', errorMessage: 'Please select the name of your dean from the dropdown' },
         { name: 'facultyAdvisor', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
@@ -274,8 +274,8 @@ class Tutorial extends React.Component {
       onContinue: () => { },
       toRender: () => (
         <form>
-          {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name', 'checkAdvisor', 'displayName')}
-          {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name', 'checkAdvisor', 'displayName')}
+          {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'])}
+          {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'])}
           {this.renderAddedOtherEmails()}
           <div className="contributor-modify-container">
             <div className={`contributor-modify${this.state.addedOtherEmailCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
@@ -630,6 +630,7 @@ class Tutorial extends React.Component {
   };
 
   renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameterPrimary, displayParametersSecondary = undefined) {
+    console.log('displayParametersSecondary', displayParametersSecondary);
     return (
       <>
         <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)} />
@@ -1051,7 +1052,7 @@ class Tutorial extends React.Component {
           return (
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].slice(0, (MAX_SUGGESTIONS_LENGTH - 1)).map((element) => {
-                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]} - {displayParametersSecondary ? this.separateArray(displayParametersSecondary, ', ', undefined, element) : ''}</p>;
+                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]}{displayParametersSecondary ? ` - ${this.separateArray(displayParametersSecondary, ', ', undefined, element)}` : ''}</p>;
               })}
               <p className="tutorial-dropdown-element">+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
             </div>
@@ -1060,7 +1061,7 @@ class Tutorial extends React.Component {
           return (
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].map((element) => {
-                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]} - {displayParametersSecondary ? this.separateArray(displayParametersSecondary, ', ', undefined, element) : ''}</p>;
+                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]}{displayParametersSecondary ? ` - ${this.separateArray(displayParametersSecondary, ', ', undefined, element)}` : ''}</p>;
               })}
             </div>
           );
