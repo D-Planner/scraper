@@ -640,7 +640,13 @@ class Tutorial extends React.Component {
   renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameterPrimary, displayParametersSecondary = undefined, disableClearInput = false, change = e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)) {
     return (
       <div className="tutorial-input-container">
-        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={change} />
+        <input
+          className="tutorial-input"
+          placeholder={placeholder}
+          value={this.state[stateName] || ''}
+          // defaultValue={this.state[stateName]}
+          onChange={change}
+        />
         {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameterPrimary, displayParametersSecondary)}
         {disableClearInput === false ? (
           <div
@@ -808,24 +814,10 @@ class Tutorial extends React.Component {
       // console.log('other_advisors on removeContributor', this.props.user.other_advisors);
       // console.log('removing', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount);
       console.log('contributorName', contributorName);
-      switch (contributorName) {
-        case 'deanAdvisor':
-          this.props.updateUser({ dean: -1 }).then(() => {
-            this.clearElement('deanAdvisor');
-          });
-          break;
-        case 'facultyAdvisor':
-          this.props.updateUser({ faculty_advisor: -1 }).then(() => {
-            this.clearElement('facultyAdvisor');
-          });
-          break;
-        default:
-          this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
-            this.clearElement(`otherAdvisor${this.state.addedOtherEmailCount - 1}`);
-            this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
-          });
-          break;
-      }
+      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
+        this.clearElement(`otherAdvisor${this.state.addedOtherEmailCount - 1}`);
+        this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
+      });
     }
   }
 
@@ -971,7 +963,7 @@ class Tutorial extends React.Component {
     switch (suggestionLocation) {
       case 'checkAdvisor':
         checkAdvisor(query).then((results) => {
-          console.log('advisor result', results);
+          // console.log('advisor result', results);
           this.setState((prevState) => {
             if (prevState[`${stateName}Suggestions`] !== results.users) {
               return ({ [`${stateName}Suggestions`]: results.users });
