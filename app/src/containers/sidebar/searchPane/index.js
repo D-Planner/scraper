@@ -62,7 +62,6 @@ const SearchPane = React.forwardRef((props, ref) => {
   }, [props.results]);
 
   const matchDepartment = (department) => {
-    console.log(Departments.includes(department));
     return (Departments.includes(department)) ? department : null;
   };
 
