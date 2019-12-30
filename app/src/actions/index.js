@@ -48,10 +48,25 @@ export const ActionTypes = {
   REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
   ADD_PLACEHOLDER_COURSE_TO_PLAN: 'ADD_PLACEHOLDER_COURSE_TO_PLAN',
   REMOVE_PLACEHOLDER_COURSE_FROM_PLAN: 'REMOVE_PLACEHOLDER_COURSE_FROM_PLAN',
+  UPDATE_TERM_IN_CURRENT_PLAN: 'UPDATE_TERM_IN_CURRENT_PLAN',
 };
 
 const loggingErrorsInReduxActions = (error) => {
   console.log(error);
+};
+
+const loggingStageProgressionInReduxActions = (stage, message) => {
+  const config = {
+    fetchPlan: false,
+
+  };
+  switch (stage) {
+    case 'fetchPlan':
+      if (config.fetchPlan) console.log(message);
+      break;
+    default:
+      break;
+  }
 };
 
 export function setPressedKey(key) {
@@ -81,7 +96,7 @@ export function getFulfilledStatus(planID, termID, courseID) {
 }
 
 export function setDraggingFulfilledStatus(planID, courseID) {
-  console.log('olah!');
+  // consoe.log('olah!'); keeping this because it's funny
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
@@ -343,12 +358,14 @@ export function createPlan(plan, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  console.log(`plan: ${plan}, planSetter: ${planSetter}`);
+  loggingStageProgressionInReduxActions('createPlan', `Creating plan: ${plan} started.`);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
       planSetter(response.data.id);
+      loggingStageProgressionInReduxActions('createPlan', `Creating plan: ${plan} completed.`);
       resolve();
     }).catch((error) => {
+      loggingStageProgressionInReduxActions('createPlan', `Creating plan: ${plan} failed.`);
       loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
@@ -390,13 +407,15 @@ export function fetchPlan(planID) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
+    loggingStageProgressionInReduxActions('fetchPlan', `Fetching plan: ${planID} started.`);
     return dispatch => new Promise(((resolve, reject) => {
       axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
         .then((response) => {
-          // console.log('[ACTION.js] fetched plan');
+          loggingStageProgressionInReduxActions('fetchPlan', `Fetching plan: ${planID} completed.`);
           dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
           resolve(response);
         }).catch((error) => {
+          loggingStageProgressionInReduxActions('fetchPlan', `Fetching plan: ${planID} failed.`);
           loggingErrorsInReduxActions(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
           reject();
@@ -417,7 +436,6 @@ export function updatePlan(planUpdate, planID) {
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.put(`${ROOT_URL}/plans/${planID}`, { planUpdate }, { headers }).then((response) => {
-      console.log(response.data);
       dispatch({ type: ActionTypes.UPDATE_PLAN, payload: planID });
       resolve(response.data);
     }).catch((error) => {
@@ -824,7 +842,6 @@ export function addPlaceholderCourse(placeholderCourse, termID) {
  * @param {*} termID the termID that the course should be added to
  */
 export function removePlaceholderCourse(placeholderCourse, termID) {
-  // console.log(placeholderCourse, termID);
   return dispatch => new Promise((resolve, reject) => {
     dispatch({
       type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
@@ -840,9 +857,7 @@ export function updateTerm(term) {
     return axios.put(`${ROOT_URL}/terms/${term.id}`, term, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      // console.log(response);
-      // dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
-      // fetchCourse
+      dispatch({ type: ActionTypes.UPDATE_TERM_IN_CURRENT_PLAN, payload: { termID: term.id, term: response.data } });
     })
       .catch((error) => {
         loggingErrorsInReduxActions(error);
@@ -853,12 +868,15 @@ export function updateTerm(term) {
 
 export function updateUserCourse(userCourseID, changes) {
   return dispatch => new Promise(((resolve, reject) => {
-    return axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
+    loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} starting.`);
+    axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then(() => {
       dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
+      loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} completed.`);
       resolve();
     }).catch((error) => {
+      loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} failed.`);
       loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
