@@ -52,7 +52,8 @@ export const ActionTypes = {
 };
 
 const loggingErrorsInReduxActions = (error) => {
-  console.log(error);
+  const shouldWeLogThese = true;
+  if (shouldWeLogThese) console.log(error);
 };
 
 const loggingStageProgressionInReduxActions = (stage, message) => {

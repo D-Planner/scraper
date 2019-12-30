@@ -16,10 +16,15 @@ import {
   updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 } from '../../actions';
 
+const loggingInTermDragAndDrop = (message) => {
+  const shouldWeLogThese = false;
+  if (shouldWeLogThese) console.log(message);
+};
+
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
-    console.log(item);
+    loggingInTermDragAndDrop(item);
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
@@ -27,37 +32,37 @@ const termTarget = {
         return undefined;
       } else if (item.department) { // This is a placeholder Course
         if (item.sourceTerm) {
-          console.log('[TERM.js] Attempting to remove a placeholder course');
+          loggingInTermDragAndDrop('[TERM.js] Attempting to remove a placeholder course');
           props.removePlaceholderCourse(item.department, item.sourceTerm).then(() => {
-            console.log('[TERM.js] Attempting to add a placeholder course');
+            loggingInTermDragAndDrop('[TERM.js] Attempting to add a placeholder course');
             props.addPlaceholderCourse(item.department, props.term).then(() => {
-              console.log('[TERM.js] Removed, and readded the Placeholder course');
+              loggingInTermDragAndDrop('[TERM.js] Removed, and readded the Placeholder course');
             });
           });
         } else {
-          console.log('[TERM.js] Attempting to add a placeholder course');
+          loggingInTermDragAndDrop('[TERM.js] Attempting to add a placeholder course');
           props.addPlaceholderCourse(item.department, props.term).then(() => {
-            console.log('[TERM.js] Added placeholder the term');
+            loggingInTermDragAndDrop('[TERM.js] Added placeholder the term');
           });
         }
       } else if (item.sourceTerm) {
-        // console.log('[TERM.js] We think this is a term-to-term drag');
+        // loggingInTermDragAndDrop('[TERM.js] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then((next) => {
-          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          loggingInTermDragAndDrop(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
           props.addCourseToTerm(item.catalogCourse, props.term);
         }).then(() => {
-          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+          loggingInTermDragAndDrop(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         }).catch((e) => {
-          console.log(e);
+          loggingInTermDragAndDrop(e);
         });
       } else {
-        // console.log('[TERM.js] We think this is a search-to-term drag');
+        // loggingInTermDragAndDrop('[TERM.js] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
         props.addCourseToTerm(item.course, props.term).then(() => {
-          // console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
+          // loggingInTermDragAndDrop(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
         }).catch((e) => {
-          console.log(e);
+          loggingInTermDragAndDrop(e);
         });
       }
       // return an object containing the current term
@@ -76,7 +81,7 @@ const collect = (connect, monitor) => {
 
 class Term extends Component {
   componentDidUpdate() {
-    console.log('[TERM.js] Component Did Update');
+    loggingInTermDragAndDrop('[TERM.js] Component Did Update');
   }
 
   turnOffTerm = () => {
@@ -85,7 +90,7 @@ class Term extends Component {
       okText: 'Turn Off',
       onOk: () => {
         this.props.term.courses.forEach((course) => {
-          // console.log(`Because you are turning off this term, deleting: ${course}`);
+          // loggingInTermDragAndDrop(`Because you are turning off this term, deleting: ${course}`);
           this.props.removeCourseFromFavorites(course.course.id);
           // Not sure if this needs to be made into a Promise.all() ??
           this.props.removeCourseFromTerm(course._id, this.props.term).then((next) => {
@@ -264,7 +269,7 @@ class Term extends Component {
     return (
       <div className="term-content">
         {this.props.term.courses.map((course, i) => {
-          // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
+          // loggingInTermDragAndDrop(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
             <div className="course-row-with-space" key={i.toString()}>
               <div className="course-row">
