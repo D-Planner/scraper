@@ -170,6 +170,7 @@ class Tutorial extends React.Component {
        */
       title: 'Before we begin...',
       text: 'Please review the terms and conditions that we operate under.',
+      subtext: null,
       neededToContinue: [
         { name: 'tcAccepted', errorMessage: 'Please accept the terms and conditions' },
       ],
@@ -208,6 +209,7 @@ class Tutorial extends React.Component {
     {
       title: 'Welcome to D-Planner!',
       text: 'We are the future of academic planning. Here’s a little bit about us.',
+      subtext: null,
       neededToContinue: [],
       onContinue: () => { },
       toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
@@ -218,6 +220,7 @@ class Tutorial extends React.Component {
        */
       title: 'Let\'s get started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
+      subtext: null,
       neededToContinue: [],
       onContinue: () => { },
       toRender: () => <div>{this.renderUserInterests()}</div>,
@@ -228,6 +231,7 @@ class Tutorial extends React.Component {
        */
       title: 'What AP tests have you taken?',
       text: 'Enter the AP tests you have taken and the score you received.',
+      subtext: null,
       neededToContinue: [],
       onContinue: () => { },
       toRender: () => (
@@ -248,6 +252,7 @@ class Tutorial extends React.Component {
     //    */
     //   title: 'What have you already completed?',
     //   text: 'Search for and select which classes you have placed out of.',
+    //   subtext: null,
     //   neededToContinue: [],
     //   onContinue: () => {},
     //   toRender: () => (
@@ -266,10 +271,11 @@ class Tutorial extends React.Component {
        * Add nickname search and class year
        */
       title: 'Add plan advisors.',
-      text: 'Invite academic professionals to review your plans and give personalized feedback. (Don\'t worry, we won\'t share your information to these people without your permission!)',
+      text: 'Invite academic professionals to review your plans and give personalized feedback.',
+      subtext: 'Don\'t worry, we won\'t share your information to these people without your permission!',
       neededToContinue: [
-        { name: 'deanAdvisor', errorMessage: 'Please select the name of your dean from the dropdown' },
-        { name: 'facultyAdvisor', errorMessage: 'Please select the name of your faculty advisor from the dropdown' },
+        { name: 'deanAdvisor', errorMessage: 'Please enter the name of your dean in the form below' },
+        { name: 'facultyAdvisor', errorMessage: 'Please enter the name of your faculty advisor in the form below' },
       ],
       onContinue: () => { },
       toRender: () => (
@@ -290,13 +296,14 @@ class Tutorial extends React.Component {
        */
       title: 'Here\'s to your first plan!',
       text: 'A plan is a window into a potential path through college. Imagine your future now!',
+      subtext: null,
       neededToContinue: [
         { name: 'planName', errorMessage: 'Please give your plan a name' },
         { name: 'planDescription', errorMessage: 'Please give a short description of your plan' },
         // { name: 'planMajor', errorMessage: 'Please select a major for your plan' },
       ],
       onContinue: () => this.createTutorialPlan(),
-      toRender: () => <NewPlanPage handleStateChange={this.handleNewPlanPageUpdate} user={this.props.user} />,
+      toRender: () => <NewPlanPage handleStateChange={this.handleNewPlanPageUpdate} renderTutorialInput={this.renderTutorialInput} user={this.props.user} />,
     },
   ];
 
@@ -330,6 +337,7 @@ class Tutorial extends React.Component {
     this.handleNewPlanPageUpdate = this.handleNewPlanPageUpdate.bind(this);
     this.createTutorialPlan = this.createTutorialPlan.bind(this);
     this.canContinue = this.canContinue.bind(this);
+    this.renderTutorialInput = this.renderTutorialInput.bind(this);
 
     this.getInterests().then(() => {
       this.props.fetchUser().then(() => {
@@ -445,35 +453,35 @@ class Tutorial extends React.Component {
     let canContinue = true;
 
     this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element, index) => {
-      console.log(`this.state.errorMessages[${index}]`, this.state.errorMessages[index]);
+      // console.log(`this.state.errorMessages[${index}]`, this.state.errorMessages[index]);
       if (!this.state[element.name] && this.state.errorMessages.indexOf(element.errorMessage) === -1) {
         // Set error message as first found error and stop
-        console.log('setting error message from', element);
+        // console.log('setting error message from', element);
         this.setState((prevState) => {
-          console.log('concat', prevState.errorMessages.concat(element.errorMessage));
+          // console.log('concat', prevState.errorMessages.concat(element.errorMessage));
           return { errorMessages: prevState.errorMessages.concat(element.errorMessage) };
         });
         canContinue = false;
       } else if (this.state[element.name] && this.state.errorMessages.indexOf(element.errorMessage) !== -1) {
-        console.log('resetting error message', this.state.errorMessages[this.state.errorMessages.indexOf(element.errorMessage)]);
+        // console.log('resetting error message', this.state.errorMessages[this.state.errorMessages.indexOf(element.errorMessage)]);
         this.setState((prevState) => {
           const arr = prevState.errorMessages;
-          console.log('arr before', arr);
-          console.log('removing error message', index, arr[prevState.errorMessages.indexOf(element.errorMessage)]);
+          // console.log('arr before', arr);
+          // console.log('removing error message', index, arr[prevState.errorMessages.indexOf(element.errorMessage)]);
           arr.splice(prevState.errorMessages.indexOf(element.errorMessage), 1);
-          console.log('arr after', arr);
+          // console.log('arr after', arr);
           return { errorMessages: arr };
-        }, () => console.log('after errorMessages', this.state.errorMessages));
+        });
       } else if (this.state.errorMessages.length !== 0) {
         // Block continuing if error message has already been set (second click)
-        console.log('blocking');
+        // console.log('blocking');
         canContinue = false;
       } else {
-        console.log('else');
+        // console.log('else');
       }
     });
 
-    console.log('canContinue', canContinue);
+    // console.log('canContinue', canContinue);
     return canContinue;
   }
 
@@ -629,13 +637,41 @@ class Tutorial extends React.Component {
     }
   };
 
-  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameterPrimary, displayParametersSecondary = undefined) {
-    console.log('displayParametersSecondary', displayParametersSecondary);
+  renderTutorialInput(stateName, placeholder, suggestionLocation, displayParameterPrimary, displayParametersSecondary = undefined, disableClearInput = false, change = e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)) {
     return (
-      <>
-        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={e => this.onInputUpdate(e.target.value, stateName, suggestionLocation)} />
+      <div className="tutorial-input-container">
+        <input className="tutorial-input" placeholder={placeholder} value={this.state[stateName]} onChange={change} />
         {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameterPrimary, displayParametersSecondary)}
-      </>
+        {disableClearInput === false ? (
+          <div
+            className="tutorial-input-action"
+            role="button"
+            tabIndex="-1"
+            // onClick={() => this.removeContributor(stateName)}
+            onClick={() => {
+              console.log('substring', stateName.length - 1, stateName.substring(0, stateName.length - 2));
+              console.log('stateName', stateName);
+              if (stateName === 'deanAdvisor') {
+                this.props.updateUser({ dean: null }).then(() => {
+                  console.log('user', this.props.user);
+                  this.clearElement(stateName);
+                });
+              } else if (stateName === 'facultyAdvisor') {
+                this.props.updateUser({ faculty_advisor: null }).then(() => {
+                  console.log('user', this.props.user);
+                  this.clearElement(stateName);
+                });
+              } else if (stateName.substring(0, stateName.length - 1) === 'otherAdvisor') {
+                this.removeContributor();
+              } else {
+                this.clearElement(stateName);
+              }
+            }}
+          >
+            Clear Saved Input
+          </div>
+        ) : null}
+      </div>
     );
   }
 
@@ -767,14 +803,29 @@ class Tutorial extends React.Component {
     }
   }
 
-  removeContributor() {
+  removeContributor(contributorName = undefined) {
     if (this.state.addedOtherEmailCount > 0) {
       // console.log('other_advisors on removeContributor', this.props.user.other_advisors);
       // console.log('removing', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount);
-      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
-        this.clearElement(`otherAdvisor${this.state.addedOtherEmailCount - 1}`);
-        this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
-      });
+      console.log('contributorName', contributorName);
+      switch (contributorName) {
+        case 'deanAdvisor':
+          this.props.updateUser({ dean: -1 }).then(() => {
+            this.clearElement('deanAdvisor');
+          });
+          break;
+        case 'facultyAdvisor':
+          this.props.updateUser({ faculty_advisor: -1 }).then(() => {
+            this.clearElement('facultyAdvisor');
+          });
+          break;
+        default:
+          this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
+            this.clearElement(`otherAdvisor${this.state.addedOtherEmailCount - 1}`);
+            this.setState(prevState => ({ addedOtherEmailCount: prevState.addedOtherEmailCount - 1 }));
+          });
+          break;
+      }
     }
   }
 
@@ -865,7 +916,7 @@ class Tutorial extends React.Component {
   // Automatically loads all required fields from user prop
   loadElement(stateName, elementName, elementID, score = undefined, disableLoadedText = false) {
     this.setState({
-      [stateName]: elementName + (disableLoadedText === false ? LOADED_OPTION_TEXT : ''),
+      [stateName]: (elementName ? elementName + (disableLoadedText === false ? LOADED_OPTION_TEXT : '') : undefined),
       [`${stateName}ID`]: elementID,
       [`${stateName}Suggestions`]: [],
       [`${stateName}Score`]: score,
@@ -1089,14 +1140,15 @@ class Tutorial extends React.Component {
           <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className={`tutorial-arrow left${this.state.tutorialPage === 0 ? ' disabled' : ''}`} />
           <div className="tutorial-content">
             <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
-            <div className="subtitle">{this.tutorialData[this.state.tutorialPage].text}</div>
+            <div className="text">{this.tutorialData[this.state.tutorialPage].text}</div>
+            <div className="subtext">{this.tutorialData[this.state.tutorialPage].subtext}</div>
             <ErrorMessageSpacer errorMessage={this.state.errorMessages[0]} />
             <div className="rowContainer">
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
           </div>
           {/* <img src={right} alt="right" onClick={this.next} className="tutorial-arrow right" /> */}
-          {this.state.errorMessages.length !== 0 ? console.log(' disabled') : console.log(null)}
+          {/* {this.state.errorMessages.length !== 0 ? console.log(' disabled') : console.log(null)} */}
           <img src={right} alt="right" onClick={this.next} className={`tutorial-arrow right${this.state.errorMessages.length !== 0 ? ' disabled' : ''}`} />
         </div>
       </div>
