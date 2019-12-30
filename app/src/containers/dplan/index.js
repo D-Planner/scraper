@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
-import { DialogTypes, ROOT_URL } from '../../constants';
+import { DialogTypes, ROOT_URL, consoleLogging } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
 import settings from '../../style/settings.svg';
@@ -90,37 +90,32 @@ class DPlan extends Component {
     if (this.props.plan !== null) this.state.noPlan = false;
   }
 
-  loggingInDplan = (message) => {
-    const shouldWeLogThese = false;
-    if (shouldWeLogThese) console.log(message);
-  }
-
   componentDidMount = () => {
-    this.loggingInDplan('[DPlan] Did Mount');
+    consoleLogging('DPlan', '[DPlan] Did Mount');
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
   }
 
   componentWillUpdate = (prevProps) => {
-    this.loggingInDplan('[DPlan] Will Update');
+    consoleLogging('DPlan', '[DPlan] Will Update');
     if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
     ) {
-      this.loggingInDplan('[DPlan] calling setPreviousCourses() in componentWillUpdate');
+      consoleLogging('DPlan', '[DPlan] calling setPreviousCourses() in componentWillUpdate');
       this.setPreviousCourses();
     }
   }
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
-    this.loggingInDplan('[DPlan] Did Update');
+    consoleLogging('DPlan', '[DPlan] Did Update');
     if (prevState.noPlan && !this.state.noPlan) {
-      this.loggingInDplan('[DPlan] calling setPreviousCourses() in componentDidUpdate');
+      consoleLogging('DPlan', '[DPlan] calling setPreviousCourses() in componentDidUpdate');
       this.setPreviousCourses();
     }
   }
 
   setCurrentPlan = (planID) => {
-    this.loggingInDplan('[DPlan] setCurrentPlan() starting.');
+    consoleLogging('DPlan', '[DPlan] setCurrentPlan() starting.');
 
     if (planID !== null) {
       this.setState({ loadingPlan: true });
@@ -129,14 +124,14 @@ class DPlan extends Component {
           noPlan: false,
           loadingPlan: false,
         });
-        this.loggingInDplan('[DPlan] setCurrentPlan() fetched plan from backend.');
+        consoleLogging('DPlan', '[DPlan] setCurrentPlan() fetched plan from backend.');
         this.setState({
           tempPlanName: this.props.plan.name,
         });
         this.setPreviousCourses();
       });
     } else {
-      this.loggingInDplan('[DPlan] setCurrentPlan() resetting to no plan.');
+      consoleLogging('DPlan', '[DPlan] setCurrentPlan() resetting to no plan.');
       this.setState({ noPlan: true });
       this.props.fetchPlan(null);
     }
@@ -237,7 +232,7 @@ class DPlan extends Component {
 
 
   setPreviousCourses = () => {
-    this.loggingInDplan('[DPlan] setPreviousCourses() starting.');
+    consoleLogging('DPlan', '[DPlan] setPreviousCourses() starting.');
 
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
@@ -289,7 +284,7 @@ class DPlan extends Component {
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
-    this.loggingInDplan('[DPLAN.js] addCourseToTerm() starting.');
+    consoleLogging('DPlan', '[DPLAN.js] addCourseToTerm() starting.');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -297,9 +292,9 @@ class DPlan extends Component {
             axios.post(`${ROOT_URL}/terms/${term.id}/course`, { courseID: course.id }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then((response) => {
-              this.loggingInDplan(`[DPlan] addCourseToTerm() finished call to backend to add course ${course.id} to term.`);
+              consoleLogging('DPlan', `[DPlan] addCourseToTerm() finished call to backend to add course ${course.id} to term.`);
               this.props.addCourseToTerm(response.data, term._id).then(() => {
-                this.loggingInDplan(`[DPlan] addCourseToTerm() updated redux with new course ${course.id} added to the term.`);
+                consoleLogging('DPlan', `[DPlan] addCourseToTerm() updated redux with new course ${course.id} added to the term.`);
                 this.setPreviousCourses();
                 resolve();
               });
@@ -313,7 +308,7 @@ class DPlan extends Component {
   })
 
   removeCourseFromTerm = (userCourseID, termID) => new Promise((resolve, reject) => {
-    this.loggingInDplan('[DPlan] removeCourseFromTerm() starting.');
+    consoleLogging('DPlan', '[DPlan] removeCourseFromTerm() starting.');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -321,9 +316,9 @@ class DPlan extends Component {
             axios.delete(`${ROOT_URL}/terms/${termID}/course/${userCourseID}`, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then(() => {
-              this.loggingInDplan(`[DPlan] addCourseToTerm() finished call to backend to remove userCourse ${userCourseID} from term.`);
+              consoleLogging('DPlan', `[DPlan] addCourseToTerm() finished call to backend to remove userCourse ${userCourseID} from term.`);
               this.props.removeCourseFromTerm(userCourseID).then(() => {
-                this.loggingInDplan(`[DPlan] addCourseToTerm() updated redux to remove userCourse ${userCourseID} from the term.`);
+                consoleLogging('DPlan', `[DPlan] addCourseToTerm() updated redux to remove userCourse ${userCourseID} from the term.`);
                 this.setPreviousCourses();
                 resolve();
               });
@@ -338,7 +333,7 @@ class DPlan extends Component {
   })
 
   addPlaceholderCourseToTerm = (department, term) => new Promise((resolve, reject) => {
-    this.loggingInDplan('[DPlan] addPlaceholderCourseToTerm() starting.');
+    consoleLogging('DPlan', '[DPlan] addPlaceholderCourseToTerm() starting.');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
@@ -346,7 +341,7 @@ class DPlan extends Component {
             axios.post(`${ROOT_URL}/terms/${term.id}/course/placeholder`, { department }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then(() => {
-              this.loggingInDplan(`[DPlan] addPlaceholderCourseToTerm() finished call to backend to add ${department} placeholder to term.`);
+              consoleLogging('DPlan', `[DPlan] addPlaceholderCourseToTerm() finished call to backend to add ${department} placeholder to term.`);
               this.props.addPlaceholderCourse(department, term._id);
               resolve();
             });
@@ -359,12 +354,12 @@ class DPlan extends Component {
   })
 
   removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
-    this.loggingInDplan('[DPlan] removePlaceholderCourseFromTerm() starting.');
+    consoleLogging('DPlan', '[DPlan] removePlaceholderCourseFromTerm() starting.');
     try {
       axios.delete(`${ROOT_URL}/terms/${termID}/course/placeholder/${department}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }).then(() => {
-        this.loggingInDplan(`[DPlan] removePlaceholderCourseFromTerm() finished call to backend to remove ${department} placeholder from term.`);
+        consoleLogging('DPlan', `[DPlan] removePlaceholderCourseFromTerm() finished call to backend to remove ${department} placeholder from term.`);
         this.props.removePlaceholderCourse(department, termID);
         resolve();
       });
