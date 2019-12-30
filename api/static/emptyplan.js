@@ -1,6 +1,7 @@
 // TODO autogenerate this template with a unique key and based on the user
 
 export const emptyPlan = {
+    id: null,
     name: null,
     terms: [
         {
