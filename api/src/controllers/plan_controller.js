@@ -33,7 +33,7 @@ const createPlanForUser = (plan, userID) => {
                     return {
                         year: currYear,
                         quarter: terms[currQuarter],
-                        off_term: false,
+                        off_term: term.off_term,
                         courses: term.courses.map((userCourse) => { return userCourse.course.id; }),
                     };
                 });
