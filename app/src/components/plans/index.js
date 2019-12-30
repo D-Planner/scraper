@@ -39,9 +39,7 @@ const Plans = ({
  * @param {*} goToPlan
  */
 const checkGoToPlan = (plan, currentPlan, goToPlan) => {
-  console.log('check go to plan');
   if (!currentPlan || plan.id !== currentPlan.id) { // Check that no plan is specified or that current isn't selected
-    console.log('go to plan');
     goToPlan(plan.id);
   }
 };

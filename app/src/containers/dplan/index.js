@@ -127,7 +127,6 @@ class DPlan extends Component {
     // console.log('plan loading');
 
     if (planID !== null) {
-      console.log(`setting plan to ${planID}`);
       this.setState({ loadingPlan: true });
       this.props.fetchPlan(planID).then(() => {
         this.setState({
