@@ -50,7 +50,6 @@ function searchForCourse(query) {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
-      // console.log('search for course', response.data);
       resolve(response.data);
     }).catch((error) => {
       console.log(error);
@@ -125,16 +124,13 @@ function getAPPlacement(id) {
 }
 
 function updateAPPlacement(id, change) {
-  // console.log(id, change);
   return new Promise((resolve, reject) => {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.post(`${ROOT_URL}/auth/ap/${id}/`, { change }, { headers }).then((response) => {
       console.log('response', response);
-      // fetchUser(response.data._id).then(() => {
       resolve(fetchUser());
-      // });
     }).catch((error) => {
       reject(error);
     });
@@ -182,17 +178,9 @@ class Tutorial extends React.Component {
           <a className="policy-link" href="/policies/privacypolicy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
           <div className="tc-checkbox-container">
             <div>Please accept our terms and conditions</div>
-            <div style={{ display: 'none' }}>
-              {/* {setTimeout(() => {
-                if (this.props.user.tc_accepted === true && !this.state.tcAccepted) {
-                  this.setState({ tcAccepted: true });
-                }
-              }, 1000)} */}
-            </div>
             {this.props.user.tc_accepted != undefined ? (
               <input
                 type="checkbox"
-                // value={this.state.tcAccepted === true}Updated
                 checked={this.state.tcAccepted}
                 onChange={(e) => {
                   const check = e.target.checked;
@@ -220,7 +208,7 @@ class Tutorial extends React.Component {
        */
       title: 'Let\'s get started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
-      subtext: null,
+      subtext: 'Please select at least four interests so we can improve our suggestion features in the future',
       neededToContinue: [],
       onContinue: () => { },
       toRender: () => <div>{this.renderUserInterests()}</div>,
@@ -358,7 +346,6 @@ class Tutorial extends React.Component {
 
     // Load in all data from props arrays when loaded
     new Promise((resolve, reject) => {
-      console.log('setting timeout...');
       this.setState({
         timeoutKey: setTimeout(() => {
         // Add all props to be loaded HERE (only arrays can be guaranteed to be defined as [])
@@ -368,61 +355,46 @@ class Tutorial extends React.Component {
             reject();
           }
         }, 1000),
-      }, () => console.log('resolving...', this.props, this.state));
+      });
     }).then(() => {
       if (this.props.user.tc_accepted) {
-        console.log('user tc_accepted', this.props.user.tc_accepted);
-        this.setState({ tcAccepted: this.props.user.tc_accepted }, () => console.log('state tcAccepted', this.state.tcAccepted));
+        this.setState({ tcAccepted: this.props.user.tc_accepted });
       }
 
-      console.log('before dean');
       if (this.props.user.dean) {
-        console.log('dean', this.props.user.dean);
         this.loadElement('deanAdvisor', this.props.user.dean.full_name, this.props.user.dean._id);
       }
 
       if (this.props.user.faculty_advisor) {
-        console.log('faculty advisor', this.props.user.faculty_advisor);
         this.loadElement('facultyAdvisor', this.props.user.faculty_advisor.full_name, this.props.user.faculty_advisor._id);
       }
 
-      console.log('other advisors', this.props.user.other_advisors);
       let advisorImportCount = 0;
       this.props.user.other_advisors.forEach((savedAdvisor) => {
         if (savedAdvisor !== null) {
-          console.log('savedAdvisor', savedAdvisor);
           this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
           this.setState({ addedOtherEmailCount: advisorImportCount + 1 });
           advisorImportCount += 1;
-          console.log('advisorImportCount', advisorImportCount);
         }
       });
 
-      console.log('placement courses');
       let placementCourseImportCount = 0;
-      console.log('user placements', this.props.user.placement_courses);
       this.props.user.placement_courses.forEach((savedCourse) => {
         if (savedCourse !== null) {
-          console.log('savedCourse', savedCourse);
           this.loadElement(`placementCourse${placementCourseImportCount}`, `${savedCourse.department} ${savedCourse.number}`, savedCourse._id);
           this.setState({ addedPlacementCourseCount: placementCourseImportCount + 1 });
           placementCourseImportCount += 1;
         }
       });
 
-      console.log('ap profile');
       let apProfileImportCount = 0;
-      console.log('user ap_profile', this.props.user.ap_profile);
       this.props.user.ap_profile.forEach((profileElement) => {
-        console.log('profileElement', profileElement);
         if (profileElement !== null) {
-          console.log('profileElement', profileElement, profileElement.name, profileElement.score);
           this.loadElement(`APPlacement${apProfileImportCount}`, profileElement.name, profileElement._id, profileElement.score, true);
           this.setState({ addedAPPlacementCount: apProfileImportCount + 1 });
           apProfileImportCount += 1;
         }
       });
-      console.log('resolving... end', this.props, this.state);
     }).then(() => {
       // Check if initial load satisfies continuation parameters
       // this.canContinue();
@@ -431,8 +403,8 @@ class Tutorial extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('this.state', this.state);
-    console.log('this.props.user', this.props.user);
+    // console.log('this.state', this.state);
+    // console.log('this.props.user', this.props.user);
     this.canContinue();
   }
 
@@ -456,45 +428,33 @@ class Tutorial extends React.Component {
     let canContinue = true;
 
     this.tutorialData[this.state.tutorialPage].neededToContinue.forEach((element, index) => {
-      // console.log(`this.state.errorMessages[${index}]`, this.state.errorMessages[index]);
-      console.log('state', this.state[element.name]);
       if (!this.state[element.name] && this.state.errorMessages.indexOf(element.errorMessage) === -1) {
         // Set error message as first found error and stop
-        // console.log('setting error message from', element);
         this.setState((prevState) => {
-          // console.log('concat', prevState.errorMessages.concat(element.errorMessage));
           return { errorMessages: prevState.errorMessages.concat(element.errorMessage) };
         });
         canContinue = false;
       } else if (this.state[element.name] && this.state.errorMessages.indexOf(element.errorMessage) !== -1) {
-        // console.log('resetting error message', this.state.errorMessages[this.state.errorMessages.indexOf(element.errorMessage)]);
         this.setState((prevState) => {
           const arr = prevState.errorMessages;
-          // console.log('arr before', arr);
-          // console.log('removing error message', index, arr[prevState.errorMessages.indexOf(element.errorMessage)]);
           arr.splice(prevState.errorMessages.indexOf(element.errorMessage), 1);
-          // console.log('arr after', arr);
           return { errorMessages: arr };
         });
       } else if (this.state.errorMessages.length !== 0) {
         // Block continuing if error message has already been set (second click)
-        // console.log('blocking');
         canContinue = false;
       } else {
         // console.log('else');
       }
     });
 
-    // console.log('canContinue', canContinue);
     return canContinue;
   }
 
   next = () => {
     // Check if the user has filled out all the required info, throws error if not
     const canContinue = this.canContinue();
-    console.log('continuing', canContinue);
 
-    // Push
     if (canContinue) {
       this.tutorialData[this.state.tutorialPage].onContinue();
       this.setState({ errorMessages: [] });
@@ -535,7 +495,6 @@ class Tutorial extends React.Component {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       };
       axios.get(`${ROOT_URL}/data/ap`, { headers }).then((response) => {
-        console.log('AP Placements', response.data);
         this.setState({ APPlacements: response.data.data, APPlacementsLink: response.data.link }, () => resolve());
       });
     });
@@ -591,7 +550,6 @@ class Tutorial extends React.Component {
 
   renderUserInterests = () => {
     if (this.props.user) {
-      // console.log('interest_profile', this.props.user.interest_profile);
       if (!this.state.interests) {
         return <LoadingWheel />;
       } else {
@@ -671,16 +629,12 @@ class Tutorial extends React.Component {
   }
 
   handleClearClick = (stateName) => {
-    console.log('substring', stateName.length - 1, stateName.substring(0, stateName.length - 2));
-    console.log('stateName', stateName);
     if (stateName === 'deanAdvisor') {
       this.props.updateUser({ dean: null }).then(() => {
-        console.log('user', this.props.user);
         this.clearElement(stateName);
       });
     } else if (stateName === 'facultyAdvisor') {
       this.props.updateUser({ faculty_advisor: null }).then(() => {
-        console.log('user', this.props.user);
         this.clearElement(stateName);
       });
     } else if (stateName.substring(0, stateName.length - 1) === 'otherAdvisor') {
@@ -690,8 +644,7 @@ class Tutorial extends React.Component {
     }
   }
 
-  renderTutorialAPDropdown(stateName, coursePlaceholder, scorePlaceholder, suggestionLocation, displayParameter) {
-    // console.log('stateName', stateName, this.state[stateName], this.state[`${stateName}Score`]);
+  renderTutorialAPDropdown(stateName) {
     return (
       <div className="tutorial-option-dropdown-container">
         <div>
@@ -702,8 +655,6 @@ class Tutorial extends React.Component {
             {AP_SCORES.map(possibleScore => <option>{possibleScore}</option>)}
           </select>
         </div>
-        {/* {console.log(this.state.APPlacements)}
-        {console.log('indexTest', this.findIndexInAPPlacements(this.state[stateName]))} */}
         {this.renderAdditionalAPInformation(this.findIndexInAPPlacements(this.state[stateName]), this.state[`${stateName}Score`])}
       </div>
     );
@@ -719,8 +670,6 @@ class Tutorial extends React.Component {
   }
 
   renderAdditionalAPInformation(index, score) {
-    // console.log('index', index);
-    // console.log('score', score);
     if (index !== -1) {
       if (score > 0 && score <= 5) {
         let max_passed_score = -1;
@@ -784,21 +733,18 @@ class Tutorial extends React.Component {
     let returnString = '';
     for (let i = 0; i < arr.length; i += 1) {
       if (subParam) {
-        console.log('subParam', subParam);
         if (i < arr.length - 1) {
           returnString += arr[i][subParam] + separator;
         } else {
           returnString += arr[i][subParam];
         }
       } else if (superParam) {
-        console.log('superParam', superParam);
         if (i < arr.length - 1) {
           returnString += superParam[arr[i]] + separator;
         } else {
           returnString += superParam[arr[i]];
         }
       } else {
-        console.log('no sub or super param');
         if (i < arr.length - 1) {
           returnString += arr[i] + separator;
         } else {
@@ -806,7 +752,6 @@ class Tutorial extends React.Component {
         }
       }
     }
-    console.log('returnString', returnString);
     return returnString;
   }
 
@@ -820,12 +765,8 @@ class Tutorial extends React.Component {
 
   removeContributor(contributorName = undefined, stateName = undefined, remove = true) {
     if (this.state.addedOtherEmailCount > 0) {
-      // console.log('other_advisors on removeContributor', this.props.user.other_advisors);
-      // console.log('removing', this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`], this.state.addedOtherEmailCount);
-      console.log('contributorName', contributorName);
       this.props.updateUser({ other_advisor: this.state[`${stateName}ID`] || this.state[`otherAdvisor${this.state.addedOtherEmailCount - 1}ID`] }).then(() => {
         // const removedIndex = stateName[stateName.length - 1];
-        console.log('stateName', stateName);
         // if (removedIndex !== this.state.addedOtherEmailCount - 1) {
         //   for (let i = this.state.addedOtherEmailCount; i > removedIndex; i -= 1) {
         //     let breakLoop = false;
@@ -863,7 +804,6 @@ class Tutorial extends React.Component {
 
   removePlacementCourse() {
     if (this.state.addedPlacementCourseCount > 0) {
-      // console.log('count', this.state.addedPlacementCourseCount);
       this.props.removeCourseFromPlacements(this.state[`placementCourse${this.state.addedPlacementCourseCount - 1}ID`]);
       this.clearElement(`placementCourse${this.state.addedPlacementCourseCount - 1}`);
       this.setState(prevState => ({ addedPlacementCourseCount: prevState.addedPlacementCourseCount - 1 }));
@@ -885,18 +825,14 @@ class Tutorial extends React.Component {
   // Placement Courses
   addAPPlacement() {
     if (this.state.addedAPPlacementCount < MAX_ADDED_AP_PLACEMENTS) {
-      // console.log('initialName', this.state.APPlacements[0].name);
       createAPPlacement(this.state.APPlacements[0].name, 0).then((response) => {
-        // console.log('response', response);
         this.props.updateUser({ ap_profile: response._id }).then(() => {
           this.setState(prevState => ({
             [`APPlacement${prevState.addedAPPlacementCount}`]: response.name,
             [`APPlacement${prevState.addedAPPlacementCount}ID`]: response._id,
             [`APPlacement${prevState.addedAPPlacementCount}Score`]: response.score,
             addedAPPlacementCount: prevState.addedAPPlacementCount + 1,
-          }),
-          // () => { console.log('afterUpdating State', this.state); console.log('afterUpdate user', this.props.user); }
-          );
+          }));
         });
       });
     }
@@ -940,7 +876,6 @@ class Tutorial extends React.Component {
 
   // Automatically clears all states associated with 'stateName'
   clearElement(stateName) {
-    // console.log('clearing', stateName);
     return new Promise((resolve, reject) => {
       this.setState({
         [stateName]: undefined,
@@ -953,20 +888,16 @@ class Tutorial extends React.Component {
 
   // Input onChange callback handler
   onInputUpdate(value, stateName, suggestionLocation) {
-    console.log('value', value);
     this.setState({ [stateName]: value, dropdownClosed: false }, () => {
       this.fetchSuggestions(value, stateName, suggestionLocation);
-      // console.log(this.state);
     });
   }
 
   // Dropdown onChange callback handler
   onDropdownUpdate(value, location, stateName) {
-    // console.log('dropDownUpdate', value, location, stateName);
     new Promise((resolve, reject) => {
       if (location === 'score') {
         const intValue = parseInt(value, 10);
-        // () => console.log(value, '=>', this.state[stateName]),
         this.setState({ [`${stateName}Score`]: intValue }, () => resolve());
       } else {
         this.setState({ [stateName]: value }, () => resolve());
@@ -982,11 +913,9 @@ class Tutorial extends React.Component {
 
   // Get suggestions based on query and save to stateName
   fetchSuggestions(query, stateName, suggestionLocation) {
-    // console.log('suggestionLocation', suggestionLocation);
     switch (suggestionLocation) {
       case 'checkAdvisor':
         checkAdvisor(query).then((results) => {
-          // console.log('advisor result', results);
           this.setState((prevState) => {
             if (prevState[`${stateName}Suggestions`] !== results.users) {
               return ({ [`${stateName}Suggestions`]: results.users });
@@ -995,10 +924,8 @@ class Tutorial extends React.Component {
         }).catch(error => console.error(error));
         break;
       case 'courseSearch':
-        // console.log('query', this.state[stateName]);
         searchForCourse(parseQuery(this.state[stateName])).then((results) => {
-          // console.log('results', results);
-          this.setState({ [`${stateName}Suggestions`]: results }, () => console.log(this.state[`${stateName}Suggestions`]));
+          this.setState({ [`${stateName}Suggestions`]: results });
         });
         break;
       default:
@@ -1038,25 +965,16 @@ class Tutorial extends React.Component {
 
   // Handles a user click on a course suggestion
   handlePlacementCourseSuggestionSelect(stateName, suggestion) {
-    // console.log('suggestion before', suggestion, suggestion._id);
     this.setState({
       [stateName]: (`${suggestion.department} ${suggestion.number} ${LOADED_OPTION_TEXT}`),
       [`${stateName}ID`]: suggestion._id,
       dropdownClosed: true,
     }, () => {
       if (this.props.user.placement_courses.indexOf(suggestion._id) !== -1) {
-        // console.log('removing from placements');
-        this.props.removeCourseFromPlacements(suggestion._id).then(() => {
-          // console.log('user placements', this.props.user.placement_courses);
-        });
+        this.props.removeCourseFromPlacements(suggestion._id);
       } else {
-        // console.log('adding to placements');
-        this.props.addCourseToPlacements(suggestion._id).then(() => {
-          // console.log('user placements', this.props.user.placement_courses);
-        });
+        this.props.addCourseToPlacements(suggestion._id);
       }
-      // console.log('suggestion', this.state[stateName], this.state[`${stateName}ID`]);
-      // console.log('user placement_courses', this.props.user.placement_courses);
     });
   }
 
@@ -1141,8 +1059,6 @@ class Tutorial extends React.Component {
   }
 
   renderTutorialPage = (page) => {
-    // console.log('page', page);
-    // console.log('toRender', this.tutorialData[page].toRender);
     return this.tutorialData[page].toRender();
   }
 
@@ -1151,7 +1067,6 @@ class Tutorial extends React.Component {
       <div className="tutorial-container">
         <HeaderMenu menuOptions={[]} graphic={{ type: 'progress-bar', data: (100 * (this.state.tutorialPage / (this.tutorialData.length - 1))) }} />
         <div className="arrow-container">
-          {/* <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className="tutorial-arrow left" /> */}
           <img src={left} alt="left" onClick={this.state.tutorialPage === 0 ? null : this.prev} className={`tutorial-arrow left${this.state.tutorialPage === 0 ? ' disabled' : ''}`} />
           <div className="tutorial-content">
             <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
@@ -1162,8 +1077,6 @@ class Tutorial extends React.Component {
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
           </div>
-          {/* <img src={right} alt="right" onClick={this.next} className="tutorial-arrow right" /> */}
-          {/* {this.state.errorMessages.length !== 0 ? console.log(' disabled') : console.log(null)} */}
           <img src={right} alt="right" onClick={this.next} className={`tutorial-arrow right${this.state.errorMessages.length !== 0 ? ' disabled' : ''}`} />
         </div>
       </div>
