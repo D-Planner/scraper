@@ -142,7 +142,7 @@ class Dashboard extends React.Component {
             <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
-            <div role="presentation" onClick={() => this.props.history.push('/tutorial/0')} className="option-button">
+            {/* <div role="presentation" onClick={() => this.props.history.push('/tutorial/0')} className="option-button">
               {this.state.active
                 ? (
                   <>
@@ -153,7 +153,7 @@ class Dashboard extends React.Component {
                 )
                 : <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
             }
-            </div>
+            </div> */}
             {/* <div role="presentation"
               onClick={this.showUserData}
               className="option-button"
