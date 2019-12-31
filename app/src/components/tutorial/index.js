@@ -162,7 +162,7 @@ function updateAPPlacement(id, change) {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.post(`${ROOT_URL}/auth/ap/${id}/`, { change }, { headers }).then((response) => {
-      console.log('response', response);
+      // console.log('response', response);
       resolve(fetchUser());
     }).catch((error) => {
       reject(error);
@@ -745,17 +745,30 @@ class Tutorial extends React.Component {
    * @param {*} stateName
    */
   renderTutorialAPDropdown(stateName) {
+    const APIndex = this.findIndexInAPPlacements(this.state[stateName]);
+    const score = this.state[`${stateName}Score`];
+
+    let max_passed_score = -1;
+    let max_passed_score_index = -1;
+
+    for (let i = 0; i < this.state.APPlacements[APIndex].options.length; i += 1) {
+      if (score >= this.state.APPlacements[APIndex].options[i].min_score && this.state.APPlacements[APIndex].options[i].min_score >= max_passed_score) {
+        max_passed_score = this.state.APPlacements[APIndex].options[i].min_score;
+        max_passed_score_index = i;
+      }
+    }
+
     return (
       <div className="tutorial-option-dropdown-container" key={stateName}>
         <div>
-          <select className="ap-course-dropdown tutorial-input" defaultValue={this.state[`${stateName}`]} onChange={e => this.onDropdownUpdate(e.target.value, 'name', stateName)}>
+          <select className="ap-course-dropdown tutorial-input" defaultValue={this.state[`${stateName}`]} onChange={e => this.onDropdownUpdate(e.target.value, 'name', stateName, APIndex, max_passed_score_index)}>
             {this.state.APPlacements.map(placement => <option className="tutorial-option-element" key={placement.name}>{placement.name}</option>)}
           </select>
-          <select className="ap-score-dropdown tutorial-input" defaultValue={this.state[`${stateName}Score`]} onChange={e => this.onDropdownUpdate(e.target.value, 'score', stateName)}>
+          <select className="ap-score-dropdown tutorial-input" defaultValue={score} onChange={e => this.onDropdownUpdate(e.target.value, 'score', stateName, APIndex, max_passed_score_index)}>
             {AP_SCORES.map(possibleScore => <option key={possibleScore}>{possibleScore}</option>)}
           </select>
         </div>
-        {this.renderAdditionalAPInformation(this.findIndexInAPPlacements(this.state[stateName]), this.state[`${stateName}Score`])}
+        {this.renderAdditionalAPInformation(APIndex, score, max_passed_score, max_passed_score_index)}
       </div>
     );
   }
@@ -778,24 +791,15 @@ class Tutorial extends React.Component {
    * @param {*} index
    * @param {*} score
    */
-  renderAdditionalAPInformation(index, score) {
+  renderAdditionalAPInformation(APIndex, score, max_passed_score, max_passed_score_index) {
     // If test is in array (validation)
-    if (index !== -1) {
+    if (APIndex !== -1) {
       // Check for highest matching information (eg. with info for scores of 4 and 5 and user score of 5, will pick highest that is still equal to score [5 and not 4])
       if (score > 0 && score <= 5) {
-        let max_passed_score = -1;
-        let max_passed_score_index = -1;
-
-        for (let i = 0; i < this.state.APPlacements[index].options.length; i += 1) {
-          if (score >= this.state.APPlacements[index].options[i].min_score && this.state.APPlacements[index].options[i].min_score >= max_passed_score) {
-            max_passed_score = this.state.APPlacements[index].options[i].min_score;
-            max_passed_score_index = i;
-          }
-        }
 
         // If the user met any of the possible requirements for credit with given score
         if (max_passed_score !== -1 && max_passed_score_index !== -1) {
-          return Object.entries(this.state.APPlacements[index].options[max_passed_score_index]).map(([k, v]) => {
+          return Object.entries(this.state.APPlacements[APIndex].options[max_passed_score_index]).map(([k, v]) => {
             return (
               <div className="tutorial-ap-text" key={k}>
                 {this.apKeyToTextLookup(k)}
@@ -810,7 +814,7 @@ class Tutorial extends React.Component {
           return <div className="tutorial-ap-text">Unfortunately, your score is below the threshold required by Dartmouth College to receive course credit from this exam.</div>;
         }
       } else if (score === 0) {
-        return <div className="tutorial-ap-text">Please select a score for {this.state.APPlacements[index].name}</div>;
+        return <div className="tutorial-ap-text">Please select a score for {this.state.APPlacements[APIndex].name}</div>;
       } else {
         return <div className="tutorial-ap-text">Invalid score</div>;
       }
@@ -1064,21 +1068,67 @@ class Tutorial extends React.Component {
    * @param {*} value
    * @param {*} location
    * @param {*} stateName
+   * @param {*} APIndex - for locating corresponding AP placement in state
    */
-  onDropdownUpdate(value, location, stateName) {
-    new Promise((resolve, reject) => {
-      if (location === 'score') {
-        const intValue = parseInt(value, 10);
-        this.setState({ [`${stateName}Score`]: intValue }, () => resolve());
-      } else {
-        this.setState({ [stateName]: value }, () => resolve());
-      }
-    }).then(() => {
-      if (location === 'score') {
-        updateAPPlacement(this.state[`${stateName}ID`], { [location]: this.state[`${stateName}Score`] });
-      } else {
-        updateAPPlacement(this.state[`${stateName}ID`], { [location]: this.state[stateName] });
-      }
+  onDropdownUpdate(value, location, stateName, APIndex, max_passed_score_index) {
+    this.props.fetchUser(this.props.user._id).then(() => {
+      new Promise((resolve, reject) => {
+        if (location === 'score') {
+          const intValue = parseInt(value, 10);
+          this.setState({ [`${stateName}Score`]: intValue }, () => resolve());
+        } else {
+          this.setState({ [stateName]: value }, () => resolve());
+        }
+      }).then(() => {
+        let updateValue;
+        if (location === 'score') {
+          updateValue = this.state[`${stateName}Score`];
+        } else {
+          updateValue = this.state[stateName];
+        }
+        console.log('stateName', stateName, this.state.APPlacements[APIndex].options);
+
+        console.log(this.state.APPlacements[APIndex].options[max_passed_score_index]);
+        const element = this.state.APPlacements[APIndex].options[max_passed_score_index];
+        console.log('element', stateName, location, element);
+        let exemptions = [];
+        let credit_given = [];
+
+        if (element) {
+          if (element.exemption) {
+            console.log('exemption', element.exemption);
+            exemptions = Array.from(element.exemption);
+          } else if (element.credit_given) {
+            console.log('credit_given', element.credit_given);
+            // eslint-disable-next-line prefer-destructuring
+            credit_given = Array.from(element.credit_given);
+          }
+        }
+
+        console.log('arrays', exemptions, credit_given);
+
+        // if (exemptions.length > 0) {
+
+        // }
+
+        if (credit_given.length > 0) {
+          credit_given.forEach((el) => {
+            console.log('searching for', el);
+            return new Promise((resolve, reject) => {
+              searchForCourse(parseQuery(el)).then((results) => {
+                console.log('results', results);
+                if (results.length != 1) {
+                  console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
+                }
+                this.props.addCourseToPlacements(results[0]._id);
+                resolve();
+              });
+            }).then(() => this.props.fetchUser());
+          });
+        }
+
+        updateAPPlacement(this.state[`${stateName}ID`], { [location]: updateValue });
+      });
     });
   }
 
