@@ -10,6 +10,10 @@ import { createPlan, fetchPlan } from '../../../actions';
 import './newPlanPage.scss';
 
 // Make this into an action
+/**
+ * Gets interests from given user
+ * @param {*} userID
+ */
 function getUserInterests(userID) {
   return new Promise((resolve, reject) => {
     const headers = {
@@ -40,6 +44,9 @@ class NewPlanPage extends React.Component {
     this.removeInterestFromSet = this.removeInterestFromSet.bind(this);
   }
 
+  /**
+   * Get interests from backend if not fetched yet
+   */
   componentDidUpdate() {
     if (this.state.fetchedInterests === false) {
       getUserInterests(this.props.user._id).then((interests) => {
@@ -48,20 +55,37 @@ class NewPlanPage extends React.Component {
     }
   }
 
+  /**
+   * Returns whether an interest is contained in plan's relevant interests
+   * @param {*} interest
+   */
   getInterestCheckedStatus(interest) {
     return this.state.relevantInterests.has(interest);
   }
 
+  /**
+   * Adds an interest to a plan's relevant interests
+   * @param {*} interest
+   */
   addInterestToSet(interest) {
     this.state.relevantInterests.add(interest);
     this.handleStateChange('relevantInterests', this.state.relevantInterests.add(interest));
   }
 
+  /**
+   * Removes an interest from a plan's relevant interests
+   * @param {*} interest
+   */
   removeInterestFromSet(interest) {
     this.state.relevantInterests.delete(interest);
     this.handleStateChange('relevantInterests', this.state.relevantInterests);
   }
 
+  /**
+   * Coordinates state changes with higher-level tutorial component
+   * @param {*} key
+   * @param {*} value
+   */
   handleStateChange(key, value) {
     this.setState({ [key]: value });
     this.props.handleStateChange(key, value);
