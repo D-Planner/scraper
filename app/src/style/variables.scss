@@ -73,6 +73,11 @@ $transition-duration-short: .15s;
     100% { transform: translate(0, 2px); }
 }
 
+@keyframes jiggle {
+  75% { transform: translate(-2px, 0px); }
+  100% { transform: translate(2px, 0px); }
+}
+
 @keyframes pulse {
   from { transform: scale(1); }
   75% { transform: scale(0.98); }

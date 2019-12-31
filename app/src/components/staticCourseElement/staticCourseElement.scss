@@ -82,11 +82,17 @@
 
     .icon-container {
       display: flex;
+      align-items: center;
       margin-left: 10px;
 
-      .icon {
-        flex:1;
-        height: 90%;
+      .course-action-icon {
+        flex: 1;
+        height: 18px;
+
+        &:hover {
+          filter: brightness(180%);
+          animation: jiggle 0.3s ease-in-out;
+        }
       }
     }
   }

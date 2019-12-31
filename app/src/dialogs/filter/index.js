@@ -68,6 +68,7 @@ class FilterDialog extends React.Component {
         style={{
           display: 'flex',
         }}
+        className="react-tag-element"
       >
         <img className="icon" src={GenEds[tag].icon} alt={`${tag} icon`} data-tip data-for={tag} />
         <ReactTooltip id={tag} place="right" type="dark" effect="float">{GenEds[tag].fullName}</ReactTooltip>
@@ -97,8 +98,8 @@ class FilterDialog extends React.Component {
             suggestions={this.state.distribs}
             onAddition={e => this.handleAdd(e, 'distribs')}
             onDelete={i => this.handleDelete(i, 'distribs')}
-            tagComponent={this.renderTag}
             suggestionComponent={this.renderSuggestion}
+            tagComponent={this.renderTag}
             placeholderText="Add New Distrib Filter"
           />
           <div className="filter-distribs filter-list">
