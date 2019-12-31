@@ -199,7 +199,6 @@ export const updateUser = async (req, res) => {
                     });
             }
 
-            console.log('req.body.change', req.body.change);
             if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
             if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
             if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
@@ -289,7 +288,6 @@ export const updateUser = async (req, res) => {
             user.save().then((newUser) => {
                 const json = newUser.populate(PopulateUser).toJSON();
                 delete json.password;
-                console.log('json', json);
                 res.json(json);
             }).catch((error) => {
                 console.error(error);
