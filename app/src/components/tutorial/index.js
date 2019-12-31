@@ -110,18 +110,18 @@ function createAPPlacement(test, score) {
   });
 }
 
-function getAPPlacement(id) {
-  return new Promise((resolve, reject) => {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    };
-    axios.get(`${ROOT_URL}/auth/ap/${id}/`, { headers }).then((response) => {
-      resolve(response.data);
-    }).catch((error) => {
-      reject(error);
-    });
-  });
-}
+// function getAPPlacement(id) {
+//   return new Promise((resolve, reject) => {
+//     const headers = {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`,
+//     };
+//     axios.get(`${ROOT_URL}/auth/ap/${id}/`, { headers }).then((response) => {
+//       resolve(response.data);
+//     }).catch((error) => {
+//       reject(error);
+//     });
+//   });
+// }
 
 function updateAPPlacement(id, change) {
   return new Promise((resolve, reject) => {
@@ -181,7 +181,7 @@ class Tutorial extends React.Component {
             {this.props.user.tc_accepted != undefined ? (
               <input
                 type="checkbox"
-                checked={this.state.tcAccepted}
+                checked={this.state.tcAccepted || false}
                 onChange={(e) => {
                   const check = e.target.checked;
                   this.props.updateUser({ tc_accepted: check === true }).then(() => {
@@ -561,6 +561,7 @@ class Tutorial extends React.Component {
                   if (this.props.user.interest_profile) {
                     return (
                       <InterestTile
+                        key={interest._id}
                         active={this.props.user.interest_profile && this.props.user.interest_profile.findIndex(id => id === interest._id) !== -1}
                         user={this.props.user}
                         interest={interest}
@@ -646,13 +647,13 @@ class Tutorial extends React.Component {
 
   renderTutorialAPDropdown(stateName) {
     return (
-      <div className="tutorial-option-dropdown-container">
+      <div className="tutorial-option-dropdown-container" key={stateName}>
         <div>
           <select className="ap-course-dropdown tutorial-input" defaultValue={this.state[`${stateName}`]} onChange={e => this.onDropdownUpdate(e.target.value, 'name', stateName)}>
-            {this.state.APPlacements.map(placement => <option className="tutorial-option-element">{placement.name}</option>)}
+            {this.state.APPlacements.map(placement => <option className="tutorial-option-element" key={placement.name}>{placement.name}</option>)}
           </select>
           <select className="ap-score-dropdown tutorial-input" defaultValue={this.state[`${stateName}Score`]} onChange={e => this.onDropdownUpdate(e.target.value, 'score', stateName)}>
-            {AP_SCORES.map(possibleScore => <option>{possibleScore}</option>)}
+            {AP_SCORES.map(possibleScore => <option key={possibleScore}>{possibleScore}</option>)}
           </select>
         </div>
         {this.renderAdditionalAPInformation(this.findIndexInAPPlacements(this.state[stateName]), this.state[`${stateName}Score`])}
@@ -685,7 +686,7 @@ class Tutorial extends React.Component {
         if (max_passed_score !== -1 && max_passed_score_index !== -1) {
           return Object.entries(this.state.APPlacements[index].options[max_passed_score_index]).map(([k, v]) => {
             return (
-              <div className="tutorial-ap-text">
+              <div className="tutorial-ap-text" key={k}>
                 {this.apKeyToTextLookup(k)}
                 {': '}
                 {typeof v === 'object' ? this.separateArray(v) : v}

@@ -27,7 +27,7 @@ class HeaderMenu extends React.Component {
     if (this.props.graphic) {
       switch (this.props.graphic.type) {
         case 'progress-bar':
-          return <ProgressBar percentage={this.props.graphic.data || 0} />;
+          return <ProgressBar percentage={this.props.graphic.data} />;
         default:
           return null;
       }
@@ -45,8 +45,8 @@ class HeaderMenu extends React.Component {
         </div>
         <div className="header-menu-option-container">
           {this.state.menuOptions.map((menuOption) => {
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            return (<a className="header-menu-option" onClick={menuOption.callback} role="button" tabIndex={-1} key={menuOption.name}>{menuOption.name}</a>);
+            // Throwing keying error here
+            return (<button className="header-menu-option" type="button" onClick={menuOption.callback} tabIndex={-1} key={menuOption.name}>{menuOption.name}</button>);
           })}
           <div className="header-menu-graphic-container">
             {this.renderGraphic()}

@@ -31,14 +31,13 @@ class NewPlanPage extends React.Component {
       filledInterests: [],
       fetchedInterests: false,
       relevantInterests: new Set(),
-      planName: '',
-      planDescription: '',
+      // planName: '',
+      // planDescription: '',
       // planMajor: '',
     };
 
     this.addInterestToSet = this.addInterestToSet.bind(this);
     this.removeInterestFromSet = this.removeInterestFromSet.bind(this);
-    // this.createTutorialPlan = this.createTutorialPlan.bind(this);
   }
 
   componentDidUpdate() {
@@ -78,10 +77,10 @@ class NewPlanPage extends React.Component {
         <div className="plan-interests-container">
           {this.state.fetchedInterests === true ? this.state.filledInterests.map((interest) => {
             if (interest !== null) {
-              console.log('interest', interest, this.state.fetchedInterests, this.state.filledInterests);
               const interestActive = this.getInterestCheckedStatus(interest._id);
               return (
                 <InterestTile
+                  key={interest._id}
                   active={interestActive}
                   user={this.props.user}
                   interest={interest}
