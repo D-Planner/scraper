@@ -38,7 +38,6 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
     } else {
       setErrorMessage(null);
       props.validateAccessCode(accessCode, props.history).then(() => {
-        console.log('resirecting to tutorial');
         props.history.push('/tutorial/0');
       }).catch((error) => {
         setErrorMessage(error.response.data);

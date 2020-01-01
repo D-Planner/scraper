@@ -88,7 +88,6 @@ function searchForCourse(query) {
 }
 
 // function getAdvisorById(id) {
-//   console.log('getAdvisorById', id);
 //   if (id !== null) {
 //     return new Promise((resolve, reject) => {
 //       const headers = {
@@ -179,7 +178,6 @@ function updateAPPlacement(id, change) {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
     axios.post(`${ROOT_URL}/auth/ap/${id}/`, { change }, { headers }).then((response) => {
-      // console.log('response', response);
       resolve(fetchUser());
     }).catch((error) => {
       reject(error);
@@ -272,7 +270,6 @@ class Tutorial extends React.Component {
       onContinue: () => {
         // Resets placement_courses to empty array
         Promise.all(this.props.user.placement_courses.map((setPlacement) => {
-          console.log('setPlacement', setPlacement);
           return this.props.removeCourseFromPlacements(setPlacement._id);
         })).then(() => this.props.fetchUser());
 
@@ -281,12 +278,9 @@ class Tutorial extends React.Component {
           const stateName = `APPlacement${i}`;
           const [APIndex, score, max_passed_score, max_passed_score_index] = this.getScoringInfo(stateName);
 
-          console.log(APIndex, score, max_passed_score, max_passed_score_index);
-
-          // const placement = this.state.APPlacements[this.findIndexInAPPlacements(stateName)];
-          console.log('placement', this.state.APPlacements[APIndex].options[max_passed_score_index]);
           const placement = this.state.APPlacements[APIndex].options[max_passed_score_index];
 
+          // Adds all placement courses to user document
           if (placement) {
             Promise.all([
               this.searchToPlacements(placement, 'credit_given'),
@@ -789,14 +783,10 @@ class Tutorial extends React.Component {
    */
   searchToPlacements(placement, arrName) {
     if (placement[arrName]) {
-      console.log('credit_given', placement[arrName]);
       placement[arrName].forEach((el) => {
-        console.log('searching for', el);
-
         return new Promise((resolve, reject) => {
           // Search for course to get DB id
           searchForCourse(parseQuery(el)).then((results) => {
-            console.log('results', results);
             if (results.length != 1) {
               console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
             }

@@ -142,33 +142,6 @@ class Dashboard extends React.Component {
             <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
-            {/* <div role="presentation" onClick={() => this.props.history.push('/tutorial/0')} className="option-button">
-              {this.state.active
-                ? (
-                  <>
-                    <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
-                    <div className="space" />
-                    <p>Tutorial</p>
-                  </>
-                )
-                : <img className="tutorial-icon" src={tutorialIcon} alt="tutorial" />
-            }
-            </div> */}
-            {/* <div role="presentation"
-              onClick={this.showUserData}
-              className="option-button"
-            >
-              {this.state.active
-                ? (
-                  <>
-                    <img className="search-icon" src={lightbulbIcon} alt="search" />
-                    <div className="space" />
-                    <p>Interest Profile</p>
-                  </>
-                )
-                : <img className="search-icon" src={lightbulbIcon} alt="search" />
-              }
-            </div> */}
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
                 ? (
