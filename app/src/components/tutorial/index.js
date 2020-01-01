@@ -22,6 +22,7 @@ import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
 import './tutorial.scss';
 import ErrorMessageSpacer from '../errorMessageSpacer';
+import { element } from 'prop-types';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
 // const MAX_ADDED_PLACEMENT_COURSES = 6;
@@ -252,7 +253,127 @@ class Tutorial extends React.Component {
       text: 'Enter the AP tests you have taken and the score you received.',
       subtext: null,
       neededToContinue: [],
-      onContinue: () => { },
+      onContinue: () => {
+        // Resets placement_courses to empty array
+        Promise.all(this.props.user.placement_courses.map((setPlacement) => {
+          console.log('setPlacement', setPlacement);
+          return this.props.removeCourseFromPlacements(setPlacement._id);
+        })).then(() => this.props.fetchUser());
+
+        // Iterates through each placement entered
+        for (let i = 0; i < this.state.addedAPPlacementCount; i += 1) {
+          const stateName = `APPlacement${i}`;
+          const [APIndex, score, max_passed_score, max_passed_score_index] = this.getMaxPassedScore(stateName);
+
+          console.log(APIndex, score, max_passed_score, max_passed_score_index);
+
+          // const placement = this.state.APPlacements[this.findIndexInAPPlacements(stateName)];
+          console.log('placement', this.state.APPlacements[APIndex].options[max_passed_score_index]);
+          const placement = this.state.APPlacements[APIndex].options[max_passed_score_index];
+
+          if (placement.credit_given) {
+            console.log('credit_given', placement.credit_given);
+            placement.credit_given.forEach((el) => {
+              console.log('searching for', el);
+
+              return new Promise((resolve, reject) => {
+                // Search for course to get DB id
+                searchForCourse(parseQuery(el)).then((results) => {
+                  console.log('results', results);
+                  if (results.length != 1) {
+                    console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
+                  }
+
+                  this.props.addCourseToPlacements(results[0]._id).then(() => resolve());
+
+                  // let add = true;
+                  // this.props.user.placement_courses.forEach((pc) => {
+                  //   console.log('pc', pc);
+                  //   if (`${pc.department} ${pc.number}` === el) {
+                  //     add = false;
+                  //   }
+                  // });
+
+                  // if (add === true) {
+                  //   console.log('adding course');
+                  //   this.props.addCourseToPlacements(results[0]._id);
+                  // } else {
+                  //   console.log('already in placement_courses');
+                  //   // console.log('removing course');
+                  //   // this.props.removeCourseFromPlacements(results[0]._id);
+                  // }
+                  // resolve();
+                });
+              }).then(() => this.props.fetchUser());
+            });
+          }
+
+          if (placement.exemption) {
+            for (let e = 0; e < placement.exemption.length; e += 1) {
+
+            }
+          }
+        }
+        // console.log('stateName', stateName, this.state.APPlacements[APIndex].options);
+
+        // console.log(this.state.APPlacements[APIndex].options[max_passed_score_index]);
+        // const element = this.state.APPlacements[APIndex].options[max_passed_score_index];
+        // // console.log('element', stateName, location, element);
+        // let exemptions = [];
+        // let credit_given = [];
+
+        // if (element) {
+        //   if (element.exemption) {
+        //     console.log('exemption', element.exemption);
+        //     exemptions = Array.from(element.exemption);
+        //   } else if (element.credit_given) {
+        //     console.log('credit_given', element.credit_given);
+        //     // eslint-disable-next-line prefer-destructuring
+        //     credit_given = Array.from(element.credit_given);
+        //   }
+        // }
+
+        // console.log('arrays', exemptions, credit_given);
+
+        // // if (exemptions.length > 0) {
+
+        // // }
+
+        // if (credit_given.length > 0) {
+        //   // Iterate over all courses credit is given for
+        //   credit_given.forEach((el) => {
+        //     console.log('searching for', el);
+
+        //     return new Promise((resolve, reject) => {
+        //       // Search for course to get DB id
+        //       searchForCourse(parseQuery(el)).then((results) => {
+        //         console.log('results', results);
+        //         if (results.length != 1) {
+        //           console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
+        //         }
+
+        //         let add = true;
+        //         this.props.user.placement_courses.forEach((pc) => {
+        //           console.log('pc', pc);
+        //           if (`${pc.department} ${pc.number}` === el ) {
+        //             add = false;
+        //           }
+        //         });
+
+        //         if (add === true) {
+        //           console.log('adding course');
+        //           this.props.addCourseToPlacements(results[0]._id);
+        //         } else {
+        //           console.log('already in placement_courses');
+        //           // console.log('removing course');
+        //           // this.props.removeCourseFromPlacements(results[0]._id);
+        //         }
+        //         resolve();
+        //       });
+        //     }).then(() => this.props.fetchUser());
+        //   });
+        // }
+      },
       toRender: () => (
         <form>
           {this.renderAPPlacementScores()}
@@ -739,12 +860,7 @@ class Tutorial extends React.Component {
     }
   }
 
-  /**
-   * Renders AP course information for placement
-   * Possible tests, score fields, additional info
-   * @param {*} stateName
-   */
-  renderTutorialAPDropdown(stateName) {
+  getMaxPassedScore(stateName) {
     const APIndex = this.findIndexInAPPlacements(this.state[stateName]);
     const score = this.state[`${stateName}Score`];
 
@@ -757,6 +873,17 @@ class Tutorial extends React.Component {
         max_passed_score_index = i;
       }
     }
+
+    return [APIndex, score, max_passed_score, max_passed_score_index];
+  }
+
+  /**
+   * Renders AP course information for placement
+   * Possible tests, score fields, additional info
+   * @param {*} stateName
+   */
+  renderTutorialAPDropdown(stateName) {
+    const [APIndex, score, max_passed_score, max_passed_score_index] = this.getMaxPassedScore(stateName);
 
     return (
       <div className="tutorial-option-dropdown-container" key={stateName}>
@@ -796,7 +923,6 @@ class Tutorial extends React.Component {
     if (APIndex !== -1) {
       // Check for highest matching information (eg. with info for scores of 4 and 5 and user score of 5, will pick highest that is still equal to score [5 and not 4])
       if (score > 0 && score <= 5) {
-
         // If the user met any of the possible requirements for credit with given score
         if (max_passed_score !== -1 && max_passed_score_index !== -1) {
           return Object.entries(this.state.APPlacements[APIndex].options[max_passed_score_index]).map(([k, v]) => {
@@ -1086,48 +1212,68 @@ class Tutorial extends React.Component {
         } else {
           updateValue = this.state[stateName];
         }
-        console.log('stateName', stateName, this.state.APPlacements[APIndex].options);
+        updateAPPlacement(this.state[`${stateName}ID`], { [location]: updateValue });
 
-        console.log(this.state.APPlacements[APIndex].options[max_passed_score_index]);
-        const element = this.state.APPlacements[APIndex].options[max_passed_score_index];
-        console.log('element', stateName, location, element);
-        let exemptions = [];
-        let credit_given = [];
+        // console.log('stateName', stateName, this.state.APPlacements[APIndex].options);
 
-        if (element) {
-          if (element.exemption) {
-            console.log('exemption', element.exemption);
-            exemptions = Array.from(element.exemption);
-          } else if (element.credit_given) {
-            console.log('credit_given', element.credit_given);
-            // eslint-disable-next-line prefer-destructuring
-            credit_given = Array.from(element.credit_given);
-          }
-        }
+        // console.log(this.state.APPlacements[APIndex].options[max_passed_score_index]);
+        // const element = this.state.APPlacements[APIndex].options[max_passed_score_index];
+        // console.log('element', stateName, location, element);
+        // let exemptions = [];
+        // let credit_given = [];
 
-        console.log('arrays', exemptions, credit_given);
-
-        // if (exemptions.length > 0) {
-
+        // if (element) {
+        //   if (element.exemption) {
+        //     console.log('exemption', element.exemption);
+        //     exemptions = Array.from(element.exemption);
+        //   } else if (element.credit_given) {
+        //     console.log('credit_given', element.credit_given);
+        //     // eslint-disable-next-line prefer-destructuring
+        //     credit_given = Array.from(element.credit_given);
+        //   }
         // }
 
-        if (credit_given.length > 0) {
-          credit_given.forEach((el) => {
-            console.log('searching for', el);
-            return new Promise((resolve, reject) => {
-              searchForCourse(parseQuery(el)).then((results) => {
-                console.log('results', results);
-                if (results.length != 1) {
-                  console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
-                }
-                this.props.addCourseToPlacements(results[0]._id);
-                resolve();
-              });
-            }).then(() => this.props.fetchUser());
-          });
-        }
+        // console.log('arrays', exemptions, credit_given);
 
-        updateAPPlacement(this.state[`${stateName}ID`], { [location]: updateValue });
+        // // if (exemptions.length > 0) {
+
+        // // }
+
+        // if (credit_given.length > 0) {
+        //   // Iterate over all courses credit is given for
+        //   credit_given.forEach((el) => {
+        //     console.log('searching for', el);
+
+        //     return new Promise((resolve, reject) => {
+        //       // Search for course to get DB id
+        //       searchForCourse(parseQuery(el)).then((results) => {
+
+        //         console.log('results', results);
+        //         if (results.length != 1) {
+        //           console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
+        //         }
+
+        //         let add = true;
+        //         this.props.user.placement_courses.forEach((pc) => {
+        //           console.log('pc', pc);
+        //           if (`${pc.department} ${pc.number}` === el ) {
+        //             add = false;
+        //           }
+        //         });
+
+        //         if (add === true) {
+        //           console.log('adding course');
+        //           this.props.addCourseToPlacements(results[0]._id);
+        //         } else {
+        //           console.log('already in placement_courses');
+        //           // console.log('removing course');
+        //           // this.props.removeCourseFromPlacements(results[0]._id);
+        //         }
+        //         resolve();
+        //       });
+        //     }).then(() => this.props.fetchUser());
+        //   });
+        // }
       });
     });
   }
