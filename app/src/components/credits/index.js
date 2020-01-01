@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import logo from '../../style/logo.svg';
 import dali from '../../style/dali.png';
 import './credits.scss';
@@ -32,6 +33,11 @@ class Credits extends Component {
   render() {
     return (
       <div className="credits-container">
+        <Helmet>
+          <title>Credits : D-Planner - The Future of Academic Planning</title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+        </Helmet>
         <div className={`section ${this.props.embedded ? 'embedded' : ''}`}>
           {!this.props.embedded
             ? (

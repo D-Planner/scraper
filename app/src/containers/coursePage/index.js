@@ -3,9 +3,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import { withRouter } from 'react-router-dom';
-// Headers: fc, fp, fu
-// User: actf, actp, rcfp, rp,
-// None:
+import { Helmet } from 'react-helmet';
 import {
   fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
@@ -56,7 +54,7 @@ class CoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: null,
+
     };
   }
 
@@ -563,6 +561,11 @@ class CoursePage extends React.Component {
   render() {
     return (
       <Fragment>
+        <Helmet>
+          <title>{this.state.course ? `${this.state.course.department} ${this.state.course.number}` : ''} - Dartmouth : D-Planner - The Future of Academic Planning</title>
+          <meta name="description" content="" />
+          <meta name="keywords" content="" />
+        </Helmet>
         <HeaderMenu />
         <div className="course-info-container">
           {this.state.course ? this.courseInfo(this.state.course, this.props.nextTerm) : <LoadingWheel />}

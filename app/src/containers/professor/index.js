@@ -55,7 +55,7 @@ class Professor extends React.Component {
               <div className="professor-container">
                 <div className="professor">
                   <Helmet>
-                    <title>{this.state.professor.name} Information : D-Planner - The Future of Academic Planning</title>
+                    <title>{this.state.professor.name} : D-Planner - The Future of Academic Planning</title>
                     <meta name="description" content="" />
                     <meta name="keywords" content="" />
                   </Helmet>

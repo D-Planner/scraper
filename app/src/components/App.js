@@ -94,14 +94,9 @@ class App extends Component {
                   <title>D-Planner - The Future of Academic Planning</title>
                 </Helmet>
                 <Switch>
-                  {/* DPlan */}
                   <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
                   <Route path="/course/:id" component={withTracker(CoursePage)} />
-                  <Route exact path="/courses" component={withTracker(requireAuth(Courses))} />
-                  {/* <Route path="/signup" component={signUp} />
-                <Route path="/signin" component={signIn} /> */}
-                  {/* <Route path="/plan/:id" component={DPlan} /> */}
-                  {/* This Was Discover */}
+                  {/* <Route exact path="/courses" component={withTracker(requireAuth(Courses))} /> */}
                   <Route path="/professors/:id" component={withTracker(Professor)} />
                   <Route path="/discover" component={withTracker(Cytoscape)} />
                   <Route path="/plan/:id" component={withTracker(DPlan)} />
