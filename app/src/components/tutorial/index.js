@@ -33,7 +33,6 @@ const AP_SCORES = [0, 1, 2, 3, 4, 5];
 
 
 /**
- * Update profile display after tutorial
  * Add possible suggestion options in const
  */
 
@@ -51,6 +50,24 @@ const AP_SCORES = [0, 1, 2, 3, 4, 5];
 //     });
 //   });
 // }
+
+const SuggestionLocations = {
+  advisor: 'checkAdvisor',
+  course: 'courseSearch',
+};
+
+const Advisors = {
+  dean: 'deanAdvisor',
+  faculty: 'facultyAdvisor',
+  other: 'otherAdvisor',
+};
+
+const APInputFields = {
+  name: 'name',
+  score: 'score',
+};
+
+const TUTORIAL_DROPDOWN_CLASSNAME = 'tutorial-dropdown-element';
 
 /**
  * Searches for course in DB and returns array of results
@@ -310,14 +327,14 @@ class Tutorial extends React.Component {
       text: 'Invite academic professionals to review your plans and give personalized feedback.',
       subtext: 'Don\'t worry, we won\'t share your information to these people without your permission!',
       neededToContinue: [
-        { name: 'deanAdvisorID', errorMessage: 'Please enter the name of your dean in the form below' },
-        { name: 'facultyAdvisorID', errorMessage: 'Please enter the name of your faculty advisor in the form below' },
+        { name: `${Advisors.dean}ID`, errorMessage: 'Please enter the name of your dean in the form below' },
+        { name: `${Advisors.faculty}ID`, errorMessage: 'Please enter the name of your faculty advisor in the form below' },
       ],
       onContinue: () => { },
       toRender: () => (
         <form>
-          {this.renderTutorialInput('deanAdvisor', 'Enter Dean Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
-          {this.renderTutorialInput('facultyAdvisor', 'Enter Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
+          {this.renderTutorialInput(Advisors.dean, 'Enter Dean Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
+          {this.renderTutorialInput(Advisors.faculty, 'Enter Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
           {this.renderOtherContributors()}
           <div className="contributor-modify-container">
             <div className={`contributor-modify${this.state.addedOtherContributorCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
@@ -414,19 +431,19 @@ class Tutorial extends React.Component {
 
       // Load user's dean
       if (this.props.user.dean) {
-        this.loadElement('deanAdvisor', this.props.user.dean.full_name, this.props.user.dean._id);
+        this.loadElement(Advisors.dean, this.props.user.dean.full_name, this.props.user.dean._id);
       }
 
       // Load user's faculty advisor
       if (this.props.user.faculty_advisor) {
-        this.loadElement('facultyAdvisor', this.props.user.faculty_advisor.full_name, this.props.user.faculty_advisor._id);
+        this.loadElement(Advisors.faculty, this.props.user.faculty_advisor.full_name, this.props.user.faculty_advisor._id);
       }
 
       // Load any other of user's advisors
       let advisorImportCount = 0;
       this.props.user.other_advisors.forEach((savedAdvisor) => {
         if (savedAdvisor !== null) {
-          this.loadElement(`otherAdvisor${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
+          this.loadElement(`${Advisors.other}${advisorImportCount}`, savedAdvisor.full_name, savedAdvisor._id);
           this.setState({ addedOtherContributorCount: advisorImportCount + 1 });
           advisorImportCount += 1;
         }
@@ -749,15 +766,15 @@ class Tutorial extends React.Component {
    * @param {*} stateName
    */
   handleClearClick = (stateName) => {
-    if (stateName === 'deanAdvisor') {
+    if (stateName === Advisors.dean) {
       this.props.updateUser({ dean: null }).then(() => {
         this.clearElement(stateName);
       });
-    } else if (stateName === 'facultyAdvisor') {
+    } else if (stateName === Advisors.faculty) {
       this.props.updateUser({ faculty_advisor: null }).then(() => {
         this.clearElement(stateName);
       });
-    } else if (stateName.substring(0, stateName.length - 1) === 'otherAdvisor') {
+    } else if (stateName.substring(0, stateName.length - 1) === Advisors.other) {
       this.removeContributor(stateName, false);
     } else {
       this.clearElement(stateName);
@@ -949,7 +966,7 @@ class Tutorial extends React.Component {
    */
   addNewContributor() {
     if (this.state.addedOtherContributorCount < MAX_ADDED_CONTRIBUTORS) {
-      this.props.updateUser({ other_advisor: this.state[`otherAdvisor${this.state.addedOtherContributorCount - 1}`] });
+      this.props.updateUser({ other_advisor: this.state[`${Advisors.other}${this.state.addedOtherContributorCount - 1}`] });
       this.setState(prevState => ({ addedOtherContributorCount: prevState.addedOtherContributorCount + 1 }));
     }
   }
@@ -961,7 +978,7 @@ class Tutorial extends React.Component {
    */
   removeContributor(stateName = undefined, remove = true) {
     if (this.state.addedOtherContributorCount > 0) {
-      this.props.updateUser({ other_advisor: this.state[`${stateName}ID`] || this.state[`otherAdvisor${this.state.addedOtherContributorCount - 1}ID`] }).then(() => {
+      this.props.updateUser({ other_advisor: this.state[`${stateName}ID`] || this.state[`${Advisors.other}${this.state.addedOtherContributorCount - 1}ID`] }).then(() => {
         // FOR REMOVING A NON-FINAL CONTRIBUTOR IN LIST, DON'T REMOVE
         // const removedIndex = stateName[stateName.length - 1];
         // if (removedIndex !== this.state.addedOtherContributorCount - 1) {
@@ -972,7 +989,7 @@ class Tutorial extends React.Component {
         //     }
         //   }
         // }
-        this.clearElement(stateName || `otherAdvisor${this.state.addedOtherContributorCount - 1}`);
+        this.clearElement(stateName || `${Advisors.other}${this.state.addedOtherContributorCount - 1}`);
         if (remove === true) {
           this.setState(prevState => ({ addedOtherContributorCount: prevState.addedOtherContributorCount - 1 }));
         }
@@ -987,7 +1004,7 @@ class Tutorial extends React.Component {
     if (this.state.addedOtherContributorCount) {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherContributorCount; i += 1) {
-        addedOtherEmailList.push(this.renderTutorialInput(`otherAdvisor${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass']));
+        addedOtherEmailList.push(this.renderTutorialInput(`${Advisors.other}${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass']));
       }
       return addedOtherEmailList;
     } else {
@@ -1134,7 +1151,7 @@ class Tutorial extends React.Component {
   onDropdownUpdate(value, location, stateName, APIndex, max_passed_score_index) {
     this.props.fetchUser(this.props.user._id).then(() => {
       new Promise((resolve, reject) => {
-        if (location === 'score') {
+        if (location === APInputFields.score) {
           const intValue = parseInt(value, 10);
           this.setState({ [`${stateName}Score`]: intValue }, () => resolve());
         } else {
@@ -1142,73 +1159,12 @@ class Tutorial extends React.Component {
         }
       }).then(() => {
         let updateValue;
-        if (location === 'score') {
+        if (location === APInputFields.score) {
           updateValue = this.state[`${stateName}Score`];
         } else {
           updateValue = this.state[stateName];
         }
         updateAPPlacement(this.state[`${stateName}ID`], { [location]: updateValue });
-
-        // console.log('stateName', stateName, this.state.APPlacements[APIndex].options);
-
-        // console.log(this.state.APPlacements[APIndex].options[max_passed_score_index]);
-        // const element = this.state.APPlacements[APIndex].options[max_passed_score_index];
-        // console.log('element', stateName, location, element);
-        // let exemptions = [];
-        // let credit_given = [];
-
-        // if (element) {
-        //   if (element.exemption) {
-        //     console.log('exemption', element.exemption);
-        //     exemptions = Array.from(element.exemption);
-        //   } else if (element.credit_given) {
-        //     console.log('credit_given', element.credit_given);
-        //     // eslint-disable-next-line prefer-destructuring
-        //     credit_given = Array.from(element.credit_given);
-        //   }
-        // }
-
-        // console.log('arrays', exemptions, credit_given);
-
-        // // if (exemptions.length > 0) {
-
-        // // }
-
-        // if (credit_given.length > 0) {
-        //   // Iterate over all courses credit is given for
-        //   credit_given.forEach((el) => {
-        //     console.log('searching for', el);
-
-        //     return new Promise((resolve, reject) => {
-        //       // Search for course to get DB id
-        //       searchForCourse(parseQuery(el)).then((results) => {
-
-        //         console.log('results', results);
-        //         if (results.length != 1) {
-        //           console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
-        //         }
-
-        //         let add = true;
-        //         this.props.user.placement_courses.forEach((pc) => {
-        //           console.log('pc', pc);
-        //           if (`${pc.department} ${pc.number}` === el ) {
-        //             add = false;
-        //           }
-        //         });
-
-        //         if (add === true) {
-        //           console.log('adding course');
-        //           this.props.addCourseToPlacements(results[0]._id);
-        //         } else {
-        //           console.log('already in placement_courses');
-        //           // console.log('removing course');
-        //           // this.props.removeCourseFromPlacements(results[0]._id);
-        //         }
-        //         resolve();
-        //       });
-        //     }).then(() => this.props.fetchUser());
-        //   });
-        // }
       });
     });
   }
@@ -1221,7 +1177,7 @@ class Tutorial extends React.Component {
    */
   fetchSuggestions(query, stateName, suggestionLocation) {
     switch (suggestionLocation) {
-      case 'checkAdvisor':
+      case SuggestionLocations.advisor:
         checkAdvisor(query).then((results) => {
           this.setState((prevState) => {
             if (prevState[`${stateName}Suggestions`] !== results.users) {
@@ -1230,7 +1186,7 @@ class Tutorial extends React.Component {
           });
         }).catch(error => console.error(error));
         break;
-      case 'courseSearch':
+      case suggestionLocation.course:
         searchForCourse(parseQuery(this.state[stateName])).then((results) => {
           this.setState({ [`${stateName}Suggestions`]: results });
         });
@@ -1255,11 +1211,11 @@ class Tutorial extends React.Component {
         // Check which type of advisor to update in backend
         let advisorIdentifier;
 
-        if (stateName === 'deanAdvisor') {
+        if (stateName === Advisors.dean) {
           advisorIdentifier = 'dean';
-        } else if (stateName === 'facultyAdvisor') {
+        } else if (stateName === Advisors.faculty) {
           advisorIdentifier = 'faculty_advisor';
-        } else if (stateName.slice(0, stateName.length - 1) === 'otherAdvisor') {
+        } else if (stateName.slice(0, stateName.length - 1) === Advisors.other) {
           advisorIdentifier = 'other_advisor';
         } else {
           advisorIdentifier = undefined;
@@ -1298,7 +1254,7 @@ class Tutorial extends React.Component {
    * @param {*} e - event
    */
   handleBackgroundClick(e) {
-    if (e.target.className !== 'tutorial-dropdown-element') {
+    if (e.target.className !== TUTORIAL_DROPDOWN_CLASSNAME) {
       this.setState({ dropdownClosed: true });
     }
   }
@@ -1340,10 +1296,10 @@ class Tutorial extends React.Component {
     let click = () => { };
 
     switch (sugestionLocation) {
-      case 'checkAdvisor':
+      case SuggestionLocations.advisor:
         click = (sn, el) => this.handleAdvisorSuggestionSelect(sn, el);
         break;
-      case 'courseSearch':
+      case SuggestionLocations.course:
         click = (sn, el) => {
           this.handlePlacementCourseSuggestionSelect(sn, el);
           this.setState({ [`${stateName}ID`]: el._id });
@@ -1362,16 +1318,16 @@ class Tutorial extends React.Component {
           return (
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].slice(0, (MAX_SUGGESTIONS_LENGTH - 1)).map((element) => {
-                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]}{displayParametersSecondary ? ` - ${this.separateArray(displayParametersSecondary, ', ', undefined, element)}` : ''}</p>;
+                return <p className={TUTORIAL_DROPDOWN_CLASSNAME} key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]}{displayParametersSecondary ? ` - ${this.separateArray(displayParametersSecondary, ', ', undefined, element)}` : ''}</p>;
               })}
-              <p className="tutorial-dropdown-element">+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
+              <p className={TUTORIAL_DROPDOWN_CLASSNAME}>+ {this.state[`${stateName}Suggestions`].length - MAX_SUGGESTIONS_LENGTH + 1} more...</p>
             </div>
           );
         } else { // Within length requirements
           return (
             <div className="dropdown-content">
               {this.state[`${stateName}Suggestions`].map((element) => {
-                return <p className="tutorial-dropdown-element" key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]}{displayParametersSecondary ? ` - ${this.separateArray(displayParametersSecondary, ', ', undefined, element)}` : ''}</p>;
+                return <p className={TUTORIAL_DROPDOWN_CLASSNAME} key={element[displayParameterPrimary]} onClick={() => click(stateName, element)}>{element[displayParameterPrimary]}{displayParametersSecondary ? ` - ${this.separateArray(displayParametersSecondary, ', ', undefined, element)}` : ''}</p>;
               })}
             </div>
           );
