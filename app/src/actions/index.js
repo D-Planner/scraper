@@ -411,11 +411,12 @@ export function updatePlan(planUpdate, planID) {
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.put(`${ROOT_URL}/plans/${planID}`, { planUpdate }, { headers }).then((response) => {
-      console.log(response);
+      console.log(response.data);
       dispatch({ type: ActionTypes.UPDATE_PLAN, payload: planID });
+      resolve(response.data);
     }).catch((error) => {
-      console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
     });
   }));
 }

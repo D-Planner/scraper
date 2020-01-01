@@ -289,9 +289,9 @@ class DPlan extends Component {
     });
   }
 
-  handleChangePlanName = (e) => {
+  handleChangePlanName = () => {
     this.setState({ isEditing: false });
-    this.props.updatePlan({ name: this.state.tempPlanName }, this.props.plan.id).then(() => this.props.fetchPlan().then(() => this.setState({ tempPlanName: this.props.plan.name })));
+    this.props.updatePlan({ name: this.state.tempPlanName }, this.props.plan.id).then(() => this.props.fetchPlan(this.props.plan.id).then(() => this.setState({ tempPlanName: this.props.plan.name })));
   }
 
   addCourseToTerm = (course, term) => new Promise((resolve, reject) => {
