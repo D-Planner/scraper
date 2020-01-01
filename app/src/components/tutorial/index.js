@@ -22,7 +22,6 @@ import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
 import './tutorial.scss';
 import ErrorMessageSpacer from '../errorMessageSpacer';
-import { element } from 'prop-types';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
 // const MAX_ADDED_PLACEMENT_COURSES = 6;
@@ -263,7 +262,7 @@ class Tutorial extends React.Component {
         // Iterates through each placement entered
         for (let i = 0; i < this.state.addedAPPlacementCount; i += 1) {
           const stateName = `APPlacement${i}`;
-          const [APIndex, score, max_passed_score, max_passed_score_index] = this.getMaxPassedScore(stateName);
+          const [APIndex, score, max_passed_score, max_passed_score_index] = this.getScoringInfo(stateName);
 
           console.log(APIndex, score, max_passed_score, max_passed_score_index);
 
@@ -271,108 +270,13 @@ class Tutorial extends React.Component {
           console.log('placement', this.state.APPlacements[APIndex].options[max_passed_score_index]);
           const placement = this.state.APPlacements[APIndex].options[max_passed_score_index];
 
-          if (placement.credit_given) {
-            console.log('credit_given', placement.credit_given);
-            placement.credit_given.forEach((el) => {
-              console.log('searching for', el);
-
-              return new Promise((resolve, reject) => {
-                // Search for course to get DB id
-                searchForCourse(parseQuery(el)).then((results) => {
-                  console.log('results', results);
-                  if (results.length != 1) {
-                    console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
-                  }
-
-                  this.props.addCourseToPlacements(results[0]._id).then(() => resolve());
-
-                  // let add = true;
-                  // this.props.user.placement_courses.forEach((pc) => {
-                  //   console.log('pc', pc);
-                  //   if (`${pc.department} ${pc.number}` === el) {
-                  //     add = false;
-                  //   }
-                  // });
-
-                  // if (add === true) {
-                  //   console.log('adding course');
-                  //   this.props.addCourseToPlacements(results[0]._id);
-                  // } else {
-                  //   console.log('already in placement_courses');
-                  //   // console.log('removing course');
-                  //   // this.props.removeCourseFromPlacements(results[0]._id);
-                  // }
-                  // resolve();
-                });
-              }).then(() => this.props.fetchUser());
-            });
-          }
-
-          if (placement.exemption) {
-            for (let e = 0; e < placement.exemption.length; e += 1) {
-
-            }
+          if (placement) {
+            Promise.all([
+              this.searchToPlacements(placement, 'credit_given'),
+              this.searchToPlacements(placement, 'exemption'),
+            ]).then(() => this.props.fetchUser());
           }
         }
-        // console.log('stateName', stateName, this.state.APPlacements[APIndex].options);
-
-        // console.log(this.state.APPlacements[APIndex].options[max_passed_score_index]);
-        // const element = this.state.APPlacements[APIndex].options[max_passed_score_index];
-        // // console.log('element', stateName, location, element);
-        // let exemptions = [];
-        // let credit_given = [];
-
-        // if (element) {
-        //   if (element.exemption) {
-        //     console.log('exemption', element.exemption);
-        //     exemptions = Array.from(element.exemption);
-        //   } else if (element.credit_given) {
-        //     console.log('credit_given', element.credit_given);
-        //     // eslint-disable-next-line prefer-destructuring
-        //     credit_given = Array.from(element.credit_given);
-        //   }
-        // }
-
-        // console.log('arrays', exemptions, credit_given);
-
-        // // if (exemptions.length > 0) {
-
-        // // }
-
-        // if (credit_given.length > 0) {
-        //   // Iterate over all courses credit is given for
-        //   credit_given.forEach((el) => {
-        //     console.log('searching for', el);
-
-        //     return new Promise((resolve, reject) => {
-        //       // Search for course to get DB id
-        //       searchForCourse(parseQuery(el)).then((results) => {
-        //         console.log('results', results);
-        //         if (results.length != 1) {
-        //           console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
-        //         }
-
-        //         let add = true;
-        //         this.props.user.placement_courses.forEach((pc) => {
-        //           console.log('pc', pc);
-        //           if (`${pc.department} ${pc.number}` === el ) {
-        //             add = false;
-        //           }
-        //         });
-
-        //         if (add === true) {
-        //           console.log('adding course');
-        //           this.props.addCourseToPlacements(results[0]._id);
-        //         } else {
-        //           console.log('already in placement_courses');
-        //           // console.log('removing course');
-        //           // this.props.removeCourseFromPlacements(results[0]._id);
-        //         }
-        //         resolve();
-        //       });
-        //     }).then(() => this.props.fetchUser());
-        //   });
-        // }
       },
       toRender: () => (
         <form>
@@ -860,7 +764,38 @@ class Tutorial extends React.Component {
     }
   }
 
-  getMaxPassedScore(stateName) {
+  /**
+   * Takes in a placement object and searches for all elements of given array
+   * Adds first result to user's placement_courses
+   * @param {*} placement
+   * @param {*} arrName
+   */
+  searchToPlacements(placement, arrName) {
+    if (placement[arrName]) {
+      console.log('credit_given', placement[arrName]);
+      placement[arrName].forEach((el) => {
+        console.log('searching for', el);
+
+        return new Promise((resolve, reject) => {
+          // Search for course to get DB id
+          searchForCourse(parseQuery(el)).then((results) => {
+            console.log('results', results);
+            if (results.length != 1) {
+              console.log(`[Tutorial.js] Results for query ${el} of length ${results.length}`);
+            }
+
+            this.props.addCourseToPlacements(results[0]._id).then(() => resolve());
+          });
+        });
+      });
+    }
+  }
+
+  /**
+   * Gets information required to locate an AP placement object in state from "stateName"
+   * @param {*} stateName
+   */
+  getScoringInfo(stateName) {
     const APIndex = this.findIndexInAPPlacements(this.state[stateName]);
     const score = this.state[`${stateName}Score`];
 
@@ -883,7 +818,7 @@ class Tutorial extends React.Component {
    * @param {*} stateName
    */
   renderTutorialAPDropdown(stateName) {
-    const [APIndex, score, max_passed_score, max_passed_score_index] = this.getMaxPassedScore(stateName);
+    const [APIndex, score, max_passed_score, max_passed_score_index] = this.getScoringInfo(stateName);
 
     return (
       <div className="tutorial-option-dropdown-container" key={stateName}>
