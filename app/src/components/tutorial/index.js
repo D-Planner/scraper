@@ -1358,7 +1358,7 @@ class Tutorial extends React.Component {
             <div className="title">{this.tutorialData[this.state.tutorialPage].title}</div>
             <div className="text">{this.tutorialData[this.state.tutorialPage].text}</div>
             <div className="subtext">{this.tutorialData[this.state.tutorialPage].subtext}</div>
-            {this.state.loading === true ? <LoadingWheel /> : <ErrorMessageSpacer errorMessage={this.state.errorMessages[0]} />}
+            {this.state.loading === true ? <LoadingWheel /> : <ErrorMessageSpacer errorMessage={this.state.errorMessages[0]} textColor="#FFFFFF" spacerElement="*" />}
             <div className="rowContainer">
               {this.renderTutorialPage(this.state.tutorialPage)}
             </div>
