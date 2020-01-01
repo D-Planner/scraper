@@ -603,12 +603,10 @@ export function setFulfilledStatus(id, value) {
  * @returns an action creator to add a course to a user's favorites
  */
 export function addCourseToPlacements(courseID) {
-  console.log('addToPlacements action', courseID);
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log('added course to placement', response.data);
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
@@ -629,7 +627,6 @@ export function removeCourseFromPlacements(courseID) {
     axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      console.log('response', response);
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
