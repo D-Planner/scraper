@@ -1,51 +1,12 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/4808",
-			"layup_id": 4808,
-			"title": "COCO025: Crisis and Strategy",
+			"layup_url": "https://www.layuplist.com/course/5163",
+			"layup_id": 5163,
+			"title": "COCO028: History of Attention",
 			"department": "COCO",
 			"offered": false,
 			"distribs": null,
-			"total_reviews": 1,
-			"quality_score": -1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/585",
-			"layup_id": 585,
-			"title": "COCO001.03: Fashion and Identity: The Power of Clothing",
-			"department": "COCO",
-			"offered": false,
-			"distribs": [
-				"ART",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 2,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/584",
-			"layup_id": 584,
-			"title": "COCO001.02: The Analysis and Creation of Biopix: Gauguin and Van Gogh",
-			"department": "COCO",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3834",
-			"layup_id": 3834,
-			"title": "COCO020: Making Music: The Art, Science, and Symbolism of Musical Instruments",
-			"department": "COCO",
-			"offered": false,
-			"distribs": [
-				"NW",
-				"ART"
-			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -59,69 +20,29 @@
 			"distribs": null,
 			"total_reviews": 5,
 			"quality_score": 2,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4194",
-			"layup_id": 4194,
-			"title": "COCO021: What's in Your Shoebox? Unpacking Your Study Abroad Experience",
-			"department": "COCO",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"CI"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3108",
-			"layup_id": 3108,
-			"title": "COCO005.01: Visualizing AmCities-Mod ID",
-			"department": "COCO",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"CI"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/587",
-			"layup_id": 587,
-			"title": "COCO005: Visualizing American Cities: Creating Modern Identities",
+			"layup_url": "https://www.layuplist.com/course/586",
+			"layup_id": 586,
+			"title": "COCO002: Seeing Nature: How Aristotle and Darwin Understood Nature and Human Society",
 			"department": "COCO",
 			"offered": false,
 			"distribs": null,
-			"total_reviews": 6,
-			"quality_score": 1,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3392",
-			"layup_id": 3392,
-			"title": "COCO003.01: Dave the Potter: Slavery Between Pots and Poems",
-			"department": "COCO",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 22,
+			"quality_score": 3,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3109",
-			"layup_id": 3109,
-			"title": "COCO002.01: Seeing Nature: Aristle\u0026Drwn",
+			"layup_url": "https://www.layuplist.com/course/588",
+			"layup_id": 588,
+			"title": "COCO005.03: Slave Societies, Ancient and Modern: Imperial Rome and Brazil",
 			"department": "COCO",
 			"offered": false,
 			"distribs": [
-				"W",
-				"TMV"
+				"INT",
+				"LIT",
+				"NW"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -139,55 +60,91 @@
 			"layup_score": 0
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/587",
+			"layup_id": 587,
+			"title": "COCO005: Visualizing American Cities: Creating Modern Identities",
+			"department": "COCO",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 6,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/585",
+			"layup_id": 585,
+			"title": "COCO001.03: Fashion and Identity: The Power of Clothing",
+			"department": "COCO",
+			"offered": false,
+			"distribs": [
+				"W",
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 2,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/3075",
 			"layup_id": 3075,
 			"title": "COCO001.04: Music and Dance of N. India",
 			"department": "COCO",
 			"offered": false,
 			"distribs": [
-				"NW",
-				"ART"
+				"ART",
+				"NW"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/588",
-			"layup_id": 588,
-			"title": "COCO005.03: Slave Societies, Ancient and Modern: Imperial Rome and Brazil",
+			"layup_url": "https://www.layuplist.com/course/4194",
+			"layup_id": 4194,
+			"title": "COCO021: What's in Your Shoebox? Unpacking Your Study Abroad Experience",
 			"department": "COCO",
 			"offered": false,
 			"distribs": [
-				"INT",
-				"NW",
-				"LIT"
+				"CI",
+				"SOC"
 			],
 			"total_reviews": 0,
-			"quality_score": 0,
+			"quality_score": 1,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3140",
-			"layup_id": 3140,
-			"title": "COCO016: Audio-Vision: Film, Music, Sound",
-			"department": "COCO",
-			"offered": false,
-			"distribs": [
-				"NW",
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3142",
-			"layup_id": 3142,
-			"title": "COCO018: Impact Design: The psychology and design of user experiences that engage, delight, and inform",
+			"layup_url": "https://www.layuplist.com/course/4808",
+			"layup_id": 4808,
+			"title": "COCO025: Crisis and Strategy in American Foreign Policy",
 			"department": "COCO",
 			"offered": false,
 			"distribs": null,
+			"total_reviews": 1,
+			"quality_score": -1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5105",
+			"layup_id": 5105,
+			"title": "COCO027: From Jupiter to Jesus: Christianity and the Transformation of the Roman World",
+			"department": "COCO",
+			"offered": true,
+			"distribs": [
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3392",
+			"layup_id": 3392,
+			"title": "COCO003.01: Dave the Potter: Slavery Between Pots and Poems",
+			"department": "COCO",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -203,27 +160,55 @@
 			],
 			"total_reviews": 8,
 			"quality_score": 2,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/586",
-			"layup_id": 586,
-			"title": "COCO002: Seeing Nature: How Aristotle and Darwin Understood Nature and Human Society",
-			"department": "COCO",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 22,
-			"quality_score": 3,
-			"layup_score": 3
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3141",
-			"layup_id": 3141,
-			"title": "COCO017: Electronics for Musicians",
+			"layup_url": "https://www.layuplist.com/course/4507",
+			"layup_id": 4507,
+			"title": "COCO024: Daniel Webster and the Dartmouth College Case",
 			"department": "COCO",
 			"offered": false,
 			"distribs": [
-				"TLA"
+				"TMV"
+			],
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3109",
+			"layup_id": 3109,
+			"title": "COCO002.01: Seeing Nature: Aristle\u0026Drwn",
+			"department": "COCO",
+			"offered": false,
+			"distribs": [
+				"TMV",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/584",
+			"layup_id": 584,
+			"title": "COCO001.02: The Analysis and Creation of Biopix: Gauguin and Van Gogh",
+			"department": "COCO",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3108",
+			"layup_id": 3108,
+			"title": "COCO005.01: Visualizing AmCities-Mod ID",
+			"department": "COCO",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"CI"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -236,10 +221,35 @@
 			"department": "COCO",
 			"offered": false,
 			"distribs": [
-				"INT",
 				"NW",
+				"INT",
 				"ART"
 			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3140",
+			"layup_id": 3140,
+			"title": "COCO016: Audio-Vision: Film, Music, Sound",
+			"department": "COCO",
+			"offered": false,
+			"distribs": [
+				"ART",
+				"NW"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3142",
+			"layup_id": 3142,
+			"title": "COCO018: Impact Design: The psychology and design of user experiences that engage, delight, and inform",
+			"department": "COCO",
+			"offered": false,
+			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -259,19 +269,33 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4507",
-			"layup_id": 4507,
-			"title": "COCO024: Daniel Webster and the Dartmouth College Case",
+			"layup_url": "https://www.layuplist.com/course/3141",
+			"layup_id": 3141,
+			"title": "COCO017: Electronics for Musicians",
 			"department": "COCO",
 			"offered": false,
 			"distribs": [
-				"TMV"
+				"TLA"
 			],
 			"total_reviews": 0,
-			"quality_score": 1,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3834",
+			"layup_id": 3834,
+			"title": "COCO020: Making Music: The Art, Science, and Symbolism of Musical Instruments",
+			"department": "COCO",
+			"offered": true,
+			"distribs": [
+				"ART",
+				"NW"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
 			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 22:58:38",
-	"total": 21
+	"updated": "2019-11-20 20:50:27",
+	"total": 23
 }

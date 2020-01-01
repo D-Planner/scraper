@@ -12,6 +12,7 @@ const PlanSchema = new Schema({
     modified_sub: String,
     specialization: String,
     terms: [{ type: Schema.Types.ObjectId, ref: 'Term' }],
+    duplicatedFrom: String,
 }, {
     toJSON: {
         virtuals: true,

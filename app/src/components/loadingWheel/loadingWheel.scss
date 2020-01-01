@@ -1,0 +1,24 @@
+@import "../../style/variables.scss";
+
+.loading-wheel {
+  display: flex;
+  border: 7px solid $white;
+  border-radius: 50%;
+  border-top: 7px solid $text-accent;
+  width: 30px;
+  height: 30px;
+
+  margin: auto;
+  
+  -webkit-animation:spin 1s ease infinite;
+  -moz-animation:spin 1s ease infinite;
+  animation:spin 1s ease infinite;
+}
+
+@keyframes spin { 
+  0% { -moz-transform: rotate(0); -webkit-transform: rotate(0); transform:rotate(0); }
+  10% { -moz-transform: rotate(60); -webkit-transform: rotate(60); transform:rotate(60); }
+  50% { -moz-transform: rotate(180); -webkit-transform: rotate(180); transform:rotate(180); }
+  90% { -moz-transform: rotate(300); -webkit-transform: rotate(300); transform:rotate(300); }
+  100% { -moz-transform: rotate(360); -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+}

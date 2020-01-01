@@ -3,12 +3,15 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
-import arrowDropDown from '../../../style/arrowDropDown.svg';
-import { DialogTypes, GenEds } from '../../../constants';
+import searchIcon from '../../../style/search-purple.svg';
+import { DialogTypes, Departments } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
-import { setFilters, clearFilters } from '../../../actions';
+import LoadingWheel from '../../../components/loadingWheel';
+import {
+  setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
+} from '../../../actions';
 
 
 /**
@@ -24,9 +27,12 @@ const SearchPane = React.forwardRef((props, ref) => {
   });
 
   // const [searchText, setSearchText] = useState('');
+  // const [sort, setSort] = useState('');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
-  const [offeredNextTerm, setOfferedNextTerm] = useState(false);
+  const [resultsLoading, setResultsLoading] = useState(false);
+  const [offered, setOffered] = useState('');
+  const [results, setResults] = useState('');
 
   // Allows a user to search by the query entered in the search input
 
@@ -35,22 +41,64 @@ const SearchPane = React.forwardRef((props, ref) => {
     if (props.searchQuery.length !== 0) {
       const queryParsed = {
         title: props.searchQuery,
-        department: props.searchQuery.split(' ')[0].toUpperCase(),
+        department: matchDepartment(props.searchQuery.split(' ')[0].toUpperCase()),
         number: props.searchQuery.split(' ')[1],
         distribs,
         wcs,
+        offered,
       };
-      // console.log(props.resultStamp);
       props.stampIncrement((props.resultStamp + 1));
-      props.search(queryParsed, props.resultStamp);
+      setResultsLoading(true);
+      props.search(queryParsed, props.resultStamp).then(() => {
+        setResultsLoading(false);
+      }).catch((error) => {
+        console.error(error);
+      });
     }
-  }, [props.searchQuery, wcs, distribs]);
+  }, [props.searchQuery, wcs, distribs, offered]);
+
+  useEffect(() => {
+    setResults(props.results);
+  }, [props.results]);
+
+  const matchDepartment = (department) => {
+    console.log(Departments.includes(department));
+    return (Departments.includes(department)) ? department : null;
+  };
+
+  const resort = (method) => {
+    const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
+      switch (method) {
+        case 'Sort by alphabet':
+          return c1.name >= c2.name ? 1 : -1;
+        case 'Sort by layup-list score': // This doesn't work. Most classes have a layuplist score of 0.
+          return c1.layup_score >= c2.layup_score ? 1 : -1;
+        case 'Sort by quality score':
+          return c1.quality_score <= c2.quality_score ? 1 : -1;
+        case 'Sort by median':
+          if (c2.avg_median === 'N/A') return -1;
+          if (c1.avg_median === 'N/A') return 1;
+          return -1;
+        case 'Sort by number':
+          return (c1.number >= c2.number) ? 1 : -1;
+        default:
+          return 1;
+      }
+    }));
+    setResults(sortedResults);
+  };
 
   const useFilters = () => {
     setWC(props.wcs.filter(e => e.checked).map(e => e.name));
-    setDistrib(props.distribs.filter(e => e.checked).map(e => e.name));
-    setOfferedNextTerm(props.offeredNextTerm);
-    console.log(offeredNextTerm);
+    setDistrib(props.distribs.filter(e => e.checked).map(e => e.tag));
+    setOffered(props.offered.filter(e => e.checked).map(e => e.term));
+  };
+
+  const clearCurFilters = () => {
+    setWC([]);
+    setDistrib([]);
+    setOffered([]);
+    props.clearFilters();
   };
 
   const showFilterDialog = () => {
@@ -61,7 +109,7 @@ const SearchPane = React.forwardRef((props, ref) => {
       okText: 'Apply',
       noText: 'Clear',
       onOk: useFilters,
-      onNo: props.clearFilters,
+      onNo: clearCurFilters,
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
   };
@@ -69,11 +117,9 @@ const SearchPane = React.forwardRef((props, ref) => {
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
-        <button type="button" className="search-config-button">
-          <img className="search-config-icon" src={arrowDropDown} alt="filter" />
-        </button>
+        <img className="search-config-icon" src={searchIcon} alt="search" />
         <input type="text"
-          className="search-input"
+          className={`search-input${resultsLoading ? ' small' : ''}`}
           placeholder="Search for courses"
           value={props.searchQuery}
           tabIndex={-1}
@@ -82,6 +128,7 @@ const SearchPane = React.forwardRef((props, ref) => {
           }}
           ref={ref}
         />
+        {resultsLoading ? <LoadingWheel /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
         </button>
@@ -89,52 +136,42 @@ const SearchPane = React.forwardRef((props, ref) => {
       {props.active
         ? (
           <div className="pane-content">
-
-            <div className="filters">
-              <select className="gened-picker"
-                onChange={(e) => {
-                  setWC(e.target.value);
-                }}
-              >
-                <option value="">None</option>
-                {
-                  Object.keys(GenEds).filter((g) => {
-                    return g.length <= 2;
-                  }).map((g) => {
-                    return (
-                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-                    );
-                  })
-                }
-              </select>
-              <select className="gened-picker"
-                onChange={(e) => {
-                  setDistrib(e.target.value);
-                }}
-              >
-                <option value="">None</option>
-                {
-                  Object.keys(GenEds).filter((g) => {
-                    return g.length > 2;
-                  }).map((g) => {
-                    return (
-                      <option value={g} key={g}>{GenEds[g].fullName} ({g})</option>
-                    );
-                  })
-                }
-              </select>
-            </div>
-            <div className="search-results">
-              {props.results.length
-                ? props.results.map((course) => {
+            <select className="sort-picker"
+              onChange={(e) => {
+                resort(e.target.value);
+              }}
+            >
+              {
+                ['Sort by number', 'Sort by alphabet', 'Sort by layup-list score', 'Sort by median', 'Sort by quality score'].map((method) => {
                   return (
-                    <div className="result-row" key={course.id}>
-                      <div className="paneCourse">
-                        <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} />
-                      </div>
-                      <div id="course-spacer-large" />
-                    </div>
+                    <option value={method} key={method}>{method}</option>
                   );
+                })
+              }
+            </select>
+            <div className="search-results">
+              {results.length
+                ? results.map((course) => {
+                  // Find whether this course's ID matches with any ID in the user's favorites
+                  if (props.user.favorite_courses.findIndex(c => c._id === course._id) !== -1) {
+                    return (
+                      <div className="result-row" key={course.id}>
+                        <div className="paneCourse">
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.removeCourseFromFavorites(course.id)} />
+                        </div>
+                        <div id="course-spacer-large" />
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div className="result-row" key={course.id}>
+                        <div className="paneCourse">
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkEmpty" onIconClick={() => props.addCourseToFavorites(course.id)} />
+                        </div>
+                        <div id="course-spacer-large" />
+                      </div>
+                    );
+                  }
                 })
                 : (<div className="no-search">Search for courses!</div>)}
             </div>
@@ -149,7 +186,15 @@ const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
   offeredNextTerm: state.filters.offeredNextTerm,
+  user: state.user.current,
+  offered: state.filters.offered,
 });
 
 
-export default connect(mapStateToProps, { setFilters, clearFilters })(SearchPane);
+export default connect(mapStateToProps, {
+  setFilters,
+  clearFilters,
+  addCourseToFavorites,
+  removeCourseFromFavorites,
+  fetchUser,
+})(SearchPane);

@@ -1,27 +1,37 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
-
-import { GenEds } from '../../constants';
-
-// Props:
-// course (Shortened Course Data)
-// action {
-//   type
-//   svg
-//   method
-// }
-//
-//
+import { GenEdsForDisplay as GenEds } from '../../constants';
+import closeIcon from '../../style/close.svg';
+import bookmarkEmpty from '../../style/bookmark.svg';
+import bookmarkFilled from '../../style/bookmarkFilled.svg';
 
 class CourseElement extends Component {
   renderCourseSupplementaryInfo = () => {
-    return (
-      <>
-        <div className="likely-terms">
-          <LikelyTerms terms={this.props.course.likely_terms} />
+    if (this.props.placeholder) {
+      return (
+        <div className="supplementary-course">
+          {this.renderCourseIdentifyingInfo()}
+          {this.props.showIcon ? (
+            <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+              {this.renderIcon(this.props.icon)}
+            </div>
+          ) : null}
         </div>
+      );
+    }
+    return (
+      <div className="supplementary-course">
+        {
+          !this.props.showIcon ? (
+            <div className="likely-terms">
+              <LikelyTerms terms={this.props.course.likely_terms} />
+            </div>
+          ) : null
+        }
         <div className="genEds">
           <div className="distribs">
             {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
@@ -38,11 +48,45 @@ class CourseElement extends Component {
             }) : null}
           </div>
         </div>
-      </>
+        {this.props.showIcon ? (
+          <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+            {this.renderIcon(this.props.icon)}
+          </div>
+        ) : null}
+      </div>
     );
   }
 
+  // Takes a string and decides which icon to use
+  renderIcon = (name) => {
+    switch (name) {
+      case 'close':
+        return <img className="course-action-icon" src={closeIcon} alt="icon" />;
+      case 'bookmarkEmpty':
+        return <img className="course-action-icon" src={bookmarkEmpty} alt="icon" />;
+      case 'bookmarkFilled':
+        return <img className="course-action-icon" src={bookmarkFilled} alt="icon" />;
+      default:
+        return null;
+    }
+  }
+
   renderCourseIdentifyingInfo = () => {
+    if (this.props.placeholder) {
+      return (
+        <div className="hold-left">
+          <div className="course-left">
+            {`${this.props.department}`}
+          </div>
+          <div className="spacer" />
+          <div className="course-right">
+            <div className="name">
+              Placeholder
+            </div>
+          </div>
+        </div>
+      );
+    }
     return (
       <>
         <div className="course-left">
@@ -81,4 +125,8 @@ class CourseElement extends Component {
   }
 }
 
-export default CourseElement;
+const mapStateToProps = state => ({
+  user: state.user.current,
+});
+
+export default connect(mapStateToProps, {})(CourseElement);
