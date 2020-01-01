@@ -10,7 +10,6 @@ import { Helmet } from 'react-helmet';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 import { setPressedKey, removePressedKey } from '../actions';
-import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
 import requireAuth from '../containers/requireAuth';
 import Professor from '../containers/professor';
@@ -90,7 +89,6 @@ class App extends Component {
                   <meta name="copyright" content="Copyright of D-Planner Project, 2019" />
                   <meta name="description" content="" />
                   <meta name="keywords" content="" />
-                  <link rel="icon" href="favicon.ico" type="image/x-icon" />
                   <title>D-Planner - The Future of Academic Planning</title>
                 </Helmet>
                 <Switch>

@@ -38,6 +38,41 @@ const Dependencies = {
   rec: 'Reccomended',
 };
 
+const MAX_META_DESCRIPTION_LENGTH = 160;
+const cutCharacters = ['.', '?', '!', '…'];
+
+/**
+ * Generates a meta tag based on a given string
+ * @param {*} description
+ */
+function generateMetaDescription(description) {
+  let sliceIndex = -1;
+  let spaceSliceIndex = -1;
+
+  for (let i = MAX_META_DESCRIPTION_LENGTH - 1; i >= 0; i -= 1) {
+    // Find first sentence conclusion / break in string
+    if (sliceIndex === -1 && cutCharacters.indexOf(description.charAt(i)) !== -1) {
+      sliceIndex = i;
+
+    // Find first space in string
+    } else if (spaceSliceIndex === -1 && description.charAt(i) === ' ') {
+      // Remove preceeding comma if present
+      if (description.charAt(i - 1) === ',') {
+        spaceSliceIndex = i - 1;
+      } else {
+        spaceSliceIndex = i;
+      }
+    }
+  }
+
+  // Automatically generate description based on whether a slice index was found
+  if (sliceIndex !== -1) {
+    return `${description.slice(0, sliceIndex + 1)}…`;
+  } else {
+    return `${description.slice(0, spaceSliceIndex)}…`;
+  }
+}
+
 // function getProfessor(id) {
 //   return new Promise((resolve, reject) => {
 //     axios.get(`${ROOT_URL}/professors/${id}`, {
@@ -82,6 +117,11 @@ class CoursePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.id !== this.props.match.params.id) {
       window.location.reload();
+    }
+
+    if (!this.state.metaDescription && this.state.course) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }), () => console.log('generated description:', this.state.metaDescription));
     }
   }
 
@@ -563,7 +603,7 @@ class CoursePage extends React.Component {
       <Fragment>
         <Helmet>
           <title>{this.state.course ? `${this.state.course.department} ${this.state.course.number}` : 'Course'} - Dartmouth : D-Planner - The Future of Academic Planning</title>
-          <meta name="description" content="" />
+          <meta name="description" content={this.state.metaDescription || ''} />
           <meta name="keywords" content="" />
         </Helmet>
         <HeaderMenu />
