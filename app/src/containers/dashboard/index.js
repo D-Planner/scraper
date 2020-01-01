@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
   }
 
   logError() {
-    console.log('function call working?');
+    // console.log('function call working?');
     console.log(this.props.errorMessage);
   }
 
