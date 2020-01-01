@@ -6,63 +6,29 @@ import { setTermsPrevCourses } from '../controllers/plan_controller';
 import { PopulateTerm, PopulateCourse } from './populators';
 import { trim } from './courses_controller';
 
-// Helpers
-const addCompleted = (userID, courseID) => {
-    User.findByIdAndUpdate(userID, {
-        $push: { completed_courses: courseID },
-    }, { new: true }).then((result) => {
-    }).catch((error) => {
-        console.log(error);
-    });
-};
+// Not used anymore because completed_courses are calculated in frontend
+// const addCompleted = (userID, courseID) => {
+//     User.findByIdAndUpdate(userID, {
+//         $push: { completed_courses: courseID },
+//     }, { new: true }).then((result) => {
+//     }).catch((error) => {
+//         console.log(error);
+//     });
+// };
 
-const removeCompleted = (userID, courseID) => {
-    console.log('REMOVING COURSE FROM COMPLETED, ', courseID);
-    return new Promise((resolve, reject) => {
-        User.findByIdAndUpdate(userID, {
-            $pull: { completed_courses: courseID },
-        }, { new: true }).then((result) => {
-            resolve();
-        }).catch((error) => {
-            console.log(error);
-            reject();
-        });
-    });
-};
-
-const createTerm = async (term, planID, index) => {
-    const newTerm = await Term.create({
-        plan_id: planID,
-        year: term.year,
-        quarter: term.quarter,
-        off_term: term.off_term,
-        courses: term.courses.map((course) => { return course.id; }),
-        index,
-    });
-
-    return newTerm.save();
-};
-
-const updateTerm = (req, res) => {
-    Term.findByIdAndUpdate(req.params.id, {
-        plan_id: req.body.plan_id,
-        year: req.body.year,
-        quarter: req.body.quarter,
-        off_term: req.body.off_term,
-        courses: req.body.courses,
-    }, { new: true })
-        .then((result) => {
-            User.findById(req.user.id)
-                .then((user) => {
-                    return setTermsPrevCourses(req.body.plan_id, req.user.id);
-                }).then(() => {
-                    res.send(result);
-                });
-        })
-        .catch((error) => {
-            res.status(500).json({ error });
-        });
-};
+// const removeCompleted = (userID, courseID) => {
+//     console.log('REMOVING COURSE FROM COMPLETED, ', courseID);
+//     return new Promise((resolve, reject) => {
+//         User.findByIdAndUpdate(userID, {
+//             $pull: { completed_courses: courseID },
+//         }, { new: true }).then((result) => {
+//             resolve();
+//         }).catch((error) => {
+//             console.log(error);
+//             reject();
+//         });
+//     });
+// };
 
 const addPlaceholderToTerm = (req, res) => {
     console.log('ADD PLACEHOLDER TO TERM', req.body);
@@ -109,26 +75,22 @@ const addCourseToTerm = (req, res) => {
     Term.findById(termID)
         .then((term) => {
             User.findById(req.user.id)
-                .then((user) => {
-                    if (user.completed_courses.filter((c) => { return c.id === req.body.courseID; }).length === 0) {
-                        UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
-                            .then((userCourse) => {
-                                term.courses.push(userCourse);
-                                term.save().then(() => {
-                                    userCourse.populate({
-                                        path: 'course',
-                                        populate: PopulateCourse,
-                                    }).execPopulate().then((populated) => {
-                                        res.send(populated);
-                                    });
+                .then(() => {
+                    UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
+                        .then((userCourse) => {
+                            term.courses.push(userCourse);
+                            term.save().then(() => {
+                                userCourse.populate({
+                                    path: 'course',
+                                    populate: PopulateCourse,
+                                }).execPopulate().then((populated) => {
+                                    res.send(populated);
                                 });
-                            })
-                            .catch((e) => {
-                                console.log(e);
                             });
-                    } else {
-                        res.sendStatus(409).json({ message: 'This course already exists in this term' });
-                    }
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
                 });
         });
     // TO-DO: build in auto-scheduler that will put in appropriate course hour that fits with the other courses in the term
@@ -179,6 +141,49 @@ const removeCourseFromTerm = (req, res) => {
         }).catch((e) => {
             console.log(e);
             res.status(400).json({ e });
+        });
+};
+
+const createTerm = async (term, planID, index, userID) => {
+    return new Promise((resolve, reject) => {
+        Term.create({
+            plan_id: planID,
+            year: term.year,
+            quarter: term.quarter,
+            off_term: term.off_term,
+            courses: term.courses,
+            index,
+        }).then((newlyCreatedTerm) => {
+            Promise.all(term.courses.map((courseID) => {
+                return new Promise((resolve, reject) => {
+                    addCourseToTerm({ params: { termID: newlyCreatedTerm.id }, user: { id: userID }, body: { courseID } });
+                    resolve();
+                });
+            })).then(() => {
+                resolve(newlyCreatedTerm);
+            });
+        });
+    });
+};
+
+const updateTerm = (req, res) => {
+    Term.findByIdAndUpdate(req.params.id, {
+        plan_id: req.body.plan_id,
+        year: req.body.year,
+        quarter: req.body.quarter,
+        off_term: req.body.off_term,
+        courses: req.body.courses,
+    }, { new: true })
+        .then((result) => {
+            User.findById(req.user.id)
+                .then((user) => {
+                    return setTermsPrevCourses(req.body.plan_id, req.user.id);
+                }).then(() => {
+                    res.send(result);
+                });
+        })
+        .catch((error) => {
+            res.status(500).json({ error });
         });
 };
 

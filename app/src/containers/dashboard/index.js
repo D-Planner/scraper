@@ -9,7 +9,7 @@ import {
 import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
-import { emptyPlan } from '../../services/empty_plan';
+// import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
@@ -51,29 +51,34 @@ class Dashboard extends React.Component {
   }
 
   logError() {
-    console.log('function call working?');
+    // console.log('function call working?');
     console.log(this.props.errorMessage);
   }
 
   createNewPlan(name) {
-    const terms = ['F', 'W', 'S', 'X'];
-    this.setState({ loadingPlans: true });
-    this.props.fetchUser().then(() => { // grabs most recent user data first
-      let currYear = this.props.user.graduationYear - 4;
-      let currQuarter = -1;
-      this.props.createPlan({
-        terms: emptyPlan.terms.map((term) => {
-          if (currQuarter === 3) currYear += 1;
-          currQuarter = (currQuarter + 1) % 4;
-          return { ...term, year: currYear, quarter: terms[currQuarter] };
-        }),
-        name,
-      }, this.props.setCurrentPlan).then(() => {
-        this.props.fetchPlans().then(() => {
-          this.setState({ loadingPlans: false });
-        });
-      });
+    this.props.createPlan({
+      name,
+    }, this.props.setCurrentPlan).then(() => {
+      this.props.fetchPlans();
     });
+    // const terms = ['F', 'W', 'S', 'X'];
+    // this.setState({ loadingPlans: true });
+    // this.props.fetchUser().then(() => { // grabs most recent user data first
+    //   let currYear = this.props.user.graduationYear - 4;
+    //   let currQuarter = -1;
+    //   this.props.createPlan({
+    //     terms: emptyPlan.terms.map((term) => {
+    //       if (currQuarter === 3) currYear += 1;
+    //       currQuarter = (currQuarter + 1) % 4;
+    //       return { ...term, year: currYear, quarter: terms[currQuarter] };
+    //     }),
+    //     name,
+    //   }, this.props.setCurrentPlan).then(() => {
+    //     this.props.fetchPlans().then(() => {
+    //       this.setState({ loadingPlans: false });
+    //     });
+    //   });
+    // });
   }
 
   goToPlan(id) {

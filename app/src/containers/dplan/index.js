@@ -1,19 +1,17 @@
-/* eslint-disable no-alert */
-/* eslint-disable class-methods-use-this */
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
 import { DialogTypes, ROOT_URL } from '../../constants';
-import { emptyPlan } from '../../services/empty_plan';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
-// import noPlan from '../../style/no-plan.png';
-import trash from '../../style/trash.svg';
+import settings from '../../style/settings.svg';
 import check from '../../style/check.svg';
 import logo from '../../style/logo.svg';
 import Term from '../term';
@@ -65,6 +63,7 @@ class DPlan extends Component {
     PLAN_NINE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[8].id), event),
     PLAN_TEN: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[9].id), event),
     CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
+    // eslint-disable-next-line no-alert
     SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event), // TODO: Add to announcement bar
     OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
     OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => this.deletePlanKeyPress(this.props.plan), event),
@@ -81,6 +80,7 @@ class DPlan extends Component {
       isEditing: false,
       loadingPlan: false,
       tempPlanName: '',
+      anchorEl: null,
     };
 
     this.setCurrentPlan = this.setCurrentPlan.bind(this);
@@ -100,31 +100,31 @@ class DPlan extends Component {
   }
 
   componentDidMount() {
-    console.log('[DPlan] Did Mount');
+    // console.log('[DPlan] Did Mount');
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
   }
 
   componentWillUpdate(prevProps) {
-    console.log('[DPlan] Will Update');
+    // console.log('[DPlan] Will Update');
     if ((this.props.user.placement_courses && prevProps.user.placement_courses && !arraysMatch(this.props.user.placement_courses.map(c => c.id.toString()), prevProps.user.placement_courses.map(c => c.id.toString())))
     ) {
-      console.log('setting previous on Will Update');
+      // console.log('setting previous on Will Update');
       this.setPreviousCourses();
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('[DPlan] Did Update');
+    // console.log('[DPlan] Did Update');
     if (prevState.noPlan && !this.state.noPlan) {
-      console.log('setting previous on Did Update');
+      // console.log('setting previous on Did Update');
       this.setPreviousCourses();
     }
   }
 
   setCurrentPlan(planID) {
-    console.log('plan loading');
+    // console.log('plan loading');
 
     if (planID !== null) {
       console.log(`setting plan to ${planID}`);
@@ -134,7 +134,7 @@ class DPlan extends Component {
           noPlan: false,
           loadingPlan: false,
         });
-        console.log('plan loaded');
+        // console.log('plan loaded');
         this.setState({
           tempPlanName: this.props.plan.name,
         });
@@ -243,7 +243,7 @@ class DPlan extends Component {
 
 
   setPreviousCourses = () => {
-    console.log('[setPreviousCourses Dplan.js]');
+    // console.log('[setPreviousCourses Dplan.js]');
 
     const previousByTerm = this.getFlattenedTerms().map((term) => {
       const prevCourses = [...new Set(this.getFlattenedTerms()
@@ -407,6 +407,18 @@ class DPlan extends Component {
     // });
   })
 
+  setMenuAnchor = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  duplicatePlan = () => {
+    this.props.duplicatePlan(this.props.plan.id, this.setCurrentPlan).then(() => {
+      this.props.fetchPlans();
+    });
+  }
+
   deletePlanKeyPress(plan) {
     if (this.props.plan !== null) {
       // console.log('deletePlanKeyPress');
@@ -418,6 +430,7 @@ class DPlan extends Component {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   keyCommandWrapper(fn, event = null) {
     event.preventDefault();
     try {
@@ -454,21 +467,10 @@ class DPlan extends Component {
   }
 
   createNewPlan(name) {
-    const terms = ['F', 'W', 'S', 'X'];
-    this.props.fetchUser().then(() => { // grabs most recent user data first
-      let currYear = this.props.user.graduationYear - 4;
-      let currQuarter = -1;
-      // console.log(`creating new plan with name ${name}`);
-      this.props.createPlan({
-        terms: emptyPlan.terms.map((term) => {
-          if (currQuarter === 3) currYear += 1;
-          currQuarter = (currQuarter + 1) % 4;
-          return { ...term, year: currYear, quarter: terms[currQuarter] };
-        }),
-        name,
-      }, this.setCurrentPlan).then(() => {
-        this.props.fetchPlans();
-      });
+    this.props.createPlan({
+      name,
+    }, this.setCurrentPlan).then(() => {
+      this.props.fetchPlans();
     });
   }
 
@@ -481,6 +483,8 @@ class DPlan extends Component {
   renderPlanName = (planName) => {
     if (planName.length > 20) {
       return `${planName.substring(0, 20)}...`;
+    } else if (planName.length === 0) {
+      return 'Untitled';
     } else {
       return planName;
     }
@@ -518,14 +522,44 @@ class DPlan extends Component {
                         {this.state.isEditing
                           ? (
                             <>
-                              <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
+                              <input
+                                className="plan-name plan-name-editing"
+                                placeholder={this.state.tempPlanName}
+                                value={this.state.tempPlanName}
+                                onChange={e => this.setState({ tempPlanName: e.target.value })}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    this.handleChangePlanName();
+                                  }
+                                }}
+                              />
                               <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
                             </>
                           )
                           : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
-                        <button type="button" className="settings-button" onClick={this.showDialog}>
-                          <img src={trash} alt="" />
+                        <button type="button" className="settings-button" onClick={this.setMenuAnchor}>
+                          <img src={settings} alt="" />
                         </button>
+                        <Menu
+                          className="plan-options"
+                          anchorEl={this.state.anchorEl}
+                          keepMounted
+                          open={Boolean(this.state.anchorEl)}
+                          onClose={() => this.setState({ anchorEl: null })}
+                        >
+                          <MenuItem onClick={() => {
+                            this.setState({ anchorEl: null });
+                            this.duplicatePlan();
+                          }}
+                          >Duplicate
+                          </MenuItem>
+                          <MenuItem onClick={() => {
+                            this.setState({ anchorEl: null });
+                            this.showDialog();
+                          }}
+                          >Delete
+                          </MenuItem>
+                        </Menu>
                       </div>
                       <Sidebar
                         setOpenPane={pane => this.setState({ openPane: pane })}
@@ -588,6 +622,7 @@ export default withRouter(connect(mapStateToProps, {
   showDialog,
   getTimes,
   createPlan,
+  duplicatePlan,
   setDraggingFulfilledStatus,
   fetchUser,
   fetchPlans,

@@ -77,7 +77,7 @@ const resetDB = () => {
                             firstName: 'D',
                             lastName: 'Planner',
                             university: 'Dartmouth',
-                            graduationYear: 2023,
+                            graduationYear: 2022,
                             emailVerified: true,
                             accessGranted: true,
                         });
