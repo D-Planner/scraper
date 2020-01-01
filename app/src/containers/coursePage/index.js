@@ -562,7 +562,7 @@ class CoursePage extends React.Component {
     return (
       <Fragment>
         <Helmet>
-          <title>{this.state.course ? `${this.state.course.department} ${this.state.course.number}` : ''} - Dartmouth : D-Planner - The Future of Academic Planning</title>
+          <title>{this.state.course ? `${this.state.course.department} ${this.state.course.number}` : 'Course'} - Dartmouth : D-Planner - The Future of Academic Planning</title>
           <meta name="description" content="" />
           <meta name="keywords" content="" />
         </Helmet>
