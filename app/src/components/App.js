@@ -55,9 +55,8 @@ class App extends Component {
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const sizeSufficient = (this.state.width >= minWidth && this.state.height >= minHeight);
-    if (true) {
+    const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
+    if (sizeSufficient) {
       return (
         <div>
           <Router>
@@ -68,9 +67,6 @@ class App extends Component {
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
                   <Route path="/course/:id" component={CoursePage} />
                   <Route exact path="/courses" component={requireAuth(Courses)} />
-                  {/* <Route path="/signup" component={signUp} />
-                <Route path="/signin" component={signIn} /> */}
-                  {/* <Route path="/plan/:id" component={DPlan} /> */}
                   {/* This Was Discover */}
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />

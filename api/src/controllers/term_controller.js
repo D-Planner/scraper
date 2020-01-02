@@ -175,12 +175,7 @@ const updateTerm = (req, res) => {
         courses: req.body.courses,
     }, { new: true })
         .then((result) => {
-            User.findById(req.user.id)
-                .then((user) => {
-                    return setTermsPrevCourses(req.body.plan_id, req.user.id);
-                }).then(() => {
-                    res.send(result);
-                });
+            res.send(result);
         })
         .catch((error) => {
             res.status(500).json({ error });

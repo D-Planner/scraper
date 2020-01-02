@@ -48,6 +48,33 @@ export const ActionTypes = {
   REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
   ADD_PLACEHOLDER_COURSE_TO_PLAN: 'ADD_PLACEHOLDER_COURSE_TO_PLAN',
   REMOVE_PLACEHOLDER_COURSE_FROM_PLAN: 'REMOVE_PLACEHOLDER_COURSE_FROM_PLAN',
+  UPDATE_TERM_IN_CURRENT_PLAN: 'UPDATE_TERM_IN_CURRENT_PLAN',
+};
+
+const loggingErrorsInReduxActions = (error) => {
+  const shouldWeLogThese = true;
+  if (shouldWeLogThese) console.log(error);
+};
+
+const loggingStageProgressionInReduxActions = (stage, message) => {
+  const config = {
+    createPlan: true,
+    fetchPlan: true,
+    updateUserCourse: true,
+  };
+  switch (stage) {
+    case 'createPlan':
+      if (config.createPlan) console.log(message);
+      break;
+    case 'fetchPlan':
+      if (config.fetchPlan) console.log(message);
+      break;
+    case 'updateUserCourse':
+      if (config.updateUserCourse) console.log(message);
+      break;
+    default:
+      break;
+  }
 };
 
 export function setPressedKey(key) {
@@ -71,13 +98,13 @@ export function getFulfilledStatus(planID, termID, courseID) {
   return axios.get(`${ROOT_URL}/courses/fulfilled/${courseID}/${termID}/${planID}`, { headers }).then((response) => {
     return response.data;
   }).catch((error) => {
-    console.log(error);
+    loggingErrorsInReduxActions(error);
     return error;
   });
 }
 
 export function setDraggingFulfilledStatus(planID, courseID) {
-  console.log('olah!');
+  // consoe.log('olah!'); keeping this because it's funny
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
@@ -86,7 +113,7 @@ export function setDraggingFulfilledStatus(planID, courseID) {
       dispatch({ type: ActionTypes.DRAG_FULFILLED_STATUS, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -102,7 +129,7 @@ export function getTimes() {
       dispatch({ type: ActionTypes.FETCH_TIME, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -118,7 +145,7 @@ export function updateUser(change) {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error });
       reject();
     });
@@ -134,7 +161,7 @@ export function deleteUser(id) {
       dispatch({ type: ActionTypes.DELETE_USER, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error });
       reject();
     });
@@ -149,7 +176,7 @@ export function createCourses() {
     axios.post(`${ROOT_URL}/courses/create`, { headers }).then((response) => {
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -231,7 +258,7 @@ export function signinUser({ email, password }, history) {
       history.push('/');
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch(authError(`Sign In Failed: ${error.response.data}`));
       reject(error);
     });
@@ -257,7 +284,7 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
       // history.push('/');
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch(authError(`Sign Up Failed: ${error.response.data}`));
       reject(error);
     });
@@ -273,6 +300,7 @@ export function validateAccessCode(code, history) {
       history.push('/');
       resolve('Authenticated');
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       reject(error);
     });
   });
@@ -284,6 +312,7 @@ export function checkUserByEmail(email) {
     axios.get(`${ROOT_URL}/auth/checkuser?email=${email}`).then((response) => {
       resolve(response);
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       reject(error);
     });
   });
@@ -317,7 +346,7 @@ export function fetchUser() {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -337,13 +366,15 @@ export function createPlan(plan, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  console.log(`plan: ${plan}, planSetter: ${planSetter}`);
+  loggingStageProgressionInReduxActions('createPlan', `Creating plan: ${plan} started.`);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans`, { plan }, { headers }).then((response) => {
       planSetter(response.data.id);
+      loggingStageProgressionInReduxActions('createPlan', `Creating plan: ${plan} completed.`);
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingStageProgressionInReduxActions('createPlan', `Creating plan: ${plan} failed.`);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -364,7 +395,7 @@ export function fetchPlans() {
       dispatch({ type: ActionTypes.FETCH_PLANS, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -384,14 +415,16 @@ export function fetchPlan(planID) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     };
+    loggingStageProgressionInReduxActions('fetchPlan', `Fetching plan: ${planID} started.`);
     return dispatch => new Promise(((resolve, reject) => {
       axios.get(`${ROOT_URL}/plans/${planID}`, { headers })
         .then((response) => {
-          // console.log('[ACTION.js] fetched plan');
+          loggingStageProgressionInReduxActions('fetchPlan', `Fetching plan: ${planID} completed.`);
           dispatch({ type: ActionTypes.FETCH_PLAN, payload: response.data });
           resolve(response);
         }).catch((error) => {
-          console.log(error);
+          loggingStageProgressionInReduxActions('fetchPlan', `Fetching plan: ${planID} failed.`);
+          loggingErrorsInReduxActions(error);
           dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
           reject();
         });
@@ -411,7 +444,6 @@ export function updatePlan(planUpdate, planID) {
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.put(`${ROOT_URL}/plans/${planID}`, { planUpdate }, { headers }).then((response) => {
-      console.log(response.data);
       dispatch({ type: ActionTypes.UPDATE_PLAN, payload: planID });
       resolve(response.data);
     }).catch((error) => {
@@ -437,7 +469,7 @@ export function deletePlan(planID, history) {
       dispatch({ type: ActionTypes.DELETE_PLAN, payload: planID });
       history.push('/');
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -453,13 +485,12 @@ export function duplicatePlan(planID, planSetter) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  console.log(headers);
   return dispatch => new Promise((resolve, reject) => {
     axios.post(`${ROOT_URL}/plans/duplicate/${planID}`, {}, { headers }).then((response) => {
       planSetter(response.data.id);
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -473,7 +504,7 @@ export function duplicatePlan(planID, planSetter) {
   //     planSetter(response.data.id);
   //     resolve();
   //   }).catch((error) => {
-  //     console.log(error);
+  //     loggingErrorsInReduxActions(error);
   //     dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
   //     reject();
   //   });
@@ -496,7 +527,7 @@ export function fetchCourses() {
       dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject(error);
     });
@@ -517,7 +548,7 @@ export function fetchCourse(id) {
       dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
       resolve(response.data);
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject(error);
     });
@@ -534,7 +565,7 @@ export function fetchCoursePublic(id) {
       dispatch({ type: ActionTypes.FETCH_COURSE, payload: response.data });
       resolve(response.data);
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject(error);
     });
@@ -554,7 +585,7 @@ export function fetchBookmarks() {
     axios.get(`${ROOT_URL}/courses/favorite`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_BOOKMARKS, payload: response.data });
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -575,7 +606,7 @@ export function fetchCourseProfessors(id) {
     }).then((response) => {
       resolve(response.data);
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       reject(error);
     });
   }));
@@ -595,7 +626,7 @@ export function addCourseToFavorites(courseID) {
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   }));
@@ -615,7 +646,7 @@ export function removeCourseFromFavorites(courseID) {
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -643,7 +674,7 @@ export function addCourseToPlacements(courseID) {
       // console.log('added course to placement');
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -662,7 +693,7 @@ export function removeCourseFromPlacement(courseID) {
     }).then((response) => {
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -701,7 +732,7 @@ export function courseSearch(query, stamp) {
       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data, stamp });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -715,7 +746,7 @@ export function courseSearch(query, stamp) {
   //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
   //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
   //     }).catch((error) => {
-  //       console.log(error);
+  //       loggingErrorsInReduxActions(error);
   //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
   //     });
   //     break;
@@ -726,7 +757,7 @@ export function courseSearch(query, stamp) {
   //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
   //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
   //     }).catch((error) => {
-  //       console.log(error);
+  //       loggingErrorsInReduxActions(error);
   //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
   //     });
   //     break;
@@ -736,7 +767,7 @@ export function courseSearch(query, stamp) {
   //     }).then((response) => {
   //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data });
   //     }).catch((error) => {
-  //       console.log(error);
+  //       loggingErrorsInReduxActions(error);
   //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
   //     });
   //     break;
@@ -747,7 +778,7 @@ export function courseSearch(query, stamp) {
   //       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now -Adam
   //       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data.filter(c => c.number > 0) });
   //     }).catch((error) => {
-  //       console.log(error);
+  //       loggingErrorsInReduxActions(error);
   //       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
   //     });
   // }
@@ -762,7 +793,7 @@ export function getRandomCourse() {
       dispatch({ type: ActionTypes.RANDOM_COURSE, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -813,6 +844,7 @@ export function addPlaceholderCourse(placeholderCourse, termID) {
       type: ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN,
       payload: { placeholderCourse, termID },
     });
+    resolve();
   });
 }
 
@@ -822,27 +854,24 @@ export function addPlaceholderCourse(placeholderCourse, termID) {
  * @param {*} termID the termID that the course should be added to
  */
 export function removePlaceholderCourse(placeholderCourse, termID) {
-  // console.log(placeholderCourse, termID);
   return dispatch => new Promise((resolve, reject) => {
     dispatch({
       type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
       payload: { placeholderCourse, termID },
     });
+    resolve();
   });
 }
 
-
-export function updateTerm(term) {
+export function updateTermInCurrentPlan(term) {
   return (dispatch) => {
     return axios.put(`${ROOT_URL}/terms/${term.id}`, term, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      // console.log(response);
-      // dispatch({ type: ActionTypes.FETCH_COURSES, payload: response.data });
-      // fetchCourse
+      dispatch({ type: ActionTypes.UPDATE_TERM_IN_CURRENT_PLAN, payload: { termID: term.id, term: response.data } });
     })
       .catch((error) => {
-        console.log(error);
+        loggingErrorsInReduxActions(error);
         dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       });
   };
@@ -850,13 +879,16 @@ export function updateTerm(term) {
 
 export function updateUserCourse(userCourseID, changes) {
   return dispatch => new Promise(((resolve, reject) => {
-    return axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
+    loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} starting.`);
+    axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then(() => {
       dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
+      loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} completed.`);
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} failed.`);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -871,6 +903,7 @@ export function getPreviousCourses(source) {
     }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PREV_COURSES, payload: response.data });
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -890,7 +923,7 @@ export function fetchMajors() {
     }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_MAJORS, payload: response.data });
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -910,6 +943,7 @@ export function declareMajor(id) {
     }).then((response) => {
       dispatch(fetchDeclared());
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -922,6 +956,7 @@ export function fetchDeclared() {
     }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_DECLARED, payload: response.data });
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -934,6 +969,7 @@ export function dropMajor(id) {
     }).then((response) => {
       dispatch({ type: ActionTypes.DROP_MAJOR, payload: id });
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -946,6 +982,7 @@ export function fetchMajor(id) {
     }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_MAJOR, payload: response.data });
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -958,6 +995,7 @@ export function fetchProgress(id) {
     }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_PROGRESS, payload: response.data });
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -1017,7 +1055,7 @@ export function sendVerifyEmail(userID) {
     }).then((response) => {
       dispatch({ type: ActionTypes.VERIFY_EMAIL, payload: response.data });
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
@@ -1034,7 +1072,7 @@ export function sendResetPass(userID) {
     }).then((response) => {
       dispatch({ type: ActionTypes.RESET_PASS, payload: response.data });
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
