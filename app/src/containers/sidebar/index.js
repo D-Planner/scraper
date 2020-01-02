@@ -50,7 +50,6 @@ class Sidebar extends Component {
   }
 
   handlePaneSwitch = (type) => {
-    console.log(type);
     if (type !== paneTypes.SEARCH) {
       this.setSearchQuery('');
       this.props.setOpenPane(type);
