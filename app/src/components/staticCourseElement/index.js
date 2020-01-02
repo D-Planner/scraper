@@ -31,7 +31,7 @@ class CourseElement extends Component {
               <LikelyTerms terms={this.props.course.likely_terms} />
             </div>
           ) : null
-        }
+          }
           <div className="genEds">
             <div className="distribs">
               {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
@@ -40,21 +40,12 @@ class CourseElement extends Component {
                 );
               }) : null}
             </div>
-            <div className="genEds">
-              <div className="distribs">
-                {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
-                  return (
-                    <img key={distrib} className="icon" src={GenEds[distrib].icon} alt={`${GenEds[distrib].name} icon`} />
-                  );
-                }) : null}
-              </div>
-              <div className="wcs">
-                {this.props.course.wcs ? this.props.course.wcs.map((wc) => {
-                  return (
-                    <img key={wc} className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
-                  );
-                }) : null}
-              </div>
+            <div className="wcs">
+              {this.props.course.wcs ? this.props.course.wcs.map((wc) => {
+                return (
+                  <img key={wc} className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
+                );
+              }) : null}
             </div>
           </div>
           {this.props.showIcon ? (
