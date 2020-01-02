@@ -40,7 +40,6 @@ class DialogWrapper extends React.Component {
   handlers = {
     OK: () => this.onOk(),
     CLOSE: () => {
-      console.log('closing...');
       this.props.hideDialog();
     },
   };
@@ -60,21 +59,18 @@ class DialogWrapper extends React.Component {
   }
 
   onOk = () => {
-    console.log('onOk');
     this.props.onOk();
     this.props.hideDialog();
   };
 
   onNo = () => {
-    console.log('onNo');
     this.props.onNo();
     this.props.hideDialog();
   };
 
   handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
-      console.log('handleBackgroundClick');
-      console.log(this.props.hideDialog());
+      this.props.hideDialog();
     }
   };
 
@@ -82,6 +78,7 @@ class DialogWrapper extends React.Component {
     return (
       <div onClick={this.handleBackgroundClick} className="dialog-background" role="presentation">
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+          {this.props.infoBarMessage ? <div className={`dialog-info-bar${this.props.infoBarColor ? ` ${this.props.infoBarColor}` : ''}`}><div className="dialog-info">{this.props.infoBarMessage}</div></div> : null}
           <div className={this.size} ref={this.popupRef} tabIndex={-1}>
             <div className="dialog-header">
               <h1 className="dialog-title">{this.props.title}</h1>
@@ -123,6 +120,8 @@ DialogWrapper.propTypes = {
   size: PropTypes.oneOf(['sm', 'md', 'lg']),
   /** a generic message */
   message: PropTypes.string,
+  /** a generic message for top of dialog */
+  infoBarMessage: PropTypes.string,
 
   // methods
   /** hides the dialog */
@@ -143,6 +142,7 @@ DialogWrapper.defaultProps = {
   noDisabled: false,
   size: 'sm',
   message: null,
+  infoBarMessage: null,
   onOk: () => {},
   onNo: () => {},
 };

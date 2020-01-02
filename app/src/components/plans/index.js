@@ -6,7 +6,7 @@ import './plans.scss';
  * @param {*} param0
  */
 const Plans = ({
-  plans, currentPlan, showDialog, goToPlan, active,
+  plans, currentPlan, showDialog, goToPlan, active, loading,
 }) => {
   const maxedPlans = (plans.length >= 10);
   return (
@@ -14,21 +14,36 @@ const Plans = ({
       {plans.map((plan) => {
         if (currentPlan && plan.id === currentPlan.id) { // this condition will highlight the current plan with a CSS border
           return (
-            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan current">
+            <div role="presentation" onClick={() => checkGoToPlan(plan, currentPlan, goToPlan)} key={plan.id} className="plan current">
               <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
             </div>
           );
         } else {
           return (
-            <div role="presentation" onClick={() => goToPlan(plan.id)} key={plan.id} className="plan">
+            <div role="presentation" onClick={() => checkGoToPlan(plan, currentPlan, goToPlan)} key={plan.id} className="plan">
               <p className="plan-letter">{renderPlanName(plan.name, active)}</p>
             </div>
           );
         }
       })}
+      {loading === true ? <div role="presentation" className="plan">{renderLoading(active)}</div> : null}
       {renderNewPlanButton(showDialog, active, maxedPlans)}
     </div>
   );
+};
+
+/**
+ * Checks if the current plan is clicked again, stops execution of goToPlan() if so
+ * @param {*} planName
+ * @param {*} currentPlan
+ * @param {*} goToPlan
+ */
+const checkGoToPlan = (plan, currentPlan, goToPlan) => {
+  console.log('check go to plan');
+  if (!currentPlan || plan.id !== currentPlan.id) { // Check that no plan is specified or that current isn't selected
+    console.log('go to plan');
+    goToPlan(plan.id);
+  }
 };
 
 /**
@@ -80,6 +95,28 @@ const renderNewPlanButton = (showDialog, whetherActive, maxedPlans) => {
       </button>
     );
   }
+};
+
+const renderLoading = (whetherActive) => {
+  // if (whetherActive) {
+  return (
+    // className="loading-plan-container"
+    <div role="presentation">
+      <div className="loading-wheel" />
+      {whetherActive
+        ? null
+        // ? <div>Test</div>
+        : null
+      }
+    </div>
+  );
+  // } else {
+  //   return (
+  //     <div className="loading-plan-container text">
+  //       <div className="loading-wheel" />
+  //     </div>
+  //   );
+  // }
 };
 
 export default Plans;

@@ -2,16 +2,24 @@
 
 .title-box {
   display: flex;
-  flex-flow: row nowrap;
+  flex: 1;
   white-space: nowrap;
   overflow: hidden;
   align-items: center;
-  
+  // height: 100%;
+
+  .hold-left {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+
   .course-left {
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
   }
+
   .spacer {
       margin-left: 5px;
       padding-left: 5px;
@@ -22,35 +30,75 @@
 
   .course-right {
       font-size: 10px;
+      line-height: 16px; // this is to make it the same height as the DEPT  part
       text-align: start;
-      line-height: 100%;
       overflow-x: hidden;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+
       .name {
-        flex:1;
-        min-width: 0;
-        overflow: hidden;
+        height: 100%;
+        overflow: hidden; 
         text-overflow: ellipsis;
         margin-right: 5px;
       }
   }
 
-  .genEds {
+  .supplementary-course {
     display: flex;
-    align-items: center;
-    .icon {
-      height: 18px;
-      margin-right: 5px;
-    }
-    .distribs {
-      display: flex;
-      align-items: center;
-      margin-right: 10px;
-    }
-    .wcs {
-      display: flex;
-      align-items: center;
+    width:100%;
+    max-width: 100%;
+    justify-content: space-between;
 
+    .likelyTerms {
+      flex: 1;
     }
 
+    .genEds {
+      display: flex;
+      overflow: scroll;
+      flex-wrap: nowrap;
+
+      &::-webkit-scrollbar {
+        display: none !important;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        display: none !important;
+      }
+      
+      .distribs {
+        display: flex;
+        flex:1;
+        align-items: center;
+        margin-right: 10px;
+      }
+      .wcs {
+        flex:1;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .icon-container {
+      display: flex;
+      align-items: center;
+      margin-left: 10px;
+
+      .course-action-icon {
+        flex: 1;
+        height: 18px;
+
+        &:hover {
+          filter: brightness(180%);
+          animation: jiggle 0.3s ease-in-out;
+        }
+      }
+    }
+  }
+
+  .icon {
+    height: 18px;
+    margin-right: 5px;
   }
 }

@@ -1,14 +1,10 @@
 @import '../../../style/variables.scss';
 @import '../sidebar.scss';
-@import '../../../style/variables.scss';
 
 .search {
-    &.active {
-        height: auto !important;
-        max-height: 500px;
-    }  
-
     .pane-header {
+        display: flex;
+        justify-content: left;
 
         .option-menu {
             z-index: 100;
@@ -19,6 +15,7 @@
             position: absolute;
             right: -100px;
             top: 0px;
+
             &:hover {
                 display: flex;
             }
@@ -39,7 +36,8 @@
                         background: $white;
                         box-shadow: $tablet-box-shadow;
                         display: flex;
-                        flex-direction: column;                    }
+                        flex-direction: column;                    
+                    }
                 }
             }
         }
@@ -66,6 +64,11 @@
             color: $text-accent;
             background: none;
             outline: none;
+            margin: 0 auto 0 4%;
+
+            &.small {
+              width: 60%;
+            }
 
             &::placeholder {
                 color: $gray-3;
@@ -74,7 +77,6 @@
                 border-bottom: 1px solid $blue-primary;
             }
         }
-
     }
 
     .pane-content {
@@ -82,32 +84,22 @@
         flex-direction: column;
         align-items: stretch;
         overflow-y: scroll;
-        padding: 10px 0 10px 0;
-        width: 100%;
-        overflow: visible;
 
-        .filters {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
+        .sort-picker {
+            font-size: 12px;
+            color: $gray-6;;
             margin-bottom: 10px;
 
-            .gened-picker {
-                width: 50px;
-                font-size: 12px;
-                color: $gray-6;;
-                margin-bottom: 5px;
-
-                &:hover {
-                    background: rgba(0,0,0,0.10);
-                    transition: 0.3s;
-                }
+            &:hover {
+                background: rgba(0,0,0,0.10);
+                transition: 0.3s;
             }
         }
+
         .search-results {
             width: 100%;
             overflow: visible;
+
             .result-row {
                 display: flex;
                 flex-direction: column;

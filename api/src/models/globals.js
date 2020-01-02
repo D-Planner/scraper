@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const GlobalSchema = new Schema({
     name: String,
-    currentTerm: {
+    currTerm: {
         year: Number,
         term: String,
     },

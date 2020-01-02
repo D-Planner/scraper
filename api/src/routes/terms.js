@@ -81,7 +81,10 @@ termsRouter.post('/:termID/course', TermController.addCourseToTerm);
  *          "id": "5c76d3eb08c20d8f9f016a72"
  *      }
  */
-termsRouter.delete('/:termID/course/:userCourseID/:planID', TermController.removeCourseFromTerm);
+termsRouter.delete('/:termID/course/:userCourseID', TermController.removeCourseFromTerm);
+
+termsRouter.post('/:termID/course/placeholder', TermController.addPlaceholderToTerm);
+termsRouter.delete('/:termID/course/placeholder/:department', TermController.removePlaceholderFromTerm);
 
 /**
  * @api {put} /terms/:id Update a term by id

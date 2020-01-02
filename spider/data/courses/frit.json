@@ -1,20 +1,6 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/3908",
-			"layup_id": 3908,
-			"title": "FRIT035.02: Fascisms",
-			"department": "FRIT",
-			"offered": true,
-			"distribs": [
-				"INT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/1338",
 			"layup_id": 1338,
 			"title": "FRIT093: Foreign Language Teaching Methods: Theory and Practice",
@@ -25,18 +11,15 @@
 			],
 			"total_reviews": 0,
 			"quality_score": 1,
-			"layup_score": 2
+			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1333",
-			"layup_id": 1333,
-			"title": "FRIT034.01: Sex and Gender in the Italian Renaissance",
+			"layup_url": "https://www.layuplist.com/course/1337",
+			"layup_id": 1337,
+			"title": "FRIT037.01: Nature: A Literary History",
 			"department": "FRIT",
 			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
+			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -56,34 +39,6 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1335",
-			"layup_id": 1335,
-			"title": "FRIT035.01: From Dagos to Sopranos",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"CI"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1331",
-			"layup_id": 1331,
-			"title": "FRIT033.01: Dante's \u0026quot;Divine\u0026quot; Comedy",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 1,
-			"quality_score": 2,
-			"layup_score": 0
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/1332",
 			"layup_id": 1332,
 			"title": "FRIT034: Renaissance Studies in Translation",
@@ -92,17 +47,42 @@
 			"distribs": null,
 			"total_reviews": 3,
 			"quality_score": 1,
-			"layup_score": 1
+			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4830",
-			"layup_id": 4830,
-			"title": "FRIT037.07: U.S. \u0026 Italian Engagement",
+			"layup_url": "https://www.layuplist.com/course/3826",
+			"layup_id": 3826,
+			"title": "FRIT037.03: Black Feminisms in the French Atlantic",
 			"department": "FRIT",
 			"offered": false,
 			"distribs": [
-				"ART",
-				"W"
+				"INT",
+				"CI"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1336",
+			"layup_id": 1336,
+			"title": "FRIT037: Topics in Literature and Culture",
+			"department": "FRIT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1335",
+			"layup_id": 1335,
+			"title": "FRIT035.01: From Dagos to Sopranos",
+			"department": "FRIT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"CI"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -123,15 +103,57 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1336",
-			"layup_id": 1336,
-			"title": "FRIT037: Topics in Literature and Culture",
+			"layup_url": "https://www.layuplist.com/course/1331",
+			"layup_id": 1331,
+			"title": "FRIT033.01: Dante:The Divine Comedy",
+			"department": "FRIT",
+			"offered": true,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 1,
+			"quality_score": 2,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3328",
+			"layup_id": 3328,
+			"title": "FRIT037.02: History of Romance Languages",
 			"department": "FRIT",
 			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1333",
+			"layup_id": 1333,
+			"title": "FRIT034.01: Sex and Gender in the Italian Renaissance",
+			"department": "FRIT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3908",
+			"layup_id": 3908,
+			"title": "FRIT035.02: Fascisms",
+			"department": "FRIT",
+			"offered": false,
+			"distribs": [
+				"INT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/4678",
@@ -140,8 +162,8 @@
 			"department": "FRIT",
 			"offered": false,
 			"distribs": [
-				"W",
-				"TMV"
+				"TMV",
+				"W"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -156,45 +178,23 @@
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 1
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3328",
-			"layup_id": 3328,
-			"title": "FRIT037.02: History of Romance Languages",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/1337",
-			"layup_id": 1337,
-			"title": "FRIT037.01: Nature: A Literary History",
-			"department": "FRIT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3826",
-			"layup_id": 3826,
-			"title": "FRIT037.03: Black Feminisms in the French Atlantic",
+			"layup_url": "https://www.layuplist.com/course/4830",
+			"layup_id": 4830,
+			"title": "FRIT037.07: Do the Right Thing! Creativity and Public Engagement in Italy and the United States",
 			"department": "FRIT",
 			"offered": false,
 			"distribs": [
-				"INT",
-				"CI"
+				"ART",
+				"W"
 			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		}
 	],
-	"updated": "2019-06-12 23:01:54",
+	"updated": "2019-11-20 20:51:09",
 	"total": 15
 }

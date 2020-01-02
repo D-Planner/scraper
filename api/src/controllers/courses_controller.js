@@ -8,7 +8,6 @@ import departments from '../../static/data/departments.json';
 import prerequisitesJSON from '../../static/data/prerequisites.json';
 import { PopulateCourse, PopulateTerm } from './populators';
 
-
 export const trim = (res) => {
     try {
         return res.map((course) => {
@@ -44,11 +43,21 @@ const searchCourses = (req, res) => {
             acc[k] = v;
             return acc;
         }, {});
-    if (query.department || query.number) {
-        Course.find({
-            department: query.department,
-            number: query.number ? { $gte: query.number, $lt: parseInt(query.number) + 1 } : { $gte: 0 },
-        })
+    const courseQuery = {};
+    if (query.department) courseQuery.department = query.department;
+    if (query.number) courseQuery.number = { $gte: query.number, $lt: parseInt(query.number) + 1 };
+    if (query.distribs) courseQuery.distribs = { $all: query.distribs };
+    if (query.wcs) courseQuery.wcs = { $all: query.wcs };
+    if (query.offered) {
+        if (query.offered.includes('current')) {
+            courseQuery.offered = true;
+            query.offered = query.offered.slice(1);
+        }
+        if (query.offered.length > 0) courseQuery.likely_terms = { $all: query.offered };
+    }
+    console.log(query);
+    if (query.department || query.number || query.distribs || query.wcs || query.offerd) {
+        Course.find(courseQuery)
             .populate(PopulateCourse)
             .sort({ number: 1 })
             .then((result) => {
@@ -60,15 +69,24 @@ const searchCourses = (req, res) => {
             });
     } else {
         const search = (searchText.includes(' ')) ? `"${searchText}"` : searchText;
-        Course.find({ $text: { $search: search } })
-            .populate(PopulateCourse)
-            .then((result) => {
-                res.json(trim(result));
-            })
-            .catch((error) => {
-                console.log(error);
-                res.status(500).json({ error });
-            });
+        console.log(search);
+        Professor.find({
+            $text: { $search: search },
+        }).then((r) => {
+            const queryWithText = Object.assign(courseQuery, {});
+            if (r.length) queryWithText.professors = r;
+            else queryWithText.$text = { $search: search };
+            console.log(queryWithText);
+            Course.find(queryWithText)
+                .populate(PopulateCourse)
+                .then((result) => {
+                    res.json(trim(result));
+                })
+                .catch((error) => {
+                    console.log(error);
+                    res.status(500).json({ error });
+                });
+        });
     }
 };
 
@@ -100,6 +118,7 @@ const getCourse = async (req, res) => {
     Course.findById(req.params.id)
         .populate(PopulateCourse)
         .then((result) => {
+            console.log(result);
             res.json(trim(result));
         })
         .catch((error) => {
@@ -171,6 +190,74 @@ const getCourseByNumber = (req, res) => {
         .catch((error) => {
             res.status(500).json({ error });
         });
+};
+
+const calculateLikelyTerms = (termsoOffered) => {
+    // Start with yearly occurences.
+    const yearlyOccurences = (termsoOffered) ? termsoOffered
+        .reduce((acc, cur, i) => {
+            const [year, term] = cur.split(/(?!\d)/g);
+            if (acc[year]) acc[year].push(term);
+            else acc[year] = [term];
+            return acc;
+        }, {}) : {};
+
+
+    // Perform the likely calculations
+    try {
+        const indexFromEndYearlyOccurences = (i) => {
+            const values = Object.values(yearlyOccurences);
+            return values[values.length - i];
+        };
+        const patternSeach = (yOccurences) => {
+            // This is a dictionary of pattern types as keys and functions as values that test the key pattern type.
+            // Each function returns
+            const patternTypes = {
+                consistency: (occ) => {
+                    const annualRepititions = Object.entries(occ)
+                        .reduce((acc, [k, v]) => {
+                            if (acc.some((e) => {
+                                return e.every((i, j) => {
+                                    return i === v[j];
+                                });
+                            })) return acc;
+                            if (Object.values(occ)
+                                .reduce((n, x) => {
+                                    return (n + (x.every((e, i) => {
+                                        return e === v[i];
+                                    })));
+                                }, 0) > Object.values(occ).length - 3) acc.push(v);
+                            return acc;
+                        }, []);
+                    if (annualRepititions.length === 1) return Object.values(occ)[Object.values(occ).length - 2];
+                    return null;
+                },
+                // biennial: (occ) => {
+                //     const evenYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 === 0);
+                //         });
+                //     const oddYears = Object.entries(occ)
+                //         .filter(([k, v]) => {
+                //             return (parseInt(k) % 2 !== 0);
+                //         });
+                //     console.log('Even Years,', evenYears);
+                //     console.log('Odd Years,', oddYears);
+                // },
+            };
+            return Object.entries(patternTypes)
+                .map(([k, fn]) => { return fn(yOccurences); })
+                .filter((e) => { return e !== null; });
+        };
+
+        const foundPatterns = patternSeach(yearlyOccurences);
+        if (foundPatterns.length === 1) return foundPatterns[0];
+        // If we didn't find a single patter (If we have multiple, or none), just return what happened last year
+        return indexFromEndYearlyOccurences(2);
+    } catch (e) {
+        console.log(e);
+        return e;
+    }
 };
 
 const filledValues = (course) => {
@@ -274,58 +361,58 @@ const filledValues = (course) => {
     ];
 };
 
-const createCourse = (req, res) => {
-    Promise.resolve(courses.map(async (course) => {
-        Promise.all(filledValues(course)).then((r) => {
+const createCourse = () => {
+    return new Promise((resolve, reject) => {
+        Promise.all(courses.map(async (course) => {
+            Promise.all(filledValues(course)).then((r) => {
             // separates into [wcs] and [distribs]
-            let wcs = []; let distribs = [];
-            if (course.distribs != null) {
-                wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
-                distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
-            }
-            const [xlist, prerequisites, professors] = r;
-            const profUnique = Array.from(new Set(professors.map((p) => { return p.toString(); })));
-            // if (course.name === 'Problem Solving via Object-Oriented Programming') console.log(profUnique);
-            return Course.findOneAndUpdate(
-                { title: course.title },
-                {
-                    layup_url: course.layup_url,
-                    layup_id: course.layup_id,
-                    title: course.title,
-                    department: course.department,
-                    offered: course.offered,
-                    distribs,
-                    wcs,
-                    total_reviews: course.total_reviews,
-                    quality_score: course.quality_score,
-                    layup_score: course.layup_score,
-                    name: course.name,
-                    number: course.number,
-                    periods: course.periods,
-                    description: course.description,
-                    // reviews: course.reviews,
-                    similar_courses: course.similar_courses,
-                    orc_url: course.orc_url,
-                    medians: course.medians,
-                    terms_offered: course.terms_offered,
-                    professors: profUnique,
-                    prerequisites,
-                    $addToSet: { xlist: { $each: xlist.flat() } },
-                },
-                { upsert: true },
-            ).then((res) => {
-                return res;
+                let wcs = []; let distribs = [];
+                if (course.distribs != null) {
+                    wcs = course.distribs.filter((genEd) => { return (genEd === 'W' || genEd === 'NW' || genEd === 'CI'); });
+                    distribs = course.distribs.filter((genEd) => { return !wcs.includes(genEd); });
+                }
+                const [xlist, prerequisites, professors] = r;
+                const profUnique = Array.from(new Set(professors.map((p) => { return p.toString(); })));
+                // if (course.name === 'Problem Solving via Object-Oriented Programming') console.log(profUnique);
+                return Course.findOneAndUpdate(
+                    { title: course.title },
+                    {
+                        layup_url: course.layup_url,
+                        layup_id: course.layup_id,
+                        title: course.title,
+                        department: course.department,
+                        offered: course.offered,
+                        distribs,
+                        wcs,
+                        total_reviews: course.total_reviews,
+                        quality_score: course.quality_score,
+                        layup_score: course.layup_score,
+                        name: course.name,
+                        number: course.number,
+                        periods: course.periods,
+                        description: course.description,
+                        // reviews: course.reviews,
+                        similar_courses: course.similar_courses,
+                        orc_url: course.orc_url,
+                        medians: course.medians,
+                        terms_offered: course.terms_offered,
+                        professors: profUnique,
+                        prerequisites,
+                        $addToSet: { xlist: { $each: xlist.flat() } },
+                        likely_terms: calculateLikelyTerms(course.terms_offered),
+                    },
+                    { upsert: true },
+                ).then((res) => {
+                    return res;
+                }).catch((error) => {
+                    return error;
+                });
+            }).then(() => {
+                resolve();
             }).catch((error) => {
-                return error;
+                reject(error);
             });
-        }).catch((e) => {
-            console.log(e);
-        });
-    })).then(() => {
-        res.status(200).json({ message: 'Courses successfully added to db 🚀' });
-    }).catch((error) => {
-        console.log(error);
-        res.status(500).json({ error });
+        }));
     });
 };
 
@@ -376,7 +463,6 @@ const getFavorite = (req, res) => {
             model: 'Course',
             populate: PopulateCourse,
         })
-        .exec()
         .then((result) => {
             res.json(result.favorite_courses);
         })
@@ -420,104 +506,104 @@ const getCompleted = (req, res) => {
         });
 };
 
-const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
+// const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
-const getFulfilledStatus = (planID, termID, courseID, userID) => {
-    // console.log('GETFULFILLEDSTATUS', userID);
-    return User.findById(userID)
-        .select('placement_courses')
-        .then((user) => {
-            if (!user) throw new Error('bad userID');
-            return Plan.findById(planID)
-                .populate({
-                    path: 'terms',
-                    populate: PopulateTerm,
-                })
-                .then((plan) => {
-                    return Term.findById(termID).then((term) => {
-                        const previousCourses = plan.terms.filter((t) => {
-                            return t.index <= term.index;
-                        }).map((t) => {
-                            return t.previousCourses;
-                        }).flat()
-                            .map((t) => { return t.toString(); });
-                        const prevCourses = [...new Set((user.placement_courses.length)
-                            ? user.placement_courses.map((c) => { return c.toString(); }).concat(previousCourses)
-                            : previousCourses)];
+// const getFulfilledStatus = (planID, termID, courseID, userID) => {
+//     // console.log('GETFULFILLEDSTATUS', userID);
+//     return User.findById(userID)
+//         .select('placement_courses')
+//         .then((user) => {
+//             if (!user) throw new Error('bad userID');
+//             return Plan.findById(planID)
+//                 .populate({
+//                     path: 'terms',
+//                     populate: PopulateTerm,
+//                 })
+//                 .then((plan) => {
+//                     return Term.findById(termID).then((term) => {
+//                         const previousCourses = plan.terms.filter((t) => {
+//                             return t.index <= term.index;
+//                         }).map((t) => {
+//                             return t.previousCourses;
+//                         }).flat()
+//                             .map((t) => { return t.toString(); });
+//                         const prevCourses = [...new Set((user.placement_courses.length)
+//                             ? user.placement_courses.map((c) => { return c.toString(); }).concat(previousCourses)
+//                             : previousCourses)];
 
-                        return Course.findById(courseID).populate(PopulateCourse)
-                            .then((course) => {
-                                // console.log(`Previous Courses for ${course.title}: ${prevCourses}`);
-                                let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
-                                if (!prereqs || prereqs.length === 0) {
-                                    return CLEAR;
-                                }
-                                prereqs = prereqs.map((o) => {
-                                    let dependencyType = Object.keys(o).find((key) => {
-                                        return (o[key].length > 0 && key !== '_id');
-                                    });
-                                    if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
+//                         return Course.findById(courseID).populate(PopulateCourse)
+//                             .then((course) => {
+//                                 // console.log(`Previous Courses for ${course.title}: ${prevCourses}`);
+//                                 let prereqs = course.prerequisites ? course.prerequisites.toObject() : [];
+//                                 if (!prereqs || prereqs.length === 0) {
+//                                     return CLEAR;
+//                                 }
+//                                 prereqs = prereqs.map((o) => {
+//                                     let dependencyType = Object.keys(o).find((key) => {
+//                                         return (o[key].length > 0 && key !== '_id');
+//                                     });
+//                                     if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
 
-                                    const prevCoursesIncludes = () => {
-                                        return o[dependencyType].map((c) => { return c.id.toString(); })
-                                            .some((id) => {
-                                                return (prevCourses.length) ? prevCourses.includes(id) : false;
-                                            });
-                                    };
+//                                     const prevCoursesIncludes = () => {
+//                                         return o[dependencyType].map((c) => { return c.id.toString(); })
+//                                             .some((id) => {
+//                                                 return (prevCourses.length) ? prevCourses.includes(id) : false;
+//                                             });
+//                                     };
 
-                                    switch (dependencyType) {
-                                    case 'abroad':
-                                        return WARNING;
-                                    case 'req':
-                                        return prevCoursesIncludes() ? CLEAR : ERROR;
-                                    case 'range':
-                                        return (prevCourses.some((c) => {
-                                            return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
-                                        })) ? CLEAR : ERROR;
-                                    case 'grade':
-                                        return prevCoursesIncludes() ? WARNING : ERROR;
-                                    case 'rec':
-                                        return prevCoursesIncludes() ? WARNING : ERROR;
-                                    default:
-                                        return CLEAR;
-                                    }
-                                });
-                                if (prereqs.includes(ERROR)) {
-                                    return ERROR;
-                                }
-                                if (prereqs.includes(WARNING)) {
-                                    return WARNING;
-                                }
-                                return CLEAR;
-                            });
-                    });
-                }).catch((error) => {
-                    return { error };
-                });
-        });
-};
+//                                     switch (dependencyType) {
+//                                     case 'abroad':
+//                                         return WARNING;
+//                                     case 'req':
+//                                         return prevCoursesIncludes() ? CLEAR : ERROR;
+//                                     case 'range':
+//                                         return (prevCourses.some((c) => {
+//                                             return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === this.course.department);
+//                                         })) ? CLEAR : ERROR;
+//                                     case 'grade':
+//                                         return prevCoursesIncludes() ? WARNING : ERROR;
+//                                     case 'rec':
+//                                         return prevCoursesIncludes() ? WARNING : ERROR;
+//                                     default:
+//                                         return CLEAR;
+//                                     }
+//                                 });
+//                                 if (prereqs.includes(ERROR)) {
+//                                     return ERROR;
+//                                 }
+//                                 if (prereqs.includes(WARNING)) {
+//                                     return WARNING;
+//                                 }
+//                                 return CLEAR;
+//                             });
+//                     });
+//                 }).catch((error) => {
+//                     return { error };
+//                 });
+//         });
+// };
 
-const getFulfilledStatusTerm = (req, res) => {
-    const { planID, termID, courseID } = req.params;
-    Promise.resolve(getFulfilledStatus(planID, termID, courseID, req.user._id)).then((r) => {
-        if ([ERROR, WARNING, CLEAR].includes(r)) {
-            res.status(200).json(r);
-        } else res.status(500).json(r);
-    });
-};
+// const getFulfilledStatusTerm = (req, res) => {
+//     const { planID, termID, courseID } = req.params;
+//     Promise.resolve(getFulfilledStatus(planID, termID, courseID, req.user._id)).then((r) => {
+//         if ([ERROR, WARNING, CLEAR].includes(r)) {
+//             res.status(200).json(r);
+//         } else res.status(500).json(r);
+//     });
+// };
 
-const getFulfilledStatusPlan = (req, res) => {
-    const { planID, courseID } = req.params;
-    Plan.findById(planID)
-        .then((plan) => {
-            Promise.all(plan.terms.map((term) => {
-                return Promise.resolve(getFulfilledStatus(planID, term._id, courseID, req.user._id));
-            }))
-                .then((r) => {
-                    res.json(r);
-                });
-        });
-};
+// const getFulfilledStatusPlan = (req, res) => {
+//     const { planID, courseID } = req.params;
+//     Plan.findById(planID)
+//         .then((plan) => {
+//             Promise.all(plan.terms.map((term) => {
+//                 return Promise.resolve(getFulfilledStatus(planID, term._id, courseID, req.user._id));
+//             }))
+//                 .then((r) => {
+//                     res.json(r);
+//                 });
+//         });
+// };
 
 const CoursesController = {
     searchCourses,
@@ -538,9 +624,6 @@ const CoursesController = {
     addCompleted,
     removeCompleted,
     getCompleted,
-    getFulfilledStatus,
-    getFulfilledStatusTerm,
-    getFulfilledStatusPlan,
 };
 
 export default CoursesController;
