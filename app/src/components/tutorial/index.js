@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-lonely-if */
 /* eslint-disable react/sort-comp */
 /* eslint-disable eqeqeq */
@@ -30,13 +31,9 @@ const MAX_SUGGESTIONS_LENGTH = 8;
 const LOADED_OPTION_TEXT = ' - Added';
 const AP_SCORES = [0, 1, 2, 3, 4, 5];
 
-
-
 /**
  * Add possible suggestion options in const
  */
-
-
 
 // function getInterestById(id) {
 //   return new Promise((resolve, reject) => {
