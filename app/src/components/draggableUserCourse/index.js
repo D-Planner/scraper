@@ -3,7 +3,9 @@ import axios from 'axios';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
-import { ItemTypes, DialogTypes, ROOT_URL } from '../../constants';
+import {
+  ItemTypes, DialogTypes, ROOT_URL, consoleLogging,
+} from '../../constants';
 import { showDialog, setDraggingState } from '../../actions';
 import CourseElement from '../staticCourseElement';
 
@@ -21,9 +23,7 @@ const source = {
     props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
-      console.log(props.course);
       props.removeCourseFromTerm(props.course.id, props.sourceTerm).then(() => {
-        console.log('removed');
       }).catch((e) => {
         console.log(e);
       });
@@ -67,7 +67,7 @@ class UserCourse extends Component {
    * @param {*} props
    */
   showCourseInfoDialog = () => {
-    console.log(this.props.catalogCourse);
+    consoleLogging('DraggableUserCourse', '[DraggableUserCourse]', this.props.course);
     const dialogOptions = {
       title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',

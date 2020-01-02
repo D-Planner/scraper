@@ -5,10 +5,10 @@ import { DropTarget as TermTarget } from 'react-dnd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import DraggableCourse from '../draggableCourse';
-import HourSelector from '../../containers/hourSelector';
+import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes } from '../../constants';
 import './term.scss';
-import { updateTerm, showDialog } from '../../actions';
+import { updateTermInCurrentPlan, showDialog } from '../../actions';
 
 const termTarget = {
   drop: (props, monitor) => {
@@ -82,7 +82,7 @@ class Term extends Component {
 
   turnOffTerm(term) {
     term.courses = [];
-    this.props.updateTerm(term).then(() => {
+    this.props.updateTermInCurrentPlan(term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     }).catch((err) => {
       console.log(err);
@@ -107,7 +107,7 @@ class Term extends Component {
       onOk: () => {
         term.off_term = true;
         term.courses = [];
-        this.props.updateTerm(term);
+        this.props.updateTermInCurrentPlan(term);
       },
     };
     this.props.showDialog(DialogTypes.OFF_TERM, opts);
@@ -168,11 +168,11 @@ const mapStateToProps = state => ({
 });
 
 // export default withRouter(connect(mapStateToProps, {
-//   fetchPlan, deletePlan, updateTerm, showDialog,
+//   fetchPlan, deletePlan, updateTermInCurrentPlan, showDialog,
 // })(DPlan));
 // eslint-disable-next-line new-cap
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTerm, showDialog,
+  updateTermInCurrentPlan, showDialog,
 })(Term)));
