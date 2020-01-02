@@ -65,19 +65,23 @@ class Sidebar extends Component {
   render() {
     return (
       <div className="sidebar">
-        <SearchPane
-          active={this.props.openPane === paneTypes.SEARCH}
-          activate={() => { if (this.props.openPane !== paneTypes.SEARCH) this.handlePaneSwitch(paneTypes.SEARCH); }}
-          setSearchQuery={this.setSearchQuery}
-          searchQuery={this.state.searchQuery}
-          search={this.props.courseSearch}
-          results={this.props.searchResults}
-          resultStamp={this.props.resultStamp}
-          stampIncrement={this.props.stampIncrement}
-          setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
-          currTerm={this.props.currTerm}
-          showDialog={this.props.showDialog}
-        />
+        {this.props.viewMode ? null
+          : (
+            <SearchPane
+              active={this.props.openPane === paneTypes.SEARCH}
+              activate={() => { if (this.props.openPane !== paneTypes.SEARCH) this.handlePaneSwitch(paneTypes.SEARCH); }}
+              setSearchQuery={this.setSearchQuery}
+              searchQuery={this.state.searchQuery}
+              search={this.props.courseSearch}
+              results={this.props.searchResults}
+              resultStamp={this.props.resultStamp}
+              stampIncrement={this.props.stampIncrement}
+              setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+              currTerm={this.props.currTerm}
+              showDialog={this.props.showDialog}
+            />
+          )
+        }
         <RequirementsPane
           active={this.props.openPane === paneTypes.REQUIREMENTS}
           activate={() => this.handlePaneSwitch(paneTypes.REQUIREMENTS)}
@@ -92,6 +96,7 @@ class Sidebar extends Component {
           addToBookmarks={this.addToBookmarks}
           setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
           currTerm={this.props.currTerm}
+          viewMode={this.props.viewMode}
         />
       </div>
     );
