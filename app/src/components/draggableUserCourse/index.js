@@ -58,7 +58,14 @@ class UserCourse extends Component {
     this.catalogCourse = props.catalogCourse;
     this.state = {
       beingHovered: false,
+      active: true,
     };
+  }
+
+  componentWillMount() {
+    if (this.props.active === false) {
+      this.setState({ active: false });
+    }
   }
 
   /**
@@ -100,8 +107,7 @@ class UserCourse extends Component {
 
   render() {
     return this.props.connectDragSource(
-      <div
-        className="popover"
+      <div className="popover" // {this.state.active ? 'active_course' : 'inactive_course'}
         onMouseEnter={() => this.setState({ beingHovered: true })}
         onMouseLeave={() => this.setState({ beingHovered: false })}
         onClick={() => this.showCourseInfoDialog()}
@@ -109,6 +115,7 @@ class UserCourse extends Component {
         tabIndex="-1" // 0
       >
         <CourseElement
+          active={this.state.active}
           showIcon
           icon="close"
           onIconClick={() => this.props.removeCourseFromTerm(this.props.course.id, this.props.sourceTerm)}
