@@ -508,7 +508,17 @@ class DPlan extends Component {
                         {this.state.isEditing
                           ? (
                             <>
-                              <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
+                              <input
+                                className="plan-name plan-name-editing"
+                                placeholder={this.state.tempPlanName}
+                                value={this.state.tempPlanName}
+                                onChange={e => this.setState({ tempPlanName: e.target.value })}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter') {
+                                    this.handleChangePlanName();
+                                  }
+                                }}
+                              />
                               <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
                             </>
                           )
