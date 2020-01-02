@@ -719,16 +719,12 @@ export function stampIncrement(stamp) {
  * @param {String} type
  */
 export function courseSearch(query, stamp) {
-  console.log('quiery');
-  console.log(query);
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/search`, {
       params: query,
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       // there are some weird courses like "ECON 0" coming back, so I'm filtering them out for now
-      console.log('action search');
-      console.log(response);
       dispatch({ type: ActionTypes.COURSE_SEARCH, payload: response.data, stamp });
       resolve();
     }).catch((error) => {
