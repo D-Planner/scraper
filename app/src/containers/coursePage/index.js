@@ -121,7 +121,7 @@ class CoursePage extends React.Component {
 
     if (!this.state.metaDescription && this.state.course) {
       // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }), () => console.log('generated description:', this.state.metaDescription));
+      this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }));
     }
   }
 
@@ -566,7 +566,7 @@ class CoursePage extends React.Component {
             <>
               <div id="intro-coursepage">
                 <div className="section-header">Want to get the most from college?</div>
-                <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We belive that through data curation and insightful analytics students are better prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
+                <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We believe that through data curation and insightful analytics students are better prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
               </div>
               <hr className="horizontal-divider-small" />
             </>

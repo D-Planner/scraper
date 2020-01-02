@@ -86,8 +86,8 @@ class App extends Component {
             <div>
               <div className="app-container">
                 <Helmet>
-                  <meta name="copyright" content="Copyright of D-Planner Project, 2019" />
-                  <meta name="description" content="" />
+                  <meta name="copyright" content={`Copyright of D-Planner Project, ${new Date().getFullYear()}`} />
+                  <meta name="description" content="D-Planner is an academic planning suite that curates academic data to allow students to take advantage of all of their academic opportunities in higher education." />
                   <meta name="keywords" content="" />
                   <title>D-Planner - The Future of Academic Planning</title>
                 </Helmet>
@@ -98,13 +98,13 @@ class App extends Component {
                   <Route path="/professors/:id" component={withTracker(Professor)} />
                   <Route path="/discover" component={withTracker(Cytoscape)} />
                   <Route path="/plan/:id" component={withTracker(DPlan)} />
-                  <Route path="/credits" component={Credits} />
-                  <Route path="/email/:key" component={VerifyEmail} />
-                  <Route path="/pass/:key" component={ResetPassword} />
-                  <Route path="/reset/pass" component={ForgotPassword} />
-                  <Route path="/policies/termsandconditions" component={TermsAndConditions} />
-                  <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
-                  <Route component={FallBack} />
+                  <Route path="/credits" component={withTracker(Credits)} />
+                  <Route path="/email/:key" component={withTracker(VerifyEmail)} />
+                  <Route path="/pass/:key" component={withTracker(ResetPassword)} />
+                  <Route path="/reset/pass" component={withTracker(ForgotPassword)} />
+                  <Route path="/policies/termsandconditions" component={withTracker(TermsAndConditions)} />
+                  <Route path="/policies/privacypolicy" component={withTracker(PrivacyPolicy)} />
+                  <Route component={withTracker(FallBack)} />
                 </Switch>
               </div>
             </div>

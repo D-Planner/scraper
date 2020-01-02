@@ -33,11 +33,14 @@ class Credits extends Component {
   render() {
     return (
       <div className="credits-container">
-        <Helmet>
-          <title>Credits : D-Planner - The Future of Academic Planning</title>
-          <meta name="description" content="" />
-          <meta name="keywords" content="" />
-        </Helmet>
+        {this.props.embedded
+          ? null : (
+            <Helmet>
+              <title>Credits : D-Planner - The Future of Academic Planning</title>
+              <meta name="description" content="" />
+              <meta name="keywords" content="" />
+            </Helmet>
+          )}
         <div className={`section ${this.props.embedded ? 'embedded' : ''}`}>
           {!this.props.embedded
             ? (

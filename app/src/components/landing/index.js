@@ -61,7 +61,7 @@ class Landing extends React.Component {
         <div className="container">
           <Helmet>
             <title>D-Planner - The Future of Academic Planning</title>
-            <meta name="description" content="" />
+            <meta name="description" content="D-Planner is an academic planning suite that curates academic data to allow students to take advantage of all of their academic opportunities in higher education." />
             <meta name="keywords" content="" />
           </Helmet>
           <div className="left">
