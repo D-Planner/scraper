@@ -15,6 +15,7 @@ import './term.scss';
 import {
   updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
 } from '../../actions';
+import NonDraggableCourse from '../../components/nondraggableCourse';
 
 const termTarget = {
   drop: (props, monitor) => {
@@ -198,18 +199,23 @@ class Term extends Component {
   renderUserCourse = (course, i) => {
     return (
       <>
-        <DraggableUserCourse
-          size={(this.isCurrTerm() ? 'sm' : 'lg')}
-          key={i.toString()}
-          catalogCourse={course.course}
-          course={course}
-          sourceTerm={this.props.term.id}
-          removeCourseFromTerm={this.props.removeCourseFromTerm}
-          setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
-          previousCourses={this.props.term.previousCourses}
-        />
         {
-        this.isCurrTerm()
+        this.props.viewMode
+          ? <NonDraggableCourse course={course} currTerm={this.props.currTerm} />
+          : (
+            <DraggableUserCourse
+              size={(this.isCurrTerm() ? 'sm' : 'lg')}
+              key={i.toString()}
+              catalogCourse={course.course}
+              course={course}
+              sourceTerm={this.props.term.id}
+              removeCourseFromTerm={this.props.removeCourseFromTerm}
+              setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+              previousCourses={this.props.term.previousCourses}
+            />
+          )}
+        {
+        this.isCurrTerm() && !this.props.viewMode
           ? (
             <div>
               <HourSelector
@@ -301,7 +307,7 @@ class Term extends Component {
             {this.props.term.name} {/* this.props.term.index */}
           </div>
           <div className="toggle-buttons" data-tip data-for={dataTipID}>
-            {this.renderToggleButton()}
+            {this.props.viewMode ? null : this.renderToggleButton()}
             <ReactTooltip id={dataTipID} delayShow={100} place="right" type="dark" effect="float">
               {this.props.term.off_term ? 'Make this an on-term' : 'Make this an off-term'}
             </ReactTooltip>
@@ -317,6 +323,7 @@ class Term extends Component {
 
 const mapStateToProps = state => ({
   drag: state.dragStatus,
+  currTerm: state.time.currTerm,
 });
 
 // export default withRouter(connect(mapStateToProps, {
