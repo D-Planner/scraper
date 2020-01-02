@@ -65,9 +65,6 @@ const component = (props) => {
                       // console.log(props.plan.terms[y][t].courses[c].course);
                       // console.log('id');
                       if (course.id === props.plan.terms[y][t].courses[c].course.id) {
-                        console.log(course.id);
-                        console.log(props.plan.terms[y][t].courses[c].course.id);
-                        console.log('identical courses');
                         setActive = false;
                       }
                     }
