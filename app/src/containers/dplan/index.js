@@ -80,6 +80,7 @@ class DPlan extends Component {
       loadingPlan: false,
       tempPlanName: '',
       anchorEl: null,
+      viewMode: true,
     };
     this.props.getTimes();
 
@@ -460,12 +461,6 @@ class DPlan extends Component {
     });
   }
 
-  renderNewPlanButton = (fn) => {
-    return (
-      <button type="button" className="newPlanButton" id="newPlanButton" onClick={fn}>New Plan</button>
-    );
-  };
-
   renderPlanName = (planName) => {
     if (planName.length > 20) {
       return `${planName.substring(0, 20)}...`;
@@ -509,7 +504,7 @@ class DPlan extends Component {
                           ? (
                             <>
                               <input className="plan-name plan-name-editing" placeholder={this.state.tempPlanName} value={this.state.tempPlanName} onChange={e => this.setState({ tempPlanName: e.target.value })} />
-                              <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
+                              <img className="plan-name-check" src={check} alt="check" onClick={this.state.viewMode ? null : this.handleChangePlanName} />
                             </>
                           )
                           : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
@@ -544,6 +539,7 @@ class DPlan extends Component {
                         setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                         addPlaceholderCourse={this.addPlaceholderCourseToTerm}
                         removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                        viewMode={this.state.viewMode}
                       />
                     </div>
                     <div className="plan-grid">
@@ -562,6 +558,7 @@ class DPlan extends Component {
                                   setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                                   addPlaceholderCourse={this.addPlaceholderCourseToTerm}
                                   removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                                  viewMode={this.state.viewMode}
                                 />
                               );
                             })}
