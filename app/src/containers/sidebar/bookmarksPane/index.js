@@ -8,6 +8,7 @@ import { removeCourseFromFavorites } from '../../../actions';
 
 import './bookmarksPane.scss';
 import PlaceholderCourse from '../../../components/placeholderCourse';
+import NonDraggableCourse from '../../../components/nondraggableCourse';
 
 const target = {
   drop: (props, monitor) => {
@@ -55,7 +56,10 @@ const component = (props) => {
                 return (
                   <div key={course.id}>
                     <div className="paneCourse">
-                      <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
+                      {this.props.viewMode
+                        ? <NonDraggableCourse course={course} currTerm={props.currTerm} />
+                        : <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
+                      }
                     </div>
                     <div id="course-spacer-large" />
                   </div>
