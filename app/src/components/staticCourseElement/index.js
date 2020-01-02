@@ -17,29 +17,35 @@ import { GenEds } from '../../constants';
 
 class CourseElement extends Component {
   renderCourseSupplementaryInfo = () => {
-    return (
-      <>
-        <div className="likely-terms">
-          <LikelyTerms terms={this.props.course.likely_terms} />
-        </div>
-        <div className="genEds">
-          <div className="distribs">
-            {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
-              return (
-                <img key={distrib} className="icon" src={GenEds[distrib].icon} alt={`${GenEds[distrib].name} icon`} />
-              );
-            }) : null}
+    if (this.props.active) {
+      return (
+        <>
+          <div className="likely-terms">
+            <LikelyTerms terms={this.props.course.likely_terms} />
           </div>
-          <div className="wcs">
-            {this.props.course.wcs ? this.props.course.wcs.map((wc) => {
-              return (
-                <img key={wc} className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
-              );
-            }) : null}
+          <div className="genEds">
+            <div className="distribs">
+              {this.props.course.distribs ? this.props.course.distribs.map((distrib) => {
+                return (
+                  <img key={distrib} className="icon" src={GenEds[distrib].icon} alt={`${GenEds[distrib].name} icon`} />
+                );
+              }) : null}
+            </div>
+            <div className="wcs">
+              {this.props.course.wcs ? this.props.course.wcs.map((wc) => {
+                return (
+                  <img key={wc} className="icon" src={GenEds[wc].icon} alt={`${GenEds[wc].name} icon`} />
+                );
+              }) : null}
+            </div>
           </div>
-        </div>
-      </>
-    );
+        </>
+      );
+    } else {
+      return (
+        <div className="course-left">Already in your plan</div>
+      );
+    }
   }
 
   renderCourseIdentifyingInfo = () => {
@@ -72,7 +78,7 @@ class CourseElement extends Component {
 
   render() {
     return (
-      <div className={`course ${this.props.active ? 'active_course' : 'inactive_course'} ${this.props.size} ${this.props.error}`}>
+      <div className={`course ${this.props.size} ${this.props.error}`}>
         <div className="title-box">
           {this.props.beingHovered ? this.renderCourseSupplementaryInfo() : this.renderCourseIdentifyingInfo()}
         </div>
