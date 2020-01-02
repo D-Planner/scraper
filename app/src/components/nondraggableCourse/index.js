@@ -11,7 +11,7 @@ import '../draggableCourse/draggableCourse.scss';
 /** a drag-n-drop capable component containing information on a Course object */
 
 
-class NonDraggableCOurse extends React.Component {
+class NonDraggableCourse extends React.Component {
   constructor(props) {
     super(props);
     // console.log('COURSE', props);
@@ -61,4 +61,4 @@ class NonDraggableCOurse extends React.Component {
   }
 }
 
-export default connect(null, { showDialog, setDraggingState, fetchCourse })(NonDraggableCOurse);
+export default connect(null, { showDialog, setDraggingState, fetchCourse })(NonDraggableCourse);
