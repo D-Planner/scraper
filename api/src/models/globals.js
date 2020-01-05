@@ -5,6 +5,8 @@ const GlobalSchema = new Schema({
     currTerm: {
         year: Number,
         term: String,
+        start: Date,
+        end: Date,
     },
     nextTerm: {
         year: Number,

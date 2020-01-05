@@ -16,14 +16,14 @@ function download(filename, data) {
   document.body.removeChild(element);
 }
 
-export default function makeCal(userCourses) {
+export default function makeCal(userCourses, termStart, termEnd) {
   const dayOfWeek = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
+  const months = ['Janary', 'Faruary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   // Need to decide how to deal with these dates. Might need to save this data in Globals for the current term.
   // Good Idea
-  const termStart = new Date('January 6 2020');
-  const termEnd = new Date('March 13 2020');
   let startTime = new Date();
   let endTime = new Date();
+  console.log({ termStart, termEnd });
 
   userCourses.forEach((userCourse) => {
     const block = dartmouthBlocks.find((e) => {
@@ -33,9 +33,11 @@ export default function makeCal(userCourses) {
     block.slots.forEach((slot) => {
       const event = cal.createEvent();
       let i = termStart.getDay();
-      let j = 3;
+      let j = termStart.getDate();
+      console.log(i, j);
       while (j <= 10) {
-        const day = `January ${j} 2019`;
+        const day = `${months[termStart.getMonth()]} ${j} ${termStart.getFullYear()}`;
+        console.log(day);
         if (slot.days) {
           if (slot.days.includes(dayOfWeek[i])) {
             startTime = new Date(`${day} ${slot.start}`);

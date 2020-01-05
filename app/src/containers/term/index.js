@@ -306,7 +306,7 @@ class Term extends Component {
           </div>
           {this.isCurrTerm() ? (
             <div className="download-button">
-              <img onClick={() => calendarExport(this.props.term.courses)} src={downloadIcon} alt="download" />
+              <img onClick={() => calendarExport(this.props.term.courses, this.props.currTermTimes.start, this.props.currTermTimes.end)} src={downloadIcon} alt="download" />
             </div>
           ) : null}
           <div className="toggle-buttons" data-tip data-for={dataTipID}>
@@ -326,6 +326,7 @@ class Term extends Component {
 
 const mapStateToProps = state => ({
   drag: state.dragStatus,
+  currTermTimes: state.time.currTerm,
 });
 
 // export default withRouter(connect(mapStateToProps, {
