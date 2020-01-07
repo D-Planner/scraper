@@ -5,7 +5,6 @@ import User from '../models/user';
 import TermController from '../controllers/term_controller';
 // import CoursesController from '../controllers/courses_controller';
 import { PopulateTerm, PopulateUser } from './populators';
-// import { emptyPlan } from '../../static/emptyplan';
 
 const getPlansByUserID = (req, res, next) => {
     Plan.find({ user_id: req.user.id }).populate({

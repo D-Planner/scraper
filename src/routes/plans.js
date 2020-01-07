@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import PlanController from '../controllers/plan_controller';
-import { emptyPlan } from '../../static/emptyplan';
+import { emptyPlan } from '../constants/emptyplan';
 
 const plansRouter = Router();
 
