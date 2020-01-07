@@ -1,6 +1,8 @@
 @import '../sidebar.scss';
 
-.bookmarks {    
+.bookmarks {
+    overflow-y: auto;
+    
     &.active .bookmarks-header {
         font-weight: bold;
     }
