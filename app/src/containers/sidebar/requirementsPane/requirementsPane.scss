@@ -67,6 +67,9 @@
                 // width: 36px; // old width
             }
 
+            &:last-child {
+                margin-bottom: 0px;
+            }
 
         }
     }
