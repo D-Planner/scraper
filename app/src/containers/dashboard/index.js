@@ -9,7 +9,6 @@ import {
 import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
-// import { emptyPlan } from '../../services/empty_plan';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
