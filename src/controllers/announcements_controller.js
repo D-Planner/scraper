@@ -1,30 +1,15 @@
 import Announcement from '../models/announcement';
 
-// const updateCurrentAnnouncement = () => {
-//     return new Promise((resolve, reject) => {
-//         Announcement.find({})
-//             .then((result) => {
-//                 for (let a = result.length - 1; a >= 0; a -= 1) {
-//                     if (result[a].enabled) {
-//                         console.log(`Using announcement ${result[a]._id}`);
-//                         resolve({ currentAnnouncement: result[a], announcementActive: true });
-//                         break;
-//                     }
-//                 }
-//                 resolve({ currentAnnouncement: -1, announcementActive: false });
-//             }).catch((error) => {
-//                 console.log('error');
-//                 console.log(error);
-//                 reject(error);
-//             });
-//     });
-// };
-
 const updateCurrentAnnouncement = () => {
     return new Promise((resolve, reject) => {
         Announcement.find({})
             .then((result) => {
-                resolve(result[result.length - 1]);
+                if (result.length !== 0) {
+                    resolve(result[result.length - 1]);
+                } else {
+                    // Add clear deleted announcements feature
+                    resolve(null);
+                }
             }).catch((error) => {
                 console.log('error');
                 console.log(error);
@@ -38,7 +23,7 @@ const getCurrentAnnouncement = (req, res) => {
 
     updateCurrentAnnouncement().then((updateResult) => {
         console.log('announcement result', updateResult);
-        res.json(updateResult);
+        res.send(updateResult);
     }).catch((error) => {
         res.status(500).json(error);
     });
