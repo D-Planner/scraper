@@ -1,12 +1,14 @@
 @import "../../style/variables.scss";
 
-.loading-spinner {
+.loading-wheel {
   display: flex;
   border: 7px solid $white;
   border-radius: 50%;
   border-top: 7px solid $text-accent;
   width: 30px;
   height: 30px;
+
+  margin: auto;
   
   -webkit-animation:spin 1s ease infinite;
   -moz-animation:spin 1s ease infinite;

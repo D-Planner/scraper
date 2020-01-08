@@ -19,7 +19,7 @@ $inactive-height: 50px;
         align-items: center;
         margin-bottom: 36px;
         border-radius: 6px;
-        padding: 0 20px 0 20px;
+        // padding: 0 20px 0 20px;
         box-shadow: $tablet-box-shadow;
         font-weight: normal;
 
@@ -28,6 +28,7 @@ $inactive-height: 50px;
         transition: all 500ms ease-in-out;
 
         .pane-header {
+            padding: 0 20px 0 20px;
             &:hover {
                 cursor: pointer;
             }
@@ -42,7 +43,13 @@ $inactive-height: 50px;
 
         &.active {
             height: $active-height;
-            padding: 0 20px 20px 20px;
+            padding: 0 0 0 0;
+        }
+
+        .pane-content {
+            padding: 0px 20px 10px 20px;
+            width: 100%;
+            overflow: auto;
         }
 
         .paneCourse {

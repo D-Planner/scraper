@@ -40,7 +40,14 @@ class Course extends React.Component {
     super(props);
     this.state = {
       beingHovered: false,
+      active: true,
     };
+  }
+
+  componentWillMount() {
+    if (this.props.active === false) {
+      this.setState({ active: false });
+    }
   }
 
   /**
@@ -49,6 +56,7 @@ class Course extends React.Component {
    * @param {*} props
    */
   showCourseInfoDialog = () => {
+    console.log(this.props.course);
     const dialogOptions = {
       title: `${this.props.course.department} ${this.props.course.number}: ${this.props.course.name}`,
       size: 'lg',
@@ -63,7 +71,7 @@ class Course extends React.Component {
     return (
       <>
         { this.props.connectDragSource(
-          <div className="popover"
+          <div className="popover" // {this.state.active ? 'active_course' : 'inactive_course'}
             onMouseEnter={() => this.setState({ beingHovered: true })}
             onMouseLeave={() => this.setState({ beingHovered: false })}
             onClick={() => this.showCourseInfoDialog(this.props)}
@@ -71,6 +79,10 @@ class Course extends React.Component {
             tabIndex="-1" // 0
           >
             <CourseElement
+              active={this.state.active}
+              icon={this.props.icon}
+              showIcon={this.props.showIcon}
+              onIconClick={this.props.onIconClick}
               size="xl"
               course={course}
               beingHovered={this.state.beingHovered}
@@ -80,7 +92,7 @@ class Course extends React.Component {
         )
     }
         <ReactTooltip place="right" type="dark" effect="float">
-          {course.offered ? `Offered ${this.props.currTerm.year.toString() + this.props.currTerm}` : `Not offered ${this.props.currTerm.year.toString() + this.props.currTerm}`}
+          {course.offered ? `Offered ${this.props.currTerm.year.toString() + this.props.currTerm.term}` : `Not offered ${this.props.currTerm.year.toString() + this.props.currTerm.term}`}
         </ReactTooltip>
       </>
     );

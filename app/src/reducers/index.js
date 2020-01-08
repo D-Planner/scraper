@@ -12,6 +12,7 @@ import professorReducer from './professors-reducer';
 import announcementsReducer from './announcements-reducer';
 import keyEventReducer from './keyEvent-reducer';
 import filterReducer from './filter-reducer';
+import loadingReducer from './loading-reducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   announcements: announcementsReducer,
   keyEvent: keyEventReducer,
   filters: filterReducer,
+  loading: loadingReducer,
 });
 
 export default rootReducer;

@@ -1,6 +1,8 @@
 @import '../sidebar.scss';
 
-.bookmarks {    
+.bookmarks {
+    overflow-y: auto;
+    
     &.active .bookmarks-header {
         font-weight: bold;
     }
@@ -18,5 +20,24 @@
     .bookmarked-courses-list {
         margin-top: 20px;
         width: 100%;
+
+        .row {
+            display:flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin-bottom: 20px;
+
+            .sort-picker {
+                font-size: 12px;
+                color: $gray-6;;
+    
+                &:hover {
+                    background: rgba(0,0,0,0.10);
+                    transition: 0.3s;
+                }
+            }
+        }
+
     } 
 }
+

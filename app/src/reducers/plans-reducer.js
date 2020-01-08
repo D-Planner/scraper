@@ -79,8 +79,53 @@ const plansReducer = (state = initialState, action) => {
         });
         return p;
       });
-      console.log(current);
+      // console.log(current);
       return Object.assign({}, state, { current, all });
+    case ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN:
+      // eslint-disable-next-line no-case-declarations
+      const placeholder = { placeholder: action.payload.placeholderCourse };
+      current.terms = state.current.terms.map((y) => {
+        return y.map((t) => {
+          if (t._id === action.payload.termID) {
+            t.courses.push(placeholder);
+          }
+          return t;
+        });
+      });
+      // eslint-disable-next-line no-case-declarations
+      all = state.all.map((p) => {
+        if (p.id === state.current.id) {
+          p.terms = p.terms.map((t) => {
+            if (t._id === action.payload.termID) {
+              t.courses.push(placeholder);
+            }
+            return t;
+          });
+        }
+        return p;
+      });
+      return Object.assign({}, state, { current, all });
+    case ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN:
+      current.terms = state.current.terms.map((y) => {
+        return y.map((t) => {
+          if (t._id === action.payload.termID) {
+            const remove_index = t.courses.findIndex(c => c.placeholder === action.payload.placeholderCourse);
+            t.courses = t.courses.filter((c, i) => i !== remove_index);
+          }
+          return t;
+        });
+      });
+      return Object.assign({}, state, { current });
+    case ActionTypes.UPDATE_TERM_IN_CURRENT_PLAN:
+      current.term = state.current.terms.map((y) => {
+        return y.map((t) => {
+          if (t._id === action.payload.termID) {
+            t = action.payload.term;
+          }
+          return t;
+        });
+      });
+      return Object.assign({}, state, { current });
     default:
       return state;
   }

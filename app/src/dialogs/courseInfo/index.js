@@ -3,18 +3,19 @@ import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
 import {
-  addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removePlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
+import link from '../../style/link_24px_blue.svg';
 import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
-import { GenEds, APP_URL } from '../../constants';
+import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
 
 const Dependencies = {
   req: 'Required (One of):',
@@ -48,11 +49,12 @@ class CourseInfoDialog extends Component {
       <div id="distribs">
         <div className="section-header">Distributives</div>
         <div id="bubbles">
-          {distribs.map((distrib, i) => {
-            return (
-              <img key={i.toString()} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
-            );
-          })}
+          {distribs.length > 0
+            ? distribs.map((distrib, i) => {
+              return (
+                <img key={i.toString()} className="distrib-icon" src={distrib.icon} alt={distrib.name} />
+              );
+            }) : <div className="no-options-text">No distributives</div>}
           {(wcs.length === 0 || distribs.length === 0) ? null : <div className="vertical-divider" />}
           {wcs.map((wc, i) => {
             return (
@@ -81,7 +83,7 @@ class CourseInfoDialog extends Component {
             medians.slice(0, cutOff).map((median) => {
               return (
                 <div key={median.term} className="median-bubble">
-                  <div className="median-bubble-grade">{median.courses[0].median}</div>
+                  <div className="median-bubble-grade"><div className="margin-bubble-text">{median.courses[0].median}</div></div>
                   <div className="median-bubble-term">{median.term}</div>
                 </div>
               );
@@ -94,7 +96,7 @@ class CourseInfoDialog extends Component {
       return (
         <div id="medians">
           <div className="section-header">Medians</div>
-          <div className="sad">
+          <div className="no-options-text">
             No medians available.
           </div>
         </div>
@@ -109,12 +111,15 @@ class CourseInfoDialog extends Component {
   renderScores = (course) => {
     return (
       <div id="scores">
-        <div className="section-header" id="layup-header"><a href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-list</a><img src={open} alt="open in new tab" /></div>
-        <div>
-          Layup-list Score: {course.layup_score}
+        <div className="section-header" id="layup-header">
+          <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
+          <img src={open} alt="open in new tab" />
         </div>
-        <div>
-          Quality Score: {course.quality_score}
+        <div className="layup-score-container">
+          <div>Layup-list Score:</div><div className="layup-score-accent">{course.layup_score}</div>
+        </div>
+        <div className="layup-score-container">
+          <div>Quality Score:</div><div className="layup-score-accent">{course.quality_score}</div>
         </div>
       </div>
     );
@@ -125,21 +130,12 @@ class CourseInfoDialog extends Component {
    * @param {String} description
    */
   renderDescription = (description, orc_url) => {
-    if (description && description.length > 600) {
-      return (
-        <div id="description">
-          <div className="section-header">Description</div>
-          {`${description.substring(0, 600)}... `}<a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a>
-        </div>
-      );
-    } else {
-      return (
-        <div id="description">
-          <div className="section-header">Description</div>
-          {description} <a href={orc_url} target="_blank" rel="noopener noreferrer">read more</a>
-        </div>
-      );
-    }
+    return (
+      <div id="description">
+        <div className="section-header">Description</div>
+        <div className="description-text">{description}</div>
+      </div>
+    );
   }
 
   /**
@@ -225,33 +221,33 @@ class CourseInfoDialog extends Component {
       <div id="dependenciesContainer">
         <div className="section-header">Prerequisites</div>
         <div id="dependencies">
-          {prerequisites.map((o, i) => {
-            let dependencyType = Object.keys(o).find((key) => {
-              return (o[key].length > 0 && key !== '_id');
-            });
-            if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
-
-            const render = (
-              <div key={i.toString()} className="dependency">
-                <div className="rule-header">{Dependencies[dependencyType]}</div>
-                <div id="course-spacer-large" />
-                {renderPrereqByType(o, dependencyType)}
-              </div>
-            );
-            if (!this.props.previousCourses) return render;
-            switch (dependencyType) {
-              case 'req':
-                return (o[dependencyType].some((c) => {
-                  return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
-                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
-              case 'range':
-                return (this.props.previousCourses.some((c) => {
-                  return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
-                })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
-              default:
-                return render;
-            }
-          })}
+          {prerequisites.length > 0
+            ? prerequisites.map((o, i) => {
+              let dependencyType = Object.keys(o).find((key) => {
+                return (o[key].length > 0 && key !== '_id');
+              });
+              if (!dependencyType && Object.keys(o).includes('abroad')) dependencyType = 'abroad';
+              const render = (
+                <div key={i.toString()} className="dependency">
+                  <div className="rule-header">{Dependencies[dependencyType]}</div>
+                  <div id="course-spacer-large" />
+                  {renderPrereqByType(o, dependencyType)}
+                </div>
+              );
+              if (!this.props.previousCourses) return render;
+              switch (dependencyType) {
+                case 'req':
+                  return (o[dependencyType].some((c) => {
+                    return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
+                  })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
+                case 'range':
+                  return (this.props.previousCourses.some((c) => {
+                    return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
+                  })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
+                default:
+                  return render;
+              }
+            }) : <div className="no-options-text">No prerequisites</div>}
         </div>
       </div>
     );
@@ -262,7 +258,7 @@ class CourseInfoDialog extends Component {
       return (
         <div id="offerings">
           <div className="section-header">Past Offerings</div>
-          <div className="sad">No historical offering data.</div>
+          <div className="no-options-text">No historical offering data</div>
         </div>
       );
     }
@@ -299,8 +295,8 @@ class CourseInfoDialog extends Component {
       <>
         <div className="offering-label">{`20${year.toString()}:`}</div>
         {
-          ['F', 'W', 'S', 'X'].map((term) => {
-            return <div className={`an-offering ${terms.includes(term) ? 'filled' : ''}`} />;
+          ['F', 'W', 'S', 'X'].map((term, i) => {
+            return <div key={i.toString()} className={`an-offering ${terms.includes(term) ? 'filled' : ''}`} />;
           })
         }
       </>
@@ -325,19 +321,30 @@ class CourseInfoDialog extends Component {
     return (
       <div id="user-actions">
         <img
+          className="action redirect"
+          src={link}
+          alt="See More"
+          onClick={() => window.open(`/course/${courseID}`)}
+          data-tip
+          data-for="redirect"
+        />
+        <ReactTooltip id="redirect" place="bottom" type="dark" effect="float">
+          See More
+        </ReactTooltip>
+        <img
           className="action"
           src={bookmarked ? bookmarkFilled : bookmark}
           alt="Bookmark"
           onClick={
             bookmarked
-              ? () => this.props.removeCourseFromFavorites(this.props.data.id)
-              : () => this.props.addCourseToFavorites(this.props.data.id)
+              ? () => this.props.removeCourseFromFavorites(courseID)
+              : () => this.props.addCourseToFavorites(courseID)
           }
           data-tip
           data-for="bookmark"
         />
         <ReactTooltip id="bookmark" place="bottom" type="dark" effect="float">
-          {!bookmarked ? 'Bookmark this course' : 'Unbookmark'}
+          {!bookmarked ? 'Bookmark this course' : 'Unbookmark this course'}
         </ReactTooltip>
         <div className="spacer" />
         <img
@@ -346,16 +353,16 @@ class CourseInfoDialog extends Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removePlacement(this.props.data.id)
+              ? () => this.props.removeCourseFromPlacement(courseID)
                 .then(() => this.props.fetchUser())
-              : () => this.props.addCourseToPlacements(this.props.data.id)
+              : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
           }
           data-tip
           data-for="plus"
         />
         <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
-          {!bookmarked ? 'Add this to courses you have placed out of (by AP credits, exams, etc)' : 'Remove from your placement courses'}
+          {!placement ? 'Add to your placement courses' : 'Remove from your placement courses'}
         </ReactTooltip>
       </div>
     );
@@ -367,7 +374,6 @@ class CourseInfoDialog extends Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
-    // console.log('Likely Terms: ', course.likely_terms);
     return (
       <div id="content">
         <div id="top">
@@ -377,11 +383,13 @@ class CourseInfoDialog extends Component {
         <hr className="horizontal-divider" />
         <div id="scrollable">
           <div id="first">{this.renderNextTerm(course, nextTerm)}{this.renderDescription(course.description, course.orc_url)}</div>
+          <hr className="horizontal-divider-small" />
           <div id="metrics">
             {this.renderDistribs(course)}
             {this.renderMedians(course.medians)}
             {this.renderScores(course)}
           </div>
+          <hr className="horizontal-divider-small" />
           <div id="last">
             {this.renderPrerequisites(course)}
             {this.renderOfferingsWrapper(course)}
@@ -409,5 +417,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToPlacements, fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, removePlacement, showDialog, fetchCourseProfessors,
+  fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, showDialog, fetchCourseProfessors,
 })(CourseInfoDialog);

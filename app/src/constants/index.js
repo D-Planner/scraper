@@ -1,6 +1,6 @@
 // Self URL for the React application
 export const APP_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://d-planner.com';
-export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'http://api.d-planner.com';
+export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://d-planner-api.herokuapp.com';
 
 // Item type definition for ReactDND
 // Lists types of possible draggable items
@@ -414,9 +414,77 @@ const importSVGs = (r) => {
 // import all svg files in the ../style/distrib_icons directory
 const icons = importSVGs(require.context('../style/distrib_icons', false, /\.svg$/));
 
-// Validates email addresses
+// Validates email addresses against regex
 // eslint-disable-next-line no-useless-escape
 export const emailCheckRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const GenEdsForDisplay = {
+  ART: {
+    fullName: 'Arts',
+    name: 'ART',
+    icon: icons.art,
+  },
+  LIT: {
+    fullName: 'Literature',
+    name: 'LIT',
+    icon: icons.lit,
+  },
+  TMV: {
+    fullName: 'Thought, Meaning, and Value',
+    name: 'TMV',
+    icon: icons.tmv,
+  },
+  INT: {
+    fullName: 'International or Comparative Study',
+    name: 'INT',
+    icon: icons.int,
+  },
+  SOC: {
+    fullName: 'Social Analysis',
+    name: 'SOC',
+    icon: icons.soc,
+  },
+  QDS: {
+    fullName: 'Quantitative and Deductive Science',
+    name: 'QDS',
+    icon: icons.qds,
+  },
+  SLA: {
+    fullName: 'Natural and Physical Science',
+    name: 'SLA',
+    icon: icons.sla,
+  },
+  SCI: {
+    fullName: 'Natural and Physical Science',
+    name: 'SCI',
+    icon: icons.sci,
+  },
+  TLA: {
+    fullName: 'Technology and Applied Science (LAB)',
+    name: 'TLA',
+    icon: icons.tla,
+  },
+  TAS: {
+    fullName: 'Technology or Applied Science',
+    name: 'TAS',
+    icon: icons.tas,
+  },
+  W: {
+    fullName: 'Western Cultures',
+    name: 'W',
+    icon: icons.w,
+  },
+  NW: {
+    fullName: 'Non-Western Cultures',
+    name: 'NW',
+    icon: icons.nw,
+  },
+  CI: {
+    fullName: 'Culture and Identity',
+    name: 'CI',
+    icon: icons.ci,
+  },
+};
 
 export const GenEds = {
   ART: {
@@ -424,77 +492,126 @@ export const GenEds = {
     name: 'ART',
     icon: icons.art,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
   LIT: {
     fullName: 'Literature',
     name: 'LIT',
     icon: icons.lit,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
   TMV: {
     fullName: 'Thought, Meaning, and Value',
     name: 'TMV',
     icon: icons.tmv,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
   INT: {
     fullName: 'International or Comparative Study',
     name: 'INT',
     icon: icons.int,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
   SOC: {
     fullName: 'Social Analysis',
     name: 'SOC',
     icon: icons.soc,
     fulfilled: false,
+    count: 2,
+    filled: 0,
   },
   QDS: {
     fullName: 'Quantitative and Deductive Science',
     name: 'QDS',
     icon: icons.qds,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
-  SLA: {
-    fullName: 'Natural and Physical Science (LAB)',
-    name: 'SLA',
-    icon: icons.sla,
-    fulfilled: false,
-  },
-  SCI: {
+  'SLA/SCI': {
     fullName: 'Natural and Physical Science',
-    name: 'SCI',
-    icon: icons.sci,
+    name: 'SLA/SCI',
+    icon: icons.sci_sla,
     fulfilled: false,
+    count: 2,
+    filled: 0,
   },
   TLA: {
     fullName: 'Technology and Applied Science (LAB)',
     name: 'TLA',
     icon: icons.tla,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
-  TAS: {
-    fullName: 'Technology and Applied Science',
-    name: 'TAS',
-    icon: icons.tas,
+  'TLA/TAS': {
+    fullName: 'Technology or Applied Science',
+    name: 'TLA/TAS',
+    icon: icons.tas_tla,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
   W: {
     fullName: 'Western Cultures',
     name: 'W',
     icon: icons.w,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
   NW: {
     fullName: 'Non-Western Cultures',
     name: 'NW',
     icon: icons.nw,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
   CI: {
     fullName: 'Culture and Identity',
     name: 'CI',
     icon: icons.ci,
     fulfilled: false,
+    count: 1,
+    filled: 0,
   },
+};
+
+/**
+ * Controls all logging in D-Planner frontend application.
+ * @param {String} source Name of the originating component, in camel case.
+ * @param {String} message Message.
+ * @param  {...any} objects Set of objects to be logged in addition to the message.
+ */
+export const consoleLogging = (source, message, ...objects) => {
+  const config = {
+    DraggableUserCourse: true,
+    DPlan: false,
+    RequirementsPane: false,
+    Term: false,
+  };
+  switch (source) {
+    case 'DraggableUserCourse':
+      if (config.DraggableUserCourse) console.log(message, ...objects);
+      break;
+    case 'DPlan':
+      if (config.DPlan) console.log(message, ...objects);
+      break;
+    case 'RequirementsPane':
+      if (config.RequirementsPane) console.log(message, ...objects);
+      break;
+    case 'Term':
+      if (config.Term) console.log(message, ...objects);
+      break;
+    default:
+      break;
+  }
 };

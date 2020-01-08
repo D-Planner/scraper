@@ -3,7 +3,7 @@ import './loadingWheel.scss';
 
 const LoadingWheel = (props) => {
   return (
-    <div className="loading-spinner" />
+    <div className="loading-wheel" />
   );
 };
 

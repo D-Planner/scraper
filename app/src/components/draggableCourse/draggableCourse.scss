@@ -13,42 +13,58 @@ $course-width-small: 181px;
 
 .course {
   flex:1;
+  // background-color: $black; // $white
+  padding: 0 6px 0 6px;
+  color: $text-accent;
+  border-radius: $course-border-radius;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  // border-radius: 2px;
+  // box-shadow: $box-shadow-default;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  height: $course-height;
+
+  &.active_course {
     background-color: $white;
-    padding: 0 6px 0 6px;
     color: $text-accent;
-    border-radius: $course-border-radius;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-    // border-radius: 2px;
-    // box-shadow: $box-shadow-default;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    height: $course-height;
+    cursor: pointer;
+  }
+  
+  &.inactive_course {
+    color: $gray-3;
+    background-color: $gray-1;
+  }
 
-    &.xl{
-      width:$course-width-xlarge;
-    }
-    &.lg {
-      width: $course-width-large;
-    }
-    &.sm {
-      width: $course-width-small;
-    }
-    &:hover {
-        cursor: pointer;
-        filter: brightness(95%);
-        animation: jump 0.1s ease-in-out;
-    }
+  &.inactive_course:hover {
+    cursor: default;
+    animation: none;
+  }
 
-    &.error {
-      color: $error !important;
-    }
+  &.xl{
+    width:$course-width-xlarge;
+  }
+  &.lg {
+    width: $course-width-large;
+  }
+  &.sm {
+    width: $course-width-small;
+  }
+  &:hover {
+      cursor: pointer;
+      filter: brightness(95%);
+      animation: jump 0.1s ease-in-out;
+  }
 
-    &.warning {
-      color: $warning !important;
-    }
+  &.error {
+    color: $error !important;
+  }
+
+  &.warning {
+    color: $warning !important;
+  }
 }
 
 .list-group-item-heading {
@@ -56,5 +72,3 @@ $course-width-small: 181px;
     flex-direction: row;
     justify-content: space-between;
 }
-
-

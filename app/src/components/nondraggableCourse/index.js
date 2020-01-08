@@ -17,7 +17,14 @@ class NonDraggableCOurse extends React.Component {
     // console.log('COURSE', props);
     this.state = {
       beingHovered: false,
+      active: true,
     };
+  }
+
+  componentWillMount() {
+    if (this.props.active === false) {
+      this.setState({ active: false });
+    }
   }
 
   /**
@@ -40,14 +47,15 @@ class NonDraggableCOurse extends React.Component {
   render() {
     const { course } = this.props;
     return (
-      <div className="popover"
+      <div className="popover" // {this.state.active ? 'active_course' : 'inactive_course'}
         onMouseEnter={() => this.setState({ beingHovered: true })}
         onMouseLeave={() => this.setState({ beingHovered: false })}
-        onClick={() => this.showCourseInfoDialog(this.props)}
+        onClick={this.props.click ? () => this.props.click() : () => this.showCourseInfoDialog(this.props)}
         role="button"
         tabIndex="-1" // 0
       >
         <CourseElement
+          active={this.state.active}
           size="xl"
           course={course}
           beingHovered={this.state.beingHovered}

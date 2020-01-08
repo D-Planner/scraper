@@ -2,10 +2,15 @@
 
 // global height specifications
 $nav-height: 84px;
+$description-height: 180px;
+$header-menu-height: 48px;
+
+// global width specifications
+$sidebar-width: 303px;
+$page-width: 900px;
 
 $menu-width-closed: 68px;
 $menu-width-open: 250px;
-$sidebar-width: 303px;
 $landing-center: 120px;
 
 
@@ -64,6 +69,11 @@ $tablet-box-shadow: -3px 5px 20px rgba(0, 0, 0, 0.15);
     100% { transform: translate(0, 2px); }
 }
 
+@keyframes jiggle {
+  75% { transform: translate(-2px, 0px); }
+  100% { transform: translate(2px, 0px); }
+}
+
 @keyframes pulse {
   from { transform: scale(1); }
   75% { transform: scale(0.98); }
@@ -77,4 +87,9 @@ $tablet-box-shadow: -3px 5px 20px rgba(0, 0, 0, 0.15);
 #course-spacer-small {
     height: 5px;
     width: 100%;
+}
+
+.horizontal-divider-small {
+  border: 0.5px dotted $gray-3;
+  margin: 20px;
 }
