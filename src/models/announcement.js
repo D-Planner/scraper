@@ -5,7 +5,7 @@ const AnnouncementSchema = new Schema({
     link: String,
     times_shown: Number,
     times_clicked: Number,
-    enabled: Boolean,
+    show_on_open: Boolean,
 });
 
 const AnnouncementModel = mongoose.model('Announcement', AnnouncementSchema);

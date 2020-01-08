@@ -111,7 +111,16 @@ export const updateUser = async (req, res) => {
             user.lastName = req.body.change.lastName;
             user.email = req.body.change.email;
             user.graduationYear = req.body.change.graduationYear;
-            user.viewed_announcements = req.body.change.viewed_announcements;
+            // user.viewed_announcements = req.body.change.viewed_announcements;
+            console.log('req.body.change', req.body.change);
+
+            if (req.body.change.viewed_announcements) {
+                if (user.viewed_announcements.indexOf(req.body.change.viewed_announcements) === -1) {
+                    user.viewed_announcements.push(req.body.change.viewed_announcements);
+                } else {
+                    user.viewed_announcements.pull(req.body.change.viewed_announcements);
+                }
+            }
             user.emailVerified = req.body.change.emailVerified;
 
             // Force user to re-verify on email change
