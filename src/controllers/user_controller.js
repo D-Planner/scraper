@@ -133,10 +133,12 @@ export const updateUser = async (req, res) => {
             // Don't reset password if none in request
             if (req.body.change.password) { user.password = req.body.change.password; }
 
-            user.save();
-            const json = user.toJSON();
-            delete json.password;
-            res.json(json);
+            user.save().then(() => {
+                const json = user.toJSON();
+                delete json.password;
+                console.log('json', json);
+                res.json(json);
+            });
         })
         .catch((error) => {
             console.log(error);
