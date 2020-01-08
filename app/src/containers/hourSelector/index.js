@@ -5,7 +5,7 @@ const HourSelector = (props) => {
   const [timeslot, setTimeslot] = useState(props.course.timeslot);
 
   useEffect(() => {
-    props.updateUserCourse(props.course.id, { timeslot });
+    props.updateUserCourseTimeslot(props.course.id, { timeslot });
   }, [timeslot]);
 
   const hours = () => {

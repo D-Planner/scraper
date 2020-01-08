@@ -15,7 +15,7 @@ export const ActionTypes = {
   FETCH_COURSES: 'FETCH_COURSES',
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   FETCH_MAJORS: 'FETCH_MAJORS',
-  UPDATE_USERCOURSE: 'UPDATE_USERCOURSE',
+  SET_TIMESLOT: 'SET_TIMESLOT',
   FETCH_PROFESSORS: 'FETCH_PROFESSORS',
   FETCH_PROFESSOR: 'FETCH_PROFESSOR',
   FETCH_PREV_COURSES: 'FETCH_PREV_COURSES',
@@ -67,7 +67,7 @@ const loggingStageProgressionInReduxActions = (stage, message) => {
   const config = {
     createPlan: true,
     fetchPlan: true,
-    updateUserCourse: true,
+    updateUserCourseTimeslot: true,
   };
   switch (stage) {
     case 'createPlan':
@@ -76,8 +76,8 @@ const loggingStageProgressionInReduxActions = (stage, message) => {
     case 'fetchPlan':
       if (config.fetchPlan) console.log(message);
       break;
-    case 'updateUserCourse':
-      if (config.updateUserCourse) console.log(message);
+    case 'updateUserCourseTimeslot':
+      if (config.updateUserCourseTimeslot) console.log(message);
       break;
     default:
       break;
@@ -880,17 +880,17 @@ export function updateTermInCurrentPlan(term) {
   };
 }
 
-export function updateUserCourse(userCourseID, changes) {
+export function updateUserCourseTimeslot(userCourseID, changes) {
   return dispatch => new Promise(((resolve, reject) => {
-    loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} starting.`);
+    loggingStageProgressionInReduxActions('updateUserCourseTimeslot', `Updating UserCourse: ${userCourseID} starting.`);
     axios.post(`${ROOT_URL}/terms/update/course/${userCourseID}`, changes, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then(() => {
-      dispatch({ type: ActionTypes.UPDATE_USERCOURSE });
-      loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} completed.`);
+      dispatch({ type: ActionTypes.SET_TIMESLOT, payload: { id: userCourseID, timeslot: changes.timeslot } });
+      loggingStageProgressionInReduxActions('updateUserCourseTimeslot', `Updating UserCourse: ${userCourseID} completed.`);
       resolve();
     }).catch((error) => {
-      loggingStageProgressionInReduxActions('updateUserCourse', `Updating UserCourse: ${userCourseID} failed.`);
+      loggingStageProgressionInReduxActions('updateUserCourseTimeslot', `Updating UserCourse: ${userCourseID} failed.`);
       loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
