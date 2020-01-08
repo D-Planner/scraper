@@ -94,9 +94,6 @@ class DPlan extends Component {
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
 
     this.props.getTimes();
-    this.props.fetchUser().then(() => {
-      this.props.getCurrentAnnouncement();
-    });
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
@@ -123,6 +120,16 @@ class DPlan extends Component {
     //     console.log('no user');
     //   }
     // });
+
+    this.props.fetchUser().then(() => {
+      this.props.getCurrentAnnouncement().then(() => {
+        console.log(this.props.user, this.props.user.viewed_announcements, this.props.currentAnnouncement._id, this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id));
+        if (this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
+          this.props.disableCurrentAnnouncement();
+        }
+      });
+    });
+
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
@@ -526,7 +533,9 @@ class DPlan extends Component {
           alt="close"
           className="close"
           onClick={(e) => {
-            this.props.disableCurrentAnnouncement();
+            this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+              this.props.disableCurrentAnnouncement();
+            });
             // e.stopPropagation();
           }}
         />
