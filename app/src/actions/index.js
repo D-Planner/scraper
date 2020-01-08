@@ -1053,6 +1053,7 @@ export function getCurrentAnnouncement() {
     axios.get(`${ROOT_URL}/announcements/`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
+      console.log('response', response.data);
       dispatch({ type: ActionTypes.FETCH_CURRENT_ANNOUNCEMENT, payload: response.data }); // Make response.data
       resolve(response.data);
     }).catch((error) => {

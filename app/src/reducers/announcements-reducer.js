@@ -19,8 +19,8 @@ const announcementsReducer = (state = initialState, action) => {
   // console.log(action);
   switch (action.type) {
     case ActionTypes.FETCH_CURRENT_ANNOUNCEMENT:
-      console.log('fetch current announcement');
-      return Object.assign({}, state, { currentAnnouncement: action.payload });
+      console.log('fetch current announcement', action.payload);
+      return Object.assign({}, state, action.payload != null ? { currentAnnouncement: action.payload } : { announcementActive: false });
     case ActionTypes.FETCH_ANNOUNCEMENT:
       console.log('fetch announcement');
       return Object.assign({}, state, { currentAnnouncement: action.payload });
