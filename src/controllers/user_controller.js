@@ -112,7 +112,6 @@ export const updateUser = async (req, res) => {
             if (req.body.change.lastName) user.lastName = req.body.change.lastName;
             // if (req.body.change.email) user.email = req.body.change.email;
             if (req.body.change.graduationYear) user.graduationYear = req.body.change.graduationYear;
-            console.log('req.body.change', req.body.change);
 
             if (req.body.change.viewed_announcements) {
                 if (user.viewed_announcements.indexOf(req.body.change.viewed_announcements) === -1) {
@@ -126,7 +125,6 @@ export const updateUser = async (req, res) => {
             // Force user to re-verify on email change
             if (req.body.change.email) {
                 if (req.body.change.email && req.body.change.email !== user.email) {
-                    console.log('unverifying email');
                     user.emailVerified = false;
                 }
                 user.email = req.body.change.email; // Keep this after email update check
@@ -138,7 +136,6 @@ export const updateUser = async (req, res) => {
             user.save().then(() => {
                 const json = user.toJSON();
                 delete json.password;
-                console.log('json', json);
                 res.json(json);
             });
         })
