@@ -1,11 +1,12 @@
 import Plan from '../models/plan';
 // import Term from '../models/term';
+import User from '../models/user';
 // import UserCourse from '../models/user_course';
 import TermController from '../controllers/term_controller';
 // import CoursesController from '../controllers/courses_controller';
-import { PopulateTerm } from './populators';
+import { PopulateTerm, PopulateUser } from './populators';
 
-const getPlansByUserId = (req, res, next) => {
+const getPlansByUserID = (req, res, next) => {
     Plan.find({ user_id: req.user.id }).populate({
         path: 'terms',
         populate: PopulateTerm,
@@ -16,29 +17,52 @@ const getPlansByUserId = (req, res, next) => {
     });
 };
 
-const createPlanForUser = async (plan, userId) => {
-    try {
-        const newPlan = await Plan.create({
-            name: plan.name,
-            user_id: userId,
-        });
+const createPlanForUser = (plan, userID) => {
+    return new Promise((resolve, reject) => {
+        const terms = ['F', 'W', 'S', 'X'];
+        User.findById(userID).populate(PopulateUser)
+            .then(async (user) => {
+                const json = user.toJSON();
+                delete json.password;
+                let currYear = user.graduationYear - 4;
+                let currQuarter = -1;
+                const planTerms = plan.terms.map((term) => {
+                    if (currQuarter === 3) currYear += 1;
+                    currQuarter = (currQuarter + 1) % 4;
+                    return {
+                        year: currYear,
+                        quarter: terms[currQuarter],
+                        off_term: term.off_term,
+                        courses: term.courses.map((userCourse) => { return userCourse.course.id; }),
+                    };
+                });
+                try {
+                    const newPlan = await Plan.create({
+                        name: plan.name,
+                        user_id: userID,
+                        duplicatedFrom: plan.id,
+                    });
 
-        const { id } = await newPlan.save();
+                    const { id } = await newPlan.save();
 
-        // iterate through each term and create a term in the database for each one
-        const promises = plan.terms.map((term, i) => {
-            return TermController.createTerm(term, id, i);
-        });
+                    // iterate through each term and create a term in the database for each one
+                    const promises = planTerms.map((term, i) => {
+                        return TermController.createTerm(term, id, i, userID);
+                    });
 
-        // resolve that big promise array to get a terms array with ids that reference the Terms model
-        const dbTerms = await Promise.all(promises);
+                    // resolve that big promise array to get a terms array with ids that reference the Terms model
+                    const dbTerms = await Promise.all(promises);
 
-        // save this to the newPlan object
-        newPlan.terms = dbTerms;
-        return newPlan.save();
-    } catch (e) {
-        throw e;
-    }
+                    // save this to the newPlan object
+                    newPlan.terms = dbTerms;
+                    newPlan.save().then((savedPlan) => {
+                        resolve(savedPlan);
+                    });
+                } catch (e) {
+                    reject(e);
+                }
+            });
+    });
 };
 
 const sortPlan = (plan) => {
@@ -154,12 +178,41 @@ const getPlanByID = (req, res) => {
     });
 };
 
-const updatePlanById = async (planUpdate, planId) => {
+const duplicatePlanByID = (planID) => {
+    return new Promise((resolve, reject) => {
+        Plan.findById(planID).then((plan) => {
+            if (!plan) {
+                throw new Error('This plan does not exist for this user');
+            }
+            return plan.populate({
+                path: 'terms',
+                populate: PopulateTerm,
+            }).execPopulate();
+        }).then((populatedPlan) => {
+            const planToBeDuplicated = populatedPlan.toJSON();
+            planToBeDuplicated.name += ' Copy';
+            createPlanForUser(planToBeDuplicated, planToBeDuplicated.user_id).then((blankPlan) => {
+                resolve(blankPlan);
+                // const duplicateTermspromises = blankPlan.terms.map((term) => {
+                //     return new Promise((resolve, reject) => {
+                //         const duplicateCoursespromises =
+                //         TermController.addCourseToTerm({ params: { termID: term.id }, user: { id: populatedPlan.toJSON().user_id }, body: {courseID: } });
+                //     });
+                // });
+                // Promises.all(duplicateTermspromises).then(() => {
+
+                // });
+            });
+        });
+    });
+};
+
+const updatePlanByID = async (planUpdate, planId) => {
     return Plan.findByIdAndUpdate(planId, planUpdate);
 };
 
 // delete a plan by id
-const deletePlanById = async (planId) => {
+const deletePlanByID = async (planId) => {
     try {
         return await Plan.findByIdAndDelete(planId);
     } catch (e) {
@@ -168,12 +221,13 @@ const deletePlanById = async (planId) => {
 };
 
 const PlanController = {
-    getPlansByUserId,
+    getPlansByUserID,
     createPlanForUser,
     sortPlan,
     getPlanByID,
-    updatePlanById,
-    deletePlanById,
+    duplicatePlanByID,
+    updatePlanByID,
+    deletePlanByID,
 };
 
 export default PlanController;
