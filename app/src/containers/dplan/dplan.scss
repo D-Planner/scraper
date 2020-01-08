@@ -4,11 +4,12 @@ $plan-header-height: 60px;
 $plan-header-margin: 36px;
 $bottom-margin: 20px;
 $sidebar-margin-left: 30px;
+$announcement-height: 48px;
 
 .announcements {
   background-color: $blue-primary;
   color: $white;
-  height: 48px;
+  height: $announcement-height;
   
   display: flex;
   flex-grow: 1;
@@ -57,19 +58,8 @@ $sidebar-margin-left: 30px;
     transition: height .3s;
 
     &.announce {
-      height: 95vh;
+      height: calc(100vh - #{$announcement-height});
     }
-
-    // .announcements {
-    //   background-color: $blue-primary;
-    //   color: $white;
-
-    //   position: absolute;
-    //   width: 100vw;
-    //   height: 4vw;
-    //   vertical-align: middle;
-    //   text-align: center;
-    // }
 
     .welcome-text {
         flex-grow: 1;

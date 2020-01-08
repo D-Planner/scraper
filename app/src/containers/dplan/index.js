@@ -126,6 +126,8 @@ class DPlan extends Component {
         console.log(this.props.user, this.props.user.viewed_announcements, this.props.currentAnnouncement._id, this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id));
         if (this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
           this.props.disableCurrentAnnouncement();
+        } else {
+          console.log('not closing announcement');
         }
       });
     });
