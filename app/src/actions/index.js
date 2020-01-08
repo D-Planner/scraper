@@ -35,6 +35,7 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  DISABLE_ANNOUNCEMENT: 'DISABLE_ANNOUNCEMENT',
   FETCH_CURRENT_ANNOUNCEMENT: 'FETCH_CURRENT_ANNOUNCEMENT',
   FETCH_ANNOUNCEMENT: 'FETCH_ANNOUNCEMENT',
   UPDATE_ANNOUNCEMENT: 'UPDATE_ANNOUNCEMENT',
@@ -1053,7 +1054,7 @@ export function getCurrentAnnouncement() {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_CURRENT_ANNOUNCEMENT, payload: response.data }); // Make response.data
-      resolve();
+      resolve(response.data);
     }).catch((error) => {
       console.log(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -1121,6 +1122,12 @@ export function updateAnnouncement(id, update) {
       reject();
     });
   }));
+}
+
+export function disableCurrentAnnouncement() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.DISABLE_ANNOUNCEMENT, payload: { actionTypes: true } });
+  };
 }
 
 /**

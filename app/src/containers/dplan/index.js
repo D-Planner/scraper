@@ -6,7 +6,7 @@ import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading,  addPlaceholderCourse, removePlaceholderCourse
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse, disableCurrentAnnouncement,
 } from '../../actions';
 import { DialogTypes, ROOT_URL, consoleLogging } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
@@ -94,8 +94,9 @@ class DPlan extends Component {
     this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
 
     this.props.getTimes();
-    this.props.getCurrentAnnouncement();
-    this.props.updateUser({ viewed_announcements: ['5daf9e09e3427a2a50156977', '5daf9782fa2d486b10b38a31'] });
+    this.props.fetchUser().then(() => {
+      this.props.getCurrentAnnouncement();
+    });
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
@@ -106,6 +107,22 @@ class DPlan extends Component {
 
   componentDidMount = () => {
     consoleLogging('DPlan', '[DPlan] Did Mount');
+
+    // Testing
+    // this.props.fetchUser().then(() => {
+    //   if (this.props.user.viewed_announcements) {
+    //     this.props.getCurrentAnnouncement().then((announcement) => {
+    //       // This is for testing
+    //       console.log('announcement', announcement);
+    //       this.props.updateUser({ viewed_announcements: announcement._id }).then(() => {
+    //         this.props.disableCurrentAnnouncement();
+    //       });
+    //       console.log('user');
+    //     });
+    //   } else {
+    //     console.log('no user');
+    //   }
+    // });
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
@@ -509,8 +526,8 @@ class DPlan extends Component {
           alt="close"
           className="close"
           onClick={(e) => {
-            this.props.updateAnnouncement(this.props.currentAnnouncement._id, { enabled: false });
-            e.stopPropagation();
+            this.props.disableCurrentAnnouncement();
+            // e.stopPropagation();
           }}
         />
       </div>
@@ -675,4 +692,5 @@ export default withRouter(connect(mapStateToProps, {
   updateUser,
   addPlaceholderCourse,
   removePlaceholderCourse,
+  disableCurrentAnnouncement,
 })(DPlan));

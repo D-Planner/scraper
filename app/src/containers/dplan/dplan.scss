@@ -8,7 +8,7 @@ $sidebar-margin-left: 30px;
 .announcements {
   background-color: $blue-primary;
   color: $white;
-  height: 5vh;
+  height: 48px;
   
   display: flex;
   flex-grow: 1;
@@ -38,6 +38,7 @@ $sidebar-margin-left: 30px;
   .close {
     margin-left: 1%;
     margin-right: 1%;
+    cursor: pointer;
   }
 
   &.closed {

@@ -1,17 +1,30 @@
 import Announcement from '../models/announcement';
 
+// const updateCurrentAnnouncement = () => {
+//     return new Promise((resolve, reject) => {
+//         Announcement.find({})
+//             .then((result) => {
+//                 for (let a = result.length - 1; a >= 0; a -= 1) {
+//                     if (result[a].enabled) {
+//                         console.log(`Using announcement ${result[a]._id}`);
+//                         resolve({ currentAnnouncement: result[a], announcementActive: true });
+//                         break;
+//                     }
+//                 }
+//                 resolve({ currentAnnouncement: -1, announcementActive: false });
+//             }).catch((error) => {
+//                 console.log('error');
+//                 console.log(error);
+//                 reject(error);
+//             });
+//     });
+// };
+
 const updateCurrentAnnouncement = () => {
     return new Promise((resolve, reject) => {
         Announcement.find({})
             .then((result) => {
-                for (let a = result.length - 1; a >= 0; a -= 1) {
-                    if (result[a].enabled) {
-                        console.log(`Using announcement ${result[a]._id}`);
-                        resolve({ currentAnnouncement: result[a], announcementActive: true });
-                        break;
-                    }
-                }
-                resolve({ currentAnnouncement: -1, announcementActive: false });
+                resolve(result[result.length - 1]);
             }).catch((error) => {
                 console.log('error');
                 console.log(error);
@@ -24,7 +37,8 @@ const getCurrentAnnouncement = (req, res) => {
     console.log('get current announcement');
 
     updateCurrentAnnouncement().then((updateResult) => {
-        res.json({ updateResult });
+        console.log('announcement result', updateResult);
+        res.json(updateResult);
     }).catch((error) => {
         res.status(500).json(error);
     });
@@ -71,7 +85,7 @@ const newAnnouncement = (req, res) => {
         link: req.body.fields.link,
         times_shown: 0,
         times_clicked: 0,
-        enabled: true,
+        show_on_open: req.body.fields.show_on_open,
     });
 
     announcement.save()
