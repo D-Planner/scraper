@@ -105,29 +105,11 @@ class DPlan extends Component {
   componentDidMount = () => {
     consoleLogging('DPlan', '[DPlan] Did Mount');
 
-    // Testing
-    // this.props.fetchUser().then(() => {
-    //   if (this.props.user.viewed_announcements) {
-    //     this.props.getCurrentAnnouncement().then((announcement) => {
-    //       // This is for testing
-    //       console.log('announcement', announcement);
-    //       this.props.updateUser({ viewed_announcements: announcement._id }).then(() => {
-    //         this.props.disableCurrentAnnouncement();
-    //       });
-    //       console.log('user');
-    //     });
-    //   } else {
-    //     console.log('no user');
-    //   }
-    // });
-
+    // Checks if there is a current announcement and whether the user has seen it
     this.props.fetchUser().then(() => {
       this.props.getCurrentAnnouncement().then(() => {
-        console.log(this.props.user, this.props.user.viewed_announcements, this.props.currentAnnouncement._id, this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id));
         if (!this.props.currentAnnouncement || this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
           this.props.disableCurrentAnnouncement();
-        } else {
-          console.log('not closing announcement');
         }
       });
     });
@@ -523,11 +505,8 @@ class DPlan extends Component {
         onClick={(e) => {
           if (this.props.currentAnnouncement) {
             this.props.history.push(this.props.currentAnnouncement.link);
-            console.log('current announcement');
-            console.log(this.props.currentAnnouncement);
             this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
           }
-          console.log('Announcement click!');
         }}
       >
         <div className="announcement-text">{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}</div>
@@ -538,7 +517,6 @@ class DPlan extends Component {
             this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
               this.props.disableCurrentAnnouncement();
             });
-            // e.stopPropagation();
           }}
         />
       </div>
