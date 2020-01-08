@@ -106,12 +106,12 @@ export const updateUser = async (req, res) => {
                 console.log('deleting all plans...');
                 Plan.find({ user_id: user._id }).remove().exec();
             }
-            user.fullName = req.body.change.fullName;
-            user.firstName = req.body.change.firstName;
-            user.lastName = req.body.change.lastName;
-            user.email = req.body.change.email;
-            user.graduationYear = req.body.change.graduationYear;
-            // user.viewed_announcements = req.body.change.viewed_announcements;
+
+            if (req.body.change.fullName) user.fullName = req.body.change.fullName;
+            if (req.body.change.firstName) user.firstName = req.body.change.firstName;
+            if (req.body.change.lastName) user.lastName = req.body.change.lastName;
+            // if (req.body.change.email) user.email = req.body.change.email;
+            if (req.body.change.graduationYear) user.graduationYear = req.body.change.graduationYear;
             console.log('req.body.change', req.body.change);
 
             if (req.body.change.viewed_announcements) {
@@ -121,14 +121,16 @@ export const updateUser = async (req, res) => {
                     user.viewed_announcements.pull(req.body.change.viewed_announcements);
                 }
             }
-            user.emailVerified = req.body.change.emailVerified;
+            if (req.body.change.emailVerified) user.emailVerified = req.body.change.emailVerified;
 
             // Force user to re-verify on email change
-            if (req.body.change.email && req.body.change.email !== user.email) {
-                console.log('unverifying email');
-                user.emailVerified = false;
+            if (req.body.change.email) {
+                if (req.body.change.email && req.body.change.email !== user.email) {
+                    console.log('unverifying email');
+                    user.emailVerified = false;
+                }
+                user.email = req.body.change.email; // Keep this after email update check
             }
-            user.email = req.body.change.email; // Keep this after email update check
 
             // Don't reset password if none in request
             if (req.body.change.password) { user.password = req.body.change.password; }
