@@ -102,8 +102,9 @@ export const updateUser = async (req, res) => {
     User.findById(req.user.id)
         .populate(PopulateUser)
         .then((user) => {
-            if (user.graduationYear !== req.body.change.graduationYear) {
+            if (req.body.change.graduationYear && user.graduationYear !== req.body.change.graduationYear) {
                 console.log('deleting all plans...');
+                console.log('newUser', req.body.change);
                 Plan.find({ user_id: user._id }).remove().exec();
             }
             user.fullName = req.body.change.fullName;
