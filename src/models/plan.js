@@ -15,6 +15,7 @@ const PlanSchema = new Schema({
     relevant_interests: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
     description: String,
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    duplicatedFrom: String,
 }, {
     toJSON: {
         virtuals: true,
