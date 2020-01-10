@@ -12,6 +12,7 @@ import ProfileDialog from './profile';
 import ErrorDialog from './error';
 import FilterDialog from './filter';
 import NoticeDialog from './notice';
+import InterestProfile from './interestProfile';
 
 // Top-level orchestrator for all dialogs in the application
 // Should accept all types enumerated in DialogTypes and provide a dialog component for each one
@@ -38,6 +39,8 @@ const DialogOrchestrator = (props) => {
       return (<FilterDialog {...props.options} hideDialog={props.hideDialog} />);
     case DialogTypes.NOTICE:
       return (<NoticeDialog {...props.options} hideDialog={props.hideDialog} />);
+    case DialogTypes.INTEREST_PROFILE:
+      return (<InterestProfile {...props.options} hideDialog={props.hideDialog} />);
     default:
       return null;
   }

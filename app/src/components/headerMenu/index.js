@@ -2,13 +2,38 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import logo from '../../style/logo.svg';
 import './headerMenu.scss';
+import { ProgressBar } from '../progressBar';
 
 class HeaderMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      menuOptions: [{ name: 'Sign Up', callback: () => this.props.history.push('/') }, { name: 'Sign In', callback: () => this.props.history.push('/') }],
     };
+  }
+
+  componentDidMount() {
+    // Check if the object is an array
+    if (this.props.menuOptions) {
+      if (this.props.menuOptions.length) {
+        this.setState({ menuOptions: this.props.menuOptions });
+      } else {
+        this.setState({ menuOptions: [this.props.menuOptions] });
+      }
+    }
+  }
+
+  renderGraphic() {
+    if (this.props.graphic) {
+      switch (this.props.graphic.type) {
+        case 'progress-bar':
+          return <ProgressBar percentage={this.props.graphic.data} />;
+        default:
+          return null;
+      }
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -18,9 +43,14 @@ class HeaderMenu extends React.Component {
           <img alt="logo" className="logo-top" onClick={() => this.props.history.push('/')} src={logo} />
           <div className="header-menu-content">D-Planner, the future of academic planning</div>
         </div>
-        <div className="header-menu-login-container">
-          <a className="header-menu-login" href="/">Sign In</a>
-          <a className="header-menu-login" href="/">Sign Up</a>
+        <div className="header-menu-option-container">
+          {this.state.menuOptions.map((menuOption) => {
+            // Throwing keying error here
+            return (<button className="header-menu-option" type="button" onClick={menuOption.callback} tabIndex={-1} key={menuOption.name}>{menuOption.name}</button>);
+          })}
+          <div className="header-menu-graphic-container">
+            {this.renderGraphic()}
+          </div>
         </div>
       </div>
     );

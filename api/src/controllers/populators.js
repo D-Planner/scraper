@@ -30,4 +30,15 @@ export const PopulateUser = [{
 }, {
     path: 'placement_courses',
     populate: PopulateCourse,
+}, {
+    path: 'dean',
+}, {
+    path: 'faculty_advisor',
+}, {
+    path: 'other_advisors',
+}, {
+    path: 'ap_profile',
+    // ADD THIS FUNCTIONALITY
+// }, {
+//     path: 'interest_profile',
 }];
