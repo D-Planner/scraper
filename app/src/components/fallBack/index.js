@@ -43,7 +43,7 @@ const mapStateToProps = state => ({
 });
 
 // export default withRouter(connect(mapStateToProps, {
-//   fetchPlan, deletePlan, updateTerm, showDialog,
+//   fetchPlan, deletePlan, updateTermInCurrentPlan, showDialog,
 // })(DPlan));
 // eslint-disable-next-line new-cap
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);

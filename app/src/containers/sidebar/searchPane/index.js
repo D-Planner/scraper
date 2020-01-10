@@ -72,6 +72,10 @@ const SearchPane = React.forwardRef((props, ref) => {
     setResults(props.results);
   }, [props.results]);
 
+  // const matchDepartment = (department) => {
+  //   return (Departments.includes(department)) ? department : null;
+  // };
+
   const resort = (method) => {
     const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
       switch (method) {

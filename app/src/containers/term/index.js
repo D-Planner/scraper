@@ -6,20 +6,19 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import HourSelector from '../hourSelector';
-import { DialogTypes, ItemTypes } from '../../constants';
+import { DialogTypes, ItemTypes, consoleLogging } from '../../constants';
 import DraggableUserCourse from '../../components/draggableUserCourse';
 import PlaceholderCourse from '../../components/placeholderCourse';
 import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
 import {
-  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourseTimeslot, removeCourseFromFavorites,
 } from '../../actions';
 
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
-    console.log(item);
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
@@ -27,39 +26,37 @@ const termTarget = {
         return undefined;
       } else if (item.department) { // This is a placeholder Course
         if (item.sourceTerm) {
-          console.log('[TERM.js] Attempting to remove a placeholder course');
+          consoleLogging('Term', '[Term] Attempting to remove a placeholder course');
           props.removePlaceholderCourse(item.department, item.sourceTerm).then(() => {
-            console.log('[TERM.js] Attempting to add a placeholder course');
+            consoleLogging('Term', '[Term] Attempting to add a placeholder course');
             props.addPlaceholderCourse(item.department, props.term).then(() => {
-              console.log('[TERM.js] Removed, and readded the Placeholder course');
+              consoleLogging('Term', '[Term] Removed, and readded the Placeholder course');
             });
           });
         } else {
-          console.log('[TERM.js] Attempting to add a placeholder course');
+          consoleLogging('Term', '[Term] Attempting to add a placeholder course');
           props.addPlaceholderCourse(item.department, props.term).then(() => {
-            console.log('[TERM.js] Added placeholder the term');
+            consoleLogging('Term', '[Term] Added placeholder the term');
           });
         }
       } else if (item.sourceTerm) {
-        console.log('[TERM.js] We think this is a term-to-term drag');
+        // consoleLogging('Term', '[Term] We think this is a term-to-term drag');
         // this is a UserCourse, so deal with it accordingly
         props.removeCourseFromTerm(item.userCourse._id, item.sourceTerm).then((next) => {
-          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
+          consoleLogging('Term', `[Term] The course \n${item.catalogCourse.name} has been removed from \n${item.sourceTerm}`);
           props.addCourseToTerm(item.catalogCourse, props.term);
         }).then(() => {
-          console.log(`[TERM.js] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
+          consoleLogging('Term', `[Term] The course \n${item.catalogCourse.name} has been added to term \n${props.term.id}`);
         }).catch((e) => {
-          console.log(e);
+          consoleLogging('Term', e);
         });
       } else {
-        console.log('[TERM.js] We think this is a search-to-term drag');
-        console.log('props');
-        console.log(props.addCourseToTerm);
+        // consoleLogging('Term', '[Term] We think this is a search-to-term drag');
         // this is a regular course, so deal with it accordingly
         props.addCourseToTerm(item.course, props.term).then(() => {
-          // console.log(`[TERM.js] The course \n${item.course.name} has been added to term \n${props.term.id}`);
+          // consoleLogging('Term', `[Term] The course \n${item.course.name} has been added to term \n${props.term.id}`);
         }).catch((e) => {
-          console.log(e);
+          consoleLogging('Term', e);
         });
       }
       // return an object containing the current term
@@ -77,17 +74,13 @@ const collect = (connect, monitor) => {
 };
 
 class Term extends Component {
-  componentDidUpdate() {
-    console.log('[TERM.js] Component Did Update');
-  }
-
   turnOffTerm = () => {
     const opts = {
       title: 'Turn term off',
       okText: 'Turn Off',
       onOk: () => {
         this.props.term.courses.forEach((course) => {
-          // console.log(`Because you are turning off this term, deleting: ${course}`);
+          // consoleLogging('Term', `Because you are turning off this term, deleting: ${course}`);
           this.props.removeCourseFromFavorites(course.course.id);
           // Not sure if this needs to be made into a Promise.all() ??
           this.props.removeCourseFromTerm(course._id, this.props.term).then((next) => {
@@ -96,7 +89,7 @@ class Term extends Component {
         });
         this.props.term.off_term = true;
         this.props.term.courses = [];
-        this.props.updateTerm(this.props.term)
+        this.props.updateTermInCurrentPlan(this.props.term)
           .then(() => {
             this.props.fetchPlan(this.props.plan.id);
             this.props.fetchUser();
@@ -109,7 +102,7 @@ class Term extends Component {
   turnOnTerm = () => {
     this.props.term.off_term = false;
     this.props.term.courses = [];
-    this.props.updateTerm(this.props.term).then(() => {
+    this.props.updateTermInCurrentPlan(this.props.term).then(() => {
       this.props.fetchPlan(this.props.plan.id);
     });
   }
@@ -161,10 +154,8 @@ class Term extends Component {
     return hours.length !== uniqueHours.size;
   }
 
-  updateUserCourse = (courseID, change) => {
-    this.props.updateUserCourse(courseID, change).then((r) => {
-      this.props.fetchPlan(this.props.plan.id).then(() => {
-      });
+  updateUserCourseTimeslot = (courseID, change) => {
+    this.props.updateUserCourseTimeslot(courseID, change).then((r) => {
     });
   }
 
@@ -224,7 +215,7 @@ class Term extends Component {
                 key={course.id}
                 course={course}
                 timeslots={course.course.periods}
-                updateUserCourse={this.updateUserCourse}
+                updateUserCourseTimeslot={this.updateUserCourseTimeslot}
               />
             </div>
           )
@@ -266,7 +257,7 @@ class Term extends Component {
     return (
       <div className="term-content">
         {this.props.term.courses.map((course, i) => {
-          // console.log(`The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
+          // consoleLogging('Term', `The course: \n ${course.course.name} \n is in term: \n ${this.props.term.id}`);
           return (
             <div className="course-row-with-space" key={i.toString()}>
               <div className="course-row">
@@ -327,11 +318,11 @@ const mapStateToProps = state => ({
 });
 
 // export default withRouter(connect(mapStateToProps, {
-//   fetchPlan, deletePlan, updateTerm, showDialog,
+//   fetchPlan, deletePlan, updateTermInCurrentPlan, showDialog,
 // })(DPlan));
 // eslint-disable-next-line new-cap
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTerm, showDialog, fetchPlan, fetchUser, updateUserCourse, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourseTimeslot, removeCourseFromFavorites,
 })(Term)));
