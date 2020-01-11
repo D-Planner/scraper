@@ -203,7 +203,7 @@ class Landing extends React.Component {
           <p style={{ textAlign: 'center', maxWidth: '700px', margin: '0px auto 58px auto' }}>If you’re excited to try out D-Planner and take advantage of all college has to offer, sign up below now! We are very excited to have you onboard, and we look forward to hearing where your college journey will take you.</p>
           <div style={{ display: 'flex', justifyContent: 'center', margin: 'auto' }}>
             {this.state.signIn
-              ? <SignInForm checkAuth={this.checkAuth} showSignUp switchToSignUp={() => this.setState({ signIn: false })} />
+              ? <SignInForm checkAuth={this.checkAuth} showSignUp switchToSignUp={() => this.setState({ signIn: false })} removeTitle />
               : <SignUpForm checkAuth={this.checkAuth} switchToSignIn={() => this.setState({ signIn: true })} removeTitle />
           }
           </div>
