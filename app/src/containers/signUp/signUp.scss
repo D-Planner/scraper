@@ -75,6 +75,8 @@ $white: #FFFFFF;
             flex: 1;
         }
 
+        height: 60px;
+
         &.input:invalid {
           color: $error;
         }
