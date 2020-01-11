@@ -20,6 +20,7 @@ import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
 import PrivacyPolicy from './policies/privacy';
+import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
 
@@ -75,6 +76,7 @@ class App extends Component {
                   <Route path="/email/:key" component={VerifyEmail} />
                   <Route path="/pass/:key" component={ResetPassword} />
                   <Route path="/reset/pass" component={ForgotPassword} />
+                  <Route path="/tutorial/:page" component={requireAuth(Landing, Tutorial)} />
                   <Route path="/policies/termsandconditions" component={TermsAndConditions} />
                   <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                   <Route component={FallBack} />

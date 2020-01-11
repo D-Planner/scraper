@@ -1,0 +1,36 @@
+@import '../../style/variables.scss';
+
+.interest-tile {
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: normal;
+  
+  border-radius: 2px;
+  padding: 10px;
+
+  min-width: 180px;
+  height: 45px;
+  margin: 6px;
+
+  &.active {
+    background: $blue-primary;
+    color: $white;
+
+    &:hover {
+      background-color: lighten($blue-primary, 25%) !important;
+      color: $white !important;
+      cursor: pointer;
+    }
+  }
+
+  &.inactive {
+    background: $white;
+    color: $text-accent;
+
+    &:hover {
+      background-color: $blue-primary;
+      color: $white;
+      cursor: pointer;
+    }
+  }
+}

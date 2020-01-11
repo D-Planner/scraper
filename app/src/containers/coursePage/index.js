@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 // User: actf, actp, rcfp, rp,
 // None:
 import {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -420,7 +420,7 @@ class CoursePage extends React.Component {
             alt="Placement"
             onClick={
             placement
-              ? () => this.props.removeCourseFromPlacement(courseID)
+              ? () => this.props.removeCourseFromPlacements(courseID)
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
@@ -563,7 +563,7 @@ class CoursePage extends React.Component {
   render() {
     return (
       <Fragment>
-        <HeaderMenu />
+        <HeaderMenu menuOptions={this.props.authenticated ? { name: 'Go Home', callback: () => this.props.history.push('/') } : null} />
         <div className="course-info-container">
           {this.state.course ? this.courseInfo(this.state.course, this.props.nextTerm) : <LoadingWheel />}
         </div>
@@ -580,5 +580,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 })(CoursePage));
