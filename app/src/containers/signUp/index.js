@@ -76,7 +76,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
     return (
       <div className="formContainer">
         <form>
-          <div className="greeting">Join D-Planner today.</div>
+          {props.removeTitle === true ? null : <div className="greeting">Join D-Planner today.</div>}
           <div className="spacer">We are in pre-release, sign up below to get early access to the D-Planner platform!</div>
           <div className="row">
             <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
@@ -99,9 +99,10 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
           <ErrorMessageSpacer errorMessage={errorMessage} />
           <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
           <div className="spacer" />
-          <button type="button" className="sign-in" onClick={props.switchToSignIn}>
+          <div role="button" tabIndex={-1} className="switch-text" onClick={props.switchToSignIn}>Returning? Sign in</div>
+          {/* <button type="button" className="sign-in" onClick={props.switchToSignIn}>
             <div className="button-cover"><div className="button-text">Sign In</div></div>
-          </button>
+          </button> */}
         </form>
       </div>
     );

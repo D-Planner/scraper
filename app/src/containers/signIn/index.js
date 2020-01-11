@@ -52,7 +52,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
   if (signedIn) {
     return (
       <div className="formContainer">
-        <div className="greeting">Join D-Planner today.</div>
+        {props.removeTitle === true ? null : <div className="greeting">Join D-Planner today.</div>}
         <div className="spacer">Thank you for signing up! You have been placed on the waitlist for early access, and we will notify you when we go live.</div>
         <div className="spacer"> If you are a D-Planner advanced tester and have been given an access code, please enter it in the form below.</div>
         <div className="spacer"> If you would like to apply to become a D-Planner advanced tester, <a href={advancedTesterFormLink}>follow this link.</a></div>
@@ -82,13 +82,16 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
           <div className="row">
             <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} required />
           </div>
-          <a className="homepage-pass-reset" href="/reset/pass">Forgot password?</a>
           <ErrorMessageSpacer errorMessage={errorMessage} />
-          <button type="button" className="sign-in" onClick={signin}>
+          <button type="button" className="sign-up" onClick={signin}>
             <div className="button-cover"><div className="button-text">Sign In</div></div>
           </button>
           <div className="spacer" />
-          {props.showSignUp ? <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button> : null}
+          {props.showSignUp
+            // <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button>
+            ? <div role="button" tabIndex={-1} className="switch-text" onClick={props.switchToSignUp}>Need an account? Sign up</div>
+            : null}
+          <a className="switch-text" href="/reset/pass">Forgot password?</a>
         </form>
       </div>
     );
