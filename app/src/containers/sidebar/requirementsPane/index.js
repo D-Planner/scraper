@@ -171,10 +171,8 @@ class RequirementsPane extends Component {
           return (
             <div key={genEd.name} className="genEd-row">
               <img className="icon" src={genEd.icon} alt={`${genEd.name} icon`} data-tip data-for={genEd.name} />
-              <ReactTooltip id={genEd.name} place="right" type="dark" effect="float">{genEd.fullName}: {genEd.fulfilled === true ? 'Completed' : `${genEd.count} required`}</ReactTooltip>
-              {/* <div className="genEd-name">{genEd.fullName}</div> */}
+              <ReactTooltip id={genEd.name} place="right" type="dark" effect="float">{genEd.fullName}: {genEd.fulfilled === true ? 'Completed' : `${genEd.filled}/${genEd.count} completed`}</ReactTooltip>
               <div className={genEd.fulfilled ? 'checkbox complete' : 'checkbox'}>{genEd.fulfilled ? 'Complete' : 'Incomplete'}</div>
-              {/* <img className="checkbox" src={genEd.fulfilled ? checkedIcon : uncheckedIcon} alt="checkbox" /> */}
             </div>
           );
         })}
