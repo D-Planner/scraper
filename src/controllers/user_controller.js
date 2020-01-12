@@ -44,7 +44,7 @@ export const signup = (req, res, next) => {
         }
 
         const newUser = new User({
-            email,
+            email: email.toLowerCase(), // For verification against later in known form
             password,
             firstName,
             lastName,
@@ -202,7 +202,7 @@ export const updateUser = async (req, res) => {
             if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
             if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
             if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
-            if (req.body.change.email) { user.email = req.body.change.email; }
+            if (req.body.change.email) { user.email = req.body.change.email.toLowerCase(); }
             if (req.body.change.emailVerified) { user.emailVerified = req.body.change.emailVerified; }
 
             // Set terms and conditions accepted
