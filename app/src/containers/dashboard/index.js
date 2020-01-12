@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 import React from 'react';
 import { withRouter } from 'react-router-dom';
@@ -6,13 +7,14 @@ import classNames from 'classnames';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
+// import searchIcon from '../../style/searchSimple.svg';
+import tutorialIcon from '../../style/tutorial.svg';
 import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import Plans from '../../components/plans';
 import { DialogTypes } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
-
 
 import './dashboard.scss';
 
@@ -24,6 +26,7 @@ class Dashboard extends React.Component {
       active: false,
       loadingPlans: true,
     };
+    this.showUserData = this.showUserData.bind(this);
     this.showProfileDialog = this.showProfileDialog.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -120,6 +123,15 @@ class Dashboard extends React.Component {
     this.props.showDialog(DialogTypes.PROFILE, dialogOptions);
   }
 
+  showUserData(props) {
+    const dialogOptions = {
+      title: 'Your Interests',
+      size: 'lg',
+      okText: 'Done',
+    };
+    this.props.showDialog(DialogTypes.INTEREST_PROFILE, dialogOptions);
+  }
+
   render() {
     return (
       <div className="dashboard-container">
@@ -135,18 +147,6 @@ class Dashboard extends React.Component {
             <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
-            {/* <div role="presentation" onClick={() => this.props.history.push('/discover')} className="option-button">
-              {this.state.active
-                ? (
-                  <>
-                    <img className="search-icon" src={searchIcon} alt="search" />
-                    <div className="space" />
-                    <p>Discover</p>
-                  </>
-                )
-                : <img className="search-icon" src={searchIcon} alt="search" />
-            }
-            </div> */}
             <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
               {this.state.active
                 ? (

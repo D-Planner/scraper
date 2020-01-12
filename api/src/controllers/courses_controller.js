@@ -55,7 +55,6 @@ const searchCourses = (req, res) => {
         }
         if (query.offered.length > 0) courseQuery.likely_terms = { $all: query.offered };
     }
-    console.log(query);
     if (query.department || query.number || query.distribs || query.wcs || query.offerd) {
         Course.find(courseQuery)
             .populate(PopulateCourse)
@@ -69,14 +68,12 @@ const searchCourses = (req, res) => {
             });
     } else {
         const search = (searchText.includes(' ')) ? `"${searchText}"` : searchText;
-        console.log(search);
         Professor.find({
             $text: { $search: search },
         }).then((r) => {
             const queryWithText = Object.assign(courseQuery, {});
             if (r.length) queryWithText.professors = r;
             else queryWithText.$text = { $search: search };
-            console.log(queryWithText);
             Course.find(queryWithText)
                 .populate(PopulateCourse)
                 .then((result) => {

@@ -74,7 +74,6 @@ class DPlan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      noPlan: true,
       openPane: paneTypes.REQUIREMENTS,
       isEditing: false,
       loadingPlan: false,
@@ -85,9 +84,10 @@ class DPlan extends Component {
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
+  }
 
-    // Prevents locking of plan on resize
-    if (this.props.plan !== null) this.state.noPlan = false;
+  componentWillMount() {
+    this.props.fetchUser();
   }
 
   componentDidMount = () => {
@@ -121,7 +121,6 @@ class DPlan extends Component {
       this.setState({ loadingPlan: true });
       this.props.fetchPlan(planID).then(() => {
         this.setState({
-          noPlan: false,
           loadingPlan: false,
         });
         consoleLogging('DPlan', '[DPlan] setCurrentPlan() fetched plan from backend.');
@@ -477,7 +476,7 @@ class DPlan extends Component {
   };
 
   render() {
-    if (!this.props.plan || this.state.noPlan) {
+    if (!this.props.plan) {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>

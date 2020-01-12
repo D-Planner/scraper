@@ -35,11 +35,15 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
   };
 
   const sendAccessCode = () => {
+    console.log('props', props);
     if (accessCode === '') {
       setErrorMessage('Please fill all required fields! (*)');
     } else {
       setErrorMessage(null);
-      props.validateAccessCode(accessCode, props.history).catch((error) => {
+      props.validateAccessCode(accessCode, props.history).then(() => {
+        console.log('pushing to tutorial');
+        props.history.push('/tutorial/0');
+      }).catch((error) => {
         setErrorMessage(error.response.data);
       });
     }

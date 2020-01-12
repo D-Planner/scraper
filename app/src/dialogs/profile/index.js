@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail, removeCourseFromPlacement,
+  removeCourseFromFavorites, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail, removeCourseFromPlacements,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -284,5 +284,5 @@ export default (connect(mapStateToProps, {
   signoutUser,
   hideDialog,
   checkUserByEmail,
-  removeCourseFromPlacement,
+  removeCourseFromPlacements,
 })(ProfileDialog));
