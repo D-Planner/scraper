@@ -81,7 +81,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
       <div className="formContainer">
         <form>
           {props.removeTitle === true ? null : <div className="greeting">Join D-Planner today.</div>}
-          <div className="spacer">We are in pre-release, sign up below to get early access to the D-Planner platform!</div>
+          <div className="spacer">We are in pre-release, sign up below and you will be the first to know when we go live!</div>
           <div className="row">
             <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
           </div>

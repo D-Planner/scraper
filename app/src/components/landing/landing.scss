@@ -188,7 +188,7 @@ a {
         flex-direction: row;
 
         padding: 18px 48px;
-        margin: 25px auto 0 auto;
+        margin: 8px auto 0 auto;
         max-width: 80%;
 
         .landing-subfeature-icon {
@@ -203,11 +203,14 @@ a {
 
 .landing-container {
 
-    .container {
+    .landing-top {
         flex: 1;
         width: 100%;
         height: $content-height;
         display: flex;
+
+        padding: none !important;
+        margin: none !important;
 
         .left {
             width: 63%;
@@ -233,9 +236,10 @@ a {
                 .line2 {
                     font-size: 24px;
                     font-weight: 600;
+                    margin-bottom: 8px;
                 }
-                .showcase {
-                    margin-top: 48px;
+                .landing-showcase {
+                    margin-top: 24px !important;
                     width: calc(100% - 2*20px);
                     margin: auto;
                 }
