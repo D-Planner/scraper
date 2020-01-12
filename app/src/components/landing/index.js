@@ -157,7 +157,7 @@ class Landing extends React.Component {
               <div style={{ display: 'flex', justifyContent: 'center' }}><img src={asian} alt="Ziray Hao" /></div>
               <h4>Ziray Hao</h4>
               <p style={{ marginBottom: '11px' }}><i>Co-Founder, Des/Dev</i></p>
-              <p>Ziray Hao has no idea what he wants to do but for the sake of filling this bio, it is rumored he’s a hardcore computer science major. But don’t worry - his love for design and digital arts makes him cool at parties. A lover of coffee, Hop bobs, and sometimes he hits the climbing gym to send V(-1)s.</p>
+              <p>Ziray Hao has no idea what he wants to do but for the sake of filling this bio, it is rumored he’s a hardcore computer science major. But don’t worry - the philosophy minor adds depth to his character, and his love for digital arts makes him cool at parties. Sometimes he hits the climbing gym to send V(-1)s.</p>
             </div>
             <div className="landing-feature vertical person">
               <div style={{ display: 'flex', ustifyContent: 'center' }}><img src={beard} alt="Benjamin Cape" /></div>
