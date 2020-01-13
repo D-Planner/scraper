@@ -1,0 +1,325 @@
+@import "../../style/variables.scss";
+
+.tutorial-input-container {
+  margin-bottom: 18px;
+
+  .tutorial-input-action {
+    color: $white;
+    width: 100%;
+    text-align: right;
+    padding: 8px 16px 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.tutorial-input {
+  width: 100%;
+  height: 48px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  border-radius: 4px;
+
+  color: $white;
+  font-size: 16px;
+  background-color: rgba($color: #666666, $alpha: .24);
+  font-size: 1em;
+
+  &.error {
+    // border: $error solid 2px;
+    box-shadow: 0px 0px 6px $red;
+  }
+}
+
+.tutorial-container {
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  .skip-tutorial {
+    cursor: pointer;
+
+    width: 8vw;
+    height: 2vw;
+
+    margin-bottom: 1.5vw;
+    margin-top: 1vw;
+
+    position: relative;
+    left: 90.5vw;
+    top: 0;
+
+    background: none;
+    color: $gray-5;
+
+    transition: color $transition-duration;
+  }
+
+  .skip-tutorial:hover {
+    color: $blue-primary;
+    transition: color $transition-duration;
+  }
+
+  .arrow-container {
+    background: $gradient;
+    min-height: calc(100vh - #{$header-menu-height});
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow: auto;
+
+    .tutorial-arrow {
+      &:hover {
+        cursor: pointer;
+        filter: drop-shadow(0px 6px 12px rgba(153, 153, 153, 1))
+      }
+      
+      &.left {
+        margin: 0 4% 0 auto;
+      }
+
+      &.right {
+        margin: 0 auto 0 4%;
+      }
+
+      &.disabled {
+        cursor: default;
+        filter: none;
+        opacity: .4;
+      }
+
+      transition: filter $transition-duration-short, margin $transition-duration;
+    }
+
+    .tutorial-content {
+      width: 900px;
+      height: 100%;
+      
+      .title {
+        text-align: center;
+        font-size: 60px;
+        color: $white;
+        font-weight: 500;
+        margin: 20px auto 0;
+      }
+    
+      .text {
+        text-align: center;
+        font-size: 24px;
+        color: $white;
+        margin: 0 auto 20px;
+      }
+
+      .subtext {
+        text-align: center;
+        font-size: 18px;
+        color: $white;
+        font-weight: 300;
+        margin: 0 auto 20px;
+      }
+      
+      .rowContainer {
+        width: inherit;
+        display: flex;
+        flex-direction: row;
+    
+        align-content: center;
+        justify-content: center;
+      
+        margin: 12px auto 36px auto;
+
+        .tc-accept {
+          color: $white;
+          text-align: center;
+
+          .policy-spacer {
+            width: 10px;
+          }
+    
+          .policy-link {
+            color: $white;
+            cursor: default;
+    
+            &:hover {
+              cursor: pointer;
+              color: $text-accent;
+            }
+          }
+
+          .tc-checkbox-container {
+            display: flex;
+            flex-direction: row;
+
+            div {
+              margin-right: 12px;
+            }
+          }
+        }
+
+        div .tutorial-interests-container {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+        }
+
+        .tutorial-selectors {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          margin: 20px 0;
+
+          .tutorial-select {
+            text-align: center;
+            font-size: 16px;
+
+            background: none;
+            color: $white;
+            border: solid $white 1.5px;
+            border-radius: 4px;
+
+            width: 180px;
+            height: 48px;
+            padding: 4px 8px;
+
+            &:hover {
+              cursor: pointer;
+              background: $purple-light-10;
+              border: solid $white 2px;
+            }
+          }
+        }
+
+        form {
+          position: relative;
+          display: inline-block;
+          margin-top: 12px !important;
+
+          .tutorial-AP-source {
+            color: $white;
+            margin-bottom: 12px;
+
+            a {
+              text-decoration: underline;
+              color: $white;
+
+              :link {
+                color: $white;
+              }
+  
+              :visited {
+                color: $white;
+              }
+            }
+          }
+
+          .dropdown-content {
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+
+            .tutorial-dropdown-element {
+              color: black;
+              padding: 12px 16px;
+              text-decoration: none;
+              display: block;
+              background-color: $gray-3;
+
+              &:hover {
+                cursor: pointer;
+                background-color: $gray-5;
+              }
+            }
+          }
+
+          width: 100%;
+          margin-top: 40px;
+
+          .tutorial-option-dropdown-container {
+            margin-bottom: 36px;
+
+            div {
+              display: flex;
+
+              .ap-course-dropdown {
+                flex: 6;
+                margin-right: 36px;
+              }
+
+              .ap-score-dropdown {
+                flex: 1;
+              }
+
+              select > option {
+                color: $black;
+                background-color: $white;
+              }
+            }
+
+            .tutorial-ap-text {
+              color: $white;
+            }
+          }
+
+          .contributor-modify-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            .contributor-modify {
+              cursor: pointer;
+              color: $text-accent;
+
+              &.inactive {
+                opacity: .4;
+                cursor: default;
+              }
+
+              color: $white;
+              margin: 0 12px;
+            }
+          }
+        }
+      
+        .graphic {
+          display: flex;
+          width: 29vw;
+          margin-right: 1vw;
+          max-height: 100%;
+    
+          position: relative;
+          object-fit: contain;
+    
+          justify-content: right;
+          align-items: flex-start;
+    
+          #test-pane {
+            box-shadow: $tablet-box-shadow;
+            height: 500px;
+            display: flex;
+            width: $sidebar-width;
+    
+            overflow: scroll;
+          }
+        }
+      
+        .paragraph {
+          width: 29vw;
+          margin-left: 1vw;
+          text-align: left;
+          position: relative;
+          font-size: 18px;
+      
+          top: 0vh;
+        }
+      }
+    }
+  } 
+}

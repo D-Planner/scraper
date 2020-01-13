@@ -52,10 +52,28 @@ const component = (props) => {
                 <PlaceholderCourse size="sm" department={placeholderDept} addPlaceholderCourse={props.addPlaceholderCourse} />
               </div>
               {props.bookmarks.map((course, index) => {
+                let setActive = true;
+
+                for (let y = 0; y < props.plan.terms.length; y += 1) {
+                  // console.log('year');
+                  // console.log(y);
+                  for (let t = 0; t < props.plan.terms[y].length; t += 1) {
+                    // console.log('term');
+                    // console.log(t);
+                    for (let c = 0; c < props.plan.terms[y][t].courses.length; c += 1) {
+                      // console.log('course');
+                      // console.log(props.plan.terms[y][t].courses[c].course);
+                      // console.log('id');
+                      if (course.id === props.plan.terms[y][t].courses[c].course.id) {
+                        setActive = false;
+                      }
+                    }
+                  }
+                }
                 return (
                   <div key={course.id}>
                     <div className="paneCourse">
-                      <DraggableCourse course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
+                      <DraggableCourse active={setActive} course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
                     </div>
                     <div id="course-spacer-large" />
                   </div>
@@ -69,5 +87,9 @@ const component = (props) => {
   );
 };
 
+const mapStateToProps = state => ({
+  plan: state.plans.current,
+});
+
 // eslint-disable-next-line new-cap
-export default BookmarksPane(ItemTypes.COURSE, target, collect)(connect(null, { removeCourseFromFavorites })(component));
+export default BookmarksPane(ItemTypes.COURSE, target, collect)(connect(mapStateToProps, { removeCourseFromFavorites })(component));

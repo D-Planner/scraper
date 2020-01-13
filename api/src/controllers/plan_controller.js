@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Plan from '../models/plan';
 // import Term from '../models/term';
 import User from '../models/user';
@@ -5,7 +6,6 @@ import User from '../models/user';
 import TermController from '../controllers/term_controller';
 // import CoursesController from '../controllers/courses_controller';
 import { PopulateTerm, PopulateUser } from './populators';
-// import { emptyPlan } from '../../static/emptyplan';
 
 const getPlansByUserID = (req, res, next) => {
     Plan.find({ user_id: req.user.id }).populate({
@@ -38,10 +38,31 @@ const createPlanForUser = (plan, userID) => {
                     };
                 });
                 try {
+                    // Converts strings in relevant_interests to UUIDs
+                    const tempRelevantInterests = [];
+                    if (plan.relevant_interests) {
+                        plan.relevant_interests.map((interest) => {
+                        // eslint-disable-next-line new-cap
+                            return tempRelevantInterests.push(mongoose.Types.ObjectId(interest));
+                        });
+                    }
+
+                    // Converts strings in comments to UUIDs
+                    const tempComments = [];
+                    if (plan.comments) {
+                        plan.comments.map((interest) => {
+                            // eslint-disable-next-line new-cap
+                            return tempComments.push(mongoose.Types.ObjectId(interest));
+                        });
+                    }
+
                     const newPlan = await Plan.create({
                         name: plan.name,
                         user_id: userID,
                         duplicatedFrom: plan.id,
+                        description: plan.description,
+                        relevant_interests: tempRelevantInterests,
+                        comments: tempComments,
                     });
 
                     const { id } = await newPlan.save();

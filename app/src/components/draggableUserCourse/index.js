@@ -3,7 +3,9 @@ import axios from 'axios';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
-import { ItemTypes, DialogTypes, ROOT_URL } from '../../constants';
+import {
+  ItemTypes, DialogTypes, ROOT_URL, consoleLogging,
+} from '../../constants';
 import { showDialog, setDraggingState } from '../../actions';
 import CourseElement from '../staticCourseElement';
 
@@ -21,9 +23,7 @@ const source = {
     props.setDraggingState(false, null);
     // if we did not detect a valid drop target, delete the course from the sourceTerm
     if (!monitor.didDrop()) {
-      console.log(props.course);
       props.removeCourseFromTerm(props.course.id, props.sourceTerm).then(() => {
-        console.log('removed');
       }).catch((e) => {
         console.log(e);
       });
@@ -58,7 +58,14 @@ class UserCourse extends Component {
     this.catalogCourse = props.catalogCourse;
     this.state = {
       beingHovered: false,
+      active: true,
     };
+  }
+
+  componentWillMount() {
+    if (this.props.active === false) {
+      this.setState({ active: false });
+    }
   }
 
   /**
@@ -67,7 +74,7 @@ class UserCourse extends Component {
    * @param {*} props
    */
   showCourseInfoDialog = () => {
-    console.log(this.props.catalogCourse);
+    consoleLogging('DraggableUserCourse', '[DraggableUserCourse]', this.props.course);
     const dialogOptions = {
       title: `${this.props.catalogCourse.department} ${this.props.catalogCourse.number}: ${this.props.catalogCourse.name}`,
       size: 'lg',
@@ -100,8 +107,7 @@ class UserCourse extends Component {
 
   render() {
     return this.props.connectDragSource(
-      <div
-        className="popover"
+      <div className="popover" // {this.state.active ? 'active_course' : 'inactive_course'}
         onMouseEnter={() => this.setState({ beingHovered: true })}
         onMouseLeave={() => this.setState({ beingHovered: false })}
         onClick={() => this.showCourseInfoDialog()}
@@ -109,6 +115,7 @@ class UserCourse extends Component {
         tabIndex="-1" // 0
       >
         <CourseElement
+          active={this.state.active}
           showIcon
           icon="close"
           onIconClick={() => this.props.removeCourseFromTerm(this.props.course.id, this.props.sourceTerm)}

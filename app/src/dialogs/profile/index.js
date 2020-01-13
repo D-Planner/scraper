@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail, removeCourseFromPlacement,
+  removeCourseFromFavorites, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail, removeCourseFromPlacements,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -102,7 +102,7 @@ class ProfileDialog extends Component {
           noText: 'Abort',
           showNo: true,
           onOk: () => {
-            this.props.updateUser(this.newUser).then(() => {
+            this.props.updateUser(this.newUser[v]).then(() => {
               this.props.fetchPlans().then(() => {
                 window.location.reload();
               });
@@ -284,5 +284,5 @@ export default (connect(mapStateToProps, {
   signoutUser,
   hideDialog,
   checkUserByEmail,
-  removeCourseFromPlacement,
+  removeCourseFromPlacements,
 })(ProfileDialog));

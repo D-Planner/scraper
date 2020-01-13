@@ -26,6 +26,7 @@ import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
 import PrivacyPolicy from './policies/privacy';
+import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
 
@@ -77,8 +78,7 @@ class App extends Component {
   }
 
   render() {
-    // eslint-disable-next-line no-unused-vars
-    const sizeSufficient = (this.state.width >= minWidth && this.state.height >= minHeight);
+    const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
     if (sizeSufficient) {
       return (
         <div>
@@ -93,6 +93,7 @@ class App extends Component {
                 </Helmet>
                 <Switch>
                   <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
+                  <Route path="/tutorial/:page" component={withTracker(requireAuth(Landing, Tutorial))} />
                   <Route path="/course/:id" component={withTracker(CoursePage)} />
                   {/* <Route exact path="/courses" component={withTracker(requireAuth(Courses))} /> */}
                   <Route path="/professors/:id" component={withTracker(Professor)} />

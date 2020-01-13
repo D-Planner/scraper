@@ -179,6 +179,14 @@
         color: $text-accent;
         text-align: left;
       }
+
+      .placements-data > div{
+        margin-bottom: 12px;
+
+        &:last-child {
+          margin-bottom: none;
+        }
+      }
     }
   }
 

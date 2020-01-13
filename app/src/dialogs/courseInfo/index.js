@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
 import {
-  addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -11,7 +11,7 @@ import bookmarkFilled from '../../style/bookmarkFilled.svg';
 import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
 import link from '../../style/link_24px_blue.svg';
-// import open from '../../style/open.svg';
+import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 
 import './courseInfo.scss';
@@ -113,7 +113,7 @@ class CourseInfoDialog extends Component {
       <div id="scores">
         <div className="section-header" id="layup-header">
           <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
-          {/* <img src={open} alt="open in new tab" /> */}
+          <img src={open} alt="open in new tab" />
         </div>
         <div className="layup-score-container">
           <div>Layup-list Score:</div><div className="layup-score-accent">{course.layup_score}</div>
@@ -353,7 +353,7 @@ class CourseInfoDialog extends Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removeCourseFromPlacement(courseID)
+              ? () => this.props.removeCourseFromPlacements(courseID)
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
@@ -401,7 +401,6 @@ class CourseInfoDialog extends Component {
   }
 
   render() {
-    console.log(this.props.previousCourses);
     return (
       <DialogWrapper {...this.props}>
         {this.courseInfo(this.props.data, this.props.nextTerm)}
@@ -418,5 +417,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, showDialog, fetchCourseProfessors,
+  fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacements, showDialog, fetchCourseProfessors,
 })(CourseInfoDialog);

@@ -6,4 +6,11 @@
 
   color: $error;
   text-align: center;
+  height: none;
+  
+  transition: height $transition-duration ease-in-out;
+
+  .filled {
+    height: auto;
+  }
 }

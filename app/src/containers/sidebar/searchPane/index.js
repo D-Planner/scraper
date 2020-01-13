@@ -13,6 +13,24 @@ import {
   setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
 } from '../../../actions';
 
+export const parseQuery = (query, distribs, wcs, offered) => {
+  if (query) {
+    const queryParsed = {
+      title: query,
+      department: matchDepartment(query.split(' ')[0].toUpperCase()),
+      number: query.split(' ')[1],
+      distribs,
+      wcs,
+      offered,
+    };
+    return queryParsed;
+  } else return null;
+};
+
+const matchDepartment = (department) => {
+  console.log(Departments.includes(department));
+  return (Departments.includes(department)) ? department : null;
+};
 
 /**
  * @name SearchPane
@@ -39,14 +57,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   // Clears the search input when the component updates to go inactive
   useEffect(() => {
     if (props.searchQuery.length !== 0) {
-      const queryParsed = {
-        title: props.searchQuery,
-        department: matchDepartment(props.searchQuery.split(' ')[0].toUpperCase()),
-        number: props.searchQuery.split(' ')[1],
-        distribs,
-        wcs,
-        offered,
-      };
+      const queryParsed = parseQuery(props.searchQuery, distribs, wcs, offered);
       props.stampIncrement((props.resultStamp + 1));
       setResultsLoading(true);
       props.search(queryParsed, props.resultStamp).then(() => {
@@ -61,10 +72,9 @@ const SearchPane = React.forwardRef((props, ref) => {
     setResults(props.results);
   }, [props.results]);
 
-  const matchDepartment = (department) => {
-    console.log(Departments.includes(department));
-    return (Departments.includes(department)) ? department : null;
-  };
+  // const matchDepartment = (department) => {
+  //   return (Departments.includes(department)) ? department : null;
+  // };
 
   const resort = (method) => {
     const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
