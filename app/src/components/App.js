@@ -92,10 +92,11 @@ class App extends Component {
                   <title>D-Planner - The Future of Academic Planning</title>
                 </Helmet>
                 <Switch>
-                  <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
+                  {/* <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
                   <Route path="/tutorial/:page" component={withTracker(requireAuth(Landing, Tutorial))} />
                   <Route path="/course/:id" component={withTracker(CoursePage)} />
                   {/* <Route exact path="/courses" component={withTracker(requireAuth(Courses))} /> */}
+                  {/*
                   <Route path="/professors/:id" component={withTracker(Professor)} />
                   <Route path="/discover" component={withTracker(Cytoscape)} />
                   <Route path="/plan/:id" component={withTracker(DPlan)} />
@@ -105,6 +106,21 @@ class App extends Component {
                   <Route path="/reset/pass" component={withTracker(ForgotPassword)} />
                   <Route path="/policies/termsandconditions" component={withTracker(TermsAndConditions)} />
                   <Route path="/policies/privacypolicy" component={withTracker(PrivacyPolicy)} />
+                  <Route component={withTracker(FallBack)} />
+                  */}
+                  <Route exact path="/" component={requireAuth(Landing, DPlan)} />
+                  <Route path="/tutorial/:page" component={requireAuth(Landing, Tutorial)} />
+                  <Route path="/course/:id" component={ CoursePage} />
+                  {/* <Route exact path="/courses" component={withTracker(requireAuth(Courses)} /> */}
+                  <Route path="/professors/:id" component={Professor} />
+                  <Route path="/discover" component={Cytoscape} />
+                  <Route path="/plan/:id" component={DPlan} />
+                  <Route path="/credits" component={Credits} />
+                  <Route path="/email/:key" component={VerifyEmail} />
+                  <Route path="/pass/:key" component={ResetPassword} />
+                  <Route path="/reset/pass" component={ForgotPassword} />
+                  <Route path="/policies/termsandconditions" component={TermsAndConditions} />
+                  <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                   <Route component={withTracker(FallBack)} />
                 </Switch>
               </div>

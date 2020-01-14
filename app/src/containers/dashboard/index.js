@@ -41,12 +41,9 @@ class Dashboard extends React.Component {
 
   componentWillMount() {
     this.props.fetchUser().then((user) => {
-      console.log(user.id);
       ReactGA.set({
         userId: user.id,
       });
-      console.log(this.props.location);
-      ReactGA.pageview(this.props.location);
     });
     this.props.fetchPlans().then(() => {
       this.setState({ loadingPlans: false });
