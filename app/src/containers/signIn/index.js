@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { signinUser, validateAccessCode } from '../../actions';
 import { emailCheckRegex } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
+import DefaultButton from '../../components/defaultButton';
 import { advancedTesterFormLink } from '../signUp';
 
 const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })((props) => {
@@ -63,9 +64,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
           <input id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
         </div>
         <ErrorMessageSpacer errorMessage={errorMessage} />
-        <button type="button" className="sign-up" onClick={sendAccessCode}>
-          <div className="button-cover"><div className="button-text">Submit</div></div>
-        </button>
+        <DefaultButton click={sendAccessCode} label="Submit" />
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={props.switchToSignUp}>
           <div className="button-cover"><div className="button-text">Sign Up</div></div>
@@ -90,7 +89,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
             <div className="button-cover"><div className="button-text">Sign In</div></div>
           </button>
           <div className="spacer" />
-          {props.showSignUp ? <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button> : null}
+          {props.showSignUp ? <DefaultButton click={props.switchToSignUp} label="Sign Up" /> : null}
         </form>
       </div>
     );

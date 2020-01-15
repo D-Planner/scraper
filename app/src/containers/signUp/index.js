@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { signupUser, validateAccessCode, checkUserByEmail } from '../../actions';
 import { emailCheckRegex } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
+import DefaultButton from '../../components/defaultButton';
 import './signUp.scss';
 
 export const advancedTesterFormLink = 'https://docs.google.com/forms/d/e/1FAIpQLScsxerUDg1GczR0m0uc6TD3Df6m59bK40N9IUF2cJjmjknyKQ/viewform?usp=sf_link';
@@ -67,9 +68,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
           <input id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
         </div>
         <ErrorMessageSpacer errorMessage={errorMessage} />
-        <button type="button" className="sign-up" onClick={sendAccessCode}>
-          <div className="button-cover"><div className="button-text">Submit</div></div>
-        </button>
+        <DefaultButton click={sendAccessCode} label="Submit" />
         <div className="spacer" />
         <button type="button" className="sign-in" onClick={props.switchToSignIn}>
           <div className="button-cover"><div className="button-text">Sign In</div></div>
@@ -101,7 +100,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
             <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
           </div>
           <ErrorMessageSpacer errorMessage={errorMessage} />
-          <button type="button" className="sign-up" onClick={signup}>Sign Up</button>
+          <DefaultButton click={signup} label="Sign Up" />
           <div className="spacer" />
           <button type="button" className="sign-in" onClick={props.switchToSignIn}>
             <div className="button-cover"><div className="button-text">Sign In</div></div>
