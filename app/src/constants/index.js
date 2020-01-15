@@ -8,6 +8,8 @@ export const ItemTypes = {
   COURSE: 'COURSE',
 };
 
+export const BUG_REPORT_URL = 'https://forms.gle/u1AYzJsogsP2YPZG6';
+
 // Type definitions for different types of dialogs
 export const DialogTypes = {
   NEW_PLAN: 'NEW_PLAN',
