@@ -1,38 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { DialogTypes } from '../../constants';
+
+import { BUG_REPORT_URL } from '../../constants';
 import { getRandomCourse, showDialog } from '../../actions';
+import notFoundFeature from '../../../assets/404-feature.svg';
+import HeaderMenu from '../headerMenu';
+import DefaultButton from '../defaultButton';
+
+import './fallback.scss';
+
 
 class FallBack extends Component {
-  componentDidMount() {
-    this.props.getRandomCourse().then(() => {
-      console.log(this.props.randomCourse);
-      this.showCourseInfoDialog(this.props.randomCourse);
-    }).catch((e) => {
-      console.log(e);
-    });
-  }
+  menuOptions = [{ name: 'Report an error', callback: () => window.open(BUG_REPORT_URL) }];
 
-  /**
-   * Sends off information for [dialogOrchestrator].
-   * THIS FEATURE IS NOT COMPLETE, NEED TO BUILD SPECIAL RENDERING DEPENDING ON USER CHOICES OF [hour] AND [distribs].
-   * @param {*} props
-   */
-  showCourseInfoDialog = (course) => {
-    console.log(course);
-    const dialogOptions = {
-      title: `${course.department} ${course.number}: ${course.name}`,
-      size: 'lg',
-      data: course,
-      showOk: false,
-    };
-    this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
-  };
+  componentDidMount() {
+
+  }
 
   render() {
     return (
       <div>
-        Unknown Path
+        <HeaderMenu menuOptions={this.menuOptions} />
+        <div className="fallback-container">
+          <img className="fallback-main-feature" src={notFoundFeature} alt="404" />
+          <h1>Uh oh... You seem to be lost.</h1>
+          <h3>We’ve got the tools to help you get back on track.</h3>
+          {/* Add default button component */}
+          {/* Standardize h1, h2, h3, ... styling in <App /> component */}
+          <DefaultButton click={() => this.props.history.push('/')} label="Go Home" width="100%" />
+          <a href={BUG_REPORT_URL} target="_blank" rel="noopener noreferrer">Does this keep happening? Report an error here</a>
+        </div>
       </div>
     );
   }
@@ -42,10 +39,4 @@ const mapStateToProps = state => ({
   randomCourse: state.courses.random_course,
 });
 
-// export default withRouter(connect(mapStateToProps, {
-//   fetchPlan, deletePlan, updateTermInCurrentPlan, showDialog,
-// })(DPlan));
-// eslint-disable-next-line new-cap
-// export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
-// eslint-disable-next-line new-cap
 export default connect(mapStateToProps, { getRandomCourse, showDialog })(FallBack);

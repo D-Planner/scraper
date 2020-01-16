@@ -9,13 +9,14 @@ $button-border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: $gradient;
+    background: $gradient !important;
     height: $button-height;
     border-radius: $button-border-radius;
-    color: $white;
+    color: $white !important;
     font-weight: bold;
     font-size: 16px !important;
     text-transform: uppercase;
+    cursor: pointer;
 
     .button-cover {
         .button-text {
