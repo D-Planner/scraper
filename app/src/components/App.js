@@ -88,7 +88,9 @@ class App extends Component {
       );
     } else {
       return (
-        <TooSmall />
+        <Router>
+          <TooSmall />
+        </Router>
       );
     }
   }

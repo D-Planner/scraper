@@ -13,10 +13,6 @@ import './fallback.scss';
 class FallBack extends Component {
   menuOptions = [{ name: 'Report an error', callback: () => window.open(BUG_REPORT_URL) }];
 
-  componentDidMount() {
-
-  }
-
   render() {
     return (
       <div style={{ height: '100vh' }}>
