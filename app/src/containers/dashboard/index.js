@@ -13,7 +13,7 @@ import creditsIcon from '../../style/heart.svg';
 import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import Plans from '../../components/plans';
-import { DialogTypes } from '../../constants';
+import { DialogTypes, BUG_REPORT_URL } from '../../constants';
 import ErrorMessage from '../ErrorMessage';
 
 import './dashboard.scss';
@@ -147,7 +147,7 @@ class Dashboard extends React.Component {
             <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
           </div>
           <div className="nav-container">
-            <div role="presentation" onClick={() => window.open('https://forms.gle/u1AYzJsogsP2YPZG6')} className="option-button">
+            <div role="presentation" onClick={() => window.open(BUG_REPORT_URL)} className="option-button">
               {this.state.active
                 ? (
                   <>
