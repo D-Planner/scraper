@@ -41,98 +41,18 @@ $landing-width: 1065px;
     color: $white !important;
 }
 
-// .slick-dots {
-
-//     li:not(.slick-active) > button {
-//         color: $white;
-//         opacity: 40%;   
-//     }
-
-//     .slick-active > button {
-//         color: $white;
-//         opacity: 100%;
-//     }
-// }
-
-h1 {
-    color: $white;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 36px;
-    line-height: 100%;
-}
-
-h2 {
-    text-align: center;
-
-    color: $text-accent;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 48px;
-    line-height: 72px;
-}
-
-h3 {
-    margin-bottom: 11px;
-
-    color: $text-accent;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 36px;
-    align-items: center;
-    text-align: center;
-}
-
-h4 {
-    text-align: center;
-
-    color: $text-accent;
-    text-align: left;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 27px;
-}
-
 .landing-subtitle {
-    color: $text-accent;
+    &.dark {
+        color: $text-accent;
+    }
+    
+    color: $white;
     font-family: Roboto;
     font-style: normal;
     font-weight: 300;
     font-size: 36px;
     line-height: 42px;
-}
-
-p {
-    color: $text-accent;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 21px;
-}
-
-a {
-    &:link {
-        color: $white;
-        text-decoration: none;
-    }
-
-    &:hover {
-        opacity: 80%;
-    }
-
-    color: $white;
-    cursor: pointer;
-    height: 50px !important;
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 21px;
-}
+  }
 
 .landing-feature {
     $landing-feature-spacing: 48px;

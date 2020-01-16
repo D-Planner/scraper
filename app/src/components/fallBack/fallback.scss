@@ -1,8 +1,4 @@
 @import "../../style/variables.scss";
-@import "../landing/landing.scss";
-
-h1 { color: $text-accent; } // Change this, not global
-a { color: $text-accent; } // Change this, not global
 
 .fallback-container {
     display: flex;

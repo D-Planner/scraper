@@ -23,12 +23,10 @@ class FallBack extends Component {
         <HeaderMenu menuOptions={this.menuOptions} />
         <div className="fallback-container">
           <img className="fallback-main-feature" src={notFoundFeature} alt="404" style={{ marginBottom: '73px' }} />
-          <h1 style={{ marginBottom: '8px' }}>It looks like this link no longer exists.</h1>
-          <h3 style={{ marginBottom: '36px' }}>That being said, your plans miss you.</h3>
-          {/* Add default button component */}
-          {/* Standardize h1, h2, h3, ... styling in <App /> component */}
+          <h1 className="dark" style={{ marginBottom: '8px' }}>It looks like this link no longer exists.</h1>
+          <h3 className="dark" style={{ marginBottom: '36px' }}>That being said, your plans miss you.</h3>
           <DefaultButton click={() => this.props.history.push('/')} label="Go Back" width="80%" />
-          <a href={BUG_REPORT_URL} target="_blank" rel="noopener noreferrer" style={{ marginTop: '11px', marginBottom: '8vh' }}>Does this keep happening? Report an error here</a>
+          <a className="dark" href={BUG_REPORT_URL} target="_blank" rel="noopener noreferrer" style={{ marginTop: '11px', marginBottom: '8vh' }}>Does this keep happening? Report an error here</a>
         </div>
       </div>
     );
