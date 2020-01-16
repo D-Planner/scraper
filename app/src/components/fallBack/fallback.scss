@@ -1,13 +1,18 @@
 @import "../../style/variables.scss";
+@import "../landing/landing.scss";
+
+h1 { color: $text-accent; } // Change this, not global
+a { color: $text-accent; } // Change this, not global
 
 .fallback-container {
     display: flex;
-    flex-direction: column;
-    margin: auto;
-    width: 600px;
-
     justify-content: center;
     align-content: center;
+    flex-direction: column;
+
+    margin: auto;
+    width: 840px;
+    height: calc(100vh - #{$header-menu-height});
 
     & * {
         text-align: center;

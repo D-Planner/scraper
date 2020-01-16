@@ -19,16 +19,16 @@ class FallBack extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ height: '100vh' }}>
         <HeaderMenu menuOptions={this.menuOptions} />
         <div className="fallback-container">
-          <img className="fallback-main-feature" src={notFoundFeature} alt="404" />
-          <h1>Uh oh... You seem to be lost.</h1>
-          <h3>We’ve got the tools to help you get back on track.</h3>
+          <img className="fallback-main-feature" src={notFoundFeature} alt="404" style={{ marginBottom: '73px' }} />
+          <h1 style={{ marginBottom: '8px' }}>It looks like this link no longer exists.</h1>
+          <h3 style={{ marginBottom: '36px' }}>That being said, your plans miss you.</h3>
           {/* Add default button component */}
           {/* Standardize h1, h2, h3, ... styling in <App /> component */}
-          <DefaultButton click={() => this.props.history.push('/')} label="Go Home" width="100%" />
-          <a href={BUG_REPORT_URL} target="_blank" rel="noopener noreferrer">Does this keep happening? Report an error here</a>
+          <DefaultButton click={() => this.props.history.push('/')} label="Go Back" width="80%" />
+          <a href={BUG_REPORT_URL} target="_blank" rel="noopener noreferrer" style={{ marginTop: '11px', marginBottom: '8vh' }}>Does this keep happening? Report an error here</a>
         </div>
       </div>
     );
