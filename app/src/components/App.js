@@ -26,18 +26,26 @@ import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
 
 
-const play = (pathname, node, appears) => {
+const play = (pathname, node, appears, authenticated) => {
   const delay = appears ? 0 : 0.5;
   let timeline;
 
   if (pathname === '/') {
-    timeline = getHomeTimeline(node, delay);
+    if (authenticated === true) {
+      timeline = getDPlanTimeline(node, delay);
+    } else {
+      timeline = getHomeTimeline(node, delay);
+    }
   } else {
     timeline = getDefaultTimeline(node, delay);
   }
 
-  timeline.play();
-  // window.loadPromise.then(() => requestAnimationFrame(() => timeline.play()));
+  // timeline.play();
+  console.log(window.loadPromise);
+  window.loadPromise.then(() => {
+    timeline.play();
+    console.log('playing');
+  });
 };
 
 const getHomeTimeline = (node, delay) => {
@@ -47,6 +55,14 @@ const getHomeTimeline = (node, delay) => {
   timeline
     .from(node, 0, { display: 'none', autoAlpha: 0, delay })
     .staggerFrom(texts, 0.375, { autoAlpha: 0, x: -25, ease: Power1.easeOut }, 0.125);
+
+  return timeline;
+};
+
+const getDPlanTimeline = (node, delay) => {
+  const timeline = new Timeline({ paused: true });
+
+  timeline.from(node, 0.3, { opacity: 0, delay });
 
   return timeline;
 };
@@ -111,7 +127,7 @@ class App extends Component {
                       <Transition
                         key={key}
                         appear
-                        onEnter={(node, appears) => play(pathname, node, appears)}
+                        onEnter={(node, appears) => play(pathname, node, appears, this.props.authenticated)}
                         timeout={{ enter: 750, exit: 0 }}
                       >
                         <Switch location={location}>
@@ -148,5 +164,9 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated,
+});
+
 // eslint-disable-next-line new-cap
-export default connect(null, { setPressedKey, removePressedKey })(DragDropContext(HTML5Backend)(App));
+export default connect(mapStateToProps, { setPressedKey, removePressedKey })(DragDropContext(HTML5Backend)(App));

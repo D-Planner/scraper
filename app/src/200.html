@@ -14,6 +14,12 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script>
+      window.loadPromise = new Promise(function(resolve) {
+        console.log('loaded');
+        window.addEventListener('load', resolve);
+      });
+    </script>
     <div id="root"></div>
   </body>
 </html>
