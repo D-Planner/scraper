@@ -23,7 +23,8 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-
+// eslint-disable-next-line no-unused-vars
+import notUsedFavicon from '../favicon.ico';
 
 class App extends Component {
   constructor(props) {
