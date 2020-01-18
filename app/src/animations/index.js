@@ -1,21 +1,91 @@
 import { TimelineMax as Timeline, Power1 } from 'gsap';
 
+export const ROUTE_LOOKUP = {
+  home: { // Needs authentication
+    route: '/',
+    loadAnimation: (node, delay, authenticated) => (authenticated ? getDPlanTimeline(node, delay) : getHomeTimeline(node, delay)),
+    exitAnimation: {},
+  },
+  course: {
+    route: '/course/:id',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  professor: {
+    route: '/professors/:id',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  discover: {
+    route: '/discover',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  credits: {
+    route: '/credits',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  verifyEmail: {
+    route: '/email/:key',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  resetPassword: {
+    route: '/pass/:key',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  forgotPassword: {
+    route: '/reset/pass',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  tutorial: { // Needs authentication
+    route: '/tutorial/:page',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  termsAndConditions: {
+    route: '/policies/termsandconditions',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  privacyPolicy: {
+    route: '/policies/privacypolicy',
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  fallback: {
+    loadAnimation: {},
+    exitAnimation: {},
+  },
+  default: {
+    loadAnimation: (node, delay) => getDefaultTimeline(node, delay),
+    exitAnimation: {},
+  },
+};
+
 export const play = (pathname, node, appears, authenticated) => {
   const delay = appears ? 0 : 0.5;
   let timeline;
 
-  if (pathname === '/') {
-    if (authenticated === true) {
-      console.log('dplan');
-      timeline = getDPlanTimeline(node, delay);
-    } else {
-      console.log('gethome');
-      timeline = getHomeTimeline(node, delay);
-    }
-  } else {
-    console.log('getDefault');
-    timeline = getDefaultTimeline(node, delay);
-  }
+  new Promise((resolve, reject) => {
+    Object.entries(ROUTE_LOOKUP).forEach(([k, v]) => {
+      console.log('v.route, pathname -', v.route, pathname);
+      if (v.route === pathname) {
+        console.log('found', v);
+        resolve(v);
+      }
+    });
+    reject();
+  }).then((route) => {
+    console.log('found route', route);
+    timeline = route.loadAnimation(node, delay, authenticated);
+  }).catch(() => {
+    console.log('using default route', ROUTE_LOOKUP.default);
+    timeline = ROUTE_LOOKUP.default.loadAnimation(node, delay, authenticated);
+  });
 
   window
     .loadPromise

@@ -6,7 +6,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 import { setPressedKey, removePressedKey } from '../actions';
 // import Courses from '../containers/courses';
-import Cytoscape from './Cytoscape';
+// import Cytoscape from './Cytoscape';
 // import requireAuth from '../containers/requireAuth';
 import Professor from '../containers/professor';
 import Landing from './landing';
@@ -21,7 +21,8 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-import { play } from '../animations';
+import { play, ROUTE_LOOKUP } from '../animations';
+
 
 class App extends Component {
   constructor(props) {
@@ -75,18 +76,18 @@ class App extends Component {
                         timeout={{ enter: 750, exit: 0 }}
                       >
                         <Switch location={location}>
-                          <Route exact path="/" component={this.props.authenticated ? DPlan : Landing} />
-                          <Route path="/course/:id" component={CoursePage} />
-                          <Route path="/professors/:id" component={Professor} />
-                          <Route path="/discover" component={Cytoscape} />
-                          <Route path="/plan/:id" component={DPlan} />
-                          <Route path="/credits" component={Credits} />
-                          <Route path="/email/:key" component={VerifyEmail} />
-                          <Route path="/pass/:key" component={ResetPassword} />
-                          <Route path="/reset/pass" component={ForgotPassword} />
-                          <Route path="/tutorial/:page" component={this.props.authenticated ? Tutorial : Landing} />
-                          <Route path="/policies/termsandconditions" component={TermsAndConditions} />
-                          <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
+                          <Route exact path={ROUTE_LOOKUP.home.route} component={this.props.authenticated ? DPlan : Landing} />
+                          <Route path={ROUTE_LOOKUP.course.route} component={CoursePage} />
+                          <Route path={ROUTE_LOOKUP.professor.route} component={Professor} />
+                          {/* <Route path={ROUTE_LOOKUP.discover.route} component={Cytoscape} /> */}
+                          {/* <Route path="/plan/:id" component={DPlan} /> */}
+                          <Route path={ROUTE_LOOKUP.credits.route} component={Credits} />
+                          <Route path={ROUTE_LOOKUP.verifyEmail.route} component={VerifyEmail} />
+                          <Route path={ROUTE_LOOKUP.resetPassword.route} component={ResetPassword} />
+                          <Route path={ROUTE_LOOKUP.forgotPassword.route} component={ForgotPassword} />
+                          <Route path={ROUTE_LOOKUP.tutorial.route} component={this.props.authenticated ? Tutorial : Landing} />
+                          <Route path={ROUTE_LOOKUP.termsAndConditions.route} component={TermsAndConditions} />
+                          <Route path={ROUTE_LOOKUP.privacyPolicy.route} component={PrivacyPolicy} />
                           <Route component={FallBack} />
                         </Switch>
                       </Transition>
