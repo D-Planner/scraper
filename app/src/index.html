@@ -11,15 +11,14 @@
     <link rel="stylesheet" href="https://use.typekit.net/hxb6vsj.css">
     <link rel="icon" href="../assets/logos/favicon.ico" type="image/x-icon"/>
     <title>D-Planner</title>
+    <script>
+      window.loadPromise = new Promise(function(resolve, reject) {
+        window.addEventListener("load", resolve);
+      });
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <script>
-      window.loadPromise = new Promise(function(resolve) {
-        console.log('loaded');
-        window.addEventListener('load', resolve);
-      });
-    </script>
     <div id="root"></div>
   </body>
 </html>

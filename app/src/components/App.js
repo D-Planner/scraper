@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router, Route, Switch, BrowserRouter,
+  BrowserRouter as Route, Switch, BrowserRouter,
 } from 'react-router-dom';
 import { TransitionGroup, Transition } from 'react-transition-group';
-import { TimelineMax as Timeline, Power1 } from 'gsap';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 import { setPressedKey, removePressedKey } from '../actions';
-import Courses from '../containers/courses';
+// import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
-import requireAuth from '../containers/requireAuth';
+// import requireAuth from '../containers/requireAuth';
 import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
@@ -24,61 +23,7 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-
-
-const play = (pathname, node, appears, authenticated) => {
-  const delay = appears ? 0 : 0.5;
-  let timeline;
-
-  if (pathname === '/') {
-    if (authenticated === true) {
-      timeline = getDPlanTimeline(node, delay);
-    } else {
-      timeline = getHomeTimeline(node, delay);
-    }
-  } else {
-    timeline = getDefaultTimeline(node, delay);
-  }
-
-  // timeline.play();
-  console.log(window.loadPromise);
-  window.loadPromise.then(() => {
-    timeline.play();
-    console.log('playing');
-  });
-};
-
-const getHomeTimeline = (node, delay) => {
-  const timeline = new Timeline({ paused: true });
-  const texts = node.querySelectorAll('span');
-
-  timeline
-    .from(node, 0, { display: 'none', autoAlpha: 0, delay })
-    .staggerFrom(texts, 0.375, { autoAlpha: 0, x: -25, ease: Power1.easeOut }, 0.125);
-
-  return timeline;
-};
-
-const getDPlanTimeline = (node, delay) => {
-  const timeline = new Timeline({ paused: true });
-
-  timeline.from(node, 0.3, { opacity: 0, delay });
-
-  return timeline;
-};
-
-const getDefaultTimeline = (node, delay) => {
-  const timeline = new Timeline({ paused: true });
-  const content = node.querySelector('span');
-
-  timeline
-    .from(node, 0.3, {
-      display: 'none', autoAlpha: 0, delay, ease: Power1.easeIn,
-    })
-    .from(content, 0.15, { autoAlpha: 0, y: 25, ease: Power1.easeInOut });
-
-  return timeline;
-};
+import { play } from '../animations';
 
 class App extends Component {
   constructor(props) {
@@ -131,9 +76,9 @@ class App extends Component {
                         timeout={{ enter: 750, exit: 0 }}
                       >
                         <Switch location={location}>
-                          <Route exact path="/" component={requireAuth(Landing, DPlan)} />
+                          <Route exact path="/" component={this.props.authenticated ? DPlan : Landing} />
                           <Route path="/course/:id" component={CoursePage} />
-                          <Route exact path="/courses" component={requireAuth(Courses)} />
+                          {/* <Route exact path="/courses" component={Courses} /> */}
                           <Route path="/professors/:id" component={Professor} />
                           <Route path="/discover" component={Cytoscape} />
                           <Route path="/plan/:id" component={DPlan} />
@@ -141,7 +86,7 @@ class App extends Component {
                           <Route path="/email/:key" component={VerifyEmail} />
                           <Route path="/pass/:key" component={ResetPassword} />
                           <Route path="/reset/pass" component={ForgotPassword} />
-                          <Route path="/tutorial/:page" component={requireAuth(Landing, Tutorial)} />
+                          <Route path="/tutorial/:page" component={this.props.authenticated ? Tutorial : Landing} />
                           <Route path="/policies/termsandconditions" component={TermsAndConditions} />
                           <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
                           <Route component={FallBack} />
