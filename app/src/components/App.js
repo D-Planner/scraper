@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Route, Switch, BrowserRouter,
-} from 'react-router-dom';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import { TransitionGroup, Transition } from 'react-transition-group';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -65,6 +63,7 @@ class App extends Component {
               // https://css-tricks.com/animating-between-views-in-react/
               // https://greensock.com/get-started/
               const { pathname, key } = location;
+              console.log('location', location);
               return (
                 <div>
                   <div className="app-container">
@@ -78,7 +77,6 @@ class App extends Component {
                         <Switch location={location}>
                           <Route exact path="/" component={this.props.authenticated ? DPlan : Landing} />
                           <Route path="/course/:id" component={CoursePage} />
-                          {/* <Route exact path="/courses" component={Courses} /> */}
                           <Route path="/professors/:id" component={Professor} />
                           <Route path="/discover" component={Cytoscape} />
                           <Route path="/plan/:id" component={DPlan} />
