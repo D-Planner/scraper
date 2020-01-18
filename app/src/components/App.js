@@ -21,7 +21,7 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-import { play, ROUTE_LOOKUP } from '../animations';
+import { play, exit, ROUTE_LOOKUP } from '../animations';
 
 
 class App extends Component {
@@ -61,8 +61,9 @@ class App extends Component {
         <div>
           <BrowserRouter>
             <Route render={({ location }) => {
-              // https://css-tricks.com/animating-between-views-in-react/
-              // https://greensock.com/get-started/
+              // https://greensock.com/get-started/ -> animation library
+              // https://greensock.com/scrollmagic/ -> scrolling library
+              // https://css-tricks.com/animating-between-views-in-react/ -> animation on page change with GSAP and react
               const { pathname, key } = location;
               console.log('location', location);
               return (
@@ -73,7 +74,8 @@ class App extends Component {
                         key={key}
                         appear
                         onEnter={(node, appears) => play(pathname, node, appears, this.props.authenticated)}
-                        timeout={{ enter: 750, exit: 0 }}
+                        onExit={(node, appears) => exit(pathname, node, appears, this.props.authenticated)}
+                        timeout={{ enter: 750, exit: 150 }}
                       >
                         <Switch location={location}>
                           <Route exact path={ROUTE_LOOKUP.home.route} component={this.props.authenticated ? DPlan : Landing} />

@@ -1,68 +1,71 @@
 import { TimelineMax as Timeline, Power1 } from 'gsap';
 
 export const ROUTE_LOOKUP = {
+  // LATER
   home: { // Needs authentication
     route: '/',
-    loadAnimation: (node, delay, authenticated) => (authenticated ? getDPlanTimeline(node, delay) : getHomeTimeline(node, delay)),
-    exitAnimation: {},
+    loadAnimation: (node, delay, authenticated) => (authenticated ? getDPlanLoadTimeline(node, delay) : getHomeLoadTimeline(node, delay)),
+    exitAnimation: (node, authenticated) => (authenticated ? getDPlanExitTimeline(node) : getDPlanExitTimeline(node)), // Change this
   },
   course: {
     route: '/course/:id',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
   professor: {
     route: '/professors/:id',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
-  discover: {
-    route: '/discover',
-    loadAnimation: {},
-    exitAnimation: {},
-  },
+  // discover: {
+  //   route: '/discover',
+  //   loadAnimation: () => {},
+  //   exitAnimation: () => {},
+  // },
   credits: {
     route: '/credits',
-    loadAnimation: {},
-    exitAnimation: {},
+    // CHANGE THESE
+    loadAnimation: (node, delay) => getDefaultLoadTimeline(node, delay),
+    exitAnimation: node => getDPlanExitTimeline(node),
   },
   verifyEmail: {
     route: '/email/:key',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
   resetPassword: {
     route: '/pass/:key',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
   forgotPassword: {
     route: '/reset/pass',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
   tutorial: { // Needs authentication
     route: '/tutorial/:page',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
   termsAndConditions: {
     route: '/policies/termsandconditions',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
   privacyPolicy: {
     route: '/policies/privacypolicy',
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
+  // LATER
   fallback: {
-    loadAnimation: {},
-    exitAnimation: {},
+    loadAnimation: () => {},
+    exitAnimation: () => {},
   },
   default: {
-    loadAnimation: (node, delay) => getDefaultTimeline(node, delay),
-    exitAnimation: {},
+    loadAnimation: (node, delay) => getDefaultLoadTimeline(node, delay),
+    exitAnimation: node => getDefaultExitTimeline(node),
   },
 };
 
@@ -72,9 +75,9 @@ export const play = (pathname, node, appears, authenticated) => {
 
   new Promise((resolve, reject) => {
     Object.entries(ROUTE_LOOKUP).forEach(([k, v]) => {
-      console.log('v.route, pathname -', v.route, pathname);
+      // console.log('v.route, pathname -', v.route, pathname);
       if (v.route === pathname) {
-        console.log('found', v);
+        // console.log('found', v);
         resolve(v);
       }
     });
@@ -96,7 +99,38 @@ export const play = (pathname, node, appears, authenticated) => {
     });
 };
 
-const getHomeTimeline = (node, delay) => {
+export const exit = (pathname, node, appears, authenticated) => {
+  console.log('EXIT', pathname, node, appears, authenticated);
+  let timeline;
+
+  new Promise((resolve, reject) => {
+    Object.entries(ROUTE_LOOKUP).forEach(([k, v]) => {
+      // console.log('v.route, pathname -', v.route, pathname);
+      if (v.route === pathname) {
+        // console.log('found', v);
+        resolve(v);
+      }
+    });
+    reject();
+  }).then((route) => {
+    console.log('found route', route);
+    timeline = route.exitAnimation(node, authenticated);
+  }).catch(() => {
+    console.log('using default route', ROUTE_LOOKUP.default);
+    timeline = ROUTE_LOOKUP.default.exitAnimation(node, authenticated);
+  });
+
+  requestAnimationFrame(() => {
+    timeline.play();
+  });
+};
+
+/**
+ * Landing page LOAD timeline
+ * @param {*} node
+ * @param {*} delay
+ */
+const getHomeLoadTimeline = (node, delay) => {
   const timeline = new Timeline({ paused: true });
   const texts = node.querySelectorAll('span');
 
@@ -107,15 +141,44 @@ const getHomeTimeline = (node, delay) => {
   return timeline;
 };
 
-const getDPlanTimeline = (node, delay) => {
+/**
+ * DPlan page LOAD timeline
+ * @param {*} node
+ * @param {*} delay
+ */
+const getDPlanLoadTimeline = (node, delay) => {
   const timeline = new Timeline({ paused: true });
 
-  timeline.from(node, 0.3, { opacity: 0, delay });
+  timeline
+    .from(node, 0.3, { opacity: 0, delay });
 
   return timeline;
 };
 
-const getDefaultTimeline = (node, delay) => {
+/**
+ * DPlan page LOAD timeline
+ * @param {*} node
+ * @param {*} delay
+ */
+const getDPlanExitTimeline = (node) => {
+  console.log('getDPlan timeline');
+  const timeline = new Timeline({ paused: true });
+
+  timeline
+    .to(node, 0.3, { opacity: 0, ease: Power1.easeOut });
+
+  console.log('dplanExitTimeline', timeline);
+  console.log('node', node);
+
+  return timeline;
+};
+
+/**
+ * Default LOAD timeline
+ * @param {*} node
+ * @param {*} delay
+ */
+const getDefaultLoadTimeline = (node, delay) => {
   const timeline = new Timeline({ paused: true });
   const content = node.querySelector('span');
 
@@ -124,6 +187,22 @@ const getDefaultTimeline = (node, delay) => {
       display: 'none', autoAlpha: 0, delay, ease: Power1.easeIn,
     })
     .from(content, 0.15, { autoAlpha: 0, y: 25, ease: Power1.easeInOut });
+
+  return timeline;
+};
+
+/**
+ * Default LOAD timeline
+ * @param {*} node
+ * @param {*} delay
+ */
+const getDefaultExitTimeline = (node) => {
+  const timeline = new Timeline({ paused: true });
+  const content = node.querySelector('span');
+
+  timeline
+    .to(node, 0.3, { display: 'none', autoAlpha: 0, ease: Power1.easeOut })
+    .to(content, 0.15, { autoAlpha: 0, y: -25, ease: Power1.easeInOut });
 
   return timeline;
 };
