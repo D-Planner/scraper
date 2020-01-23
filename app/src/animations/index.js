@@ -4,8 +4,9 @@ export const ROUTE_LOOKUP = {
   // LATER
   home: { // Needs authentication
     route: '/',
-    loadAnimation: (node, delay, authenticated) => (authenticated ? getDPlanLoadTimeline(node, delay) : getHomeLoadTimeline(node, delay)),
-    exitAnimation: (node, authenticated) => (authenticated ? getDPlanExitTimeline(node) : getDPlanExitTimeline(node)), // Change this
+    // Authenticated becomes true before animation can load
+    loadAnimation: (node, delay, authenticated) => (authenticated === true ? getDPlanLoadTimeline(node, delay) : getHomeLoadTimeline(node, delay)),
+    exitAnimation: (node, authenticated) => (authenticated === true ? getDPlanExitTimeline(node) : getHomeExitTimeline(node)), // Change this
   },
   course: {
     route: '/course/:id',
@@ -26,7 +27,7 @@ export const ROUTE_LOOKUP = {
     route: '/credits',
     // CHANGE THESE
     loadAnimation: (node, delay) => getDefaultLoadTimeline(node, delay),
-    exitAnimation: node => getDPlanExitTimeline(node),
+    exitAnimation: node => getDefaultExitTimeline(node),
   },
   verifyEmail: {
     route: '/email/:key',
@@ -101,6 +102,12 @@ export const play = (pathname, node, appears, authenticated) => {
 
 export const exit = (pathname, node, appears, authenticated) => {
   console.log('EXIT', pathname, node, appears, authenticated);
+
+  // const timeline = new Timeline({ paused: true });
+
+  // timeline.to(node, 0.3, { autoAlpha: 0, ease: Power1.easeOut });
+  // timeline.play();
+
   let timeline;
 
   new Promise((resolve, reject) => {
@@ -142,11 +149,28 @@ const getHomeLoadTimeline = (node, delay) => {
 };
 
 /**
+ * Landing page EXIT timeline
+ * @param {*} node
+ */
+const getHomeExitTimeline = (node) => {
+  console.log('getHomeExitTimeline');
+  const timeline = new Timeline({ paused: true });
+  const texts = node.querySelectorAll('span');
+
+  timeline
+    .to(node, 0, { display: 'none', autoAlpha: 0 })
+    .staggerTo(texts, 0.375, { autoAlpha: 0, x: 25, ease: Power1.easeOut }, 0.125);
+
+  return timeline;
+};
+
+/**
  * DPlan page LOAD timeline
  * @param {*} node
  * @param {*} delay
  */
 const getDPlanLoadTimeline = (node, delay) => {
+  console.log('dplan load timeline');
   const timeline = new Timeline({ paused: true });
 
   timeline
@@ -156,9 +180,8 @@ const getDPlanLoadTimeline = (node, delay) => {
 };
 
 /**
- * DPlan page LOAD timeline
+ * DPlan page EXIT timeline
  * @param {*} node
- * @param {*} delay
  */
 const getDPlanExitTimeline = (node) => {
   console.log('getDPlan timeline');
@@ -192,13 +215,14 @@ const getDefaultLoadTimeline = (node, delay) => {
 };
 
 /**
- * Default LOAD timeline
+ * Default EXIT timeline
  * @param {*} node
- * @param {*} delay
  */
 const getDefaultExitTimeline = (node) => {
   const timeline = new Timeline({ paused: true });
   const content = node.querySelector('span');
+
+  console.log('defaultExit', node);
 
   timeline
     .to(node, 0.3, { display: 'none', autoAlpha: 0, ease: Power1.easeOut })

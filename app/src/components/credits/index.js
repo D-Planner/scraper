@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
+import HeaderMenu from '../headerMenu';
 import logo from '../../style/logo.svg';
 import dali from '../../style/dali.png';
 import './credits.scss';
@@ -32,12 +33,13 @@ class Credits extends Component {
   render() {
     return (
       <div className="credits-container">
+        <HeaderMenu menuOptions={[]} />
         <div className={`section ${this.props.embedded ? 'embedded' : ''}`}>
           {!this.props.embedded
             ? (
               <div className="headerContainer">
-                <img alt="logo" className="logo" src={logo} />
-                <div className="spacer" />
+                {/* <img alt="logo" className="logo" src={logo} />
+                <div className="spacer" /> */}
                 <div className="mainTitle">Who are we?</div>
               </div>
             )
