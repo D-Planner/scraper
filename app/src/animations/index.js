@@ -3,59 +3,70 @@ import { TimelineMax as Timeline, Power1 } from 'gsap';
 export const ROUTE_LOOKUP = {
   // LATER
   home: { // Needs authentication
-    route: '/',
+    routeFull: '/',
+    routeKey: '',
     // Authenticated becomes true before animation can load
     loadAnimation: (node, delay, authenticated) => (authenticated === true ? getDPlanLoadTimeline(node, delay) : getHomeLoadTimeline(node, delay)),
     exitAnimation: (node, authenticated) => (authenticated === true ? getDPlanExitTimeline(node) : getHomeExitTimeline(node)), // Change this
   },
   course: {
-    route: '/course/:id',
+    routeFull: '/course/:id',
+    routeKey: 'course',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
   professor: {
-    route: '/professors/:id',
+    routeFull: '/professors/:id',
+    routeKey: 'professors',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
   // discover: {
-  //   route: '/discover',
+  //   routeFull: '/discover',
+  //   routeKey: 'discover',
   //   loadAnimation: () => {},
   //   exitAnimation: () => {},
   // },
   credits: {
-    route: '/credits',
+    routeFull: '/credits',
+    routeKey: 'credits',
     // CHANGE THESE
     loadAnimation: (node, delay) => getDefaultLoadTimeline(node, delay),
     exitAnimation: node => getDefaultExitTimeline(node),
   },
   verifyEmail: {
-    route: '/email/:key',
+    routeFull: '/email/:key',
+    routeKey: 'email',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
   resetPassword: {
-    route: '/pass/:key',
+    routeFull: '/pass/:key',
+    routeKey: 'pass',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
   forgotPassword: {
-    route: '/reset/pass',
+    routeFull: '/reset/pass',
+    routeKey: 'reset',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
   tutorial: { // Needs authentication
-    route: '/tutorial/:page',
+    routeFull: '/tutorial/:page',
+    routeKey: 'tutorial',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
   termsAndConditions: {
-    route: '/policies/termsandconditions',
+    routeFull: '/policies/termsandconditions',
+    routeKey: 'termsancconditions',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
   privacyPolicy: {
-    route: '/policies/privacypolicy',
+    routeFull: '/policies/privacypolicy',
+    routeKey: 'privacypolicy',
     loadAnimation: () => {},
     exitAnimation: () => {},
   },
@@ -72,24 +83,24 @@ export const ROUTE_LOOKUP = {
 
 export const play = (pathname, node, appears, authenticated) => {
   const delay = appears ? 0 : 0.5;
-  let timeline;
+  let route;
 
-  new Promise((resolve, reject) => {
-    Object.entries(ROUTE_LOOKUP).forEach(([k, v]) => {
-      // console.log('v.route, pathname -', v.route, pathname);
-      if (v.route === pathname) {
-        // console.log('found', v);
-        resolve(v);
+  const pathnameSplit = pathname.split('/');
+
+  Object.entries(ROUTE_LOOKUP).some(([k, v]) => {
+    return pathnameSplit.some((option) => {
+      console.log('routeTest', v.routeKey, option);
+      if (v.routeKey === option) {
+        route = v;
+        return true;
+      } else {
+        return false;
       }
     });
-    reject();
-  }).then((route) => {
-    console.log('found route', route);
-    timeline = route.loadAnimation(node, delay, authenticated);
-  }).catch(() => {
-    console.log('using default route', ROUTE_LOOKUP.default);
-    timeline = ROUTE_LOOKUP.default.loadAnimation(node, delay, authenticated);
   });
+
+  console.log('found route load', route);
+  const timeline = route.loadAnimation(node, delay, authenticated);
 
   window
     .loadPromise
@@ -103,29 +114,23 @@ export const play = (pathname, node, appears, authenticated) => {
 export const exit = (pathname, node, appears, authenticated) => {
   console.log('EXIT', pathname, node, appears, authenticated);
 
-  // const timeline = new Timeline({ paused: true });
+  const pathnameSplit = pathname.split('/');
 
-  // timeline.to(node, 0.3, { autoAlpha: 0, ease: Power1.easeOut });
-  // timeline.play();
-
-  let timeline;
-
-  new Promise((resolve, reject) => {
-    Object.entries(ROUTE_LOOKUP).forEach(([k, v]) => {
-      // console.log('v.route, pathname -', v.route, pathname);
-      if (v.route === pathname) {
-        // console.log('found', v);
-        resolve(v);
+  let route;
+  Object.entries(ROUTE_LOOKUP).some(([k, v]) => {
+    return pathnameSplit.some((option) => {
+      console.log('routeTest', v.routeKey, option);
+      if (v.routeKey === option) {
+        route = v;
+        return true;
+      } else {
+        return false;
       }
     });
-    reject();
-  }).then((route) => {
-    console.log('found route', route);
-    timeline = route.exitAnimation(node, authenticated);
-  }).catch(() => {
-    console.log('using default route', ROUTE_LOOKUP.default);
-    timeline = ROUTE_LOOKUP.default.exitAnimation(node, authenticated);
   });
+
+  console.log('found route exit', route);
+  const timeline = route.exitAnimation(node, authenticated);
 
   requestAnimationFrame(() => {
     timeline.play();
@@ -207,7 +212,7 @@ const getDefaultLoadTimeline = (node, delay) => {
 
   timeline
     .from(node, 0.3, {
-      display: 'none', autoAlpha: 0, delay, ease: Power1.easeIn,
+      display: 'none', opacity: 0, delay, ease: Power1.easeIn,
     })
     .from(content, 0.15, { autoAlpha: 0, y: 25, ease: Power1.easeInOut });
 
@@ -220,13 +225,11 @@ const getDefaultLoadTimeline = (node, delay) => {
  */
 const getDefaultExitTimeline = (node) => {
   const timeline = new Timeline({ paused: true });
-  const content = node.querySelector('span');
 
-  console.log('defaultExit', node);
+  console.log('defaultExit', node, timeline);
 
   timeline
-    .to(node, 0.3, { display: 'none', autoAlpha: 0, ease: Power1.easeOut })
-    .to(content, 0.15, { autoAlpha: 0, y: -25, ease: Power1.easeInOut });
+    .to(node, 5, { display: 'none', opacity: 0, ease: Power1.easeOut });
 
   return timeline;
 };

@@ -78,18 +78,18 @@ class App extends Component {
                         timeout={{ enter: 750, exit: 150 }}
                       >
                         <Switch location={location}>
-                          <Route exact path={ROUTE_LOOKUP.home.route} component={this.props.authenticated ? DPlan : Landing} />
-                          <Route path={ROUTE_LOOKUP.course.route} component={CoursePage} />
-                          <Route path={ROUTE_LOOKUP.professor.route} component={Professor} />
-                          {/* <Route path={ROUTE_LOOKUP.discover.route} component={Cytoscape} /> */}
+                          <Route exact path={ROUTE_LOOKUP.home.routeFull} component={this.props.authenticated ? DPlan : Landing} />
+                          <Route path={ROUTE_LOOKUP.course.routeFull} component={CoursePage} />
+                          <Route path={ROUTE_LOOKUP.professor.routeFull} component={Professor} />
+                          {/* <Route path={ROUTE_LOOKUP.discover.routeFull} component={Cytoscape} /> */}
                           {/* <Route path="/plan/:id" component={DPlan} /> */}
-                          <Route path={ROUTE_LOOKUP.credits.route} component={Credits} />
-                          <Route path={ROUTE_LOOKUP.verifyEmail.route} component={VerifyEmail} />
-                          <Route path={ROUTE_LOOKUP.resetPassword.route} component={ResetPassword} />
-                          <Route path={ROUTE_LOOKUP.forgotPassword.route} component={ForgotPassword} />
-                          <Route path={ROUTE_LOOKUP.tutorial.route} component={this.props.authenticated ? Tutorial : Landing} />
-                          <Route path={ROUTE_LOOKUP.termsAndConditions.route} component={TermsAndConditions} />
-                          <Route path={ROUTE_LOOKUP.privacyPolicy.route} component={PrivacyPolicy} />
+                          <Route path={ROUTE_LOOKUP.credits.routeFull} component={Credits} />
+                          <Route path={ROUTE_LOOKUP.verifyEmail.routeFull} component={VerifyEmail} />
+                          <Route path={ROUTE_LOOKUP.resetPassword.routeFull} component={ResetPassword} />
+                          <Route path={ROUTE_LOOKUP.forgotPassword.routeFull} component={ForgotPassword} />
+                          <Route path={ROUTE_LOOKUP.tutorial.routeFull} component={this.props.authenticated ? Tutorial : Landing} />
+                          <Route path={ROUTE_LOOKUP.termsAndConditions.routeFull} component={TermsAndConditions} />
+                          <Route path={ROUTE_LOOKUP.privacyPolicy.routeFull} component={PrivacyPolicy} />
                           <Route component={FallBack} />
                         </Switch>
                       </Transition>
