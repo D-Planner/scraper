@@ -89,6 +89,5 @@ app/build
 .vs
 .vscode
 *.code-workspace
-app/surge.crt
-app/surge.key
-app/surge.pem
+
+cert/

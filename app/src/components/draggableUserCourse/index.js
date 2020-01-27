@@ -55,7 +55,6 @@ const getTerm = (termID) => {
 class UserCourse extends Component {
   constructor(props) {
     super(props);
-    this.catalogCourse = props.catalogCourse;
     this.state = {
       beingHovered: false,
       active: true,
@@ -122,7 +121,7 @@ class UserCourse extends Component {
           sourceTerm={this.props.sourceTerm}
           size={this.props.size}
           error={this.props.course.fulfilledStatus}
-          course={this.catalogCourse}
+          course={this.props.catalogCourse}
           beingHovered={this.state.beingHovered}
         />
       </div>,
