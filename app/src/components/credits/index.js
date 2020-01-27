@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
+import { metaContentSeparator, universalMetaTitle } from '../../constants';
 import logo from '../../style/logo.svg';
 import dali from '../../style/dali.png';
 import './credits.scss';
@@ -36,9 +37,7 @@ class Credits extends Component {
         {this.props.embedded
           ? null : (
             <Helmet>
-              <title>Credits : D-Planner - The Future of Academic Planning</title>
-              <meta name="description" content="" />
-              <meta name="keywords" content="" />
+              <title>Credits{metaContentSeparator}{universalMetaTitle}</title>
             </Helmet>
           )}
         <div className={`section ${this.props.embedded ? 'embedded' : ''}`}>

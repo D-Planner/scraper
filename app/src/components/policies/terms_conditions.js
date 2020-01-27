@@ -1,13 +1,14 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { metaContentSeparator, universalMetaTitle } from '../../constants';
 import './policies.scss';
 
 const TermsAndConditions = () => {
   return (
     <div className="policy-container">
       <Helmet>
-        <title>Terms and Conditions : D-Planner - The Future of Academic Planning</title>
+        <title>Terms and Conditions{metaContentSeparator}{universalMetaTitle}</title>
         <meta name="description" content="" />
         <meta name="keywords" content="" />
       </Helmet>

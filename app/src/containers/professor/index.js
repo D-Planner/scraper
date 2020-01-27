@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 import { Link, Element } from 'react-scroll';
-import { ROOT_URL } from '../../constants';
+import { ROOT_URL, metaContentSeparator, universalMetaTitle } from '../../constants';
 import HeaderMenu from '../../components/headerMenu';
 
 import './professor.scss';
@@ -55,7 +55,7 @@ class Professor extends React.Component {
               <div className="professor-container">
                 <div className="professor">
                   <Helmet>
-                    <title>{this.state.professor.name} : D-Planner - The Future of Academic Planning</title>
+                    <title>{this.state.professor.name}{metaContentSeparator}{universalMetaTitle}</title>
                     <meta name="description" content="" />
                     <meta name="keywords" content="" />
                   </Helmet>

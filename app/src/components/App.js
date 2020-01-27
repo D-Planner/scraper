@@ -29,6 +29,7 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
+import universalMetaTitle from '../constants';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
 // https://medium.com/google-cloud/tracking-site-visits-on-react-app-hosted-in-google-cloud-using-google-analytics-f49c2411d398
@@ -88,30 +89,12 @@ class App extends Component {
                 <Helmet>
                   <meta name="copyright" content={`Copyright of D-Planner Project, ${new Date().getFullYear()}`} />
                   <meta name="description" content="D-Planner is an academic planning suite that curates academic data to allow students to take advantage of all of their academic opportunities in higher education." />
-                  <meta name="keywords" content="" />
-                  <title>D-Planner - The Future of Academic Planning</title>
+                  <title>{universalMetaTitle}</title>
                 </Helmet>
                 <Switch>
-                  {/* <Route exact path="/" component={withTracker(requireAuth(Landing, DPlan))} />
-                  <Route path="/tutorial/:page" component={withTracker(requireAuth(Landing, Tutorial))} />
-                  <Route path="/course/:id" component={withTracker(CoursePage)} />
-                  {/* <Route exact path="/courses" component={withTracker(requireAuth(Courses))} /> */}
-                  {/*
-                  <Route path="/professors/:id" component={withTracker(Professor)} />
-                  <Route path="/discover" component={withTracker(Cytoscape)} />
-                  <Route path="/plan/:id" component={withTracker(DPlan)} />
-                  <Route path="/credits" component={withTracker(Credits)} />
-                  <Route path="/email/:key" component={withTracker(VerifyEmail)} />
-                  <Route path="/pass/:key" component={withTracker(ResetPassword)} />
-                  <Route path="/reset/pass" component={withTracker(ForgotPassword)} />
-                  <Route path="/policies/termsandconditions" component={withTracker(TermsAndConditions)} />
-                  <Route path="/policies/privacypolicy" component={withTracker(PrivacyPolicy)} />
-                  <Route component={withTracker(FallBack)} />
-                  */}
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
                   <Route path="/tutorial/:page" component={requireAuth(Landing, Tutorial)} />
-                  <Route path="/course/:id" component={ CoursePage} />
-                  {/* <Route exact path="/courses" component={withTracker(requireAuth(Courses)} /> */}
+                  <Route path="/course/:id" component={CoursePage} />
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />

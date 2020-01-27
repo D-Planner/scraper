@@ -1,13 +1,14 @@
 /* eslint-disable max-len */
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { metaContentSeparator, universalMetaTitle } from '../../constants';
 import './policies.scss';
 
 const PrivacyPolicy = () => {
   return (
     <div className="policy-container">
       <Helmet>
-        <title>Privacy Policy : D-Planner - The Future of Academic Planning</title>
+        <title>Privacy Policy{metaContentSeparator}{universalMetaTitle}</title>
         <meta name="description" content="" />
         <meta name="keywords" content="" />
       </Helmet>

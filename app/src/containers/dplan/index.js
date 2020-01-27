@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
-import { DialogTypes, ROOT_URL, consoleLogging } from '../../constants';
+import { DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
 import settings from '../../style/settings.svg';
@@ -482,9 +482,7 @@ class DPlan extends Component {
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
             <Helmet>
-              <title>Dashboard : D-Planner - The Future of Academic Planning</title>
-              <meta name="description" content="" />
-              <meta name="keywords" content="" />
+              <title>Dashboard{metaContentSeparator}{universalMetaTitle}</title>
             </Helmet>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="welcome-text">
@@ -499,7 +497,7 @@ class DPlan extends Component {
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
             <Helmet>
-              <title>{this.props.plan.name} : D-Planner - The Future of Academic Planning</title>
+              <title>{this.props.plan.name}{metaContentSeparator}{universalMetaTitle}</title>
               <meta name="description" content="" />
               <meta name="keywords" content="" />
             </Helmet>

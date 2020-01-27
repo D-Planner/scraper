@@ -14,7 +14,9 @@ import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
-import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
+import {
+  GenEdsForDisplay as GenEds, APP_URL, metaContentSeparator, universalMetaTitle,
+} from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
 import './coursePage.scss';
@@ -602,7 +604,7 @@ class CoursePage extends React.Component {
     return (
       <Fragment>
         <Helmet>
-          <title>{this.state.course ? `${this.state.course.department} ${this.state.course.number}` : 'Course'} - Dartmouth : D-Planner - The Future of Academic Planning</title>
+          <title>{this.state.course ? `${this.state.course.department} ${this.state.course.number}` : 'Course'} - Dartmouth{metaContentSeparator}{universalMetaTitle}</title>
           <meta name="description" content={this.state.metaDescription || ''} />
           <meta name="keywords" content="" />
         </Helmet>
