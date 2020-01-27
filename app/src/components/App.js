@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router, Route, Switch,
+  Router, Route, Switch,
 } from 'react-router-dom';
 import { DragDropContext } from 'react-dnd';
 import { createBrowserHistory } from 'history';
@@ -16,7 +16,6 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
-import withTracker from '../containers/withTracker';
 // import favicon from '../style/d-planner.ico';
 // import favicon from '../style/favicon.ico';
 import TooSmall, { minWidth, minHeight } from './tooSmall';
@@ -45,7 +44,7 @@ history.listen((location) => {
   ReactGA.pageview(location.pathname); // Record a pageview for the given page
 });
 
-// DO THIS
+// User ID information
 // https://support.google.com/analytics/answer/3123666
 
 class App extends Component {
@@ -83,7 +82,7 @@ class App extends Component {
     if (sizeSufficient) {
       return (
         <div>
-          <Router>
+          <Router history={history}>
             <div>
               <div className="app-container">
                 <Helmet>
@@ -104,7 +103,7 @@ class App extends Component {
                   <Route path="/reset/pass" component={ForgotPassword} />
                   <Route path="/policies/termsandconditions" component={TermsAndConditions} />
                   <Route path="/policies/privacypolicy" component={PrivacyPolicy} />
-                  <Route component={withTracker(FallBack)} />
+                  <Route component={FallBack} />
                 </Switch>
               </div>
             </div>
