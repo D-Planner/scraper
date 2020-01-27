@@ -65,7 +65,6 @@ class App extends Component {
               // https://greensock.com/scrollmagic/ -> scrolling library
               // https://css-tricks.com/animating-between-views-in-react/ -> animation on page change with GSAP and react
               const { pathname, key } = location;
-              console.log('location', location);
               return (
                 <div>
                   <div className="app-container">
@@ -75,7 +74,7 @@ class App extends Component {
                         appear
                         onEnter={(node, appears) => play(pathname, node, appears, this.props.authenticated)}
                         onExit={(node, appears) => exit(pathname, node, appears, this.props.authenticated)}
-                        timeout={{ enter: 750, exit: 150 }}
+                        timeout={1000}
                       >
                         <Switch location={location}>
                           <Route exact path={ROUTE_LOOKUP.home.routeFull} component={this.props.authenticated ? DPlan : Landing} />

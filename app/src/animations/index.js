@@ -1,25 +1,23 @@
 import { TimelineMax as Timeline, Power1 } from 'gsap';
 
 export const ROUTE_LOOKUP = {
-  // LATER
   home: { // Needs authentication
     routeFull: '/',
     routeKey: '',
-    // Authenticated becomes true before animation can load
     loadAnimation: (node, delay, authenticated) => (authenticated === true ? getDPlanLoadTimeline(node, delay) : getHomeLoadTimeline(node, delay)),
     exitAnimation: (node, authenticated) => (authenticated === true ? getDPlanExitTimeline(node) : getHomeExitTimeline(node)), // Change this
   },
   course: {
     routeFull: '/course/:id',
     routeKey: 'course',
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   professor: {
     routeFull: '/professors/:id',
     routeKey: 'professors',
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   // discover: {
   //   routeFull: '/discover',
@@ -30,27 +28,26 @@ export const ROUTE_LOOKUP = {
   credits: {
     routeFull: '/credits',
     routeKey: 'credits',
-    // CHANGE THESE
-    loadAnimation: (node, delay) => getDefaultLoadTimeline(node, delay),
-    exitAnimation: node => getDefaultExitTimeline(node),
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   verifyEmail: {
     routeFull: '/email/:key',
     routeKey: 'email',
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   resetPassword: {
     routeFull: '/pass/:key',
     routeKey: 'pass',
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   forgotPassword: {
     routeFull: '/reset/pass',
     routeKey: 'reset',
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   tutorial: { // Needs authentication
     routeFull: '/tutorial/:page',
@@ -61,19 +58,19 @@ export const ROUTE_LOOKUP = {
   termsAndConditions: {
     routeFull: '/policies/termsandconditions',
     routeKey: 'termsancconditions',
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   privacyPolicy: {
     routeFull: '/policies/privacypolicy',
     routeKey: 'privacypolicy',
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   // LATER
   fallback: {
-    loadAnimation: () => {},
-    exitAnimation: () => {},
+    // loadAnimation: () => {},
+    // exitAnimation: () => {},
   },
   default: {
     loadAnimation: (node, delay) => getDefaultLoadTimeline(node, delay),
@@ -83,24 +80,37 @@ export const ROUTE_LOOKUP = {
 
 export const play = (pathname, node, appears, authenticated) => {
   const delay = appears ? 0 : 0.5;
-  let route;
+  let route, timeline;
 
+  // const pathnameSplit = pathname.split('/').shift();
   const pathnameSplit = pathname.split('/');
+  pathnameSplit.shift();
+  // console.log('pathname split in', pathnameSplit);
 
-  Object.entries(ROUTE_LOOKUP).some(([k, v]) => {
-    return pathnameSplit.some((option) => {
-      console.log('routeTest', v.routeKey, option);
-      if (v.routeKey === option) {
-        route = v;
-        return true;
-      } else {
-        return false;
-      }
-    });
-  });
+  // Object.entries(ROUTE_LOOKUP).some(([k, v]) => {
+  //   return pathnameSplit.some((option) => {
+  //     console.log('routeTest in', v.routeKey, option);
+  //     if (v.routeKey === option) {
+  //       console.log('k in -', k);
+  //       route = v;
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+  // });
 
-  console.log('found route load', route);
-  const timeline = route.loadAnimation(node, delay, authenticated);
+  // console.log('found route load', route || ROUTE_LOOKUP.default);
+  // // const timeline = route.loadAnimation(node, delay, authenticated);
+  // const timeline = route.loadAnimation(node, delay, authenticated) || ROUTE_LOOKUP.default.loadAnimation(node, delay, authenticated);
+  // console.log('timeline in', timeline);
+
+  // Home page
+  if (pathnameSplit[0] === '') {
+    timeline = ROUTE_LOOKUP.home.loadAnimation(node, delay, authenticated);
+  } else {
+    timeline = ROUTE_LOOKUP.default.loadAnimation(node, delay, authenticated);
+  }
 
   window
     .loadPromise
@@ -112,25 +122,37 @@ export const play = (pathname, node, appears, authenticated) => {
 };
 
 export const exit = (pathname, node, appears, authenticated) => {
-  console.log('EXIT', pathname, node, appears, authenticated);
+  // console.log('EXIT', pathname, node, appears, authenticated);
+  let timeline;
 
+  // const pathnameSplit = pathname.split('/').shift();
   const pathnameSplit = pathname.split('/');
+  pathnameSplit.shift();
+  // console.log('pathname split out', pathnameSplit);
 
-  let route;
-  Object.entries(ROUTE_LOOKUP).some(([k, v]) => {
-    return pathnameSplit.some((option) => {
-      console.log('routeTest', v.routeKey, option);
-      if (v.routeKey === option) {
-        route = v;
-        return true;
-      } else {
-        return false;
-      }
-    });
-  });
+  // let route;
+  // Object.entries(ROUTE_LOOKUP).some(([k, v]) => {
+  //   return pathnameSplit.some((option) => {
+  //     console.log('routeTest out', v.routeKey, option);
+  //     if (v.routeKey === option) {
+  //       console.log('k out -', k);
+  //       route = v;
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+  // });
 
-  console.log('found route exit', route);
-  const timeline = route.exitAnimation(node, authenticated);
+  // console.log('found route exit', route || ROUTE_LOOKUP.default);
+  // const timeline = route.exitAnimation(node, authenticated) || ROUTE_LOOKUP.default.exitAnimation(node, authenticated);
+  // console.log('timeline out', timeline);
+
+  if (pathnameSplit[0] === '') {
+    timeline = ROUTE_LOOKUP.home.exitAnimation(node, authenticated);
+  } else {
+    timeline = ROUTE_LOOKUP.default.exitAnimation(node, authenticated);
+  }
 
   requestAnimationFrame(() => {
     timeline.play();
@@ -158,7 +180,6 @@ const getHomeLoadTimeline = (node, delay) => {
  * @param {*} node
  */
 const getHomeExitTimeline = (node) => {
-  console.log('getHomeExitTimeline');
   const timeline = new Timeline({ paused: true });
   const texts = node.querySelectorAll('span');
 
@@ -175,7 +196,6 @@ const getHomeExitTimeline = (node) => {
  * @param {*} delay
  */
 const getDPlanLoadTimeline = (node, delay) => {
-  console.log('dplan load timeline');
   const timeline = new Timeline({ paused: true });
 
   timeline
@@ -189,14 +209,10 @@ const getDPlanLoadTimeline = (node, delay) => {
  * @param {*} node
  */
 const getDPlanExitTimeline = (node) => {
-  console.log('getDPlan timeline');
   const timeline = new Timeline({ paused: true });
 
   timeline
     .to(node, 0.3, { opacity: 0, ease: Power1.easeOut });
-
-  console.log('dplanExitTimeline', timeline);
-  console.log('node', node);
 
   return timeline;
 };
@@ -225,8 +241,6 @@ const getDefaultLoadTimeline = (node, delay) => {
  */
 const getDefaultExitTimeline = (node) => {
   const timeline = new Timeline({ paused: true });
-
-  console.log('defaultExit', node, timeline);
 
   timeline
     .to(node, 5, { display: 'none', opacity: 0, ease: Power1.easeOut });
