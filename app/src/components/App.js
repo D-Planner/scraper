@@ -39,6 +39,7 @@ ReactGA.initialize(trackingID);
 // Update id on non-login auth
 
 const history = createBrowserHistory();
+ReactGA.pageview(window.location.pathname);
 history.listen((location) => {
   ReactGA.set({ page: location.pathname }); // Update the user's current page
   ReactGA.pageview(location.pathname); // Record a pageview for the given page
