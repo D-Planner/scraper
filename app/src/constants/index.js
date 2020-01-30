@@ -8,6 +8,10 @@ export const ItemTypes = {
   COURSE: 'COURSE',
 };
 
+// Meta tag standards
+export const metaContentSeparator = ' | ';
+export const universalMetaTitle = 'D-Planner - The Future of Academic Planning';
+
 // Type definitions for different types of dialogs
 export const DialogTypes = {
   NEW_PLAN: 'NEW_PLAN',

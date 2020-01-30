@@ -258,6 +258,8 @@ export function signinUser({ email, password }, history) {
   const fields = { email, password };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
+      console.log('Setting user id to:');
+      console.log(response.data.user._id);
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
@@ -349,7 +351,7 @@ export function fetchUser() {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
-      resolve();
+      resolve(response.data);
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
