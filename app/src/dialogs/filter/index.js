@@ -100,18 +100,18 @@ class FilterDialog extends React.Component {
             onDelete={i => this.handleDelete(i, 'distribs')}
             suggestionComponent={this.renderSuggestion}
             tagComponent={this.renderTag}
-            placeholderText="Add New Distrib Filter"
+            placeholderText="Enter Distrib to Filter"
           />
-          <div className="filter-distribs filter-list">
-            {/* {this.state.distribs.map((distrib, i) => {
+          {/* <div className="filter-distribs filter-list">
+            {this.state.distribs.map((distrib, i) => {
               return (
                 <div className="choice" key={distrib.name}>
                   <div className="choice-label">{distrib.name}</div>
                   <input className="choice-input" type="checkbox" checked={distrib.checked} onChange={() => this.changeState(i, 'distribs')} />
                 </div>
               );
-            })} */}
-          </div>
+            })}
+          </div> */}
           <div className="filter-wcs filter-list">
             {/* <ReactTags
               tags={this.state.tags.wcs}

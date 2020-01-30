@@ -250,9 +250,10 @@ class CourseInfoDialog extends Component {
               if (!this.props.previousCourses) return render;
               switch (dependencyType) {
                 case 'req':
-                  return (o[dependencyType].some((c) => {
-                    return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
-                  })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
+                  return render;
+                  // return (o[dependencyType].some((c) => {
+                  //   return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
+                  // })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
                 case 'range':
                   return (this.props.previousCourses.some((c) => {
                     return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
