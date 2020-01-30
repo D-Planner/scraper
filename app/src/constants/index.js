@@ -10,6 +10,10 @@ export const ItemTypes = {
 
 export const BUG_REPORT_URL = 'https://forms.gle/u1AYzJsogsP2YPZG6';
 
+// Meta tag standards
+export const metaContentSeparator = ' | ';
+export const universalMetaTitle = 'D-Planner - The Future of Academic Planning';
+
 // Type definitions for different types of dialogs
 export const DialogTypes = {
   NEW_PLAN: 'NEW_PLAN',

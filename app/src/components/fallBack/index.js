@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 
-import { BUG_REPORT_URL } from '../../constants';
+import {
+  BUG_REPORT_URL, metaContentSeparator, universalMetaTitle,
+} from '../../constants';
+
 import { getRandomCourse, showDialog } from '../../actions';
 import notFoundFeature from '../../../assets/404-feature.svg';
 import HeaderMenu from '../headerMenu';
@@ -17,6 +21,9 @@ class FallBack extends Component {
     return (
       <div style={{ height: '100vh' }}>
         <HeaderMenu menuOptions={this.menuOptions} />
+        <Helmet>
+          <title>404, That’s an error!{metaContentSeparator}{universalMetaTitle}</title>
+        </Helmet>
         <div className="fallback-container">
           <img className="fallback-main-feature" src={notFoundFeature} alt="404" style={{ marginBottom: '73px' }} />
           <h1 className="dark" style={{ marginBottom: '8px' }}>It looks like this link no longer exists.</h1>

@@ -1,5 +1,9 @@
 @import '../../style/variables.scss';
 
+.react-tags__search-input {
+    max-width: 100%;
+}
+
 .filter-content {
     padding: 30px 0;
     width: 100%;
@@ -39,7 +43,7 @@
 /// For The Tags
 
 .react-tags {
-    width: 150px;
+    width: 200px;
     
     .react-tags__search {
         display: flex;

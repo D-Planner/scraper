@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
@@ -8,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
-import { DialogTypes, ROOT_URL, consoleLogging } from '../../constants';
+import { DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
 import settings from '../../style/settings.svg';
@@ -480,6 +481,9 @@ class DPlan extends Component {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
+            <Helmet>
+              <title>Dashboard{metaContentSeparator}{universalMetaTitle}</title>
+            </Helmet>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             <div className="welcome-text">
               <div className="welcome-title">Welcome to D-Planner!</div>
@@ -492,6 +496,11 @@ class DPlan extends Component {
       return (
         <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
           <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
+            <Helmet>
+              <title>{this.props.plan.name}{metaContentSeparator}{universalMetaTitle}</title>
+              <meta name="description" content="" />
+              <meta name="keywords" content="" />
+            </Helmet>
             <Dashboard setCurrentPlan={this.setCurrentPlan} />
             {this.state.loadingPlan === true
               ? (

@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
 import React from 'react';
+import Helmet from 'react-helmet';
 import './landing.scss';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
 
 import { showDialog } from '../../actions';
-import { DialogTypes } from '../../constants';
+import { DialogTypes, universalMetaTitle } from '../../constants';
 import SignInForm from '../../containers/signIn';
 import SignUpForm from '../../containers/signUp';
 import VideoEmbed from '../videoEmbed';
@@ -60,6 +61,10 @@ class Landing extends React.Component {
     return (
       <div className="landing-container">
         <section className="landing-top">
+          <Helmet>
+            <title>{universalMetaTitle}</title>
+            <meta name="description" content="D-Planner is an academic planning suite that curates academic data to allow students to take advantage of all of their academic opportunities in higher education." />
+          </Helmet>
           <div style={{ display: 'flex', justifyContent: 'center' }}><img src={downArrow} alt="scroll up" className="landing-down-arrow animate" /></div>
           <div className="left">
             <div className="intro">
