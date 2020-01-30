@@ -9,7 +9,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
 } from '../../actions';
-import { DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle } from '../../constants';
+import {
+  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle,
+} from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
 import settings from '../../style/settings.svg';
