@@ -93,6 +93,16 @@ const resetDB = () => {
     });
 };
 
+UserModel.find().then((users) => {
+    users.forEach((user) => {
+        const whatShouldItBe = user.viewed_announcements.length === 0 ? [] : user.viewed_announcements;
+        UserModel.findById(user.id).then((found) => {
+            found.viewed_announcements = whatShouldItBe;
+            found.save();
+        });
+    });
+});
+
 // default index route
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the DPlanner API!' });
