@@ -163,6 +163,7 @@ export function deleteUser(id) {
   };
   return dispatch => new Promise((resolve, reject) => {
     axios.delete(`${ROOT_URL}/auth/`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: {} }); // To clear state after user deletion
       dispatch({ type: ActionTypes.DELETE_USER, payload: response.data });
       resolve();
     }).catch((error) => {
