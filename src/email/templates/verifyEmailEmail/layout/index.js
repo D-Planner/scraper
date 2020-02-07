@@ -21,7 +21,7 @@ function verifyEmailEmail(data) {
             React.createElement('a', { className: 'click-link', href: data.link }, 'Verify Email!'),
 
             // Copyright
-            React.createElement('div', { className: 'copyright' }, 'D-Planner, ©2019'),
+            React.createElement('div', { className: 'copyright' }, 'D-Planner, ©2020'),
         )
     );
 }

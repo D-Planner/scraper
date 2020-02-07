@@ -6,6 +6,9 @@ import majorsRouter from './majors';
 import professorsRouter from './professors';
 import globalRouter from './global';
 import announcementsRouter from './announcements';
+import interestsRouter from './interests';
+import advisorRouter from './advisor';
+import dataRouter from './data';
 
 export {
     authRouter,
@@ -16,4 +19,7 @@ export {
     professorsRouter,
     globalRouter,
     announcementsRouter,
+    interestsRouter,
+    advisorRouter,
+    dataRouter,
 };

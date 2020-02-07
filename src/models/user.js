@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
+    accountCreated: Number,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     username: { type: String },
@@ -14,6 +15,13 @@ const UserSchema = new Schema({
     placement_courses: [{ type: Schema.Types.ObjectId, ref: 'Course' }],
     viewed_announcements: [{ type: Schema.Types.ObjectId, ref: 'Announcement' }],
     majors: [{ type: Schema.Types.ObjectId, ref: 'Major' }],
+    interest_profile: [{ type: Schema.Types.ObjectId, ref: 'Interest' }],
+    dean: { type: Schema.Types.ObjectId, ref: 'Advisor' },
+    faculty_advisor: { type: Schema.Types.ObjectId, ref: 'Advisor' },
+    other_advisors: [{ type: Schema.Types.ObjectId, ref: 'Advisor' }],
+    ap_profile: [{ type: Schema.Types.ObjectId, ref: 'apPlacement' }],
+    tc_accepted: Boolean,
+    tc_accepted_date: Number,
     settings: {},
     accessGranted: Boolean,
     emailVerified: Boolean,

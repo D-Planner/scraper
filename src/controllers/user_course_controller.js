@@ -1,20 +1,19 @@
 import UserCourse from '../models/user_course';
 import Course from '../models/course';
 
-const createUserCourse = (userID, catalogCourseID, termID) => {
-    return Course.findById(catalogCourseID).then(async (r) => {
-        const newCourse = await UserCourse.create({
-            user: userID,
-            course: catalogCourseID,
-            term: termID,
-            major: null,
-            distrib: null,
-            wc: null,
-            timeslot: r.preiods && r.periods.length === 1 ? r.periods[0] : null,
-            fulfilledStatus: '',
-        });
-        return newCourse.save();
+const createUserCourse = async (userID, catalogCourseID, termID) => {
+    const r = await Course.findById(catalogCourseID);
+    const newCourse = await UserCourse.create({
+        user: userID,
+        course: catalogCourseID,
+        term: termID,
+        major: null,
+        distrib: null,
+        wc: null,
+        timeslot: r.preiods && r.periods.length === 1 ? r.periods[0] : null,
+        fulfilledStatus: '',
     });
+    return newCourse.save();
 };
 
 const createPlacementCourse = async (userID, termID, department) => {
@@ -57,7 +56,7 @@ const updateUserCourse = async (req, res, next) => {
     console.log(change);
     try {
         UserCourse.findByIdAndUpdate(req.params.userCourseID, change).then((r) => {
-            console.log(r);
+            // console.log(r);
         });
         res.status(201).json('Saved');
     } catch (e) {

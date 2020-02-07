@@ -4,8 +4,8 @@ import Auth from '../models/auth';
 import User from '../models/user';
 
 const accessCodeKey = 'E193D58E186DD1E567E4BEE6BFE32';
-const accessCodeLength = 8;
-const timeoutDuration = 720000; // Two hours
+const accessCodeLength = 64;
+const timeoutDuration = 2880000; // Eight hours
 
 // Generates a new access code
 const generateAccessCode = (req, res) => {
@@ -44,7 +44,7 @@ const verifyAccessCode = (req, res) => {
                 code.remove();
                 res.status(403).send('Code timed out');
             }
-            User.findOne({ email: code.email }).then((user) => {
+            User.findOne({ email: code.email.toLowerCase() }).then((user) => {
                 if (user) {
                     user.accessGranted = true;
                     user.save().then((savedUser) => {

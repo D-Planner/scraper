@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 // import nodemailer from 'nodemailer';
 import sgMail from '@sendgrid/mail';
 import { requireAuth } from './authentication/init';
-import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter, announcementsRouter } from './routes';
+import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter, interestsRouter, advisorRouter, dataRouter, announcementsRouter } from './routes';
 import CoursesController, { trim } from './controllers/courses_controller';
 import UserModel from './models/user';
 import CourseModel from './models/course';
@@ -107,6 +107,9 @@ app.use('/majors', requireAuth, majorsRouter);
 app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
 app.use('/announcements', requireAuth, announcementsRouter); // RequireAuth
+app.use('/interests', requireAuth, interestsRouter);
+app.use('/advisors', requireAuth, advisorRouter);
+app.use('/data', requireAuth, dataRouter);
 
 // Get information for course display without being logged in
 app.get('/public/course/:id', (req, res) => {

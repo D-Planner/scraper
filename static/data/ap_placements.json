@@ -1,0 +1,152 @@
+{
+  "link": "https://www.dartmouth.edu/~reg/enrollment/credit_on_entrance_exemption_charts.html",
+  "updated": "12/27/2019",
+  "data": [
+    {
+      "name": "Calculus: AB",
+      "options": [{
+        "min_score": 4,
+        "credit_given": ["MATH 3"],
+        "placement": ["MATH 8"]
+      }]
+    },
+    {
+      "name": "Calculus: BC",
+      "options": [{
+        "min_score": 4,
+        "credit_given": ["MATH 3", "MATH 8"],
+        "placement": ["MATH 9", "MATH 11"]
+      }]
+    },
+    {
+      "name": "Chemistry",
+      "options": [{
+        "min_score": 5,
+        "credit_given": ["CHEM 5"],
+        "placement": ["CHEM 6"]
+      }]
+    },
+    {
+      "name": "Computer Science A",
+      "options": [{
+        "min_score": 4,
+        "credit_given": ["COSC 1"],
+        "placement": ["COSC 10", "COSC 30"]
+      }]
+    },
+    {
+      "name": "Economics: Micro",
+      "options": [{
+        "min_score": 5,
+        "credit_given": ["ECON 1"],
+        "placement": [],
+        "placement_message": "Intermediate or advanced course."
+      }]
+    },
+    {
+      "name": "Environmental Science",
+      "options": [{
+        "min_score": 4,
+        "credit_given": ["ENVS 2"]
+      }]
+    },
+    {
+      "name": "French : Language",
+      "options": [{
+        "min_score": 5,
+        "language_fulfilled": "FRENCH",
+        "placement_message": "Invitation to take the APE (Advanced Proficiency  Exam) and DART (Dartmouth Advanced Reading Test)"
+      }]
+    },
+    {
+      "name": "Geography",
+      "options": [{
+        "min_score": 5,
+        "credit_given": ["GEOG 1"]
+      }, {
+        "min_score": 4,
+        "exemption": ["GEOG 1"]
+      }]
+    },
+    {
+      "name": "German",
+      "options": [{
+        "min_score": 5,
+        "exemption": ["GERM 1", "GERM 2", "GERM 3"],
+        "placement": ["GERM 10", "GERM 10.01", "GERM 10.02", "GERM 10.03"]
+      }, {
+        "min_score": 4,
+        "exemption": ["GERM 1", "GERM 2"],
+        "placement": ["GERM 3"]
+      }]
+    },
+    {
+      "name": "Italian : Language",
+      "options": [{
+        "min_score": 5,
+        "language_fulfilled": "ITALIAN",
+        "placement_message": "Invitation to take the DART (Dartmouth Advanced Reading Test)"
+      }]
+    },
+    {
+      "name": "Latin",
+      "options": [{
+        "min_score": 5,
+        "language_fulfilled": "LATIN",
+        "credit_message": "Credit possible; consult department",
+        "placement": ["LAT 15"],
+        "placement_message": "Intermediate or advanced courses."
+      }]
+    },
+    {
+      "name": "Music",
+      "options": [{
+        "min_score": 5,
+        "credit_given": ["MUS 20"],
+        "placement": ["MUS 21", "MUS 22"]
+      }]
+    },
+    {
+      "name": "Physics: C (Mechanics)",
+      "options": [{
+        "min_score": 4,
+        "credit_given": ["PHYS 3"]
+      }]
+    },
+    {
+      "name": "Physics: C (Electricity)",
+      "options": [{
+        "min_score": 4,
+        "credit_given": ["PHYS 4"]
+      }]
+    },
+    {
+      "name": "Spanish: Literature",
+      "options": [{
+        "min_score": 5,
+        "credit_given": ["SPAN 9"],
+        "language_fulfilled": "SPANISH",
+        "placement_message": "Spanish 20 and higher numbered courses."
+      }, {
+        "min_score": 4,
+        "language_fulfilled": "SPANISH",
+        "placement": ["SPAN 9"]
+      }]
+    },
+    {
+      "name": "Spanish: Language",
+      "options": [{
+        "min_score": 4,
+        "language_fulfilled": "SPANISH",
+        "placement": ["SPAN 9"]
+      }]
+    },
+    {
+      "name": "Statistics",
+      "options": [{
+        "min_score": 4,
+        "credit_given": ["MATH 10"]
+      }]
+    }
+  ]
+}
