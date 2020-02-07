@@ -66,8 +66,6 @@ class DPlan extends Component {
     PLAN_NINE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[8].id), event),
     PLAN_TEN: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[9].id), event),
     CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
-    // eslint-disable-next-line no-alert
-    SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event), // TODO: Add to announcement bar
     OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
     OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => this.deletePlanKeyPress(this.props.plan), event),
     OPEN_SEARCH_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.SEARCH }), event),
@@ -500,16 +498,20 @@ class DPlan extends Component {
 
   renderAnnouncement = () => {
     return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-      <div className={true && this.props.announcementActive === true ? 'announcements' : 'announcements closed'}
-        onClick={(e) => {
-          if (this.props.currentAnnouncement) {
-            this.props.history.push(this.props.currentAnnouncement.link);
-            this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
-          }
-        }}
-      >
-        <div className="announcement-text">{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}</div>
+      <div className={`announcements${this.props.announcementActive === true ? '' : ' closed'}${this.props.currentAnnouncement.link === '/' ? '' : ' clickable'}`}>
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+        <div className="announcement-text"
+          onClick={(e) => {
+            if (this.props.currentAnnouncement) {
+              this.props.history.push(this.props.currentAnnouncement.link);
+              this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
+              this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                this.props.disableCurrentAnnouncement();
+              });
+            }
+          }}
+        >{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+        </div>
         <img src={close}
           alt="close"
           className="close"

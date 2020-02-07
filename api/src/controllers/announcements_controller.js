@@ -54,22 +54,30 @@ const updateAnnouncement = (req, res) => {
 };
 
 const newAnnouncement = (req, res) => {
-    const announcement = new Announcement({
-        text: req.body.fields.text,
-        link: req.body.fields.link,
-        times_shown: 0,
-        times_clicked: 0,
-        show_on_open: req.body.fields.show_on_open,
-    });
-
-    announcement.save()
-        .then((result) => {
-            updateCurrentAnnouncement().then((updateResult) => {
-                res.json({ message: `🎉 Announcement ${result._id} added`, updateResult });
-            });
-        }).catch((error) => {
-            res.status(500).json({ error });
+    if (
+        req.body.fields.text === undefined ||
+        req.body.fields.link === undefined ||
+        req.body.fields.show_on_open === undefined
+    ) {
+        res.status(503).send('Input not valid, please make sure {text}, {link}, {show_on_open} are defined.');
+    } else {
+        const announcement = new Announcement({
+            text: req.body.fields.text,
+            link: req.body.fields.link,
+            times_shown: 0,
+            times_clicked: 0,
+            show_on_open: req.body.fields.show_on_open,
         });
+
+        announcement.save()
+            .then((result) => {
+                updateCurrentAnnouncement().then((updateResult) => {
+                    res.json({ message: `🎉 Announcement ${result._id} added`, updateResult });
+                });
+            }).catch((error) => {
+                res.status(500).json({ error });
+            });
+    }
 };
 
 const deleteAnnouncement = (req, res) => {

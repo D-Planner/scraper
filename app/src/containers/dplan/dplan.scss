@@ -40,10 +40,15 @@ $announcement-height: 48px;
     margin-left: 1%;
     margin-right: 1%;
     cursor: pointer;
+    z-index: 10;
   }
 
   &.closed {
     height: 0vh;
+  }
+
+  &.clickable {
+    cursor: pointer;
   }
 }
 
