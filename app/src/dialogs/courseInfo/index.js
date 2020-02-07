@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
 import {
-  addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
+  addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -130,12 +130,25 @@ class CourseInfoDialog extends Component {
    * @param {String} description
    */
   renderDescription = (description, orc_url) => {
-    return (
-      <div id="description">
-        <div className="section-header">Description</div>
-        <div className="description-text">{description}</div>
-      </div>
-    );
+    if (description && description.length > 600) {
+      return (
+        <div id="description">
+          <div className="section-header">Description</div>
+          <div className="description-text">
+            {`${description.substring(0, 600)}... `}<a href={orc_url} target="_blank" rel="noopener noreferrer">[ORC]</a>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div id="description">
+          <div className="section-header">Description</div>
+          <div className="description-text">
+            {description} <a href={orc_url} target="_blank" rel="noopener noreferrer">[ORC]</a>
+          </div>
+        </div>
+      );
+    }
   }
 
   /**
@@ -237,9 +250,10 @@ class CourseInfoDialog extends Component {
               if (!this.props.previousCourses) return render;
               switch (dependencyType) {
                 case 'req':
-                  return (o[dependencyType].some((c) => {
-                    return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
-                  })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
+                  return render;
+                  // return (o[dependencyType].some((c) => {
+                  //   return (this.props.previousCourses) ? this.props.previousCourses.includes(c._id) : false;
+                  // })) ? <img key={i.toString()} src={checkedBox} alt="fulfilled" /> : render;
                 case 'range':
                   return (this.props.previousCourses.some((c) => {
                     return (o[dependencyType][0] <= c.number && c.number <= o[dependencyType][1] && c.department === course.department);
@@ -353,7 +367,7 @@ class CourseInfoDialog extends Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removeCourseFromPlacement(courseID)
+              ? () => this.props.removeCourseFromPlacements(courseID)
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
@@ -417,5 +431,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacement, showDialog, fetchCourseProfessors,
+  fetchPlan, fetchUser, addCourseToFavorites, removeCourseFromFavorites, addCourseToPlacements, removeCourseFromPlacements, showDialog, fetchCourseProfessors,
 })(CourseInfoDialog);

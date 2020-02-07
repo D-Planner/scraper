@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
-import { DialogTypes } from '../../constants';
+import { DialogTypes, metaContentSeparator, universalMetaTitle } from '../../constants';
 import { getRandomCourse, showDialog } from '../../actions';
 
 class FallBack extends Component {
@@ -31,8 +32,11 @@ class FallBack extends Component {
 
   render() {
     return (
-      <div>
-        Unknown Path
+      <div className="container">
+        <Helmet>
+          <title>404, That’s an error!{metaContentSeparator}{universalMetaTitle}</title>
+        </Helmet>
+        <div>Unknown Path</div>
       </div>
     );
   }

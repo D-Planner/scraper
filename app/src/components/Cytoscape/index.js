@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import { connect } from 'react-redux';
 import tinygradient from 'tinygradient';
 import ForceGraph2D from 'react-force-graph-2d';
-import { Departments, departmentsWithFullName } from '../../constants';
+import {
+  Departments, departmentsWithFullName, metaContentSeparator, universalMetaTitle,
+} from '../../constants';
 import { courseSearch } from '../../actions';
 
 import './cytoscape.scss';
@@ -78,6 +81,9 @@ class Graph extends Component {
   render() {
     return (
       <div className="graphContainer">
+        <Helmet>
+          <title>Discover{metaContentSeparator}{universalMetaTitle}</title>
+        </Helmet>
         <div className="selector">
           <select default=""
             onChange={(e) => {

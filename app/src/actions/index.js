@@ -98,6 +98,11 @@ export function removePressedKey(key) {
   };
 }
 
+/**
+ * Fetches the current user from the database and stores their information in the redux store
+ * @export
+ * @returns an action creator to fetch the current user and stash their info in the store
+ */
 export function getFulfilledStatus(planID, termID, courseID) {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -150,7 +155,7 @@ export function updateUser(change) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/update`, { change }, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
-      resolve();
+      resolve(response.data);
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error });
@@ -165,6 +170,7 @@ export function deleteUser(id) {
   };
   return dispatch => new Promise((resolve, reject) => {
     axios.delete(`${ROOT_URL}/auth/`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: {} }); // To clear state after user deletion
       dispatch({ type: ActionTypes.DELETE_USER, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -260,6 +266,8 @@ export function signinUser({ email, password }, history) {
   const fields = { email, password };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
+      console.log('Setting user id to:');
+      console.log(response.data.user._id);
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
@@ -302,9 +310,9 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
 export function validateAccessCode(code, history) {
   return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth/code?code=${code}`).then((response) => {
-      dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
-      history.push('/');
+      dispatch({ type: ActionTypes.AUTH_USER });
+      // history.push('/');
       resolve('Authenticated');
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
@@ -333,7 +341,9 @@ export function checkUserByEmail(email) {
  */
 export function signoutUser(history) {
   return (dispatch) => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    // Removes all stray tokens from site
+    localStorage.clear();
     dispatch({ type: ActionTypes.DEAUTH_USER });
     history.push('/');
   };
@@ -351,7 +361,7 @@ export function fetchUser() {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
-      resolve();
+      resolve(response.data);
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -678,7 +688,7 @@ export function addCourseToPlacements(courseID) {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
-      // console.log('added course to placement');
+      dispatch(fetchUser());
       resolve();
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
@@ -693,11 +703,12 @@ export function addCourseToPlacements(courseID) {
  * @param {String} courseID a string representing a Mongoose ObjectID for the course object to store in a user's bookmarks
  * @returns an action creator to add a course to a user's favorites
  */
-export function removeCourseFromPlacement(courseID) {
+export function removeCourseFromPlacements(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
+      dispatch(fetchUser());
       resolve();
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
@@ -726,6 +737,7 @@ export function stampIncrement(stamp) {
  * @param {String} type
  */
 export function courseSearch(query, stamp) {
+  console.log(query);
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/search`, {
       params: query,
@@ -1178,4 +1190,44 @@ export function sendResetPass(userID) {
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
     });
   };
+}
+
+/**
+ * Adds all possible interests to user's interest_profile
+ * @param {*} userID
+ */
+export function addAllUserInterests(userID) {
+  return dispatch => new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.post(`${ROOT_URL}/auth/${userID}/interests`, {}, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      resolve(response.data);
+    }).catch((error) => {
+      console.error(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Adds all possible interests to user's interest_profile
+ * @param {*} userID
+ */
+export function removeAllUserInterests(userID) {
+  return dispatch => new Promise((resolve, reject) => {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    axios.delete(`${ROOT_URL}/auth/${userID}/interests`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
+      resolve(response.data);
+    }).catch((error) => {
+      console.error(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject(error);
+    });
+  });
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  removeCourseFromFavorites, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail, removeCourseFromPlacement,
+  removeCourseFromFavorites, fetchUser, fetchPlan, updateUser, fetchPlans, showDialog, sendVerifyEmail, sendResetPass, deleteUser, signoutUser, hideDialog, checkUserByEmail, removeCourseFromPlacements,
 } from '../../actions';
 import DialogWrapper from '../dialogWrapper';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
@@ -98,24 +98,24 @@ class ProfileDialog extends Component {
           title: 'Warning',
           message: 'If you change your grad year, all your plans will reset.',
           size: 'sm',
-          okText: 'Continue',
-          noText: 'Abort',
+          okText: 'Abort',
+          noText: 'Continue',
           showNo: true,
-          onOk: () => {
-            this.props.updateUser(this.newUser).then(() => {
+          onNo: () => {
+            this.props.updateUser({ graduationYear: this.newUser.graduationYear }).then(() => {
               this.props.fetchPlans().then(() => {
                 window.location.reload();
               });
             });
             console.log('deleting all plans...');
           },
-          onNo: () => {
+          onOk: () => {
             // console.log('user declined to update profile, change nothing');
           },
         };
         this.props.showDialog(DialogTypes.NOTICE, dialogOptions);
       } else {
-        this.props.updateUser(this.newUser);
+        this.props.updateUser({ [v]: this.newUser[v] });
       }
     }
 
@@ -284,5 +284,5 @@ export default (connect(mapStateToProps, {
   signoutUser,
   hideDialog,
   checkUserByEmail,
-  removeCourseFromPlacement,
+  removeCourseFromPlacements,
 })(ProfileDialog));

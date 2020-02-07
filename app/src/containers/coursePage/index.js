@@ -3,11 +3,9 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import { withRouter } from 'react-router-dom';
-// Headers: fc, fp, fu
-// User: actf, actp, rcfp, rp,
-// None:
+import { Helmet } from 'react-helmet';
 import {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -16,7 +14,9 @@ import plus from '../../style/plus.svg';
 import minus from '../../style/minus.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
-import { GenEdsForDisplay as GenEds, APP_URL } from '../../constants';
+import {
+  GenEdsForDisplay as GenEds, APP_URL, metaContentSeparator, universalMetaTitle,
+} from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
 import './coursePage.scss';
@@ -40,6 +40,41 @@ const Dependencies = {
   rec: 'Reccomended',
 };
 
+const MAX_META_DESCRIPTION_LENGTH = 160;
+const cutCharacters = ['.', '?', '!', '…'];
+
+/**
+ * Generates a meta tag based on a given string
+ * @param {*} description
+ */
+function generateMetaDescription(description) {
+  let sliceIndex = -1;
+  let spaceSliceIndex = -1;
+
+  for (let i = MAX_META_DESCRIPTION_LENGTH - 1; i >= 0; i -= 1) {
+    // Find first sentence conclusion / break in string
+    if (sliceIndex === -1 && cutCharacters.indexOf(description.charAt(i)) !== -1) {
+      sliceIndex = i;
+
+    // Find first space in string
+    } else if (spaceSliceIndex === -1 && description.charAt(i) === ' ') {
+      // Remove preceeding comma if present
+      if (description.charAt(i - 1) === ',') {
+        spaceSliceIndex = i - 1;
+      } else {
+        spaceSliceIndex = i;
+      }
+    }
+  }
+
+  // Automatically generate description based on whether a slice index was found
+  if (sliceIndex !== -1) {
+    return `${description.slice(0, sliceIndex + 1)}…`;
+  } else {
+    return `${description.slice(0, spaceSliceIndex)}…`;
+  }
+}
+
 // function getProfessor(id) {
 //   return new Promise((resolve, reject) => {
 //     axios.get(`${ROOT_URL}/professors/${id}`, {
@@ -56,7 +91,7 @@ class CoursePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: null,
+
     };
   }
 
@@ -84,6 +119,11 @@ class CoursePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.match.params.id !== this.props.match.params.id) {
       window.location.reload();
+    }
+
+    if (!this.state.metaDescription && this.state.course) {
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }));
     }
   }
 
@@ -420,7 +460,7 @@ class CoursePage extends React.Component {
             alt="Placement"
             onClick={
             placement
-              ? () => this.props.removeCourseFromPlacement(courseID)
+              ? () => this.props.removeCourseFromPlacements(courseID)
                 .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(courseID)
                 .then(() => this.props.fetchUser())
@@ -528,7 +568,7 @@ class CoursePage extends React.Component {
             <>
               <div id="intro-coursepage">
                 <div className="section-header">Want to get the most from college?</div>
-                <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We belive that through data curation and insightful analytics students are better prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
+                <div className="intro-coursepage-text">D-Planner is a plan-based academic planning suite built to enable students to take advantage of their academic opportunities in higher education. We believe that through data curation and insightful analytics students are better prepared to succeed, both in college and beyond. To begin planning for your future, sign up above.</div>
               </div>
               <hr className="horizontal-divider-small" />
             </>
@@ -563,7 +603,12 @@ class CoursePage extends React.Component {
   render() {
     return (
       <Fragment>
-        <HeaderMenu />
+        <Helmet>
+          <title>{this.state.course ? `${this.state.course.department} ${this.state.course.number}` : 'Course'} - Dartmouth{metaContentSeparator}{universalMetaTitle}</title>
+          <meta name="description" content={this.state.metaDescription || ''} />
+          <meta name="keywords" content="" />
+        </Helmet>
+        <HeaderMenu menuOptions={this.props.authenticated ? { name: 'Go Home', callback: () => this.props.history.push('/') } : null} />
         <div className="course-info-container">
           {this.state.course ? this.courseInfo(this.state.course, this.props.nextTerm) : <LoadingWheel />}
         </div>
@@ -580,5 +625,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacement, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 })(CoursePage));

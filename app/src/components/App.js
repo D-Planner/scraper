@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router, Route, Switch,
+  Router, Route, Switch,
 } from 'react-router-dom';
 import { DragDropContext } from 'react-dnd';
+import { createBrowserHistory } from 'history';
+import ReactGA from 'react-ga';
+import { Helmet } from 'react-helmet';
+
 import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'react-redux';
 import { setPressedKey, removePressedKey } from '../actions';
-import Courses from '../containers/courses';
 import Cytoscape from './Cytoscape';
 import requireAuth from '../containers/requireAuth';
 import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
+// import favicon from '../style/d-planner.ico';
+// import favicon from '../style/favicon.ico';
 import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
 // import FlowChart from './flowchart';
@@ -20,9 +25,28 @@ import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
 import PrivacyPolicy from './policies/privacy';
+import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
+import universalMetaTitle from '../constants';
 
+// https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
+// https://medium.com/google-cloud/tracking-site-visits-on-react-app-hosted-in-google-cloud-using-google-analytics-f49c2411d398
+// https://support.google.com/analytics/answer/3123662?hl=en
+const trackingID = 'UA-137867566-1';
+ReactGA.initialize(trackingID);
+
+// Update id on non-login auth
+
+const history = createBrowserHistory();
+ReactGA.pageview(window.location.pathname);
+history.listen((location) => {
+  ReactGA.set({ page: location.pathname }); // Update the user's current page
+  ReactGA.pageview(location.pathname); // Record a pageview for the given page
+});
+
+// User ID information
+// https://support.google.com/analytics/answer/3123666
 
 class App extends Component {
   constructor(props) {
@@ -59,15 +83,18 @@ class App extends Component {
     if (sizeSufficient) {
       return (
         <div>
-          <Router>
+          <Router history={history}>
             <div>
               <div className="app-container">
+                <Helmet>
+                  <meta name="copyright" content={`Copyright of D-Planner Project, ${new Date().getFullYear()}`} />
+                  <meta name="description" content="D-Planner is an academic planning suite that curates academic data to allow students to take advantage of all of their academic opportunities in higher education." />
+                  <title>{universalMetaTitle}</title>
+                </Helmet>
                 <Switch>
-                  {/* DPlan */}
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
+                  <Route path="/tutorial/:page" component={requireAuth(Landing, Tutorial)} />
                   <Route path="/course/:id" component={CoursePage} />
-                  <Route exact path="/courses" component={requireAuth(Courses)} />
-                  {/* This Was Discover */}
                   <Route path="/professors/:id" component={Professor} />
                   <Route path="/discover" component={Cytoscape} />
                   <Route path="/plan/:id" component={DPlan} />

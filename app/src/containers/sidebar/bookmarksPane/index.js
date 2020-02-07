@@ -55,16 +55,10 @@ const component = (props) => {
                 let setActive = true;
 
                 for (let y = 0; y < props.plan.terms.length; y += 1) {
-                  // console.log('year');
-                  // console.log(y);
                   for (let t = 0; t < props.plan.terms[y].length; t += 1) {
-                    // console.log('term');
-                    // console.log(t);
                     for (let c = 0; c < props.plan.terms[y][t].courses.length; c += 1) {
-                      // console.log('course');
-                      // console.log(props.plan.terms[y][t].courses[c].course);
-                      // console.log('id');
-                      if (course.id === props.plan.terms[y][t].courses[c].course.id) {
+                      // Need to check for defined course in case of a placeholder course
+                      if (!props.plan.terms[y][t].courses[c].course || course.id === props.plan.terms[y][t].courses[c].course.id) {
                         setActive = false;
                       }
                     }

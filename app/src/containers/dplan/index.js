@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
@@ -8,11 +9,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse, disableCurrentAnnouncement,
 } from '../../actions';
-import { DialogTypes, ROOT_URL, consoleLogging } from '../../constants';
+import {
+  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle,
+} from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
-// import noPlan from '../../style/no-plan.png';
-import trash from '../../style/trash.svg';
 import close from '../../style/close-white.svg';
 import settings from '../../style/settings.svg';
 import check from '../../style/check.svg';
@@ -77,7 +78,6 @@ class DPlan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      noPlan: true,
       openPane: paneTypes.REQUIREMENTS,
       isEditing: false,
       loadingPlan: false,
@@ -97,9 +97,10 @@ class DPlan extends Component {
 
     this.dplanref = React.createRef();
     this.props.updateCloseFocus(this.dplanref);
+  }
 
-    // Prevents locking of plan on resize
-    if (this.props.plan !== null) this.state.noPlan = false;
+  componentWillMount() {
+    this.props.fetchUser();
   }
 
   componentDidMount = () => {
@@ -143,7 +144,6 @@ class DPlan extends Component {
       this.setState({ loadingPlan: true });
       this.props.fetchPlan(planID).then(() => {
         this.setState({
-          noPlan: false,
           loadingPlan: false,
         });
         consoleLogging('DPlan', '[DPlan] setCurrentPlan() fetched plan from backend.');
@@ -524,9 +524,12 @@ class DPlan extends Component {
   }
 
   render() {
-    if (!this.props.plan || this.state.noPlan) {
+    if (!this.props.plan) {
       return (
         <div className="announcement-container">
+          <Helmet>
+            <title>Dashboard{metaContentSeparator}{universalMetaTitle}</title>
+          </Helmet>
           <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
             {this.renderAnnouncement()}
             <div className={(this.props.currentAnnouncement && this.props.announcementActive === true) ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>
@@ -542,6 +545,11 @@ class DPlan extends Component {
     } else {
       return (
         <div className="announcement-container">
+          <Helmet>
+            <title>{this.props.plan.name}{metaContentSeparator}{universalMetaTitle}</title>
+            <meta name="description" content="" />
+            <meta name="keywords" content="" />
+          </Helmet>
           <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
             {this.renderAnnouncement()}
             <div className={this.props.announcementActive === true ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>

@@ -19,6 +19,8 @@ const token = localStorage.getItem('token');
 // localStorage.removeItem('token');
 if (token) {
   store.dispatch({ type: ActionTypes.AUTH_USER });
+} else {
+  store.dispatch({ type: ActionTypes.DEAUTH_USER }); // Backup in case of auth error
 }
 
 ReactDOM.render(
