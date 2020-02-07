@@ -4,7 +4,7 @@ import Auth from '../models/auth';
 import User from '../models/user';
 
 const accessCodeKey = 'E193D58E186DD1E567E4BEE6BFE32';
-const accessCodeLength = 8;
+const accessCodeLength = 64;
 const timeoutDuration = 720000; // Two hours
 
 // Generates a new access code
