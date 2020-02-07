@@ -44,7 +44,7 @@ export const signup = (req, res, next) => {
         }
 
         const newUser = new User({
-            email,
+            email: email.toLowerCase(), // For verification against later in known form
             password,
             firstName,
             lastName,
@@ -189,11 +189,8 @@ export const updateUser = async (req, res) => {
         .populate(PopulateUser)
         .then((user) => {
             if (req.body.change.graduationYear && user.graduationYear !== req.body.change.graduationYear) {
-                console.log('deleting all plans...');
-                Plan.find({ user_id: user._id }).remove().exec()
-                    .then(() => {
-                        user.graduationYear = req.body.change.graduationYear;
-                    })
+                user.graduationYear = req.body.change.graduationYear;
+                Plan.find({ user_id: user._id }).deleteMany().exec()
                     .catch((error) => {
                         console.error(error);
                     });
@@ -202,7 +199,7 @@ export const updateUser = async (req, res) => {
             if (req.body.change.fullName) { user.fullName = req.body.change.fullName; }
             if (req.body.change.firstName) { user.firstName = req.body.change.firstName; }
             if (req.body.change.lastName) { user.lastName = req.body.change.lastName; }
-            if (req.body.change.email) { user.email = req.body.change.email; }
+            if (req.body.change.email) { user.email = req.body.change.email.toLowerCase(); }
             if (req.body.change.emailVerified) { user.emailVerified = req.body.change.emailVerified; }
 
             // Set terms and conditions accepted
@@ -216,10 +213,12 @@ export const updateUser = async (req, res) => {
             }
 
             // For managing adding and removing elements from interest profile
-            if (user.interest_profile.indexOf(req.body.change.interest_profile) !== -1) {
-                user.interest_profile.pull(req.body.change.interest_profile);
-            } else {
-                user.interest_profile.addToSet(req.body.change.interest_profile);
+            if (req.body.change.interest_profile) {
+                if (user.interest_profile.indexOf(req.body.change.interest_profile) !== -1) {
+                    user.interest_profile.pull(req.body.change.interest_profile);
+                } else {
+                    user.interest_profile.addToSet(req.body.change.interest_profile);
+                }
             }
 
             // For managing adding and removing elements from AP profile based on filled objects
@@ -288,7 +287,7 @@ export const updateUser = async (req, res) => {
             user.save().then((newUser) => {
                 const json = newUser.populate(PopulateUser).toJSON();
                 delete json.password;
-                res.json(json);
+                res.send(json);
             }).catch((error) => {
                 console.error(error);
             });
