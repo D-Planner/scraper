@@ -163,6 +163,7 @@ export function deleteUser(id) {
   };
   return dispatch => new Promise((resolve, reject) => {
     axios.delete(`${ROOT_URL}/auth/`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: {} }); // To clear state after user deletion
       dispatch({ type: ActionTypes.DELETE_USER, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -302,9 +303,9 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
 export function validateAccessCode(code, history) {
   return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth/code?code=${code}`).then((response) => {
-      dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
-      history.push('/');
+      dispatch({ type: ActionTypes.AUTH_USER });
+      // history.push('/');
       resolve('Authenticated');
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
@@ -333,7 +334,9 @@ export function checkUserByEmail(email) {
  */
 export function signoutUser(history) {
   return (dispatch) => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    // Removes all stray tokens from site
+    localStorage.clear();
     dispatch({ type: ActionTypes.DEAUTH_USER });
     history.push('/');
   };

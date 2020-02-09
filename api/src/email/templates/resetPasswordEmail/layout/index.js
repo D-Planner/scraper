@@ -21,7 +21,7 @@ function resetPasswordEmail(data) {
             React.createElement('a', { className: 'click-link', href: data.link }, 'Reset Password!'),
 
             // Copyright
-            React.createElement('div', { className: 'copyright' }, 'D-Planner, ©2019'),
+            React.createElement('div', { className: 'copyright' }, 'D-Planner, ©2020'),
         )
     );
 }
