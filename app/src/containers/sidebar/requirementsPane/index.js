@@ -229,7 +229,7 @@ class RequirementsPane extends Component {
     return (
       <div className={paneClass} onClick={this.props.activate} role="presentation">
         <div className="pane-header">
-          <h1 className="pane-title">Your Degree</h1>
+          <div className="pane-title">Your Degree</div>
           {this.props.active
             ? (
               <div className="requirements-toggle">

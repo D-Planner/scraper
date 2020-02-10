@@ -27,8 +27,12 @@
   background-color: rgba($color: #666666, $alpha: .24);
   font-size: 1em;
 
+  &::placeholder {
+    color: $gray-5;
+    opacity: 0.6;
+  }
+
   &.error {
-    // border: $error solid 2px;
     box-shadow: 0px 0px 6px $red;
   }
 }
@@ -133,6 +137,10 @@
         margin: 12px auto 36px auto;
 
         .tc-accept {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
           color: $white;
           text-align: center;
 
@@ -143,6 +151,9 @@
           .policy-link {
             color: $white;
             cursor: default;
+
+            height: 24px !important;
+            margin: auto;
     
             &:hover {
               cursor: pointer;
@@ -153,6 +164,11 @@
           .tc-checkbox-container {
             display: flex;
             flex-direction: row;
+            align-content: center;
+
+            input {
+              margin: auto;
+            }
 
             div {
               margin-right: 12px;
@@ -264,6 +280,7 @@
             }
 
             .tutorial-ap-text {
+              margin-top: 12px;
               color: $white;
             }
           }

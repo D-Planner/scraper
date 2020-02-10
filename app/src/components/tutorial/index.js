@@ -16,13 +16,15 @@ import VideoEmbed from '../videoEmbed';
 import InterestTile from '../interestTile/interestTile';
 import LoadingWheel from '../loadingWheel';
 import NewPlanPage from './pages/newPlanPage';
+import ErrorMessageSpacer from '../errorMessageSpacer';
+
 import { emptyPlan } from '../../services/empty_plan';
 import { parseQuery } from '../../containers/sidebar/searchPane';
 
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
+import screenFeature from '../../../assets/showcase/example-plan-search-cropped.jpg';
 import './tutorial.scss';
-import ErrorMessageSpacer from '../errorMessageSpacer';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
 // const MAX_ADDED_PLACEMENT_COURSES = 6;
@@ -222,10 +224,10 @@ class Tutorial extends React.Component {
       onContinue: () => { },
       toRender: () => (
         <div className="tc-accept">
+          <img style={{ width: '100%', boxShadow: '0px 6px 12px rgba(255, 255, 255, 0.25)', marginBottom: '48px' }} src={screenFeature} alt="plan feature" />
           <a className="policy-link" href="/policies/termsandconditions" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>
-          <p className="policy-spacer" />
           <a className="policy-link" href="/policies/privacypolicy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-          <div className="tc-checkbox-container">
+          <div className="tc-checkbox-container" style={{ margin: '18px auto' }}>
             <div>Please accept our terms and conditions</div>
             {this.props.user.tc_accepted != undefined ? (
               <input
@@ -243,14 +245,14 @@ class Tutorial extends React.Component {
         </div>
       ),
     },
-    {
-      title: 'Welcome to D-Planner!',
-      text: 'We are the future of academic planning. Here’s a little bit about us.',
-      subtext: null,
-      neededToContinue: [],
-      onContinue: () => { },
-      toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
-    },
+    // {
+    //   title: 'Welcome to D-Planner!',
+    //   text: 'We are the future of academic planning. Here’s a little bit about us.',
+    //   subtext: null,
+    //   neededToContinue: [],
+    //   onContinue: () => { },
+    //   toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
+    // },
     {
       title: 'Let\'s get started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
@@ -328,8 +330,8 @@ class Tutorial extends React.Component {
           {this.renderTutorialInput(Advisors.faculty, 'Enter Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
           {this.renderOtherContributors()}
           <div className="contributor-modify-container">
-            <div className={`contributor-modify${this.state.addedOtherContributorCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
-            <div className={`contributor-modify${this.state.addedOtherContributorCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor} role="button" tabIndex={-1}>- Remove contributor</div>
+            <div className={`contributor-modify${this.state.addedOtherContributorCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another advisor</div>
+            <div className={`contributor-modify${this.state.addedOtherContributorCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor} role="button" tabIndex={-1}>- Remove advisor</div>
           </div>
         </form>
       ),
@@ -736,6 +738,7 @@ class Tutorial extends React.Component {
           placeholder={placeholder}
           value={this.state[stateName] || ''}
           onChange={change}
+          alt={placeholder}
         />
         {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameterPrimary, displayParametersSecondary)}
         {disableClearInput === false ? (
@@ -745,7 +748,7 @@ class Tutorial extends React.Component {
             tabIndex="-1"
             onClick={() => this.handleClearClick(stateName)}
           >
-            Clear Saved Input
+            Clear Advisor
           </div>
         ) : null}
       </div>
@@ -806,10 +809,12 @@ class Tutorial extends React.Component {
     let max_passed_score = -1;
     let max_passed_score_index = -1;
 
-    for (let i = 0; i < this.state.APPlacements[APIndex].options.length; i += 1) {
-      if (score >= this.state.APPlacements[APIndex].options[i].min_score && this.state.APPlacements[APIndex].options[i].min_score >= max_passed_score) {
-        max_passed_score = this.state.APPlacements[APIndex].options[i].min_score;
-        max_passed_score_index = i;
+    if (APIndex >= 0) {
+      for (let i = 0; i < this.state.APPlacements[APIndex].options.length; i += 1) {
+        if (score >= this.state.APPlacements[APIndex].options[i].min_score && this.state.APPlacements[APIndex].options[i].min_score >= max_passed_score) {
+          max_passed_score = this.state.APPlacements[APIndex].options[i].min_score;
+          max_passed_score_index = i;
+        }
       }
     }
 
@@ -991,7 +996,7 @@ class Tutorial extends React.Component {
     if (this.state.addedOtherContributorCount) {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherContributorCount; i += 1) {
-        addedOtherEmailList.push(this.renderTutorialInput(`${Advisors.other}${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass']));
+        addedOtherEmailList.push(this.renderTutorialInput(`${Advisors.other}${i}`, 'Enter Other Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass']));
       }
       return addedOtherEmailList;
     } else {
