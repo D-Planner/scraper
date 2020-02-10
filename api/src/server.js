@@ -96,14 +96,10 @@ const resetDB = () => {
 const userMigration = () => {
     UserModel.find().then((users) => {
         users.forEach((user) => {
-            console.log(user.id);
-            const whatShouldItBe = user.viewed_announcements.length === 0 ? [] : user.viewed_announcements;
             UserModel.findById(user.id).then((found) => {
-                found.viewed_announcements = whatShouldItBe;
-                found.interest_profile = [];
-                found.other_advisors = [];
-                found.ap_profile = [];
-                found.settings = {};
+                found.lastLogin = Date.now();
+                found.totalFetchUserCalls = 0;
+                found.totalUpdateTermCalls = 0;
                 found.save();
             });
         });
