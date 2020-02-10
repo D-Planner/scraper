@@ -66,9 +66,10 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
         <ErrorMessageSpacer errorMessage={errorMessage} />
         <DefaultButton click={sendAccessCode} label="Submit" />
         <div className="spacer" />
-        <button type="button" className="sign-in" onClick={props.switchToSignUp}>
+        {/* <button type="button" className="sign-in" onClick={props.switchToSignUp}>
           <div className="button-cover"><div className="button-text">Sign Up</div></div>
-        </button>
+        </button> */}
+        <div role="button" tabIndex={-1} className="switch-text" onClick={props.switchToSignUp}>Need an account? Sign up</div>
       </div>
     );
   } else {
@@ -88,7 +89,8 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
             <div className="button-cover"><div className="button-text">Sign In</div></div>
           </button>
           <div className="spacer" />
-          {props.showSignUp ? <DefaultButton click={props.switchToSignUp} label="Sign Up" /> : null}
+          {/* {props.showSignUp ? <DefaultButton click={props.switchToSignUp} label="Sign Up" /> : null} */}
+          <div role="button" tabIndex={-1} className="switch-text" onClick={props.switchToSignUp}>Need an account? Sign up</div>
           <a className="switch-text" href="/reset/pass">Forgot password?</a>
         </form>
       </div>
