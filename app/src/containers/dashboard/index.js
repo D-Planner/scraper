@@ -4,6 +4,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
+import ReactGA from 'react-ga';
 import {
   fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
 } from '../../actions';
@@ -39,6 +40,11 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
+    this.props.fetchUser().then((user) => {
+      ReactGA.set({
+        userId: user.id,
+      });
+    });
     this.props.fetchPlans().then(() => {
       this.setState({ loadingPlans: false });
     });
@@ -85,6 +91,12 @@ class Dashboard extends React.Component {
 
   goToPlan(id) {
     this.props.setCurrentPlan(id);
+    // this.props.history.push(`/plan/${id}`);
+    ReactGA.event({
+      category: 'Plan',
+      action: 'Open',
+      value: id,
+    });
   }
 
   showDialog() {
@@ -207,6 +219,7 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   currentPlan: state.plans.current,
   errorMessage: state.plans.errorMessage,
+  authenticated: state.authenticated,
 });
 
 export default withRouter(connect(mapStateToProps, {

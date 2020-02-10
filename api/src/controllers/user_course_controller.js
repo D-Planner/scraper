@@ -56,7 +56,7 @@ const updateUserCourse = async (req, res, next) => {
     console.log(change);
     try {
         UserCourse.findByIdAndUpdate(req.params.userCourseID, change).then((r) => {
-            console.log(r);
+            // console.log(r);
         });
         res.status(201).json('Saved');
     } catch (e) {

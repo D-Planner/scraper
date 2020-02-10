@@ -33,8 +33,16 @@ $term-margin: 0 15px 15px 0;
     }
     &.past {
         background: $background;
-        border: 1px dashed $blue-primary;
         box-shadow: none !important; // the reason for this !important is to override the default .term settings
+
+        &.on {
+            border: 1px dashed $blue-primary;
+        }
+
+        &.off {
+            border: 1px dashed $gray-6;
+        }
+
         .accent {
             display: none; // if the term is a past term, don't show the accent bar
         }
@@ -61,10 +69,6 @@ $term-margin: 0 15px 15px 0;
             &.off {
                 color: $gray-6;
             }
-            &.past {
-                color: $blue-primary;
-            }
-            
         }
         .toggle-button {
             background: $white;
@@ -137,7 +141,7 @@ $term-margin: 0 15px 15px 0;
                 text-align: center;
                 justify-content: flex-start;
                 align-items: center;
-                color: $gray-6;
+                color: $gray-6 !important;
                 position: relative;
                 top: 45px;
                 padding: 0 37px 0 37px;

@@ -35,6 +35,13 @@ export const ActionTypes = {
   BEGIN_DRAG: 'BEGIN_DRAG',
   END_DRAG: 'END_DRAG',
   DRAG_FULFILLED_STATUS: 'DRAG_FULFILLED_STATUS',
+  DISABLE_ANNOUNCEMENT: 'DISABLE_ANNOUNCEMENT',
+  FETCH_CURRENT_ANNOUNCEMENT: 'FETCH_CURRENT_ANNOUNCEMENT',
+  FETCH_ANNOUNCEMENT: 'FETCH_ANNOUNCEMENT',
+  UPDATE_ANNOUNCEMENT: 'UPDATE_ANNOUNCEMENT',
+  NEW_ANNOUNCEMENT: 'NEW_ANNOUNCEMENT',
+  DELETE_ANNOUNCEMENT: 'DELETE_ANNOUNCEMENT',
+  DELETE_ALL_ANNOUNCEMENTS: 'DELETE_ALL_ANNOUNCEMENTS',
   SET_FULFILLED_STATUS: 'SET_FULFILLED_STATUS',
   SET_PRESSED_KEY: 'SET_PRESSED_KEY',
   REMOVE_PRESSED_KEY: 'REMOVE_PRESSED_KEY',
@@ -163,6 +170,7 @@ export function deleteUser(id) {
   };
   return dispatch => new Promise((resolve, reject) => {
     axios.delete(`${ROOT_URL}/auth/`, { headers }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_USER, payload: {} }); // To clear state after user deletion
       dispatch({ type: ActionTypes.DELETE_USER, payload: response.data });
       resolve();
     }).catch((error) => {
@@ -258,6 +266,8 @@ export function signinUser({ email, password }, history) {
   const fields = { email, password };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
+      console.log('Setting user id to:');
+      console.log(response.data.user._id);
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
@@ -300,9 +310,9 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
 export function validateAccessCode(code, history) {
   return dispatch => new Promise((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth/code?code=${code}`).then((response) => {
-      dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
-      history.push('/');
+      dispatch({ type: ActionTypes.AUTH_USER });
+      // history.push('/');
       resolve('Authenticated');
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
@@ -331,7 +341,9 @@ export function checkUserByEmail(email) {
  */
 export function signoutUser(history) {
   return (dispatch) => {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    // Removes all stray tokens from site
+    localStorage.clear();
     dispatch({ type: ActionTypes.DEAUTH_USER });
     history.push('/');
   };
@@ -349,7 +361,7 @@ export function fetchUser() {
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
-      resolve();
+      resolve(response.data);
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
@@ -1028,6 +1040,105 @@ export function showDialog(type, options) {
 export function hideDialog() {
   return (dispatch) => {
     dispatch({ type: ActionTypes.HIDE_DIALOG });
+  };
+}
+
+// ----------------------- Announcements ----------------------- //
+
+export function getAnnouncement(id) {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/announcements/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENT, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function getCurrentAnnouncement() {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.get(`${ROOT_URL}/announcements/`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_CURRENT_ANNOUNCEMENT, payload: response.data }); // Make response.data
+      resolve(response.data);
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function deleteAnnouncement(id) {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/announcements/${id}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.DELETE_ANNOUNCEMENT, payload: response.data.result });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function deleteAllAnnouncements() {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.delete(`${ROOT_URL}/announcements/`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.DELETE_ALL_ANNOUNCEMENTS, payload: response.data.result });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function newAnnouncement(text, link) {
+  const fields = { text, link };
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/announcements/`, { fields }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.NEW_ANNOUNCEMENT, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET });
+      reject();
+    });
+  }));
+}
+
+export function updateAnnouncement(id, update) {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.post(`${ROOT_URL}/announcements/${id}`, { id, update }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.UPDATE_ANNOUNCEMENT, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      console.log(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
+}
+
+export function disableCurrentAnnouncement() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.DISABLE_ANNOUNCEMENT, payload: { actionTypes: true } });
   };
 }
 

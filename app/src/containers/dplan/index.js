@@ -1,16 +1,20 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Helmet from 'react-helmet';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, fetchUser, fetchPlans, updateCloseFocus, updatePlan, setLoading, sendVerifyEmail, setFulfilledStatus, addPlaceholderCourse, removePlaceholderCourse,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse, disableCurrentAnnouncement,
 } from '../../actions';
-import { DialogTypes, ROOT_URL, consoleLogging } from '../../constants';
+import {
+  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle,
+} from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
+import close from '../../style/close-white.svg';
 import settings from '../../style/settings.svg';
 import check from '../../style/check.svg';
 import logo from '../../style/logo.svg';
@@ -62,8 +66,6 @@ class DPlan extends Component {
     PLAN_NINE: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[8].id), event),
     PLAN_TEN: event => this.keyCommandWrapper(() => this.setCurrentPlan(this.props.plans[9].id), event),
     CLOSE: event => this.keyCommandWrapper(() => this.setCurrentPlan(null), event),
-    // eslint-disable-next-line no-alert
-    SAVE: event => this.keyCommandWrapper(() => alert('D-Planner automatically saves your work!'), event), // TODO: Add to announcement bar
     OPEN_NEW_PLAN: event => this.keyCommandWrapper(() => this.showNewPlanDialog(), event),
     OPEN_DELETE_PLAN: event => this.keyCommandWrapper(() => this.deletePlanKeyPress(this.props.plan), event),
     OPEN_SEARCH_PANE: event => this.keyCommandWrapper(() => this.setState({ openPane: paneTypes.SEARCH }), event),
@@ -80,6 +82,15 @@ class DPlan extends Component {
       tempPlanName: '',
       anchorEl: null,
     };
+
+    this.setCurrentPlan = this.setCurrentPlan.bind(this);
+    this.showDialog = this.showDialog.bind(this);
+    this.createNewPlan = this.createNewPlan.bind(this);
+    this.showNewPlanDialog = this.showNewPlanDialog.bind(this);
+    this.getFlattenedCourses = this.getFlattenedCourses.bind(this);
+    this.addCourseToTerm = this.addCourseToTerm.bind(this);
+    this.removeCourseFromTerm = this.removeCourseFromTerm.bind(this);
+
     this.props.getTimes();
 
     this.dplanref = React.createRef();
@@ -92,6 +103,16 @@ class DPlan extends Component {
 
   componentDidMount = () => {
     consoleLogging('DPlan', '[DPlan] Did Mount');
+
+    // Checks if there is a current announcement and whether the user has seen it
+    this.props.fetchUser().then((user) => {
+      this.props.getCurrentAnnouncement().then(() => {
+        if (!this.props.currentAnnouncement || user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
+          this.props.disableCurrentAnnouncement();
+        }
+      });
+    });
+
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
@@ -475,115 +496,160 @@ class DPlan extends Component {
     }
   };
 
+  renderAnnouncement = () => {
+    return (
+      <div className={`announcements${this.props.announcementActive === true ? '' : ' closed'}${this.props.currentAnnouncement.link === '/' ? '' : ' clickable'}`}>
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+        <div className="announcement-text"
+          onClick={(e) => {
+            if (this.props.currentAnnouncement) {
+              this.props.history.push(this.props.currentAnnouncement.link);
+              if (this.props.currentAnnouncement.link !== '/') {
+                this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
+                this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                  this.props.disableCurrentAnnouncement();
+                });
+              }
+            }
+          }}
+        >{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+        </div>
+        <img src={close}
+          alt="close"
+          className="close"
+          onClick={(e) => {
+            this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+              this.props.disableCurrentAnnouncement();
+            });
+          }}
+        />
+      </div>
+    );
+  }
+
   render() {
     if (!this.props.plan) {
       return (
-        <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-          <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
-            <Dashboard setCurrentPlan={this.setCurrentPlan} />
-            <div className="welcome-text">
-              <div className="welcome-title">Welcome to D-Planner!</div>
-              <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+        <div className="announcement-container">
+          <Helmet>
+            <title>Dashboard{metaContentSeparator}{universalMetaTitle}</title>
+          </Helmet>
+          <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+            {this.renderAnnouncement()}
+            <div className={(this.props.currentAnnouncement && this.props.announcementActive === true) ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>
+              <Dashboard setCurrentPlan={this.setCurrentPlan} />
+              <div className="welcome-text">
+                <div className="welcome-title">Welcome to D-Planner!</div>
+                <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+              </div>
             </div>
-          </div>
-        </HotKeys>
+          </HotKeys>
+        </div>
       );
     } else {
       return (
-        <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
-          <div className="dashboard" tabIndex={-1} ref={this.dplanref}>
-            <Dashboard setCurrentPlan={this.setCurrentPlan} />
-            {this.state.loadingPlan === true
-              ? (
-                <div className="loader">
-                  <img className="loader-image" src={logo} alt="logo" />
-                </div>
-              )
-              : (
-                <Fragment>
-                  <div className="plan-content">
-                    <div className="plan-side">
-                      <div className="plan-header">
-                        {this.state.isEditing
-                          ? (
-                            <>
-                              <input
-                                className="plan-name plan-name-editing"
-                                placeholder={this.state.tempPlanName}
-                                value={this.state.tempPlanName}
-                                onChange={e => this.setState({ tempPlanName: e.target.value })}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter') {
-                                    this.handleChangePlanName();
-                                  }
-                                }}
-                              />
-                              <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
-                            </>
-                          )
-                          : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
-                        <button type="button" className="settings-button" onClick={this.setMenuAnchor}>
-                          <img src={settings} alt="" />
-                        </button>
-                        <Menu
-                          className="plan-options"
-                          anchorEl={this.state.anchorEl}
-                          keepMounted
-                          open={Boolean(this.state.anchorEl)}
-                          onClose={() => this.setState({ anchorEl: null })}
-                        >
-                          <MenuItem onClick={() => {
-                            this.setState({ anchorEl: null });
-                            this.duplicatePlan();
-                          }}
-                          >Duplicate
-                          </MenuItem>
-                          <MenuItem onClick={() => {
-                            this.setState({ anchorEl: null });
-                            this.showDialog();
-                          }}
-                          >Delete
-                          </MenuItem>
-                        </Menu>
-                      </div>
-                      <Sidebar
-                        setOpenPane={pane => this.setState({ openPane: pane })}
-                        openPane={this.state.openPane}
-                        planCourses={this.getFlattenedCourses()}
-                        setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                        addPlaceholderCourse={this.addPlaceholderCourseToTerm}
-                        removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
-                      />
-                    </div>
-                    <div className="plan-grid">
-                      {this.props.plan.terms.map((year) => {
-                        return (
-                          <div className="plan-row" key={year[0].id}>
-                            {year.map((term) => {
-                              return (
-                                <Term
-                                  plan={this.props.plan}
-                                  time={this.props.time}
-                                  term={term}
-                                  key={term.id}
-                                  addCourseToTerm={this.addCourseToTerm}
-                                  removeCourseFromTerm={this.removeCourseFromTerm}
-                                  setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                                  addPlaceholderCourse={this.addPlaceholderCourseToTerm}
-                                  removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
-                                />
-                              );
-                            })}
-                          </div>
-                        );
-                      })}
-                    </div>
+        <div className="announcement-container">
+          <Helmet>
+            <title>{this.props.plan.name}{metaContentSeparator}{universalMetaTitle}</title>
+            <meta name="description" content="" />
+            <meta name="keywords" content="" />
+          </Helmet>
+          <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
+            {this.renderAnnouncement()}
+            <div className={this.props.announcementActive === true ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>
+              <Dashboard setCurrentPlan={this.setCurrentPlan} />
+              {this.state.loadingPlan === true
+                ? (
+                  <div className="loader">
+                    <img className="loader-image" src={logo} alt="logo" />
                   </div>
-                </Fragment>
-              )
-            }
-          </div>
-        </HotKeys>
+                )
+                : (
+                  <Fragment>
+                    <div className="plan-content">
+                      <div className="plan-side">
+                        <div className="plan-header">
+                          {this.state.isEditing
+                            ? (
+                              <>
+                                <input
+                                  className="plan-name plan-name-editing"
+                                  placeholder={this.state.tempPlanName}
+                                  value={this.state.tempPlanName}
+                                  onChange={e => this.setState({ tempPlanName: e.target.value })}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                      this.handleChangePlanName();
+                                    }
+                                  }}
+                                />
+                                <img className="plan-name-check" src={check} alt="check" onClick={this.handleChangePlanName} />
+                              </>
+                            )
+                            : <div className="plan-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.renderPlanName(this.props.plan.name)}</div>}
+                          <button type="button" className="settings-button" onClick={this.setMenuAnchor}>
+                            <img src={settings} alt="" />
+                          </button>
+                          <Menu
+                            className="plan-options"
+                            anchorEl={this.state.anchorEl}
+                            keepMounted
+                            open={Boolean(this.state.anchorEl)}
+                            onClose={() => this.setState({ anchorEl: null })}
+                          >
+                            <MenuItem onClick={() => {
+                              this.setState({ anchorEl: null });
+                              this.duplicatePlan();
+                            }}
+                            >Duplicate
+                            </MenuItem>
+                            <MenuItem onClick={() => {
+                              this.setState({ anchorEl: null });
+                              this.showDialog();
+                            }}
+                            >Delete
+                            </MenuItem>
+                          </Menu>
+                        </div>
+                        <Sidebar
+                          setOpenPane={pane => this.setState({ openPane: pane })}
+                          openPane={this.state.openPane}
+                          planCourses={this.getFlattenedCourses()}
+                          setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                          addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                          removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                        />
+                      </div>
+                      <div className="plan-grid">
+                        {this.props.plan.terms.map((year) => {
+                          return (
+                            <div className="plan-row" key={year[0].id}>
+                              {year.map((term) => {
+                                return (
+                                  <Term
+                                    plan={this.props.plan}
+                                    time={this.props.time}
+                                    term={term}
+                                    key={term.id}
+                                    addCourseToTerm={this.addCourseToTerm}
+                                    removeCourseFromTerm={this.removeCourseFromTerm}
+                                    setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
+                                    addPlaceholderCourse={this.addPlaceholderCourseToTerm}
+                                    removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                                  />
+                                );
+                              })}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </Fragment>
+                )
+              }
+            </div>
+          </HotKeys>
+        </div>
       );
     }
   }
@@ -593,6 +659,8 @@ const mapStateToProps = state => ({
   plans: state.plans.all,
   plan: state.plans.current,
   time: state.time,
+  currentAnnouncement: state.announcements.currentAnnouncement,
+  announcementActive: state.announcements.announcementActive,
   user: state.user.current,
   focusElement: state.dialog.focusOnClose,
   openDialog: state.dialog.type,
@@ -616,6 +684,14 @@ export default withRouter(connect(mapStateToProps, {
   setLoading,
   sendVerifyEmail,
   setFulfilledStatus,
+  getCurrentAnnouncement,
+  getAnnouncement,
+  updateAnnouncement,
+  newAnnouncement,
+  deleteAnnouncement,
+  deleteAllAnnouncements,
+  updateUser,
   addPlaceholderCourse,
   removePlaceholderCourse,
+  disableCurrentAnnouncement,
 })(DPlan));
