@@ -1,5 +1,8 @@
 .msg {
-  display: flex;
+  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
   height: 100%;
   align-items: center;
   justify-content: center;
@@ -21,7 +24,10 @@ h2 {
 }
 
 .tabs {
-  display: flex;
+  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
   flex-direction: row;
   flex-wrap: nowrap;
   width: 100%;
@@ -29,7 +35,10 @@ h2 {
   p {
     font-family: 'Roboto';
     line-height: 14px;
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     margin: 10%;
     align-items: center;
     text-align: center;
@@ -37,7 +46,10 @@ h2 {
 }
 
 .progress-container {
-  display: flex;
+  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
   h3 {
     font-family: 'Poppins';
@@ -54,7 +66,10 @@ h2 {
     line-height: 21px;
     color: #000000;
     flex: 1;
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     align-items: center;
     text-align: center;
   }

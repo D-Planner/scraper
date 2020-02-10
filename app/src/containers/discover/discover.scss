@@ -9,7 +9,10 @@ $results-header-height: 40px;
 $scroll-container-height: 180px;
 
 .search-types {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -35,7 +38,10 @@ $scroll-container-height: 180px;
 }
 
 .search-box-container {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     justify-content: center;
     align-items: center;
     height: $search-box-container-height;
@@ -58,13 +64,19 @@ $scroll-container-height: 180px;
 }
 
 .no-results {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     justify-content: center;
     font-family: $roboto;
 }
 
 .results {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     justify-content: center;
     line-height: $line-height;
     font-family: $roboto;
@@ -76,7 +88,10 @@ $scroll-container-height: 180px;
             border-bottom: 1px dashed #000000;
             line-height: $results-header-height;
             height: $results-header-height;
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: row;
 
             .headers-col {
@@ -104,7 +119,10 @@ $scroll-container-height: 180px;
                 }
         
                 &.centered {
-                    display: flex;
+                    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                     justify-content: center;
                 }
             }
@@ -122,7 +140,10 @@ $scroll-container-height: 180px;
 }
 
 .results-with-filters {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     justify-content: space-around;
     width: 100%;
 
@@ -152,7 +173,10 @@ $scroll-container-height: 180px;
 }
 
 .scroll-prompt-container {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     flex-direction: column;
     justify-content: center;
     align-items: center;

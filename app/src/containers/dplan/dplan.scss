@@ -11,7 +11,10 @@ $announcement-height: 48px;
   color: $white;
   height: $announcement-height;
   
-  display: flex;
+  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
   flex-grow: 1;
   justify-content: center;
   align-content: center;
@@ -21,7 +24,10 @@ $announcement-height: 48px;
   transition: height .3s;
 
   .announcement-text {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     flex-grow: 1;
     justify-content: center;
     align-content: center;
@@ -53,7 +59,10 @@ $announcement-height: 48px;
 }
 
 .dashboard {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -68,12 +77,18 @@ $announcement-height: 48px;
 
     .welcome-text {
         flex-grow: 1;
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: column;
         justify-content: center;
         align-content: center;
         * {
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             justify-content: center;
             font-family: $poppins;
             color: $text-accent;
@@ -90,7 +105,10 @@ $announcement-height: 48px;
 
     .loader {
       flex-grow: 1;
-      display: flex;
+      display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
       align-items: stretch;
 
       align-items: center;
@@ -114,7 +132,10 @@ $announcement-height: 48px;
   
     .plan-content {
         box-shadow: -5px 0px 20px rgba(0, 0, 0, 0.15);
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         justify-content: space-between;
         width: 100%;
         min-width: calc(100vw - #{$menu-width-closed}); // CSS-DEF the 68px refers to $menu-width-closed
@@ -123,10 +144,16 @@ $announcement-height: 48px;
 
         .plan-side {
             margin-left: $sidebar-margin-left;
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             .plan-header {
-                display: flex;
+                display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: row;
                 // justify-content: space-between;
                 align-items: center;
@@ -152,7 +179,10 @@ $announcement-height: 48px;
                         flex: 0;
                         cursor: text;
                         border-bottom: $text-accent 1px solid;
-                        display: flex;
+                        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                         max-width: 170px;
                         margin-right: 10px;
                     }
@@ -178,7 +208,10 @@ $announcement-height: 48px;
             flex-grow: 1;      
             overflow-x: hidden;
             padding-left: 30px; // the reaosn why this has to be padding-left instead of margin-left is because otherwise, the box-shadow gets cut-off
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             align-items: flex-start;
             // max-width: 1012px; // CSS-DEF this number is dependent on the sum of all tiles and their margins
@@ -187,7 +220,10 @@ $announcement-height: 48px;
             padding-top: 50px; // CSS-DEF this depends on the sum of the .plan-name height and the 36px margins
             
             .plan-row {
-                display: flex;
+                display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: row;
                 justify-content: flex-start;
                 margin-bottom: 10px;

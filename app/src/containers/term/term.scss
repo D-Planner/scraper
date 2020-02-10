@@ -17,7 +17,10 @@ $term-margin: 0 15px 15px 0;
     width: $term-width-13;
     height: $term-height-13;
     flex-shrink: 0;
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     flex-direction: column;
     justify-content: flex-start;
     box-shadow: $tablet-box-shadow;
@@ -54,7 +57,10 @@ $term-margin: 0 15px 15px 0;
         $term-name-font-size: 24px;
         $term-header-min-height-13: 52px;
 
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         align-items: center;
         justify-content: space-between;
         width: 100%;
@@ -73,7 +79,10 @@ $term-margin: 0 15px 15px 0;
         .toggle-button {
             background: $white;
             border-radius: 5px;
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             align-items: center;
             justify-content: center;
             font-weight: 700;
@@ -114,13 +123,19 @@ $term-margin: 0 15px 15px 0;
     }
 
     .term-content {
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
 
         .course-row {
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             align-items: center;
 
 

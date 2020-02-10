@@ -25,13 +25,19 @@
 }
 
 .course-info-container {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     justify-content: center;
     margin: 24px 0;
 
     #content {
         flex: 1;
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: column;
         justify-content: flex-start;
         overflow-y: auto;
@@ -69,7 +75,10 @@
         }
 
         #layup-header {
-          display: flex;
+          display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
           align-items: center;
           cursor: pointer;
           img {
@@ -80,7 +89,10 @@
         }
 
         #top {
-          display: flex;
+          display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
           flex-direction: row;
           justify-content: space-between;
           align-items: flex-start;
@@ -122,7 +134,10 @@
           width: 100%;
 
           #intro-coursepage {
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             justify-content: space-between;
             margin-bottom: 20px;
@@ -136,17 +151,26 @@
           }
 
           #first {
-              display: flex;
+              display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
               justify-content: space-between;
               margin-bottom: 20px;
               padding: 0 20px 0 20px;
 
               #next-term {
-                  display: flex;
+                  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                   flex-direction: column;
                   margin-right: 5%;
                   #periods {
-                      display: flex;
+                      display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                       flex-direction: column;
                       .a-period {
                           font-size: 14px;
@@ -171,18 +195,27 @@
           }
 
           #metrics {
-              display: flex;
+              display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
               justify-content: space-between;
               margin-bottom: 20px;
               padding: 0 20px 0 20px;
 
               #distribs {
-                  display: flex;
+                  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                   flex-direction: column;
                   // max-width: 150px; //CSS-DEF: this is based on a guess of how wide this can get if a course has 2 distribs and 2 wcs
 
                   #bubbles {
-                      display: flex;
+                      display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                       flex-direction: row;
                       align-items: center;
 
@@ -212,17 +245,29 @@
               #medians {
                   // max-width: 30%;
                   overflow-x: hidden;
-                  display: flex;
+                  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                   flex-direction: column;
 
                   #bubbles {
-                      display: flex;
+                      display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                       .median-bubble {
-                          display: flex;
+                          display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                           flex-direction: column;
                           margin-right: 7px;
                           .median-bubble-grade {
-                              display: flex;
+                              display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                               align-items: center;
                               justify-content: center;
                               background: $blue-primary;
@@ -247,7 +292,10 @@
                   }
               }
               #scores {
-                  display: flex;
+                  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                   flex-direction: column;
                   // max-width: 30%;
                   color: $text-accent;
@@ -255,7 +303,10 @@
                   text-overflow: ellipsis;
 
                   .layup-score-container {
-                    display: flex;
+                    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                     flex-direction: row;
 
                     .layup-score-accent {
@@ -268,13 +319,19 @@
           }
 
           #last {
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             align-content: flex-start;
             justify-content: space-between;
             padding: 0 20px 0 20px;
 
             #dependenciesContainer {
-              display: flex;
+              display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
               flex-wrap: wrap;
               flex-direction: column;
               align-items: flex-start;
@@ -285,7 +342,10 @@
                 flex: 1;
                 overflow-y: auto;
                 flex-wrap: wrap;
-                display: flex;
+                display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: column;
                 align-items: flex-start;
                 overflow: visible;
@@ -303,7 +363,10 @@
             }
 
             #offerings {
-              display: flex;
+              display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
               flex-direction: column;
               .offering-label {
                 font-size: 14px;
@@ -313,14 +376,20 @@
               }
               
               .offering-row {
-                display: flex;
+                display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 align-items: center;
                 font-size: 14px;
                 font-weight: 600;
                 color: $text-accent;
                 margin-bottom: 5px;
                 .the-term {
-                  display: flex;
+                  display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                   min-width: 20px;
                 }
               }
@@ -339,7 +408,10 @@
             }
 
             #professors {
-              display: flex;
+              display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
               flex-direction: column;
               align-items: flex-start;
               overflow-y: auto;
@@ -369,20 +441,29 @@
           }
 
           // #reviews-course-page {
-          //   display: flex;
+          //   display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
           //   flex-direction: column;
           //   justify-content: left;
           //   padding: 0 20px 0 20px;
 
           //   .professor-container {
-          //     display: flex;
+          //     display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
           //     .professor-title {
 
           //     }
 
           //     .review-container {
-          //       display: flex;
+          //       display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
           //       flex-direction: row;
 
           //       .review {

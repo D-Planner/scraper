@@ -27,7 +27,10 @@ h2 {
 
 .landing-down-arrow {
     position: absolute;
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     margin: 0 auto 24px auto;
 
     left: 47.5%;
@@ -94,7 +97,10 @@ h2 {
     }
 
     &.horizontal {
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: row;
         align-content: center;
 
@@ -121,7 +127,10 @@ h2 {
 }
 
 .landing-subfeature {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     background: none;
 
     .landing-subfeature-image {
@@ -131,7 +140,10 @@ h2 {
     }
 
     .landing-subfeature-text-container {
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         align-items: center;
         flex-direction: row;
 
@@ -155,7 +167,10 @@ h2 {
         flex: 1;
         width: 100%;
         height: $content-height;
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         padding: none !important;
         margin: none !important;
@@ -167,7 +182,10 @@ h2 {
 
         .landing-left {
             width: 63%;
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -185,7 +203,10 @@ h2 {
 
             .intro {
                 max-width: 720px;
-                display: flex;
+                display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: column;
                 color: white;
 
@@ -215,7 +236,10 @@ h2 {
         }
         .right {
             flex: 1;
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             align-items: center;
             padding-top: $content-padding-top;
@@ -268,7 +292,10 @@ h2 {
         }
 
         .welcome-container {
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: row;
             align-content: space-between;
 
@@ -290,7 +317,10 @@ h2 {
         }
 
         .landing-feature-container {
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: row;
             justify-content: space-between;
         }
@@ -313,7 +343,10 @@ h2 {
             }
 
             .landing-testimonial-text-container {
-                display: flex;
+                display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: column;
 
                 padding: 21px 0;
@@ -331,7 +364,10 @@ h2 {
         }
 
         .landing-link-container {
-            display: flex;
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: row;
             justify-content: space-between;
             align-content: space-between;
@@ -341,7 +377,10 @@ h2 {
 
             .landing-icon-container {
                 max-height: 34px;
-                display: flex;
+                display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: row;
 
                 .landing-social-icon-container {

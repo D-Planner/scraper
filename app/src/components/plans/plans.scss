@@ -1,7 +1,10 @@
 @import '../../style/variables.scss';
 
 .plans {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     flex-direction: column;
     align-items: center;
     padding-top: 10px;
@@ -9,7 +12,10 @@
         width: 100%;
         margin-bottom: 10px;
         height: calc(68px - 20px); // CSS-DEF the 68px refers to $menu-width-closed and the 20px refers to the 10px margins on either side.. this is to make it square
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -40,7 +46,10 @@
     #newPlanButton {
         width: 100%;
         height: calc(68px - 20px); // CSS-DEF the 68px refers to $menu-width-closed and the 20px refers to the 10px margins on either side.. this is to make it square
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         justify-content: center;
         align-items: center;
         background: none;
@@ -62,7 +71,10 @@
     #noMorePlans {
         width: 100%;
         height: calc(68px - 20px); // CSS-DEF the 68px refers to $menu-width-closed and the 20px refers to the 10px margins on either side.. this is to make it square
-        display: flex;
+        display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         justify-content: center;
         align-items: flex-start;
         border-radius: 5px;
@@ -76,7 +88,10 @@
 }
 
 .no-plans {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -108,7 +123,10 @@
 //   text-align: center;
 
   .loading-wheel {
-    display: flex;
+    display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+display: -ms-flexbox;  /* TWEENER - IE 10 */
+display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     border: 7px solid $white;
     border-radius: 50%;
     border-top: 7px solid $text-accent;
