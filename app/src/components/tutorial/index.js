@@ -16,13 +16,15 @@ import VideoEmbed from '../videoEmbed';
 import InterestTile from '../interestTile/interestTile';
 import LoadingWheel from '../loadingWheel';
 import NewPlanPage from './pages/newPlanPage';
+import ErrorMessageSpacer from '../errorMessageSpacer';
+
 import { emptyPlan } from '../../services/empty_plan';
 import { parseQuery } from '../../containers/sidebar/searchPane';
 
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
+import screenFeature from '../../../assets/showcase/example-plan-search-cropped.jpg';
 import './tutorial.scss';
-import ErrorMessageSpacer from '../errorMessageSpacer';
 
 const MAX_ADDED_CONTRIBUTORS = 6;
 // const MAX_ADDED_PLACEMENT_COURSES = 6;
@@ -222,10 +224,10 @@ class Tutorial extends React.Component {
       onContinue: () => { },
       toRender: () => (
         <div className="tc-accept">
+          <img style={{ width: '100%', boxShadow: '0px 6px 12px rgba(255, 255, 255, 0.25)', marginBottom: '48px' }} src={screenFeature} alt="plan feature" />
           <a className="policy-link" href="/policies/termsandconditions" target="_blank" rel="noopener noreferrer">Terms and Conditions</a>
-          <p className="policy-spacer" />
           <a className="policy-link" href="/policies/privacypolicy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-          <div className="tc-checkbox-container">
+          <div className="tc-checkbox-container" style={{ margin: '18px auto' }}>
             <div>Please accept our terms and conditions</div>
             {this.props.user.tc_accepted != undefined ? (
               <input

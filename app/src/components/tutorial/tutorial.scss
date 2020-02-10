@@ -137,6 +137,10 @@
         margin: 12px auto 36px auto;
 
         .tc-accept {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
           color: $white;
           text-align: center;
 
@@ -147,6 +151,9 @@
           .policy-link {
             color: $white;
             cursor: default;
+
+            height: 24px !important;
+            margin: auto;
     
             &:hover {
               cursor: pointer;
@@ -157,6 +164,11 @@
           .tc-checkbox-container {
             display: flex;
             flex-direction: row;
+            align-content: center;
+
+            input {
+              margin: auto;
+            }
 
             div {
               margin-right: 12px;
