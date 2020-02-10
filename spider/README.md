@@ -8,7 +8,7 @@ To run the 🕷️ without any 😩, open your terminal and enter the following 
 PORT="8080" \
 ORC_URL="https://oracle-www.dartmouth.edu/dart/groucho/timetable.display_courses" \
 LAYUP_URL="https://www.layuplist.com" \
-LAYUP_COOKIE="__cfduid=d436705b2deba05e8a80fcc2ec98c5b8b1560383586; _ga=GA1.2.942041145.1560383588; _gid=GA1.2.1530077766.1560383588; _gat=1; sessionid=zfib5uah6clqoy587whqzsqiwucev2zh; csrftoken=taASqNgxNY1bSo8AyMZSDjLjbsokeE7whRGn0FPm6kw5YvPGqSQyc9j6G3MuJXCH" \
+LAYUP_COOKIE="__cfduid=d1c489445b2ea23ce62a0453fb7365a8e1581356219; _ga=GGA1.2.777740150.1578002484; _gid=GA1.2.1146741920.1581359572; _gat=1; sessionid=3v4d8j9yh6300gxww2namwfuxzt3lvk5; csrftoken=wglx4RgDv8Js1nJ7eY0ePDYGJG4GdpcRd8LnrsF9ihooZIj4guDZsGAOuBO40Tyo" \
 ./bin/spider
 ```
 
