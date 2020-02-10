@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, Router } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import logo from '../../style/logo.svg';
 import './headerMenu.scss';
 import { ProgressBar } from '../progressBar';
