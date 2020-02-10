@@ -1,9 +1,0 @@
-{
-  "license": "doge",
-  "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "babel-loader": "^8.0.6",
-    "babel-polyfill": "^6.26.0"
-  }
-}

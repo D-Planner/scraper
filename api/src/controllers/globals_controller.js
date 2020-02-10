@@ -65,7 +65,6 @@ const setGlobals = (req, res) => {
 const getGlobals = (req, res) => {
     Globals.findOne({ name: 'global' })
         .then((globals) => {
-            console.log(globals);
             res.status(200).send(globals);
         }).catch((e) => {
             console.log(e);
