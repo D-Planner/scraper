@@ -265,6 +265,10 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
               font-size: 14px;
               text-overflow: ellipsis;
 
+              .layup-link {
+                height: auto !important;
+              }
+
               .layup-score-container {
                 display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
 display: -ms-flexbox;  /* TWEENER - IE 10 */
