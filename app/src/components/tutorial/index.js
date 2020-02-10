@@ -243,14 +243,14 @@ class Tutorial extends React.Component {
         </div>
       ),
     },
-    {
-      title: 'Welcome to D-Planner!',
-      text: 'We are the future of academic planning. Here’s a little bit about us.',
-      subtext: null,
-      neededToContinue: [],
-      onContinue: () => { },
-      toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
-    },
+    // {
+    //   title: 'Welcome to D-Planner!',
+    //   text: 'We are the future of academic planning. Here’s a little bit about us.',
+    //   subtext: null,
+    //   neededToContinue: [],
+    //   onContinue: () => { },
+    //   toRender: () => <VideoEmbed youtubeID="rbasThWVb-c" />,
+    // },
     {
       title: 'Let\'s get started.',
       text: 'D-Planner offers cutting-edge academic planning tools. To start, tell us what interests you.',
@@ -328,8 +328,8 @@ class Tutorial extends React.Component {
           {this.renderTutorialInput(Advisors.faculty, 'Enter Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass'], false, true)}
           {this.renderOtherContributors()}
           <div className="contributor-modify-container">
-            <div className={`contributor-modify${this.state.addedOtherContributorCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another contributor</div>
-            <div className={`contributor-modify${this.state.addedOtherContributorCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor} role="button" tabIndex={-1}>- Remove contributor</div>
+            <div className={`contributor-modify${this.state.addedOtherContributorCount >= MAX_ADDED_CONTRIBUTORS ? ' inactive' : ''}`} onClick={this.addNewContributor} role="button" tabIndex={-1}>+ Add another advisor</div>
+            <div className={`contributor-modify${this.state.addedOtherContributorCount == 0 ? ' inactive' : ''}`} onClick={this.removeContributor} role="button" tabIndex={-1}>- Remove advisor</div>
           </div>
         </form>
       ),
@@ -745,7 +745,7 @@ class Tutorial extends React.Component {
             tabIndex="-1"
             onClick={() => this.handleClearClick(stateName)}
           >
-            Clear Saved Input
+            Clear Advisor
           </div>
         ) : null}
       </div>
@@ -806,10 +806,12 @@ class Tutorial extends React.Component {
     let max_passed_score = -1;
     let max_passed_score_index = -1;
 
-    for (let i = 0; i < this.state.APPlacements[APIndex].options.length; i += 1) {
-      if (score >= this.state.APPlacements[APIndex].options[i].min_score && this.state.APPlacements[APIndex].options[i].min_score >= max_passed_score) {
-        max_passed_score = this.state.APPlacements[APIndex].options[i].min_score;
-        max_passed_score_index = i;
+    if (APIndex >= 0) {
+      for (let i = 0; i < this.state.APPlacements[APIndex].options.length; i += 1) {
+        if (score >= this.state.APPlacements[APIndex].options[i].min_score && this.state.APPlacements[APIndex].options[i].min_score >= max_passed_score) {
+          max_passed_score = this.state.APPlacements[APIndex].options[i].min_score;
+          max_passed_score_index = i;
+        }
       }
     }
 
