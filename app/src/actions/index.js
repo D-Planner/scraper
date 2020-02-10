@@ -266,8 +266,6 @@ export function signinUser({ email, password }, history) {
   const fields = { email, password };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signin`, fields).then((response) => {
-      console.log('Setting user id to:');
-      console.log(response.data.user._id);
       localStorage.setItem('token', response.data.token);
       dispatch({ type: ActionTypes.AUTH_USER });
       history.push('/');
@@ -293,10 +291,9 @@ export function signupUser(email, password, firstName, lastName, college, grad, 
   };
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/auth/signup`, fields).then((response) => {
-      // localStorage.setItem('token', response.data.token);
-      // Deactivated unless access code given
-      // dispatch({ type: ActionTypes.AUTH_USER });
-      // history.push('/');
+      localStorage.setItem('token', response.data.token);
+      dispatch({ type: ActionTypes.AUTH_USER });
+      history.push('/');
       resolve();
     }).catch((error) => {
       loggingErrorsInReduxActions(error);
