@@ -34,7 +34,7 @@ getTokenFromLocalStorage().then((token) => {
   localStorageEnabled = false;
 });
 
-if (!localStorageEnabled) {
+if (localStorageEnabled) {
   ReactDOM.render(
     <Provider store={store}>
       <App />
