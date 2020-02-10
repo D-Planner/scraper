@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Router, Route, Switch,
+  BrowserRouter as Router, Route, Switch,
 } from 'react-router-dom';
 import { DragDropContext } from 'react-dnd';
 import { createBrowserHistory } from 'history';
@@ -79,7 +79,8 @@ class App extends Component {
 
   render() {
     const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
-    if (sizeSufficient) {
+    console.log(sizeSufficient);
+    if (true) {
       return (
         <div>
           <Router history={history}>
