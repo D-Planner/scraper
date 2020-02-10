@@ -35,6 +35,12 @@ $landing-width: 1065px;
         animation: arrowWiggle 2s ease-in-out infinite;
         animation-delay: 1s;
     }
+
+    &.mobile {
+        margin: auto;
+        position: static;
+        height: 37px;
+    }
 }
 
 .slick-dots > li > button:before {
@@ -62,6 +68,18 @@ $landing-width: 1065px;
     background-color: $white;
     box-shadow: 2px 4px 24px rgba(0, 0, 0, 0.25);
     padding: 50px;
+
+    &.mobile {
+        width: auto;
+        height: auto;
+        border-radius: 8px;
+        padding: 0;
+        margin: 0;
+    }
+
+    &.colored {
+        background: $gradient;
+    }
 
     img {
         max-width: 100%;
@@ -91,10 +109,15 @@ $landing-width: 1065px;
     &.person {
         border-radius: 8px;
         height: auto;
+
+        &.mobile {
+            margin-bottom: 12vw;
+        }
     }
 }
 
 .landing-subfeature {
+    display: flex;
     background: none;
 
     .landing-subfeature-image {
@@ -132,7 +155,12 @@ $landing-width: 1065px;
         padding: none !important;
         margin: none !important;
 
-        .left {
+        &.mobile {
+            height: 100vh !important;
+            flex-direction: column;
+        }
+
+        .landing-left {
             width: 63%;
             display: flex;
             flex-direction: column;
@@ -141,6 +169,14 @@ $landing-width: 1065px;
             background: $gradient;
             box-shadow: 0px 4px 100px rgba(0, 0, 0, 0.25);
             // padding-top: $content-padding-top;
+
+            &.full {
+                width: 100%;
+            }
+
+            &.mobile {
+                height: calc(100vh - #{$header-menu-height});
+            }
 
             .intro {
                 max-width: 720px;
@@ -200,11 +236,24 @@ $landing-width: 1065px;
         &.colored {
             background: $gradient;
             box-shadow: $landing-box-shadow;
+
+            &.mobile {
+                box-shadow: $landing-box-shadow-mobile;
+            }
+        }
+
+        &.mobile {
+            padding-left: 10%;
+            padding-right: 10%;
         }
 
         &.footer {
             padding: 172px calc((100vw - 1248px) / 2);
             flex-direction: column;
+        }
+
+        &.mobile {
+            padding: 0 10%;
         }
 
         .welcome-container {
@@ -223,6 +272,11 @@ $landing-width: 1065px;
                 text-align: left;
                 margin-bottom: 11px;
             }
+
+            &.welcome-landing-general {
+                text-align: left;
+                margin-bottom: 11px;
+            }
         }
 
         .landing-feature-container {
@@ -236,6 +290,10 @@ $landing-width: 1065px;
             flex-direction: row !important;
             margin: auto;
             max-width: 645px;
+
+            &.mobile {
+                flex-direction: column !important;
+            }
 
             .landing-testimonial-image {
                 width: 150px;
