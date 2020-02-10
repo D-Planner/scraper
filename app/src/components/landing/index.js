@@ -95,7 +95,7 @@ class Landing extends React.Component {
                 <h1 className="light line1">The future of academic planning.</h1>
                 <div className="landing-showcase">
                   {/* Needed to import slider CSS */}
-                  <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+                  <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
                   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
                   <Slider {...sliderSettings}>
                     <div className="landing-subfeature">
@@ -459,7 +459,7 @@ class Landing extends React.Component {
           </section>
 
           {/* <section className="landing-section colored mobile" style={{ padding: '15vw' }}>
-            <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+            <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
             <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
             <Slider {...sliderSettings} arrows={false}>
               <div className="landing-testimonial mobile">
