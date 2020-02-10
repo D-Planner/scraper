@@ -8,6 +8,7 @@ import Slider from 'react-slick';
 import { showDialog } from '../../actions';
 import { DialogTypes, universalMetaTitle } from '../../constants';
 import { minWidth } from '../tooSmall';
+import logo from '../../style/logo.svg';
 import SignInForm from '../../containers/signIn';
 import SignUpForm from '../../containers/signUp';
 // import VideoEmbed from '../videoEmbed';
@@ -90,8 +91,8 @@ class Landing extends React.Component {
             <div style={{ display: 'flex', justifyContent: 'center' }}><img src={downArrow} alt="scroll up" className="landing-down-arrow animate" /></div>
             <div className="landing-left">
               <div className="intro">
-                <h1 className="light line1">The future of Academic Planning</h1>
-                <div className="line2">Welcome to D-Planner.</div>
+                {/* <div className="line2">Welcome to D-Planner.</div> */}
+                <h1 className="light line1">The future of academic planning.</h1>
                 <div className="landing-showcase">
                   {/* Needed to import slider CSS */}
                   <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
@@ -123,6 +124,7 @@ class Landing extends React.Component {
               </div>
             </div>
             <div className="right">
+              <img alt="logo" className="logo" src={logo} />
               {this.state.signIn
                 ? <SignInForm checkAuth={this.checkAuth} showSignUp switchToSignUp={() => this.setState({ signIn: false })} />
                 : <SignUpForm checkAuth={this.checkAuth} switchToSignIn={() => this.setState({ signIn: true })} />
