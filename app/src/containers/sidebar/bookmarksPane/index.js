@@ -40,7 +40,7 @@ const component = (props) => {
   return props.connectDropTarget(
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
-        <h1 className="pane-title">Bookmarked</h1>
+        <div className="pane-title">Bookmarked</div>
       </div>
       <div className="pane-content">
         {props.bookmarks
