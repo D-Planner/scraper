@@ -75,7 +75,7 @@ const addCourseToTerm = (req, res) => {
     Term.findById(termID)
         .then((term) => {
             User.findById(req.user.id)
-                .then(() => {
+                .then((foundUser) => {
                     UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
                         .then((userCourse) => {
                             term.courses.push(userCourse);
@@ -84,7 +84,10 @@ const addCourseToTerm = (req, res) => {
                                     path: 'course',
                                     populate: PopulateCourse,
                                 }).execPopulate().then((populated) => {
-                                    res.send(populated);
+                                    foundUser.totalUpdateTermCalls += 1;
+                                    foundUser.save(() => {
+                                        res.send(populated);
+                                    });
                                 });
                             });
                         })
@@ -136,7 +139,12 @@ const removeCourseFromTerm = (req, res) => {
                 //     return setTermsPrevCourses(planID, userID);
                 // })
                 .then(() => {
-                    res.json(term);
+                    User.findById(req.user.id).then((foundUser) => {
+                        foundUser.totalUpdateTermCalls += 1;
+                        foundUser.save(() => {
+                            res.json(term);
+                        });
+                    });
                 });
         }).catch((e) => {
             console.log(e);
