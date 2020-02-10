@@ -32,7 +32,7 @@ $white: #FFFFFF;
         justify-content: flex-start;
         margin-left: 12px;
         align-items: center;
-        font-weight: 700;
+        font-weight: 600;
         color: $text-accent;
         font-size: 24px;
     }
@@ -75,21 +75,23 @@ $white: #FFFFFF;
             flex: 1;
         }
 
+        height: 60px;
+
         &.input:invalid {
           color: $error;
         }
     }
 
-    .homepage-pass-reset {
-      margin-top: 10px;
-      color: $gray-5;
-      text-decoration: none;
-      transition: color .075s;
+    // .homepage-pass-reset {
+    //   margin-top: 10px;
+    //   color: $gray-5;
+    //   text-decoration: none;
+    //   transition: color .075s;
     
-      &:hover {
-        color: $text-accent;
-      }
-    }
+    //   &:hover {
+    //     color: $text-accent;
+    //   }
+    // }
 
     button {
         cursor: pointer;
@@ -98,7 +100,7 @@ $white: #FFFFFF;
         }
     }
     $button-height: 40px;
-    $button-width: 120px;
+    $button-width: 180px;
     $button-border-radius: 12px;
         
     .sign-up {
@@ -141,5 +143,19 @@ $white: #FFFFFF;
         background: $gradient;
         border-radius: $button-border-radius;
         border: 1px solid $gradient;
+    }
+
+    .switch-text {
+        cursor: pointer;
+        margin-bottom: 2px;
+
+        color: $text-accent;
+        font-size: 15px;
+        font-weight: 300;
+
+        &:hover {
+            color: $blue-primary;
+            opacity: 80%;
+        }
     }
 }

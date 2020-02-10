@@ -8,6 +8,8 @@ export const ItemTypes = {
   COURSE: 'COURSE',
 };
 
+export const BUG_REPORT_URL = 'https://forms.gle/u1AYzJsogsP2YPZG6';
+
 // Meta tag standards
 export const metaContentSeparator = ' | ';
 export const universalMetaTitle = 'D-Planner - The Future of Academic Planning';

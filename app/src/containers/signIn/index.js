@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { signinUser, validateAccessCode } from '../../actions';
 import { emailCheckRegex } from '../../constants';
 import ErrorMessageSpacer from '../../components/errorMessageSpacer';
+import DefaultButton from '../../components/defaultButton';
 import { advancedTesterFormLink } from '../signUp';
 
 const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })((props) => {
@@ -54,7 +55,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
   if (signedIn) {
     return (
       <div className="formContainer">
-        <div className="greeting">Join D-Planner today.</div>
+        {props.removeTitle === true ? null : <div className="greeting">Join D-Planner today.</div>}
         <div className="spacer">Thank you for signing up! You have been placed on the waitlist for early access, and we will notify you when we go live.</div>
         <div className="spacer"> If you are a D-Planner advanced tester and have been given an access code, please enter it in the form below.</div>
         <div className="spacer"> If you would like to apply to become a D-Planner advanced tester, <a href={advancedTesterFormLink}>follow this link.</a></div>
@@ -63,20 +64,19 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
           <input id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
         </div>
         <ErrorMessageSpacer errorMessage={errorMessage} />
-        <button type="button" className="sign-up" onClick={sendAccessCode}>
-          <div className="button-cover"><div className="button-text">Submit</div></div>
-        </button>
+        <DefaultButton click={sendAccessCode} label="Submit" />
         <div className="spacer" />
-        <button type="button" className="sign-in" onClick={props.switchToSignUp}>
+        {/* <button type="button" className="sign-in" onClick={props.switchToSignUp}>
           <div className="button-cover"><div className="button-text">Sign Up</div></div>
-        </button>
+        </button> */}
+        <div role="button" tabIndex={-1} className="switch-text" onClick={props.switchToSignUp}>Need an account? Sign up</div>
       </div>
     );
   } else {
     return (
       <div className="formContainer">
         <form>
-          <div className="greeting">Welcome back.</div>
+          {props.removeTitle === true ? null : <div className="greeting">Welcome back.</div>}
           <div className="spacer">We are in pre-release, you will be able to access the D-Planner platform soon!</div>
           <div className="row">
             <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} required />
@@ -84,13 +84,14 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
           <div className="row">
             <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} required />
           </div>
-          <a className="homepage-pass-reset" href="/reset/pass">Forgot password?</a>
           <ErrorMessageSpacer errorMessage={errorMessage} />
-          <button type="button" className="sign-in" onClick={signin}>
+          <button type="button" className="sign-up" onClick={signin}>
             <div className="button-cover"><div className="button-text">Sign In</div></div>
           </button>
           <div className="spacer" />
-          {props.showSignUp ? <button type="button" className="sign-up" onClick={props.switchToSignUp}>Sign Up</button> : null}
+          {/* {props.showSignUp ? <DefaultButton click={props.switchToSignUp} label="Sign Up" /> : null} */}
+          <div role="button" tabIndex={-1} className="switch-text" onClick={props.switchToSignUp}>Need an account? Sign up</div>
+          <a className="switch-text" href="/reset/pass">Forgot password?</a>
         </form>
       </div>
     );

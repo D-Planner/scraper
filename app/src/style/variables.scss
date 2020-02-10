@@ -37,7 +37,7 @@ $gray-3: #E8E8E8;
 $gray-5: #D8D5D5;
 $gray-6: #838484;
 
-$gradient: linear-gradient(215.91deg, #5897FD -11.34%, rgba(255, 255, 255, 0) 81.43%), #733DF9;
+$gradient: linear-gradient(209.4deg, #5897FD -11.34%, rgba(255, 255, 255, 0) 81.43%), #733DF9;
 
 // colors -old (we're not removing because of possible dependencies:
 
@@ -49,6 +49,8 @@ $black: #000000;
 $box-shadow-default: 0px 4px 12px rgba(0, 0, 0, 0.15);
 $box-shadow-button: 0px 6px 12px rgba(153, 153, 153, 0.25);
 $tablet-box-shadow: -3px 5px 20px rgba(0, 0, 0, 0.15);
+$landing-box-shadow: 0px 4px 100px rgba(0, 0, 0, 0.25);
+$landing-box-shadow-mobile: 0px 4px 20px rgba(0, 0, 0, 0.25);
 
 // default transition property duration
 $transition-duration: .3s;
@@ -96,4 +98,100 @@ $transition-duration-short: .15s;
 .horizontal-divider-small {
   border: 0.5px dotted $gray-3;
   margin: 20px;
+}
+
+h1 {
+
+  &.dark {
+      color: $text-accent;
+  }
+
+  color: $white;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 100%;
+}
+
+h2 {
+  text-align: center;
+
+  &.dark {
+      color: $text-accent;
+  }
+
+  color: $white;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 72px;
+}
+
+h3 {
+  margin-bottom: 11px;
+
+  &.dark {
+      color: $text-accent;
+  }
+  
+  color: $white;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  align-items: center;
+  text-align: center;
+}
+
+h4 {
+  text-align: center;
+
+  &.dark {
+      color: $text-accent;
+  }
+  
+  color: $white;
+  text-align: left;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+p {
+  &.dark {
+      color: $text-accent;
+  }
+  
+  color: $white;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+a {
+  &:link {
+      color: $white;
+      text-decoration: none;
+  }
+
+  &:hover {
+      opacity: 80%;
+  }
+
+  &.dark {
+      color: $text-accent;
+  }
+  
+  color: $white;
+  cursor: pointer;
+  height: 50px !important;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 21px;
 }

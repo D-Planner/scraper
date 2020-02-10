@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { DropTarget as BookmarksPane } from 'react-dnd';
 import { connect } from 'react-redux';
-import { ItemTypes, Departments } from '../../../constants';
+import { ItemTypes } from '../../../constants';
+// import { ItemTypes, Departments } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
 import { removeCourseFromFavorites } from '../../../actions';
 
 import './bookmarksPane.scss';
-import PlaceholderCourse from '../../../components/placeholderCourse';
+// import PlaceholderCourse from '../../../components/placeholderCourse';
 
 const target = {
   drop: (props, monitor) => {
@@ -34,7 +35,7 @@ const component = (props) => {
     active: props.active,
   });
 
-  const [placeholderDept, setPlaceholderDept] = useState('COSC');
+  // const [placeholderDept, setPlaceholderDept] = useState('COSC');
 
   return props.connectDropTarget(
     <div className={paneClass} onClick={props.activate} role="presentation">
@@ -45,12 +46,12 @@ const component = (props) => {
         {props.bookmarks
           ? (
             <div className="bookmarked-courses-list">
-              <div className="row">
+              {/* <div className="row">
                 <select defaultValue={placeholderDept} className="sort-picker" onChange={e => setPlaceholderDept(e.target.value)}>
                   {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
                 </select>
                 <PlaceholderCourse size="sm" department={placeholderDept} addPlaceholderCourse={props.addPlaceholderCourse} />
-              </div>
+              </div> */}
               {props.bookmarks.map((course, index) => {
                 let setActive = true;
 

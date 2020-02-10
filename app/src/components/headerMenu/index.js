@@ -41,7 +41,7 @@ class HeaderMenu extends React.Component {
       <div className="header-menu-container">
         <div className="header-menu-content-container">
           <img alt="logo" className="logo-top" onClick={() => this.props.history.push('/')} src={logo} />
-          <div className="header-menu-content">D-Planner, the future of academic planning</div>
+          {this.props.hideTitle === true ? null : <div className="header-menu-content">D-Planner, the future of academic planning</div>}
         </div>
         <div className="header-menu-option-container">
           {this.state.menuOptions.map((menuOption) => {
