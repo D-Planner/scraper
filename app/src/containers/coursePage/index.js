@@ -96,23 +96,14 @@ class CoursePage extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.authenticated === true) { // Authenticated
-      this.props.fetchUser();
-      this.props.getTimes();
-      this.props.fetchCourse(this.props.match.params.id).then((course) => {
-        this.setState({ course });
-      }).catch((error) => {
-        this.setState({ course: invalidCourse(this.props.match.params.id) });
-        console.error(error);
-      });
-    } else { // Not authenticated
-      this.props.fetchCoursePublic(this.props.match.params.id).then((course) => {
-        this.setState({ course });
-      }).catch((error) => {
-        this.setState({ course: invalidCourse(this.props.match.params.id) });
-        console.error(error);
-      });
-    }
+    this.props.fetchUser();
+    this.props.getTimes();
+    this.props.fetchCourse(this.props.match.params.id).then((course) => {
+      this.setState({ course });
+    }).catch((error) => {
+      this.setState({ course: invalidCourse(this.props.match.params.id) });
+      console.error(error);
+    });
   }
 
   // Detects click on course and reloads
@@ -555,6 +546,7 @@ class CoursePage extends React.Component {
    * @param {String} nextTerm
    */
   courseInfo(course, nextTerm) {
+    console.log(this.props.authenticated);
     return (
       <div id="content">
         <h1 className="course-info-title">{this.state.course.title}</h1>

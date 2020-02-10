@@ -28,13 +28,7 @@
       { "caseSensitive": false }
     ],
     "import/prefer-default-export": 0,
-    "no-unused-vars": [
-      "error",
-      {
-        "vars": "all",
-        "args": "none"
-      }
-    ],
+    "no-unused-vars": 0,
     "no-underscore-dangle": 0,
     "arrow-body-style": 0,
     "one-var": [
