@@ -93,15 +93,22 @@ const resetDB = () => {
     });
 };
 
-UserModel.find().then((users) => {
-    users.forEach((user) => {
-        const whatShouldItBe = user.viewed_announcements.length === 0 ? [] : user.viewed_announcements;
-        UserModel.findById(user.id).then((found) => {
-            found.viewed_announcements = whatShouldItBe;
-            found.save();
+const userMigration = () => {
+    UserModel.find().then((users) => {
+        users.forEach((user) => {
+            console.log(user.id);
+            const whatShouldItBe = user.viewed_announcements.length === 0 ? [] : user.viewed_announcements;
+            UserModel.findById(user.id).then((found) => {
+                found.viewed_announcements = whatShouldItBe;
+                found.interest_profile = [];
+                found.other_advisors = [];
+                found.ap_profile = [];
+                found.settings = {};
+                found.save();
+            });
         });
-    });
-});
+    }).catch((e) => { return console.log(e); });
+};
 
 // default index route
 app.get('/', (req, res) => {
@@ -151,6 +158,13 @@ app.get('/reset', (req, res) => {
         });
     } else {
         res.status(403).send('not authorized');
+    }
+});
+
+app.get('/migrate', (req, res) => {
+    if (req.headers.key === '7d0cde01-30bb-465a-b614-9a9237a98f20') {
+        userMigration();
+        res.send('done');
     }
 });
 
