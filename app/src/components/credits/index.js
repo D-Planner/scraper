@@ -12,8 +12,6 @@ const credits = [
     'Project Mentors': ['Peter Robbie', 'Tim Tregubov', 'Erica Lobel', 'Natalie Svoboda'],
   },
   {
-  },
-  {
     'Project Developers': ['Adam Rinehouse', 'Raul Rodriguez', 'Gillian Yue', 'Madeline Hess'],
     'Project Designers': ['Regina Yan', 'Christina Bae', 'Lidia Balanovich', 'Taylor Olson'],
   },
