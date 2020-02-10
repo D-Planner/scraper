@@ -229,18 +229,16 @@ class Tutorial extends React.Component {
           <a className="policy-link" href="/policies/privacypolicy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
           <div className="tc-checkbox-container" style={{ margin: '18px auto' }}>
             <div>Please accept our terms and conditions</div>
-            {this.props.user.tc_accepted != undefined ? (
-              <input
-                type="checkbox"
-                checked={this.state.tcAccepted || false}
-                onChange={(e) => {
-                  const check = e.target.checked;
-                  this.props.updateUser({ tc_accepted: check === true }).then(() => {
-                    this.setState({ tcAccepted: check === true ? true : undefined });
-                  });
-                }}
-              />
-            ) : null}
+            <input
+              type="checkbox"
+              checked={this.state.tcAccepted || false}
+              onChange={(e) => {
+                const check = e.target.checked;
+                this.props.updateUser({ tc_accepted: check === true }).then(() => {
+                  this.setState({ tcAccepted: check === true ? true : undefined });
+                });
+              }}
+            />
           </div>
         </div>
       ),
