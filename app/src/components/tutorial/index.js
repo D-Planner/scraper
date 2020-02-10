@@ -461,7 +461,7 @@ class Tutorial extends React.Component {
       });
     }).then(() => {
       this.setState({ loading: false });
-    }).catch(error => console.log(error));
+    }).catch((error) => { console.log(error); this.setState({ loading: false }); });
   }
 
   componentDidUpdate() {
