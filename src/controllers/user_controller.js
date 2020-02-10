@@ -103,9 +103,16 @@ export const getUser = (req, res) => {
                     resolve();
                 }
             }).then(() => {
-                const json = user.toJSON();
-                delete json.password;
-                res.json(json);
+                new Promise((resolve, reject) => {
+                    user.totalFetchUserCalls += 1;
+                    user.save().then(() => {
+                        resolve();
+                    });
+                }).then(() => {
+                    const json = user.toJSON();
+                    delete json.password;
+                    res.json(json);
+                });
             });
         })
         .catch((error) => {
@@ -327,7 +334,6 @@ export const deleteUser = (req, res) => {
             res.send(error);
         });
 };
-
 
 // encodes a new token for a user object
 export function tokenForUser(user) {
