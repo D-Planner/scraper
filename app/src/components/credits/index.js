@@ -9,16 +9,16 @@ import './credits.scss';
 const credits = [
   {
     'Founding Members': ['Adam McQuilkin', 'Ziray Hao', 'Benjamin Cape'],
-    'Project Mentors': ['Tim Tregubov', 'Peter Robbie', 'Erica Lobel', 'Natalie Svoboda', 'Annie Ren'],
+    'Project Mentors': ['Peter Robbie', 'Tim Tregubov', 'Erica Lobel', 'Natalie Svoboda'],
   },
   {
   },
   {
     'Project Developers': ['Adam Rinehouse', 'Raul Rodriguez', 'Gillian Yue', 'Madeline Hess'],
-    'Project Designers': ['Regina Yan', 'Christina Bae', 'Bryton Moeller', 'Claire Collins', 'Vivian Zhai'],
+    'Project Designers': ['Regina Yan', 'Christina Bae', 'Lidia Balanovich', 'Taylor Olson'],
   },
   {
-    'Additional Thanks': ['Geoffrey Parker', 'Lorie Loeb', 'Sarah Morgan', 'Jamie Coughlin', 'Philip Hanlon'],
+    'Additional Thanks': ['Lorie Loeb', 'Bryton Moeller', 'Claire Collins', 'Vivian Zhai', 'Sarah Morgan', 'Jamie Coughlin', 'Phil Hanlon', 'Alexis Abramson'],
     'Supporting Organizations': ['DALI Lab', 'Magnuson Family Center for Entrepreneurship', 'Information and Technologies Consulting', 'Thayer School of Engineering'],
   },
 ];
