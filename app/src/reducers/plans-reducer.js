@@ -11,6 +11,8 @@ const plansReducer = (state = initialState, action) => {
   const current = Object.assign({}, state.current);
   let all = Object.assign({}, current.all);
   switch (action.type) {
+    case ActionTypes.DEAUTH_USER:
+      return initialState;
     case ActionTypes.FETCH_PLANS:
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.FETCH_PLAN:

@@ -9,6 +9,8 @@ const initialState = {
 
 const coursesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ActionTypes.DEAUTH_USER:
+      return initialState;
     case ActionTypes.FETCH_COURSES:
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.COURSE_SEARCH:
