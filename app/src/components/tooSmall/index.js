@@ -1,6 +1,6 @@
 import React from 'react';
 import HeaderMenu from '../headerMenu';
-import BUG_REPORT_URL from '../../constants';
+import { BUG_REPORT_URL } from '../../constants';
 import uhOhFeature from '../../../assets/uh-oh.svg';
 import './tooSmall.scss';
 
