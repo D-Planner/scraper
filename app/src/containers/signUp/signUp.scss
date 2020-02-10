@@ -149,12 +149,12 @@ $white: #FFFFFF;
         cursor: pointer;
         margin-bottom: 2px;
 
-        color: $gray-5;
+        color: $text-accent;
         font-size: 15px;
         font-weight: 300;
 
         &:hover {
-            color: $text-accent;
+            color: $blue-primary;
             opacity: 80%;
         }
     }
