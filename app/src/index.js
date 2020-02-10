@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -15,18 +16,34 @@ export const store = createStore(reducers, {}, compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
 ));
 
-const token = localStorage.getItem('token');
-// localStorage.removeItem('token');
-if (token) {
-  store.dispatch({ type: ActionTypes.AUTH_USER });
-} else {
-  store.dispatch({ type: ActionTypes.DEAUTH_USER }); // Backup in case of auth error
-}
+let localStorageEnabled = true;
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-    <DialogOrchestrator />
-  </Provider>,
-  document.getElementById('root'),
-);
+const getTokenFromLocalStorage = () => {
+  return new Promise((resolve) => {
+    resolve(localStorage.getItem('token'));
+  });
+};
+
+getTokenFromLocalStorage().then((token) => {
+  if (token) {
+    store.dispatch({ type: ActionTypes.AUTH_USER });
+  } else {
+    store.dispatch({ type: ActionTypes.DEAUTH_USER }); // Backup in case of auth error
+  }
+}).catch((e) => {
+  localStorageEnabled = false;
+});
+
+if (localStorageEnabled) {
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+      <DialogOrchestrator />
+    </Provider>,
+    document.getElementById('root'),
+  );
+} else {
+  ReactDOM.render(
+    <div>Please enable cookies to use D-Planner.</div>, document.getElementById('root'),
+  );
+}
