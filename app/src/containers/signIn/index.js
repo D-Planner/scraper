@@ -77,7 +77,6 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
     <div className="formContainer">
       <form>
         {props.removeTitle === true ? null : <div className="greeting">Welcome back.</div>}
-        <div className="spacer">We are in pre-release, you will be able to access the D-Planner platform soon!</div>
         <div className="row">
           <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} required />
         </div>
