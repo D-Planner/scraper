@@ -275,9 +275,26 @@ export const updateUser = async (req, res) => {
                 }
             }
 
+            if (req.body.change.fullName) user.fullName = req.body.change.fullName;
+            if (req.body.change.firstName) user.firstName = req.body.change.firstName;
+            if (req.body.change.lastName) user.lastName = req.body.change.lastName;
+            // if (req.body.change.email) user.email = req.body.change.email;
+            if (req.body.change.graduationYear) user.graduationYear = req.body.change.graduationYear;
+
+            if (req.body.change.viewed_announcements) {
+                if (user.viewed_announcements.indexOf(req.body.change.viewed_announcements) === -1) {
+                    user.viewed_announcements.push(req.body.change.viewed_announcements);
+                } else {
+                    user.viewed_announcements.pull(req.body.change.viewed_announcements);
+                }
+            }
+            if (req.body.change.emailVerified) user.emailVerified = req.body.change.emailVerified;
+
             // Force user to re-verify on email change
-            if (req.body.change.email && req.body.change.email !== user.email) {
-                user.emailVerified = false;
+            if (req.body.change.email) {
+                if (req.body.change.email !== user.email) {
+                    user.emailVerified = false;
+                }
                 user.email = req.body.change.email; // Keep this after email update check
             }
 

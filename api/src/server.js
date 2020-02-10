@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 // import nodemailer from 'nodemailer';
 import sgMail from '@sendgrid/mail';
 import { requireAuth } from './authentication/init';
-import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter, interestsRouter, advisorRouter, dataRouter } from './routes';
+import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter, interestsRouter, advisorRouter, dataRouter, announcementsRouter } from './routes';
 import CoursesController, { trim } from './controllers/courses_controller';
 import UserModel from './models/user';
 import CourseModel from './models/course';
@@ -93,6 +93,23 @@ const resetDB = () => {
     });
 };
 
+const userMigration = () => {
+    UserModel.find().then((users) => {
+        users.forEach((user) => {
+            console.log(user.id);
+            const whatShouldItBe = user.viewed_announcements.length === 0 ? [] : user.viewed_announcements;
+            UserModel.findById(user.id).then((found) => {
+                found.viewed_announcements = whatShouldItBe;
+                found.interest_profile = [];
+                found.other_advisors = [];
+                found.ap_profile = [];
+                found.settings = {};
+                found.save();
+            });
+        });
+    }).catch((e) => { return console.log(e); });
+};
+
 // default index route
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the DPlanner API!' });
@@ -106,6 +123,7 @@ app.use('/terms', requireAuth, termsRouter);
 app.use('/majors', requireAuth, majorsRouter);
 app.use('/professors', professorsRouter);
 app.use('/globals', requireAuth, globalRouter);
+app.use('/announcements', requireAuth, announcementsRouter); // RequireAuth
 app.use('/interests', requireAuth, interestsRouter);
 app.use('/advisors', requireAuth, advisorRouter);
 app.use('/data', requireAuth, dataRouter);
@@ -140,6 +158,13 @@ app.get('/reset', (req, res) => {
         });
     } else {
         res.status(403).send('not authorized');
+    }
+});
+
+app.get('/migrate', (req, res) => {
+    if (req.headers.key === '7d0cde01-30bb-465a-b614-9a9237a98f20') {
+        userMigration();
+        res.send('done');
     }
 });
 

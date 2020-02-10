@@ -28,7 +28,7 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-import universalMetaTitle from '../constants';
+import { universalMetaTitle } from '../constants';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
 // https://medium.com/google-cloud/tracking-site-visits-on-react-app-hosted-in-google-cloud-using-google-analytics-f49c2411d398
