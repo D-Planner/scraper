@@ -105,9 +105,9 @@ class DPlan extends Component {
     consoleLogging('DPlan', '[DPlan] Did Mount');
 
     // Checks if there is a current announcement and whether the user has seen it
-    this.props.fetchUser().then(() => {
+    this.props.fetchUser().then((user) => {
       this.props.getCurrentAnnouncement().then(() => {
-        if (!this.props.currentAnnouncement || this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
+        if (!this.props.currentAnnouncement || user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
           this.props.disableCurrentAnnouncement();
         }
       });
@@ -504,10 +504,12 @@ class DPlan extends Component {
           onClick={(e) => {
             if (this.props.currentAnnouncement) {
               this.props.history.push(this.props.currentAnnouncement.link);
-              this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
-              this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
-                this.props.disableCurrentAnnouncement();
-              });
+              if (this.props.currentAnnouncement.link !== '/') {
+                this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
+                this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                  this.props.disableCurrentAnnouncement();
+                });
+              }
             }
           }}
         >{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
