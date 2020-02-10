@@ -10,25 +10,25 @@ import { DialogTypes, universalMetaTitle } from '../../constants';
 import { minWidth } from '../tooSmall';
 import SignInForm from '../../containers/signIn';
 import SignUpForm from '../../containers/signUp';
-import VideoEmbed from '../videoEmbed';
+// import VideoEmbed from '../videoEmbed';
 import HeaderMenu from '../headerMenu';
 
 import feature1 from '../../style/feature1.svg';
 import feature2 from '../../style/feature2.svg';
 import feature3 from '../../style/feature3.svg';
-import term from '../../style/term.svg';
+// import term from '../../style/term.svg';
 import downArrow from '../../style/down-arrow.svg';
 
 import classesCollage from '../../style/classes-collage.png';
 import planExample from '../../../assets/plan.png';
 import singlePlanFeature from '../../../assets/showcase/example-plan-search-cropped-600px.jpg';
 
-import asian from '../../style/asian.svg';
-import beard from '../../style/beard.svg';
-import blonde from '../../style/blonde_white.svg';
-import hat from '../../style/hat.svg';
+// import asian from '../../style/asian.svg';
+// import beard from '../../style/beard.svg';
+// import blonde from '../../style/blonde_white.svg';
+// import hat from '../../style/hat.svg';
 
-import bookmarksFeature from '../../../assets/showcase/bookmarks-pane.png';
+// import bookmarksFeature from '../../../assets/showcase/bookmarks-pane.png';
 import requirementsFeature from '../../../assets/showcase/requirements-pane.png';
 import searchFeature from '../../../assets/showcase/search-pane.png';
 import termsFeature from '../../../assets/showcase/terms-showcase.png';

@@ -21,6 +21,10 @@ $landing-width: 1065px;
     }
 }
 
+h2 {
+    margin-bottom: 50px;
+}
+
 .landing-down-arrow {
     position: absolute;
     display: flex;
@@ -261,10 +265,9 @@ $landing-width: 1065px;
             display: flex;
             flex-direction: row;
             align-content: space-between;
-            margin-bottom: 50px;
 
             #left-welcome-landing > * {
-                text-align: right;
+                text-align: left;
                 margin-bottom: 11px;
                 margin-right: 96px;
             }
