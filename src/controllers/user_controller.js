@@ -18,15 +18,15 @@ export const checkUserByEmail = (req, res) => {
 };
 
 export const signin = (req, res, next) => {
-    if (req.user.accessGranted === false) {
-        // Pre-release signup
-        res.status(403).send('Account not yet authorized: pre-release sign up');
-    } else {
+    // if (req.user.accessGranted === false) {
+    //     // Pre-release signup
+    //     res.status(403).send('Account not yet authorized: pre-release sign up');
+    // } else {
     // Authorized user
-        const json = req.user.toJSON();
-        delete json.password;
-        res.send({ token: tokenForUser(req.user), user: json });
-    }
+    const json = req.user.toJSON();
+    delete json.password;
+    res.send({ token: tokenForUser(req.user), user: json });
+    // }
 };
 
 export const signup = (req, res, next) => {
@@ -51,7 +51,7 @@ export const signup = (req, res, next) => {
             university: college,
             graduationYear: grad,
             emailVerified: false,
-            accessGranted: false,
+            accessGranted: true,
             accountCreated: Date.now(),
             tc_accepted: false,
         });
