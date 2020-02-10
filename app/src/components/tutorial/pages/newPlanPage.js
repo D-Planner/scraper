@@ -97,7 +97,7 @@ class NewPlanPage extends React.Component {
         {this.props.renderTutorialInput('planName', 'Give your plan a short name', null, null, undefined, true, false, e => this.handleStateChange('planName', e.target.value))}
         {this.props.renderTutorialInput('planDescription', 'Give a short description about this plan', null, null, undefined, true, false, e => this.handleStateChange('planDescription', e.target.value))}
         {/* {this.props.renderTutorialInput('planMajor', 'Select a major for this plan', null, null, undefined, true, false, e => this.handleStateChange('planMajor', e.target.value))} */}
-        <div className="tutorial-input-container"><div className="tutorial-input">Which of your interests does this plan relate to?</div></div>
+        <div className="tutorial-input-container"><div className="tutorial-input">Which of your interests will this plan focus on?</div></div>
         <div className="plan-interests-container">
           {this.state.fetchedInterests === true ? this.state.filledInterests.map((interest) => {
             if (interest !== null) {

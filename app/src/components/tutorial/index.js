@@ -736,6 +736,7 @@ class Tutorial extends React.Component {
           placeholder={placeholder}
           value={this.state[stateName] || ''}
           onChange={change}
+          alt={placeholder}
         />
         {this.renderSuggestedDropdownMenu(stateName, suggestionLocation, displayParameterPrimary, displayParametersSecondary)}
         {disableClearInput === false ? (
@@ -993,7 +994,7 @@ class Tutorial extends React.Component {
     if (this.state.addedOtherContributorCount) {
       const addedOtherEmailList = [];
       for (let i = 0; i < this.state.addedOtherContributorCount; i += 1) {
-        addedOtherEmailList.push(this.renderTutorialInput(`${Advisors.other}${i}`, 'Enter Other Contributor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass']));
+        addedOtherEmailList.push(this.renderTutorialInput(`${Advisors.other}${i}`, 'Enter Other Advisor Name', 'checkAdvisor', 'displayName', ['eduPersonPrimaryAffiliation', 'dcDeptclass']));
       }
       return addedOtherEmailList;
     } else {
