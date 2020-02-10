@@ -1,0 +1,16 @@
+@import "../../style/variables.scss";
+
+.fallback-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+
+    margin: auto;
+    width: 840px;
+    height: calc(100vh - #{$header-menu-height});
+
+    & * {
+        text-align: center;
+    }
+}

@@ -48,6 +48,7 @@
           font-size: 32px;
           color: $text-accent;
           font-weight: 600;
+          margin-top: 20px;
         }
 
         .horizontal-divider {
@@ -344,8 +345,12 @@
               overflow-y: auto;
 
               .professor {
-                color: $text-accent;
                 font-size: 14px;
+
+                a {
+                  font-family: 'Poppins', sans-serif !important;
+                  color: $text-accent !important;
+                }
 
                 &.empty {
                   color: $gray-6;

@@ -37,7 +37,6 @@ const trackingID = 'UA-137867566-1';
 ReactGA.initialize(trackingID);
 
 // Update id on non-login auth
-
 const history = createBrowserHistory();
 ReactGA.pageview(window.location.pathname);
 history.listen((location) => {
@@ -113,7 +112,9 @@ class App extends Component {
       );
     } else {
       return (
-        <TooSmall />
+        <Router>
+          <TooSmall />
+        </Router>
       );
     }
   }

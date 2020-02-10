@@ -1,0 +1,26 @@
+@import "../../style/variables.scss";
+
+$button-height: 40px;
+$button-width: 120px;
+$button-border-radius: 12px;
+
+.default-button-container {
+    width: $button-width;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $gradient !important;
+    height: $button-height;
+    border-radius: $button-border-radius;
+    color: $white !important;
+    font-weight: bold;
+    font-size: 16px !important;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    .button-cover {
+        .button-text {
+            font-size: 16px;
+        }
+    }
+}
