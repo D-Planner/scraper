@@ -10,6 +10,7 @@ requests = "*"
 soupsieve = "*"
 html5lib = "*"
 beautifulsoup4 = "*"
+urllib3 = "*"
 
 [requires]
 python_version = "3.8"
