@@ -1,14 +1,29 @@
 {
 	"departments": [
 		{
-			"code": "AMEL",
-			"name": "Asian and Middle Eastern Languages and Literatures",
-			"courses": 7
-		},
-		{
 			"code": "WRIT",
 			"name": "Writing Courses",
 			"courses": 39
+		},
+		{
+			"code": "AMES",
+			"name": "Asian and Middle Eastern Studies",
+			"courses": 89
+		},
+		{
+			"code": "ASCL",
+			"name": "",
+			"courses": 100
+		},
+		{
+			"code": "ENGS",
+			"name": "Engineering Sciences",
+			"courses": 81
+		},
+		{
+			"code": "AMEL",
+			"name": "Asian and Middle Eastern Languages and Literatures",
+			"courses": 7
 		},
 		{
 			"code": "AAAS",
@@ -16,19 +31,64 @@
 			"courses": 129
 		},
 		{
-			"code": "HIST",
-			"name": "History",
-			"courses": 205
+			"code": "MATH",
+			"name": "Mathematics",
+			"courses": 64
 		},
 		{
-			"code": "HUM",
-			"name": "Humanities",
-			"courses": 7
+			"code": "ENGL",
+			"name": "English",
+			"courses": 228
 		},
 		{
-			"code": "PHIL",
-			"name": "Philosophy",
-			"courses": 130
+			"code": "ANTH",
+			"name": "Anthropology",
+			"courses": 122
+		},
+		{
+			"code": "MES",
+			"name": "",
+			"courses": 56
+		},
+		{
+			"code": "ENVS",
+			"name": "Environmental Studies",
+			"courses": 50
+		},
+		{
+			"code": "COSC",
+			"name": "Computer Science",
+			"courses": 100
+		},
+		{
+			"code": "ASTR",
+			"name": "Astronomy",
+			"courses": 13
+		},
+		{
+			"code": "CRWT",
+			"name": "",
+			"courses": 22
+		},
+		{
+			"code": "ARAB",
+			"name": "Arabic",
+			"courses": 46
+		},
+		{
+			"code": "MUS",
+			"name": "Music",
+			"courses": 140
+		},
+		{
+			"code": "FILM",
+			"name": "Film and Media Studies",
+			"courses": 105
+		},
+		{
+			"code": "COCO",
+			"name": "College Courses",
+			"courses": 23
 		},
 		{
 			"code": "EARS",
@@ -36,9 +96,19 @@
 			"courses": 54
 		},
 		{
-			"code": "PHYS",
-			"name": "Physics",
-			"courses": 46
+			"code": "HUM",
+			"name": "Humanities",
+			"courses": 7
+		},
+		{
+			"code": "ARTH",
+			"name": "Art History",
+			"courses": 174
+		},
+		{
+			"code": "COGS",
+			"name": "Cognitive Science",
+			"courses": 16
 		},
 		{
 			"code": "INTS",
@@ -46,9 +116,24 @@
 			"courses": 17
 		},
 		{
+			"code": "NAS",
+			"name": "Native American Studies",
+			"courses": 57
+		},
+		{
 			"code": "ECON",
 			"name": "Economics",
 			"courses": 44
+		},
+		{
+			"code": "FREN",
+			"name": "French",
+			"courses": 83
+		},
+		{
+			"code": "COLT",
+			"name": "Comparative Literature",
+			"courses": 141
 		},
 		{
 			"code": "ITAL",
@@ -61,149 +146,9 @@
 			"courses": 42
 		},
 		{
-			"code": "PORT",
-			"name": "Portuguese",
-			"courses": 25
-		},
-		{
-			"code": "ENGL",
-			"name": "English",
-			"courses": 228
-		},
-		{
-			"code": "JAPN",
-			"name": "Japanese",
-			"courses": 26
-		},
-		{
-			"code": "ENGS",
-			"name": "Engineering Sciences",
-			"courses": 81
-		},
-		{
-			"code": "CRWT",
-			"name": "",
-			"courses": 22
-		},
-		{
-			"code": "PSYC",
-			"name": "Psychological and Brain Sciences",
-			"courses": 101
-		},
-		{
-			"code": "ENVS",
-			"name": "Environmental Studies",
-			"courses": 50
-		},
-		{
-			"code": "COGS",
-			"name": "Cognitive Science",
-			"courses": 16
-		},
-		{
-			"code": "JWST",
-			"name": "Jewish Studies",
-			"courses": 72
-		},
-		{
-			"code": "BIOL",
-			"name": "Biological Sciences",
-			"courses": 81
-		},
-		{
-			"code": "QSS",
-			"name": "Quantitative Social Science",
-			"courses": 27
-		},
-		{
-			"code": "COLT",
-			"name": "Comparative Literature",
-			"courses": 141
-		},
-		{
-			"code": "FILM",
-			"name": "Film and Media Studies",
-			"courses": 105
-		},
-		{
-			"code": "LACS",
-			"name": "Latin American and Caribbean Studies",
-			"courses": 56
-		},
-		{
-			"code": "COSC",
-			"name": "Computer Science",
-			"courses": 100
-		},
-		{
-			"code": "AMES",
-			"name": "Asian and Middle Eastern Studies",
-			"courses": 89
-		},
-		{
-			"code": "REL",
-			"name": "Religion",
-			"courses": 172
-		},
-		{
-			"code": "GERM",
-			"name": "German Studies",
-			"courses": 65
-		},
-		{
-			"code": "COCO",
-			"name": "College Courses",
-			"courses": 23
-		},
-		{
-			"code": "FREN",
-			"name": "French",
-			"courses": 83
-		},
-		{
-			"code": "MES",
-			"name": "",
-			"courses": 56
-		},
-		{
-			"code": "ANTH",
-			"name": "Anthropology",
-			"courses": 122
-		},
-		{
-			"code": "RUSS",
-			"name": "Russian Language and Literature",
-			"courses": 48
-		},
-		{
-			"code": "FRIT",
-			"name": "French and Italian in Translation",
-			"courses": 15
-		},
-		{
-			"code": "CHEM",
-			"name": "Chemistry",
+			"code": "PBPL",
+			"name": "Public Policy",
 			"courses": 34
-		},
-		{
-			"code": "MUS",
-			"name": "Music",
-			"courses": 140
-		},
-		{
-			"code": "GEOG",
-			"name": "Geography",
-			"courses": 79
-		},
-		{
-			"code": "GOVT",
-			"name": "Government",
-			"courses": 240
-		},
-		{
-			"code": "ARAB",
-			"name": "Arabic",
-			"courses": 46
 		},
 		{
 			"code": "SART",
@@ -211,34 +156,14 @@
 			"courses": 43
 		},
 		{
-			"code": "NAS",
-			"name": "Native American Studies",
-			"courses": 57
+			"code": "GOVT",
+			"name": "Government",
+			"courses": 240
 		},
 		{
-			"code": "CHIN",
-			"name": "Chinese",
-			"courses": 39
-		},
-		{
-			"code": "PBPL",
-			"name": "Public Policy",
-			"courses": 34
-		},
-		{
-			"code": "GRK",
-			"name": "Greek",
-			"courses": 20
-		},
-		{
-			"code": "ARTH",
-			"name": "Art History",
-			"courses": 174
-		},
-		{
-			"code": "SOCY",
-			"name": "Sociology",
-			"courses": 79
+			"code": "FRIT",
+			"name": "French and Italian in Translation",
+			"courses": 15
 		},
 		{
 			"code": "HEBR",
@@ -246,34 +171,34 @@
 			"courses": 18
 		},
 		{
-			"code": "CLST",
-			"name": "Classical Studies",
-			"courses": 59
+			"code": "SOCY",
+			"name": "Sociology",
+			"courses": 79
 		},
 		{
-			"code": "ASCL",
-			"name": "",
-			"courses": 99
+			"code": "PHIL",
+			"name": "Philosophy",
+			"courses": 130
 		},
 		{
-			"code": "TUCK",
-			"name": "Tuck Undergraduate Courses",
-			"courses": 3
-		},
-		{
-			"code": "WGSS",
-			"name": "Women's, Gender, and Sexuality Studies",
-			"courses": 122
-		},
-		{
-			"code": "THEA",
-			"name": "Theater",
-			"courses": 61
-		},
-		{
-			"code": "LATS",
-			"name": "Latino Studies",
+			"code": "JAPN",
+			"name": "Japanese",
 			"courses": 26
+		},
+		{
+			"code": "GEOG",
+			"name": "Geography",
+			"courses": 79
+		},
+		{
+			"code": "HIST",
+			"name": "History",
+			"courses": 205
+		},
+		{
+			"code": "GRK",
+			"name": "Greek",
+			"courses": 20
 		},
 		{
 			"code": "SPAN",
@@ -281,14 +206,34 @@
 			"courses": 113
 		},
 		{
-			"code": "ASTR",
-			"name": "Astronomy",
-			"courses": 13
+			"code": "JWST",
+			"name": "Jewish Studies",
+			"courses": 72
 		},
 		{
-			"code": "LING",
-			"name": "Linguistics",
-			"courses": 45
+			"code": "PHYS",
+			"name": "Physics",
+			"courses": 46
+		},
+		{
+			"code": "GERM",
+			"name": "German Studies",
+			"courses": 65
+		},
+		{
+			"code": "THEA",
+			"name": "Theater",
+			"courses": 61
+		},
+		{
+			"code": "WGSS",
+			"name": "Women's, Gender, and Sexuality Studies",
+			"courses": 122
+		},
+		{
+			"code": "PORT",
+			"name": "Portuguese",
+			"courses": 25
 		},
 		{
 			"code": "SPEE",
@@ -296,16 +241,71 @@
 			"courses": 16
 		},
 		{
+			"code": "QSS",
+			"name": "Quantitative Social Science",
+			"courses": 27
+		},
+		{
+			"code": "REL",
+			"name": "Religion",
+			"courses": 172
+		},
+		{
+			"code": "TUCK",
+			"name": "Tuck Undergraduate Courses",
+			"courses": 3
+		},
+		{
+			"code": "LATS",
+			"name": "Latino Studies",
+			"courses": 26
+		},
+		{
+			"code": "LING",
+			"name": "Linguistics",
+			"courses": 45
+		},
+		{
+			"code": "PSYC",
+			"name": "Psychological and Brain Sciences",
+			"courses": 101
+		},
+		{
+			"code": "RUSS",
+			"name": "Russian Language and Literature",
+			"courses": 48
+		},
+		{
+			"code": "CHEM",
+			"name": "Chemistry",
+			"courses": 34
+		},
+		{
+			"code": "CHIN",
+			"name": "Chinese",
+			"courses": 40
+		},
+		{
 			"code": "LAT",
 			"name": "Latin",
 			"courses": 32
 		},
 		{
-			"code": "MATH",
-			"name": "Mathematics",
-			"courses": 64
+			"code": "LACS",
+			"name": "Latin American and Caribbean Studies",
+			"courses": 56
+		},
+		{
+			"code": "CLST",
+			"name": "Classical Studies",
+			"courses": 59
+		},
+		{
+			"code": "BIOL",
+			"name": "Biological Sciences",
+			"courses": 81
 		}
 	],
 	"total": 61,
-	"updated": "2019-11-20 20:45:18"
+	"updated": "2020-02-10 16:04:16"
 }
