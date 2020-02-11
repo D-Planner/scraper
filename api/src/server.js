@@ -98,8 +98,8 @@ const userMigration = () => {
         users.forEach((user) => {
             UserModel.findById(user.id).then((found) => {
                 found.lastLogin = Date.now();
-                found.totalFetchUserCalls = 0;
-                found.totalUpdateTermCalls = 0;
+                found.totalFetchUserCalls = found.totalFetchUserCalls || 0;
+                found.totalUpdateTermCalls = found.totalUpdateTermCalls || 0;
                 found.save();
             });
         });
