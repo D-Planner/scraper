@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import {
   ItemTypes, DialogTypes, ROOT_URL, consoleLogging,
 } from '../../constants';
@@ -105,6 +106,7 @@ class UserCourse extends Component {
 
 
   render() {
+    const dataTipID = this.props.course.id;
     return this.props.connectDragSource(
       <div className="popover" // {this.state.active ? 'active_course' : 'inactive_course'}
         onMouseEnter={() => this.setState({ beingHovered: true })}
@@ -112,6 +114,8 @@ class UserCourse extends Component {
         onClick={() => this.showCourseInfoDialog()}
         role="button"
         tabIndex="-1" // 0
+        data-tip
+        data-for={dataTipID}
       >
         <CourseElement
           active={this.state.active}
@@ -124,6 +128,11 @@ class UserCourse extends Component {
           course={this.props.catalogCourse}
           beingHovered={this.state.beingHovered}
         />
+        {this.props.course.fulfilledStatus === 'error' ? (
+          <ReactTooltip id={dataTipID} delayShow={0} place="bottom" type="dark" effect="float">
+          Missing prerequisites, click to see what is required.
+          </ReactTooltip>
+        ) : null}
       </div>,
     );
   }
