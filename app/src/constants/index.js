@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { connect } from 'react-redux';
+
 // Self URL for the React application
 export const APP_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://d-planner.com';
 export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://d-planner-api.herokuapp.com';
@@ -622,3 +625,15 @@ export const consoleLogging = (source, message, ...objects) => {
       break;
   }
 };
+
+export const errorLogging = connect(state => ({
+  user: state.user.current,
+}), null)((props, source, message) => {
+  // const headers = {
+  //   Authorization: `Bearer ${localStorage.getItem('token')}`,
+  // };
+  // axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
+  //   resolve(response.data);
+  // });
+  axios.post(`${ROOT_URL}/logs`, { source, message, user: props.user });
+});
