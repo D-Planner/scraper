@@ -10,7 +10,7 @@ import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse, disableCurrentAnnouncement,
 } from '../../actions';
 import {
-  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle,
+  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle, errorLogging,
 } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
@@ -30,6 +30,10 @@ const arraysMatch = (a1, a2) => {
     if (a1[i] !== a2[i]) return false;
   }
   return true;
+};
+
+const loggingErrorsInDplan = (e) => {
+  errorLogging('app/src/containers/dplan.js', e);
 };
 
 class DPlan extends Component {
@@ -246,7 +250,7 @@ class DPlan extends Component {
         }
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
     }
   };
 
@@ -276,7 +280,7 @@ class DPlan extends Component {
           try {
             return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
           } catch (e) {
-            console.log(e);
+            loggingErrorsInDplan(e);
             return c.course.id;
           }
         })
@@ -442,7 +446,7 @@ class DPlan extends Component {
     try {
       fn();
     } catch (e) {
-      console.error(e);
+      loggingErrorsInDplan(e);
     }
   }
 
