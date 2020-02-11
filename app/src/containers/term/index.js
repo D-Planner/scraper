@@ -212,7 +212,7 @@ class Term extends Component {
           />
         </div>
         {course.fulfilledStatus === 'error' ? (
-          <ReactTooltip id={dataTipID} delayShow={50} place="bottom" type="error" effect="float">
+          <ReactTooltip id={dataTipID} delayShow={10} place="bottom" type="error" effect="float">
           Missing prerequisites, click to see what is required.
           </ReactTooltip>
         ) : null}
