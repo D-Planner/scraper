@@ -4,9 +4,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/dali-lab/dplanner/spider/scrape/layuplist"
-	"github.com/dali-lab/dplanner/spider/scrape/shared"
-	timetable "github.com/dali-lab/dplanner/spider/scrape/timetable"
+	"./layuplist"
+	"./shared"
+	timetable "./timetable"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -28,7 +28,7 @@ func Init(layupURL string, layupCookie string, orcURL string) {
 	shared.WriteJSON("data", "departments", d)
 
 	log.WithFields(log.Fields{
-		"total_departments": d.Total,
+		"total_department": d.Total,
 		"path":              dir,
 		"filename":          "departments.json",
 	}).Info("Scraped departments")
@@ -37,7 +37,7 @@ func Init(layupURL string, layupCookie string, orcURL string) {
 
 	for i := range d.Departments {
 		department := d.Departments[i].Code
-
+		log.WithFields(log.Fields{"department": department, "LayupURL": layupURL, "layupCookie": layupCookie}).Info("New Offering")
 		o := layuplist.NewOfferings(department, layupURL, layupCookie)
 
 		shared.WriteJSON("data/courses", strings.ToLower(department), o)

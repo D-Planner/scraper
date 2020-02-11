@@ -1,9 +1,131 @@
 {
 	"courses": [
 		{
+			"layup_url": "https://www.layuplist.com/course/1934",
+			"layup_id": 1934,
+			"title": "LAT001: Introductory Latin",
+			"department": "LAT",
+			"offered": true,
+			"distribs": null,
+			"total_reviews": 62,
+			"quality_score": 22,
+			"layup_score": 9
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/1945",
 			"layup_id": 1945,
 			"title": "LAT087: Thesis",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1942",
+			"layup_id": 1942,
+			"title": "LAT030.02: Studies in Greek and Latin Literature",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3275",
+			"layup_id": 3275,
+			"title": "LAT015: Literature and the Romans",
+			"department": "LAT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 1,
+			"quality_score": 3,
+			"layup_score": -1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1936",
+			"layup_id": 1936,
+			"title": "LAT010: Readings in Latin Texts",
+			"department": "LAT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 11,
+			"quality_score": 3,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5048",
+			"layup_id": 5048,
+			"title": "LAT029: Courtroom Speech",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1938",
+			"layup_id": 1938,
+			"title": "LAT022: Literature of the Republic",
+			"department": "LAT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 13,
+			"quality_score": 6,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1943",
+			"layup_id": 1943,
+			"title": "LAT030.03: Ancient Fiction: The Greek and Roman Novels",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/1940",
+			"layup_id": 1940,
+			"title": "LAT026: Topics in the Literature of the Early Empire",
+			"department": "LAT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5043",
+			"layup_id": 5043,
+			"title": "LAT018: Intermediate Topics in Latin",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5047",
+			"layup_id": 5047,
+			"title": "LAT027: Roman Philosophy",
 			"department": "LAT",
 			"offered": false,
 			"distribs": null,
@@ -23,142 +145,6 @@
 			],
 			"total_reviews": 4,
 			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3339",
-			"layup_id": 3339,
-			"title": "LAT026.01: Seneca: Humorist and Critic",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1936",
-			"layup_id": 1936,
-			"title": "LAT010: Readings in Latin Texts",
-			"department": "LAT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 11,
-			"quality_score": 2,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/5043",
-			"layup_id": 5043,
-			"title": "LAT018: Intermediate Topics in Latin",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/5045",
-			"layup_id": 5045,
-			"title": "LAT023: Roman Drama",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/5044",
-			"layup_id": 5044,
-			"title": "LAT018.01: Intermediate Topics in Latin: Mortality and Immortality in Roman Philosophy",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4477",
-			"layup_id": 4477,
-			"title": "LAT026.02: Roman Satire",
-			"department": "LAT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/3275",
-			"layup_id": 3275,
-			"title": "LAT015: Literature and the Romans",
-			"department": "LAT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 1,
-			"quality_score": 3,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1935",
-			"layup_id": 1935,
-			"title": "LAT003: Intermediate Latin",
-			"department": "LAT",
-			"offered": true,
-			"distribs": null,
-			"total_reviews": 35,
-			"quality_score": 14,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1934",
-			"layup_id": 1934,
-			"title": "LAT001: Introductory Latin",
-			"department": "LAT",
-			"offered": true,
-			"distribs": null,
-			"total_reviews": 57,
-			"quality_score": 18,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4942",
-			"layup_id": 4942,
-			"title": "LAT021: Love Poetry",
-			"department": "LAT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1939",
-			"layup_id": 1939,
-			"title": "LAT024: Topics in the Literature of the Augustan Age",
-			"department": "LAT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 6,
-			"quality_score": 2,
 			"layup_score": 0
 		},
 		{
@@ -191,9 +177,45 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/5051",
-			"layup_id": 5051,
-			"title": "LAT032: The Poetry Book",
+			"layup_url": "https://www.layuplist.com/course/4477",
+			"layup_id": 4477,
+			"title": "LAT026.02: Roman Satire",
+			"department": "LAT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5044",
+			"layup_id": 5044,
+			"title": "LAT018.01: Intermediate Topics in Latin: Mortality and Immortality in Roman Philosophy",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3339",
+			"layup_id": 3339,
+			"title": "LAT026.01: Seneca: Humorist and Critic",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4476",
+			"layup_id": 4476,
+			"title": "LAT022.02: Catullus",
 			"department": "LAT",
 			"offered": false,
 			"distribs": null,
@@ -227,9 +249,45 @@
 			"layup_score": 0
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/4942",
+			"layup_id": 4942,
+			"title": "LAT021: Love Poetry",
+			"department": "LAT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/5053",
 			"layup_id": 5053,
 			"title": "LAT035: Satire and Humor",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5051",
+			"layup_id": 5051,
+			"title": "LAT032: The Poetry Book",
+			"department": "LAT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5045",
+			"layup_id": 5045,
+			"title": "LAT023: Roman Drama",
 			"department": "LAT",
 			"offered": false,
 			"distribs": null,
@@ -252,42 +310,17 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/3933",
-			"layup_id": 3933,
-			"title": "LAT024.01: Ovid’s Metamorphoses",
+			"layup_url": "https://www.layuplist.com/course/1939",
+			"layup_id": 1939,
+			"title": "LAT024: Topics in the Literature of the Augustan Age",
 			"department": "LAT",
 			"offered": false,
 			"distribs": [
 				"LIT",
 				"W"
 			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/5048",
-			"layup_id": 5048,
-			"title": "LAT029: Courtroom Speech",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1940",
-			"layup_id": 1940,
-			"title": "LAT026: Topics in the Literature of the Early Empire",
-			"department": "LAT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
+			"total_reviews": 6,
+			"quality_score": 2,
 			"layup_score": 0
 		},
 		{
@@ -313,15 +346,15 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4476",
-			"layup_id": 4476,
-			"title": "LAT022.02: Catullus",
+			"layup_url": "https://www.layuplist.com/course/1935",
+			"layup_id": 1935,
+			"title": "LAT003: Intermediate Latin",
 			"department": "LAT",
-			"offered": false,
+			"offered": true,
 			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
+			"total_reviews": 35,
+			"quality_score": 13,
+			"layup_score": 4
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/5052",
@@ -330,6 +363,20 @@
 			"department": "LAT",
 			"offered": false,
 			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/3933",
+			"layup_id": 3933,
+			"title": "LAT024.01: Ovid’s Metamorphoses",
+			"department": "LAT",
+			"offered": false,
+			"distribs": [
+				"LIT",
+				"W"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -344,55 +391,8 @@
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1942",
-			"layup_id": 1942,
-			"title": "LAT030.02: Studies in Greek and Latin Literature",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1943",
-			"layup_id": 1943,
-			"title": "LAT030.03: Ancient Fiction: The Greek and Roman Novels",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/5047",
-			"layup_id": 5047,
-			"title": "LAT027: Roman Philosophy",
-			"department": "LAT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/1938",
-			"layup_id": 1938,
-			"title": "LAT022: Literature of the Republic",
-			"department": "LAT",
-			"offered": false,
-			"distribs": [
-				"LIT",
-				"W"
-			],
-			"total_reviews": 13,
-			"quality_score": 6,
-			"layup_score": 0
 		}
 	],
-	"updated": "2019-11-20 20:54:23",
+	"updated": "2020-02-11 18:20:52",
 	"total": 32
 }

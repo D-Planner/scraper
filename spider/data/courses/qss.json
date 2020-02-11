@@ -11,110 +11,7 @@
 			],
 			"total_reviews": 2,
 			"quality_score": 7,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2585",
-			"layup_id": 2585,
-			"title": "QSS015: Introduction to Data Analysis",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 20,
-			"quality_score": 13,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2586",
-			"layup_id": 2586,
-			"title": "QSS017: Data Visualization",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"TLA"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4965",
-			"layup_id": 4965,
-			"title": "QSS030.13: Sociology of Mental Health",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"SOC"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2601",
-			"layup_id": 2601,
-			"title": "QSS088: Independent Study in Quantitative Social Science",
-			"department": "QSS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2593",
-			"layup_id": 2593,
-			"title": "QSS030.06: By the Numbers: Race, Incarceration and Politics",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4963",
-			"layup_id": 4963,
-			"title": "QSS030.09: Data Wrangling",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"TAS"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2591",
-			"layup_id": 2591,
-			"title": "QSS030.04: Evolutionary Game Theory and Applications",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"SOC",
-				"QDS"
-			],
-			"total_reviews": 1,
-			"quality_score": 1,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2590",
-			"layup_id": 2590,
-			"title": "QSS030.03: Experiments in Politics",
-			"department": "QSS",
-			"offered": false,
-			"distribs": [
-				"QDS"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
+			"layup_score": -4
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/4726",
@@ -130,6 +27,17 @@
 			"layup_score": 0
 		},
 		{
+			"layup_url": "https://www.layuplist.com/course/2601",
+			"layup_id": 2601,
+			"title": "QSS088: Independent Study in Quantitative Social Science",
+			"department": "QSS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
 			"layup_url": "https://www.layuplist.com/course/2592",
 			"layup_id": 2592,
 			"title": "QSS030.05: Topics in Digital History: U.S. History Through Census Data",
@@ -142,18 +50,46 @@
 			],
 			"total_reviews": 0,
 			"quality_score": 1,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2585",
+			"layup_id": 2585,
+			"title": "QSS015: Introduction to Data Analysis",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 21,
+			"quality_score": 15,
+			"layup_score": 8
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4862",
+			"layup_id": 4862,
+			"title": "QSS030.12: Quantitative Literary Critiicism",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"TAS"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2594",
-			"layup_id": 2594,
-			"title": "QSS030: Special Topics in Quantitative Social Science",
+			"layup_url": "https://www.layuplist.com/course/2586",
+			"layup_id": 2586,
+			"title": "QSS017: Data Visualization",
 			"department": "QSS",
 			"offered": false,
-			"distribs": null,
+			"distribs": [
+				"TLA"
+			],
 			"total_reviews": 0,
-			"quality_score": 1,
-			"layup_score": 0
+			"quality_score": 2,
+			"layup_score": -4
 		},
 		{
 			"layup_url": "https://www.layuplist.com/course/3456",
@@ -196,22 +132,49 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2588",
-			"layup_id": 2588,
-			"title": "QSS030.01: Sports Analytics",
+			"layup_url": "https://www.layuplist.com/course/4965",
+			"layup_id": 4965,
+			"title": "QSS030.13: Sociology of Mental Health",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"SOC"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2591",
+			"layup_id": 2591,
+			"title": "QSS030.04: Evolutionary Game Theory and Applications",
+			"department": "QSS",
+			"offered": false,
+			"distribs": [
+				"SOC",
+				"QDS"
+			],
+			"total_reviews": 1,
+			"quality_score": 1,
+			"layup_score": 2
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2590",
+			"layup_id": 2590,
+			"title": "QSS030.03: Experiments in Politics",
 			"department": "QSS",
 			"offered": false,
 			"distribs": [
 				"QDS"
 			],
 			"total_reviews": 0,
-			"quality_score": 3,
+			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4862",
-			"layup_id": 4862,
-			"title": "QSS030.12: Quantitative Literary Critiicism",
+			"layup_url": "https://www.layuplist.com/course/4963",
+			"layup_id": 4963,
+			"title": "QSS030.09: Data Wrangling",
 			"department": "QSS",
 			"offered": false,
 			"distribs": [
@@ -230,27 +193,40 @@
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 0
+			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/5145",
-			"layup_id": 5145,
-			"title": "QSS054: Chasing the (Causal) Dragon: Intermediate Quantitative Data Analysis for Sociologists",
+			"layup_url": "https://www.layuplist.com/course/2593",
+			"layup_id": 2593,
+			"title": "QSS030.06: By the Numbers: Race, Incarceration and Politics",
 			"department": "QSS",
-			"offered": true,
+			"offered": false,
 			"distribs": [
 				"QDS"
 			],
 			"total_reviews": 0,
-			"quality_score": 0,
+			"quality_score": 1,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4727",
-			"layup_id": 4727,
-			"title": "QSS081: Major Thesis Research",
+			"layup_url": "https://www.layuplist.com/course/2588",
+			"layup_id": 2588,
+			"title": "QSS030.01: Sports Analytics",
 			"department": "QSS",
 			"offered": false,
+			"distribs": [
+				"QDS"
+			],
+			"total_reviews": 0,
+			"quality_score": 4,
+			"layup_score": -1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4728",
+			"layup_id": 4728,
+			"title": "QSS082: Major One Quarter Project",
+			"department": "QSS",
+			"offered": true,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
@@ -270,22 +246,55 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4729",
-			"layup_id": 4729,
-			"title": "QSS083: Minor One Quarter Project",
+			"layup_url": "https://www.layuplist.com/course/4727",
+			"layup_id": 4727,
+			"title": "QSS081: Major Thesis Research",
 			"department": "QSS",
-			"offered": true,
+			"offered": false,
 			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2598",
-			"layup_id": 2598,
-			"title": "QSS045: Data Analysis",
+			"layup_url": "https://www.layuplist.com/course/2594",
+			"layup_id": 2594,
+			"title": "QSS030: Special Topics in Quantitative Social Science",
 			"department": "QSS",
 			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 1,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2597",
+			"layup_id": 2597,
+			"title": "QSS043: Mathematical Psychology",
+			"department": "QSS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/2600",
+			"layup_id": 2600,
+			"title": "QSS080: Research Seminar in Quantitative Social Science",
+			"department": "QSS",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/5145",
+			"layup_id": 5145,
+			"title": "QSS054: Chasing the (Causal) Dragon: Intermediate Quantitative Data Analysis for Sociologists",
+			"department": "QSS",
+			"offered": true,
 			"distribs": [
 				"QDS"
 			],
@@ -294,9 +303,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4728",
-			"layup_id": 4728,
-			"title": "QSS082: Major One Quarter Project",
+			"layup_url": "https://www.layuplist.com/course/4729",
+			"layup_id": 4729,
+			"title": "QSS083: Minor One Quarter Project",
 			"department": "QSS",
 			"offered": true,
 			"distribs": null,
@@ -315,31 +324,22 @@
 			],
 			"total_reviews": 1,
 			"quality_score": 2,
-			"layup_score": 0
+			"layup_score": 1
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/2600",
-			"layup_id": 2600,
-			"title": "QSS080: Research Seminar in Quantitative Social Science",
+			"layup_url": "https://www.layuplist.com/course/2598",
+			"layup_id": 2598,
+			"title": "QSS045: Data Analysis",
 			"department": "QSS",
 			"offered": false,
-			"distribs": null,
+			"distribs": [
+				"QDS"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/2597",
-			"layup_id": 2597,
-			"title": "QSS043: Mathematical Psychology",
-			"department": "QSS",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
+			"layup_score": 1
 		}
 	],
-	"updated": "2019-11-20 20:48:32",
+	"updated": "2020-02-11 18:38:00",
 	"total": 27
 }
