@@ -31,7 +31,7 @@ const setGlobals = (req, res) => {
             return [date, term];
         });
     const week6 = termStarts.map(([date, term]) => {
-        date.setDate(date.getDate() + (6 * 7));
+        date.setDate(date.getDate() + (5 * 7));
         term = monthToTerm[(monthToTerm.indexOf(term) + 1) % 4];
         return [date, term];
     });
