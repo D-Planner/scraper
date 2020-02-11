@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ROOT_URL } from '../constants';
+import { ROOT_URL, errorLogging } from '../constants';
 
 export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
@@ -58,9 +58,8 @@ export const ActionTypes = {
   UPDATE_TERM_IN_CURRENT_PLAN: 'UPDATE_TERM_IN_CURRENT_PLAN',
 };
 
-const loggingErrorsInReduxActions = (error) => {
-  const shouldWeLogThese = true;
-  if (shouldWeLogThese) console.log(error);
+const loggingErrorsInReduxActions = (message) => {
+  errorLogging('app/src/action.js', message);
 };
 
 const loggingStageProgressionInReduxActions = (stage, message) => {
