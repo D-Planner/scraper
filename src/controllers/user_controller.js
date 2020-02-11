@@ -53,6 +53,10 @@ export const signup = (req, res, next) => {
             emailVerified: false,
             accessGranted: true,
             accountCreated: Date.now(),
+            lastLogin: Date.now(),
+            totalFetchUserCalls: 0,
+            totalUpdateTermCalls: 0,
+            settings: {},
             tc_accepted: false,
         });
 
@@ -103,16 +107,9 @@ export const getUser = (req, res) => {
                     resolve();
                 }
             }).then(() => {
-                new Promise((resolve, reject) => {
-                    user.totalFetchUserCalls += 1;
-                    user.save().then(() => {
-                        resolve();
-                    });
-                }).then(() => {
-                    const json = user.toJSON();
-                    delete json.password;
-                    res.json(json);
-                });
+                const json = user.toJSON();
+                delete json.password;
+                res.json(json);
             });
         })
         .catch((error) => {
@@ -334,6 +331,7 @@ export const deleteUser = (req, res) => {
             res.send(error);
         });
 };
+
 
 // encodes a new token for a user object
 export function tokenForUser(user) {
