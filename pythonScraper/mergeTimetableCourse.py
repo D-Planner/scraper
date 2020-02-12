@@ -2,6 +2,9 @@ import json
 import pathlib
 import os
 
+# In format "XXXXYY" where XXXX is current year and YY is first month of the term, NOT STRING
+CURRENT_TERM_CODE = 202003
+
 coursesPath = pathlib.Path(__file__).parent.parent / 'spider' / 'data' / 'courses.json'
 timetablePath = pathlib.Path(__file__).parent.parent / 'spider' / 'data' / 'timetable.json'
 
@@ -47,15 +50,44 @@ with open(coursesTempPath, "r", encoding="utf-8") as courses_temp_in_file, open(
   coursesTempInJSON = json.load(courses_temp_in_file)
   timetableTempInJSON = json.load(timetable_temp_in_file)
 
-  for c in coursesTempInJSON:
-    if c['title'] != None:
-      print(c['title'])
+  # # Code to run on every course in courses file
+  # for c in coursesTempInJSON:
+  #   if c['title'] != None:
+  #     print(c['title'])
 
-  print('-------------------------')
+  # print('-------------------------')
 
-  for t in timetableTempInJSON['courses']:
-    if c['title'] != None:
-      print(c['title'])
+  # # Code to run on every course in timetable file
+  # for t in timetableTempInJSON['courses']:
+  #   if c['title'] != None:
+  #     print(c['title'])
+
+  # for c in coursesTempInJSON:
+  # coursesTempInJSON[0]
+
+  # Find all courses that match with a given number and department
+  def findMatchingCourses(dept, num):
+    title = dept + str(num).zfill(3)
+    print("title -", title)
+    courseList = []
+
+    # Find all courses that match the concatenation of department and number (three digits, string)
+    for c in timetableTempInJSON['courses']:
+      if (c['term'] == CURRENT_TERM_CODE and (c['subj'] + str(c['num']).zfill(3)) == title):
+        courseList.append(c)
+
+    return (courseList, len(courseList) > 0)
+
+  for course in coursesTempInJSON:  
+    courseFindResult = findMatchingCourses(course['department'], course['number'])
+
+    if courseFindResult == True:
+      for timetableCourse in courseFindResult[0]:
+        print(timetableCourse['title'], timetableCourse['instructors'], timetableCourse['term'], timetableCourse['room'], timetableCourse['period'], timetableCourse['sec'])
+    else:
+      print('Not offered')
+
+    print('-------------------------')
 
   courses_temp_in_file.close()
   timetable_temp_in_file.close()
