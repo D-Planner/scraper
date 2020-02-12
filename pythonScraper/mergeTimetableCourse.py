@@ -81,11 +81,26 @@ with open(coursesTempPath, "r", encoding="utf-8") as courses_temp_in_file, open(
   for course in coursesTempInJSON:  
     courseFindResult = findMatchingCourses(course['department'], course['number'])
 
-    if courseFindResult == True:
+    # If offered, update course
+    if courseFindResult[1] == True:
+      periods = set() # Initialize empty set
+      
+      instructors = set()
+      if course['professors'] != None: instructors.update(course['professors']) # Initialize set with current profs
+
       for timetableCourse in courseFindResult[0]:
-        print(timetableCourse['title'], timetableCourse['instructors'], timetableCourse['term'], timetableCourse['room'], timetableCourse['period'], timetableCourse['sec'])
+        periods.add(timetableCourse['period'])
+        if timetableCourse['instructors'] != None: instructors.update(timetableCourse['instructors'])
+
+      course['professors'] = list(instructors)
+      course['periods'] = list(periods)
+      course['offered'] = True
+
+      print(course['periods'], course['offered'], course['professors'])
+
     else:
       print('Not offered')
+      course['offered'] = False
 
     print('-------------------------')
 
