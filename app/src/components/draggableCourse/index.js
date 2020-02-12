@@ -87,11 +87,11 @@ class Course extends React.Component {
               course={course}
               beingHovered={this.state.beingHovered}
             />
-            <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip />
+            <div className={`dot ${course.offered ? 'success' : 'error'}`} style={{ marginLeft: '5px' }} data-tip data-for={course.id} />
           </div>,
         )
     }
-        <ReactTooltip place="right" type="dark" effect="float">
+        <ReactTooltip id={course.id} place="right" type="dark" effect="float">
           {course.offered ? `Offered ${this.props.currTerm.year.toString() + this.props.currTerm.term}` : `Not offered ${this.props.currTerm.year.toString() + this.props.currTerm.term}`}
         </ReactTooltip>
       </>
