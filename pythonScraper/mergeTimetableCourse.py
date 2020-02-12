@@ -50,25 +50,10 @@ with open(coursesTempPath, "r", encoding="utf-8") as courses_temp_in_file, open(
   coursesTempInJSON = json.load(courses_temp_in_file)
   timetableTempInJSON = json.load(timetable_temp_in_file)
 
-  # # Code to run on every course in courses file
-  # for c in coursesTempInJSON:
-  #   if c['title'] != None:
-  #     print(c['title'])
-
-  # print('-------------------------')
-
-  # # Code to run on every course in timetable file
-  # for t in timetableTempInJSON['courses']:
-  #   if c['title'] != None:
-  #     print(c['title'])
-
-  # for c in coursesTempInJSON:
-  # coursesTempInJSON[0]
-
   # Find all courses that match with a given number and department
   def findMatchingCourses(dept, num):
     title = dept + str(num).zfill(3)
-    print("title -", title)
+    # print("title -", title)
     courseList = []
 
     # Find all courses that match the concatenation of department and number (three digits, string)
@@ -96,18 +81,21 @@ with open(coursesTempPath, "r", encoding="utf-8") as courses_temp_in_file, open(
       course['periods'] = list(periods)
       course['offered'] = True
 
-      print(course['periods'], course['offered'], course['professors'])
+      # print(course['periods'], course['offered'], course['professors'])
 
     else:
-      print('Not offered')
+      # print('Not offered')
       course['offered'] = False
 
-    print('-------------------------')
+    
+    # print('-------------------------')
+
+  courses_updated_file.write(json.dumps(coursesTempInJSON, indent=4))
 
   courses_temp_in_file.close()
   timetable_temp_in_file.close()
   courses_updated_file.close()
 
-# # Remove Updated Files
-# os.remove(coursesTempPath)
-# os.remove(timetableTempPath)
+# Remove Updated Files
+os.remove(coursesTempPath)
+os.remove(timetableTempPath)
