@@ -191,7 +191,7 @@ class CourseInfoDialog extends Component {
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
-              <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
+              <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" className="dark" data-for={p.id} data-tip>{p.name}</a>
               <ReactTooltip id={p.id} place="right" type="dark" effect="float">
                 See all reviews
               </ReactTooltip>
