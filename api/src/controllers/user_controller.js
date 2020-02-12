@@ -53,6 +53,10 @@ export const signup = (req, res, next) => {
             emailVerified: false,
             accessGranted: true,
             accountCreated: Date.now(),
+            lastLogin: Date.now(),
+            totalFetchUserCalls: 0,
+            totalUpdateTermCalls: 0,
+            settings: {},
             tc_accepted: false,
         });
 
