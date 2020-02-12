@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/dali-lab/dplanner/spider/scrape/spider"
+	"../spider"
 )
 
 // Offering represents a single offering (i.e. course) of a department's offerings
