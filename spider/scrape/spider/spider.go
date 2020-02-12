@@ -1,10 +1,10 @@
 package spider
 
 import (
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"net/url"
-	"time"
+	// "time"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -52,20 +52,26 @@ func (s *Spider) getDocument() *goquery.Document {
 
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
-		log.Print(err)
+		log.Print("Error In getDocument()")
+		log.Fatal(err)
 	}
 	return doc
 }
 
 func (s *Spider) getResponse() *http.Response {
+	//time.Sleep(2 * time.Second)
 	req, _ := http.NewRequest("GET", s.url, nil)
 
 	req.Header.Set("cookie", s.cookie)
 
-	client := &http.Client{Timeout: time.Second * 25}
+	client := &http.Client{}
 
 	res, err := client.Do(req)
 	if err != nil {
+		log.WithFields(log.Fields{
+			"res": 			res,
+			"err":			err,
+		}).Print("Error In getResponse()")
 		log.Fatal(err)
 	}
 	return res
@@ -74,6 +80,7 @@ func (s *Spider) getResponse() *http.Response {
 func (s *Spider) postResponse() *http.Response {
 	res, err := http.PostForm(s.url, s.payload)
 	if err != nil {
+		log.Print("Error In postResponse()")
 		log.Fatal(err)
 	}
 	return res

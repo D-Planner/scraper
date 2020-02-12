@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/dali-lab/dplanner/spider/server"
+	"./server"
 )
 
 var (
