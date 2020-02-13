@@ -15,23 +15,20 @@ class CourseElement extends Component {
     super(props);
 
     if (this.props.custom) {
-      consoleLogging('Course', this.props);
+      console.log(props.showIcon, props.custom.name);
       this.state = {
         isEditing: false,
+        name: props.custom.name,
       };
     }
   }
 
   renderCourseSupplementaryInfo = () => {
     if (this.props.custom) {
+      console.log(this.props.showIcon);
       return (
         <div className="supplementary-course">
           {this.renderCourseIdentifyingInfo()}
-          {this.props.showIcon ? (
-            <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
-              {this.renderIcon(this.props.icon)}
-            </div>
-          ) : null}
         </div>
       );
     } else if (this.props.active) {
@@ -103,12 +100,13 @@ class CourseElement extends Component {
                   <>
                     <input
                       className="custom-course-name custom-course-name-editing"
-                      placeholder={this.props.custom.name}
-                      value={this.props.custom.name}
-                      onChange={e => this.props.updateCustomCourse(null, e.target.value)}
+                      placeholder={this.state.name}
+                      value={this.state.name}
+                      onChange={e => this.setState({ name: e.target.value })}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           this.setState({ isEditing: false });
+                          this.props.updateCustomCourse(null, e.target.value);
                         }
                       }}
                     />
@@ -117,6 +115,11 @@ class CourseElement extends Component {
                 )
                 : <div className="custom-course-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.props.custom.name}</div>}
             </div>
+            {this.props.showIcon && this.props.custom ? (
+              <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+                {this.renderIcon(this.props.icon)}
+              </div>
+            ) : null}
           </div>
         </div>
       );

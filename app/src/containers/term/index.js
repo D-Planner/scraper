@@ -19,22 +19,24 @@ import {
 const termTarget = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
+    console.log(item);
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
       if (item.sourceTerm && item.sourceTerm.id === props.term.id && !item.custom) {
         return undefined;
       } else if (item.custom) { // This is a Custom Course
+        consoleLogging('Term', '[Term] Custom Course Object', item);
         if (item.sourceTerm) {
           consoleLogging('Term', '[Term] Attempting to remove a custom course');
-          props.removeCustomCourse(item.custom, item.sourceTerm).then(() => {
+          props.removeCustomCourse(item.id, item.sourceTerm).then(() => {
             consoleLogging('Term', '[Term] Attempting to add a custom course');
             props.addCustomCourse(item.custom, props.term).then(() => {
               consoleLogging('Term', '[Term] Removed, and readded the custom course');
             });
           });
         } else {
-          consoleLogging('Term', '[Term] Attempting to add a custom course');
+          consoleLogging('Term', '[Term] Attempting to add a custom course', item, props.term);
           props.addCustomCourse(item.custom, props.term).then(() => {
             consoleLogging('Term', '[Term] Added custom the term');
           });
@@ -179,18 +181,19 @@ class Term extends Component {
   }
 
   renderCustomCourse = (customCourse, i) => {
-    consoleLogging('Term', customCourse);
     return (
       <CustomCourse
         key={i.toString()}
         id={customCourse.id}
+        customCourse={customCourse}
         custom={customCourse.custom}
         size={(this.isCurrTerm() ? 'sm' : 'lg')}
         sourceTerm={this.props.term.id}
         icon="close"
         showIcon
+        inTerm
         addCustomCourse={this.props.addCustomCourse}
-        removeCustomCourse={this.props.removeCustomCourse}
+        removeCustomCourse={() => this.props.removeCustomCourse(customCourse.id, this.props.term.id)}
       />
     );
   }

@@ -360,9 +360,9 @@ class DPlan extends Component {
           if (t._id === term._id) {
             axios.post(`${ROOT_URL}/terms/${term.id}/course/custom`, { custom }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            }).then(() => {
+            }).then((response) => {
               consoleLogging('DPlan', `[DPlan] addCustomCourseToTerm() finished call to backend to add ${custom} custom to term.`);
-              this.props.addCustomCourse(custom, term._id);
+              this.props.addCustomCourse(response.data, term._id);
               resolve();
             });
           }

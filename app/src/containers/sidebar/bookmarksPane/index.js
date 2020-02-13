@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { DropTarget as BookmarksPane } from 'react-dnd';
 import { connect } from 'react-redux';
 // import { ItemTypes } from '../../../constants';
-import { ItemTypes, Departments } from '../../../constants';
+import { ItemTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
 import { removeCourseFromFavorites } from '../../../actions';
 
@@ -35,14 +35,6 @@ const component = (props) => {
     active: props.active,
   });
 
-  const [customDept, setCustomDept] = useState('COSC');
-  const [customName, setCustomName] = useState('Placeholder');
-
-  const updateCustomCourse = (newDept, newName) => {
-    if (newDept) setCustomDept(newDept);
-    if (newName) setCustomName(newName);
-  };
-
   return props.connectDropTarget(
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
@@ -52,12 +44,7 @@ const component = (props) => {
         {props.bookmarks
           ? (
             <div className="bookmarked-courses-list">
-              <div className="row">
-                <select defaultValue={customDept} className="sort-picker" onChange={e => setCustomDept(e.target.value)}>
-                  {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
-                </select>
-                <CustomCourse size="sm" custom={{ department: customDept, name: customName }} updateCustomCourse={updateCustomCourse} addCustomCourse={props.addCustomCourse} />
-              </div>
+              <CustomCourse size="sm" addCustomCourse={props.addCustomCourse} />
               {props.bookmarks.map((course, index) => {
                 let setActive = true;
 

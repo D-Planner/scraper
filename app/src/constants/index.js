@@ -601,10 +601,10 @@ export const GenEds = {
 export const consoleLogging = (source, message, ...objects) => {
   const config = {
     DraggableUserCourse: true,
-    DPlan: false,
+    DPlan: true,
     RequirementsPane: false,
-    Term: false,
-    Course: true,
+    Term: true,
+    Course: false,
   };
   switch (source) {
     case 'DraggableUserCourse':

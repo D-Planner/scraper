@@ -24,7 +24,6 @@ class RequirementsPane extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props.userCourses);
     this.nonCustoms = Object.assign([], this.props.userCourses.filter(userCourse => !(userCourse.custom)));
 
     this.fillAll();

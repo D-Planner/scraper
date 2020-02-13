@@ -56,6 +56,7 @@ export const ActionTypes = {
   ADD_CUSTOM_COURSE_TO_PLAN: 'ADD_CUSTOM_COURSE_TO_PLAN',
   REMOVE_CUSTOM_COURSE_FROM_PLAN: 'REMOVE_CUSTOM_COURSE_FROM_PLAN',
   UPDATE_TERM_IN_CURRENT_PLAN: 'UPDATE_TERM_IN_CURRENT_PLAN',
+  UPDATE_CUSTOM_COURSE: 'UPDATE_CUSTOM_COURSE',
 };
 
 const loggingErrorsInReduxActions = (error) => {
@@ -853,8 +854,8 @@ export function removeCourseFromTerm(userCourse) {
 export function addCustomCourse(customCourse, termID) {
   return dispatch => new Promise((resolve, reject) => {
     dispatch({
-      type: ActionTypes.ADD_CUSTOM_COURSE_TO_PLAN,
-      payload: { customCourse, termID },
+      type: ActionTypes.ADD_COURSE_TO_PLAN,
+      payload: { userCourse: customCourse, termID }, // Calling this userCourse so we can use the same ActionType
     });
     resolve();
   });
@@ -865,14 +866,33 @@ export function addCustomCourse(customCourse, termID) {
  * @param {*} customCourse the custom course object being added
  * @param {*} termID the termID that the course should be added to
  */
-export function removeCustomCourse(customCourse, termID) {
+export function removeCustomCourse(customCourseID, termID) {
   return dispatch => new Promise((resolve, reject) => {
     dispatch({
-      type: ActionTypes.REMOVE_CUSTOM_COURSE_FROM_PLAN,
-      payload: { customCourse, termID },
+      type: ActionTypes.REMOVE_COURSE_FROM_PLAN,
+      payload: { userCourse: customCourseID, termID }, // Calling this userCourse so we can use the same ActionType
     });
     resolve();
   });
+}
+
+/**
+ *
+ * @param {*} customCourse the custom course object being update
+ */
+export function updateCustomCourse(customCourse) {
+  return dispatch => new Promise(((resolve, reject) => {
+    axios.patch(`${ROOT_URL}/courses/custom`, { customCourse }, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }).then((response) => {
+      dispatch({ type: ActionTypes.UPDATE_CUSTOM_COURSE, payload: response.data });
+      resolve();
+    }).catch((error) => {
+      loggingErrorsInReduxActions(error);
+      dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
+      reject();
+    });
+  }));
 }
 
 export function updateTermInCurrentPlan(term) {
