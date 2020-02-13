@@ -49,9 +49,9 @@ const setGlobals = (req, res) => {
     }
     const globals = {
         name: 'global',
-        currTerm: { year: year - 1, term },
+        currTerm: { year, term },
         nextTerm: {
-            year: (term === 'F') ? year : year - 1,
+            year: (term === 'F') ? year : year,
             term: monthToTerm[(monthToTerm.indexOf(term) + 1) % 4],
         },
     };
