@@ -3,6 +3,9 @@ import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
     accountCreated: Date,
+    lastLogin: Date,
+    totalFetchUserCalls: Number,
+    totalUpdateTermCalls: Number,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     username: { type: String },

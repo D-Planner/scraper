@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip';
 import {
   ItemTypes, DialogTypes, ROOT_URL, consoleLogging,
 } from '../../constants';
@@ -11,6 +12,7 @@ import CourseElement from '../staticCourseElement';
 
 const source = {
   beginDrag(props) {
+    ReactTooltip.hide();
     props.setDraggingState(true, props.catalogCourse);
     props.setDraggingFulfilledStatus(props.catalogCourse.id);
     return {

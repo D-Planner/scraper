@@ -1,14 +1,25 @@
 {
 	"courses": [
 		{
-			"layup_url": "https://www.layuplist.com/course/4641",
-			"layup_id": 4641,
-			"title": "CRWT021: Intermediate Creative Non Fiction I",
+			"layup_url": "https://www.layuplist.com/course/4359",
+			"layup_id": 4359,
+			"title": "CRWT012: Introduction to Poetry",
 			"department": "CRWT",
-			"offered": false,
+			"offered": true,
 			"distribs": [
 				"ART"
 			],
+			"total_reviews": 0,
+			"quality_score": 5,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4622",
+			"layup_id": 4622,
+			"title": "CRWT040.03: Raising the Dead",
+			"department": "CRWT",
+			"offered": false,
+			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 1,
 			"layup_score": 0
@@ -20,6 +31,19 @@
 			"department": "CRWT",
 			"offered": false,
 			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4361",
+			"layup_id": 4361,
+			"title": "CRWT040.06: Uses of Fact: True Source Material in Prose, Poetry, \u0026 Film",
+			"department": "CRWT",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -38,38 +62,14 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4363",
-			"layup_id": 4363,
-			"title": "CRWT062: Senior Workshop in Creative Writing: Poetry",
-			"department": "CRWT",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4359",
-			"layup_id": 4359,
-			"title": "CRWT012: Introduction to Poetry",
+			"layup_url": "https://www.layuplist.com/course/4625",
+			"layup_id": 4625,
+			"title": "CRWT041.01: Writing for Television",
 			"department": "CRWT",
 			"offered": true,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 0,
-			"quality_score": 5,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4622",
-			"layup_id": 4622,
-			"title": "CRWT040.03: Raising the Dead",
-			"department": "CRWT",
-			"offered": false,
-			"distribs": null,
 			"total_reviews": 0,
 			"quality_score": 0,
 			"layup_score": 0
@@ -100,45 +100,6 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4364",
-			"layup_id": 4364,
-			"title": "CRWT089: Creative Writing Project",
-			"department": "CRWT",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4639",
-			"layup_id": 4639,
-			"title": "CRWT061: Senior Workshop in Creative Writing: Creative Nonfiction",
-			"department": "CRWT",
-			"offered": false,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4358",
-			"layup_id": 4358,
-			"title": "CRWT010: Introduction to Fiction",
-			"department": "CRWT",
-			"offered": true,
-			"distribs": [
-				"ART"
-			],
-			"total_reviews": 2,
-			"quality_score": 7,
-			"layup_score": 0
-		},
-		{
 			"layup_url": "https://www.layuplist.com/course/4624",
 			"layup_id": 4624,
 			"title": "CRWT040.05: Engaging Hybridity: Race, Gender, Genre",
@@ -152,22 +113,22 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4360",
-			"layup_id": 4360,
-			"title": "CRWT040.01: Imaginary Countries",
+			"layup_url": "https://www.layuplist.com/course/4362",
+			"layup_id": 4362,
+			"title": "CRWT060: Senior Workshop in Creative Writing: Fiction",
 			"department": "CRWT",
 			"offered": false,
 			"distribs": [
 				"ART"
 			],
-			"total_reviews": 2,
-			"quality_score": 2,
+			"total_reviews": 0,
+			"quality_score": 0,
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4642",
-			"layup_id": 4642,
-			"title": "CRWT022: Intermediate Poetry I",
+			"layup_url": "https://www.layuplist.com/course/4363",
+			"layup_id": 4363,
+			"title": "CRWT062: Senior Workshop in Creative Writing: Poetry",
 			"department": "CRWT",
 			"offered": false,
 			"distribs": [
@@ -200,9 +161,59 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4625",
-			"layup_id": 4625,
-			"title": "CRWT041.01: Writing for Television",
+			"layup_url": "https://www.layuplist.com/course/4358",
+			"layup_id": 4358,
+			"title": "CRWT010: Introduction to Fiction",
+			"department": "CRWT",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 2,
+			"quality_score": 8,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4364",
+			"layup_id": 4364,
+			"title": "CRWT089: Creative Writing Project",
+			"department": "CRWT",
+			"offered": true,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4360",
+			"layup_id": 4360,
+			"title": "CRWT040.01: Imaginary Countries",
+			"department": "CRWT",
+			"offered": false,
+			"distribs": [
+				"ART"
+			],
+			"total_reviews": 2,
+			"quality_score": 2,
+			"layup_score": 1
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4621",
+			"layup_id": 4621,
+			"title": "CRWT040.02: Literary Geniuses: The Short Fiction of 21st Century MacArthur Foundation Fellows",
+			"department": "CRWT",
+			"offered": false,
+			"distribs": null,
+			"total_reviews": 0,
+			"quality_score": 0,
+			"layup_score": 0
+		},
+		{
+			"layup_url": "https://www.layuplist.com/course/4640",
+			"layup_id": 4640,
+			"title": "CRWT020: Intermediate Fiction I",
 			"department": "CRWT",
 			"offered": true,
 			"distribs": [
@@ -224,9 +235,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4362",
-			"layup_id": 4362,
-			"title": "CRWT060: Senior Workshop in Creative Writing: Fiction",
+			"layup_url": "https://www.layuplist.com/course/4639",
+			"layup_id": 4639,
+			"title": "CRWT061: Senior Workshop in Creative Writing: Creative Nonfiction",
 			"department": "CRWT",
 			"offered": false,
 			"distribs": [
@@ -237,20 +248,9 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4621",
-			"layup_id": 4621,
-			"title": "CRWT040.02: Literary Geniuses: The Short Fiction of 21st Century MacArthur Foundation Fellows",
-			"department": "CRWT",
-			"offered": false,
-			"distribs": null,
-			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
-		},
-		{
-			"layup_url": "https://www.layuplist.com/course/4361",
-			"layup_id": 4361,
-			"title": "CRWT040.06: Uses of Fact: True Source Material in Prose, Poetry, \u0026 Film",
+			"layup_url": "https://www.layuplist.com/course/4642",
+			"layup_id": 4642,
+			"title": "CRWT022: Intermediate Poetry I",
 			"department": "CRWT",
 			"offered": false,
 			"distribs": [
@@ -261,19 +261,19 @@
 			"layup_score": 0
 		},
 		{
-			"layup_url": "https://www.layuplist.com/course/4640",
-			"layup_id": 4640,
-			"title": "CRWT020: Intermediate Fiction I",
+			"layup_url": "https://www.layuplist.com/course/4641",
+			"layup_id": 4641,
+			"title": "CRWT021: Intermediate Creative Non Fiction I",
 			"department": "CRWT",
-			"offered": true,
+			"offered": false,
 			"distribs": [
 				"ART"
 			],
 			"total_reviews": 0,
-			"quality_score": 0,
-			"layup_score": 0
+			"quality_score": 1,
+			"layup_score": -1
 		}
 	],
-	"updated": "2019-11-20 20:47:41",
+	"updated": "2020-02-11 18:15:15",
 	"total": 22
 }

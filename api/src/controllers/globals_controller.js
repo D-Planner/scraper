@@ -31,7 +31,7 @@ const setGlobals = (req, res) => {
             return [date, term];
         });
     const week6 = termStarts.map(([date, term]) => {
-        date.setDate(date.getDate() + (6 * 7));
+        date.setDate(date.getDate() + (5 * 7));
         term = monthToTerm[(monthToTerm.indexOf(term) + 1) % 4];
         return [date, term];
     });
@@ -43,7 +43,7 @@ const setGlobals = (req, res) => {
     while (i < week6.length) {
         if (today > week6[i][0]) {
             term = week6[i][1];
-            year = week6[i][0].getFullYear() + 1 - 2000;
+            year = week6[i][0].getFullYear() - 2000;
         }
         i += 1;
     }
@@ -51,7 +51,7 @@ const setGlobals = (req, res) => {
         name: 'global',
         currTerm: { year, term },
         nextTerm: {
-            year: (term === 'F') ? year + 1 : year,
+            year: (term === 'F') ? year : year,
             term: monthToTerm[(monthToTerm.indexOf(term) + 1) % 4],
         },
     };
