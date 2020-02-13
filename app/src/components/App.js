@@ -75,8 +75,10 @@ class App extends Component {
   }
 
   render() {
-    const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
-    errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
+    if (this.state.width !== 0 && this.state.width !== 0) {
+      const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
+      errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
+    }
     if (true) {
       return (
         <div>
