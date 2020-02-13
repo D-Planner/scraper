@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchCourses } from '../../actions';
-import LoadingWheel from '../../components/loadingWheel';
+import { fetchCourses } from '../../src/actions';
+import LoadingWheel from '../../src/components/loadingWheel';
 
 class Courses extends Component {
   constructor(props) {
