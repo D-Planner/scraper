@@ -21,6 +21,31 @@ $landing-width: 1065px;
     }
 }
 
+.landing-link {
+    &:link {
+        color: $white;
+        text-decoration: none;
+    }
+  
+    &:hover {
+        opacity: 80%;
+    }
+  
+    &.dark {
+        color: $text-accent;
+    }
+    
+    color: $white;
+    cursor: pointer;
+    height: 50px !important;
+  
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
 h2 {
     margin-bottom: 50px;
 }
@@ -28,9 +53,9 @@ h2 {
 .landing-down-arrow {
     position: absolute;
     display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     margin: 0 auto 24px auto;
 
     left: 47.5%;
@@ -98,9 +123,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
     &.horizontal {
         display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+        display: -ms-flexbox;  /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+        display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: row;
         align-content: center;
 
@@ -128,9 +153,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
 .landing-subfeature {
     display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     background: none;
 
     .landing-subfeature-image {
@@ -141,9 +166,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
     .landing-subfeature-text-container {
         display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+        display: -ms-flexbox;  /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+        display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         align-items: center;
         flex-direction: row;
 
@@ -168,9 +193,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         width: 100%;
         height: $content-height;
         display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+        display: -ms-flexbox;  /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+        display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         padding: none !important;
         margin: none !important;
@@ -183,9 +208,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         .landing-left {
             width: 63%;
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             align-items: center;
             justify-content: center;
@@ -204,9 +229,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             .intro {
                 max-width: 720px;
                 display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+                display: -ms-flexbox;  /* TWEENER - IE 10 */
+                display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+                display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: column;
                 color: white;
 
@@ -237,9 +262,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         .right {
             flex: 1;
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             align-items: center;
             padding-top: $content-padding-top;
@@ -293,9 +318,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         .welcome-container {
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: row;
             align-content: space-between;
 
@@ -318,9 +343,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         .landing-feature-container {
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: row;
             justify-content: space-between;
         }
@@ -344,9 +369,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
             .landing-testimonial-text-container {
                 display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+                display: -ms-flexbox;  /* TWEENER - IE 10 */
+                display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+                display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: column;
 
                 padding: 21px 0;
@@ -365,9 +390,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         .landing-link-container {
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: row;
             justify-content: space-between;
             align-content: space-between;
@@ -378,9 +403,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             .landing-icon-container {
                 max-height: 34px;
                 display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+                display: -ms-flexbox;  /* TWEENER - IE 10 */
+                display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+                display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: row;
 
                 .landing-social-icon-container {

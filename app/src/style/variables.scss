@@ -170,28 +170,3 @@ p {
   font-size: 14px;
   line-height: 21px;
 }
-
-a {
-  &:link {
-      color: $white;
-      text-decoration: none;
-  }
-
-  &:hover {
-      opacity: 80%;
-  }
-
-  &.dark {
-      color: $text-accent;
-  }
-  
-  color: $white;
-  cursor: pointer;
-  height: 50px !important;
-
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 14px;
-  line-height: 21px;
-}

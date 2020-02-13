@@ -285,10 +285,10 @@ class Landing extends React.Component {
 
           <section className="landing-section colored footer" style={{ paddingTop: '81px', paddingBottom: '81px' }}>
             <div className="landing-link-container" style={{ marginBottom: '48px' }}>
-              <a href="mailto:info@d-planner.com">Want to bring D-Planner to your school?<br />Click here to let us know!</a>
-              <a href="mailto:info@d-planner.com">Are you a college administrator?<br />We provide data analytics!</a>
-              <a href="/credits">We couldn’t have gotten here without many talented people.<br />See our credits page!</a>
-              <a href="mailto:info@d-planner.com">Have a question that we haven’t answered?<br />Click here to let us know!</a>
+              <a className="landing-link" href="mailto:info@d-planner.com">Want to bring D-Planner to your school?<br />Click here to let us know!</a>
+              <a className="landing-link" href="mailto:info@d-planner.com">Are you a college administrator?<br />We provide data analytics!</a>
+              <a className="landing-link" href="/credits">We couldn’t have gotten here without many talented people.<br />See our credits page!</a>
+              <a className="landing-link" href="mailto:info@d-planner.com">Have a question that we haven’t answered?<br />Click here to let us know!</a>
             </div>
             <div className="landing-link-container">
               <div className="landing-icon-container">
@@ -493,10 +493,10 @@ class Landing extends React.Component {
           </section>
 
           <section className="landing-section colored footer mobile" style={{ padding: '15vw 10vw' }}>
-            <div style={{ marginBottom: '17px' }}><a href="mailto:info@d-planner.com">Want to bring D-Planner to your school? Click here to let us know!</a></div>
-            <div style={{ marginBottom: '17px' }}><a href="mailto:info@d-planner.com">Are you a college administrator? We provide data analytics!</a></div>
-            <div style={{ marginBottom: '17px' }}><a href="/credits">We couldn’t have gotten here without many talented people. See our credits page!</a></div>
-            <div style={{ marginBottom: '17px' }}><a href="mailto:info@d-planner.com">Have a question that we haven’t answered? Click here to let us know!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="mailto:info@d-planner.com">Want to bring D-Planner to your school? Click here to let us know!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="mailto:info@d-planner.com">Are you a college administrator? We provide data analytics!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="/credits">We couldn’t have gotten here without many talented people. See our credits page!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="mailto:info@d-planner.com">Have a question that we haven’t answered? Click here to let us know!</a></div>
             <div className="landing-social-icon-container right"
               style={{
                 width: '100%', display: 'flex', flexDirection: 'row', margin: '48px auto auto', justifyContent: 'center',
