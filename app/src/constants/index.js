@@ -630,5 +630,5 @@ export const errorLogging = (source, message) => {
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  axios.post(`${ROOT_URL}/logs`, { source, message }, { headers }).then(r => console.log(r));
+  // axios.post(`${ROOT_URL}/logs`, { source, message }, { headers }).then(r => console.log(r));
 };
