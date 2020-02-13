@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import '../draggableCourse/draggableCourse.scss';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
-import { ItemTypes } from '../../constants';
+import { ItemTypes, errorLogging } from '../../constants';
 import CourseElement from '../staticCourseElement';
+
+const loggingErrorsInPlaceholderCourse = (message) => {
+  errorLogging('app/src/components/forgotPassword.js', message);
+};
 
 const source = {
   beginDrag(props) {
@@ -11,14 +15,16 @@ const source = {
     return props;
   },
   endDrag(props, monitor) {
-    if (!monitor.didDrop()) {
-      console.log(props);
-      if (props.sourceTerm) {
-        props.removePlaceholderCourse(props.department, props.sourceTerm).then((next) => {
-          console.log('removed');
-          next();
-        });
+    try {
+      if (!monitor.didDrop()) {
+        if (props.sourceTerm) {
+          props.removePlaceholderCourse(props.department, props.sourceTerm).then((next) => {
+            next();
+          });
+        }
       }
+    } catch (e) {
+      loggingErrorsInPlaceholderCourse(e);
     }
   },
 };
@@ -39,7 +45,6 @@ class PlaceholderCourse extends Component {
       beingHovered: false,
     };
   }
-
 
   render() {
     return this.props.connectDragSource(
