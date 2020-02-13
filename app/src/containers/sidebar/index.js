@@ -40,7 +40,7 @@ class Sidebar extends Component {
     };
 
     this.searchRef = React.createRef();
-    this.search = debounce(this.search, 5000);
+    this.search = debounce(this.search, 500);
   }
 
   componentDidMount() {

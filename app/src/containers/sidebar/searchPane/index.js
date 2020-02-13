@@ -64,7 +64,7 @@ const SearchPane = React.forwardRef((props, ref) => {
     const offered = props.offered.filter(e => e.checked).map(e => e.term);
     // setOffered(offered1);
     props.setFilter(wcs, distribs, offered);
-    props.setFilters({ wcs, distribs, offered });
+    // props.setFilters({ wcs, distribs, offered });
   };
 
   const clearCurFilters = () => {
