@@ -8,7 +8,7 @@ import ReactTooltip from 'react-tooltip';
 import HourSelector from '../hourSelector';
 import { DialogTypes, ItemTypes, consoleLogging } from '../../constants';
 import DraggableUserCourse from '../../components/draggableUserCourse';
-import PlaceholderCourse from '../../components/placeholderCourse';
+import CustomCourse from '../../components/customCourse';
 import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
@@ -22,21 +22,21 @@ const termTarget = {
     // if a course was dragged from another source term,
     // then delete it from that term and add it to this one
     if (!props.term.off_term) {
-      if (item.sourceTerm && item.sourceTerm.id === props.term.id && !item.department) {
+      if (item.sourceTerm && item.sourceTerm.id === props.term.id && !item.custom) {
         return undefined;
-      } else if (item.department) { // This is a placeholder Course
+      } else if (item.custom) { // This is a Custom Course
         if (item.sourceTerm) {
-          consoleLogging('Term', '[Term] Attempting to remove a placeholder course');
-          props.removePlaceholderCourse(item.department, item.sourceTerm).then(() => {
-            consoleLogging('Term', '[Term] Attempting to add a placeholder course');
-            props.addPlaceholderCourse(item.department, props.term).then(() => {
-              consoleLogging('Term', '[Term] Removed, and readded the Placeholder course');
+          consoleLogging('Term', '[Term] Attempting to remove a custom course');
+          props.removeCustomCourse(item.custom, item.sourceTerm).then(() => {
+            consoleLogging('Term', '[Term] Attempting to add a custom course');
+            props.addCustomCourse(item.custom, props.term).then(() => {
+              consoleLogging('Term', '[Term] Removed, and readded the custom course');
             });
           });
         } else {
-          consoleLogging('Term', '[Term] Attempting to add a placeholder course');
-          props.addPlaceholderCourse(item.department, props.term).then(() => {
-            consoleLogging('Term', '[Term] Added placeholder the term');
+          consoleLogging('Term', '[Term] Attempting to add a custom course');
+          props.addCustomCourse(item.custom, props.term).then(() => {
+            consoleLogging('Term', '[Term] Added custom the term');
           });
         }
       } else if (item.sourceTerm) {
@@ -178,17 +178,19 @@ class Term extends Component {
     }
   }
 
-  renderPlaceholderCourse = (placeholderCourse, i) => {
+  renderCustomCourse = (customCourse, i) => {
+    consoleLogging('Term', customCourse);
     return (
-      <PlaceholderCourse
+      <CustomCourse
         key={i.toString()}
-        department={placeholderCourse.placeholder}
+        id={customCourse.id}
+        custom={customCourse.custom}
         size={(this.isCurrTerm() ? 'sm' : 'lg')}
         sourceTerm={this.props.term.id}
         icon="close"
         showIcon
-        addPlaceholderCourse={this.props.addPlaceholderCourse}
-        removePlaceholderCourse={this.props.removePlaceholderCourse}
+        addCustomCourse={this.props.addCustomCourse}
+        removeCustomCourse={this.props.removeCustomCourse}
       />
     );
   }
@@ -272,8 +274,8 @@ class Term extends Component {
             <div className="course-row-with-space" key={i.toString()}>
               <div className="course-row">
 
-                {(course.placeholder)
-                  ? this.renderPlaceholderCourse(course, i)
+                {(course.custom)
+                  ? this.renderCustomCourse(course, i)
                   : this.renderUserCourse(course, i)
                 }
               </div>

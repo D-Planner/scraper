@@ -7,7 +7,7 @@ import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {
-  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse, disableCurrentAnnouncement,
+  deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addCustomCourse, removeCustomCourse, disableCurrentAnnouncement,
 } from '../../actions';
 import {
   DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle,
@@ -161,7 +161,7 @@ class DPlan extends Component {
     const courses = [];
     this.props.plan.terms.forEach((year) => {
       year.forEach((term) => {
-        courses.push(...term.courses.filter(c => !c.placeholder));
+        courses.push(...term.courses.filter(c => !c.custom));
       });
     });
     return courses;
@@ -267,10 +267,10 @@ class DPlan extends Component {
         })
         .flat()
         .filter((c) => {
-          return (c.fulfilledStatus === '' && !c.placeholder && c.course !== null);
+          return (c.fulfilledStatus === '' && !c.custom && c.course !== null);
         })
         .filter((c) => {
-          return !c.placeholder;
+          return !c.custom;
         })
         .map((c) => {
           try {
@@ -352,17 +352,17 @@ class DPlan extends Component {
     }
   })
 
-  addPlaceholderCourseToTerm = (department, term) => new Promise((resolve, reject) => {
-    consoleLogging('DPlan', '[DPlan] addPlaceholderCourseToTerm() starting.');
+  addCustomCourseToTerm = (custom, term) => new Promise((resolve, reject) => {
+    consoleLogging('DPlan', '[DPlan] addCustomCourseToTerm() starting.');
     try {
       this.props.plan.terms.forEach((y) => {
         y.forEach((t) => {
           if (t._id === term._id) {
-            axios.post(`${ROOT_URL}/terms/${term.id}/course/placeholder`, { department }, {
+            axios.post(`${ROOT_URL}/terms/${term.id}/course/custom`, { custom }, {
               headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             }).then(() => {
-              consoleLogging('DPlan', `[DPlan] addPlaceholderCourseToTerm() finished call to backend to add ${department} placeholder to term.`);
-              this.props.addPlaceholderCourse(department, term._id);
+              consoleLogging('DPlan', `[DPlan] addCustomCourseToTerm() finished call to backend to add ${custom} custom to term.`);
+              this.props.addCustomCourse(custom, term._id);
               resolve();
             });
           }
@@ -373,14 +373,14 @@ class DPlan extends Component {
     }
   })
 
-  removePlaceholderCourseFromTerm = (department, termID) => new Promise((resolve, reject) => {
-    consoleLogging('DPlan', '[DPlan] removePlaceholderCourseFromTerm() starting.');
+  removeCustomCourseFromTerm = (customCourseID, termID) => new Promise((resolve, reject) => {
+    consoleLogging('DPlan', '[DPlan] removeCustomCourseFromTerm() starting.');
     try {
-      axios.delete(`${ROOT_URL}/terms/${termID}/course/placeholder/${department}`, {
+      axios.delete(`${ROOT_URL}/terms/${termID}/course/custom/${customCourseID}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }).then(() => {
-        consoleLogging('DPlan', `[DPlan] removePlaceholderCourseFromTerm() finished call to backend to remove ${department} placeholder from term.`);
-        this.props.removePlaceholderCourse(department, termID);
+        consoleLogging('DPlan', `[DPlan] removeCustomCourseFromTerm() finished call to backend to remove ${customCourseID} custom from term.`);
+        this.props.removeCustomCourse(customCourseID, termID);
         resolve();
       });
     } catch (e) {
@@ -616,8 +616,8 @@ class DPlan extends Component {
                           openPane={this.state.openPane}
                           planCourses={this.getFlattenedCourses()}
                           setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                          addPlaceholderCourse={this.addPlaceholderCourseToTerm}
-                          removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                          addCustomCourse={this.addCustomCourseToTerm}
+                          removeCustomCourse={this.removeCustomCourseFromTerm}
                         />
                       </div>
                       <div className="plan-grid">
@@ -634,8 +634,8 @@ class DPlan extends Component {
                                     addCourseToTerm={this.addCourseToTerm}
                                     removeCourseFromTerm={this.removeCourseFromTerm}
                                     setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
-                                    addPlaceholderCourse={this.addPlaceholderCourseToTerm}
-                                    removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                                    addCustomCourse={this.addCustomCourseToTerm}
+                                    removeCustomCourse={this.removeCustomCourseFromTerm}
                                   />
                                 );
                               })}
@@ -691,7 +691,7 @@ export default withRouter(connect(mapStateToProps, {
   deleteAnnouncement,
   deleteAllAnnouncements,
   updateUser,
-  addPlaceholderCourse,
-  removePlaceholderCourse,
+  addCustomCourse,
+  removeCustomCourse,
   disableCurrentAnnouncement,
 })(DPlan));

@@ -24,7 +24,8 @@ class RequirementsPane extends Component {
   constructor(props) {
     super(props);
 
-    this.nonPlaceholders = Object.assign([], this.props.userCourses.filter(userCourse => !(userCourse.placeholder)));
+    console.log(this.props.userCourses);
+    this.nonCustoms = Object.assign([], this.props.userCourses.filter(userCourse => !(userCourse.custom)));
 
     this.fillAll();
 
@@ -38,7 +39,7 @@ class RequirementsPane extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.userCourses && this.props.userCourses && prevProps.userCourses.length !== this.props.userCourses.length) {
       // Reset the removed ones
-      this.nonPlaceholders.forEach((userCourse) => {
+      this.nonCustoms.forEach((userCourse) => {
         if (!this.props.userCourses.map(uC => uC._id).includes(userCourse._id)) {
           if (userCourse.distrib) {
             GenEds[userCourse.distrib].filled -= 1;
@@ -50,8 +51,8 @@ class RequirementsPane extends Component {
         }
       });
       // Add the new ones.
-      this.nonPlaceholders = this.props.userCourses.map((userCourse) => {
-        if (this.nonPlaceholders.map(uC => uC._id).includes(userCourse._id)) return this.nonPlaceholders.find(e => e._id === userCourse._id);
+      this.nonCustoms = this.props.userCourses.map((userCourse) => {
+        if (this.nonCustoms.map(uC => uC._id).includes(userCourse._id)) return this.nonCustoms.find(e => e._id === userCourse._id);
         return userCourse;
       });
       this.fillAll();
@@ -61,11 +62,11 @@ class RequirementsPane extends Component {
   fillAll = () => {
     const wcs = {
       used: [],
-      open: Object.assign([], this.nonPlaceholders.filter(userCourse => (!userCourse.wc))),
+      open: Object.assign([], this.nonCustoms.filter(userCourse => (!userCourse.wc))),
     };
     const distribs = {
       used: [],
-      open: Object.assign([], this.nonPlaceholders.filter(userCourse => (!userCourse.distrib))),
+      open: Object.assign([], this.nonCustoms.filter(userCourse => (!userCourse.distrib))),
     };
 
     this.fillDistribs(wcs, distribs);

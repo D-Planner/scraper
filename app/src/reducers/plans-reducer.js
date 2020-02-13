@@ -83,13 +83,13 @@ const plansReducer = (state = initialState, action) => {
       });
       // console.log(current);
       return Object.assign({}, state, { current, all });
-    case ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN:
+    case ActionTypes.ADD_CUSTOM_COURSE_TO_PLAN:
       // eslint-disable-next-line no-case-declarations
-      const placeholder = { placeholder: action.payload.placeholderCourse };
+      const custom = { custom: action.payload.customCourse };
       current.terms = state.current.terms.map((y) => {
         return y.map((t) => {
           if (t._id === action.payload.termID) {
-            t.courses.push(placeholder);
+            t.courses.push(custom);
           }
           return t;
         });
@@ -99,7 +99,7 @@ const plansReducer = (state = initialState, action) => {
         if (p.id === state.current.id) {
           p.terms = p.terms.map((t) => {
             if (t._id === action.payload.termID) {
-              t.courses.push(placeholder);
+              t.courses.push(custom);
             }
             return t;
           });
@@ -107,11 +107,11 @@ const plansReducer = (state = initialState, action) => {
         return p;
       });
       return Object.assign({}, state, { current, all });
-    case ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN:
+    case ActionTypes.REMOVE_CUSTOM_COURSE_FROM_PLAN:
       current.terms = state.current.terms.map((y) => {
         return y.map((t) => {
           if (t._id === action.payload.termID) {
-            const remove_index = t.courses.findIndex(c => c.placeholder === action.payload.placeholderCourse);
+            const remove_index = t.courses.findIndex(c => c.custom === action.payload.customCourse);
             t.courses = t.courses.filter((c, i) => i !== remove_index);
           }
           return t;

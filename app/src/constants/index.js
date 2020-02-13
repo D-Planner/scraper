@@ -604,6 +604,7 @@ export const consoleLogging = (source, message, ...objects) => {
     DPlan: false,
     RequirementsPane: false,
     Term: false,
+    Course: true,
   };
   switch (source) {
     case 'DraggableUserCourse':
@@ -617,6 +618,9 @@ export const consoleLogging = (source, message, ...objects) => {
       break;
     case 'Term':
       if (config.Term) console.log(message, ...objects);
+      break;
+    case 'Course':
+      if (config.Course) console.log(message, ...objects);
       break;
     default:
       break;

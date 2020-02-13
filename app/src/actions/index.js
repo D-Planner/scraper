@@ -53,8 +53,8 @@ export const ActionTypes = {
   RESET_PASS: 'RESET_PASS',
   ADD_COURSE_TO_PLAN: 'ADD_COURSE_TO_PLAN',
   REMOVE_COURSE_FROM_PLAN: 'REMOVE_COURSE_FROM_PLAN',
-  ADD_PLACEHOLDER_COURSE_TO_PLAN: 'ADD_PLACEHOLDER_COURSE_TO_PLAN',
-  REMOVE_PLACEHOLDER_COURSE_FROM_PLAN: 'REMOVE_PLACEHOLDER_COURSE_FROM_PLAN',
+  ADD_CUSTOM_COURSE_TO_PLAN: 'ADD_CUSTOM_COURSE_TO_PLAN',
+  REMOVE_CUSTOM_COURSE_FROM_PLAN: 'REMOVE_CUSTOM_COURSE_FROM_PLAN',
   UPDATE_TERM_IN_CURRENT_PLAN: 'UPDATE_TERM_IN_CURRENT_PLAN',
 };
 
@@ -847,14 +847,14 @@ export function removeCourseFromTerm(userCourse) {
 
 /**
  *
- * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} customCourse the custom course object being added
  * @param {*} termID the termID that the course should be added to
  */
-export function addPlaceholderCourse(placeholderCourse, termID) {
+export function addCustomCourse(customCourse, termID) {
   return dispatch => new Promise((resolve, reject) => {
     dispatch({
-      type: ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN,
-      payload: { placeholderCourse, termID },
+      type: ActionTypes.ADD_CUSTOM_COURSE_TO_PLAN,
+      payload: { customCourse, termID },
     });
     resolve();
   });
@@ -862,14 +862,14 @@ export function addPlaceholderCourse(placeholderCourse, termID) {
 
 /**
  *
- * @param {*} placeholderCourse the placeholder course object being added
+ * @param {*} customCourse the custom course object being added
  * @param {*} termID the termID that the course should be added to
  */
-export function removePlaceholderCourse(placeholderCourse, termID) {
+export function removeCustomCourse(customCourse, termID) {
   return dispatch => new Promise((resolve, reject) => {
     dispatch({
-      type: ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN,
-      payload: { placeholderCourse, termID },
+      type: ActionTypes.REMOVE_CUSTOM_COURSE_FROM_PLAN,
+      payload: { customCourse, termID },
     });
     resolve();
   });

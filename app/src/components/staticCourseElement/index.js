@@ -4,14 +4,26 @@ import { connect } from 'react-redux';
 import '../draggableCourse/draggableCourse.scss';
 import './staticCourseElement.scss';
 import LikelyTerms from '../likelyTerms';
-import { GenEdsForDisplay as GenEds } from '../../constants';
+import { GenEdsForDisplay as GenEds, consoleLogging } from '../../constants';
 import closeIcon from '../../style/close.svg';
 import bookmarkEmpty from '../../style/bookmark.svg';
 import bookmarkFilled from '../../style/bookmarkFilled.svg';
+import check from '../../style/check.svg';
 
 class CourseElement extends Component {
+  constructor(props) {
+    super(props);
+
+    if (this.props.custom) {
+      consoleLogging('Course', this.props);
+      this.state = {
+        isEditing: false,
+      };
+    }
+  }
+
   renderCourseSupplementaryInfo = () => {
-    if (this.props.placeholder) {
+    if (this.props.custom) {
       return (
         <div className="supplementary-course">
           {this.renderCourseIdentifyingInfo()}
@@ -77,16 +89,33 @@ class CourseElement extends Component {
   }
 
   renderCourseIdentifyingInfo = () => {
-    if (this.props.placeholder) {
+    if (this.props.custom) {
       return (
         <div className="hold-left">
           <div className="course-left">
-            {`${this.props.department}`}
+            {`${this.props.custom.department}`}
           </div>
           <div className="spacer" />
           <div className="course-right">
             <div className="name">
-              Placeholder
+              {this.state.isEditing
+                ? (
+                  <>
+                    <input
+                      className="custom-course-name custom-course-name-editing"
+                      placeholder={this.props.custom.name}
+                      value={this.props.custom.name}
+                      onChange={e => this.props.updateCustomCourse(null, e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          this.setState({ isEditing: false });
+                        }
+                      }}
+                    />
+                    <img className="custom-course-name-check" src={check} alt="check" onClick={() => this.setState({ isEditing: false })} />
+                  </>
+                )
+                : <div className="custom-course-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.props.custom.name}</div>}
             </div>
           </div>
         </div>

@@ -92,6 +92,7 @@ class Sidebar extends Component {
           addToBookmarks={this.addToBookmarks}
           setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
           currTerm={this.props.currTerm}
+          addCustomCourse={this.props.addCustomCourse}
         />
       </div>
     );
