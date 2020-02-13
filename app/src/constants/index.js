@@ -632,5 +632,5 @@ export const errorLogging = connect(state => ({
   const headers = {
     key: 'log',
   };
-  axios.post(`${ROOT_URL}/logs`, { source, message, user: props.user }, { headers });
+  axios.post(`${ROOT_URL}/logs`, { source, message, user: props.user.id }, { headers });
 });
