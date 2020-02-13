@@ -15,7 +15,7 @@ import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import Plans from '../../components/plans';
 import { DialogTypes, BUG_REPORT_URL } from '../../constants';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../errorMessage';
 
 import './dashboard.scss';
 

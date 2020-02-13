@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import robot from '../../../assets/avatars/robot.svg';
 import {
   signoutUser, fetchCourses, showDialog, fetchUser, getTimes,
-} from '../../actions';
+} from '../../src/actions';
 import './nav.scss';
-import { DialogTypes } from '../../constants';
+import { DialogTypes } from '../../src/constants';
 
 const showProfileDialog = (props) => {
   const dialogOptions = {

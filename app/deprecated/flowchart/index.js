@@ -1,6 +1,6 @@
 import React from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
-import { csData } from '../../services/mock_data';
+import { csData } from '../../src/services/mock_data';
 
 const Flowchart = (props) => {
   return (
