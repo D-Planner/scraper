@@ -18,7 +18,6 @@ import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
 import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
-// import FlowChart from './flowchart';
 import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
@@ -26,7 +25,7 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-import { universalMetaTitle } from '../constants';
+import { universalMetaTitle, errorLogging } from '../constants';
 
 import favicon from '../favicon.png';
 
@@ -80,6 +79,7 @@ class App extends Component {
   render() {
     const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
     if (false) console.log(favicon === 1);
+    errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
     if (true) {
       return (
         <div>
