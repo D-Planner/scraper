@@ -629,11 +629,8 @@ export const consoleLogging = (source, message, ...objects) => {
 export const errorLogging = connect(state => ({
   user: state.user.current,
 }), null)((props, source, message) => {
-  // const headers = {
-  //   Authorization: `Bearer ${localStorage.getItem('token')}`,
-  // };
-  // axios.get(`${ROOT_URL}/auth`, { headers }).then((response) => {
-  //   resolve(response.data);
-  // });
-  axios.post(`${ROOT_URL}/logs`, { source, message, user: props.user });
+  const headers = {
+    key: 'log',
+  };
+  axios.post(`${ROOT_URL}/logs`, { source, message, user: props.user }, { headers });
 });
