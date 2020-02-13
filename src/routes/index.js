@@ -9,6 +9,7 @@ import announcementsRouter from './announcements';
 import interestsRouter from './interests';
 import advisorRouter from './advisor';
 import dataRouter from './data';
+import errorRouter from './error';
 
 export {
     authRouter,
@@ -22,4 +23,5 @@ export {
     interestsRouter,
     advisorRouter,
     dataRouter,
+    errorRouter,
 };
