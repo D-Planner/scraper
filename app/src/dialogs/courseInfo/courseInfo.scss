@@ -9,10 +9,10 @@
 }
 
 :link {
-  color: $blue-primary;
+  color: $blue-primary !important;
 
   &:visited {
-    color: $text-accent;
+    color: $text-accent !important;
   }
 }
 
@@ -41,14 +41,14 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     }
 
     .section-header {
-      font-size: 18px;
-      font-weight: 600;
-      color: $text-accent;
       margin-bottom: 10px;
 
+
       .layup-link {
-        // color: $blue-primary;
-        color: $text-accent;
+        margin-bottom: 0px;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        color: $text-accent !important;
         text-decoration: none;
       }
     }

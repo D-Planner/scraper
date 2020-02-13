@@ -194,18 +194,28 @@ class Term extends Component {
   }
 
   renderUserCourse = (course, i) => {
+    const dataTipID = course.id;
     return (
       <>
-        <DraggableUserCourse
-          size={(this.isCurrTerm() ? 'sm' : 'lg')}
-          key={i.toString()}
-          catalogCourse={course.course}
-          course={course}
-          sourceTerm={this.props.term.id}
-          removeCourseFromTerm={this.props.removeCourseFromTerm}
-          setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
-          previousCourses={this.props.term.previousCourses}
-        />
+        <div data-tip data-for={dataTipID}>
+          <DraggableUserCourse
+            size={(this.isCurrTerm() ? 'sm' : 'lg')}
+            key={i.toString()}
+            catalogCourse={course.course}
+            course={course}
+            sourceTerm={this.props.term.id}
+            removeCourseFromTerm={this.props.removeCourseFromTerm}
+            setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
+            previousCourses={this.props.term.previousCourses}
+            data-tip
+            data-for={dataTipID}
+          />
+        </div>
+        {course.fulfilledStatus === 'error' ? (
+          <ReactTooltip id={dataTipID} delayShow={10} place="bottom" type="error" effect="float">
+          Missing prerequisites, click to see what is required.
+          </ReactTooltip>
+        ) : null}
         {
         this.isCurrTerm()
           ? (
