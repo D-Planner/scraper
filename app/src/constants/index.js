@@ -626,11 +626,9 @@ export const consoleLogging = (source, message, ...objects) => {
   }
 };
 
-export const errorLogging = connect(state => ({
-  user: state.user.current,
-}), null)((props, source, message) => {
+export const errorLogging = (source, message) => {
   const headers = {
-    key: 'log',
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
-  axios.post(`${ROOT_URL}/logs`, { source, message, user: props.user.id }, { headers });
-});
+  axios.post(`${ROOT_URL}/logs`, { source, message }, { headers }).then(r => console.log(r));
+};
