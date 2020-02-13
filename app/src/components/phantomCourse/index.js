@@ -5,7 +5,7 @@ import { errorLogging } from '../../constants';
 import './PhantomCourse.scss';
 
 const loggingErrorsInPhantomCourse = (message) => {
-  errorLogging('app/src/components/forgotPassword.js', message);
+  errorLogging('app/src/components/phantomCourse.js', message);
 };
 
 const renderLikelyTermInfo = (props, certainNot) => {

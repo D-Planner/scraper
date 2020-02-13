@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { sendVerifyEmail, fetchUser } from '../../actions';
-import { ROOT_URL } from '../../constants';
+import { ROOT_URL, errorLogging } from '../../constants';
 import logo from '../../style/logo.svg';
 import SignIn from '../../containers/signIn';
 import './verifyEmail.scss';
 
+const loggingErrorsInVerifyEmail = (message) => {
+  errorLogging('app/src/components/verifyEmail.js', message);
+};
 class VerifyEmail extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +30,7 @@ class VerifyEmail extends Component {
           this.setState({ verified: response.data.emailVerified });
         });
       }).catch((error) => {
-        console.error(error);
+        loggingErrorsInVerifyEmail(error);
       });
       return null;
     });

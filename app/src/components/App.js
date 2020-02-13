@@ -16,11 +16,8 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
-// import favicon from '../style/d-planner.ico';
-// import favicon from '../style/favicon.ico';
 import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
-// import FlowChart from './flowchart';
 import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
@@ -28,7 +25,7 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-import { universalMetaTitle } from '../constants';
+import { universalMetaTitle, errorLogging } from '../constants';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
 // https://medium.com/google-cloud/tracking-site-visits-on-react-app-hosted-in-google-cloud-using-google-analytics-f49c2411d398
@@ -79,7 +76,7 @@ class App extends Component {
 
   render() {
     const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
-    console.log(sizeSufficient);
+    errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
     if (true) {
       return (
         <div>
