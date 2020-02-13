@@ -6,22 +6,18 @@ import Error from '../models/error';
  * @param {*} res
  */
 const logError = (req, res) => {
-    if (req.headers.key === 'log') {
-        const newError = new Error({
-            source: req.body.source,
-            user: req.body.user.id,
-            data: req.body.message,
-            time_stamp: Date.now(),
-        });
-        newError.save().then(() => {
-            res.send('Error logged');
-        }).catch((error) => {
-            console.error(error);
-            res.json({ error });
-        });
-    } else {
-        res.send('Invalid key');
-    }
+    const newError = new Error({
+        source: req.body.source,
+        user: req.user.id,
+        data: req.body.message,
+        time_stamp: Date.now(),
+    });
+    newError.save().then(() => {
+        res.send('Error logged');
+    }).catch((error) => {
+        console.error(error);
+        res.json({ error });
+    });
 };
 
 /**
