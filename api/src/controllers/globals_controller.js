@@ -43,7 +43,7 @@ const setGlobals = (req, res) => {
     while (i < week6.length) {
         if (today > week6[i][0]) {
             term = week6[i][1];
-            year = week6[i][0].getFullYear() + 1 - 2000;
+            year = week6[i][0].getFullYear() - 2000;
         }
         i += 1;
     }

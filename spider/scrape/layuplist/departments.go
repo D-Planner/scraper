@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/dali-lab/dplanner/spider/scrape/spider"
+	"../spider"
 )
 
 type department struct {

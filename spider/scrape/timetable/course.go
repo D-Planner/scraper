@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/dali-lab/dplanner/spider/scrape/shared"
+	"../shared"
 )
 
 type xlist struct {
