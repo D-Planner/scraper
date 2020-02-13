@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import debounce from 'lodash.debounce';
 import SearchPane from './searchPane';
 import RequirementsPane from './requirementsPane';
 import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
-import { DialogTypes } from '../../constants';
+import { DialogTypes, Departments, errorLogging } from '../../constants';
 import {
   addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
 } from '../../actions';
@@ -13,6 +14,14 @@ export const paneTypes = {
   SEARCH: 'SEARCH',
   REQUIREMENTS: 'REQUIREMENTS',
   BOOKMARKS: 'BOOKMARKS',
+};
+
+const loggingErrorsInSearchPane = (e) => {
+  errorLogging('app/src/containers/sidebar/searchPane.js', e);
+};
+
+const matchDepartment = (department) => {
+  return (Departments.includes(department)) ? department : null;
 };
 
 /**
@@ -24,9 +33,14 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       searchQuery: '',
+      wcs: '',
+      distribs: '',
+      offered: '',
+      resultsLoading: false,
     };
 
     this.searchRef = React.createRef();
+    this.search = debounce(this.search, 10000);
   }
 
   componentDidMount() {
@@ -58,8 +72,32 @@ class Sidebar extends Component {
     }
   }
 
-  setSearchQuery = (quiery) => {
-    this.setState({ searchQuery: quiery });
+  setFilter = (wcs, distribs, offered) => {
+    this.setState({ wcs, distribs, offered });
+  }
+
+  setSearchQuery = (query) => {
+    this.setState({ searchQuery: query });
+    const queryParsed = {
+      title: query,
+      department: matchDepartment(query.split(' ')[0].toUpperCase()),
+      number: query.split(' ')[1],
+      distribs: this.state.distribs,
+      wcs: this.state.wcs,
+      offered: this.state.offered,
+    };
+    this.search(queryParsed);
+  }
+
+  search = (queryParsed) => {
+    console.log(queryParsed);
+    this.props.stampIncrement((this.props.resultStamp + 1));
+    this.setState({ resultsLoading: true });
+    this.props.courseSearch(queryParsed, this.props.resultStamp).then(() => {
+      this.setState({ resultsLoading: false });
+    }).catch((error) => {
+      loggingErrorsInSearchPane(error);
+    });
   }
 
   render() {
@@ -70,13 +108,15 @@ class Sidebar extends Component {
           activate={() => { if (this.props.openPane !== paneTypes.SEARCH) this.handlePaneSwitch(paneTypes.SEARCH); }}
           setSearchQuery={this.setSearchQuery}
           searchQuery={this.state.searchQuery}
-          search={this.props.courseSearch}
+          search={this.props.search}
           results={this.props.searchResults}
           resultStamp={this.props.resultStamp}
           stampIncrement={this.props.stampIncrement}
           setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
           currTerm={this.props.currTerm}
           showDialog={this.props.showDialog}
+          resultsLoading={this.state.resultsLoading}
+          setFilter={this.setFilter}
         />
         <RequirementsPane
           active={this.props.openPane === paneTypes.REQUIREMENTS}

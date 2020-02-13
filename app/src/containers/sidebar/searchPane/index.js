@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import debounce from 'lodash.debounce';
 import filterIcon from '../../../style/filter.svg';
 import searchIcon from '../../../style/search-purple.svg';
-import { DialogTypes, Departments, errorLogging } from '../../../constants';
+import { DialogTypes } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
@@ -12,26 +13,6 @@ import LoadingWheel from '../../../components/loadingWheel';
 import {
   setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
 } from '../../../actions';
-
-export const parseQuery = (query, distribs, wcs, offered) => {
-  if (query) {
-    const queryParsed = {
-      title: query,
-      department: matchDepartment(query.split(' ')[0].toUpperCase()),
-      number: query.split(' ')[1],
-      distribs,
-      wcs,
-      offered,
-    };
-    errorLogging('search', { query, queryParsed });
-    return queryParsed;
-  } else return null;
-};
-
-const matchDepartment = (department) => {
-  console.log(Departments.includes(department));
-  return (Departments.includes(department)) ? department : null;
-};
 
 /**
  * @name SearchPane
@@ -45,37 +26,14 @@ const SearchPane = React.forwardRef((props, ref) => {
     active: props.active,
   });
 
-  // const [searchText, setSearchText] = useState('');
-  // const [sort, setSort] = useState('');
   const [wcs, setWC] = useState('');
   const [distribs, setDistrib] = useState('');
-  const [resultsLoading, setResultsLoading] = useState(false);
   const [offered, setOffered] = useState('');
   const [results, setResults] = useState('');
-
-  // Allows a user to search by the query entered in the search input
-
-  // Clears the search input when the component updates to go inactive
-  useEffect(() => {
-    if (props.searchQuery.length !== 0) {
-      const queryParsed = parseQuery(props.searchQuery, distribs, wcs, offered);
-      props.stampIncrement((props.resultStamp + 1));
-      setResultsLoading(true);
-      props.search(queryParsed, props.resultStamp).then(() => {
-        setResultsLoading(false);
-      }).catch((error) => {
-        console.error(error);
-      });
-    }
-  }, [props.searchQuery, wcs, distribs, offered]);
 
   useEffect(() => {
     setResults(props.results);
   }, [props.results]);
-
-  // const matchDepartment = (department) => {
-  //   return (Departments.includes(department)) ? department : null;
-  // };
 
   const resort = (method) => {
     const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
@@ -100,15 +58,20 @@ const SearchPane = React.forwardRef((props, ref) => {
   };
 
   const useFilters = () => {
-    setWC(props.wcs.filter(e => e.checked).map(e => e.name));
-    setDistrib(props.distribs.filter(e => e.checked).map(e => e.tag));
-    setOffered(props.offered.filter(e => e.checked).map(e => e.term));
+    const wcs1 = props.wcs.filter(e => e.checked).map(e => e.name);
+    setWC(wcs1);
+    const distribs1 = props.distribs.filter(e => e.checked).map(e => e.tag);
+    setDistrib(distribs1);
+    const offered1 = props.offered.filter(e => e.checked).map(e => e.term);
+    setOffered(offered1);
+    props.setFilter(wcs1, distribs1, offered1);
   };
 
   const clearCurFilters = () => {
     setWC([]);
     setDistrib([]);
     setOffered([]);
+    props.setFilter([], [], []);
     props.clearFilters();
   };
 
@@ -130,16 +93,17 @@ const SearchPane = React.forwardRef((props, ref) => {
       <div className="pane-header">
         <img className="search-config-icon" src={searchIcon} alt="search" />
         <input type="text"
-          className={`search-input${resultsLoading ? ' small' : ''}`}
+          className={`search-input${props.resultsLoading ? ' small' : ''}`}
           placeholder="Search for courses"
           value={props.searchQuery}
           tabIndex={-1}
           onChange={(e) => {
+            console.log(e.target.value);
             props.setSearchQuery(e.target.value);
           }}
           ref={ref}
         />
-        {resultsLoading ? <LoadingWheel /> : null}
+        {props.resultsLoading ? <LoadingWheel /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           <img className="search-config-icon" src={filterIcon} alt="filter" />
         </button>
