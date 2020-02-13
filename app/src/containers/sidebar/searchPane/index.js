@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { connect } from 'react-redux';
 import filterIcon from '../../../style/filter.svg';
 import searchIcon from '../../../style/search-purple.svg';
-import { DialogTypes, Departments } from '../../../constants';
+import { DialogTypes, Departments, errorLogging } from '../../../constants';
 
 import './searchPane.scss';
 import DraggableCourse from '../../../components/draggableCourse';
@@ -23,6 +23,7 @@ export const parseQuery = (query, distribs, wcs, offered) => {
       wcs,
       offered,
     };
+    errorLogging('search', { query, queryParsed });
     return queryParsed;
   } else return null;
 };
