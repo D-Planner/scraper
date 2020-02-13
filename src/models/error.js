@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const ErrorSchema = new Schema({
     source: String,
-    user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
     data: {},
     time_stamp: Date,
 });
