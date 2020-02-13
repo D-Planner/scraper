@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import {
   courseSearch, addCourseToFavorites,
-} from '../../actions/index';
+} from '../../src/actions/index';
 import scrollButton from '../../style/scrollButton.svg';
 import searchIcon from '../../style/search.svg';
-import SearchResultRow from '../../components/searchResultRow';
+import SearchResultRow from '../searchResultRow';
 
 import './discover.scss';
 

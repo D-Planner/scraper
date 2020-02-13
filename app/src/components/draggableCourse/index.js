@@ -3,24 +3,36 @@ import { DragSource as DraggableCourse } from 'react-dnd';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import CourseElement from '../staticCourseElement';
-import { ItemTypes, DialogTypes } from '../../constants';
+import { ItemTypes, DialogTypes, errorLogging } from '../../constants';
 import { showDialog, setDraggingState } from '../../actions';
 
 import './draggableCourse.scss';
 
+const loggingErrorsInDraggableCourse = (message) => {
+  errorLogging('app/src/components/draggableCourse.js', message);
+};
+
 const source = {
   beginDrag(props) {
-    props.setDraggingState(true, props.course);
-    props.setDraggingFulfilledStatus(props.course.id);
+    try {
+      props.setDraggingState(true, props.course);
+      props.setDraggingFulfilledStatus(props.course.id);
+    } catch (e) {
+      loggingErrorsInDraggableCourse(e);
+    }
     return {
       course: props.course,
     };
   },
   endDrag(props, monitor) {
-    props.setDraggingState(false, null);
-    // if we did not detect a valid drop target, delete the course from the sourceTerm
-    if (!monitor.didDrop() && props.removeCourseFromTerm) {
-      props.removeCourseFromTerm();
+    try {
+      props.setDraggingState(false, null);
+      // if we did not detect a valid drop target, delete the course from the sourceTerm
+      if (!monitor.didDrop() && props.removeCourseFromTerm) {
+        props.removeCourseFromTerm();
+      }
+    } catch (e) {
+      loggingErrorsInDraggableCourse(e);
     }
   },
 };

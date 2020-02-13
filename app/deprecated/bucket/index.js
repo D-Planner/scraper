@@ -1,5 +1,5 @@
 import React from 'react';
-import DraggableCourse from '../draggableCourse';
+import DraggableCourse from '../../src/components/draggableCourse';
 import './bucket.scss';
 
 const Bucket = ({ bucket }) => {

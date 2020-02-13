@@ -10,7 +10,7 @@ import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addPlaceholderCourse, removePlaceholderCourse, disableCurrentAnnouncement,
 } from '../../actions';
 import {
-  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle,
+  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle, errorLogging,
 } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
@@ -30,6 +30,10 @@ const arraysMatch = (a1, a2) => {
     if (a1[i] !== a2[i]) return false;
   }
   return true;
+};
+
+const loggingErrorsInDplan = (e) => {
+  errorLogging('app/src/containers/dplan.js', e);
 };
 
 class DPlan extends Component {
@@ -158,23 +162,33 @@ class DPlan extends Component {
   }
 
   getFlattenedCourses = () => {
-    const courses = [];
-    this.props.plan.terms.forEach((year) => {
-      year.forEach((term) => {
-        courses.push(...term.courses.filter(c => !c.placeholder));
+    try {
+      const courses = [];
+      this.props.plan.terms.forEach((year) => {
+        year.forEach((term) => {
+          courses.push(...term.courses.filter(c => !c.placeholder));
+        });
       });
-    });
-    return courses;
+      return courses;
+    } catch (e) {
+      loggingErrorsInDplan(e);
+      return [];
+    }
   }
 
   getFlattenedTerms = () => {
-    const terms = [];
-    this.props.plan.terms.forEach((y) => {
-      y.forEach((term) => {
-        terms.push(term);
+    try {
+      const terms = [];
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((term) => {
+          terms.push(term);
+        });
       });
-    });
-    return terms;
+      return terms;
+    } catch (e) {
+      loggingErrorsInDplan(e);
+      return [];
+    }
   }
 
   // This still isn't working
@@ -246,7 +260,7 @@ class DPlan extends Component {
         }
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
     }
   };
 
@@ -276,7 +290,7 @@ class DPlan extends Component {
           try {
             return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
           } catch (e) {
-            console.log(e);
+            loggingErrorsInDplan(e);
             return c.course.id;
           }
         })
@@ -347,7 +361,7 @@ class DPlan extends Component {
         });
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -369,6 +383,7 @@ class DPlan extends Component {
         });
       });
     } catch (e) {
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -384,7 +399,7 @@ class DPlan extends Component {
         resolve();
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -401,7 +416,7 @@ class DPlan extends Component {
   //       reject();
   //     });
   //   } catch (e) {
-  //     console.log(e);
+  //     loggingErrorsInDplan(e);
   //     reject(e);
   //   }
   // })
@@ -411,7 +426,7 @@ class DPlan extends Component {
     // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
     //   resolve();
     // }).catch((e) => {
-    //   console.log(e);
+    //   loggingErrorsInDplan(e);
     //   reject();
     // });
   })
@@ -442,7 +457,7 @@ class DPlan extends Component {
     try {
       fn();
     } catch (e) {
-      console.error(e);
+      loggingErrorsInDplan(e);
     }
   }
 

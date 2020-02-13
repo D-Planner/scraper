@@ -204,7 +204,7 @@ class CoursePage extends React.Component {
     return (
       <div id="scores">
         <div className="section-header" id="layup-header">
-          <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
+          <a className="layup-link coursePage-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
           {/* <img src={open} alt="open in new tab" /> */}
         </div>
         <div className="layup-score-container">
@@ -284,7 +284,7 @@ class CoursePage extends React.Component {
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
-              <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
+              <a className="coursePage-link" href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
               <ReactTooltip id={p.id} place="right" type="dark" effect="float">
                 See all reviews
               </ReactTooltip>
