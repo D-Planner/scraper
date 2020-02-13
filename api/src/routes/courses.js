@@ -353,4 +353,6 @@ coursesRouter.get('/', CoursesController.getCourses);
 // coursesRouter.get('/fulfilled/:courseID/:termID/:planID', CoursesController.getFulfilledStatusTerm);
 // coursesRouter.get('/fulfilled/:courseID/:planID', CoursesController.getFulfilledStatusPlan);
 
+coursesRouter.patch('/custom', CoursesController.updateCustomCourse);
+
 export default coursesRouter;

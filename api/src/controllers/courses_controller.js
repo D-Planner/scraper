@@ -2,6 +2,7 @@ import Course from '../models/course';
 import Plan from '../models/plan';
 import Term from '../models/term';
 import User from '../models/user';
+import UserCourse from '../models/user_course';
 import Professor from '../models/professor';
 import courses from '../../static/data/courses.json';
 import departments from '../../static/data/departments.json';
@@ -503,6 +504,15 @@ const getCompleted = (req, res) => {
         });
 };
 
+
+const updateCustomCourse = (req, res) => {
+    const { customCourse } = req.body;
+    UserCourse.findByIdAndUpdate(customCourse.id, customCourse, { new: true })
+        .then((newCourse) => {
+            res.json(newCourse);
+        });
+};
+
 // const [ERROR, WARNING, CLEAR] = ['error', 'warning', ''];
 
 // const getFulfilledStatus = (planID, termID, courseID, userID) => {
@@ -621,6 +631,7 @@ const CoursesController = {
     addCompleted,
     removeCompleted,
     getCompleted,
+    updateCustomCourse,
 };
 
 export default CoursesController;

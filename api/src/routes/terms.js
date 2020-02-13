@@ -83,8 +83,8 @@ termsRouter.post('/:termID/course', TermController.addCourseToTerm);
  */
 termsRouter.delete('/:termID/course/:userCourseID', TermController.removeCourseFromTerm);
 
-termsRouter.post('/:termID/course/placeholder', TermController.addPlaceholderToTerm);
-termsRouter.delete('/:termID/course/placeholder/:department', TermController.removePlaceholderFromTerm);
+termsRouter.post('/:termID/course/custom', TermController.addCourseToTerm);
+termsRouter.delete('/:termID/course/custom/:userCourseID', TermController.removeCourseFromTerm); // Calling this :userCourseID so we can use same removeCourseFromTerm callback
 
 /**
  * @api {put} /terms/:id Update a term by id

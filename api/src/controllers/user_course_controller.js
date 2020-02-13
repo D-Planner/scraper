@@ -1,7 +1,7 @@
 import UserCourse from '../models/user_course';
 import Course from '../models/course';
 
-const createUserCourse = async (userID, catalogCourseID, termID) => {
+const createUserCourse = async (userID, termID, catalogCourseID) => {
     const r = await Course.findById(catalogCourseID);
     const newCourse = await UserCourse.create({
         user: userID,
@@ -16,7 +16,7 @@ const createUserCourse = async (userID, catalogCourseID, termID) => {
     return newCourse.save();
 };
 
-const createPlacementCourse = async (userID, termID, department) => {
+const createCustomCourse = async (userID, termID, custom) => {
     const newCourse = await UserCourse.create({
         user: userID,
         course: null,
@@ -26,7 +26,7 @@ const createPlacementCourse = async (userID, termID, department) => {
         wc: null,
         timeslot: null,
         fulfilledStatus: '',
-        placeholder: department,
+        custom,
     });
     return newCourse.save();
 };
@@ -76,7 +76,7 @@ const getCourse = async (req, res) => {
 
 const UserCourseController = {
     createUserCourse,
-    createPlacementCourse,
+    createCustomCourse,
     deleteUserCourse,
     updateUserCourse,
     getCourse,

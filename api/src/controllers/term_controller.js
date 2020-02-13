@@ -2,9 +2,7 @@ import Term from '../models/term';
 import User from '../models/user';
 import UserCourse from '../models/user_course';
 import UserCourseController from '../controllers/user_course_controller';
-import { setTermsPrevCourses } from '../controllers/plan_controller';
 import { PopulateTerm, PopulateCourse } from './populators';
-import { trim } from './courses_controller';
 
 // Not used anymore because completed_courses are calculated in frontend
 // const addCompleted = (userID, courseID) => {
@@ -30,67 +28,73 @@ import { trim } from './courses_controller';
 //     });
 // };
 
-const addPlaceholderToTerm = (req, res) => {
-    console.log('ADD PLACEHOLDER TO TERM', req.body);
-    const termID = req.params.termID;
-    Term.findById(termID)
-        .then((term) => {
-            UserCourseController.createPlacementCourse(req.user.id, termID, req.body.department).then((placeholderCourse) => {
-                term.courses.push(placeholderCourse);
-                console.log(term);
-                return term.save();
-            });
-        })
-        .then((r) => {
-            res.send(200);
-        })
-        .catch((e) => {
-            console.log(e);
-            res.status(500).json({ e });
-        });
-};
+// const addCustomToTerm = (req, res) => {
+//     console.log('ADD Custom TO TERM', req.body);
+//     const termID = req.params.termID;
+//     Term.findById(termID)
+//         .then((term) => {
+//             UserCourseController.createPlacementCourse(req.user.id, termID, req.body.department).then((customCourse) => {
+//                 term.courses.push(customCourse);
+//                 console.log(term);
+//                 return term.save();
+//             });
+//         })
+//         .then((r) => {
+//             res.send(200);
+//         })
+//         .catch((e) => {
+//             console.log(e);
+//             res.status(500).json({ e });
+//         });
+// };
 
-const removePlaceholderFromTerm = (req, res) => {
-    const { termID, department } = req.params;
-    console.log(department);
-    Term.findById(termID)
-        .populate({ path: 'courses' })
-        .then((term) => {
-            console.log(term.courses);
-            term.courses = term.courses.filter((c) => {
-                return c.placeholder !== department;
-            });
-            return term.save();
-        })
-        .then((r) => {
-            res.send(200);
-        })
-        .catch((e) => {
-            res.status(500).json({ e });
-        });
-};
+
+// const removeCustomFromTerm = (req, res) => {
+//     const { termID, department } = req.params;
+//     console.log(department);
+//     Term.findById(termID)
+//         .populate({ path: 'courses' })
+//         .then((term) => {
+//             console.log(term.courses);
+//             term.courses = term.courses.filter((c) => {
+//                 return c.custom !== department;
+//             });
+//             return term.save();
+//         })
+//         .then((r) => {
+//             res.send(200);
+//         })
+//         .catch((e) => {
+//             res.status(500).json({ e });
+//         });
+// };
 
 const addCourseToTerm = (req, res) => {
     const termID = req.params.termID;
+    console.log(req.body.custom);
     Term.findById(termID)
         .then((term) => {
             User.findById(req.user.id)
                 .then((foundUser) => {
-                    UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
-                        .then((userCourse) => {
-                            term.courses.push(userCourse);
-                            term.save().then(() => {
-                                userCourse.populate({
-                                    path: 'course',
-                                    populate: PopulateCourse,
-                                }).execPopulate().then((populated) => {
-                                    foundUser.totalUpdateTermCalls += 1;
-                                    foundUser.save(() => {
-                                        res.send(populated);
-                                    });
+                    new Promise((resolve, reject) => {
+                        resolve((req.body.custom)
+                            ? UserCourseController.createCustomCourse(req.user.id, termID, req.body.custom)
+                            : UserCourseController.createUserCourse(req.user.id, termID, req.body.courseID));
+                    }).then((course) => {
+                        console.log(course);
+                        term.courses.push(course);
+                        term.save().then(() => {
+                            course.populate({
+                                path: 'course',
+                                populate: PopulateCourse,
+                            }).execPopulate().then((populated) => {
+                                foundUser.totalUpdateTermCalls += 1;
+                                foundUser.save(() => {
+                                    res.send(populated);
                                 });
                             });
-                        })
+                        });
+                    })
                         .catch((e) => {
                             console.log(e);
                         });
@@ -206,8 +210,6 @@ const TermController = {
     addCourseToTerm,
     removeCourseFromTerm,
     getTerm,
-    addPlaceholderToTerm,
-    removePlaceholderFromTerm,
 };
 
 export default TermController;
