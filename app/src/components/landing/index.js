@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Slider from 'react-slick';
 
 import { showDialog } from '../../actions';
-import { DialogTypes, universalMetaTitle } from '../../constants';
+import { DialogTypes, universalMetaTitle, errorLogging } from '../../constants';
 import { minWidth } from '../tooSmall';
 import logo from '../../style/logo.svg';
 import SignInForm from '../../containers/signIn';
@@ -51,6 +51,10 @@ const INSTAGRAM_LINK = 'https://www.instagram.com/dplannerofficial';
 const TWITTER_LINK = 'https://twitter.com/thedplanner';
 const LINKEDIN_LINK = 'https://www.linkedin.com/company/d-planner';
 // const YOUTUBE_LINK = 'https://www.google.com';
+
+const loggingErrorsInLanding = (message) => {
+  errorLogging('app/src/components/forgotPassword.js', message);
+};
 
 class Landing extends React.Component {
   constructor(props) {
