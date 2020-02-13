@@ -15,7 +15,7 @@ import minus from '../../style/minus.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 import {
-  GenEdsForDisplay as GenEds, APP_URL, metaContentSeparator, universalMetaTitle,
+  GenEdsForDisplay as GenEds, APP_URL, metaContentSeparator, universalMetaTitle, errorLogging,
 } from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
