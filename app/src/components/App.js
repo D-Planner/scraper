@@ -27,6 +27,8 @@ import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
 import { universalMetaTitle, errorLogging } from '../constants';
 
+import favicon from '../favicon.png';
+
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
 // https://medium.com/google-cloud/tracking-site-visits-on-react-app-hosted-in-google-cloud-using-google-analytics-f49c2411d398
 // https://support.google.com/analytics/answer/3123662?hl=en
@@ -75,8 +77,9 @@ class App extends Component {
   }
 
   render() {
+    const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
+    if (false) console.log(favicon === 1);
     if (this.state.width !== 0 && this.state.width !== 0) {
-      const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
       errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
     }
     if (true) {
@@ -89,6 +92,7 @@ class App extends Component {
                   <meta name="copyright" content={`Copyright of D-Planner Project, ${new Date().getFullYear()}`} />
                   <meta name="description" content="D-Planner is an academic planning suite that curates academic data to allow students to take advantage of all of their academic opportunities in higher education." />
                   <title>{universalMetaTitle}</title>
+                  <link rel="icon" type="image/png" href="../favicon.png" sizes="16x16" />
                 </Helmet>
                 <Switch>
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />
