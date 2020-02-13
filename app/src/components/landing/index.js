@@ -53,7 +53,7 @@ const LINKEDIN_LINK = 'https://www.linkedin.com/company/d-planner';
 // const YOUTUBE_LINK = 'https://www.google.com';
 
 const loggingErrorsInLanding = (message) => {
-  errorLogging('app/src/components/forgotPassword.js', message);
+  errorLogging('app/src/components/landing.js', message);
 };
 
 class Landing extends React.Component {

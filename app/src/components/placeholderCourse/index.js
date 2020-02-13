@@ -5,7 +5,7 @@ import { ItemTypes, errorLogging } from '../../constants';
 import CourseElement from '../staticCourseElement';
 
 const loggingErrorsInPlaceholderCourse = (message) => {
-  errorLogging('app/src/components/forgotPassword.js', message);
+  errorLogging('app/src/components/placeholderCourse.js', message);
 };
 
 const source = {
