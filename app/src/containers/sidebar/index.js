@@ -40,7 +40,7 @@ class Sidebar extends Component {
     };
 
     this.searchRef = React.createRef();
-    this.search = debounce(this.search, 10000);
+    this.search = debounce(this.search, 5000);
   }
 
   componentDidMount() {
@@ -73,7 +73,24 @@ class Sidebar extends Component {
   }
 
   setFilter = (wcs, distribs, offered) => {
+    console.log({ wcs, distribs, offered });
     this.setState({ wcs, distribs, offered });
+    const queryParsed = {
+      title: this.state.searchQuery,
+      department: matchDepartment(this.state.searchQuery.split(' ')[0].toUpperCase()),
+      number: this.state.searchQuery.split(' ')[1],
+      distribs,
+      wcs,
+      offered,
+    };
+    console.log(queryParsed);
+    this.props.stampIncrement((this.props.resultStamp + 1));
+    this.setState({ resultsLoading: true });
+    this.props.courseSearch(queryParsed, this.props.resultStamp).then(() => {
+      this.setState({ resultsLoading: false });
+    }).catch((error) => {
+      loggingErrorsInSearchPane(error);
+    });
   }
 
   setSearchQuery = (query) => {

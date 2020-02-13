@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import debounce from 'lodash.debounce';
 import filterIcon from '../../../style/filter.svg';
 import searchIcon from '../../../style/search-purple.svg';
 import { DialogTypes } from '../../../constants';
@@ -26,9 +25,9 @@ const SearchPane = React.forwardRef((props, ref) => {
     active: props.active,
   });
 
-  const [wcs, setWC] = useState('');
-  const [distribs, setDistrib] = useState('');
-  const [offered, setOffered] = useState('');
+  // const [wcs, setWC] = useState('');
+  // const [distribs, setDistrib] = useState('');
+  // const [offered, setOffered] = useState('');
   const [results, setResults] = useState('');
 
   useEffect(() => {
@@ -58,19 +57,20 @@ const SearchPane = React.forwardRef((props, ref) => {
   };
 
   const useFilters = () => {
-    const wcs1 = props.wcs.filter(e => e.checked).map(e => e.name);
-    setWC(wcs1);
-    const distribs1 = props.distribs.filter(e => e.checked).map(e => e.tag);
-    setDistrib(distribs1);
-    const offered1 = props.offered.filter(e => e.checked).map(e => e.term);
-    setOffered(offered1);
-    props.setFilter(wcs1, distribs1, offered1);
+    const wcs = props.wcs.filter(e => e.checked).map(e => e.name);
+    // setWC(wcs1);
+    const distribs = props.distribs.filter(e => e.checked).map(e => e.tag);
+    // setDistrib(distribs1);
+    const offered = props.offered.filter(e => e.checked).map(e => e.term);
+    // setOffered(offered1);
+    props.setFilter(wcs, distribs, offered);
+    props.setFilters({ wcs, distribs, offered });
   };
 
   const clearCurFilters = () => {
-    setWC([]);
-    setDistrib([]);
-    setOffered([]);
+    // setWC([]);
+    // setDistrib([]);
+    // setOffered([]);
     props.setFilter([], [], []);
     props.clearFilters();
   };
