@@ -87,6 +87,10 @@ function generateMetaDescription(description) {
 //   });
 // }
 
+const loggingErrorsInCoursePage = (message) => {
+  errorLogging('app/src/containers/coursePage.js', message);
+};
+
 class CoursePage extends React.Component {
   constructor(props) {
     super(props);
@@ -102,41 +106,46 @@ class CoursePage extends React.Component {
       this.setState({ course });
     }).catch((error) => {
       this.setState({ course: invalidCourse(this.props.match.params.id) });
-      console.error(error);
+      loggingErrorsInCoursePage(error);
     });
   }
 
   // Detects click on course and reloads
   componentDidUpdate(prevProps) {
-    if (prevProps.match.params.id !== this.props.match.params.id) {
-      window.location.reload();
-    }
+    try {
+      if (prevProps.match.params.id !== this.props.match.params.id) {
+        window.location.reload();
+      }
 
-    if (!this.state.metaDescription && this.state.course) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }));
+      if (!this.state.metaDescription && this.state.course) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }));
+      }
+    } catch (e) {
+      loggingErrorsInCoursePage(e);
     }
   }
 
   /**
    * Handles rendering of distributive bubbles.
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
    */
   renderDistribs = (course) => {
-    // const distribTypesNames = distribTypes.map(distrib => distrib.name);
     const distribs = [];
     const wcs = [];
-    if (course.distribs && course.distribs.length) {
-      course.distribs.forEach((distrib) => {
-        distribs.push(GenEds[distrib]);
-      });
+    try {
+      if (course.distribs && course.distribs.length) {
+        course.distribs.forEach((distrib) => {
+          distribs.push(GenEds[distrib]);
+        });
+      }
+      if (course.wcs && course.wcs.length) {
+        course.wcs.forEach((wc) => {
+          wcs.push(GenEds[wc]);
+        });
+      }
+    } catch (e) {
+      loggingErrorsInCoursePage(e);
     }
-    if (course.wcs && course.wcs.length) {
-      course.wcs.forEach((wc) => {
-        wcs.push(GenEds[wc]);
-      });
-    }
-
     return (
       <div id="distribs">
         <div className="section-header">Distributives</div>
@@ -154,7 +163,6 @@ class CoursePage extends React.Component {
             );
           })}
         </div>
-
       </div>
     );
   }
