@@ -162,23 +162,33 @@ class DPlan extends Component {
   }
 
   getFlattenedCourses = () => {
-    const courses = [];
-    this.props.plan.terms.forEach((year) => {
-      year.forEach((term) => {
-        courses.push(...term.courses.filter(c => !c.placeholder));
+    try {
+      const courses = [];
+      this.props.plan.terms.forEach((year) => {
+        year.forEach((term) => {
+          courses.push(...term.courses.filter(c => !c.placeholder));
+        });
       });
-    });
-    return courses;
+      return courses;
+    } catch (e) {
+      loggingErrorsInDplan(e);
+      return [];
+    }
   }
 
   getFlattenedTerms = () => {
-    const terms = [];
-    this.props.plan.terms.forEach((y) => {
-      y.forEach((term) => {
-        terms.push(term);
+    try {
+      const terms = [];
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((term) => {
+          terms.push(term);
+        });
       });
-    });
-    return terms;
+      return terms;
+    } catch (e) {
+      loggingErrorsInDplan(e);
+      return [];
+    }
   }
 
   // This still isn't working
@@ -351,7 +361,7 @@ class DPlan extends Component {
         });
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -373,6 +383,7 @@ class DPlan extends Component {
         });
       });
     } catch (e) {
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -388,7 +399,7 @@ class DPlan extends Component {
         resolve();
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -405,7 +416,7 @@ class DPlan extends Component {
   //       reject();
   //     });
   //   } catch (e) {
-  //     console.log(e);
+  //     loggingErrorsInDplan(e);
   //     reject(e);
   //   }
   // })
@@ -415,7 +426,7 @@ class DPlan extends Component {
     // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
     //   resolve();
     // }).catch((e) => {
-    //   console.log(e);
+    //   loggingErrorsInDplan(e);
     //   reject();
     // });
   })
