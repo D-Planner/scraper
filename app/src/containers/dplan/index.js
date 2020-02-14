@@ -559,7 +559,7 @@ class DPlan extends Component {
           <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
             {this.renderAnnouncement()}
             <div className={(this.props.currentAnnouncement && this.props.announcementActive === true) ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>
-              <Dashboard setCurrentPlan={this.setCurrentPlan} />
+              <Dashboard setCurrentPlan={this.setCurrentPlan} showNewPlanDialog={this.showNewPlanDialog} />
               <div className="welcome-text">
                 <div className="welcome-title">Welcome to D-Planner!</div>
                 <div className="welcome-subtitle">Get started by creating a new Plan.</div>

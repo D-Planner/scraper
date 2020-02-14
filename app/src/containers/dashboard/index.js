@@ -69,18 +69,6 @@ class Dashboard extends React.Component {
     });
   }
 
-  showDialog() {
-    const dialogOptions = {
-      title: 'New plan',
-      okText: 'Create',
-      onOk: (name, gradYear) => {
-        this.createNewPlan(name, gradYear);
-      },
-    };
-    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
-  }
-
-
   handleMouseEnter() {
     this.setState({
       active: true,
@@ -126,7 +114,7 @@ class Dashboard extends React.Component {
         >
           {/* ={this.state.loading} */}
           <div className="plans-container">
-            <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
+            <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.props.showNewPlanDialog} />
           </div>
           <div className="nav-container">
             <div role="presentation" onClick={() => window.open(BUG_REPORT_URL)} className="option-button">
