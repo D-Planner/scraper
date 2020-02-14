@@ -145,7 +145,7 @@ const SearchPane = React.forwardRef((props, ref) => {
                     return (
                       <div className="result-row" key={course.id}>
                         <div className="paneCourse">
-                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.removeCourseFromFavorites(course.id)} />
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.removeCourseFromFavorites(course.id)} setPreviousCourses={props.setPreviousCourses} />
                         </div>
                         <div id="course-spacer-large" />
                       </div>
@@ -154,7 +154,7 @@ const SearchPane = React.forwardRef((props, ref) => {
                     return (
                       <div className="result-row" key={course.id}>
                         <div className="paneCourse">
-                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkEmpty" onIconClick={() => props.addCourseToFavorites(course.id)} />
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkEmpty" onIconClick={() => props.addCourseToFavorites(course.id)} setPreviousCourses={props.setPreviousCourses} />
                         </div>
                         <div id="course-spacer-large" />
                       </div>

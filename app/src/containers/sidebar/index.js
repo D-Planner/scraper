@@ -130,6 +130,7 @@ class Sidebar extends Component {
           showDialog={this.props.showDialog}
           resultsLoading={this.state.resultsLoading}
           useFilterToSearch={this.useFilterToSearch}
+          setPreviousCourses={this.props.setPreviousCourses}
         />
         <RequirementsPane
           active={this.props.openPane === paneTypes.REQUIREMENTS}
@@ -137,6 +138,7 @@ class Sidebar extends Component {
           majors={this.props.user.majors}
           showDeclareDialog={this.showDeclareDialog}
           userCourses={this.props.planCourses}
+          setPreviousCourses={this.props.setPreviousCourses}
         />
         <BookmarksPane
           active={this.props.openPane === paneTypes.BOOKMARKS}
@@ -145,6 +147,7 @@ class Sidebar extends Component {
           addToBookmarks={this.addToBookmarks}
           setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
           currTerm={this.props.currTerm}
+          setPreviousCourses={this.props.setPreviousCourses}
         />
       </div>
     );

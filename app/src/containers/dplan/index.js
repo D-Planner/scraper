@@ -197,7 +197,6 @@ class DPlan extends Component {
     }
   }
 
-  // This still isn't working
   setAllFulfilledStatus = (termID, userCourseID) => {
     try {
       this.getFlattenedTerms().forEach((term) => {
@@ -655,6 +654,7 @@ class DPlan extends Component {
                           setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                           addPlaceholderCourse={this.addPlaceholderCourseToTerm}
                           removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                          setPreviousCourses={this.setPreviousCourses}
                         />
                       </div>
                       <div className="plan-grid">
@@ -673,6 +673,7 @@ class DPlan extends Component {
                                     setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                                     addPlaceholderCourse={this.addPlaceholderCourseToTerm}
                                     removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
+                                    setPreviousCourses={this.setPreviousCourses}
                                   />
                                 );
                               })}

@@ -74,6 +74,7 @@ class Course extends React.Component {
       size: 'lg',
       data: this.props.course,
       showOk: false,
+      setPreviousCourses: this.props.setPreviousCourses,
     };
     this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
   }

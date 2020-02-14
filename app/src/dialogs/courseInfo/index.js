@@ -367,8 +367,16 @@ class CourseInfoDialog extends Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removeCourseFromPlacements(courseID)
-              : () => this.props.addCourseToPlacements(courseID)
+              ? () => this.props.removeCourseFromPlacements(courseID).then(() => {
+                this.props.fetchUser().then(() => {
+                  this.props.setPreviousCourses();
+                });
+              })
+              : () => this.props.addCourseToPlacements(courseID).then(() => {
+                this.props.fetchUser().then(() => {
+                  this.props.setPreviousCourses();
+                });
+              })
           }
           data-tip
           data-for="plus"

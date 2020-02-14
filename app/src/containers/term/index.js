@@ -206,6 +206,7 @@ class Term extends Component {
             removeCourseFromTerm={this.props.removeCourseFromTerm}
             setDraggingFulfilledStatus={this.props.setDraggingFulfilledStatus}
             previousCourses={this.props.term.previousCourses}
+            setPreviousCourses={this.props.setPreviousCourses}
             data-tip
             data-for={dataTipID}
           />

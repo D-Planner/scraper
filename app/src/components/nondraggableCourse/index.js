@@ -37,6 +37,7 @@ class NonDraggableCourse extends React.Component {
         size: 'lg',
         data: course,
         showOk: false,
+        setPreviousCourses: this.props.setPreviousCourses,
       };
       this.props.showDialog(DialogTypes.COURSE_INFO, dialogOptions);
     });

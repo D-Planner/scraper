@@ -68,7 +68,7 @@ const component = (props) => {
                 return (
                   <div key={course.id}>
                     <div className="paneCourse">
-                      <DraggableCourse active={setActive} course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} />
+                      <DraggableCourse active={setActive} course={course} currTerm={props.currTerm} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} showIcon icon="close" onIconClick={() => props.removeCourseFromFavorites(course._id)} setPreviousCourses={props.setPreviousCourses} />
                     </div>
                     <div id="course-spacer-large" />
                   </div>

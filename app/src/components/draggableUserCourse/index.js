@@ -94,6 +94,7 @@ class UserCourse extends Component {
       data: this.props.catalogCourse,
       previousCourses: this.props.previousCourses,
       showOk: false,
+      setPreviousCourses: this.props.setPreviousCourses,
     };
 
     // Fetches term and checks if course is likely to be offered then
