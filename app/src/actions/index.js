@@ -21,6 +21,7 @@ export const ActionTypes = {
   FETCH_PREV_COURSES: 'FETCH_PREV_COURSES',
   COURSE_SEARCH: 'COURSE_SEARCH',
   STAMP_INCREMENT: 'STAMP_INCREMENT',
+  CLEAR_SEARCH: 'CLEAR_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
   ERROR_SET: 'ERROR_SET',
@@ -796,6 +797,11 @@ export function courseSearch(query, stamp) {
   // }
 }
 
+export function clearSearch() {
+  return {
+    type: ActionTypes.CLEAR_SEARCH,
+  };
+}
 
 export function getRandomCourse() {
   return dispatch => new Promise(((resolve, reject) => {

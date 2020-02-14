@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import debounce from 'lodash.debounce';
+import debounce from 'debounce';
 import SearchPane from './searchPane';
 import RequirementsPane from './requirementsPane';
 import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
 import { DialogTypes, Departments, errorLogging } from '../../constants';
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
 } from '../../actions';
 
 export const paneTypes = {
@@ -40,7 +40,7 @@ class Sidebar extends Component {
     };
 
     this.searchRef = React.createRef();
-    this.search = debounce(this.search, 500);
+    this.search = debounce(this.search, 1000);
   }
 
   componentDidMount() {
@@ -66,6 +66,7 @@ class Sidebar extends Component {
   handlePaneSwitch = (type) => {
     if (type !== paneTypes.SEARCH) {
       this.setSearchQuery('');
+      this.props.clearSearch();
       this.props.setOpenPane(type);
     } else {
       this.props.setOpenPane(type);
@@ -73,7 +74,6 @@ class Sidebar extends Component {
   }
 
   setFilter = (wcs, distribs, offered) => {
-    console.log({ wcs, distribs, offered });
     this.setState({ wcs, distribs, offered });
     const queryParsed = {
       title: this.state.searchQuery,
@@ -83,14 +83,15 @@ class Sidebar extends Component {
       wcs,
       offered,
     };
-    console.log(queryParsed);
-    this.props.stampIncrement((this.props.resultStamp + 1));
-    this.setState({ resultsLoading: true });
-    this.props.courseSearch(queryParsed, this.props.resultStamp).then(() => {
-      this.setState({ resultsLoading: false });
-    }).catch((error) => {
-      loggingErrorsInSearchPane(error);
-    });
+    if (this.state.searchQuery.length > 2) {
+      this.props.stampIncrement((this.props.resultStamp + 1));
+      this.setState({ resultsLoading: true });
+      this.props.courseSearch(queryParsed, this.props.resultStamp).then(() => {
+        this.setState({ resultsLoading: false });
+      }).catch((error) => {
+        loggingErrorsInSearchPane(error);
+      });
+    }
   }
 
   setSearchQuery = (query) => {
@@ -103,11 +104,12 @@ class Sidebar extends Component {
       wcs: this.state.wcs,
       offered: this.state.offered,
     };
-    this.search(queryParsed);
+    if (query.length > 2) {
+      this.search(queryParsed);
+    }
   }
 
   search = (queryParsed) => {
-    console.log(queryParsed);
     this.props.stampIncrement((this.props.resultStamp + 1));
     this.setState({ resultsLoading: true });
     this.props.courseSearch(queryParsed, this.props.resultStamp).then(() => {
@@ -164,5 +166,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
 })(Sidebar);

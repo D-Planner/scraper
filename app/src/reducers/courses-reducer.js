@@ -18,6 +18,8 @@ const coursesReducer = (state = initialState, action) => {
       else return Object.assign({}, state, { results: action.payload });
     case ActionTypes.STAMP_INCREMENT:
       return Object.assign({}, state, { resultStamp: action.payload });
+    case ActionTypes.CLEAR_SEARCH:
+      return Object.assign({}, state, { all: [], results: [], resultStamp: 0 });
     case ActionTypes.FETCH_BOOKMARKS:
       return Object.assign({}, state, { bookmarks: action.payload });
     case ActionTypes.RANDOM_COURSE:
