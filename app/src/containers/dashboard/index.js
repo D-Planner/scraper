@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import ReactGA from 'react-ga';
 import {
-  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
+  fetchPlans, createPlan, showDialog, signoutUser,
 } from '../../actions';
 // import searchIcon from '../../style/searchSimple.svg';
 import tutorialIcon from '../../style/tutorial.svg';
@@ -35,16 +35,10 @@ class Dashboard extends React.Component {
     this.showDialog = this.showDialog.bind(this);
     this.goToPlan = this.goToPlan.bind(this);
 
-    this.logError = this.logError.bind(this);
     this.displayIfError = this.displayIfError.bind(this);
   }
 
   componentWillMount() {
-    this.props.fetchUser().then((user) => {
-      ReactGA.set({
-        userId: user.id,
-      });
-    });
     this.props.fetchPlans().then(() => {
       this.setState({ loadingPlans: false });
     });
@@ -58,40 +52,16 @@ class Dashboard extends React.Component {
     }
   }
 
-  logError() {
-    // console.log('function call working?');
-    console.log(this.props.errorMessage);
-  }
-
   createNewPlan(name) {
     this.props.createPlan({
       name,
     }, this.props.setCurrentPlan).then(() => {
       this.props.fetchPlans();
     });
-    // const terms = ['F', 'W', 'S', 'X'];
-    // this.setState({ loadingPlans: true });
-    // this.props.fetchUser().then(() => { // grabs most recent user data first
-    //   let currYear = this.props.user.graduationYear - 4;
-    //   let currQuarter = -1;
-    //   this.props.createPlan({
-    //     terms: emptyPlan.terms.map((term) => {
-    //       if (currQuarter === 3) currYear += 1;
-    //       currQuarter = (currQuarter + 1) % 4;
-    //       return { ...term, year: currYear, quarter: terms[currQuarter] };
-    //     }),
-    //     name,
-    //   }, this.props.setCurrentPlan).then(() => {
-    //     this.props.fetchPlans().then(() => {
-    //       this.setState({ loadingPlans: false });
-    //     });
-    //   });
-    // });
   }
 
   goToPlan(id) {
     this.props.setCurrentPlan(id);
-    // this.props.history.push(`/plan/${id}`);
     ReactGA.event({
       category: 'Plan',
       action: 'Open',
@@ -185,13 +155,7 @@ class Dashboard extends React.Component {
             </div>
             <div role="presentation"
               className="option-button"
-              onClick={() => {
-                this.props.fetchUser().then((r) => {
-                  this.showProfileDialog(this.props);
-                }).catch((e) => {
-                  console.log(e);
-                });
-              }}
+              onClick={() => { this.showProfileDialog(this.props); }}
             >
               {this.state.active
                 ? (
@@ -223,5 +187,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
+  fetchPlans, createPlan, showDialog, signoutUser,
 })(Dashboard));
