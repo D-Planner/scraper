@@ -32,7 +32,6 @@ class Dashboard extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
-    this.showDialog = this.showDialog.bind(this);
     this.goToPlan = this.goToPlan.bind(this);
 
     this.displayIfError = this.displayIfError.bind(this);

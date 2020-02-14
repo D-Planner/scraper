@@ -593,7 +593,7 @@ class DPlan extends Component {
           <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
             {this.renderAnnouncement()}
             <div className={this.props.announcementActive === true ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>
-              <Dashboard setCurrentPlan={this.setCurrentPlan} />
+              <Dashboard setCurrentPlan={this.setCurrentPlan} showNewPlanDialog={this.showNewPlanDialog} />
               {this.state.loadingPlan === true
                 ? (
                   <div className="loader">
