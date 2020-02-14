@@ -556,6 +556,20 @@ class DPlan extends Component {
               <div className="welcome-text">
                 <div className="welcome-title">Welcome to D-Planner!</div>
                 <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+                <div className="release-notes">
+                  New updates!
+                  <ul>
+                    <li>Search filters now work!</li>
+                    <li>We fixed scrolling problems on small screens.</li>
+                    <li>You can now click on a course inside another course popup!</li>
+                  </ul>
+                  Next up:
+                  <ul>
+                    <li>Able to hide the red prereq checking.</li>
+                    <li>Insert your own custom named courses.</li>
+                    <li>Fixing slight bug in &quot;My Degree&qout; section.</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </HotKeys>
