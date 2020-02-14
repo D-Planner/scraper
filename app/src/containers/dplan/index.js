@@ -121,8 +121,6 @@ class DPlan extends Component {
     consoleLogging('DPlan', '[DPlan] Did Mount');
 
     // Checks if there is a current announcement and whether the user has seen it
-    console.log(this.props.user);
-
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
