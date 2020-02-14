@@ -70,6 +70,36 @@ const removePlaceholderFromTerm = (req, res) => {
         });
 };
 
+const addCourseToTermInternal = (req, res) => {
+    return new Promise((resolve, reject) => {
+        const termID = req.params.termID;
+        Term.findById(termID)
+            .then((term) => {
+                User.findById(req.user.id)
+                    .then((foundUser) => {
+                        UserCourseController.createUserCourse(req.user.id, req.body.courseID, termID)
+                            .then((userCourse) => {
+                                term.courses.push(userCourse);
+                                term.save().then(() => {
+                                    userCourse.populate({
+                                        path: 'course',
+                                        populate: PopulateCourse,
+                                    }).execPopulate().then((populated) => {
+                                        foundUser.totalUpdateTermCalls += 1;
+                                        foundUser.save(() => {
+                                            resolve(populated);
+                                        });
+                                    });
+                                });
+                            })
+                            .catch((e) => {
+                                reject(e);
+                            });
+                    });
+            });
+    });
+};
+
 const addCourseToTerm = (req, res) => {
     const termID = req.params.termID;
     Term.findById(termID)
@@ -164,13 +194,14 @@ const createTerm = async (term, planID, index, userID) => {
         }).then((newlyCreatedTerm) => {
             Promise.all(term.courses.map((courseID) => {
                 return new Promise((resolve, reject) => {
-                    addCourseToTerm({ params: { termID: newlyCreatedTerm.id }, user: { id: userID }, body: { courseID } });
-                    resolve();
+                    addCourseToTermInternal({ params: { termID: newlyCreatedTerm.id }, user: { id: userID }, body: { courseID } }).then(() => {
+                        resolve();
+                    });
                 });
             })).then(() => {
                 resolve(newlyCreatedTerm);
             });
-        });
+        }).catch((e) => { return reject(e); });
     });
 };
 
