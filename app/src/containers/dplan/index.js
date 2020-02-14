@@ -515,24 +515,36 @@ class DPlan extends Component {
   };
 
   renderAnnouncement = () => {
-    if (this.props.user !== {}) {
+    if (this.props.user !== {} && this.props.currentAnnouncement) {
       return (
         <div className={`announcements${this.props.announcementActive === true ? '' : ' closed'}${this.props.currentAnnouncement.link === '/' ? '' : ' clickable'}`}>
           {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-          <div className="announcement-text"
-            onClick={(e) => {
-              if (this.props.currentAnnouncement) {
-                this.props.history.push(this.props.currentAnnouncement.link);
-                if (this.props.currentAnnouncement.link !== '/') {
-                  this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
-                  this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
-                    this.props.disableCurrentAnnouncement();
-                  });
-                }
-              }
-            }}
-          >{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
-          </div>
+          {this.props.currentAnnouncement.link.substring(0, 4) === 'http'
+            ? (
+              <a className="announcement-text" href={this.props.currentAnnouncement.link} target="_blank" rel="noopener noreferrer">
+                {(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+              </a>
+            )
+            : (
+              <div className="announcement-text"
+                onClick={(e) => {
+                  if (this.props.currentAnnouncement) {
+                    this.props.history.push(this.props.currentAnnouncement.link);
+                    if (this.props.currentAnnouncement.link !== '/') {
+                      this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
+                      this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                        this.props.disableCurrentAnnouncement();
+                      });
+                    }
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+              >
+                {(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+              </div>
+            )
+        }
           <img src={close}
             alt="close"
             className="close"
