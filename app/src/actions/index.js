@@ -216,14 +216,21 @@ export function setDraggingState(isDragging, course) {
 
 // ----- Filter Setting ----- //
 export function setFilters(filters) {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.SET_FILTERS, payload: filters });
+  return {
+    type: ActionTypes.SET_FILTERS,
+    payload: filters,
   };
+  // return (dispatch) => {
+  //   dispatch({ type: ActionTypes.SET_FILTERS, payload: filters });
+  // };
 }
 export function clearFilters() {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.CLEAR_FILTERS, payload: null });
+  return {
+    type: ActionTypes.CLEAR_FILTERS,
   };
+  // return (dispatch) => {
+  //   dispatch({ type: ActionTypes.CLEAR_FILTERS, payload: null });
+  // };
 }
 
 // ----- Error Handling ----- //
