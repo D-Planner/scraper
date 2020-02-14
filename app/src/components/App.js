@@ -39,6 +39,7 @@ ReactGA.initialize(trackingID);
 const history = createBrowserHistory();
 ReactGA.pageview(window.location.pathname);
 history.listen((location) => {
+  console.log(location);
   ReactGA.set({ page: location.pathname }); // Update the user's current page
   ReactGA.pageview(location.pathname); // Record a pageview for the given page
 });
@@ -79,9 +80,9 @@ class App extends Component {
   render() {
     const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
     if (false) console.log(favicon === 1);
-    if (this.state.width !== 0 && this.state.width !== 0) {
-      errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
-    }
+    // if (this.state.width !== 0 && this.state.width !== 0) {
+    //   errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
+    // }
     if (true) {
       return (
         <div>
