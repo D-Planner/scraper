@@ -96,7 +96,7 @@ const SearchPane = React.forwardRef((props, ref) => {
       if (props.stamp > 0) {
         return <div className="no-search">No results.</div>;
       } else {
-        return <div className="no-search">Search for courses!</div>;
+        return <div className="no-search">Try searching &quot;COSC 52&quot; or &quot;philosophy of time&quot;!</div>;
       }
     } else {
       return <div className="no-search"><LoadingWheel /></div>;
