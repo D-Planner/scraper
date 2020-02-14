@@ -2,16 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import filterIcon from '../../../style/filter.svg';
-import searchIcon from '../../../style/search-purple.svg';
-import { DialogTypes } from '../../../constants';
-
-import './searchPane.scss';
-import DraggableCourse from '../../../components/draggableCourse';
-import LoadingWheel from '../../../components/loadingWheel';
 import {
   setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
 } from '../../../actions';
+import filterIcon from '../../../style/filter.svg';
+import searchIcon from '../../../style/search-purple.svg';
+import { DialogTypes } from '../../../constants';
+import DraggableCourse from '../../../components/draggableCourse';
+import LoadingWheel from '../../../components/loadingWheel';
+import './searchPane.scss';
 
 /**
  * @name SearchPane
@@ -25,9 +24,6 @@ const SearchPane = React.forwardRef((props, ref) => {
     active: props.active,
   });
 
-  // const [wcs, setWC] = useState('');
-  // const [distribs, setDistrib] = useState('');
-  // const [offered, setOffered] = useState('');
   const [results, setResults] = useState('');
 
   useEffect(() => {
@@ -58,21 +54,13 @@ const SearchPane = React.forwardRef((props, ref) => {
 
   const useFilters = () => {
     const wcs = props.wcs.filter(e => e.checked).map(e => e.name);
-    // setWC(wcs1);
     const distribs = props.distribs.filter(e => e.checked).map(e => e.tag);
-    // setDistrib(distribs1);
     const offered = props.offered.filter(e => e.checked).map(e => e.term);
-    // setOffered(offered1);
     props.setFilter(wcs, distribs, offered);
-    // props.setFilters({ wcs, distribs, offered });
   };
 
   const clearCurFilters = () => {
-    // setWC([]);
-    // setDistrib([]);
-    // setOffered([]);
     props.setFilter([], [], []);
-    props.clearFilters();
   };
 
   const showFilterDialog = () => {

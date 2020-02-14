@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import ReactTags from 'react-tag-autocomplete';
 import ReactTooltip from 'react-tooltip';
 import DialogWrapper from '../dialogWrapper';
-import './filters.scss';
+import {
+  setFilters, clearFilters,
+} from '../../actions';
 import { GenEdsForDisplay as GenEds } from '../../constants';
-
 import closeIcon from '../../style/close.svg';
-
+import './filters.scss';
 
 class FilterDialog extends React.Component {
   constructor(props) {
@@ -16,9 +17,6 @@ class FilterDialog extends React.Component {
     console.log('Offered next term', props.offered);
 
     this.state = {
-      distribs: props.distribs,
-      wcs: props.wcs,
-      offered: props.offered,
       tags: {
         distribs: props.distribs.filter(d => d.checked),
         wcs: props.wcs.filter(wc => wc.checked),
@@ -28,21 +26,24 @@ class FilterDialog extends React.Component {
   }
 
   changeState = (i, name) => {
-    this.setState((prevState) => {
-      const temp = Object.assign([], prevState[name]);
-      temp[i].checked = !temp[i].checked;
-      return temp;
-    }, () => {
-    });
+    const temp = Object.assign([], this.props.filters);
+    temp[name][i].checked = !temp[name][i].checked;
+    this.props.setFilters(temp);
+    // this.setState((prevState) => {
+    //   const temp = Object.assign([], prevState[name]);
+    //   temp[i].checked = !temp[i].checked;
+    //   return temp;
+    // }, () => {
+    // });
   }
 
-  falttenedTerms = () => {
-    const flattened = this.props.plan.terms.reduce((acc, term) => {
-      acc = acc.concat(term);
-      return acc;
-    }, []);
-    return flattened;
-  }
+  // falttenedTerms = () => {
+  //   const flattened = this.props.plan.terms.reduce((acc, term) => {
+  //     acc = acc.concat(term);
+  //     return acc;
+  //   }, []);
+  //   return flattened;
+  // }
 
   handleAdd = (e, type) => {
     this.setState((prevState) => {
@@ -89,13 +90,12 @@ class FilterDialog extends React.Component {
   }
 
   render() {
-    console.log(this.state.distribs);
     return (
       <DialogWrapper {...this.props}>
         <div className="filter-content">
           <ReactTags
             tags={this.state.tags.distribs}
-            suggestions={this.state.distribs}
+            suggestions={this.props.distribs}
             onAddition={e => this.handleAdd(e, 'distribs')}
             onDelete={i => this.handleDelete(i, 'distribs')}
             suggestionComponent={this.renderSuggestion}
@@ -103,7 +103,7 @@ class FilterDialog extends React.Component {
             placeholderText="Enter Distrib to Filter"
           />
           {/* <div className="filter-distribs filter-list">
-            {this.state.distribs.map((distrib, i) => {
+            {this.props.distribs.map((distrib, i) => {
               return (
                 <div className="choice" key={distrib.name}>
                   <div className="choice-label">{distrib.name}</div>
@@ -115,7 +115,7 @@ class FilterDialog extends React.Component {
           <div className="filter-wcs filter-list">
             {/* <ReactTags
               tags={this.state.tags.wcs}
-              suggestions={this.state.wcs}
+              suggestions={this.props.wcs}
               labelField="name"
               onAddition={e => this.handleAdd(e, 'wcs')}
               onDelete={i => this.handleDelete(i, 'wcs')}
@@ -123,7 +123,7 @@ class FilterDialog extends React.Component {
               suggestionComponent={this.renderSuggestion}
               placeholderText="Add New World Culture Filter"
             /> */}
-            {this.state.wcs.map((wc, i) => {
+            {this.props.wcs.map((wc, i) => {
               return (
                 <div className="choice" key={wc.name}>
                   <div className="choice-label">
@@ -136,7 +136,7 @@ class FilterDialog extends React.Component {
             })}
           </div>
           <div className="filter-offered filter-list">
-            {this.state.offered.map((offered, i) => {
+            {this.props.offered.map((offered, i) => {
               const currentTermName = () => {
                 switch (offered.term) {
                   case 'F': return 'Fall';
@@ -162,6 +162,7 @@ class FilterDialog extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  filters: state.filters,
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
   offered: state.filters.offered,
@@ -169,4 +170,7 @@ const mapStateToProps = state => ({
   plan: state.plans.current,
 });
 
-export default connect(mapStateToProps, null)(FilterDialog);
+export default connect(mapStateToProps, {
+  setFilters,
+  clearFilters,
+})(FilterDialog);
