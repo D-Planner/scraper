@@ -35,14 +35,12 @@ class ProfileDialog extends Component {
 
   // Check if an email has been sent before loading of component
   componentDidMount() {
-    this.props.fetchUser().then(() => {
-      if (this.props.user && this.props.user.emailVerificationKey !== undefined && this.props.user.emailVerificationKey !== '-1') {
-        this.setState({ verifyingEmail: true });
-      }
-      if (this.props.user && this.props.user.passwordVerificationKey !== undefined && this.props.user.passwordVerificationKey !== '-1') {
-        this.setState({ verifyingPassword: true });
-      }
-    });
+    if (this.props.user && this.props.user.emailVerificationKey !== undefined && this.props.user.emailVerificationKey !== '-1') {
+      this.setState({ verifyingEmail: true });
+    }
+    if (this.props.user && this.props.user.passwordVerificationKey !== undefined && this.props.user.passwordVerificationKey !== '-1') {
+      this.setState({ verifyingPassword: true });
+    }
     Object.entries(editOptions).map(([k, v]) => {
       this.setState({ [v]: false }); return null;
     });
@@ -58,12 +56,10 @@ class ProfileDialog extends Component {
       noText: 'Continue',
       showNo: true,
       onNo: () => {
-        this.props.fetchUser().then(() => {
-          this.props.hideDialog();
-          this.props.deleteUser(this.props.user._id).then(() => {
-            this.props.signoutUser(null);
-            document.location.reload();
-          }).catch(error => console.error(error));
+        this.props.hideDialog();
+        this.props.deleteUser(this.props.user._id).then(() => {
+          this.props.signoutUser(null);
+          document.location.reload();
         });
       },
       onOk: () => {},
@@ -98,19 +94,14 @@ class ProfileDialog extends Component {
           title: 'Warning',
           message: 'If you change your grad year, all your plans will reset.',
           size: 'sm',
-          okText: 'Abort',
-          noText: 'Continue',
+          okText: 'Yes, change my year.',
+          noText: 'Cancel',
           showNo: true,
-          onNo: () => {
-            this.props.updateUser({ graduationYear: this.newUser.graduationYear }).then(() => {
-              this.props.fetchPlans().then(() => {
-                window.location.reload();
-              });
-            });
-            console.log('deleting all plans...');
-          },
+          onNo: () => {},
           onOk: () => {
-            // console.log('user declined to update profile, change nothing');
+            this.props.updateUser({ graduationYear: this.newUser.graduationYear }).then(() => {
+              window.location.reload();
+            });
           },
         };
         this.props.showDialog(DialogTypes.NOTICE, dialogOptions);
@@ -167,8 +158,7 @@ class ProfileDialog extends Component {
             <button type="button"
               className={this.state.verifyingEmail ? 'verify-button sent' : 'verify-button'}
               onClick={() => {
-                console.log('sending verify email email');
-                this.props.fetchUser().then(() => this.props.sendVerifyEmail(this.props.user._id));
+                this.props.sendVerifyEmail(this.props.user._id);
                 this.setState({ verifyingEmail: true });
               }}
             >
@@ -181,8 +171,7 @@ class ProfileDialog extends Component {
           <button type="button"
             className={this.state.verifyingPassword ? 'verify-button sent' : 'verify-button'}
             onClick={() => {
-              console.log('sending reset password email');
-              this.props.fetchUser().then(() => this.props.sendResetPass(this.props.user._id));
+              this.props.sendResetPass(this.props.user._id);
               this.setState({ verifyingPassword: true });
             }}
           >
@@ -229,7 +218,6 @@ class ProfileDialog extends Component {
   //             svg: remove,
   //             method: () => {
   //               this.props.removeCourseFromFavorites(c.id).then((r) => {
-  //                 this.props.fetchUser();
   //                 this.props.fetchPlan(this.props.plan.id);
   //               }).catch((e) => {
   //                 console.log(e);
