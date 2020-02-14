@@ -382,7 +382,7 @@ class CourseInfoDialog extends Component {
           data-for="plus"
         />
         <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
-          {!placement ? 'Add to your placement courses' : 'Remove from your placement courses'}
+          {!placement ? 'I have credit for this class, please satisfy prereqs for other courses.' : 'Remove from courses that you had credits for.'}
         </ReactTooltip>
       </div>
     );
