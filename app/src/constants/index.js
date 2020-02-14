@@ -650,6 +650,7 @@ export const consoleLogging = (source, message, ...objects) => {
 };
 
 export const errorLogging = (source, message) => {
+  console.log(message);
   const headers = {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   };
