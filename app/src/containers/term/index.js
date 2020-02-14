@@ -13,7 +13,7 @@ import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
 import {
-  updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourseTimeslot, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, fetchPlan, updateUserCourseTimeslot, removeCourseFromFavorites,
 } from '../../actions';
 
 const termTarget = {
@@ -92,7 +92,6 @@ class Term extends Component {
         this.props.updateTermInCurrentPlan(this.props.term)
           .then(() => {
             this.props.fetchPlan(this.props.plan.id);
-            this.props.fetchUser();
           });
       },
     };
@@ -334,5 +333,5 @@ const mapStateToProps = state => ({
 // export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTermInCurrentPlan, showDialog, fetchPlan, fetchUser, updateUserCourseTimeslot, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, fetchPlan, updateUserCourseTimeslot, removeCourseFromFavorites,
 })(Term)));
