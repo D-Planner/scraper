@@ -33,9 +33,6 @@ class Sidebar extends Component {
     super(props);
     this.state = {
       searchQuery: '',
-      wcs: '',
-      distribs: '',
-      offered: '',
       resultsLoading: false,
     };
 
@@ -74,7 +71,6 @@ class Sidebar extends Component {
   }
 
   setFilter = (wcs, distribs, offered) => {
-    this.setState({ wcs, distribs, offered });
     const queryParsed = {
       title: this.state.searchQuery,
       department: matchDepartment(this.state.searchQuery.split(' ')[0].toUpperCase()),
@@ -100,9 +96,9 @@ class Sidebar extends Component {
       title: query,
       department: matchDepartment(query.split(' ')[0].toUpperCase()),
       number: query.split(' ')[1],
-      distribs: this.state.distribs,
-      wcs: this.state.wcs,
-      offered: this.state.offered,
+      distribs: this.props.term.distribs,
+      wcs: this.props.term.wcs,
+      offered: this.props.term.offered,
     };
     if (query.length > 2) {
       this.search(queryParsed);
@@ -158,6 +154,7 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = state => ({
+  filter: state.filter,
   bookmarks: state.courses.bookmarks,
   searchResults: state.courses.results,
   resultStamp: state.courses.resultStamp,
