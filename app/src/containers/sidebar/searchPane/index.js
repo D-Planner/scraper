@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import {
-  setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
+  setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites,
 } from '../../../actions';
 import filterIcon from '../../../style/filter.svg';
 import filterOnIcon from '../../../style/filter-on.svg';
@@ -184,5 +184,4 @@ export default connect(mapStateToProps, {
   clearFilters,
   addCourseToFavorites,
   removeCourseFromFavorites,
-  fetchUser,
 })(SearchPane);
