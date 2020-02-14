@@ -60,6 +60,7 @@ const SearchPane = React.forwardRef((props, ref) => {
   };
 
   const clearCurFilters = () => {
+    props.clearFilters();
     props.setFilter([], [], []);
   };
 

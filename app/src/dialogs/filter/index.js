@@ -14,19 +14,16 @@ class FilterDialog extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log('Offered next term', props.offered);
-
     this.state = {
       tags: {
         distribs: props.distribs.filter(d => d.checked),
         wcs: props.wcs.filter(wc => wc.checked),
       },
     };
-    console.log(this.state);
   }
 
   changeState = (i, name) => {
-    const temp = Object.assign([], this.props.filters);
+    const temp = Object.assign({}, this.props.filters);
     temp[name][i].checked = !temp[name][i].checked;
     this.props.setFilters(temp);
     // this.setState((prevState) => {
@@ -55,7 +52,7 @@ class FilterDialog extends React.Component {
   }
 
   handleDelete = (i, type) => {
-    const removedTagId = this.state[type].findIndex(t => t.name === this.state.tags[type][i].name);
+    const removedTagId = this.props[type].findIndex(t => t.name === this.props.tags[type][i].name);
     this.setState((prevState) => {
       prevState.tags[type].splice(i, 1);
       return { [`tags${type}`]: prevState.tags[type] };
