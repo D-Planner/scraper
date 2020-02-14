@@ -368,9 +368,7 @@ class CourseInfoDialog extends Component {
           onClick={
             placement
               ? () => this.props.removeCourseFromPlacements(courseID)
-                .then(() => this.props.fetchUser())
               : () => this.props.addCourseToPlacements(courseID)
-                .then(() => this.props.fetchUser())
           }
           data-tip
           data-for="plus"
