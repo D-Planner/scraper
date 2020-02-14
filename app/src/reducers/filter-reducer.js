@@ -20,6 +20,7 @@ const initialState = {
     }
     return returnVal;
   }, []),
+  on: false,
 };
 
 const generateInitialState = () => {
@@ -42,6 +43,7 @@ const generateInitialState = () => {
       }
       return returnVal;
     }, []),
+    on: false,
   };
 };
 
@@ -50,7 +52,9 @@ const filterReducer = (state = initialState, action) => {
     case ActionTypes.DEAUTH_USER:
       return Object.assign({}, state, initialState);
     case ActionTypes.SET_FILTERS:
-      return Object.assign({}, state, { distribs: action.payload.distribs, wcs: action.payload.wcs, offered: action.payload.offered });
+      return Object.assign({}, state, {
+        distribs: action.payload.distribs, wcs: action.payload.wcs, offered: action.payload.offered, on: true,
+      });
     case ActionTypes.CLEAR_FILTERS:
       // eslint-disable-next-line no-case-declarations
       const newInitialState = generateInitialState();

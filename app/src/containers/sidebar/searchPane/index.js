@@ -6,6 +6,7 @@ import {
   setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
 } from '../../../actions';
 import filterIcon from '../../../style/filter.svg';
+import filterOnIcon from '../../../style/filter-on.svg';
 import searchIcon from '../../../style/search-purple.svg';
 import { DialogTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
@@ -68,15 +69,27 @@ const SearchPane = React.forwardRef((props, ref) => {
     const dialogOptions = {
       title: 'Search filters',
       size: 'md',
-      showOk: false,
-      // okText: 'Apply',
+      showOk: true,
+      okText: 'Apply',
       // noText: 'Clear',
-      // onOk: useFilters,
+      onOk: useFilters,
       // onNo: clearCurFilters,
       onClose: useFilters,
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
   };
+
+  let filtersOn = false;
+
+  Object.values(props.distribs).forEach((d) => {
+    if (d.checked) filtersOn = true;
+  });
+  Object.values(props.wcs).forEach((w) => {
+    if (w.checked) filtersOn = true;
+  });
+  Object.values(props.offered).forEach((o) => {
+    if (o.checked) filtersOn = true;
+  });
 
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
@@ -94,7 +107,7 @@ const SearchPane = React.forwardRef((props, ref) => {
         />
         {props.resultsLoading ? <LoadingWheel /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
-          <img className="search-config-icon" src={filterIcon} alt="filter" />
+          {filtersOn ? <img className="search-config-icon" src={filterOnIcon} alt="filter-on" /> : <img className="search-config-icon" src={filterIcon} alt="filter" />}
         </button>
       </div>
       {props.active
@@ -149,9 +162,8 @@ const SearchPane = React.forwardRef((props, ref) => {
 const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
-  offeredNextTerm: state.filters.offeredNextTerm,
-  user: state.user.current,
   offered: state.filters.offered,
+  user: state.user.current,
 });
 
 
