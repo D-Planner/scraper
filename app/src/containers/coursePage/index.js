@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -625,5 +625,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 })(CoursePage));
