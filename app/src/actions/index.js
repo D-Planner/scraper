@@ -692,7 +692,7 @@ export function addCourseToPlacements(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
@@ -712,7 +712,7 @@ export function removeCourseFromPlacements(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
