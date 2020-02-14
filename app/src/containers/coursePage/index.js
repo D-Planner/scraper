@@ -100,7 +100,7 @@ class CoursePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchUser();
+    // this.props.fetchUser();
     this.props.getTimes();
     this.props.fetchCourse(this.props.match.params.id).then((course) => {
       this.setState({ course });
