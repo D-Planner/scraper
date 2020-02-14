@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import axios from 'axios';
+import ReactGA from 'react-ga';
 import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -102,20 +103,25 @@ class DPlan extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchUser();
+    this.props.fetchUser().then((user) => {
+      ReactGA.set({
+        userId: user.id,
+      });
+      this.props.getCurrentAnnouncement().then(() => {
+        if (!this.props.currentAnnouncement || this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
+          this.props.disableCurrentAnnouncement();
+        }
+      }).catch((e) => {
+        loggingErrorsInDplan(e);
+      });
+    });
   }
 
   componentDidMount = () => {
     consoleLogging('DPlan', '[DPlan] Did Mount');
 
     // Checks if there is a current announcement and whether the user has seen it
-    this.props.fetchUser().then((user) => {
-      this.props.getCurrentAnnouncement().then(() => {
-        if (!this.props.currentAnnouncement || user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
-          this.props.disableCurrentAnnouncement();
-        }
-      });
-    });
+    console.log(this.props.user);
 
     this.dplanref.current.focus();
     this.props.setLoading(false);
@@ -512,34 +518,36 @@ class DPlan extends Component {
   };
 
   renderAnnouncement = () => {
-    return (
-      <div className={`announcements${this.props.announcementActive === true ? '' : ' closed'}${this.props.currentAnnouncement.link === '/' ? '' : ' clickable'}`}>
-        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-        <div className="announcement-text"
-          onClick={(e) => {
-            if (this.props.currentAnnouncement) {
-              this.props.history.push(this.props.currentAnnouncement.link);
-              if (this.props.currentAnnouncement.link !== '/') {
-                this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
-                this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
-                  this.props.disableCurrentAnnouncement();
-                });
+    if (this.props.user !== {}) {
+      return (
+        <div className={`announcements${this.props.announcementActive === true ? '' : ' closed'}${this.props.currentAnnouncement.link === '/' ? '' : ' clickable'}`}>
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          <div className="announcement-text"
+            onClick={(e) => {
+              if (this.props.currentAnnouncement) {
+                this.props.history.push(this.props.currentAnnouncement.link);
+                if (this.props.currentAnnouncement.link !== '/') {
+                  this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
+                  this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                    this.props.disableCurrentAnnouncement();
+                  });
+                }
               }
-            }
-          }}
-        >{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+            }}
+          >{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+          </div>
+          <img src={close}
+            alt="close"
+            className="close"
+            onClick={(e) => {
+              this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                this.props.disableCurrentAnnouncement();
+              });
+            }}
+          />
         </div>
-        <img src={close}
-          alt="close"
-          className="close"
-          onClick={(e) => {
-            this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
-              this.props.disableCurrentAnnouncement();
-            });
-          }}
-        />
-      </div>
-    );
+      );
+    } else return null;
   }
 
   render() {
