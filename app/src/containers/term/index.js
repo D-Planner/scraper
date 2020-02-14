@@ -13,7 +13,7 @@ import PhantomCourse from '../../components/phantomCourse';
 
 import './term.scss';
 import {
-  updateTermInCurrentPlan, showDialog, fetchPlan, updateUserCourseTimeslot, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, updateUserCourseTimeslot, removeCourseFromFavorites,
 } from '../../actions';
 
 const termTarget = {
@@ -89,10 +89,7 @@ class Term extends Component {
         });
         this.props.term.off_term = true;
         this.props.term.courses = [];
-        this.props.updateTermInCurrentPlan(this.props.term)
-          .then(() => {
-            this.props.fetchPlan(this.props.plan.id);
-          });
+        this.props.updateTermInCurrentPlan(this.props.term);
       },
     };
     this.props.showDialog(DialogTypes.OFF_TERM, opts);
@@ -101,9 +98,7 @@ class Term extends Component {
   turnOnTerm = () => {
     this.props.term.off_term = false;
     this.props.term.courses = [];
-    this.props.updateTermInCurrentPlan(this.props.term).then(() => {
-      this.props.fetchPlan(this.props.plan.id);
-    });
+    this.props.updateTermInCurrentPlan(this.props.term);
   }
 
   renderToggleButton = () => {
@@ -327,12 +322,7 @@ const mapStateToProps = state => ({
   drag: state.dragStatus,
 });
 
-// export default withRouter(connect(mapStateToProps, {
-//   fetchPlan, deletePlan, updateTermInCurrentPlan, showDialog,
-// })(DPlan));
-// eslint-disable-next-line new-cap
-// export default TermTarget(ItemTypes.COURSE, termTarget, collect)(Term);
 // eslint-disable-next-line new-cap
 export default TermTarget(ItemTypes.COURSE, termTarget, collect)(withRouter(connect(mapStateToProps, {
-  updateTermInCurrentPlan, showDialog, fetchPlan, updateUserCourseTimeslot, removeCourseFromFavorites,
+  updateTermInCurrentPlan, showDialog, updateUserCourseTimeslot, removeCourseFromFavorites,
 })(Term)));
