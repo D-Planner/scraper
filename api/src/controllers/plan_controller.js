@@ -8,11 +8,9 @@ import TermController from '../controllers/term_controller';
 import { PopulateTerm, PopulateUser } from './populators';
 
 const getPlansByUserID = (req, res, next) => {
-    Plan.find({ user_id: req.user.id }).populate({
-        path: 'terms',
-        populate: PopulateTerm,
-    }).then((plans) => {
-        return res.json(plans);
+    Plan.find({ user_id: req.user.id }).then((plans) => {
+        const planNames = plans.map((plan) => { return { id: plan.id, name: plan.name }; });
+        return res.json(planNames);
     }).catch((err) => {
         return next(err);
     });
@@ -123,68 +121,6 @@ const sortPlan = (plan) => {
     return plan;
 };
 
-// export const setTermsPrevCourses = (planID, userID) => {
-//     return new Promise(((resolve, reject) => {
-//         Plan.findById(planID)
-//             .populate({
-//                 path: 'terms',
-//                 populate: PopulateTerm,
-//             })
-//             .then((plan) => {
-//                 const previousByTerm = plan.terms.map((term) => {
-//                     const prevCourses = [...new Set(plan.terms
-//                         .sort((t1, t2) => {
-//                             return t1.index - t2.index;
-//                         })
-//                         .filter((t) => {
-//                             return t.index < term.index;
-//                         })
-//                         .map((t) => {
-//                             return t.courses;
-//                         })
-//                         .flat()
-//                         .filter((c) => {
-//                             return c.fulfilledStatus === '';
-//                         })
-//                         .map((c) => {
-//                             return (c.course.xlist.length) ? [...c.course.xlist, c.course.id] : c.course.id;
-//                         })
-//                         .flat())];
-//                     return { [term._id]: prevCourses };
-//                 });
-//                 Promise.all(previousByTerm.map((t) => {
-//                     return Promise.all(Object.entries(t).map(([term, previousCourses]) => {
-//                         return Term.findByIdAndUpdate(term, { previousCourses })
-//                             .then(() => {
-//                                 return Term.findById(term)
-//                                     .populate(PopulateTerm);
-//                             }).then((trueTerm) => {
-//                                 return Promise.all(trueTerm.courses.map((course) => {
-//                                     return Promise.resolve(CoursesController.getFulfilledStatus(planID, trueTerm._id, course.course.id, userID))
-//                                         .then((status) => {
-//                                             // console.log(`Updating ${course.course.title} to ${status}`);
-//                                             return UserCourse.update({ _id: course.id }, { fulfilledStatus: status }, { upsert: true });
-//                                         });
-//                                 // .then(() => {
-//                                 //     UserCourse.findById(course.id).populate('course').then((c) => { console.log('SET', c.course.title, c.fulfilledStatus); });
-//                                 // });
-//                                 }));
-//                             });
-//                     })).then((r) => {
-//                         // console.log('{1}', r);
-//                         return r;
-//                     });
-//                 })).then((r) => {
-//                     // console.log('{2}', r);
-//                     resolve();
-//                 });
-//             }).catch((e) => {
-//                 console.log(e);
-//                 reject();
-//             });
-//     }));
-// };
-
 const getPlanByID = (req, res) => {
     const planID = req.params.id;
     Plan.findById(planID).then((plan) => {
@@ -215,15 +151,6 @@ const duplicatePlanByID = (planID) => {
             planToBeDuplicated.name += ' Copy';
             createPlanForUser(planToBeDuplicated, planToBeDuplicated.user_id).then((blankPlan) => {
                 resolve(blankPlan);
-                // const duplicateTermspromises = blankPlan.terms.map((term) => {
-                //     return new Promise((resolve, reject) => {
-                //         const duplicateCoursespromises =
-                //         TermController.addCourseToTerm({ params: { termID: term.id }, user: { id: populatedPlan.toJSON().user_id }, body: {courseID: } });
-                //     });
-                // });
-                // Promises.all(duplicateTermspromises).then(() => {
-
-                // });
             });
         });
     });
