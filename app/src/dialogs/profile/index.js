@@ -138,7 +138,7 @@ class ProfileDialog extends Component {
   displayEditOption = (text, inputName, editing) => {
     const gradBool = inputName === 'graduationYear';
     return (
-      <div className="info">
+      <div key={text} className="info">
         <div className="label">{text}:</div>
         {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
         <div className="data" role="textbox" onClick={editing ? null : () => this.handleToggleEdit(inputName)}>
@@ -244,13 +244,14 @@ class ProfileDialog extends Component {
 
   renderPlacements = () => {
     return (
-      this.props.user.placement_courses.map((c, i) => {
+      this.props.user.placement_courses.map((c) => {
         return (
-          <NonDraggableCourse
-            key={i.toString()}
-            course={c}
-            currTerm={this.props.currTerm}
-          />
+          <div key={c.id}>
+            <NonDraggableCourse
+              course={c}
+              currTerm={this.props.currTerm}
+            />
+          </div>
         );
       })
     );
