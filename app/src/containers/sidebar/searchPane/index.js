@@ -91,12 +91,24 @@ const SearchPane = React.forwardRef((props, ref) => {
     if (o.checked) filtersOn = true;
   });
 
+  const renderRestingSearchResultState = () => {
+    if (!props.resultsLoading) {
+      if (props.stamp > 0) {
+        return <div className="no-search">No results.</div>;
+      } else {
+        return <div className="no-search">Search for courses!</div>;
+      }
+    } else {
+      return <div className="no-search"><LoadingWheel /></div>;
+    }
+  };
+
   return (
     <div className={paneClass} onClick={props.activate} role="presentation">
       <div className="pane-header">
         <img className="search-config-icon" src={searchIcon} alt="search" />
         <input type="text"
-          className={`search-input${props.resultsLoading ? ' small' : ''}`}
+          className="search-input"
           placeholder="Search for courses"
           value={props.searchQuery}
           tabIndex={-1}
@@ -105,7 +117,6 @@ const SearchPane = React.forwardRef((props, ref) => {
           }}
           ref={ref}
         />
-        {props.resultsLoading ? <LoadingWheel /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
           {filtersOn ? <img className="search-config-icon" src={filterOnIcon} alt="filter-on" /> : <img className="search-config-icon" src={filterIcon} alt="filter" />}
         </button>
@@ -150,7 +161,7 @@ const SearchPane = React.forwardRef((props, ref) => {
                     );
                   }
                 })
-                : (<div className="no-search">Search for courses!</div>)}
+                : renderRestingSearchResultState()}
             </div>
           </div>
         ) : null
@@ -163,6 +174,7 @@ const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
   offered: state.filters.offered,
+  stamp: state.courses.resultStamp,
   user: state.user.current,
 });
 
