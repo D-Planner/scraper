@@ -7,7 +7,7 @@ import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
 import { DialogTypes, Departments, errorLogging } from '../../constants';
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor, clearFilters,
+  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, showDialog, declareMajor, clearFilters,
 } from '../../actions';
 
 export const paneTypes = {
@@ -40,10 +40,6 @@ class Sidebar extends Component {
     this.search = debounce(this.search, 1000);
   }
 
-  componentDidMount() {
-    this.props.fetchUser();
-  }
-
   addToBookmarks = (courseId) => {
     this.props.addCourseToFavorites(courseId);
   }
@@ -54,7 +50,6 @@ class Sidebar extends Component {
       okText: 'Enroll',
       onOk: (majorID) => {
         this.props.declareMajor(majorID);
-        setTimeout(() => this.props.fetchUser(), 100);
       },
     };
     this.props.showDialog(DialogTypes.DECLARE_MAJOR, opts);
@@ -166,5 +161,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor, clearFilters,
+  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, showDialog, declareMajor, clearFilters,
 })(Sidebar);
