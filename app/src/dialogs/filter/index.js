@@ -6,7 +6,7 @@ import DialogWrapper from '../dialogWrapper';
 import {
   setFilters, clearFilters,
 } from '../../actions';
-import { GenEdsForDisplay as GenEds } from '../../constants';
+import { GenEdsForDisplay as GenEds, generateInitialState } from '../../constants';
 import closeIcon from '../../style/close.svg';
 import './filters.scss';
 
@@ -34,13 +34,10 @@ class FilterDialog extends React.Component {
     // });
   }
 
-  // falttenedTerms = () => {
-  //   const flattened = this.props.plan.terms.reduce((acc, term) => {
-  //     acc = acc.concat(term);
-  //     return acc;
-  //   }, []);
-  //   return flattened;
-  // }
+  clearFilterz = () => {
+    const temp = generateInitialState();
+    this.props.setFilters({ distribs: temp.distribs, wcs: temp.wcs, offered: temp.offered });
+  }
 
   handleAdd = (e, type) => {
     this.setState((prevState) => {
@@ -52,7 +49,7 @@ class FilterDialog extends React.Component {
   }
 
   handleDelete = (i, type) => {
-    const removedTagId = this.props[type].findIndex(t => t.name === this.props.tags[type][i].name);
+    const removedTagId = this.props[type].findIndex(t => t.name === this.state.tags[type][i].name);
     this.setState((prevState) => {
       prevState.tags[type].splice(i, 1);
       return { [`tags${type}`]: prevState.tags[type] };
@@ -99,16 +96,6 @@ class FilterDialog extends React.Component {
             tagComponent={this.renderTag}
             placeholderText="Enter Distrib to Filter"
           />
-          {/* <div className="filter-distribs filter-list">
-            {this.props.distribs.map((distrib, i) => {
-              return (
-                <div className="choice" key={distrib.name}>
-                  <div className="choice-label">{distrib.name}</div>
-                  <input className="choice-input" type="checkbox" checked={distrib.checked} onChange={() => this.changeState(i, 'distribs')} />
-                </div>
-              );
-            })}
-          </div> */}
           <div className="filter-wcs filter-list">
             {/* <ReactTags
               tags={this.state.tags.wcs}
@@ -152,6 +139,9 @@ class FilterDialog extends React.Component {
               );
             })}
           </div>
+          {/* <button type="button" className="clear-button" onClick={() => this.clearFilterz()}>
+            <div className="clear-button-text">Clear</div>
+          </button> */}
         </div>
       </DialogWrapper>
     );

@@ -50,16 +50,13 @@ const filterReducer = (state = initialState, action) => {
     case ActionTypes.DEAUTH_USER:
       return Object.assign({}, state, initialState);
     case ActionTypes.SET_FILTERS:
-      console.log(action.payload);
       return Object.assign({}, state, { distribs: action.payload.distribs, wcs: action.payload.wcs, offered: action.payload.offered });
     case ActionTypes.CLEAR_FILTERS:
       // eslint-disable-next-line no-case-declarations
       const newInitialState = generateInitialState();
-      console.log('hello');
-      console.log(newInitialState);
       return newInitialState;
     default:
-      return Object.assign({}, state, initialState);
+      return initialState;
   }
 };
 

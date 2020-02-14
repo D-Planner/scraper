@@ -595,6 +595,29 @@ export const GenEds = {
   },
 };
 
+export const generateInitialState = () => {
+  return {
+    distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e, i) => {
+      return {
+        id: `${i}`, tag: e.name, fullName: e.fullName, name: `${e.fullName} ${e.name}`, checked: false,
+      };
+    }),
+    wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e, i) => {
+      return {
+        id: `${i}`, fullName: e.fullName, name: e.name, checked: false,
+      };
+    }),
+    offered: [''].reduce((acc, cur) => {
+      const returnVal = [{ term: 'current', check: false }];
+      const terms = ['F', 'W', 'S', 'X'];
+      for (let i = 0; i < terms.length; i += 1) {
+        returnVal.push({ id: `${i}`, term: terms[i], checked: false });
+      }
+      return returnVal;
+    }, []),
+  };
+};
+
 /**
  * Controls all logging in D-Planner frontend application.
  * @param {String} source Name of the originating component, in camel case.

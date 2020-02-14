@@ -7,7 +7,7 @@ import BookmarksPane from './bookmarksPane';
 import './sidebar.scss';
 import { DialogTypes, Departments, errorLogging } from '../../constants';
 import {
-  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor, clearFilters,
 } from '../../actions';
 
 export const paneTypes = {
@@ -62,7 +62,7 @@ class Sidebar extends Component {
 
   handlePaneSwitch = (type) => {
     if (type !== paneTypes.SEARCH) {
-      this.setSearchQuery('');
+      this.setState({ searchQuery: '' });
       this.props.clearSearch();
       this.props.setOpenPane(type);
     } else {
@@ -70,7 +70,7 @@ class Sidebar extends Component {
     }
   }
 
-  setFilter = (wcs, distribs, offered) => {
+  useFilterToSearch = (wcs, distribs, offered) => {
     const queryParsed = {
       title: this.state.searchQuery,
       department: matchDepartment(this.state.searchQuery.split(' ')[0].toUpperCase()),
@@ -90,15 +90,18 @@ class Sidebar extends Component {
     }
   }
 
-  setSearchQuery = (query) => {
+  useQueryToSearch = (query) => {
+    const wcs = this.props.filters.wcs.filter(e => e.checked).map(e => e.name);
+    const distribs = this.props.filters.distribs.filter(e => e.checked).map(e => e.tag);
+    const offered = this.props.filters.offered.filter(e => e.checked).map(e => e.term);
     this.setState({ searchQuery: query });
     const queryParsed = {
       title: query,
       department: matchDepartment(query.split(' ')[0].toUpperCase()),
       number: query.split(' ')[1],
-      distribs: this.props.term.distribs,
-      wcs: this.props.term.wcs,
-      offered: this.props.term.offered,
+      distribs,
+      wcs,
+      offered,
     };
     if (query.length > 2) {
       this.search(queryParsed);
@@ -121,7 +124,7 @@ class Sidebar extends Component {
         <SearchPane
           active={this.props.openPane === paneTypes.SEARCH}
           activate={() => { if (this.props.openPane !== paneTypes.SEARCH) this.handlePaneSwitch(paneTypes.SEARCH); }}
-          setSearchQuery={this.setSearchQuery}
+          useQueryToSearch={this.useQueryToSearch}
           searchQuery={this.state.searchQuery}
           search={this.props.search}
           results={this.props.searchResults}
@@ -131,7 +134,7 @@ class Sidebar extends Component {
           currTerm={this.props.currTerm}
           showDialog={this.props.showDialog}
           resultsLoading={this.state.resultsLoading}
-          setFilter={this.setFilter}
+          useFilterToSearch={this.useFilterToSearch}
         />
         <RequirementsPane
           active={this.props.openPane === paneTypes.REQUIREMENTS}
@@ -154,7 +157,7 @@ class Sidebar extends Component {
 }
 
 const mapStateToProps = state => ({
-  filter: state.filter,
+  filters: state.filters,
   bookmarks: state.courses.bookmarks,
   searchResults: state.courses.results,
   resultStamp: state.courses.resultStamp,
@@ -163,5 +166,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor,
+  addCourseToFavorites, courseSearch, stampIncrement, clearSearch, fetchBookmarks, fetchUser, showDialog, declareMajor, clearFilters,
 })(Sidebar);

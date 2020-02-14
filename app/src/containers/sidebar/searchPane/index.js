@@ -56,23 +56,24 @@ const SearchPane = React.forwardRef((props, ref) => {
     const wcs = props.wcs.filter(e => e.checked).map(e => e.name);
     const distribs = props.distribs.filter(e => e.checked).map(e => e.tag);
     const offered = props.offered.filter(e => e.checked).map(e => e.term);
-    props.setFilter(wcs, distribs, offered);
+    props.useFilterToSearch(wcs, distribs, offered);
   };
 
-  const clearCurFilters = () => {
-    props.clearFilters();
-    props.setFilter([], [], []);
-  };
+  // const clearCurFilters = () => {
+  //   props.clearFilters();
+  //   props.useFilterToSearch([], [], []);
+  // };
 
   const showFilterDialog = () => {
     const dialogOptions = {
       title: 'Search filters',
       size: 'md',
-      showNo: true,
-      okText: 'Apply',
-      noText: 'Clear',
-      onOk: useFilters,
-      onNo: clearCurFilters,
+      showOk: false,
+      // okText: 'Apply',
+      // noText: 'Clear',
+      // onOk: useFilters,
+      // onNo: clearCurFilters,
+      onClose: useFilters,
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
   };
@@ -87,8 +88,7 @@ const SearchPane = React.forwardRef((props, ref) => {
           value={props.searchQuery}
           tabIndex={-1}
           onChange={(e) => {
-            console.log(e.target.value);
-            props.setSearchQuery(e.target.value);
+            props.useQueryToSearch(e.target.value);
           }}
           ref={ref}
         />

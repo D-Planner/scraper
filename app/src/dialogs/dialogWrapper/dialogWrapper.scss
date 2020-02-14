@@ -7,44 +7,44 @@
     height: 100vh;
     width: 100vw;
     display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     align-items: center;
     justify-content: center;
     background-color: rgba(0,0,0,0.25);
 
     .dialog-info-bar {
-      width: 100%;
-      min-height: 51px;
+        width: 100%;
+        min-height: 51px;
 
-      color: $white;
-      background-color: $blue-primary;
+        color: $white;
+        background-color: $blue-primary;
 
-      display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
-      align-content: center;
-      justify-content: center;
-
-      border-radius: 2px 2px 0 0;
-
-      &.warning {
-        background-color: $orange;
-      }
-
-      &.error {
-        background-color: $error;
-      }
-
-      .dialog-info {
         display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
-        margin: auto;
-      }
+        display: -ms-flexbox;  /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+        display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+        align-content: center;
+        justify-content: center;
+
+        border-radius: 2px 2px 0 0;
+
+        &.warning {
+            background-color: $orange;
+        }
+
+        &.error {
+            background-color: $error;
+        }
+
+        .dialog-info {
+            display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            margin: auto;
+        }
     }
 
     .dialog-container {
@@ -52,9 +52,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         box-shadow: 0px 19px 38px rgba(0, 0, 0, 0.3), 0px 15px 12px rgba(0, 0, 0, 0.22);
         border-radius: 2px;
         display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+        display: -ms-flexbox;  /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+        display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
@@ -80,9 +80,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         .dialog-header {
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             justify-content: space-between;
             align-items: center;
             width: 100%;
@@ -104,9 +104,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         .dialog-message {
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             padding: 30px;
             width: 100%;
             color: $text-accent;
@@ -115,18 +115,18 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
         .dialog-actions {
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             margin-top: 5px;
 
             .ok-button {
                 background: $text-accent;
                 padding: 5px 20px;
                 display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+                display: -ms-flexbox;  /* TWEENER - IE 10 */
+                display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+                display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 justify-content: center;
                 align-items: center;
                 border-radius: 12px;
@@ -141,7 +141,7 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                     background-clip: text;
                     // text-transform: uppercase;
                 }
-    
+        
                 &:hover {
                     filter: brightness(150%); 
                 }
@@ -157,7 +157,5 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 width: 20px;
             }
         }
-
-
     }
 }
