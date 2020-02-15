@@ -61,7 +61,7 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
   //       <div className="spacer"> If you would like to apply to become a D-Planner advanced tester, <a href={advancedTesterFormLink}>follow this link.</a></div>
   //       <div className="row" />
   //       <div className="row">
-  //         <input id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
+  //         <input className="landing-input" id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
   //       </div>
   //       <ErrorMessageSpacer errorMessage={errorMessage} />
   //       <DefaultButton click={sendAccessCode} label="Submit" />
@@ -78,10 +78,10 @@ const SignInForm = withRouter(connect(null, { signinUser, validateAccessCode })(
       <form>
         {props.removeTitle === true ? null : <div className="greeting">Welcome back.</div>}
         <div className="row">
-          <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} required />
+          <input className="landing-input" id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} required />
         </div>
         <div className="row">
-          <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} required />
+          <input className="landing-input" id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} required />
         </div>
         <ErrorMessageSpacer errorMessage={errorMessage} />
         <button type="button" className="sign-up" onClick={signin}>

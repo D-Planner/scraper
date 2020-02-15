@@ -65,7 +65,7 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
   //       <div className="spacer"> If you would like to apply to become a D-Planner advanced tester, <a href={advancedTesterFormLink}>follow this link.</a></div>
   //       <div className="row" />
   //       <div className="row">
-  //         <input id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
+  //         <input className="landing-input" id="firstName" value={accessCode} placeholder="Access code" onKeyPress={e => (e.key === 'Enter' ? sendAccessCode() : null)} onChange={e => setAccessCode(e.target.value)} />
   //       </div>
   //       <ErrorMessageSpacer errorMessage={errorMessage} />
   //       <DefaultButton click={sendAccessCode} label="Submit" />
@@ -82,22 +82,22 @@ const SignUpForm = withRouter(connect(null, { signupUser, validateAccessCode, ch
         {props.removeTitle === true ? null : <div className="greeting">Join D-Planner today.</div>}
         {/* <div className="spacer">We are in pre-release, sign up below and you will be the first to know when we go live!</div> */}
         <div className="row">
-          <input id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
+          <input className="landing-input" id="firstName" value={firstName} placeholder="First name" onKeyPress={e => handleKeyPress(e)} onChange={e => setFirstName(e.target.value)} />
         </div>
         <div className="row">
-          <input id="lastName" value={lastName} placeholder="Last name" onKeyPress={e => handleKeyPress(e)} onChange={e => setLastName(e.target.value)} />
+          <input className="landing-input" id="lastName" value={lastName} placeholder="Last name" onKeyPress={e => handleKeyPress(e)} onChange={e => setLastName(e.target.value)} />
         </div>
         <div className="row">
-          <input id="college" value={college} placeholder="College*" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
+          <input className="landing-input" id="college" value={college} placeholder="College*" onKeyPress={e => handleKeyPress(e)} onChange={e => setCollege(e.target.value)} />
         </div>
         <div className="row">
-          <input id="grad" type="number" value={grad} placeholder="2023*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
+          <input className="landing-input" id="grad" type="number" value={grad} placeholder="2023*" onKeyPress={e => handleKeyPress(e)} onChange={e => setGrad(e.target.value)} />
         </div>
         <div className="row">
-          <input id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
+          <input className="landing-input" id="email" type="email" value={email} placeholder="Email*" onKeyPress={e => handleKeyPress(e)} onChange={e => setEmail(e.target.value)} />
         </div>
         <div className="row">
-          <input id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
+          <input className="landing-input" id="password" type="password" value={password} placeholder="Password*" onKeyPress={e => handleKeyPress(e)} onChange={e => setPassword(e.target.value)} />
         </div>
         <ErrorMessageSpacer errorMessage={errorMessage} />
         <DefaultButton click={signup} label="Sign Up" />
