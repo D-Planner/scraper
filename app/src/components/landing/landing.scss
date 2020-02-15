@@ -181,7 +181,12 @@ h2 {
             width: 60px;
         }
         .landing-subfeature-text {
-            color: $white
+            color: $white;
+            font-size: 18px;
+            & .mobile {
+                font-size: 14px;
+                margin: 'auto auto auto 0'
+            }
         }
     }
 }
@@ -227,7 +232,7 @@ h2 {
             }
 
             .intro {
-                max-width: 720px;
+                // max-width: 720px;
                 display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
                 display: -ms-flexbox;  /* TWEENER - IE 10 */
                 display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
@@ -235,19 +240,26 @@ h2 {
                 flex-direction: column;
                 color: white;
 
-                .line1 {
+                .line2 {
                     font-size: 42px;
                     font-weight: 700;
-                    margin-bottom: 25px;
+                    margin-bottom: 8px;
+                    &.mobile {
+                        line-height: 125%;
+                        margin-bottom: 8vw;
+                    }
                 }
-                .line2 {
+                .line1 {
                     font-size: 24px;
                     font-weight: 600;
-                    margin-bottom: 8px;
+                    margin-bottom: 25px;
+
                 }
                 .landing-showcase {
                     margin-top: 24px !important;
-                    width: calc(100% - 2*20px);
+                    max-width: 720px;
+                    margin: 0 20px;
+                    // width: calc(720px - 2*20px);
                     margin: auto;
                 }
             }

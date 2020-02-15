@@ -93,21 +93,21 @@ class Landing extends React.Component {
             <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
-              <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+              <p className="landing-subfeature-text">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
             </div>
           </div>
           <div className="landing-subfeature">
             <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
-              <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
+              <p className="landing-subfeature-text">Build academic plans that fit your needs. Test out different scenarios easily.</p>
             </div>
           </div>
           <div className="landing-subfeature">
             <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
-              <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+              <p className="landing-subfeature-text">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
             </div>
           </div>
         </Slider>
@@ -119,21 +119,21 @@ class Landing extends React.Component {
             <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
-              <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
+              <p className="landing-subfeature-text">Build academic plans that fit your needs. Test out different scenarios easily.</p>
             </div>
           </div>
           <div className="landing-subfeature">
             <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
-              <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+              <p className="landing-subfeature-text">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
             </div>
           </div>
           <div className="landing-subfeature">
             <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
-              <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+              <p className="landing-subfeature-text">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
             </div>
           </div>
         </Slider>
@@ -145,21 +145,21 @@ class Landing extends React.Component {
             <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
-              <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+              <p className="landing-subfeature-text">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
             </div>
           </div>
           <div className="landing-subfeature">
             <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
-              <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+              <p className="landing-subfeature-text">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
             </div>
           </div>
           <div className="landing-subfeature">
             <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
             <div className="landing-subfeature-text-container">
               <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
-              <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
+              <p className="landing-subfeature-text">Build academic plans that fit your needs. Test out different scenarios easily.</p>
             </div>
           </div>
         </Slider>
@@ -179,8 +179,8 @@ class Landing extends React.Component {
             <div style={{ display: 'flex', justifyContent: 'center' }}><img src={downArrow} alt="scroll up" className="landing-down-arrow animate" /></div>
             <div className="landing-left">
               <div className="intro">
-                {/* <div className="line2">Welcome to D-Planner.</div> */}
-                <h1 className="light line1">The future of academic planning.</h1>
+                <div className="line1">Welcome to D-Planner.</div>
+                <h1 className="light line2">Better course planning at Dartmouth.</h1>
                 <div className="landing-showcase">
                   {/* Needed to import slider CSS */}
                   <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
@@ -313,21 +313,21 @@ class Landing extends React.Component {
                 <img className="landing-testimonial-image" src={blonde} alt="landing-testimonial-feature" />
                 <div className="landing-testimonial-text-container">
                   <h4 style={{ color: 'white', marginBottom: '11px' }}>Katie M, ‘22 at Dartmouth</h4>
-                  <p style={{ color: 'white' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
+                  <p className="landing-subfeature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
                 </div>
               </div>
               <div className="landing-testimonial">
                 <img className="landing-testimonial-image" src={blonde} alt="landing-testimonial-feature" />
                 <div className="landing-testimonial-text-container">
                   <h4 style={{ color: 'white', marginBottom: '11px' }}>Katie M, ‘22 at Dartmouth</h4>
-                  <p style={{ color: 'white' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
+                  <p className="landing-subfeature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
                 </div>
               </div>
               <div className="landing-testimonial">
                 <img className="landing-testimonial-image" src={blonde} alt="landing-testimonial-feature" />
                 <div className="landing-testimonial-text-container">
                   <h4 style={{ color: 'white', marginBottom: '11px' }}>Katie M, ‘22 at Dartmouth</h4>
-                  <p style={{ color: 'white' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
+                  <p className="landing-subfeature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
                 </div>
               </div>
             </Slider>
@@ -384,19 +384,19 @@ class Landing extends React.Component {
             <HeaderMenu hideTitle menuOptions={[{ name: 'For more, check us out on desktop!', callback: () => {} }]} />
             <div className="landing-left full mobile" style={{ padding: '0 10vw' }}>
               <div className="intro">
-                <h1 className="light line1">The future of Academic Planning</h1>
-                <div className="line2" style={{ marginBottom: '8vw' }}>Welcome to D-Planner.</div>
+                <div className="line1">Welcome to D-Planner.</div>
+                <h1 className="light line2 mobile">Better course planning at Dartmouth.</h1>
                 <div className="landing-subfeature-text-container" style={{ display: 'flex', alignContent: 'center', marginBottom: '18px' }}>
                   <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" style={{ height: '36px', margin: 'auto 3vw auto 0' }} />
-                  <p style={{ color: 'white', margin: 'auto auto auto 0' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+                  <p className="landing-subfeature-text mobile">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
                 </div>
                 <div className="landing-subfeature-text-container" style={{ display: 'flex', alignContent: 'center', marginBottom: '18px' }}>
                   <img className="landing-subfeature-icon" src={feature2} alt="subfeature-icon" style={{ height: '36px', margin: 'auto 3vw auto 0' }} />
-                  <p style={{ color: 'white', margin: 'auto auto auto 0' }}>Build out academic plans that fit your needs. Test out different scenarios easily.</p>
+                  <p className="landing-subfeature-text mobile">Build out academic plans that fit your needs. Test out different scenarios easily.</p>
                 </div>
                 <div className="landing-subfeature-text-container" style={{ display: 'flex', alignContent: 'center', marginBottom: '18px' }}>
                   <img className="landing-subfeature-icon" src={feature3} alt="subfeature-icon" style={{ height: '36px', margin: 'auto 3vw auto 0' }} />
-                  <p style={{ color: 'white', margin: 'auto auto auto 0' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+                  <p className="landing-subfeature-text mobile">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6vw' }}><img src={downArrow} alt="scroll up" className="landing-down-arrow animate mobile" /></div>
               </div>
