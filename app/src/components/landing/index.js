@@ -35,6 +35,10 @@ import searchFeature from '../../../assets/showcase/search-pane.png';
 import termsFeature from '../../../assets/showcase/terms-showcase.png';
 import courseInfoFeature from '../../../assets/showcase/course-info-zoomed.jpg';
 
+import search from '../../../assets/showcase/landing1.png';
+import macbookShowcase from '../../../assets/showcase/landing2.png';
+import skew from '../../../assets/showcase/together-skew.png';
+
 // import youtubeIcon from '../../style/social_icons/youtube-icon-250.png';
 import facebookIcon from '../../style/social_icons/facebook-icon-250.png';
 import twitterIcon from '../../style/social_icons/twitter-icon-250.png';
@@ -75,7 +79,7 @@ class Landing extends React.Component {
     }
   }
 
-  render() {
+  renderRandomly = () => {
     const sliderSettings = {
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -83,7 +87,89 @@ class Landing extends React.Component {
       infinite: true,
       easing: 'ease-in-out',
     };
+    const decide = Math.random();
+    if (decide < 0.3) {
+      return (
+        <Slider {...sliderSettings}>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
+              <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
+              <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
+              <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+            </div>
+          </div>
+        </Slider>
+      );
+    } else if (decide < 0.6) {
+      return (
+        <Slider {...sliderSettings}>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
+              <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
+              <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
+              <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+            </div>
+          </div>
+        </Slider>
+      );
+    } else {
+      return (
+        <Slider {...sliderSettings}>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
+              <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
+              <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
+              <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
+            </div>
+          </div>
+        </Slider>
+      );
+    }
+  }
 
+  render() {
     if (window.innerWidth >= minWidth) {
       return (
         <div className="landing-container">
@@ -101,29 +187,7 @@ class Landing extends React.Component {
                   {/* Needed to import slider CSS */}
                   <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
                   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                  <Slider {...sliderSettings}>
-                    <div className="landing-subfeature">
-                      <img className="landing-subfeature-image" src={classesCollage} alt="course-subfeature" />
-                      <div className="landing-subfeature-text-container">
-                        <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
-                        <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
-                      </div>
-                    </div>
-                    <div className="landing-subfeature">
-                      <img className="landing-subfeature-image" src={planExample} alt="course-subfeature" />
-                      <div className="landing-subfeature-text-container">
-                        <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
-                        <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
-                      </div>
-                    </div>
-                    <div className="landing-subfeature">
-                      <img className="landing-subfeature-image" src={singlePlanFeature} alt="course-subfeature" />
-                      <div className="landing-subfeature-text-container">
-                        <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
-                        <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
-                      </div>
-                    </div>
-                  </Slider>
+                  {this.renderRandomly()}
                 </div>
               </div>
             </div>
