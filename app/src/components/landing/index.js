@@ -35,11 +35,10 @@ import searchFeature from '../../../assets/showcase/search-pane.png';
 import termsFeature from '../../../assets/showcase/terms-showcase.png';
 import courseInfoFeature from '../../../assets/showcase/course-info-zoomed.jpg';
 
-import search from '../../../assets/showcase/landing1.png';
-import macbookShowcase from '../../../assets/showcase/landing2.png';
-import skew from '../../../assets/showcase/together-skew.png';
+import search from '../../../assets/landing/search.png';
+import macbookShowcase from '../../../assets/landing/mac.png';
+import skew from '../../../assets/landing/skew.png';
 
-// import youtubeIcon from '../../style/social_icons/youtube-icon-250.png';
 import facebookIcon from '../../style/social_icons/facebook-icon-250.png';
 import twitterIcon from '../../style/social_icons/twitter-icon-250.png';
 import instagramIcon from '../../style/social_icons/instagram-icon-250.png';
@@ -54,7 +53,6 @@ const FACEBOOK_LINK = 'https://www.facebook.com/dplannerofficial/';
 const INSTAGRAM_LINK = 'https://www.instagram.com/dplannerofficial';
 const TWITTER_LINK = 'https://twitter.com/thedplanner';
 const LINKEDIN_LINK = 'https://www.linkedin.com/company/d-planner';
-// const YOUTUBE_LINK = 'https://www.google.com';
 
 const loggingErrorsInLanding = (message) => {
   errorLogging('app/src/components/landing.js', message);
