@@ -222,7 +222,7 @@ class CourseInfoDialog extends Component {
         return o[dependencyType].map((c) => {
           return (
             <div key={c.id.toString()}>
-              <NonDraggableCourse course={c} currTerm={this.props.currTerm} />
+              <NonDraggableCourse course={c} currTerm={this.props.currTerm} setPreviousCourses={this.props.setPreviousCourses} />
               <div id="course-spacer-large" />
             </div>
           );
