@@ -626,7 +626,7 @@ export const generateInitialState = () => {
  */
 export const consoleLogging = (source, message, ...objects) => {
   const config = {
-    DraggableUserCourse: true,
+    DraggableUserCourse: false,
     DPlan: false,
     RequirementsPane: false,
     Term: false,
