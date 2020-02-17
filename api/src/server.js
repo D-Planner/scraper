@@ -94,12 +94,21 @@ const resetDB = () => {
 };
 
 const userMigration = () => {
-    UserModel.find().then((users) => {
-        users.forEach((user) => {
-            UserModel.findById(user.id).then((found) => {
-                found.lastLogin = Date.now();
-                found.totalFetchUserCalls = found.totalFetchUserCalls || 0;
-                found.totalUpdateTermCalls = found.totalUpdateTermCalls || 0;
+    // UserModel.find().then((users) => {
+    //     users.forEach((user) => {
+    //         UserModel.findById(user.id).then((found) => {
+    //             found.lastLogin = Date.now();
+    //             found.totalFetchUserCalls = found.totalFetchUserCalls || 0;
+    //             found.totalUpdateTermCalls = found.totalUpdateTermCalls || 0;
+    //             found.save();
+    //         });
+    //     });
+    // }).catch((e) => { return console.log(e); });
+    CourseModel.find().then((courses) => {
+        courses.forEach((course) => {
+            CourseModel.findById(course.id).then((found) => {
+                console.log(found.id);
+                found.views = 0;
                 found.save();
             });
         });
