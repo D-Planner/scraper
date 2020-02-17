@@ -584,7 +584,7 @@ class DPlan extends Component {
                   <ul>
                     <li>Able to hide the red prereq checking.</li>
                     <li>Insert your own custom named courses.</li>
-                    <li>Fixing slight bug in &quot;My Degree&qout; section.</li>
+                    <li>Fixing slight bug in &quot;My Degree&quot; section.</li>
                   </ul>
                 </div>
               </div>
