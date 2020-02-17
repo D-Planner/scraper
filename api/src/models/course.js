@@ -43,6 +43,7 @@ const CourseSchema = new Schema({
         abroad: { type: Boolean },
     }],
     likely_terms: [String],
+    views: Number,
     // section: Number,
     // crn: Number,
     // enroll_limit: Number,
