@@ -1,0 +1,204 @@
+[
+    {
+        "name": "Prerequisites",
+        "relationship": "AND",
+        "requirements": [
+            {
+                "name": "MATH 3",
+                "description": "",
+                "relationship": "",
+                "requirements": "MATH 3"
+            },
+            {
+                "name": "MATH 8",
+                "description": "",
+                "relationship": "",
+                "requirements": "MATH 8"
+            },
+            {
+                "name": "MATH 13",
+                "description": "",
+                "relationship": "",
+                "requirements": "MATH 13"
+            },
+            {
+                "name": "MATH 24",
+                "description": "",
+                "relationship": "",
+                "requirements": "MATH 24"
+            }
+        ]
+    },
+    {
+        "name": "Core",
+        "relationship": "AND",
+        "requirements": [
+            {
+                "name": "Algebra",
+                "relationship": "OR",
+                "description": "Courses on Algebra.",
+                "requirements": "MATH 71 | 31"
+
+            },
+            {
+                "name": "Analysis",
+                "description": "Courses in Analysis.",
+                "relationship": "OR",
+                "requirements": "MATH 35 | 43 | 63"
+            },
+            {
+                "name": "Additional Courses x6",
+                "description": "Additional Courses for Major, depending on focus.",
+                "relationship": "AND",
+                "requirements": [
+                    {
+                        "name": "Additional Course [1]",
+                        "description": "First Additional Course",
+                        "relationship": "OR",
+                        "requirements": [
+                            {
+                                "name": "COSC 30-98 | 100+",
+                                "description": "Computer Science Option",
+                                "relationship": "",
+                                "requirments": "COSC 30-98 | 100+"
+                            },
+                            {
+                                "name": "MATH 17 | 20-96 | 98+",
+                                "description": "Math Option",
+                                "relationship": "",
+                                "requirments": "MATH 17 | 20-96 | 98+"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Additional Course [2]",
+                        "description": "First Additional Course",
+                        "relationship": "OR",
+                        "requirements": [
+                            {
+                                "name": "COSC 30-98 | 100+",
+                                "description": "Computer Science Option",
+                                "relationship": "",
+                                "requirments": "COSC 30-98 | 100+"
+                            },
+                            {
+                                "name": "MATH 17 | 20-96 | 98+",
+                                "description": "Math Option",
+                                "relationship": "",
+                                "requirments": "MATH 17 | 20-96 | 98+"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Additional Course [3]",
+                        "description": "First Additional Course",
+                        "relationship": "OR",
+                        "requirements": [
+                            {
+                                "name": "COSC 30-98 | 100+",
+                                "description": "Computer Science Option",
+                                "relationship": "",
+                                "requirments": "COSC 30-98 | 100+"
+                            },
+                            {
+                                "name": "MATH 17 | 20-96 | 98+",
+                                "description": "Math Option",
+                                "relationship": "",
+                                "requirments": "MATH 17 | 20-96 | 98+"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Additional Course [4]",
+                        "description": "First Additional Course",
+                        "relationship": "OR",
+                        "requirements": [
+                            {
+                                "name": "COSC 30-98 | 100+",
+                                "description": "Computer Science Option",
+                                "relationship": "",
+                                "requirments": "COSC 30-98 | 100+"
+                            },
+                            {
+                                "name": "MATH 17 | 20-96 | 98+",
+                                "description": "Math Option",
+                                "relationship": "",
+                                "requirments": "MATH 17 | 20-96 | 98+"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Additional Course [5]",
+                        "description": "First Additional Course",
+                        "relationship": "OR",
+                        "requirements": [
+                            {
+                                "name": "COSC 30-98 | 100+",
+                                "description": "Computer Science Option",
+                                "relationship": "",
+                                "requirments": "COSC 30-98 | 100+"
+                            },
+                            {
+                                "name": "MATH 17 | 20-96 | 98+",
+                                "description": "Math Option",
+                                "relationship": "",
+                                "requirments": "MATH 17 | 20-96 | 98+"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Additional Course [6]",
+                        "description": "First Additional Course",
+                        "relationship": "OR",
+                        "requirements": [
+                            {
+                                "name": "COSC 30-98 | 100+",
+                                "description": "Computer Science Option",
+                                "relationship": "",
+                                "requirments": "COSC 30-98 | 100+"
+                            },
+                            {
+                                "name": "MATH 17 | 20-96 | 98+",
+                                "description": "Math Option",
+                                "relationship": "",
+                                "requirments": "MATH 17 | 20-96 | 98+"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Culminating",
+        "relationship": "OR",
+        "requirements": [
+            {
+                "name": "Honors Thesis",
+                "description": "Submission of an Honors thesis acceptable for honors or high honors.",
+                "relationship": "",
+                "requirements": "",
+                "done": true
+            },
+            {
+                "name": "Graduate Course",
+                "description": "Satisfactory completion of any graduate course in mathematics except MATH 147.",
+                "relationship": "",
+                "requirements": "MATH 100-146 | 148+"
+            },
+            {
+                "name": "Independent Research",
+                "description": "Satisfactory completion of a one-term independent research project (subject to approval by the advisor to majors).",
+                "relationship": "",
+                "requirements": "",
+                "done": true
+            },
+            {
+                "name": "Advanced Undergraduate Course",
+                "description": "Satisfactory completion of an advanced undergraduate course from among",
+                "relationship": "",
+                "requirements": "MATH 66 | 68-70 | 72-76 | 81 | 86 | 89 | 96"
+            }
+        ]
+    }
+]
