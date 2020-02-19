@@ -7,6 +7,7 @@ $sidebar-margin-left: 30px;
 $announcement-height: 48px;
 
 .announcements {
+  display: fixed;
   background-color: $blue-primary;
   color: $white;
   height: $announcement-height;
@@ -75,6 +76,8 @@ $announcement-height: 48px;
     transition: height .3s;
 
     &.announce {
+      // margin-top: $announcement-height;
+      min-height: calc(821px - #{$announcement-height});
       height: calc(100vh - #{$announcement-height});
     }
 
