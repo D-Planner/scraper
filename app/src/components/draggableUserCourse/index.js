@@ -36,7 +36,7 @@ const source = {
       if (!monitor.didDrop()) {
         props.removeCourseFromTerm(props.course.id, props.sourceTerm).then(() => {
         }).catch((e) => {
-          console.log(e);
+          loggingErrorsInDraggableUserCourse(e);
         });
       }
     } catch (e) {
