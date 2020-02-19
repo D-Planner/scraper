@@ -9,7 +9,7 @@ import axios from 'axios';
 import {
   addCourseToFavorites, courseSearch, stampIncrement, fetchBookmarks, fetchUser, showDialog, declareMajor, getRandomCourse, fetchPlan, updateUser, addAllUserInterests, removeAllUserInterests, createPlan, addCourseToPlacements, removeCourseFromPlacements,
 } from '../../actions';
-import { ROOT_URL } from '../../constants';
+import { ROOT_URL, Departments } from '../../constants';
 
 import HeaderMenu from '../headerMenu';
 import VideoEmbed from '../videoEmbed';
@@ -19,7 +19,6 @@ import NewPlanPage from './pages/newPlanPage';
 import ErrorMessageSpacer from '../errorMessageSpacer';
 
 import { emptyPlan } from '../../services/empty_plan';
-import { parseQuery } from '../../containers/sidebar/searchPane';
 
 import right from '../../style/right-arrow.svg';
 import left from '../../style/left-arrow.svg';
@@ -49,6 +48,24 @@ const AP_SCORES = [0, 1, 2, 3, 4, 5];
 //     });
 //   });
 // }
+
+const matchDepartment = (department) => {
+  return (Departments.includes(department)) ? department : null;
+};
+
+const parseQuery = (query, distribs, wcs, offered) => {
+  if (query) {
+    const queryParsed = {
+      title: query,
+      department: matchDepartment(query.split(' ')[0].toUpperCase()),
+      number: query.split(' ')[1],
+      distribs,
+      wcs,
+      offered,
+    };
+    return queryParsed;
+  } else return null;
+};
 
 const SuggestionLocations = {
   advisor: 'checkAdvisor',

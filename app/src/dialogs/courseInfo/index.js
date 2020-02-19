@@ -112,7 +112,7 @@ class CourseInfoDialog extends Component {
     return (
       <div id="scores">
         <div className="section-header" id="layup-header">
-          <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
+          <a className="layup-link courseInfo-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
           <img src={open} alt="open in new tab" />
         </div>
         <div className="layup-score-container">
@@ -135,7 +135,7 @@ class CourseInfoDialog extends Component {
         <div id="description">
           <div className="section-header">Description</div>
           <div className="description-text">
-            {`${description.substring(0, 600)}... `}<a href={orc_url} target="_blank" rel="noopener noreferrer">[ORC]</a>
+            {`${description.substring(0, 600)}... `}<a className="courseInfo-link" href={orc_url} target="_blank" rel="noopener noreferrer">[ORC]</a>
           </div>
         </div>
       );
@@ -144,7 +144,7 @@ class CourseInfoDialog extends Component {
         <div id="description">
           <div className="section-header">Description</div>
           <div className="description-text">
-            {description} <a href={orc_url} target="_blank" rel="noopener noreferrer">[ORC]</a>
+            {description} <a className="courseInfo-link" href={orc_url} target="_blank" rel="noopener noreferrer">[ORC]</a>
           </div>
         </div>
       );
@@ -191,7 +191,7 @@ class CourseInfoDialog extends Component {
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
-              <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" className="dark" data-for={p.id} data-tip>{p.name}</a>
+              <a className="courseInfo-link dark" href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
               <ReactTooltip id={p.id} place="right" type="dark" effect="float">
                 See all reviews
               </ReactTooltip>
@@ -222,7 +222,7 @@ class CourseInfoDialog extends Component {
         return o[dependencyType].map((c) => {
           return (
             <div key={c.id.toString()}>
-              <NonDraggableCourse course={c} currTerm={this.props.currTerm} />
+              <NonDraggableCourse course={c} currTerm={this.props.currTerm} setPreviousCourses={this.props.setPreviousCourses} />
               <div id="course-spacer-large" />
             </div>
           );
@@ -367,16 +367,22 @@ class CourseInfoDialog extends Component {
           alt="Placement"
           onClick={
             placement
-              ? () => this.props.removeCourseFromPlacements(courseID)
-                .then(() => this.props.fetchUser())
-              : () => this.props.addCourseToPlacements(courseID)
-                .then(() => this.props.fetchUser())
+              ? () => this.props.removeCourseFromPlacements(courseID).then(() => {
+                this.props.fetchUser().then(() => {
+                  this.props.setPreviousCourses();
+                });
+              })
+              : () => this.props.addCourseToPlacements(courseID).then(() => {
+                this.props.fetchUser().then(() => {
+                  this.props.setPreviousCourses();
+                });
+              })
           }
           data-tip
           data-for="plus"
         />
         <ReactTooltip id="plus" place="bottom" type="dark" effect="float">
-          {!placement ? 'Add to your placement courses' : 'Remove from your placement courses'}
+          {!placement ? 'I have credit for this class, please satisfy prereqs for other courses.' : 'Remove from courses that you had credits for.'}
         </ReactTooltip>
       </div>
     );

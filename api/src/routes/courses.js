@@ -4,6 +4,13 @@ import CoursesController from '../controllers/courses_controller';
 const coursesRouter = Router();
 
 /**
+ * @api {post} /logview Log View Count
+ * @apiName Logview
+ * @apiGroup Courses
+ */
+coursesRouter.post('/logview', CoursesController.logView);
+
+/**
  * @api {get} /search Search For Courses
  * @apiName Search
  * @apiGroup Courses

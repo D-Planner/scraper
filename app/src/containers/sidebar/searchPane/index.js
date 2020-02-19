@@ -2,35 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
+import {
+  setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites,
+} from '../../../actions';
 import filterIcon from '../../../style/filter.svg';
+import filterOnIcon from '../../../style/filter-on.svg';
 import searchIcon from '../../../style/search-purple.svg';
-import { DialogTypes, Departments } from '../../../constants';
-
-import './searchPane.scss';
+import { DialogTypes } from '../../../constants';
 import DraggableCourse from '../../../components/draggableCourse';
 import LoadingWheel from '../../../components/loadingWheel';
-import {
-  setFilters, clearFilters, addCourseToFavorites, removeCourseFromFavorites, fetchUser,
-} from '../../../actions';
-
-export const parseQuery = (query, distribs, wcs, offered) => {
-  if (query) {
-    const queryParsed = {
-      title: query,
-      department: matchDepartment(query.split(' ')[0].toUpperCase()),
-      number: query.split(' ')[1],
-      distribs,
-      wcs,
-      offered,
-    };
-    return queryParsed;
-  } else return null;
-};
-
-const matchDepartment = (department) => {
-  console.log(Departments.includes(department));
-  return (Departments.includes(department)) ? department : null;
-};
+import './searchPane.scss';
 
 /**
  * @name SearchPane
@@ -44,37 +25,11 @@ const SearchPane = React.forwardRef((props, ref) => {
     active: props.active,
   });
 
-  // const [searchText, setSearchText] = useState('');
-  // const [sort, setSort] = useState('');
-  const [wcs, setWC] = useState('');
-  const [distribs, setDistrib] = useState('');
-  const [resultsLoading, setResultsLoading] = useState(false);
-  const [offered, setOffered] = useState('');
   const [results, setResults] = useState('');
-
-  // Allows a user to search by the query entered in the search input
-
-  // Clears the search input when the component updates to go inactive
-  useEffect(() => {
-    if (props.searchQuery.length !== 0) {
-      const queryParsed = parseQuery(props.searchQuery, distribs, wcs, offered);
-      props.stampIncrement((props.resultStamp + 1));
-      setResultsLoading(true);
-      props.search(queryParsed, props.resultStamp).then(() => {
-        setResultsLoading(false);
-      }).catch((error) => {
-        console.error(error);
-      });
-    }
-  }, [props.searchQuery, wcs, distribs, offered]);
 
   useEffect(() => {
     setResults(props.results);
   }, [props.results]);
-
-  // const matchDepartment = (department) => {
-  //   return (Departments.includes(department)) ? department : null;
-  // };
 
   const resort = (method) => {
     const sortedResults = Object.assign([], props.results.sort((c1, c2) => {
@@ -99,29 +54,53 @@ const SearchPane = React.forwardRef((props, ref) => {
   };
 
   const useFilters = () => {
-    setWC(props.wcs.filter(e => e.checked).map(e => e.name));
-    setDistrib(props.distribs.filter(e => e.checked).map(e => e.tag));
-    setOffered(props.offered.filter(e => e.checked).map(e => e.term));
+    const wcs = props.wcs.filter(e => e.checked).map(e => e.name);
+    const distribs = props.distribs.filter(e => e.checked).map(e => e.tag);
+    const offered = props.offered.filter(e => e.checked).map(e => e.term);
+    props.useFilterToSearch(wcs, distribs, offered);
   };
 
-  const clearCurFilters = () => {
-    setWC([]);
-    setDistrib([]);
-    setOffered([]);
-    props.clearFilters();
-  };
+  // const clearCurFilters = () => {
+  //   props.clearFilters();
+  //   props.useFilterToSearch([], [], []);
+  // };
 
   const showFilterDialog = () => {
     const dialogOptions = {
       title: 'Search filters',
       size: 'md',
-      showNo: true,
+      showOk: true,
       okText: 'Apply',
-      noText: 'Clear',
+      // noText: 'Clear',
       onOk: useFilters,
-      onNo: clearCurFilters,
+      // onNo: clearCurFilters,
+      onClose: useFilters,
     };
     props.showDialog(DialogTypes.FILTER, dialogOptions);
+  };
+
+  let filtersOn = false;
+
+  Object.values(props.distribs).forEach((d) => {
+    if (d.checked) filtersOn = true;
+  });
+  Object.values(props.wcs).forEach((w) => {
+    if (w.checked) filtersOn = true;
+  });
+  Object.values(props.offered).forEach((o) => {
+    if (o.checked) filtersOn = true;
+  });
+
+  const renderRestingSearchResultState = () => {
+    if (!props.resultsLoading) {
+      if (props.stamp > 0) {
+        return <div className="no-search">No results.</div>;
+      } else {
+        return <div className="no-search">Try searching &quot;COSC 52&quot; or &quot;philosophy of time&quot;!</div>;
+      }
+    } else {
+      return <div className="no-search"><LoadingWheel /></div>;
+    }
   };
 
   return (
@@ -129,18 +108,17 @@ const SearchPane = React.forwardRef((props, ref) => {
       <div className="pane-header">
         <img className="search-config-icon" src={searchIcon} alt="search" />
         <input type="text"
-          className={`search-input${resultsLoading ? ' small' : ''}`}
+          className="search-input"
           placeholder="Search for courses"
           value={props.searchQuery}
           tabIndex={-1}
           onChange={(e) => {
-            props.setSearchQuery(e.target.value);
+            props.useQueryToSearch(e.target.value);
           }}
           ref={ref}
         />
-        {resultsLoading ? <LoadingWheel /> : null}
         <button type="button" className="search-config-button" onClick={showFilterDialog}>
-          <img className="search-config-icon" src={filterIcon} alt="filter" />
+          {filtersOn ? <img className="search-config-icon" src={filterOnIcon} alt="filter-on" /> : <img className="search-config-icon" src={filterIcon} alt="filter" />}
         </button>
       </div>
       {props.active
@@ -167,7 +145,7 @@ const SearchPane = React.forwardRef((props, ref) => {
                     return (
                       <div className="result-row" key={course.id}>
                         <div className="paneCourse">
-                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.removeCourseFromFavorites(course.id)} />
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkFilled" onIconClick={() => props.removeCourseFromFavorites(course.id)} setPreviousCourses={props.setPreviousCourses} />
                         </div>
                         <div id="course-spacer-large" />
                       </div>
@@ -176,14 +154,14 @@ const SearchPane = React.forwardRef((props, ref) => {
                     return (
                       <div className="result-row" key={course.id}>
                         <div className="paneCourse">
-                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkEmpty" onIconClick={() => props.addCourseToFavorites(course.id)} />
+                          <DraggableCourse key={course.id} course={course} setDraggingFulfilledStatus={props.setDraggingFulfilledStatus} currTerm={props.currTerm} showIcon icon="bookmarkEmpty" onIconClick={() => props.addCourseToFavorites(course.id)} setPreviousCourses={props.setPreviousCourses} />
                         </div>
                         <div id="course-spacer-large" />
                       </div>
                     );
                   }
                 })
-                : (<div className="no-search">Search for courses!</div>)}
+                : renderRestingSearchResultState()}
             </div>
           </div>
         ) : null
@@ -195,9 +173,9 @@ const SearchPane = React.forwardRef((props, ref) => {
 const mapStateToProps = state => ({
   distribs: state.filters.distribs,
   wcs: state.filters.wcs,
-  offeredNextTerm: state.filters.offeredNextTerm,
-  user: state.user.current,
   offered: state.filters.offered,
+  stamp: state.courses.resultStamp,
+  user: state.user.current,
 });
 
 
@@ -206,5 +184,4 @@ export default connect(mapStateToProps, {
   clearFilters,
   addCourseToFavorites,
   removeCourseFromFavorites,
-  fetchUser,
 })(SearchPane);

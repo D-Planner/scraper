@@ -3,13 +3,13 @@ import { ActionTypes } from '../actions';
 const initialState = {
   all: [],
   current: null,
-  errorMessage: null, // ''?
+  errorMessage: null,
   prevCourses: null,
 };
 
 const plansReducer = (state = initialState, action) => {
   const current = Object.assign({}, state.current);
-  let all = Object.assign({}, current.all);
+  // const all = Object.assign({}, current.all);
   switch (action.type) {
     case ActionTypes.DEAUTH_USER:
       return initialState;
@@ -37,18 +37,18 @@ const plansReducer = (state = initialState, action) => {
         });
       });
       // eslint-disable-next-line no-case-declarations
-      all = state.all.map((p) => {
-        if (p.id === state.current.id) {
-          p.terms = p.terms.map((t) => {
-            if (t._id === action.payload.termID) {
-              t.courses.push(action.payload.userCourse);
-            }
-            return t;
-          });
-        }
-        return p;
-      });
-      return Object.assign({}, state, { current, all });
+      // all = state.all.map((p) => {
+      //   if (p.id === state.current.id) {
+      //     p.terms = p.terms.map((t) => {
+      //       if (t._id === action.payload.termID) {
+      //         t.courses.push(action.payload.userCourse);
+      //       }
+      //       return t;
+      //     });
+      //   }
+      //   return p;
+      // });
+      return Object.assign({}, state, { current });
     case ActionTypes.REMOVE_COURSE_FROM_PLAN:
       current.terms = state.current.terms.map((y) => {
         return y.map((t) => {
@@ -72,63 +72,62 @@ const plansReducer = (state = initialState, action) => {
           return t;
         });
       });
-      all = state.all.map((p) => {
-        p.terms = p.terms.map((t) => {
-          t.courses = t.courses.map((c) => {
-            if (c.id === action.payload.id) return { ...c, fulfilledStatus: action.payload.value };
-            return c;
-          });
+      // all = state.all.map((p) => {
+      //   p.terms = p.terms.map((t) => {
+      //     t.courses = t.courses.map((c) => {
+      //       if (c.id === action.payload.id) return { ...c, fulfilledStatus: action.payload.value };
+      //       return c;
+      //     });
+      //     return t;
+      //   });
+      //   return p;
+      // });
+      return Object.assign({}, state, { current });
+    case ActionTypes.ADD_PLACEHOLDER_COURSE_TO_PLAN:
+      // eslint-disable-next-line no-case-declarations
+      const placeholder = { placeholder: action.payload.placeholderCourse };
+      current.terms = state.current.terms.map((y) => {
+        return y.map((t) => {
+          if (t._id === action.payload.termID) {
+            t.courses.push(placeholder);
+          }
           return t;
         });
-        return p;
       });
-      // console.log(current);
-      return Object.assign({}, state, { current, all });
-    // case ActionTypes.ADD_CUSTOM_COURSE_TO_PLAN:
-    //   // eslint-disable-next-line no-case-declarations
-    //   const custom = { custom: action.payload.customCourse };
-    //   current.terms = state.current.terms.map((y) => {
-    //     return y.map((t) => {
-    //       if (t._id === action.payload.termID) {
-    //         t.courses.push(custom);
-    //       }
-    //       return t;
-    //     });
-    //   });
-    //   // eslint-disable-next-line no-case-declarations
-    //   all = state.all.map((p) => {
-    //     if (p.id === state.current.id) {
-    //       p.terms = p.terms.map((t) => {
-    //         if (t._id === action.payload.termID) {
-    //           t.courses.push(custom);
-    //         }
-    //         return t;
-    //       });
-    //     }
-    //     return p;
-    //   });
-    //   return Object.assign({}, state, { current, all });
-    // case ActionTypes.REMOVE_CUSTOM_COURSE_FROM_PLAN:
-    //   current.terms = state.current.terms.map((y) => {
-    //     return y.map((t) => {
-    //       if (t._id === action.payload.termID) {
-    //         const remove_index = t.courses.findIndex(c => c.id === action.payload.customCourse);
-    //         t.courses = t.courses.filter((c, i) => i !== remove_index);
-    //       }
-    //       return t;
-    //     });
-    //   });
-    //   return Object.assign({}, state, { current });
-    // case ActionTypes.UPDATE_TERM_IN_CURRENT_PLAN:
-    //   current.term = state.current.terms.map((y) => {
-    //     return y.map((t) => {
-    //       if (t._id === action.payload.termID) {
-    //         t = action.payload.term;
-    //       }
-    //       return t;
-    //     });
-    //   });
-    //   return Object.assign({}, state, { current });
+      // eslint-disable-next-line no-case-declarations
+      // all = state.all.map((p) => {
+      //   if (p.id === state.current.id) {
+      //     p.terms = p.terms.map((t) => {
+      //       if (t._id === action.payload.termID) {
+      //         t.courses.push(placeholder);
+      //       }
+      //       return t;
+      //     });
+      //   }
+      //   return p;
+      // });
+      return Object.assign({}, state, { current });
+    case ActionTypes.REMOVE_PLACEHOLDER_COURSE_FROM_PLAN:
+      current.terms = state.current.terms.map((y) => {
+        return y.map((t) => {
+          if (t._id === action.payload.termID) {
+            const remove_index = t.courses.findIndex(c => c.placeholder === action.payload.placeholderCourse);
+            t.courses = t.courses.filter((c, i) => i !== remove_index);
+          }
+          return t;
+        });
+      });
+      return Object.assign({}, state, { current });
+    case ActionTypes.UPDATE_TERM_IN_CURRENT_PLAN:
+      current.term = state.current.terms.map((y) => {
+        return y.map((t) => {
+          if (t._id === action.payload.termID) {
+            t = action.payload.term;
+          }
+          return t;
+        });
+      });
+      return Object.assign({}, state, { current });
     case ActionTypes.SET_TIMESLOT:
       // Fill this in
       current.terms = state.current.terms.map((y) => {

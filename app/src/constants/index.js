@@ -1,3 +1,6 @@
+import axios from 'axios';
+import { connect } from 'react-redux';
+
 // Self URL for the React application
 export const APP_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://d-planner.com';
 export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://d-planner-api.herokuapp.com';
@@ -592,6 +595,29 @@ export const GenEds = {
   },
 };
 
+export const generateInitialState = () => {
+  return {
+    distribs: Object.values(GenEds).filter(e => (e.name !== 'W' && e.name !== 'CI' && e.name !== 'NW')).map((e, i) => {
+      return {
+        id: `${i}`, tag: e.name, fullName: e.fullName, name: `${e.fullName} ${e.name}`, checked: false,
+      };
+    }),
+    wcs: Object.values(GenEds).filter(e => (e.name === 'W' || e.name === 'CI' || e.name === 'NW')).map((e, i) => {
+      return {
+        id: `${i}`, fullName: e.fullName, name: e.name, checked: false,
+      };
+    }),
+    offered: [''].reduce((acc, cur) => {
+      const returnVal = [{ term: 'current', check: false }];
+      const terms = ['F', 'W', 'S', 'X'];
+      for (let i = 0; i < terms.length; i += 1) {
+        returnVal.push({ id: `${i}`, term: terms[i], checked: false });
+      }
+      return returnVal;
+    }, []),
+  };
+};
+
 /**
  * Controls all logging in D-Planner frontend application.
  * @param {String} source Name of the originating component, in camel case.
@@ -600,8 +626,8 @@ export const GenEds = {
  */
 export const consoleLogging = (source, message, ...objects) => {
   const config = {
-    DraggableUserCourse: true,
-    DPlan: true,
+    DraggableUserCourse: false,
+    DPlan: false,
     RequirementsPane: false,
     Term: true,
     Course: false,
@@ -625,4 +651,12 @@ export const consoleLogging = (source, message, ...objects) => {
     default:
       break;
   }
+};
+
+export const errorLogging = (source, message) => {
+  console.log(message);
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  };
+  axios.post(`${ROOT_URL}/logs`, { source, message }, { headers }).then(r => console.log(r));
 };

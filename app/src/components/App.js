@@ -16,11 +16,8 @@ import Professor from '../containers/professor';
 import Landing from './landing';
 import FallBack from './fallBack';
 import DPlan from '../containers/dplan';
-// import favicon from '../style/d-planner.ico';
-// import favicon from '../style/favicon.ico';
 import TooSmall, { minWidth, minHeight } from './tooSmall';
 import Credits from './credits';
-// import FlowChart from './flowchart';
 import ForgotPassword from './forgotPassword';
 import VerifyEmail from './verifyEmail';
 import ResetPassword from './resetPass';
@@ -28,7 +25,9 @@ import PrivacyPolicy from './policies/privacy';
 import Tutorial from './tutorial';
 import TermsAndConditions from './policies/terms_conditions';
 import CoursePage from '../containers/coursePage';
-import { universalMetaTitle } from '../constants';
+import { universalMetaTitle, errorLogging } from '../constants';
+
+import favicon from '../favicon.png';
 
 // https://levelup.gitconnected.com/using-google-analytics-with-react-3d98d709399b
 // https://medium.com/google-cloud/tracking-site-visits-on-react-app-hosted-in-google-cloud-using-google-analytics-f49c2411d398
@@ -40,6 +39,7 @@ ReactGA.initialize(trackingID);
 const history = createBrowserHistory();
 ReactGA.pageview(window.location.pathname);
 history.listen((location) => {
+  console.log(location);
   ReactGA.set({ page: location.pathname }); // Update the user's current page
   ReactGA.pageview(location.pathname); // Record a pageview for the given page
 });
@@ -79,7 +79,10 @@ class App extends Component {
 
   render() {
     const sizeSufficient = process.env.NODE_ENV === 'development' ? true : (this.state.width >= minWidth && this.state.height >= minHeight);
-    console.log(sizeSufficient);
+    if (false) console.log(favicon === 1);
+    // if (this.state.width !== 0 && this.state.width !== 0) {
+    //   errorLogging('screen', { width: this.state.width, height: this.state.height, sufficient: sizeSufficient });
+    // }
     if (true) {
       return (
         <div>
@@ -90,6 +93,7 @@ class App extends Component {
                   <meta name="copyright" content={`Copyright of D-Planner Project, ${new Date().getFullYear()}`} />
                   <meta name="description" content="D-Planner is an academic planning suite that curates academic data to allow students to take advantage of all of their academic opportunities in higher education." />
                   <title>{universalMetaTitle}</title>
+                  <link rel="icon" type="image/png" href="../favicon.png" sizes="16x16" />
                 </Helmet>
                 <Switch>
                   <Route exact path="/" component={requireAuth(Landing, DPlan)} />

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { hideDialog, fetchMajors } from '../actions';
-import { DialogTypes } from '../constants';
-
+import { DialogTypes, ROOT_URL } from '../constants';
 import NewPlanDialog from './newPlan';
 import DeletePlanDialog from './deletePlan';
 import DeclareMajorDialog from './declareMajor';
@@ -13,6 +13,10 @@ import ErrorDialog from './error';
 import FilterDialog from './filter';
 import NoticeDialog from './notice';
 import InterestProfile from './interestProfile';
+
+const headers = {
+  Authorization: `Bearer ${localStorage.getItem('token')}`,
+};
 
 // Top-level orchestrator for all dialogs in the application
 // Should accept all types enumerated in DialogTypes and provide a dialog component for each one
@@ -28,6 +32,7 @@ const DialogOrchestrator = (props) => {
     case DialogTypes.DECLARE_MAJOR:
       return (<DeclareMajorDialog {...props.options} hideDialog={props.hideDialog} majors={props.majors} />);
     case DialogTypes.COURSE_INFO:
+      if (props.options.data.id) axios.post(`${ROOT_URL}/courses/logview`, { id: props.options.data.id }, { headers });
       return (<CourseInfoDialog {...props.options} hideDialog={props.hideDialog} />);
     case DialogTypes.OFF_TERM:
       return (<TurnOffTermDialog {...props.options} hideDialog={props.hideDialog} />);

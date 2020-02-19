@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 // import nodemailer from 'nodemailer';
 import sgMail from '@sendgrid/mail';
 import { requireAuth } from './authentication/init';
-import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter, interestsRouter, advisorRouter, dataRouter, announcementsRouter } from './routes';
+import { authRouter, plansRouter, coursesRouter, termsRouter, majorsRouter, professorsRouter, globalRouter, interestsRouter, advisorRouter, dataRouter, announcementsRouter, errorRouter } from './routes';
 import CoursesController, { trim } from './controllers/courses_controller';
 import UserModel from './models/user';
 import CourseModel from './models/course';
@@ -94,12 +94,21 @@ const resetDB = () => {
 };
 
 const userMigration = () => {
-    UserModel.find().then((users) => {
-        users.forEach((user) => {
-            UserModel.findById(user.id).then((found) => {
-                found.lastLogin = Date.now();
-                found.totalFetchUserCalls = found.totalFetchUserCalls || 0;
-                found.totalUpdateTermCalls = found.totalUpdateTermCalls || 0;
+    // UserModel.find().then((users) => {
+    //     users.forEach((user) => {
+    //         UserModel.findById(user.id).then((found) => {
+    //             found.lastLogin = Date.now();
+    //             found.totalFetchUserCalls = found.totalFetchUserCalls || 0;
+    //             found.totalUpdateTermCalls = found.totalUpdateTermCalls || 0;
+    //             found.save();
+    //         });
+    //     });
+    // }).catch((e) => { return console.log(e); });
+    CourseModel.find().then((courses) => {
+        courses.forEach((course) => {
+            CourseModel.findById(course.id).then((found) => {
+                console.log(found.id);
+                found.views = 0;
                 found.save();
             });
         });
@@ -123,6 +132,7 @@ app.use('/announcements', requireAuth, announcementsRouter); // RequireAuth
 app.use('/interests', requireAuth, interestsRouter);
 app.use('/advisors', requireAuth, advisorRouter);
 app.use('/data', requireAuth, dataRouter);
+app.use('/logs', errorRouter);
 
 // Get information for course display without being logged in
 app.get('/public/course/:id', (req, res) => {

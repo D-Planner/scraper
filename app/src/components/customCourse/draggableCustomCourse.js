@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
+import { ItemTypes, errorLogging } from '../../constants';
 import CourseElement from '../staticCourseElement';
-import { ItemTypes } from '../../constants';
 import '../draggableCourse/draggableCourse.scss';
+
+const loggingErrorsInPlaceholderCourse = (message) => {
+  errorLogging('app/src/components/placeholderCourse.js', message);
+};
 
 const source = {
   beginDrag(props) {
@@ -11,14 +15,16 @@ const source = {
     return props;
   },
   endDrag(props, monitor) {
-    if (!monitor.didDrop()) {
-      console.log(props);
-      if (props.sourceTerm) {
-        props.removeCustomCourse(props.custom, props.sourceTerm).then((next) => { // This needs to become something with the ID?
-          console.log('removed');
-          next();
-        });
+    try {
+      if (!monitor.didDrop()) {
+        if (props.sourceTerm) {
+          props.removeCustomCourse(props.custom, props.sourceTerm).then((next) => { // This needs to become something with the ID?
+            next();
+          });
+        }
       }
+    } catch (e) {
+      loggingErrorsInPlaceholderCourse(e);
     }
   },
 };

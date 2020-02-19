@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import axios from 'axios';
+import ReactGA from 'react-ga';
 import { HotKeys } from 'react-hotkeys';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,7 +11,7 @@ import {
   deletePlan, fetchPlan, addCourseToTerm, removeCourseFromTerm, showDialog, getTimes, createPlan, duplicatePlan, setDraggingFulfilledStatus, getCurrentAnnouncement, getAnnouncement, updateAnnouncement, newAnnouncement, deleteAnnouncement, deleteAllAnnouncements, updateUser, fetchUser, fetchPlans, updateCloseFocus, updatePlan, sendVerifyEmail, setFulfilledStatus, setLoading, addCustomCourse, removeCustomCourse, disableCurrentAnnouncement,
 } from '../../actions';
 import {
-  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle,
+  DialogTypes, ROOT_URL, consoleLogging, metaContentSeparator, universalMetaTitle, errorLogging,
 } from '../../constants';
 import Sidebar, { paneTypes } from '../sidebar';
 import Dashboard from '../dashboard';
@@ -30,6 +31,10 @@ const arraysMatch = (a1, a2) => {
     if (a1[i] !== a2[i]) return false;
   }
   return true;
+};
+
+const loggingErrorsInDplan = (e) => {
+  errorLogging('app/src/containers/dplan.js', e);
 };
 
 class DPlan extends Component {
@@ -98,21 +103,24 @@ class DPlan extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchUser();
+    this.props.fetchUser().then((user) => {
+      ReactGA.set({
+        userId: user.id,
+      });
+      this.props.getCurrentAnnouncement().then(() => {
+        if (!this.props.currentAnnouncement || this.props.user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
+          this.props.disableCurrentAnnouncement();
+        }
+      }).catch((e) => {
+        loggingErrorsInDplan(e);
+      });
+    });
   }
 
   componentDidMount = () => {
     consoleLogging('DPlan', '[DPlan] Did Mount');
 
     // Checks if there is a current announcement and whether the user has seen it
-    this.props.fetchUser().then((user) => {
-      this.props.getCurrentAnnouncement().then(() => {
-        if (!this.props.currentAnnouncement || user.viewed_announcements.indexOf(this.props.currentAnnouncement._id) !== -1) { // && this.props.currentAnnouncement.show_on_open === false)
-          this.props.disableCurrentAnnouncement();
-        }
-      });
-    });
-
     this.dplanref.current.focus();
     this.props.setLoading(false);
     if (this.props.plan) this.setPreviousCourses();
@@ -158,26 +166,35 @@ class DPlan extends Component {
   }
 
   getFlattenedCourses = () => {
-    const courses = [];
-    this.props.plan.terms.forEach((year) => {
-      year.forEach((term) => {
-        courses.push(...term.courses.filter(c => !c.custom));
+    try {
+      const courses = [];
+      this.props.plan.terms.forEach((year) => {
+        year.forEach((term) => {
+          courses.push(...term.courses.filter(c => !c.custom));
+        });
       });
-    });
-    return courses;
+      return courses;
+    } catch (e) {
+      loggingErrorsInDplan(e);
+      return [];
+    }
   }
 
   getFlattenedTerms = () => {
-    const terms = [];
-    this.props.plan.terms.forEach((y) => {
-      y.forEach((term) => {
-        terms.push(term);
+    try {
+      const terms = [];
+      this.props.plan.terms.forEach((y) => {
+        y.forEach((term) => {
+          terms.push(term);
+        });
       });
-    });
-    return terms;
+      return terms;
+    } catch (e) {
+      loggingErrorsInDplan(e);
+      return [];
+    }
   }
 
-  // This still isn't working
   setAllFulfilledStatus = (termID, userCourseID) => {
     try {
       this.getFlattenedTerms().forEach((term) => {
@@ -246,7 +263,7 @@ class DPlan extends Component {
         }
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
     }
   };
 
@@ -276,7 +293,7 @@ class DPlan extends Component {
           try {
             return (c.course.xlist.length) ? [...c.course.xlist.map(xlist => xlist._id), c.course.id] : c.course.id;
           } catch (e) {
-            console.log(e);
+            loggingErrorsInDplan(e);
             return c.course.id;
           }
         })
@@ -347,7 +364,7 @@ class DPlan extends Component {
         });
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -369,6 +386,7 @@ class DPlan extends Component {
         });
       });
     } catch (e) {
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -384,7 +402,7 @@ class DPlan extends Component {
         resolve();
       });
     } catch (e) {
-      console.log(e);
+      loggingErrorsInDplan(e);
       reject(e);
     }
   })
@@ -401,7 +419,7 @@ class DPlan extends Component {
   //       reject();
   //     });
   //   } catch (e) {
-  //     console.log(e);
+  //     loggingErrorsInDplan(e);
   //     reject(e);
   //   }
   // })
@@ -411,7 +429,7 @@ class DPlan extends Component {
     // this.props.setDraggingFulfilledStatus(this.props.plan.id, courseID).then(() => {
     //   resolve();
     // }).catch((e) => {
-    //   console.log(e);
+    //   loggingErrorsInDplan(e);
     //   reject();
     // });
   })
@@ -442,7 +460,7 @@ class DPlan extends Component {
     try {
       fn();
     } catch (e) {
-      console.error(e);
+      loggingErrorsInDplan(e);
     }
   }
 
@@ -497,34 +515,48 @@ class DPlan extends Component {
   };
 
   renderAnnouncement = () => {
-    return (
-      <div className={`announcements${this.props.announcementActive === true ? '' : ' closed'}${this.props.currentAnnouncement.link === '/' ? '' : ' clickable'}`}>
-        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-        <div className="announcement-text"
-          onClick={(e) => {
-            if (this.props.currentAnnouncement) {
-              this.props.history.push(this.props.currentAnnouncement.link);
-              if (this.props.currentAnnouncement.link !== '/') {
-                this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
-                this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
-                  this.props.disableCurrentAnnouncement();
-                });
-              }
-            }
-          }}
-        >{(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+    if (this.props.user !== {} && this.props.currentAnnouncement) {
+      return (
+        <div className={`announcements${this.props.announcementActive === true ? '' : ' closed'}${this.props.currentAnnouncement.link === '/' ? '' : ' clickable'}`}>
+          {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+          {this.props.currentAnnouncement.link.substring(0, 4) === 'http'
+            ? (
+              <a className="announcement-text" href={this.props.currentAnnouncement.link} target="_blank" rel="noopener noreferrer">
+                {(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+              </a>
+            )
+            : (
+              <div className="announcement-text"
+                onClick={(e) => {
+                  if (this.props.currentAnnouncement) {
+                    this.props.history.push(this.props.currentAnnouncement.link);
+                    if (this.props.currentAnnouncement.link !== '/') {
+                      this.props.updateAnnouncement(this.props.currentAnnouncement._id, { times_clicked: this.props.currentAnnouncement.times_clicked + 1 });
+                      this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                        this.props.disableCurrentAnnouncement();
+                      });
+                    }
+                  }
+                }}
+                role="button"
+                tabIndex={0}
+              >
+                {(this.props.currentAnnouncement && this.props.announcementActive === true) ? this.props.currentAnnouncement.text : ''}
+              </div>
+            )
+        }
+          <img src={close}
+            alt="close"
+            className="close"
+            onClick={(e) => {
+              this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
+                this.props.disableCurrentAnnouncement();
+              });
+            }}
+          />
         </div>
-        <img src={close}
-          alt="close"
-          className="close"
-          onClick={(e) => {
-            this.props.updateUser({ viewed_announcements: this.props.currentAnnouncement._id }).then(() => {
-              this.props.disableCurrentAnnouncement();
-            });
-          }}
-        />
-      </div>
-    );
+      );
+    } else return null;
   }
 
   render() {
@@ -537,10 +569,24 @@ class DPlan extends Component {
           <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
             {this.renderAnnouncement()}
             <div className={(this.props.currentAnnouncement && this.props.announcementActive === true) ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>
-              <Dashboard setCurrentPlan={this.setCurrentPlan} />
+              <Dashboard setCurrentPlan={this.setCurrentPlan} showNewPlanDialog={this.showNewPlanDialog} />
               <div className="welcome-text">
                 <div className="welcome-title">Welcome to D-Planner!</div>
                 <div className="welcome-subtitle">Get started by creating a new Plan.</div>
+                <div className="release-notes">
+                  New updates!
+                  <ul>
+                    <li>Search filters now work!</li>
+                    <li>We fixed scrolling problems on small screens.</li>
+                    <li>You can now click on a course inside another course popup!</li>
+                  </ul>
+                  Next up:
+                  <ul>
+                    <li>Able to hide the red prereq checking.</li>
+                    <li>Insert your own custom named courses.</li>
+                    <li>Fixing slight bug in &quot;My Degree&quot; section.</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </HotKeys>
@@ -557,7 +603,7 @@ class DPlan extends Component {
           <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
             {this.renderAnnouncement()}
             <div className={this.props.announcementActive === true ? 'dashboard announce' : 'dashboard'} tabIndex={-1} ref={this.dplanref}>
-              <Dashboard setCurrentPlan={this.setCurrentPlan} />
+              <Dashboard setCurrentPlan={this.setCurrentPlan} showNewPlanDialog={this.showNewPlanDialog} />
               {this.state.loadingPlan === true
                 ? (
                   <div className="loader">
@@ -618,6 +664,7 @@ class DPlan extends Component {
                           setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                           addCustomCourse={this.addCustomCourseToTerm}
                           removeCustomCourse={this.removeCustomCourseFromTerm}
+                          setPreviousCourses={this.setPreviousCourses}
                         />
                       </div>
                       <div className="plan-grid">
@@ -636,6 +683,7 @@ class DPlan extends Component {
                                     setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                                     addCustomCourse={this.addCustomCourseToTerm}
                                     removeCustomCourse={this.removeCustomCourseFromTerm}
+                                    setPreviousCourses={this.setPreviousCourses}
                                   />
                                 );
                               })}

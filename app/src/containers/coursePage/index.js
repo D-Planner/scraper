@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import { withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 } from '../../actions';
 import checkedBox from '../../style/checkboxChecked.svg';
 import bookmark from '../../style/bookmark.svg';
@@ -15,7 +15,7 @@ import minus from '../../style/minus.svg';
 // import open from '../../style/open.svg';
 import NonDraggableCourse from '../../components/nonDraggableCourse';
 import {
-  GenEdsForDisplay as GenEds, APP_URL, metaContentSeparator, universalMetaTitle,
+  GenEdsForDisplay as GenEds, APP_URL, metaContentSeparator, universalMetaTitle, errorLogging,
 } from '../../constants';
 import LoadingWheel from '../../components/loadingWheel';
 import HeaderMenu from '../../components/headerMenu';
@@ -87,6 +87,10 @@ function generateMetaDescription(description) {
 //   });
 // }
 
+const loggingErrorsInCoursePage = (message) => {
+  errorLogging('app/src/containers/coursePage.js', message);
+};
+
 class CoursePage extends React.Component {
   constructor(props) {
     super(props);
@@ -96,47 +100,52 @@ class CoursePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchUser();
+    // this.props.fetchUser();
     this.props.getTimes();
     this.props.fetchCourse(this.props.match.params.id).then((course) => {
       this.setState({ course });
     }).catch((error) => {
       this.setState({ course: invalidCourse(this.props.match.params.id) });
-      console.error(error);
+      loggingErrorsInCoursePage(error);
     });
   }
 
   // Detects click on course and reloads
   componentDidUpdate(prevProps) {
-    if (prevProps.match.params.id !== this.props.match.params.id) {
-      window.location.reload();
-    }
+    try {
+      if (prevProps.match.params.id !== this.props.match.params.id) {
+        window.location.reload();
+      }
 
-    if (!this.state.metaDescription && this.state.course) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }));
+      if (!this.state.metaDescription && this.state.course) {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState(prevState => ({ metaDescription: generateMetaDescription(prevState.course.description) }));
+      }
+    } catch (e) {
+      loggingErrorsInCoursePage(e);
     }
   }
 
   /**
    * Handles rendering of distributive bubbles.
-   * THIS FEATURE IS NOT COMPLETE, DEPENDENT ON MAKING [distrib] and [wc] BEINGS ARRAYS
    */
   renderDistribs = (course) => {
-    // const distribTypesNames = distribTypes.map(distrib => distrib.name);
     const distribs = [];
     const wcs = [];
-    if (course.distribs && course.distribs.length) {
-      course.distribs.forEach((distrib) => {
-        distribs.push(GenEds[distrib]);
-      });
+    try {
+      if (course.distribs && course.distribs.length) {
+        course.distribs.forEach((distrib) => {
+          distribs.push(GenEds[distrib]);
+        });
+      }
+      if (course.wcs && course.wcs.length) {
+        course.wcs.forEach((wc) => {
+          wcs.push(GenEds[wc]);
+        });
+      }
+    } catch (e) {
+      loggingErrorsInCoursePage(e);
     }
-    if (course.wcs && course.wcs.length) {
-      course.wcs.forEach((wc) => {
-        wcs.push(GenEds[wc]);
-      });
-    }
-
     return (
       <div id="distribs">
         <div className="section-header">Distributives</div>
@@ -154,7 +163,6 @@ class CoursePage extends React.Component {
             );
           })}
         </div>
-
       </div>
     );
   }
@@ -204,7 +212,7 @@ class CoursePage extends React.Component {
     return (
       <div id="scores">
         <div className="section-header" id="layup-header">
-          <a className="layup-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
+          <a className="layup-link coursePage-link" href={course.layup_url} target="_blank" rel="noopener noreferrer">Layup-List</a>
           {/* <img src={open} alt="open in new tab" /> */}
         </div>
         <div className="layup-score-container">
@@ -284,7 +292,7 @@ class CoursePage extends React.Component {
           return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div key={p.name} className="professor">
-              <a href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
+              <a className="coursePage-link" href={`${APP_URL}/professors/${p.id}`} target="_blank" rel="noopener noreferrer" data-for={p.id} data-tip>{p.name}</a>
               <ReactTooltip id={p.id} place="right" type="dark" effect="float">
                 See all reviews
               </ReactTooltip>
@@ -617,5 +625,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchPlan, fetchUser, fetchCourseProfessors, showDialog, getTimes,
+  fetchCourse, fetchCoursePublic, addCourseToFavorites, addCourseToPlacements, removeCourseFromFavorites, removeCourseFromPlacements, fetchUser, fetchCourseProfessors, showDialog, getTimes,
 })(CoursePage));

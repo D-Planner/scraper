@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import ReactGA from 'react-ga';
 import {
-  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
+  fetchPlans, createPlan, showDialog, signoutUser,
 } from '../../actions';
 // import searchIcon from '../../style/searchSimple.svg';
 import tutorialIcon from '../../style/tutorial.svg';
@@ -15,7 +15,7 @@ import feedbackIcon from '../../style/comment-alt-solid.svg';
 import personIcon from '../../style/person.svg';
 import Plans from '../../components/plans';
 import { DialogTypes, BUG_REPORT_URL } from '../../constants';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessage from '../errorMessage';
 
 import './dashboard.scss';
 
@@ -32,19 +32,12 @@ class Dashboard extends React.Component {
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.createNewPlan = this.createNewPlan.bind(this);
-    this.showDialog = this.showDialog.bind(this);
     this.goToPlan = this.goToPlan.bind(this);
 
-    this.logError = this.logError.bind(this);
     this.displayIfError = this.displayIfError.bind(this);
   }
 
   componentWillMount() {
-    this.props.fetchUser().then((user) => {
-      ReactGA.set({
-        userId: user.id,
-      });
-    });
     this.props.fetchPlans().then(() => {
       this.setState({ loadingPlans: false });
     });
@@ -58,58 +51,22 @@ class Dashboard extends React.Component {
     }
   }
 
-  logError() {
-    // console.log('function call working?');
-    console.log(this.props.errorMessage);
-  }
-
   createNewPlan(name) {
     this.props.createPlan({
       name,
     }, this.props.setCurrentPlan).then(() => {
       this.props.fetchPlans();
     });
-    // const terms = ['F', 'W', 'S', 'X'];
-    // this.setState({ loadingPlans: true });
-    // this.props.fetchUser().then(() => { // grabs most recent user data first
-    //   let currYear = this.props.user.graduationYear - 4;
-    //   let currQuarter = -1;
-    //   this.props.createPlan({
-    //     terms: emptyPlan.terms.map((term) => {
-    //       if (currQuarter === 3) currYear += 1;
-    //       currQuarter = (currQuarter + 1) % 4;
-    //       return { ...term, year: currYear, quarter: terms[currQuarter] };
-    //     }),
-    //     name,
-    //   }, this.props.setCurrentPlan).then(() => {
-    //     this.props.fetchPlans().then(() => {
-    //       this.setState({ loadingPlans: false });
-    //     });
-    //   });
-    // });
   }
 
   goToPlan(id) {
     this.props.setCurrentPlan(id);
-    // this.props.history.push(`/plan/${id}`);
     ReactGA.event({
       category: 'Plan',
       action: 'Open',
       value: id,
     });
   }
-
-  showDialog() {
-    const dialogOptions = {
-      title: 'New plan',
-      okText: 'Create',
-      onOk: (name, gradYear) => {
-        this.createNewPlan(name, gradYear);
-      },
-    };
-    this.props.showDialog(DialogTypes.NEW_PLAN, dialogOptions);
-  }
-
 
   handleMouseEnter() {
     this.setState({
@@ -156,7 +113,7 @@ class Dashboard extends React.Component {
         >
           {/* ={this.state.loading} */}
           <div className="plans-container">
-            <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.showDialog} />
+            <Plans loading={this.state.loadingPlans} plans={this.props.plans} currentPlan={this.props.currentPlan} active={this.state.active} goToPlan={this.goToPlan} showDialog={this.props.showNewPlanDialog} />
           </div>
           <div className="nav-container">
             <div role="presentation" onClick={() => window.open(BUG_REPORT_URL)} className="option-button">
@@ -185,13 +142,7 @@ class Dashboard extends React.Component {
             </div>
             <div role="presentation"
               className="option-button"
-              onClick={() => {
-                this.props.fetchUser().then((r) => {
-                  this.showProfileDialog(this.props);
-                }).catch((e) => {
-                  console.log(e);
-                });
-              }}
+              onClick={() => { this.showProfileDialog(this.props); }}
             >
               {this.state.active
                 ? (
@@ -223,5 +174,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(connect(mapStateToProps, {
-  fetchPlans, createPlan, showDialog, signoutUser, fetchUser,
+  fetchPlans, createPlan, showDialog, signoutUser,
 })(Dashboard));

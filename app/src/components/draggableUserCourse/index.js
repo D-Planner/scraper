@@ -5,16 +5,24 @@ import { DragSource as DraggableUserCourse } from 'react-dnd';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 import {
-  ItemTypes, DialogTypes, ROOT_URL, consoleLogging,
+  ItemTypes, DialogTypes, ROOT_URL, consoleLogging, errorLogging,
 } from '../../constants';
 import { showDialog, setDraggingState } from '../../actions';
 import CourseElement from '../staticCourseElement';
 
+const loggingErrorsInDraggableUserCourse = (message) => {
+  errorLogging('app/src/components/draggableUserCourse.js', message);
+};
+
 const source = {
   beginDrag(props) {
-    ReactTooltip.hide();
-    props.setDraggingState(true, props.catalogCourse);
-    props.setDraggingFulfilledStatus(props.catalogCourse.id);
+    try {
+      ReactTooltip.hide();
+      props.setDraggingState(true, props.catalogCourse);
+      props.setDraggingFulfilledStatus(props.catalogCourse.id);
+    } catch (e) {
+      loggingErrorsInDraggableUserCourse(e);
+    }
     return {
       userCourse: props.course,
       catalogCourse: props.catalogCourse,
@@ -22,13 +30,17 @@ const source = {
     };
   },
   endDrag(props, monitor) {
-    props.setDraggingState(false, null);
-    // if we did not detect a valid drop target, delete the course from the sourceTerm
-    if (!monitor.didDrop()) {
-      props.removeCourseFromTerm(props.course.id, props.sourceTerm).then(() => {
-      }).catch((e) => {
-        console.log(e);
-      });
+    try {
+      props.setDraggingState(false, null);
+      // if we did not detect a valid drop target, delete the course from the sourceTerm
+      if (!monitor.didDrop()) {
+        props.removeCourseFromTerm(props.course.id, props.sourceTerm).then(() => {
+        }).catch((e) => {
+          console.log(e);
+        });
+      }
+    } catch (e) {
+      loggingErrorsInDraggableUserCourse(e);
     }
   },
 };
@@ -46,10 +58,10 @@ const getTerm = (termID) => {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     }).then((response) => {
       resolve(response.data);
-    })
-      .catch((error) => {
-        reject(error);
-      });
+    }).catch((error) => {
+      loggingErrorsInDraggableUserCourse(error);
+      reject(error);
+    });
   });
 };
 
@@ -82,6 +94,7 @@ class UserCourse extends Component {
       data: this.props.catalogCourse,
       previousCourses: this.props.previousCourses,
       showOk: false,
+      setPreviousCourses: this.props.setPreviousCourses,
     };
 
     // Fetches term and checks if course is likely to be offered then

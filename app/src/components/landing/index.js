@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Slider from 'react-slick';
 
 import { showDialog } from '../../actions';
-import { DialogTypes, universalMetaTitle } from '../../constants';
+import { DialogTypes, universalMetaTitle, errorLogging } from '../../constants';
 import { minWidth } from '../tooSmall';
 import logo from '../../style/logo.svg';
 import SignInForm from '../../containers/signIn';
@@ -35,7 +35,10 @@ import searchFeature from '../../../assets/showcase/search-pane.png';
 import termsFeature from '../../../assets/showcase/terms-showcase.png';
 import courseInfoFeature from '../../../assets/showcase/course-info-zoomed.jpg';
 
-// import youtubeIcon from '../../style/social_icons/youtube-icon-250.png';
+import search from '../../../assets/landing/search.png';
+import macbookShowcase from '../../../assets/landing/mac.png';
+import skew from '../../../assets/landing/skew.png';
+
 import facebookIcon from '../../style/social_icons/facebook-icon-250.png';
 import twitterIcon from '../../style/social_icons/twitter-icon-250.png';
 import instagramIcon from '../../style/social_icons/instagram-icon-250.png';
@@ -50,7 +53,10 @@ const FACEBOOK_LINK = 'https://www.facebook.com/dplannerofficial/';
 const INSTAGRAM_LINK = 'https://www.instagram.com/dplannerofficial';
 const TWITTER_LINK = 'https://twitter.com/thedplanner';
 const LINKEDIN_LINK = 'https://www.linkedin.com/company/d-planner';
-// const YOUTUBE_LINK = 'https://www.google.com';
+
+const loggingErrorsInLanding = (message) => {
+  errorLogging('app/src/components/landing.js', message);
+};
 
 class Landing extends React.Component {
   constructor(props) {
@@ -71,7 +77,7 @@ class Landing extends React.Component {
     }
   }
 
-  render() {
+  renderRandomly = () => {
     const sliderSettings = {
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -79,7 +85,89 @@ class Landing extends React.Component {
       infinite: true,
       easing: 'ease-in-out',
     };
+    const decide = Math.random();
+    if (decide < 0.3) {
+      return (
+        <Slider {...sliderSettings}>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
+              <p className="landing-subfeature-text">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
+              <p className="landing-subfeature-text">Build academic plans that fit your needs. Test out different scenarios easily.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
+              <p className="landing-subfeature-text">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+            </div>
+          </div>
+        </Slider>
+      );
+    } else if (decide < 0.6) {
+      return (
+        <Slider {...sliderSettings}>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
+              <p className="landing-subfeature-text">Build academic plans that fit your needs. Test out different scenarios easily.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
+              <p className="landing-subfeature-text">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
+              <p className="landing-subfeature-text">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+            </div>
+          </div>
+        </Slider>
+      );
+    } else {
+      return (
+        <Slider {...sliderSettings}>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={skew} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
+              <p className="landing-subfeature-text">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={search} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
+              <p className="landing-subfeature-text">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+            </div>
+          </div>
+          <div className="landing-subfeature">
+            <img className="landing-subfeature-image" src={macbookShowcase} alt="course-subfeature" />
+            <div className="landing-subfeature-text-container">
+              <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
+              <p className="landing-subfeature-text">Build academic plans that fit your needs. Test out different scenarios easily.</p>
+            </div>
+          </div>
+        </Slider>
+      );
+    }
+  }
 
+  render() {
     if (window.innerWidth >= minWidth) {
       return (
         <div className="landing-container">
@@ -91,35 +179,13 @@ class Landing extends React.Component {
             <div style={{ display: 'flex', justifyContent: 'center' }}><img src={downArrow} alt="scroll up" className="landing-down-arrow animate" /></div>
             <div className="landing-left">
               <div className="intro">
-                {/* <div className="line2">Welcome to D-Planner.</div> */}
-                <h1 className="light line1">The future of academic planning.</h1>
+                <div className="line1">Welcome to D-Planner.</div>
+                <h1 className="light line2">Better course planning at Dartmouth.</h1>
                 <div className="landing-showcase">
                   {/* Needed to import slider CSS */}
                   <link rel="stylesheet" type="text/css" charSet="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
                   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                  <Slider {...sliderSettings}>
-                    <div className="landing-subfeature">
-                      <img className="landing-subfeature-image" src={classesCollage} alt="course-subfeature" />
-                      <div className="landing-subfeature-text-container">
-                        <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" />
-                        <p style={{ color: 'white' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
-                      </div>
-                    </div>
-                    <div className="landing-subfeature">
-                      <img className="landing-subfeature-image" src={planExample} alt="course-subfeature" />
-                      <div className="landing-subfeature-text-container">
-                        <img className="landing-subfeature-icon" src={feature2} alt="feature-subicon" />
-                        <p style={{ color: 'white' }}>Build academic plans that fit your needs. Test out different scenarios easily.</p>
-                      </div>
-                    </div>
-                    <div className="landing-subfeature">
-                      <img className="landing-subfeature-image" src={singlePlanFeature} alt="course-subfeature" />
-                      <div className="landing-subfeature-text-container">
-                        <img className="landing-subfeature-icon" src={feature3} alt="feature-subicon" />
-                        <p style={{ color: 'white' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
-                      </div>
-                    </div>
-                  </Slider>
+                  {this.renderRandomly()}
                 </div>
               </div>
             </div>
@@ -247,21 +313,21 @@ class Landing extends React.Component {
                 <img className="landing-testimonial-image" src={blonde} alt="landing-testimonial-feature" />
                 <div className="landing-testimonial-text-container">
                   <h4 style={{ color: 'white', marginBottom: '11px' }}>Katie M, ‘22 at Dartmouth</h4>
-                  <p style={{ color: 'white' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
+                  <p className="landing-subfeature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
                 </div>
               </div>
               <div className="landing-testimonial">
                 <img className="landing-testimonial-image" src={blonde} alt="landing-testimonial-feature" />
                 <div className="landing-testimonial-text-container">
                   <h4 style={{ color: 'white', marginBottom: '11px' }}>Katie M, ‘22 at Dartmouth</h4>
-                  <p style={{ color: 'white' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
+                  <p className="landing-subfeature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
                 </div>
               </div>
               <div className="landing-testimonial">
                 <img className="landing-testimonial-image" src={blonde} alt="landing-testimonial-feature" />
                 <div className="landing-testimonial-text-container">
                   <h4 style={{ color: 'white', marginBottom: '11px' }}>Katie M, ‘22 at Dartmouth</h4>
-                  <p style={{ color: 'white' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
+                  <p className="landing-subfeature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum ultrices felis nec cursus. Nam imperdiet diam erat, et rutrum tellus consectetur nec. Proin vitae pellentesque erat.</p>
                 </div>
               </div>
             </Slider>
@@ -281,10 +347,10 @@ class Landing extends React.Component {
 
           <section className="landing-section colored footer" style={{ paddingTop: '81px', paddingBottom: '81px' }}>
             <div className="landing-link-container" style={{ marginBottom: '48px' }}>
-              <a href="mailto:info@d-planner.com">Want to bring D-Planner to your school?<br />Click here to let us know!</a>
-              <a href="mailto:info@d-planner.com">Are you a college administrator?<br />We provide data analytics!</a>
-              <a href="/credits">We couldn’t have gotten here without many talented people.<br />See our credits page!</a>
-              <a href="mailto:info@d-planner.com">Have a question that we haven’t answered?<br />Click here to let us know!</a>
+              <a className="landing-link" href="mailto:info@d-planner.com">Want to bring D-Planner to your school?<br />Click here to let us know!</a>
+              <a className="landing-link" href="mailto:info@d-planner.com">Are you a college administrator?<br />We provide data analytics!</a>
+              <a className="landing-link" href="/credits">We couldn’t have gotten here without many talented people.<br />See our credits page!</a>
+              <a className="landing-link" href="mailto:info@d-planner.com">Have a question that we haven’t answered?<br />Click here to let us know!</a>
             </div>
             <div className="landing-link-container">
               <div className="landing-icon-container">
@@ -318,19 +384,19 @@ class Landing extends React.Component {
             <HeaderMenu hideTitle menuOptions={[{ name: 'For more, check us out on desktop!', callback: () => {} }]} />
             <div className="landing-left full mobile" style={{ padding: '0 10vw' }}>
               <div className="intro">
-                <h1 className="light line1">The future of Academic Planning</h1>
-                <div className="line2" style={{ marginBottom: '8vw' }}>Welcome to D-Planner.</div>
+                <div className="line1">Welcome to D-Planner.</div>
+                <h1 className="light line2 mobile">Better course planning at Dartmouth.</h1>
                 <div className="landing-subfeature-text-container" style={{ display: 'flex', alignContent: 'center', marginBottom: '18px' }}>
                   <img className="landing-subfeature-icon" src={feature1} alt="subfeature-icon" style={{ height: '36px', margin: 'auto 3vw auto 0' }} />
-                  <p style={{ color: 'white', margin: 'auto auto auto 0' }}>Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
+                  <p className="landing-subfeature-text mobile">Browse thousands of courses - full with student reviews, terms-offered predictions, and much more.</p>
                 </div>
                 <div className="landing-subfeature-text-container" style={{ display: 'flex', alignContent: 'center', marginBottom: '18px' }}>
                   <img className="landing-subfeature-icon" src={feature2} alt="subfeature-icon" style={{ height: '36px', margin: 'auto 3vw auto 0' }} />
-                  <p style={{ color: 'white', margin: 'auto auto auto 0' }}>Build out academic plans that fit your needs. Test out different scenarios easily.</p>
+                  <p className="landing-subfeature-text mobile">Build out academic plans that fit your needs. Test out different scenarios easily.</p>
                 </div>
                 <div className="landing-subfeature-text-container" style={{ display: 'flex', alignContent: 'center', marginBottom: '18px' }}>
                   <img className="landing-subfeature-icon" src={feature3} alt="subfeature-icon" style={{ height: '36px', margin: 'auto 3vw auto 0' }} />
-                  <p style={{ color: 'white', margin: 'auto auto auto 0' }}>Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
+                  <p className="landing-subfeature-text mobile">Visualize your undergraduate years at Dartmouth. Know exactly what you should take.</p>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6vw' }}><img src={downArrow} alt="scroll up" className="landing-down-arrow animate mobile" /></div>
               </div>
@@ -489,10 +555,10 @@ class Landing extends React.Component {
           </section>
 
           <section className="landing-section colored footer mobile" style={{ padding: '15vw 10vw' }}>
-            <div style={{ marginBottom: '17px' }}><a href="mailto:info@d-planner.com">Want to bring D-Planner to your school? Click here to let us know!</a></div>
-            <div style={{ marginBottom: '17px' }}><a href="mailto:info@d-planner.com">Are you a college administrator? We provide data analytics!</a></div>
-            <div style={{ marginBottom: '17px' }}><a href="/credits">We couldn’t have gotten here without many talented people. See our credits page!</a></div>
-            <div style={{ marginBottom: '17px' }}><a href="mailto:info@d-planner.com">Have a question that we haven’t answered? Click here to let us know!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="mailto:info@d-planner.com">Want to bring D-Planner to your school? Click here to let us know!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="mailto:info@d-planner.com">Are you a college administrator? We provide data analytics!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="/credits">We couldn’t have gotten here without many talented people. See our credits page!</a></div>
+            <div style={{ marginBottom: '17px' }}><a className="landing-link" href="mailto:info@d-planner.com">Have a question that we haven’t answered? Click here to let us know!</a></div>
             <div className="landing-social-icon-container right"
               style={{
                 width: '100%', display: 'flex', flexDirection: 'row', margin: '48px auto auto', justifyContent: 'center',

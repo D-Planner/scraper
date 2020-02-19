@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { HotKeys } from 'react-hotkeys';
-import { ROOT_URL } from '../../constants';
+import { ROOT_URL, errorLogging } from '../../constants';
 import LoadingWheel from '../loadingWheel';
 import logo from '../../style/logo.svg';
 import './forgotPassword.scss';
+
+const loggingErrorsInForgotPassword = (message) => {
+  errorLogging('app/src/components/forgotPassword.js', message);
+};
 
 class ForgotPassword extends Component {
   keyMap = {
@@ -45,7 +49,7 @@ class ForgotPassword extends Component {
           this.setState({ errorMessage: 'Could not find an account associated with that email address', loading: false });
         }
       }).catch((error) => {
-        console.error(error);
+        loggingErrorsInForgotPassword(error);
       });
   }
 
@@ -56,8 +60,8 @@ class ForgotPassword extends Component {
       e.stopPropagation();
       try {
         this.onOk();
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        loggingErrorsInForgotPassword(error);
       }
     } else if (e.key === 'Escape') {
       this.props.history.push('/');
@@ -65,7 +69,6 @@ class ForgotPassword extends Component {
   }
 
   render() {
-    // return (<LoadingWheel />);
     return (
       <HotKeys keyMap={this.keyMap} handlers={this.handlers}>
         <div className="reset-pass-email">

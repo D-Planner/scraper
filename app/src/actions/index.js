@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ROOT_URL } from '../constants';
+import { ROOT_URL, errorLogging } from '../constants';
 
 export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
@@ -16,11 +16,11 @@ export const ActionTypes = {
   FETCH_BOOKMARKS: 'FETCH_BOOKMARKS',
   FETCH_MAJORS: 'FETCH_MAJORS',
   SET_TIMESLOT: 'SET_TIMESLOT',
-  FETCH_PROFESSORS: 'FETCH_PROFESSORS',
   FETCH_PROFESSOR: 'FETCH_PROFESSOR',
   FETCH_PREV_COURSES: 'FETCH_PREV_COURSES',
   COURSE_SEARCH: 'COURSE_SEARCH',
   STAMP_INCREMENT: 'STAMP_INCREMENT',
+  CLEAR_SEARCH: 'CLEAR_SEARCH',
   SHOW_DIALOG: 'SHOW_DIALOG',
   HIDE_DIALOG: 'HIDE_DIALOG',
   ERROR_SET: 'ERROR_SET',
@@ -59,16 +59,15 @@ export const ActionTypes = {
   UPDATE_CUSTOM_COURSE: 'UPDATE_CUSTOM_COURSE',
 };
 
-const loggingErrorsInReduxActions = (error) => {
-  const shouldWeLogThese = true;
-  if (shouldWeLogThese) console.log(error);
+const loggingErrorsInReduxActions = (message) => {
+  errorLogging('app/src/action.js', message);
 };
 
 const loggingStageProgressionInReduxActions = (stage, message) => {
   const config = {
-    createPlan: true,
-    fetchPlan: true,
-    updateUserCourseTimeslot: true,
+    createPlan: false,
+    fetchPlan: false,
+    updateUserCourseTimeslot: false,
   };
   switch (stage) {
     case 'createPlan':
@@ -217,14 +216,21 @@ export function setDraggingState(isDragging, course) {
 
 // ----- Filter Setting ----- //
 export function setFilters(filters) {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.SET_FILTERS, payload: filters });
+  return {
+    type: ActionTypes.SET_FILTERS,
+    payload: filters,
   };
+  // return (dispatch) => {
+  //   dispatch({ type: ActionTypes.SET_FILTERS, payload: filters });
+  // };
 }
 export function clearFilters() {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.CLEAR_FILTERS, payload: null });
+  return {
+    type: ActionTypes.CLEAR_FILTERS,
   };
+  // return (dispatch) => {
+  //   dispatch({ type: ActionTypes.CLEAR_FILTERS, payload: null });
+  // };
 }
 
 // ----- Error Handling ----- //
@@ -462,6 +468,7 @@ export function updatePlan(planUpdate, planID) {
       dispatch({ type: ActionTypes.UPDATE_PLAN, payload: planID });
       resolve(response.data);
     }).catch((error) => {
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject(error);
     });
@@ -685,7 +692,7 @@ export function addCourseToPlacements(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.post(`${ROOT_URL}/courses/placement/${courseID}`, {}, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
@@ -705,7 +712,7 @@ export function removeCourseFromPlacements(courseID) {
   return dispatch => new Promise(((resolve, reject) => {
     axios.delete(`${ROOT_URL}/courses/placement/${courseID}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }).then((response) => {
+    }).then(() => {
       dispatch(fetchUser());
       resolve();
     }).catch((error) => {
@@ -735,7 +742,6 @@ export function stampIncrement(stamp) {
  * @param {String} type
  */
 export function courseSearch(query, stamp) {
-  console.log(query);
   return dispatch => new Promise(((resolve, reject) => {
     axios.get(`${ROOT_URL}/courses/search`, {
       params: query,
@@ -797,6 +803,11 @@ export function courseSearch(query, stamp) {
   // }
 }
 
+export function clearSearch() {
+  return {
+    type: ActionTypes.CLEAR_SEARCH,
+  };
+}
 
 export function getRandomCourse() {
   return dispatch => new Promise(((resolve, reject) => {
@@ -1070,7 +1081,7 @@ export function getAnnouncement(id) {
       dispatch({ type: ActionTypes.FETCH_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -1085,7 +1096,7 @@ export function getCurrentAnnouncement() {
       dispatch({ type: ActionTypes.FETCH_CURRENT_ANNOUNCEMENT, payload: response.data }); // Make response.data
       resolve(response.data);
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -1100,7 +1111,7 @@ export function deleteAnnouncement(id) {
       dispatch({ type: ActionTypes.DELETE_ANNOUNCEMENT, payload: response.data.result });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -1115,7 +1126,7 @@ export function deleteAllAnnouncements() {
       dispatch({ type: ActionTypes.DELETE_ALL_ANNOUNCEMENTS, payload: response.data.result });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -1131,7 +1142,7 @@ export function newAnnouncement(text, link) {
       dispatch({ type: ActionTypes.NEW_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET });
       reject();
     });
@@ -1146,7 +1157,7 @@ export function updateAnnouncement(id, update) {
       dispatch({ type: ActionTypes.UPDATE_ANNOUNCEMENT, payload: response.data });
       resolve();
     }).catch((error) => {
-      console.log(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject();
     });
@@ -1222,7 +1233,7 @@ export function addAllUserInterests(userID) {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
       resolve(response.data);
     }).catch((error) => {
-      console.error(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject(error);
     });
@@ -1242,7 +1253,7 @@ export function removeAllUserInterests(userID) {
       dispatch({ type: ActionTypes.FETCH_USER, payload: response.data });
       resolve(response.data);
     }).catch((error) => {
-      console.error(error);
+      loggingErrorsInReduxActions(error);
       dispatch({ type: ActionTypes.ERROR_SET, payload: error.response.data });
       reject(error);
     });

@@ -5,18 +5,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import DPlan from '../../containers/dplan';
 import logo from '../../style/logo.svg';
-
+import { errorLogging } from '../../constants';
 import '../../style/variables.scss';
 import './loading.scss';
 
+const loggingErrorsInLoading = (message) => {
+  errorLogging('app/src/components/loading.js', message);
+};
+
 const Loading = (props) => {
+  if (props.component === undefined) loggingErrorsInLoading('props.component: defined');
   return (
     <div className="loading-container">
       <div className="loader" style={{ display: props.loading ? 'flex' : 'none', height: props.loading ? '100vh' : 0 }}>
         <img className="loader-image" src={logo} alt="logo" />
       </div>
-      <div className="loading-content-countainer" style={{ display: props.loading ? 'none' : 'flex' }}>
-        {props.component !== undefined ? console.log('props.component: defined') : console.log('props.component: undefined')}
+      <div className="loading-content-container" style={{ display: props.loading ? 'none' : 'flex' }}>
         {props.component !== undefined ? props.component : <DPlan /> }
       </div>
     </div>

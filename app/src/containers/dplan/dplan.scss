@@ -7,14 +7,15 @@ $sidebar-margin-left: 30px;
 $announcement-height: 48px;
 
 .announcements {
+  display: fixed;
   background-color: $blue-primary;
   color: $white;
   height: $announcement-height;
   
   display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
   flex-grow: 1;
   justify-content: center;
   align-content: center;
@@ -25,9 +26,9 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
   .announcement-text {
     display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     flex-grow: 1;
     justify-content: center;
     align-content: center;
@@ -40,6 +41,7 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
     margin-top: auto;
     margin-bottom: auto;
+    color: $white;
   }
 
   .close {
@@ -60,35 +62,39 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 
 .dashboard {
     display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
     align-items: stretch;
+    min-height: 821px;
     height: 100vh;
+
 
     transition: height .3s;
 
     &.announce {
+      // margin-top: $announcement-height;
+      min-height: calc(821px - #{$announcement-height});
       height: calc(100vh - #{$announcement-height});
     }
 
     .welcome-text {
         flex-grow: 1;
         display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+        display: -ms-flexbox;  /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+        display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         flex-direction: column;
         justify-content: center;
-        align-content: center;
+        align-items: center;
         * {
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             justify-content: center;
             font-family: $poppins;
             color: $text-accent;
@@ -101,14 +107,32 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             font-size: 24px;
             font-weight: 400;
         }
+        .release-notes {
+          margin-top: 25px;
+          margin-left: 100px;
+          width: 500px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          ul {
+            margin-bottom: 10px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            li {
+              margin-left: 50px;
+            }
+          }
+        }
     }
 
     .loader {
       flex-grow: 1;
       display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+      display: -ms-flexbox;  /* TWEENER - IE 10 */
+      display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+      display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
       align-items: stretch;
 
       align-items: center;
@@ -133,27 +157,28 @@ display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
     .plan-content {
         box-shadow: -5px 0px 20px rgba(0, 0, 0, 0.15);
         display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+        display: -ms-flexbox;  /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+        display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
         justify-content: space-between;
         width: 100%;
         min-width: calc(100vw - #{$menu-width-closed}); // CSS-DEF the 68px refers to $menu-width-closed
+        min-height: 821px;
         max-height: 100vh;
         background: $background;
 
         .plan-side {
             margin-left: $sidebar-margin-left;
             display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+            display: -ms-flexbox;  /* TWEENER - IE 10 */
+            display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+            display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
             flex-direction: column;
             .plan-header {
                 display: -webkit-box;   /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-display: -ms-flexbox;  /* TWEENER - IE 10 */
-display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+                display: -ms-flexbox;  /* TWEENER - IE 10 */
+                display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+                display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
                 flex-direction: row;
                 // justify-content: space-between;
                 align-items: center;

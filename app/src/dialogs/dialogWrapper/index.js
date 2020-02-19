@@ -40,6 +40,7 @@ class DialogWrapper extends React.Component {
   handlers = {
     OK: () => this.onOk(),
     CLOSE: () => {
+      this.props.onClose();
       this.props.hideDialog();
     },
   };
@@ -64,12 +65,14 @@ class DialogWrapper extends React.Component {
   };
 
   onNo = () => {
+    this.props.onClose();
     this.props.onNo();
     this.props.hideDialog();
   };
 
   handleBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
+      this.props.onClose();
       this.props.hideDialog();
     }
   };
@@ -130,6 +133,8 @@ DialogWrapper.propTypes = {
   onOk: PropTypes.func,
   /** callback to call when the no button is pressed */
   onNo: PropTypes.func,
+  /** callback to call when the dialog is exited */
+  onClose: PropTypes.func,
 };
 
 DialogWrapper.defaultProps = {
@@ -145,6 +150,7 @@ DialogWrapper.defaultProps = {
   infoBarMessage: null,
   onOk: () => {},
   onNo: () => {},
+  onClose: () => {},
 };
 
 const mapStateToProps = state => ({
