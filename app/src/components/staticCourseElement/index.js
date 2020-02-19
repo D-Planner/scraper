@@ -15,7 +15,6 @@ class CourseElement extends Component {
     super(props);
 
     if (this.props.custom) {
-      console.log(props.showIcon, props.custom.name);
       this.state = {
         isEditing: false,
         name: props.custom.name,
@@ -25,10 +24,14 @@ class CourseElement extends Component {
 
   renderCourseSupplementaryInfo = () => {
     if (this.props.custom) {
-      console.log(this.props.showIcon);
       return (
         <div className="supplementary-course">
-          {this.renderCourseIdentifyingInfo()}
+          <div className="likely-terms">You made this!</div>
+          {this.props.showIcon ? (
+            <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
+              {this.renderIcon(this.props.icon)}
+            </div>
+          ) : null}
         </div>
       );
     } else if (this.props.active) {
@@ -115,11 +118,11 @@ class CourseElement extends Component {
                 )
                 : <div className="custom-course-name" role="button" tabIndex={-1} onClick={() => this.setState({ isEditing: true })}>{this.props.custom.name}</div>}
             </div>
-            {this.props.showIcon && this.props.custom ? (
+            {/* {this.props.showIcon && this.props.custom ? (
               <div className="icon-container" role="button" onClick={this.props.onIconClick ? (e) => { e.stopPropagation(); this.props.onIconClick(); } : null}>
                 {this.renderIcon(this.props.icon)}
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         </div>
       );
