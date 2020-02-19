@@ -28,7 +28,6 @@ class CustomCourse extends Component {
       };
     }, () => {
       if (this.props.inTerm) {
-        console.log(this.state);
         this.props.updateCustomCourse({
           ...this.props.customCourse,
           custom: { department: this.state.department, name: this.state.name },
@@ -50,14 +49,15 @@ class CustomCourse extends Component {
               {Departments.map((d, i) => <option key={i.toString()} value={d}>{d}</option>)}
             </select>
           )}
-        <DraggableCustomCourse {...this.props} updateCustomCourse={this.updateCustomCourse} custom={custom} beingHovered={this.state.beingHovered} />
         <div
           className="popover"
           onMouseEnter={() => this.setState({ beingHovered: true })}
           onMouseLeave={() => this.setState({ beingHovered: false })}
           role="button"
           tabIndex="-1"
-        />
+        >
+          <DraggableCustomCourse {...this.props} updateCustomCourse={this.updateCustomCourse} custom={custom} beingHovered={this.state.beingHovered} />
+        </div>
       </div>
     );
   }
