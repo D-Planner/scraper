@@ -13,7 +13,6 @@ import CustomCourse from '../../../components/customCourse';
 const target = {
   drop: (props, monitor) => {
     const item = monitor.getItem();
-
     props.addToBookmarks(item.course.id);
   },
 };
