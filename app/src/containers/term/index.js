@@ -178,16 +178,14 @@ class Term extends Component {
     return (
       <CustomCourse
         key={i.toString()}
-        id={customCourse.id}
+        // id={customCourse.id}
         customCourse={customCourse}
         custom={customCourse.custom}
-        size={(this.isCurrTerm() ? 'sm' : 'lg')}
+        size="lg"
         sourceTerm={this.props.term.id}
-        icon="close"
-        showIcon
         inTerm
         addCustomCourse={this.props.addCustomCourse}
-        removeCustomCourse={() => this.props.removeCustomCourse(customCourse.id, this.props.term.id)}
+        removeCustomCourse={this.props.removeCustomCourse}
       />
     );
   }
