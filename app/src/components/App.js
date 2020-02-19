@@ -73,7 +73,6 @@ class App extends Component {
   }
 
   updateWindowDimensions() {
-    console.log(`Detected window resize to w:${window.innerWidth} h:${window.innerHeight}`);
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
