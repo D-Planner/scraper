@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { DragSource as DraggableUserCourse } from 'react-dnd';
+import ReactTooltip from 'react-tooltip';
 import { ItemTypes, errorLogging } from '../../constants';
 import CourseElement from '../staticCourseElement';
 import '../draggableCourse/draggableCourse.scss';
@@ -10,6 +11,7 @@ const loggingErrorsInPlaceholderCourse = (message) => {
 
 const source = {
   beginDrag(props) {
+    ReactTooltip.hide();
     // props.setDraggingState(true, props.catalogCourse);
     // props.setDraggingFulfilledStatus(props.catalogCourse.id);
     return props;
@@ -18,8 +20,7 @@ const source = {
     try {
       if (!monitor.didDrop()) {
         if (props.sourceTerm) {
-          props.removeCustomCourse(props.custom, props.sourceTerm).then((next) => { // This needs to become something with the ID?
-            next();
+          props.removeCustomCourse(props.customCourse.id, props.sourceTerm).then(() => { // This needs to become something with the ID?
           });
         }
       }
@@ -38,13 +39,15 @@ const collect = (connectDrag, monitor) => {
 
 class CustomCourseElement extends Component {
   render() {
+    console.log(this.props.custom);
+    console.log(this.props.sourceTerm);
     return this.props.connectDragSource(
       <div>
         <CourseElement
           custom={this.props.custom}
-          showIcon={this.props.showIcon}
-          icon={this.props.icon}
-          onIconClick={() => this.props.removeCustomCourse()} // This also needs to use the ID?
+          showIcon
+          icon="close"
+          onIconClick={() => this.props.removeCustomCourse(this.props.customCourse.id, this.props.sourceTerm)} // This also needs to use the ID?
           size={this.props.size}
           beingHovered={this.props.beingHovered}
           static={this.props.inTerm}
