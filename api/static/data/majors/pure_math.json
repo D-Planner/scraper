@@ -37,14 +37,14 @@
                 "name": "Algebra",
                 "relationship": "OR",
                 "description": "Courses on Algebra.",
-                "requirements": "MATH 71 | 31"
+                "requirements": "MATH 71 31"
 
             },
             {
                 "name": "Analysis",
                 "description": "Courses in Analysis.",
                 "relationship": "OR",
-                "requirements": "MATH 35 | 43 | 63"
+                "requirements": "MATH 35 43 63"
             },
             {
                 "name": "Additional Courses x6",
@@ -57,16 +57,16 @@
                         "relationship": "OR",
                         "requirements": [
                             {
-                                "name": "COSC 30-98 | 100+",
+                                "name": "COSC 30-98 100+",
                                 "description": "Computer Science Option",
                                 "relationship": "",
-                                "requirments": "COSC 30-98 | 100+"
+                                "requirments": "COSC 30-98 100+"
                             },
                             {
-                                "name": "MATH 17 | 20-96 | 98+",
+                                "name": "MATH 17  20-96 98+",
                                 "description": "Math Option",
                                 "relationship": "",
-                                "requirments": "MATH 17 | 20-96 | 98+"
+                                "requirments": "MATH 17 20-96 98+"
                             }
                         ]
                     },
@@ -76,16 +76,16 @@
                         "relationship": "OR",
                         "requirements": [
                             {
-                                "name": "COSC 30-98 | 100+",
+                                "name": "COSC 30-98 100+",
                                 "description": "Computer Science Option",
                                 "relationship": "",
-                                "requirments": "COSC 30-98 | 100+"
+                                "requirments": "COSC 30-98 100+"
                             },
                             {
-                                "name": "MATH 17 | 20-96 | 98+",
+                                "name": "MATH 17  20-96 98+",
                                 "description": "Math Option",
                                 "relationship": "",
-                                "requirments": "MATH 17 | 20-96 | 98+"
+                                "requirments": "MATH 17 20-96 98+"
                             }
                         ]
                     },
@@ -95,16 +95,16 @@
                         "relationship": "OR",
                         "requirements": [
                             {
-                                "name": "COSC 30-98 | 100+",
+                                "name": "COSC 30-98 100+",
                                 "description": "Computer Science Option",
                                 "relationship": "",
-                                "requirments": "COSC 30-98 | 100+"
+                                "requirments": "COSC 30-98 100+"
                             },
                             {
-                                "name": "MATH 17 | 20-96 | 98+",
+                                "name": "MATH 17  20-96 98+",
                                 "description": "Math Option",
                                 "relationship": "",
-                                "requirments": "MATH 17 | 20-96 | 98+"
+                                "requirments": "MATH 17 20-96 98+"
                             }
                         ]
                     },
@@ -114,16 +114,16 @@
                         "relationship": "OR",
                         "requirements": [
                             {
-                                "name": "COSC 30-98 | 100+",
+                                "name": "COSC 30-98 100+",
                                 "description": "Computer Science Option",
                                 "relationship": "",
-                                "requirments": "COSC 30-98 | 100+"
+                                "requirments": "COSC 30-98 100+"
                             },
                             {
-                                "name": "MATH 17 | 20-96 | 98+",
+                                "name": "MATH 17  20-96 98+",
                                 "description": "Math Option",
                                 "relationship": "",
-                                "requirments": "MATH 17 | 20-96 | 98+"
+                                "requirments": "MATH 17 20-96 98+"
                             }
                         ]
                     },
@@ -133,35 +133,35 @@
                         "relationship": "OR",
                         "requirements": [
                             {
-                                "name": "COSC 30-98 | 100+",
+                                "name": "COSC 30-98 100+",
                                 "description": "Computer Science Option",
                                 "relationship": "",
-                                "requirments": "COSC 30-98 | 100+"
+                                "requirments": "COSC 30-98 100+"
                             },
                             {
-                                "name": "MATH 17 | 20-96 | 98+",
+                                "name": "MATH 17  20-96 98+",
                                 "description": "Math Option",
                                 "relationship": "",
-                                "requirments": "MATH 17 | 20-96 | 98+"
+                                "requirments": "MATH 17 20-96 98+"
                             }
                         ]
                     },
                     {
-                        "name": "Additional Course [6]",
+                        "name": "Additional Course [5]",
                         "description": "First Additional Course",
                         "relationship": "OR",
                         "requirements": [
                             {
-                                "name": "COSC 30-98 | 100+",
+                                "name": "COSC 30-98 100+",
                                 "description": "Computer Science Option",
                                 "relationship": "",
-                                "requirments": "COSC 30-98 | 100+"
+                                "requirments": "COSC 30-98 100+"
                             },
                             {
-                                "name": "MATH 17 | 20-96 | 98+",
+                                "name": "MATH 17  20-96 98+",
                                 "description": "Math Option",
                                 "relationship": "",
-                                "requirments": "MATH 17 | 20-96 | 98+"
+                                "requirments": "MATH 17 20-96 98+"
                             }
                         ]
                     }
@@ -184,7 +184,7 @@
                 "name": "Graduate Course",
                 "description": "Satisfactory completion of any graduate course in mathematics except MATH 147.",
                 "relationship": "",
-                "requirements": "MATH 100-146 | 148+"
+                "requirements": "MATH 100-146 148+"
             },
             {
                 "name": "Independent Research",
@@ -197,7 +197,7 @@
                 "name": "Advanced Undergraduate Course",
                 "description": "Satisfactory completion of an advanced undergraduate course from among",
                 "relationship": "",
-                "requirements": "MATH 66 | 68-70 | 72-76 | 81 | 86 | 89 | 96"
+                "requirements": "MATH 66 68-70 72-76 81 86 89 96"
             }
         ]
     }
