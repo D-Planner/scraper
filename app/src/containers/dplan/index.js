@@ -573,7 +573,7 @@ class DPlan extends Component {
               <div className="welcome-text">
                 <div className="welcome-title">Welcome to D-Planner!</div>
                 <div className="welcome-subtitle">Get started by creating a new Plan.</div>
-                <div className="release-notes">
+                {/* <div className="release-notes">
                   New updates!
                   <ul>
                     <li>Search filters now work!</li>
@@ -586,7 +586,7 @@ class DPlan extends Component {
                     <li>Insert your own custom named courses.</li>
                     <li>Fixing slight bug in &quot;My Degree&quot; section.</li>
                   </ul>
-                </div>
+                </div> */}
               </div>
             </div>
           </HotKeys>
