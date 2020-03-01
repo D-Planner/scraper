@@ -1,159 +1,164 @@
-[
-    {
-        "name": "Prerequisites",
-        "description": "",
-        "relationship": "AND",
-        "requirements": [
-            {
-                "name": "COSC 1 or ENGS 20",
-                "description": "ENGS 20 may substitute for COSC 1, though we recommend COSC 1 for students planning to take COSC 10.",
-                "relationship": "OR",
-                "requirements": "COSC 1",
-                "done": false
-            }
-        ]
-    },
-    {
-        "name": "Core",
-        "relationship": "AND",
-        "requirements": [
-            {
-                "name": "COSC 30-49 x2",
-                "relationship": "AND",
-                "description": "Courses in theory and algorithms.",
-                "requirements": [
-                    {
-                        "name": "COSC 30-49 [1]",
-                        "description": "First computer science course numbered 30 to 49",
-                        "requirements": "COSC 30-49"
-                    },
-                    {
-                        "name": "COSC 30-49 [2]",
-                        "description": "Second computer science course numbered 30 to 49",
-                        "requirements": "COSC 30-49"
-                    }
-                ]
-            },
-            {
-                "name": "COSC 50-69 x2",
-                "relationship": "AND",
-                "description": "Courses in Courses in systems and hardware.",
-                "requirements": [
-                    {
-                        "name": "COSC 50-69 [2]",
-                        "description": "First computer science course numbered 50 to 69",
-                        "requirements": "COSC 50-69"
-                    },
-                    {
-                        "name": "COSC 50-69 [2]",
-                        "description": "Second computer science course numbered 50 to 69",
-                        "requirements": "COSC 50-69"
-                    }
-                ]
-            },
-            {
-                "name": "COSC 70-89 x2",
-                "description": "Courses in applied computer science.",
-                "relationship": "AND",
-                "requirements": [
-                    {
-                        "name": "COSC 70-89 [1]",
-                        "description": "First computer science course numbered 70 to 89",
-                        "requirements": "COSC 70-89"
-                    },
-                    {
-                        "name": "COSC 70-89 [2]",
-                        "description": "Second computer science course numbered 70 to 89",
-                        "requirements": "COSC 70-89"
-                    }
-                ]
-            },
-            {
-                "name": "Additional courses x3",
-                "description": "Final part of the core computer science major.",
-                "relationship": "AND",
-                "requirements": [
-                    {
-                        "name": "COSC 30-89 x2",
-                        "description": "Electives courses in computer science.",
-                        "relationship": "AND",
-                        "requirements": [
-                            {
-                                "name": "COSC 30-89 [1]",
-                                "description": "First elective computer science course.",
-                                "requirements": "COSC 30-89"
-                            },
-                            {
-                                "name": "COSC 30-89 [2]",
-                                "description": "Second elective computer science course.",
-                                "requirements": "COSC 30-89"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "COSC 30-89 or COSC 94 or MATH 20 beyond",
-                        "description": "An elective, or COSC 94, or a math course numbered 20 or greater that is not a prerequisite to the math major and is not a seminar or a reading course.",
-                        "relationship": "OR",
-                        "requirements": [
-                            {
-                                "name": "COSC 30-89 [3]",
-                                "description": "Third elective computer science course.",
-                                "requirements": "COSC 30-89"
-                            },
-                            {
-                                "name": "COSC 94",
-                                "description": "",
-                                "requirements": "COSC 94"
-                            },
-                            {
-                                "name": "MATH 20 beyond",
-                                "description": "A math course numbered 20 or greater that is not a prerequisite to the math major and is not a seminar or a reading course.",
-                                "requirements": "MATH 20-93 | 95-99"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "name": "Culminating",
-        "relationship": "OR",
-        "requirements": [
-            {
-                "name": "COSC 98 x2 (Project)",
-                "description": "Two consecutive terms of COSC 98 project-based culminating experience.",
-                "relationship": "AND",
-                "requirements": [
-                    {
-                        "name": "COSC 98",
-                        "description": "",
-                        "requirements": "COSC 98"
-                    },
-                    {
-                        "name": "COSC 98",
-                        "description": "",
-                        "requirements": "COSC 98"
-                    }
-                ]
-            },
-            {
-                "name": "COSC 99 x2 (Thesis)",
-                "description": "Two consecutive terms of COSC 99 thesis-based culminating experience.",
-                "relationship": "AND",
-                "requirements": [
-                    {
-                        "name": "COSC 99",
-                        "description": "",
-                        "requirements": "COSC 99"
-                    },
-                    {
-                        "name": "COSC 99",
-                        "description": "",
-                        "requirements": "COSC 99"
-                    }
-                ]
-            }
-        ]
-    }
-]
+{
+    "name": "Computer Science",
+    "department": "COSC",
+    "link": "http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Computer-Science",
+    "requirements": [
+        {
+            "name": "Prerequisites",
+            "description": "",
+            "relationship": "AND",
+            "requirements": [
+                {
+                    "name": "COSC 1 or ENGS 20",
+                    "description": "ENGS 20 may substitute for COSC 1, though we recommend COSC 1 for students planning to take COSC 10.",
+                    "relationship": "OR",
+                    "requirements": "COSC 1",
+                    "done": false
+                }
+            ]
+        },
+        {
+            "name": "Core",
+            "relationship": "AND",
+            "requirements": [
+                {
+                    "name": "COSC 30-49 x2",
+                    "relationship": "AND",
+                    "description": "Courses in theory and algorithms.",
+                    "requirements": [
+                        {
+                            "name": "COSC 30-49 [1]",
+                            "description": "First computer science course numbered 30 to 49",
+                            "requirements": "COSC 30-49"
+                        },
+                        {
+                            "name": "COSC 30-49 [2]",
+                            "description": "Second computer science course numbered 30 to 49",
+                            "requirements": "COSC 30-49"
+                        }
+                    ]
+                },
+                {
+                    "name": "COSC 50-69 x2",
+                    "relationship": "AND",
+                    "description": "Courses in Courses in systems and hardware.",
+                    "requirements": [
+                        {
+                            "name": "COSC 50-69 [2]",
+                            "description": "First computer science course numbered 50 to 69",
+                            "requirements": "COSC 50-69"
+                        },
+                        {
+                            "name": "COSC 50-69 [2]",
+                            "description": "Second computer science course numbered 50 to 69",
+                            "requirements": "COSC 50-69"
+                        }
+                    ]
+                },
+                {
+                    "name": "COSC 70-89 x2",
+                    "description": "Courses in applied computer science.",
+                    "relationship": "AND",
+                    "requirements": [
+                        {
+                            "name": "COSC 70-89 [1]",
+                            "description": "First computer science course numbered 70 to 89",
+                            "requirements": "COSC 70-89"
+                        },
+                        {
+                            "name": "COSC 70-89 [2]",
+                            "description": "Second computer science course numbered 70 to 89",
+                            "requirements": "COSC 70-89"
+                        }
+                    ]
+                },
+                {
+                    "name": "Additional courses x3",
+                    "description": "Final part of the core computer science major.",
+                    "relationship": "AND",
+                    "requirements": [
+                        {
+                            "name": "COSC 30-89 x2",
+                            "description": "Electives courses in computer science.",
+                            "relationship": "AND",
+                            "requirements": [
+                                {
+                                    "name": "COSC 30-89 [1]",
+                                    "description": "First elective computer science course.",
+                                    "requirements": "COSC 30-89"
+                                },
+                                {
+                                    "name": "COSC 30-89 [2]",
+                                    "description": "Second elective computer science course.",
+                                    "requirements": "COSC 30-89"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "COSC 30-89 or COSC 94 or MATH 20 beyond",
+                            "description": "An elective, or COSC 94, or a math course numbered 20 or greater that is not a prerequisite to the math major and is not a seminar or a reading course.",
+                            "relationship": "OR",
+                            "requirements": [
+                                {
+                                    "name": "COSC 30-89 [3]",
+                                    "description": "Third elective computer science course.",
+                                    "requirements": "COSC 30-89"
+                                },
+                                {
+                                    "name": "COSC 94",
+                                    "description": "",
+                                    "requirements": "COSC 94"
+                                },
+                                {
+                                    "name": "MATH 20 beyond",
+                                    "description": "A math course numbered 20 or greater that is not a prerequisite to the math major and is not a seminar or a reading course.",
+                                    "requirements": "MATH 20-93 | 95-99"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Culminating",
+            "relationship": "OR",
+            "requirements": [
+                {
+                    "name": "COSC 98 x2 (Project)",
+                    "description": "Two consecutive terms of COSC 98 project-based culminating experience.",
+                    "relationship": "AND",
+                    "requirements": [
+                        {
+                            "name": "COSC 98",
+                            "description": "",
+                            "requirements": "COSC 98"
+                        },
+                        {
+                            "name": "COSC 98",
+                            "description": "",
+                            "requirements": "COSC 98"
+                        }
+                    ]
+                },
+                {
+                    "name": "COSC 99 x2 (Thesis)",
+                    "description": "Two consecutive terms of COSC 99 thesis-based culminating experience.",
+                    "relationship": "AND",
+                    "requirements": [
+                        {
+                            "name": "COSC 99",
+                            "description": "",
+                            "requirements": "COSC 99"
+                        },
+                        {
+                            "name": "COSC 99",
+                            "description": "",
+                            "requirements": "COSC 99"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
