@@ -13,7 +13,12 @@
                     "description": "ENGS 20 may substitute for COSC 1, though we recommend COSC 1 for students planning to take COSC 10.",
                     "relationship": "OR",
                     "requirements": "COSC 1",
-                    "done": false
+                },
+                {
+                    "name": "COSC 10",
+                    "description": "COSC 10",
+                    "relationship": "OR",
+                    "requirements": "COSC 10"
                 }
             ]
         },
@@ -23,8 +28,8 @@
             "requirements": [
                 {
                     "name": "COSC 30-49 x2",
-                    "relationship": "AND",
                     "description": "Courses in theory and algorithms.",
+                    "relationship": "AND",
                     "requirements": [
                         {
                             "name": "COSC 30-49 [1]",
@@ -112,7 +117,7 @@
                                 {
                                     "name": "MATH 20 beyond",
                                     "description": "A math course numbered 20 or greater that is not a prerequisite to the math major and is not a seminar or a reading course.",
-                                    "requirements": "MATH 20-93 | 95-99"
+                                    "requirements": "MATH 20-93 95-99"
                                 }
                             ]
                         }
