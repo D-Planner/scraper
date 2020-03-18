@@ -10,9 +10,10 @@
  * @returns {requirement} The same requirement object, but with fields `done` correctly set based on the user's plan.
  */
 export default class RequirementDecoder {
-  constructor(plan) {
-    // this.requirement = requirement;
+  constructor(plan, major) {
     this.plan = plan;
+    this.major = major;
+    this.failed = [];
   }
 
   /**
@@ -36,53 +37,82 @@ export default class RequirementDecoder {
         return obj;
       }
     });
+    requirement.coursesUsedToFulfill = [];
     requirement.done = false;
     requirement.requirements = s;
     return requirement;
   }
 
-  decode(requirement) {
+  decode() {
+    return new Promise((resolve) => {
+      this.decodehelper(this.major).then((passed) => {
+        console.log(passed);
+        resolve(this.failed);
+      });
+    });
+  }
+
+  cleanCourseNumber = (courseNumber) => {
+    return Math.round(courseNumber);
+  }
+
+  decodehelper(requirement) {
     return new Promise((resolve) => {
       // base case
       if (typeof requirement.requirements === 'string') {
+        let print = false;
+        if (requirement.requirements === 'COSC 30-49') print = true;
         const outcomes = this.parseStringToReqObject(requirement.requirements);
-        console.log(outcomes);
         outcomes.requirements = outcomes.requirements.map((subReq) => {
-          this.plan.terms.forEach((t) => {
-            t.courses.forEach((c) => {
-              if (c.department === outcomes.department) {
-                if (subReq.isRange) {
-                  if (c.number >= subReq.lowerBound && c.number <= subReq.upperBound) {
-                    subReq.coursesUsedToFulfill.append(c.id);
-                    return true;
-                  } else if (c.number === subReq.number) {
-                    subReq.coursesUsedToFulfill.append(c.id);
-                    return true;
-                  }
-                } else if (c.number === subReq.number) {
-                  subReq.coursesUsedToFulfill.append(c.id);
-                  return true;
+          let fulfilled = false;
+          this.plan.forEach((c) => {
+            if (c.course.department === outcomes.department) {
+              if (subReq.isRange) {
+                if (this.cleanCourseNumber(c.course.number) >= subReq.lowerBound && this.cleanCourseNumber(c.course.number) <= subReq.upperBound) {
+                  outcomes.coursesUsedToFulfill.push(c.course.id);
+                  c.major = 'COSC';
+                  fulfilled = true;
                 }
+                // } else if (this.cleanCourseNumber(c.course.number) === subReq.number) {
+                //   console.log('this is eeveyr called');
+                //   outcomes.coursesUsedToFulfill.push(c.course.id);
+                //   c.major = 'COSC';
+                //   fulfilled = true;
+                // }
+              } else if (this.cleanCourseNumber(c.course.number) === subReq.number) {
+                outcomes.coursesUsedToFulfill.push(c.course.id);
+                c.major = 'COSC';
+                fulfilled = true;
               }
-            });
+            }
           });
-          return false;
+          return fulfilled;
         });
-        let done = false;
+
+        let done = true;
         outcomes.requirements.forEach((outcome) => {
           if (!outcome) done = false;
         });
         resolve(done);
       } else { // generic case
+        let print = false;
+        if (requirement.name === 'COSC 30-49 x2') print = true;
         const toDo = requirement.requirements.map((subReq) => {
           return new Promise((subResolve) => {
-            this.decode(subReq).then(outcome => subResolve(outcome));
+            this.decodehelper(subReq).then((outcome) => {
+              if (!outcome) this.failed.push(subReq);
+              subResolve(outcome);
+            });
           });
         });
         Promise.all(toDo).then((outcomes) => {
-          let done = false;
+          if (print) console.log(outcomes);
+          let done = null;
+          if (requirement.relationship === 'AND') done = true;
+          if (requirement.relationship === 'OR') done = false;
           outcomes.forEach((outcome) => {
-            if (!outcome) done = false;
+            if (!outcome && requirement.relationship === 'AND') done = false;
+            if (outcome && requirement.relationship === 'OR') done = true;
           });
           resolve(done);
         });
