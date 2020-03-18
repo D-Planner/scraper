@@ -2,6 +2,7 @@
     "name": "Computer Science",
     "department": "COSC",
     "link": "http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate/Computer-Science",
+    "relationship": "AND",
     "requirements": [
         {
             "name": "Prerequisites",
@@ -12,7 +13,7 @@
                     "name": "COSC 1 or ENGS 20",
                     "description": "ENGS 20 may substitute for COSC 1, though we recommend COSC 1 for students planning to take COSC 10.",
                     "relationship": "OR",
-                    "requirements": "COSC 1",
+                    "requirements": "COSC 1"
                 },
                 {
                     "name": "COSC 10",
