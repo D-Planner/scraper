@@ -5,15 +5,15 @@
 /* eslint-disable prefer-arrow-callback */
 
 import React, { Component } from 'react';
-// import async from 'async';
 import classNames from 'classnames';
 import ReactTooltip from 'react-tooltip';
 import Majors from '../../majors';
 // import checkedIcon from '../../../style/checkboxChecked.svg';
 // import uncheckedIcon from '../../../style/checkboxUnchecked.svg';
-
 import './requirementsPane.scss';
 import { GenEds, consoleLogging } from '../../../constants';
+import cosc from '../../../../../api/static/data/majors/cosc.json';
+import RequirementDecoder from '../../../constants/requirementDecoder';
 
 /**
  * @name RequirementsPane
@@ -28,12 +28,12 @@ class RequirementsPane extends Component {
 
     this.fillAll();
 
+    this.checkPlan();
 
     this.state = {
       distribsAction: true,
     };
   }
-
 
   componentDidUpdate(prevProps) {
     if (prevProps.userCourses && this.props.userCourses && prevProps.userCourses.length !== this.props.userCourses.length) {
@@ -158,11 +158,11 @@ class RequirementsPane extends Component {
     }
   };
 
-  // const findOtherDistrib = (unwantedDistrib, distribs) => {
-  //   if (distribs.indexOf(unwantedDistrib) === 1) return 0;
-  //   else if (distribs.indexOf(unwantedDistrib) === 0) return 1;
-  //   else return null;
-  // };
+  checkPlan = () => {
+    const decoder = new RequirementDecoder(this.props.userCourses, cosc);
+    console.log(this.props.userCourses);
+    decoder.decode().then(failed => console.log(failed));
+  }
 
   renderGenEds = () => {
     return (
