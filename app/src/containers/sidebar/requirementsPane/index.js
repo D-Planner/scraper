@@ -55,6 +55,7 @@ class RequirementsPane extends Component {
         return userCourse;
       });
       this.fillAll();
+      this.checkPlan();
     }
   }
 
@@ -159,7 +160,9 @@ class RequirementsPane extends Component {
   };
 
   checkPlan = () => {
-    const decoder = new RequirementDecoder((this.props.planCourses.concat(this.props.placementCourses)), cosc);
+    const userCourses = this.props.planCourses.concat(this.props.placementCourses);
+    userCourses.forEach((c) => { c.major = null; });
+    const decoder = new RequirementDecoder(userCourses, cosc);
     decoder.decode();
   }
 
