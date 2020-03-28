@@ -24,7 +24,7 @@ class RequirementsPane extends Component {
   constructor(props) {
     super(props);
 
-    this.nonPlaceholders = Object.assign([], this.props.userCourses.filter(userCourse => !(userCourse.placeholder)));
+    this.nonPlaceholders = Object.assign([], this.props.planCourses.filter(userCourse => !(userCourse.placeholder)));
 
     this.fillAll();
 
@@ -36,10 +36,10 @@ class RequirementsPane extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.userCourses && this.props.userCourses && prevProps.userCourses.length !== this.props.userCourses.length) {
+    if (prevProps.planCourses && this.props.planCourses && prevProps.planCourses.length !== this.props.planCourses.length) {
       // Reset the removed ones
       this.nonPlaceholders.forEach((userCourse) => {
-        if (!this.props.userCourses.map(uC => uC._id).includes(userCourse._id)) {
+        if (!this.props.planCourses.map(uC => uC._id).includes(userCourse._id)) {
           if (userCourse.distrib) {
             GenEds[userCourse.distrib].filled -= 1;
             GenEds[userCourse.distrib].fulfilled = false;
@@ -50,7 +50,7 @@ class RequirementsPane extends Component {
         }
       });
       // Add the new ones.
-      this.nonPlaceholders = this.props.userCourses.map((userCourse) => {
+      this.nonPlaceholders = this.props.planCourses.map((userCourse) => {
         if (this.nonPlaceholders.map(uC => uC._id).includes(userCourse._id)) return this.nonPlaceholders.find(e => e._id === userCourse._id);
         return userCourse;
       });
@@ -159,9 +159,8 @@ class RequirementsPane extends Component {
   };
 
   checkPlan = () => {
-    const decoder = new RequirementDecoder(this.props.userCourses, cosc);
-    console.log(this.props.userCourses);
-    decoder.decode().then(failed => console.log(failed));
+    const decoder = new RequirementDecoder((this.props.planCourses.concat(this.props.placementCourses)), cosc);
+    decoder.decode();
   }
 
   renderGenEds = () => {
