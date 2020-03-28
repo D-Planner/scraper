@@ -114,7 +114,7 @@ const getCourse = async (req, res) => {
     Course.findById(req.params.id).then((c) => {
         c.views += c.views;
         c.save().then((cSaved) => {
-            cSaved.populate(PopulateCourse)
+            Course.findById(cSaved.id).populate(PopulateCourse)
                 .then((result) => {
                     res.json(trim(result));
                 })
