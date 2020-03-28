@@ -165,6 +165,12 @@ class DPlan extends Component {
     }
   }
 
+  getPlacementCourses = () => {
+    return this.props.user.placement_courses.map((course) => {
+      return { course, major: null };
+    });
+  }
+
   getFlattenedCourses = () => {
     try {
       const courses = [];
@@ -661,6 +667,7 @@ class DPlan extends Component {
                           setOpenPane={pane => this.setState({ openPane: pane })}
                           openPane={this.state.openPane}
                           planCourses={this.getFlattenedCourses()}
+                          placementCourses={this.getPlacementCourses()}
                           setDraggingFulfilledStatus={this.setDraggingFulfilledStatus}
                           addPlaceholderCourse={this.addPlaceholderCourseToTerm}
                           removePlaceholderCourse={this.removePlaceholderCourseFromTerm}
