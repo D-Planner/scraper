@@ -137,7 +137,8 @@ class Sidebar extends Component {
           activate={() => this.handlePaneSwitch(paneTypes.REQUIREMENTS)}
           majors={this.props.user.majors}
           showDeclareDialog={this.showDeclareDialog}
-          userCourses={this.props.planCourses}
+          planCourses={this.props.planCourses}
+          placementCourses={this.props.placementCourses}
           setPreviousCourses={this.props.setPreviousCourses}
         />
         <BookmarksPane
