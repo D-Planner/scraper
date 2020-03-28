@@ -66,7 +66,7 @@ export default class RequirementDecoder {
       if (typeof requirement.requirements === 'string') {
         this.checkOrder.push(requirement);
         let print = false;
-        if (requirement.requirements === 'COSC 30-49') print = true;
+        if (requirement.requirements === 'MATH 20-21 23-99') print = true;
         const outcomes = this.parseStringToReqObject(requirement.requirements);
         outcomes.requirements = outcomes.requirements.map((subReq) => {
           let fulfilled = false;
@@ -88,9 +88,9 @@ export default class RequirementDecoder {
           return fulfilled;
         });
 
-        let done = true;
+        let done = false;
         outcomes.requirements.forEach((outcome) => {
-          if (!outcome) done = false;
+          if (outcome) done = true;
         });
         resolve(done);
       } else { // generic case
