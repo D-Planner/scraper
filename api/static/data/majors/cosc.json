@@ -118,7 +118,7 @@
                                 {
                                     "name": "MATH 20 beyond",
                                     "description": "A math course numbered 20 or greater that is not a prerequisite to the math major and is not a seminar or a reading course.",
-                                    "requirements": "MATH 20-93 95-99"
+                                    "requirements": "MATH 20-21 23-99"
                                 }
                             ]
                         }
